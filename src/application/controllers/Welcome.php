@@ -735,7 +735,6 @@ class Welcome extends CI_Controller {
                     $response['message'] = $this->T('O usuario informado já tem cadastro no sistema.', array());
                 }
             }
-
             if ($response['success'] == true) {
                 $response['need_delete'] = ($GLOBALS['sistem_config']->INSTA_MAX_FOLLOWING - $data_insta->following);
                 //TODO: guardar esta cantidad en las cookies para trabajar con lo que este en la cookie
