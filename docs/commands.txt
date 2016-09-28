@@ -1,0 +1,10 @@
+ssh  albertord84@162.249.2.205 -p 7822
+
+git init
+git clone https://github.com/albertord84/dumbu.git
+git remote add origin https://github.com/albertord84/dumbu.git
+git add .
+git commit -m "adding files"
+git pull -u origin master
+git push -u origin master
+
