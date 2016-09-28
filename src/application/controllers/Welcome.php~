@@ -1,0 +1,65 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Welcome extends CI_Controller {
+    
+    public function index() {  
+        $this->load->view('welcome_message');        
+    }   
+   
+    
+    public function bot_login()
+      {        
+        $IUser=$_POST["IUser"];
+        $IPass=$_POST["IPass"];
+        $Perfil=$_POST["Perfil"];
+        
+        echo $Perfil;
+        
+        
+        require_once "phpwebdriver/WebDriver.php";
+        $webdriver = new WebDriver("localhost", "4444");
+        $ffprofile = $webdriver->prepareBrowserProfile("/home/albertord/.mozilla/firefox/cz01l4ol.selenium");
+        $webdriver->connect("firefox", "49.0", array("firefox_profile" => $ffprofile));        
+        $webdriver->get("https://www.instagram.com/accounts/login/");
+        sleep(1);
+        
+        $username = $webdriver->findElementBy(LocatorStrategy::name, "username");
+        $password = $webdriver->findElementBy(LocatorStrategy::name, "password");
+        if ($username) 
+          {
+            $username->sendKeys(array($IUser));
+            $password->sendKeys(array($IPass));
+            $username->submit();
+            $webdriver->windowMaximize();
+            echo "-------Fazendo login in Instagram do user ".$IUser."------------<br>";
+                                   
+           /* sleep(2);
+            $cookies = $webdriver->getAllCookies();            
+
+            // Get data for Reference User
+            $reference_user_name = $Perfil;
+            $webdriver->get("https://www.instagram.com/$reference_user_name/");
+            $reference_user = get_reference_user($cookies, $reference_user_name);
+
+            // Get insta follower for reference user
+            $response = get_insta_followers($cookies, $reference_user->user->id, 60);
+
+            // Follow $N user not followed before
+            follow_not_followed($cookies, $response->followed_by->nodes, $N);
+
+            //make_insta_follow($cookies, "3491366569");*/
+            
+          }   
+      }
+}
+    
+
+
+
+
+
+
+
+
+
