@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI verified="false" xmi.version="1.2" timestamp="2016-10-02T13:00:17" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
+<XMI verified="false" xmi.version="1.2" timestamp="2016-10-02T14:39:11" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller http://umbrello.kde.org</XMI.exporter>
@@ -544,7 +544,7 @@
          <entitywidget width="137" showstereotype="1" x="-2276,78564453125" usesdiagramusefillcolor="0" y="-1317,857177734375" usesdiagramfillcolor="0" isinstance="0" localid="oVtWFQtaT6uv" fillcolor="#ffff00" height="148,3268432617188" linecolor="none" xmi.id="wCXa3XFrM2oB" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0"/>
          <entitywidget width="100" showstereotype="1" x="-2480,357177734375" usesdiagramusefillcolor="0" y="-1291,964233398438" usesdiagramfillcolor="0" isinstance="0" localid="nPuey04JWEnx" fillcolor="#ffff00" height="56" linecolor="none" xmi.id="ys6Bfih4JAmP" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
          <entitywidget width="141" showstereotype="1" x="-1690,178588867188" usesdiagramusefillcolor="0" y="-1290,178588867188" usesdiagramfillcolor="0" isinstance="0" localid="oJn3jlsMWZ0N" fillcolor="#ffff00" height="42" linecolor="none" xmi.id="nqK4aIz7UeKm" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
-         <entitywidget width="141" showstereotype="1" x="-2283,928466796875" usesdiagramusefillcolor="0" y="-1450,892822265625" usesdiagramfillcolor="0" isinstance="0" localid="yRCYR0pgckSu" fillcolor="#ffff00" height="42" linecolor="none" xmi.id="YD2tG61B0HRb" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
+         <entitywidget width="141" showstereotype="1" x="-2282,716345584754" usesdiagramusefillcolor="0" y="-1457,559488932292" usesdiagramfillcolor="0" isinstance="0" localid="yRCYR0pgckSu" fillcolor="#ffff00" height="42" linecolor="none" xmi.id="YD2tG61B0HRb" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,0,50,0,0,0,0,0"/>
          <entitywidget width="152,9642791748047" showstereotype="1" x="-2285,71435546875" usesdiagramusefillcolor="0" y="-1106,25" usesdiagramfillcolor="0" isinstance="0" localid="T8ncaVp8vrdl" fillcolor="#ffff00" height="107,2142868041992" linecolor="none" xmi.id="OjFmfjNOrtwX" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0"/>
          <entitywidget width="100" showstereotype="1" x="-1955,357177734375" usesdiagramusefillcolor="0" y="-1193,75" usesdiagramfillcolor="0" isinstance="0" localid="n6jtMuqDD6G0" fillcolor="#ffff00" height="112" linecolor="none" xmi.id="QtE8rwbA6VF5" textcolor="#000000" usefillcolor="1" linewidth="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0"/>
         </widgets>
@@ -573,7 +573,7 @@
          </assocwidget>
          <assocwidget linecolor="none" indexa="1" usesdiagramfillcolor="0" widgetbid="wCXa3XFrM2oB" indexb="1" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" widgetaid="YD2tG61B0HRb" font="Sans Serif,9,-1,0,50,0,0,0,0,0" visibilityA="0" visibilityB="0" usefillcolor="1" fillcolor="#ffff00" changeabilityA="900" xmi.id="lvf4UNC3MYMt" changeabilityB="900" type="519">
           <linepath layout="Polyline">
-           <startpoint startx="-2211,678466796875" starty="-1408,892822265625"/>
+           <startpoint startx="-2211,678466796875" starty="-1415,559488932292"/>
            <endpoint endx="-2211,678466796875" endy="-1317,857177734375"/>
           </linepath>
           <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-2285,107177734375" showstereotype="1" y="-1359,821411132812" text="fk_credit_card_status" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="l9WYgcEIATiD" pretext="+" role="710" width="145" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="YS2Xrv2cyYkZ" height="18"/>
