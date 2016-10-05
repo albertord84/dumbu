@@ -5,7 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index() {
+        require_once 'class/Client.php';
+        $User = new dumbu\cls\User();
+        $User->do_login();
+        $Client = new dumbu\cls\Client();
+        $Client->sign_in();
         $this->load->view('welcome_message');
+        echo dumbu\cls\MAX_TIME;
     }
 
     public function bot_login() {
@@ -18,7 +24,7 @@ class Welcome extends CI_Controller {
 
         $N = (int) $Q;
 
-        require_once "webdriver/phpwebdriver/WebDriver.php";
+        require_once "../libraries/webdriver/phpwebdriver/WebDriver.php";
         $webdriver = new WebDriver("localhost", "4444");
         $webdriver->connect("firefox");
         $webdriver->windowMaximize();
