@@ -26,6 +26,8 @@ class Welcome extends CI_Controller {
         $GLOBALS['User']->name = "pepe";
         echo $GLOBALS['User']->name;
         
+        //perro viejo
+        
        // $result=$GLOBALS['User']->do_login($user_name,$user_pass);
         /*if($result['success']) //if user is in database
           { 
