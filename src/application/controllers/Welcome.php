@@ -5,9 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index() {
-        
-        /*$Client = new dumbu\cls\Client();
-        $Client->sign_in();*/
+        require_once 'class/Client.php';
+        $Client = new dumbu\cls\Client();
+        $Client->sign_in();
+        $Client->credit_card_number = 7;
+        echo "God number is $Client->credit_card_number";
         $this->load->view('welcome_message');
         
     }
