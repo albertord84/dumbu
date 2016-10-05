@@ -78,7 +78,6 @@ namespace dumbu\cls {
          * @access public
          */
         public function do_login() {
-            echo("Do User login!!! <br>");
         }
 
 // end of member function do_login
