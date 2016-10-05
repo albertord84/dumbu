@@ -1,69 +1,94 @@
 <?php
-require_once 'Payment.php';
 
+namespace dumbu\cls {
+    
+    /**
+     * class Payment
+     * 
+     */
+    class Payment {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Payment
- * 
- */
-class Payment
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $value;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $date;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         *
+         * @return Payment
+         * @access public
+         */
+        public function add_payment() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+// end of member function add_payment
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $value;
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function delete_payment() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $date;
+// end of member function delete_payment
 
+        /**
+         * 
+         *
+         * @return Payment
+         * @access public
+         */
+        public function update_payment() {
+            
+        }
 
-  /**
-   * 
-   *
-   * @return Payment
-   * @access public
-   */
-  public function add_payment() {
-  } // end of member function add_payment
+// end of member function update_payment
+        
+        function __set($name, $value) {
+            if (method_exists($this, $name)) {
+                $this->$name($value);
+            } else {
+                // Getter/Setter not defined so set as property of object
+                $this->$name = $value;
+            }
+        }
 
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function delete_payment() {
-  } // end of member function delete_payment
+        function __get($name) {
+            if (method_exists($this, $name)) {
+                return $this->$name();
+            } elseif (property_exists($this, $name)) {
+                // Getter/Setter not defined so return property if it exists
+                return $this->$name;
+            }
+            return null;
+        }
 
-  /**
-   * 
-   *
-   * @return Payment
-   * @access public
-   */
-  public function update_payment() {
-  } // end of member function update_payment
+ // end of generic setter an getter definition
+        
+    }
 
+    // end of Payment
+}
 
-
-
-
-} // end of Payment
 ?>

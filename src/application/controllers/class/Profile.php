@@ -1,41 +1,59 @@
 <?php
 
+namespace dumbu\cls {
 
-/**
- * class Profile
- * 
- */
-class Profile
-{
+    /**
+     * class Profile
+     * 
+     */
+    class Profile {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $insta_id;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         * @access protected
+         */
+        protected $insta_name;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+        
+        function __set($name, $value) {
+            if (method_exists($this, $name)) {
+                $this->$name($value);
+            } else {
+                // Getter/Setter not defined so set as property of object
+                $this->$name = $value;
+            }
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $insta_id;
+        function __get($name) {
+            if (method_exists($this, $name)) {
+                return $this->$name();
+            } elseif (property_exists($this, $name)) {
+                // Getter/Setter not defined so return property if it exists
+                return $this->$name;
+            }
+            return null;
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $insta_name;
+ // end of generic setter an getter definition
+        
+    }
 
+    // end of Profile
+}
 
-
-
-
-
-} // end of Profile
 ?>

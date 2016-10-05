@@ -1,84 +1,106 @@
 <?php
-require_once 'Followed.php';
 
+namespace dumbu\cls {
+    
+    /**
+     * class Followed
+     * 
+     */
+    class Followed {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Followed
- * 
- */
-class Followed
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $followed_id;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $client_id;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         * @access protected
+         */
+        protected $reference_id;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $requested;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $followed_id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $date;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $client_id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $unfollowed;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $reference_id;
+        /**
+         * 
+         *
+         * @return Followed
+         * @access public
+         */
+        public function add_followed() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $requested;
+// end of member function add_followed
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $date;
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function unfollow() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $unfollowed;
+// end of member function unfollow
+        
+        function __set($name, $value) {
+            if (method_exists($this, $name)) {
+                $this->$name($value);
+            } else {
+                // Getter/Setter not defined so set as property of object
+                $this->$name = $value;
+            }
+        }
 
+        function __get($name) {
+            if (method_exists($this, $name)) {
+                return $this->$name();
+            } elseif (property_exists($this, $name)) {
+                // Getter/Setter not defined so return property if it exists
+                return $this->$name;
+            }
+            return null;
+        }
 
-  /**
-   * 
-   *
-   * @return Followed
-   * @access public
-   */
-  public function add_followed() {
-  } // end of member function add_followed
+ // end of generic setter an getter definition
+        
+    }
 
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function unfollow() {
-  } // end of member function unfollow
+    // end of Followed
+}
 
-
-
-
-
-} // end of Followed
 ?>
