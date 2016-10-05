@@ -5,15 +5,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index() {
-        require_once 'class/Client.php';
-        $User = new dumbu\cls\User();
-        $User->do_login();
-        $Client = new dumbu\cls\Client();
-        $Client->sign_in();
+        
+        /*$Client = new dumbu\cls\Client();
+        $Client->sign_in();*/
         $this->load->view('welcome_message');
-        echo dumbu\cls\MAX_TIME;
+        
     }
+    
+    
+    public function user_do_login()
+     {        
+        require_once 'class/User.php';
+        $GLOBALS['User']=new dumbu\cls\User();
+        
+        $user_name = $this->input->post('user_name');
+        $user_pass = $this->input->post('user_pass');
+        
+        echo $user_name;
+        
+        $GLOBALS['User']->name = "pepe";
+        echo $GLOBALS['User']->name;
+        
+       // $result=$GLOBALS['User']->do_login($user_name,$user_pass);
+        /*if($result['success']) //if user is in database
+          { 
+            if($result[''])
+              {
+                
+              }
+          }
+        else
+         {
+            //Message('Error: user not exist');
+         }*/
+         
+     }
 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public function bot_login() {
         $IUser = $_POST["IUser"];
         $IPass = $_POST["IPass"];

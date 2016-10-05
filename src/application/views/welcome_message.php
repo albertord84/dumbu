@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
     <head>
             <meta charset="utf-8">
-            <title>GoBlack3</title>
+            <title>DUMBU</title>
 
             <style type="text/css">
 
@@ -86,16 +86,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 
                     <div style="position: absolute; top:2%; left: 70%;"><a>COMO FUNCIONA</a></div>
                     <div style="position: absolute; top:2%; left: 80%;"><a>ASINAR AGORA</a></div>
-                    <div style="position: absolute; top:2%; left: 90%;"><a href='http://localhost/followme/index.php/welcome/login_insta'>ENTRAR</a></div>
+                    <div style="position: absolute; top:2%; left: 90%;"><a href=''>ENTRAR</a></div>
                     
                     
                     
                     <div aling="center" style="background-color: #D0D0D0; position: absolute; top: 40%; height: 22%;left: 40%;width: 25%;">
-                        <form  action="http://localhost/followme/index.php/welcome/bot_login" method="POST">
-                            <p ALIGN=center>Instragram User:    <input type="text" name="IUser"><br>                            
-                            Instragram Pass:                    <input type="password" name="IPass"><br>
-                            Perfil d Interesse:                 <input type="text" name="Perfil"><br>
-                            Quantid. a seguer:                 <input type="text" name="Num"><br>
+                        <form  action="http://localhost/dumbu/src/index.php/welcome/user_do_login" method="POST">
+                            <p ALIGN=center>Instragram User:    <input type="text" name="user_name"><br>                            
+                            Instragram Pass:                    <input type="password" name="user_pass"><br>
+                            <!--Perfil d Interesse:                 <input type="text" name="Perfil"><br>
+                            Quantid. a seguer:                 <input type="text" name="Num"><br>-->
                             <br>                                <input type="submit" value="Enviar"></p>
                         </form> 
                     </div>

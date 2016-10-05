@@ -20,7 +20,7 @@ namespace dumbu\cls {
          * 
          * @access protected
          */
-        protected $name;
+        public $name;
 
         /**
          * 
@@ -67,8 +67,8 @@ namespace dumbu\cls {
         /**
          * 
          */
-        function __construct() {
-            print "User constructor inited...  <br>";
+        function __construct() {            
+            //$this->load->model('User_model');
         }
 
         /**
@@ -77,8 +77,32 @@ namespace dumbu\cls {
          * @return unsigned short
          * @access public
          */
-        public function do_login() {
-        }
+        public function do_login($user_name,$user_pass) 
+         { 
+            echo $user_name;
+            /*$data['success'] = FALSE;
+            if ($this->User_model->autenticar($user, md5($contrasena)))
+            {
+                $datos_usuario = $this->User_model->obtener_usuario($user, TRUE);
+                $this->session->set('acceso', 'OK');
+                $this->session->set('id_nivel', $datos_usuario['id_nivel']);
+                $this->session->set('id_usuario', $datos_usuario['id']);
+                $this->session->set('usuario', $datos_usuario['usuario']);
+                $this->session->set('nombres', $datos_usuario['nombres']);
+                $this->session->set('apellidos', $datos_usuario['apellidos']);
+                $this->session->set('foto', $datos_usuario['foto']);            
+                $this->usuario_model->actualizar_activo($datos_usuario['id'],true);
+
+                $this->actualizar_sistema();//Inserta en la base de datos los casos subido por ftp
+
+                $datos['success'] = TRUE;
+            }
+            else
+            {
+                $datos['message'] = 'Usuario o contraseña incorrecta';
+            }
+            echo json_encode($datos);*/
+         }
 
 // end of member function do_login
 
