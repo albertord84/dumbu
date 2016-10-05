@@ -7,8 +7,12 @@ class Welcome extends CI_Controller {
     public function index() {
         require_once 'class/Client.php';
         $User = new dumbu\cls\User();
+        $User->id = 0;
+        echo $User->id;
         $User->do_login();
         $Client = new dumbu\cls\Client();
+        $Client->credit_card_number = 7;
+        echo $Client->credit_card_number;
         $Client->sign_in();
         $this->load->view('welcome_message');
         //echo dumbu\cls\MAX_TIME;
