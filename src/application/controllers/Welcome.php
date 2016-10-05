@@ -11,7 +11,7 @@ class Welcome extends CI_Controller {
         $Client = new dumbu\cls\Client();
         $Client->sign_in();
         $this->load->view('welcome_message');
-        echo dumbu\cls\MAX_TIME;
+        //echo dumbu\cls\MAX_TIME;
     }
 
     public function bot_login() {
