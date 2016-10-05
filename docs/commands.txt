@@ -14,3 +14,6 @@ git push -u origin master
 // Create a new branch
 git checkout -b new_branch #< create a new local branch with a copy of your code
 git push origin new_branch #< pushes to the server
+
+// Store credentials to secure conections
+git config credential.helper store
