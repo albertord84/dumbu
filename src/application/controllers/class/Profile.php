@@ -1,41 +1,37 @@
 <?php
 
+namespace dumbu\cls {
 
-/**
- * class Profile
- * 
- */
-class Profile
-{
+    /**
+     * class Profile
+     * 
+     */
+    class Profile {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $insta_id;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         * @access protected
+         */
+        protected $insta_name;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+    }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $insta_id;
+    // end of Profile
+}
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $insta_name;
-
-
-
-
-
-
-} // end of Profile
 ?>

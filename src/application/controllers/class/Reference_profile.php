@@ -1,58 +1,61 @@
 <?php
-require_once 'Profile.php';
-require_once 'Reference_profile.php';
 
+namespace dumbu\cls {
+    require_once 'Profile.php';
+    
+    /**
+     * class Reference_profile
+     * 
+     */
+    class Reference_profile {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Reference_profile
- * 
- */
-class Reference_profile
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $insta_follower_cursor;
 
-  /** Aggregations: */
+        /**
+         * 
+         *
+         * @return Reference_profile
+         * @access public
+         */
+        public function update_reference_profile() {
+            
+        }
 
-  /** Compositions: */
+// end of member function update_reference_profile
 
-   /*** Attributes: ***/
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function remove_reference_profile() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $insta_follower_cursor;
+// end of member function remove_reference_profile
 
+        /**
+         * 
+         *
+         * @return Reference_profile
+         * @access public
+         */
+        public function add_reference_profile() {
+            
+        }
 
-  /**
-   * 
-   *
-   * @return Reference_profile
-   * @access public
-   */
-  public function update_reference_profile() {
-  } // end of member function update_reference_profile
+// end of member function add_reference_profile
+    }
 
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function remove_reference_profile() {
-  } // end of member function remove_reference_profile
+    // end of Reference_profile
+}
 
-  /**
-   * 
-   *
-   * @return Reference_profile
-   * @access public
-   */
-  public function add_reference_profile() {
-  } // end of member function add_reference_profile
-
-
-
-
-
-} // end of Reference_profile
 ?>

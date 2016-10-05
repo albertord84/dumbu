@@ -1,123 +1,129 @@
 <?php
-require_once 'system_config.php';
-require_once 'Day_client_work.php';
-require_once 'Reference_profile.php';
-require_once 'Client.php';
-require_once 'Robot[].php';
-require_once 'Day_client_work[].php';
-require_once 'queue.php';
 
+namespace dumbu\cls {
+    require_once 'system_config.php';
+    require_once 'Day_client_work.php';
+    require_once 'Reference_profile.php';
+    
+    /**
+     * class Wroker
+     * 
+     */
+    class Wroker {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Wroker
- * 
- */
-class Wroker
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $IP;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $robots;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         * @access protected
+         */
+        protected $config;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $Day_client_work;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $IP;
+        /**
+         * 
+         * @access protected
+         */
+        protected $work_queue;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $robots;
+        /**
+         * 
+         * @access protected
+         */
+        protected $dir;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $config;
+        /**
+         * 
+         *
+         * @return system_config
+         * @access public
+         */
+        public function get_worker_config() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $Day_client_work;
+// end of member function get_worker_config
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $work_queue;
+        /**
+         * 
+         *
+         * @return void
+         * @access public
+         */
+        public function request_follow_unfollow_work() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $dir;
+// end of member function request_follow_unfollow_work
 
+        /**
+         * 
+         *
+         * @param Day_client_work Client 
 
-  /**
-   * 
-   *
-   * @return system_config
-   * @access public
-   */
-  public function get_worker_config() {
-  } // end of member function get_worker_config
+         * @param Reference_profile Pref_profile 
 
-  /**
-   * 
-   *
-   * @return void
-   * @access public
-   */
-  public function request_follow_unfollow_work() {
-  } // end of member function request_follow_unfollow_work
+         * @return void
+         * @access public
+         */
+        public function send_foollow_unfollow_work($Client, $Pref_profile) {
+            
+        }
 
-  /**
-   * 
-   *
-   * @param Day_client_work Client 
+// end of member function send_foollow_unfollow_work
 
-   * @param Reference_profile Pref_profile 
+        /**
+         * 
+         *
+         * @param Client Client 
 
-   * @return void
-   * @access public
-   */
-  public function send_foollow_unfollow_work( $Client,  $Pref_profile) {
-  } // end of member function send_foollow_unfollow_work
+         * @return bool
+         * @access public
+         */
+        public function send_check_insta_user_work($Client) {
+            
+        }
 
-  /**
-   * 
-   *
-   * @param Client Client 
+// end of member function send_check_insta_user_work
 
-   * @return bool
-   * @access public
-   */
-  public function send_check_insta_user_work( $Client) {
-  } // end of member function send_check_insta_user_work
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function have_work() {
+            
+        }
 
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function have_work() {
-  } // end of member function have_work
+// end of member function have_work
+    }
 
+    // end of Wroker
+}
 
-
-
-
-} // end of Wroker
 ?>

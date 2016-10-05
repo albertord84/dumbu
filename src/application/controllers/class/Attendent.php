@@ -1,51 +1,55 @@
 <?php
-require_once 'Attendent.php';
 
+namespace dumbu\cls {
+    require_once 'Attendent.php';
 
-/**
- * class Attendent
- * 
- */
-class Attendent
-{
+    /**
+     * class Attendent
+     * 
+     */
+    class Attendent {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-  /** Aggregations: */
+        /**
+         * 
+         *
+         * @return Attendent
+         * @access public
+         */
+        public function add_attendent() {
+            
+        }
 
-  /** Compositions: */
+// end of member function add_attendent
 
-   /*** Attributes: ***/
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function delete_attendent() {
+            
+        }
 
+// end of member function delete_attendent
 
-  /**
-   * 
-   *
-   * @return Attendent
-   * @access public
-   */
-  public function add_attendent() {
-  } // end of member function add_attendent
+        /**
+         * 
+         *
+         * @return Attendent
+         * @access public
+         */
+        public function update_attendent() {
+            
+        }
 
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function delete_attendent() {
-  } // end of member function delete_attendent
+// end of member function update_attendent
+    }
 
-  /**
-   * 
-   *
-   * @return Attendent
-   * @access public
-   */
-  public function update_attendent() {
-  } // end of member function update_attendent
+    // end of Attendent
+}
 
-
-
-
-
-} // end of Attendent
 ?>

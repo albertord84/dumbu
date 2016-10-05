@@ -1,49 +1,45 @@
 <?php
-require_once 'system_config.php';
-require_once 'Client.php';
-require_once 'int[].php';
 
+namespace dumbu\cls {
+    require_once 'system_config.php';
+    require_once 'Client.php';
+    /**
+     * class Day_client_work
+     * 
+     */
+    class Day_client_work {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Day_client_work
- * 
- */
-class Day_client_work
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $Client;
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $Ref_profile_follows;
 
-  /** Compositions: */
+        /**
+         * 
+         *
+         * @param system_config config 
 
-   /*** Attributes: ***/
+         * @return bool
+         * @access public
+         */
+        public function is_work_done($config) {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $Client;
+// end of member function is_work_done
+    }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $Ref_profile_follows;
+    // end of Day_client_work
+}
 
-
-  /**
-   * 
-   *
-   * @param system_config config 
-
-   * @return bool
-   * @access public
-   */
-  public function is_work_done( $config) {
-  } // end of member function is_work_done
-
-
-
-
-
-} // end of Day_client_work
 ?>

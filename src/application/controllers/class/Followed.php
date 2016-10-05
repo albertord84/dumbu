@@ -1,84 +1,84 @@
 <?php
-require_once 'Followed.php';
 
+namespace dumbu\cls {
+    
+    /**
+     * class Followed
+     * 
+     */
+    class Followed {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Followed
- * 
- */
-class Followed
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $followed_id;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $client_id;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         * @access protected
+         */
+        protected $reference_id;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $requested;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $followed_id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $date;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $client_id;
+        /**
+         * 
+         * @access protected
+         */
+        protected $unfollowed;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $reference_id;
+        /**
+         * 
+         *
+         * @return Followed
+         * @access public
+         */
+        public function add_followed() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $requested;
+// end of member function add_followed
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $date;
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function unfollow() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $unfollowed;
+// end of member function unfollow
+    }
 
+    // end of Followed
+}
 
-  /**
-   * 
-   *
-   * @return Followed
-   * @access public
-   */
-  public function add_followed() {
-  } // end of member function add_followed
-
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function unfollow() {
-  } // end of member function unfollow
-
-
-
-
-
-} // end of Followed
 ?>

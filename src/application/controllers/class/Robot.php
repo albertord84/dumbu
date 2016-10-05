@@ -1,67 +1,67 @@
 <?php
-require_once 'Client.php';
-require_once 'Reference_profile.php';
 
+namespace dumbu\cls {
+    require_once 'Reference_profile.php';
 
-/**
- * class Robot
- * 
- */
-class Robot
-{
+    /**
+     * class Robot
+     * 
+     */
+    class Robot {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $IP;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         * @access protected
+         */
+        protected $dir;
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+        /**
+         * 
+         *
+         * @param Client Client 
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $IP;
+         * @return bool
+         * @access public
+         */
+        public function login_client($Client) {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $dir;
+// end of member function login_client
 
+        /**
+         * 
+         *
+         * @param Client Client 
 
-  /**
-   * 
-   *
-   * @param Client Client 
+         * @param Reference_profile Ref_profile 
 
-   * @return bool
-   * @access public
-   */
-  public function login_client( $Client) {
-  } // end of member function login_client
+         * @return void
+         * @access public
+         */
+        public function do_follow_unfollow_work($Client, $Ref_profile) {
+            
+        }
 
-  /**
-   * 
-   *
-   * @param Client Client 
+// end of member function do_follow_unfollow_work
+    }
 
-   * @param Reference_profile Ref_profile 
+    // end of Robot
+}
 
-   * @return void
-   * @access public
-   */
-  public function do_follow_unfollow_work( $Client,  $Ref_profile) {
-  } // end of member function do_follow_unfollow_work
-
-
-
-
-
-} // end of Robot
 ?>

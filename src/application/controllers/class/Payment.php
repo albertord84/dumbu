@@ -1,69 +1,72 @@
 <?php
-require_once 'Payment.php';
 
+namespace dumbu\cls {
+    
+    /**
+     * class Payment
+     * 
+     */
+    class Payment {
+        /** Aggregations: */
+        /** Compositions: */
+        /*         * * Attributes: ** */
 
-/**
- * class Payment
- * 
- */
-class Payment
-{
+        /**
+         * 
+         * @access protected
+         */
+        protected $id;
 
-  /** Aggregations: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $value;
 
-  /** Compositions: */
+        /**
+         * 
+         * @access protected
+         */
+        protected $date;
 
-   /*** Attributes: ***/
+        /**
+         * 
+         *
+         * @return Payment
+         * @access public
+         */
+        public function add_payment() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $id;
+// end of member function add_payment
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $value;
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function delete_payment() {
+            
+        }
 
-  /**
-   * 
-   * @access protected
-   */
-  protected $date;
+// end of member function delete_payment
 
+        /**
+         * 
+         *
+         * @return Payment
+         * @access public
+         */
+        public function update_payment() {
+            
+        }
 
-  /**
-   * 
-   *
-   * @return Payment
-   * @access public
-   */
-  public function add_payment() {
-  } // end of member function add_payment
+// end of member function update_payment
+    }
 
-  /**
-   * 
-   *
-   * @return bool
-   * @access public
-   */
-  public function delete_payment() {
-  } // end of member function delete_payment
+    // end of Payment
+}
 
-  /**
-   * 
-   *
-   * @return Payment
-   * @access public
-   */
-  public function update_payment() {
-  } // end of member function update_payment
-
-
-
-
-
-} // end of Payment
 ?>
