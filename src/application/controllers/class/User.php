@@ -1,8 +1,6 @@
 <?php
 
 namespace dumbu\cls {
-    const MAX_TIME = 7;
-
     /**
      * class User
      * 
