@@ -5,66 +5,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index() {
-        
-        /*$Client = new dumbu\cls\Client();
-        $Client->sign_in();*/
         $this->load->view('welcome_message');
+    }
+
+    public function user_do_login() {
+        $this->load->model('class/User_model');
+        $user_name = $this->input->post('user_name');
+        $user_pass = $this->input->post('user_pass');
+
+        $GLOBALS['User'] = new User();
+        $result=$GLOBALS['User']->get_user($user_name, $user_pass);
         
+        if ($result) 
+         {
+            $GLOBALS['User'] = new dumbu\cls\User();
+            $GLOBALS['User']->do_lo.gin($result);
+            if ($result[''])
+             {
+                
+             }
+         }
+        else 
+         {
+            echo 'Error: user not exist';
+         }
     }
     
     
-    public function user_do_login()
-     {        
-        require_once 'class/User.php';
-        $GLOBALS['User']=new dumbu\cls\User();
-        
-        $user_name = $this->input->post('user_name');
-        $user_pass = $this->input->post('user_pass');
-        
-        echo $user_name;
-        
-        $GLOBALS['User']->name = "pepe";
-        echo $GLOBALS['User']->name;
-        
-        //perro viejo nunca muere, que se joda welcome.php  jajajajajajaj
-        
-       // $result=$GLOBALS['User']->do_login($user_name,$user_pass);
-        /*if($result['success']) //if user is in database
-          { 
-            if($result[''])
-              {
-                
-              }
-          }
-        else
-         {
-            //Message('Error: user not exist');
-         }*/
-         
-     }
+    
+    
+    
+    
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public function bot_login() {
         $IUser = $_POST["IUser"];
         $IPass = $_POST["IPass"];
@@ -109,8 +81,6 @@ class Welcome extends CI_Controller {
             $this->follow_not_followed($cookies, $response->followed_by->nodes, $N);
 
             //make_insta_follow($cookies, "3491366569");
-
-
             //$webdriver->close();
         }
     }
@@ -183,8 +153,7 @@ class Welcome extends CI_Controller {
         $a = json_decode($output[0]);
         if ($a) {
             print_r($a->result);
-        }
-        else {
+        } else {
             print_r($output[0]);
         }
         //print_r($status);
