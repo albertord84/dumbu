@@ -13,45 +13,45 @@ namespace dumbu\cls {
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $id;
+        public $id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $followed_id;
+        public $followed_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $client_id;
+        public $client_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $reference_id;
+        public $reference_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $requested;
+        public $requested;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $date;
+        public $date;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $unfollowed;
+        public $unfollowed;
 
         /**
          * 

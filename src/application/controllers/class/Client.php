@@ -16,64 +16,64 @@ namespace dumbu\cls {
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $credit_card_number;
+        public $credit_card_number;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $credit_card_status_id;
+        public $credit_card_status_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $credit_card_cvc;
+        public $credit_card_cvc;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $credit_card_name;
+        public $credit_card_name;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $pay_day;
+        public $pay_day;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $insta_id;
+        public $insta_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $insta_followers_ini;
+        public $insta_followers_ini;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $insta_following;
+        public $insta_following;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $reference_profiles;
+        public $reference_profiles;
 
         /**
          * 
          */
         function __construct() {
             parent::__construct();
-            print "Client constructor inited...  <br>";
+            
         }
 
         /**
@@ -95,6 +95,18 @@ namespace dumbu\cls {
          * @access public
          */
         public function check_insta_user() {
+            
+        }
+
+// end of member function sign_in
+
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function get_reference_profiles() {
             
         }
 

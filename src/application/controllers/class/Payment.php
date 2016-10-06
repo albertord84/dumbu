@@ -13,21 +13,21 @@ namespace dumbu\cls {
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $id;
+        public $id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $value;
+        public $value;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $date;
+        public $date;
 
         /**
          * 

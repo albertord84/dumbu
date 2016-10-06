@@ -13,21 +13,21 @@ namespace dumbu\cls {
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $id;
+        public $id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $insta_id;
+        public $insta_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $insta_name;
+        public $insta_name;
 
         
         function __set($name, $value) {

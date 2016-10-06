@@ -17,10 +17,10 @@ namespace dumbu\cls {
          * and setter will called without (resp. with) the $value param, 
          * so it function can determine if should do a get or o set..
          * 
-         * @access protected
+         * @access public
          */
-        protected $id;       
-        protected function id($value = NULL) {
+        public $id;       
+        public function id($value = NULL) {
             if (isset($value)) {
                 $this->id = $value;
             }
@@ -31,51 +31,51 @@ namespace dumbu\cls {
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $name;
+        public $name;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $login;
+        public $login;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $pass;
+        public $pass;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $email;
+        public $email;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $telf;
+        public $telf;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $role_id;
+        public $role_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $status_id;
+        public $status_id;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $languaje;
+        public $languaje;
 
         /**
          * 

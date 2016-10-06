@@ -7,16 +7,16 @@ namespace dumbu\cls {
      * class Reference_profile
      * 
      */
-    class Reference_profile {
+    class Reference_profile extends Profile {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $insta_follower_cursor;
+        public $insta_follower_cursor;
 
         /**
          * 

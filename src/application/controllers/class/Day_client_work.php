@@ -14,15 +14,31 @@ namespace dumbu\cls {
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $Client;
+        public $Client;
 
         /**
          * 
-         * @access protected
+         * @access public
          */
-        protected $Ref_profile_follows;
+        public $Ref_profile_follows;
+
+        /**
+         * 
+         * @access public
+         */
+        public $unfollow_data;
+
+        /**
+         * Elapsed time since last access to this $Client
+         * @access public
+         */
+        public $last_accesss;
+        
+        function __construct() {
+            $this->Client = new Client();
+        }
 
         /**
          * 
@@ -33,6 +49,12 @@ namespace dumbu\cls {
          * @access public
          */
         public function is_work_done($config) {
+            
+        }
+        
+        function get_unfollow_data() {
+            // Get profiles to unfollow today for this Client... 
+            // (i.e the last followed)
             
         }
 
