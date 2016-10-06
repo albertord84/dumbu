@@ -6,6 +6,6 @@ echo "Worker Inited...";
 
 $Worker = new dumbu\cls\Worker();
 
-//$Worker->do_work();
+$Worker->do_work();
 
 ?>
