@@ -1,34 +1,45 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'Profile.php';
     
     /**
-     * class Reference_profile
+     * class Payment
      * 
      */
-    class Reference_profile extends Profile {
+    class Payment {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $insta_follower_cursor;
+        protected $id;
+
+        /**
+         * 
+         * @access protected
+         */
+        protected $value;
+
+        /**
+         * 
+         * @access protected
+         */
+        protected $date;
 
         /**
          * 
          *
-         * @return Reference_profile
+         * @return Payment
          * @access public
          */
-        public function update_reference_profile() {
+        public function add_payment() {
             
         }
 
-// end of member function update_reference_profile
+// end of member function add_payment
 
         /**
          * 
@@ -36,23 +47,23 @@ namespace dumbu\cls {
          * @return bool
          * @access public
          */
-        public function remove_reference_profile() {
+        public function delete_payment() {
             
         }
 
-// end of member function remove_reference_profile
+// end of member function delete_payment
 
         /**
          * 
          *
-         * @return Reference_profile
+         * @return Payment
          * @access public
          */
-        public function add_reference_profile() {
+        public function update_payment() {
             
         }
 
-// end of member function add_reference_profile
+// end of member function update_payment
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -77,7 +88,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Reference_profile
+    // end of Payment
 }
 
 ?>

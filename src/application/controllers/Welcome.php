@@ -5,67 +5,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index() {
-//        require_once 'class/Client.php';
-//        $Client = new dumbu\cls\Client();
-//        $Client->sign_in();
-//        $Client->credit_card_number = 7;
-//        echo "God number is $Client->credit_card_number";
         $this->load->view('welcome_message');
+    }
+
+    public function user_do_login() {
+        $this->load->model('class/User_model');
+        $user_name = $this->input->post('user_name');
+        $user_pass = $this->input->post('user_pass');
+
+        $GLOBALS['User'] = new User();
+        $result=$GLOBALS['User']->get_user($user_name, $user_pass);
         
+        if ($result) 
+         {
+            $GLOBALS['User'] = new dumbu\cls\User();
+            $GLOBALS['User']->do_lo.gin($result);
+            if ($result[''])
+             {
+                
+             }
+         }
+        else 
+         {
+            echo 'Error: user not exist';
+         }
     }
     
     
-    public function user_do_login()
-     {        
-        require_once 'class/User.php';
-        $GLOBALS['User']=new dumbu\cls\User();
-        
-        $user_name = $this->input->post('user_name');
-        $user_pass = $this->input->post('user_pass');
-        
-        echo $user_name;
-        
-        $GLOBALS['User']->name = "pepe";
-        echo $GLOBALS['User']->name;
-        
-        //perro viejo
-        
-       // $result=$GLOBALS['User']->do_login($user_name,$user_pass);
-        /*if($result['success']) //if user is in database
-          { 
-            if($result[''])
-              {
-                
-              }
-          }
-        else
-         {
-            //Message('Error: user not exist');
-         }*/
-         
-     }
+    
+    
+    
+    
+
+    public function bot_login() {
+        $IUser = $_POST["IUser"];
+        $IPass = $_POST["IPass"];
+        $Perfil = $_POST["Perfil"];
+        $Q = $_POST["Num"];
+
+        echo "La cantidad es " . $Q . "<BR><BR>";
+
+        $N = (int) $Q;
+
+        require_once "../libraries/webdriver/phpwebdriver/WebDriver.php";
+        $webdriver = new WebDriver("localhost", "4444");
+        $webdriver->connect("firefox");
+        $webdriver->windowMaximize();
+        $webdriver->get("https://www.instagram.com/accounts/login/");
+        sleep(1);
+
+        $username = $webdriver->findElementBy(LocatorStrategy::name, "username");
+        $password = $webdriver->findElementBy(LocatorStrategy::name, "password");
+        if ($username) {
+            $username->sendKeys(array($IUser));
+            $password->sendKeys(array($IPass));
+            $username->submit();
+            echo "-------Fazendo login no Instagram do user " . $IUser . "------------<br><br";
+
+            sleep(2);
+            $cookies = $webdriver->getAllCookies();
+
+            // Get data for Reference User
+            $reference_user_name = $Perfil;
+            $webdriver->get("https://www.instagram.com/$reference_user_name/");
+            sleep(2);
+            $reference_user = $this->get_reference_user($cookies, $reference_user_name);
+
+            // Get insta follower for reference user
+            echo "-------Obtendo os " . $N . " seguidores do prerfil " . $reference_user_name . "------------<br><br>";
+            $response = $this->get_insta_followers($cookies, $reference_user->user->id, $N);
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
+            // Follow $N user not followed before
+            echo "-------Comecando a fazer a requisicao de follow------------<br><br>";
+            $this->follow_not_followed($cookies, $response->followed_by->nodes, $N);
+
+            //make_insta_follow($cookies, "3491366569");
+            //$webdriver->close();
+        }
+    }
 
 //    public function get_reference_user($cookies, $reference_user_name) {
 //        echo "-------Obtindo dados de perfil de referencia------------<br><br";

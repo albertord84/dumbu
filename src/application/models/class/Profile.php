@@ -1,69 +1,34 @@
 <?php
 
 namespace dumbu\cls {
-    
+
     /**
-     * class Payment
+     * class Profile
      * 
      */
-    class Payment {
+    class Profile {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $id;
+        protected $id;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $value;
+        protected $insta_id;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $date;
+        protected $insta_name;
 
-        /**
-         * 
-         *
-         * @return Payment
-         * @access public
-         */
-        public function add_payment() {
-            
-        }
-
-// end of member function add_payment
-
-        /**
-         * 
-         *
-         * @return bool
-         * @access public
-         */
-        public function delete_payment() {
-            
-        }
-
-// end of member function delete_payment
-
-        /**
-         * 
-         *
-         * @return Payment
-         * @access public
-         */
-        public function update_payment() {
-            
-        }
-
-// end of member function update_payment
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -88,7 +53,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Payment
+    // end of Profile
 }
 
 ?>

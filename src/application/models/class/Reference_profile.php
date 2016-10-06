@@ -1,69 +1,34 @@
 <?php
 
 namespace dumbu\cls {
+    require_once 'Profile.php';
     
     /**
-     * class Followed
+     * class Reference_profile
      * 
      */
-    class Followed {
+    class Reference_profile {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $id;
-
-        /**
-         * 
-         * @access public
-         */
-        public $followed_id;
-
-        /**
-         * 
-         * @access public
-         */
-        public $client_id;
-
-        /**
-         * 
-         * @access public
-         */
-        public $reference_id;
-
-        /**
-         * 
-         * @access public
-         */
-        public $requested;
-
-        /**
-         * 
-         * @access public
-         */
-        public $date;
-
-        /**
-         * 
-         * @access public
-         */
-        public $unfollowed;
+        protected $insta_follower_cursor;
 
         /**
          * 
          *
-         * @return Followed
+         * @return Reference_profile
          * @access public
          */
-        public function add_followed() {
+        public function update_reference_profile() {
             
         }
 
-// end of member function add_followed
+// end of member function update_reference_profile
 
         /**
          * 
@@ -71,11 +36,23 @@ namespace dumbu\cls {
          * @return bool
          * @access public
          */
-        public function unfollow() {
+        public function remove_reference_profile() {
             
         }
 
-// end of member function unfollow
+// end of member function remove_reference_profile
+
+        /**
+         * 
+         *
+         * @return Reference_profile
+         * @access public
+         */
+        public function add_reference_profile() {
+            
+        }
+
+// end of member function add_reference_profile
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -100,7 +77,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Followed
+    // end of Reference_profile
 }
 
 ?>

@@ -1,34 +1,42 @@
 <?php
 
 namespace dumbu\cls {
-
+    require_once 'system_config.php';
+    require_once 'Client.php';
     /**
-     * class Profile
+     * class Day_client_work
      * 
      */
-    class Profile {
+    class Day_client_work {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $id;
+        protected $Client;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $insta_id;
+        protected $Ref_profile_follows;
 
         /**
          * 
+         *
+         * @param system_config config 
+
+         * @return bool
          * @access public
          */
-        public $insta_name;
+        public function is_work_done($config) {
+            
+        }
 
+// end of member function is_work_done
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -53,7 +61,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Profile
+    // end of Day_client_work
 }
 
 ?>

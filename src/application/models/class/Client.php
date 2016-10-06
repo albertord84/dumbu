@@ -1,69 +1,80 @@
 <?php
 
+//require_once 'Reference_profile[].php';
+
 namespace dumbu\cls {
-    
+    require_once 'User.php';
+
     /**
-     * class Followed
+     * class Client
      * 
      */
-    class Followed {
+    class Client extends User {
         /** Aggregations: */
         /** Compositions: */
-        /*         * * Attributes: ** */
+        /** Attributes: */
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $id;
+        protected $credit_card_number;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $followed_id;
+        protected $credit_card_status_id;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $client_id;
+        protected $credit_card_cvc;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $reference_id;
+        protected $credit_card_name;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $requested;
+        protected $pay_day;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $date;
+        protected $insta_id;
 
         /**
          * 
-         * @access public
+         * @access protected
          */
-        public $unfollowed;
+        protected $insta_followers_ini;
 
         /**
          * 
-         *
-         * @return Followed
-         * @access public
+         * @access protected
          */
-        public function add_followed() {
-            
+        protected $insta_following;
+
+        /**
+         * 
+         * @access protected
+         */
+        protected $reference_profiles;
+
+        /**
+         * 
+         */
+        function __construct() {
+            parent::__construct();
+            print "Client constructor inited...  <br>";
         }
-
-// end of member function add_followed
 
         /**
          * 
@@ -71,11 +82,23 @@ namespace dumbu\cls {
          * @return bool
          * @access public
          */
-        public function unfollow() {
+        public function sign_in() {
+            echo("Do Client sign_in!!! <br>");
+        }
+
+// end of member function sign_in
+
+        /**
+         * 
+         *
+         * @return bool
+         * @access public
+         */
+        public function check_insta_user() {
             
         }
 
-// end of member function unfollow
+// end of member function check_insta_user
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -100,7 +123,6 @@ namespace dumbu\cls {
         
     }
 
-    // end of Followed
+    // end of Client
 }
-
 ?>
