@@ -10,7 +10,7 @@ namespace dumbu\cls {
      * class Wroker
      * 
      */
-    class Wroker {
+    class Worker {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
