@@ -1,13 +1,12 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
-    require_once 'Client.php';
+
     /**
-     * class Day_client_work
+     * class Profile
      * 
      */
-    class Day_client_work {
+    class Profile {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
@@ -16,55 +15,20 @@ namespace dumbu\cls {
          * 
          * @access public
          */
-        public $Client;
+        public $id;
 
         /**
          * 
          * @access public
          */
-        public $Ref_profile_follows;
+        public $insta_id;
 
         /**
          * 
          * @access public
          */
-        public $unfollow_data;
+        public $insta_name;
 
-        /**
-         * 
-         * @access public
-         */
-        public $follow_data;
-
-        /**
-         * Elapsed time since last access to this $Client
-         * @access public
-         */
-        public $last_accesss;
-        
-        function __construct() {
-            $this->Client = new Client();
-        }
-
-        /**
-         * 
-         *
-         * @param system_config config 
-
-         * @return bool
-         * @access public
-         */
-        public function is_work_done($config) {
-            
-        }
-        
-        function get_unfollow_data() {
-            // Get profiles to unfollow today for this Client... 
-            // (i.e the last followed)
-            
-        }
-
-// end of member function is_work_done
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -89,7 +53,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Day_client_work
+    // end of Profile
 }
 
 ?>

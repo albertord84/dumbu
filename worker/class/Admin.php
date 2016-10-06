@@ -1,70 +1,52 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
-    require_once 'Client.php';
+    require_once 'Attendent.php';
+
     /**
-     * class Day_client_work
+     * class Admin
      * 
      */
-    class Day_client_work {
+    class Admin {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
 
         /**
          * 
+         *
+         * @return Admin
          * @access public
          */
-        public $Client;
-
-        /**
-         * 
-         * @access public
-         */
-        public $Ref_profile_follows;
-
-        /**
-         * 
-         * @access public
-         */
-        public $unfollow_data;
-
-        /**
-         * 
-         * @access public
-         */
-        public $follow_data;
-
-        /**
-         * Elapsed time since last access to this $Client
-         * @access public
-         */
-        public $last_accesss;
-        
-        function __construct() {
-            $this->Client = new Client();
+        public function add_admin() {
+            
         }
+
+// end of member function add_admin
 
         /**
          * 
          *
-         * @param system_config config 
-
          * @return bool
          * @access public
          */
-        public function is_work_done($config) {
-            
-        }
-        
-        function get_unfollow_data() {
-            // Get profiles to unfollow today for this Client... 
-            // (i.e the last followed)
+        public function delete_admin() {
             
         }
 
-// end of member function is_work_done
+// end of member function delete_admin
+
+        /**
+         * 
+         *
+         * @return Attendent
+         * @access public
+         */
+        public function update_admin() {
+            
+        }
+
+// end of member function update_admin
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -89,7 +71,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Day_client_work
+    // end of Admin
 }
 
 ?>

@@ -1,13 +1,12 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
-    require_once 'Client.php';
+    
     /**
-     * class Day_client_work
+     * class Followed
      * 
      */
-    class Day_client_work {
+    class Followed {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
@@ -16,55 +15,67 @@ namespace dumbu\cls {
          * 
          * @access public
          */
-        public $Client;
+        public $id;
 
         /**
          * 
          * @access public
          */
-        public $Ref_profile_follows;
+        public $followed_id;
 
         /**
          * 
          * @access public
          */
-        public $unfollow_data;
+        public $client_id;
 
         /**
          * 
          * @access public
          */
-        public $follow_data;
+        public $reference_id;
 
         /**
-         * Elapsed time since last access to this $Client
+         * 
          * @access public
          */
-        public $last_accesss;
-        
-        function __construct() {
-            $this->Client = new Client();
-        }
+        public $requested;
+
+        /**
+         * 
+         * @access public
+         */
+        public $date;
+
+        /**
+         * 
+         * @access public
+         */
+        public $unfollowed;
 
         /**
          * 
          *
-         * @param system_config config 
+         * @return Followed
+         * @access public
+         */
+        public function add_followed() {
+            
+        }
 
+// end of member function add_followed
+
+        /**
+         * 
+         *
          * @return bool
          * @access public
          */
-        public function is_work_done($config) {
-            
-        }
-        
-        function get_unfollow_data() {
-            // Get profiles to unfollow today for this Client... 
-            // (i.e the last followed)
+        public function unfollow() {
             
         }
 
-// end of member function is_work_done
+// end of member function unfollow
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -89,7 +100,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Day_client_work
+    // end of Followed
 }
 
 ?>

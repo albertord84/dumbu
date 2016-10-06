@@ -1,13 +1,12 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
-    require_once 'Client.php';
+    
     /**
-     * class Day_client_work
+     * class Payment
      * 
      */
-    class Day_client_work {
+    class Payment {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
@@ -16,55 +15,55 @@ namespace dumbu\cls {
          * 
          * @access public
          */
-        public $Client;
+        public $id;
 
         /**
          * 
          * @access public
          */
-        public $Ref_profile_follows;
+        public $value;
 
         /**
          * 
          * @access public
          */
-        public $unfollow_data;
-
-        /**
-         * 
-         * @access public
-         */
-        public $follow_data;
-
-        /**
-         * Elapsed time since last access to this $Client
-         * @access public
-         */
-        public $last_accesss;
-        
-        function __construct() {
-            $this->Client = new Client();
-        }
+        public $date;
 
         /**
          * 
          *
-         * @param system_config config 
+         * @return Payment
+         * @access public
+         */
+        public function add_payment() {
+            
+        }
 
+// end of member function add_payment
+
+        /**
+         * 
+         *
          * @return bool
          * @access public
          */
-        public function is_work_done($config) {
-            
-        }
-        
-        function get_unfollow_data() {
-            // Get profiles to unfollow today for this Client... 
-            // (i.e the last followed)
+        public function delete_payment() {
             
         }
 
-// end of member function is_work_done
+// end of member function delete_payment
+
+        /**
+         * 
+         *
+         * @return Payment
+         * @access public
+         */
+        public function update_payment() {
+            
+        }
+
+// end of member function update_payment
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -89,7 +88,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Day_client_work
+    // end of Payment
 }
 
 ?>

@@ -1,13 +1,13 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
-    require_once 'Client.php';
+    require_once 'Profile.php';
+    
     /**
-     * class Day_client_work
+     * class Reference_profile
      * 
      */
-    class Day_client_work {
+    class Reference_profile extends Profile {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
@@ -16,55 +16,43 @@ namespace dumbu\cls {
          * 
          * @access public
          */
-        public $Client;
-
-        /**
-         * 
-         * @access public
-         */
-        public $Ref_profile_follows;
-
-        /**
-         * 
-         * @access public
-         */
-        public $unfollow_data;
-
-        /**
-         * 
-         * @access public
-         */
-        public $follow_data;
-
-        /**
-         * Elapsed time since last access to this $Client
-         * @access public
-         */
-        public $last_accesss;
-        
-        function __construct() {
-            $this->Client = new Client();
-        }
+        public $insta_follower_cursor;
 
         /**
          * 
          *
-         * @param system_config config 
+         * @return Reference_profile
+         * @access public
+         */
+        public function update_reference_profile() {
+            
+        }
 
+// end of member function update_reference_profile
+
+        /**
+         * 
+         *
          * @return bool
          * @access public
          */
-        public function is_work_done($config) {
-            
-        }
-        
-        function get_unfollow_data() {
-            // Get profiles to unfollow today for this Client... 
-            // (i.e the last followed)
+        public function remove_reference_profile() {
             
         }
 
-// end of member function is_work_done
+// end of member function remove_reference_profile
+
+        /**
+         * 
+         *
+         * @return Reference_profile
+         * @access public
+         */
+        public function add_reference_profile() {
+            
+        }
+
+// end of member function add_reference_profile
         
         function __set($name, $value) {
             if (method_exists($this, $name)) {
@@ -89,7 +77,7 @@ namespace dumbu\cls {
         
     }
 
-    // end of Day_client_work
+    // end of Reference_profile
 }
 
 ?>
