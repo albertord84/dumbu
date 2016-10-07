@@ -18,7 +18,7 @@ namespace dumbu\cls {
         public $id;
 
         /**
-         * 
+         * Instagram id of folowed profile
          * @access public
          */
         public $followed_id;

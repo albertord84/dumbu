@@ -3,6 +3,7 @@
 namespace dumbu\cls {
     require_once 'system_config.php';
     require_once 'Client.php';
+
     /**
      * class Day_client_work
      * 
@@ -34,14 +35,14 @@ namespace dumbu\cls {
          * 
          * @access public
          */
-        public $follow_data;
+        public $Followeds_to_unfollow;
 
         /**
          * Elapsed time since last access to this $Client
          * @access public
          */
         public $last_accesss;
-        
+
         function __construct() {
             $this->Client = new Client();
         }
@@ -57,15 +58,23 @@ namespace dumbu\cls {
         public function is_work_done($config) {
             
         }
-        
-        function get_unfollow_data() {
+
+        function get_unfollow_data($client_id) {
             // Get profiles to unfollow today for this Client... 
             // (i.e the last followed)
-            
+            $DB = new \dumbu\cls\DB();
+            $unfollow_data = $DB->get_unfollow_data($client_id);
+            while ($Followed = $unfollow_data->fetch_object()) {
+                $To_Unfollow = new \dumbu\cls\Followed();
+                // Update Ref Prof Data
+                $To_Unfollow->id = $Followed->id;
+                $To_Unfollow->followed_id = $Followed->followed_id;
+                array_push($this->Followeds_to_unfollow, $To_Unfollow);
+            }
         }
 
 // end of member function is_work_done
-        
+
         function __set($name, $value) {
             if (method_exists($this, $name)) {
                 $this->$name($value);
@@ -85,8 +94,7 @@ namespace dumbu\cls {
             return null;
         }
 
- // end of generic setter an getter definition
-        
+        // end of generic setter an getter definition
     }
 
     // end of Day_client_work

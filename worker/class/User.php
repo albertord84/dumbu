@@ -1,11 +1,14 @@
 <?php
 
 namespace dumbu\cls {
+    require_once 'user_role.php';
+    require_once 'user_status.php';
+
     /**
      * class User
      * 
      */
-    class User_model extends CI_Model {
+    class User{
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */

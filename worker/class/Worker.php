@@ -1,7 +1,7 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
+    require_once 'DB.php';
     require_once 'Day_client_work.php';
     require_once 'Reference_profile.php';
     require_once 'Client.php';
@@ -76,17 +76,14 @@ namespace dumbu\cls {
             foreach ($Clients as $Client) {
                 $DCW = new \dumbu\cls\Day_client_work();
                 $DCW->Client = $Client;
-                $DCW->Client->get_reference_profiles();
-                $DCW->get_unfollow_data();
-                array_push($DCW->Ref_profile_follows, 0);  // Follows by this Client today
+                // Get profiles to unfollow today
+                $DCW->get_unfollow_data($DCW->Client->id);
+                for ($i = 0; $i < count($DCW->Client->reference_profiles); $i++) {
+                    array_push($DCW->Ref_profile_follows, 0);  // Follows by this Client today
+                }
+                // Make a Queue of ussers
                 array_push($work_queue, $DCW);             // Queue this Client to Work with later
             }
-            
-            // Make a Queue of ussers
-            $fruit = array_shift($stack);
-            array_push($stack, "apple", "raspberry");
-            
-            // Send Queued users to Robots
         }
 
 // end of member function request_follow_unfollow_work
@@ -149,7 +146,7 @@ namespace dumbu\cls {
                 $DCW = array_shift($this->work_queue);
 //                $follows = array_shift($DCW->Ref_profile_follows);
                 $now = time();
-                if ($now - $DCW->last_accesss > dumbu\cls\system_config::MIN_NEXT_ATTEND_TIME) {
+                if ($now - $DCW->last_accesss > $this->config->MIN_NEXT_ATTEND_TIME) {
                     // Get and set back the oldest Preference Profile
                     $Pref_profile = array_shift($DCW->Client->reference_profiles);
                     array_push($DCW->Client->reference_profiles, $Pref_profile);
