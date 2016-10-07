@@ -12,30 +12,18 @@ class Welcome extends CI_Controller {
         $this->load->model('class/User_model');
         $user_name = $this->input->post('user_name');
         $user_pass = $this->input->post('user_pass');
-
-        $GLOBALS['User'] = new User();
-        $result=$GLOBALS['User']->get_user($user_name, $user_pass);
-        
-        if ($result) 
-         {
-            $GLOBALS['User'] = new dumbu\cls\User();
-            $GLOBALS['User']->do_lo.gin($result);
-            if ($result[''])
-             {
-                
-             }
-         }
-        else 
-         {
-            echo 'Error: user not exist';
-         }
+        $GLOBALS['User'] = new User_model();
+        $result = $GLOBALS['User']->login($user_name, $user_pass);
+//        if ($result) {
+//            //$user_status= new user_status();
+//            $this->load->model('class/user_status');
+//            if ($this->status_id == user_status::ACTIVE) {
+//                
+//            }
+//        } else {
+//            echo 'Error: user not exist';
+//        }
     }
-    
-    
-    
-    
-    
-    
 
     public function bot_login() {
         $IUser = $_POST["IUser"];
@@ -216,5 +204,4 @@ class Welcome extends CI_Controller {
 //        curl_close($session);
 //        echo "data posted....! <br>";
 //    }
-
 }
