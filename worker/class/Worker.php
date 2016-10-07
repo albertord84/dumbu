@@ -72,7 +72,7 @@ namespace dumbu\cls {
         public function request_follow_unfollow_work() {
             // Connect to BD
             // Get Users Info
-            $Clients = $this->get_clients();
+            $Clients = \dumbu\cls\Client::get_clients();
             foreach ($Clients as $Client) {
                 $DCW = new \dumbu\cls\Day_client_work();
                 $DCW->Client = $Client;
@@ -134,6 +134,8 @@ namespace dumbu\cls {
             return count($this->work_queue);
         }
 
+// end of member function have_work
+        
         /**
          * 
          *
@@ -147,7 +149,7 @@ namespace dumbu\cls {
                 $DCW = array_shift($this->work_queue);
 //                $follows = array_shift($DCW->Ref_profile_follows);
                 $now = time();
-                if ($now - $DCW->last_accesss > $this->config->MIN_NEXT_ATTEND_TIME) {
+                if ($now - $DCW->last_accesss > dumbu\cls\system_config::MIN_NEXT_ATTEND_TIME) {
                     // Get and set back the oldest Preference Profile
                     $Pref_profile = array_shift($DCW->Client->reference_profiles);
                     array_push($DCW->Client->reference_profiles, $Pref_profile);
@@ -160,8 +162,10 @@ namespace dumbu\cls {
             }
         }
 
-// end of member function have_work
-        
+        function get_clients() {
+            
+        }
+                
         function __set($name, $value) {
             if (method_exists($this, $name)) {
                 $this->$name($value);

@@ -67,6 +67,18 @@ namespace dumbu\cls {
          * @access public
          */
         public $reference_profiles;
+        
+        static function get_clients() {
+            $Clients = NULL;
+            $DB = new \dumbu\cls\DB();
+            $clients_data = $DB->get_clients_data();
+            while($client_data = $clients_data->fetch_object()){
+                $Client = new \dumbu\cls\Client();
+                // Update Client Data
+                array_push($Clients, $Client);
+            }
+            return $Clients;
+        }
 
         /**
          * 
