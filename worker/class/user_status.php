@@ -8,7 +8,7 @@ namespace dumbu\cls {
         const BLOCKED_BY_PAYMENT = 2;
         const BLOCKED_BY_INSTA = 3;
         const DELETED = 4;
-        const INACTIVE = 3;
+        const INACTIVE = 5;
 
         static public function Defines($const) {
             $this->asd = 2;
