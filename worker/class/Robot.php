@@ -89,12 +89,10 @@ namespace dumbu\cls {
         public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
 //            $this->Day_client_work = $Day_client_work;
 //            $this->Ref_profile = $Ref_profile;
-            // Log user with webdriver in istagram
             $this->daily_work = $daily_work;
-            $this->bot_login($daily_work->login, $daily_work->pass);
+            $cookies = $this->daily_work->cookies;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
-            $cookies = $this->webdriver->getAllCookies();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
             echo "<br> make_insta_friendships_command UNFOLLOW <br>";
@@ -118,7 +116,7 @@ namespace dumbu\cls {
                 }
             }
             // Do follow work
-            //daily work: reference_id 	to_unfollow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	rp_insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
+            //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             echo "<br>make_insta_friendships_command FOLLOW <br>";
             $follows = 0;
             $get_followers_count = 0;
@@ -161,7 +159,7 @@ namespace dumbu\cls {
 //                    throw new \Exception(json_encode($json_response), 1002);
 //                }
             }
-            $this->webdriver->close();
+            //$this->webdriver->close();
             return $Ref_profile_follows;
         }
 
@@ -434,7 +432,7 @@ namespace dumbu\cls {
         }
 
         public function bot_logout() {
-            $webdriver->close();
+            $this->webdriver->close();
         }
 
 //

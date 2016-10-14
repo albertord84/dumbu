@@ -72,13 +72,18 @@ namespace dumbu\cls {
             // Get Users Info
             $Clients = \dumbu\cls\Client::get_clients();
             $DB = new \dumbu\cls\DB();
+            $Client = new \dumbu\cls\Client();
+            $this->Robot = new Robot();
+            $this->Robot->config = $GLOBALS['sistem_config'];
             foreach ($Clients as $Client) { // for each CLient
-                // Log in
-                
+                // Log user with webdriver in istagram to get needed session data
+                $this->Robot->bot_login($Client->login, $Client->pass);
+                $cookies = $this->Robot->webdriver->getAllCookies();
+                $this->Robot->bot_logout();
                 // Distribute work between clients
                 $to_follow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
                 foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
-                    $DB->insert_daily_work($Ref_Prof->id, $to_follow);
+                    $DB->insert_daily_work($Ref_Prof->id, $to_follow, json_encode($cookies));
                 }
             }
             //
@@ -111,6 +116,7 @@ namespace dumbu\cls {
          */
         public function do_follow_unfollow_work($daily_work) {
             if ($daily_work) {
+                // Get new follows
                 $DB = new \dumbu\cls\DB();
                 $unfollow_work = $DB->get_unfollow_work($daily_work->client_id);
                 $Followeds_to_unfollow = array();
@@ -121,13 +127,7 @@ namespace dumbu\cls {
                     $To_Unfollow->followed_id = $Followed->followed_id;
                     array_push($Followeds_to_unfollow, $To_Unfollow);
                 }
-
                 // Do the FOLLOW work
-                if ($this->Robot == NULL) {
-                    $this->Robot = new Robot();
-                    $this->Robot->config = $GLOBALS['sistem_config'];
-                }
-                // Get new follows
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
                 $DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows));
@@ -184,14 +184,13 @@ namespace dumbu\cls {
          */
         public function do_work() {
             try {
-            $has_work = TRUE;
+                $has_work = TRUE;
                 while ($has_work) {
                     $DB = new \dumbu\cls\DB();
-                    //daily work: reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
+                    //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
-                        $now = time();
-                        $old = strtotime($daily_work->last_access);
+                        $daily_work->cookies = json_decode($daily_work->cookies);
                         $elapsed_time = (time() - strtotime($daily_work->last_access)) / 60 % 60; // minutes
                         if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
                             sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
@@ -201,6 +200,7 @@ namespace dumbu\cls {
                         $has_work = FALSE;
                     }
                 }
+                echo "<br><br>Congratulations!!! Job done...<br>";
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }

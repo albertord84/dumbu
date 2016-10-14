@@ -112,13 +112,13 @@ namespace dumbu\cls {
             }
         }
 
-        function insert_daily_work($ref_prof_id, $to_follow) {
+        function insert_daily_work($ref_prof_id, $to_follow, $cookies) {
             try {
                 $sql = ""
                         . "INSERT INTO daily_work "
-                        . "(reference_id, to_follow) "
+                        . "(reference_id, to_follow, cookies) "
                         . "VALUES "
-                        . "($ref_prof_id, $to_follow);";
+                        . "($ref_prof_id, $to_follow, '$cookies');";
 
                 $result = mysqli_query($this->connection, $sql);
 
@@ -132,9 +132,28 @@ namespace dumbu\cls {
             try {
                 $sql = ""
                         . "UPDATE daily_work "
-                        . "SET daily_work.to_follow = (daily_work.to_follow - $follows), "
-                        . "    daily_work.last_access = now() "
+                        . "SET daily_work.to_follow = (daily_work.to_follow - $follows) "
                         . "WHERE daily_work.reference_id = $ref_prof_id; ";
+
+                $result = mysqli_query($this->connection, $sql);
+                // Record Client last access
+                $sql = ""
+                        . "UPDATE clients "
+                        . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
+                        . "SET clients.last_access = now() "
+                        . "WHERE reference_profile.id = $ref_prof_id; ";
+
+                $result = mysqli_query($this->connection, $sql);
+
+                return TRUE;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        function delete_daily_work() {
+            try {
+                $sql = "TRUNCATE daily_work;";
 
                 $result = mysqli_query($this->connection, $sql);
 
@@ -149,18 +168,6 @@ namespace dumbu\cls {
                 $sql = ""
                         . "UPDATE reference_profile "
                         . "SET reference_profile.insta_follower_cursor = null;  ";
-                $result = mysqli_query($this->connection, $sql);
-
-                return TRUE;
-            } catch (\Exception $exc) {
-                echo $exc->getTraceAsString();
-            }
-        }
-
-        function delete_daily_work() {
-            try {
-                $sql = "TRUNCATE daily_work;";
-
                 $result = mysqli_query($this->connection, $sql);
 
                 return TRUE;
@@ -195,7 +202,8 @@ namespace dumbu\cls {
                         . "INNER JOIN users ON users.id = clients.user_id "
                         . "WHERE daily_work.to_follow  > 0 "
                         //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
-                        . "ORDER BY daily_work.last_access ASC "
+                        . "ORDER BY clients.last_access ASC, "
+                        . "         daily_work.to_follow DESC "
                         . "LIMIT 1;";
 
                 $result = mysqli_query($this->connection, $sql);
