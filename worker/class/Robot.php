@@ -71,7 +71,6 @@ namespace dumbu\cls {
          * @access public
          */
         public function login_client($Client) {
-            
         }
 
 // end of member function login_client
@@ -268,6 +267,7 @@ namespace dumbu\cls {
             $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
             $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
             $curl_str = "curl '$url' ";
+            // TODO: automatizate mid
             $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$user' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
@@ -439,27 +439,6 @@ namespace dumbu\cls {
         public function bot_logout() {
             $this->webdriver->close();
         }
-
-//
-//        function __set($name, $value) {
-//            if (method_exists($this, $name)) {
-//                $this->$name($value);
-//            } else {
-//                // Getter/Setter not defined so set as property of object
-//                $this->$name = $value;
-//            }
-//        }
-//
-//        function __get($name) {
-//            if (method_exists($this, $name)) {
-//                return $this->$name();
-//            } elseif (property_exists($this, $name)) {
-//                // Getter/Setter not defined so return property if it exists
-//                return $this->$name;
-//            }
-//            return null;
-//        }
-        // end of generic setter an getter definition
     }
 
     // end of Robot
