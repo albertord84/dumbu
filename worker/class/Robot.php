@@ -95,6 +95,8 @@ namespace dumbu\cls {
             $Profile = new Profile();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
+            echo "<br>Ref Profil: $daily_work->insta_name<br>";
+            echo time();
             echo "<br> make_insta_friendships_command UNFOLLOW <br>";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 // Next profile to unfollow, not yet unfollwed
@@ -112,7 +114,10 @@ namespace dumbu\cls {
                     $has_next = !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     var_dump($json_response);
-                    throw new \Exception(json_encode($json_response), 1003);
+                    break;
+                    // TODO: if response is "Há solicitações demais. Tente novamente mais tarde." then
+                    // stop this user work flow...
+//                    throw new \Exception(json_encode($json_response), 1003);
                 }
             }
             // Do follow work
@@ -128,7 +133,7 @@ namespace dumbu\cls {
                         $cookies, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                 );
                 //var_dump($json_response);
-                echo "<br>Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>";
+                echo "<br>Ref Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>";
                 $get_followers_count++;
                 if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
                     // Get Users 
@@ -153,7 +158,7 @@ namespace dumbu\cls {
                             sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                         }
                     }
-                } 
+                }
 //                else {
 //                    var_dump($json_response);
 //                    throw new \Exception(json_encode($json_response), 1002);
@@ -177,12 +182,13 @@ namespace dumbu\cls {
             //print("<br><br>$curl_str<br><br>");
             //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
-            $json_response = json_decode($output[0]);
-            if ($json_response && isset($json_response->result)) {
-                return $json_response;
-            } else {
-                return $output;
+            if (is_array($output) && count($output)) {
+                $json_response = json_decode($output[0]);
+                if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
+                    return $json_response;
+                }
             }
+            return $output;
             //print_r($status);
             //print("-> $status<br><br>");
 //            return $json_response;
@@ -278,12 +284,12 @@ namespace dumbu\cls {
 //                $curl_str .= "--data "
 //                        . "'q=ig_user($user)+%7B%0A++followed_by.first($N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list&query_id=17851938028087704' ";
                 $curl_str .= "--data "
-                          . "'q=ig_user($user)+%7B%0A++followed_by.first($N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list' ";
+                        . "'q=ig_user($user)+%7B%0A++followed_by.first($N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list' ";
             } else {
 //                $curl_str .= "--data "
 //                        . "'q=ig_user($user)+%7B%0A++followed_by.after($cursor, $N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list&query_id=17851938028087704' ";
                 $curl_str .= "--data "
-                          . "'q=ig_user($user)+%7B%0A++followed_by.after($cursor, $N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list' ";
+                        . "'q=ig_user($user)+%7B%0A++followed_by.after($cursor, $N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list' ";
 //                "page_info": {"has_previous_page": true, "start_cursor": "AQCofdJPzGRljplmFndRzUK17kcV3cD2clwRHYSHInAWcmxn5fhtZVGZyHs1pLUafOMOw8SYZnM4UB-4WO8vM9oTjdAuvL14DmH87kZDJE2kmaW_sA-K6_yqP6pzsyC-6RE", "end_cursor": "AQDsGU9PY7SKUFVzb4g-9hUAqmN3AVn7WKa38BTEayApyPavBw6RqRriVD46_LamE1GllxTSdsFsbD3IQ7C5aEx2n7rRIaIegPoTWxPZg34SWMwLxJfI5I6ivcZ0wOZg7a4", "has_next_page": true}
             }
             $curl_str .= "--compressed ";
@@ -373,39 +379,38 @@ namespace dumbu\cls {
             $IUser = $login;
             $IPass = $pass;
             //$Ref_Pprof = $this->Ref_profile->insta_name;
-
 //            if ($this->webdriver == NULL) {
-                $this->webdriver = new \WebDriver("localhost", "4444");
-                $this->webdriver->connect("firefox");
-                //$this->webdriver->windowMaximize();
-                $this->webdriver->get("https://www.instagram.com/accounts/login/");
-                sleep(2);
+            $this->webdriver = new \WebDriver("localhost", "4444");
+            $this->webdriver->connect("firefox");
+            //$this->webdriver->windowMaximize();
+            $this->webdriver->get("https://www.instagram.com/accounts/login/");
+            sleep(2);
 
-                $username = $this->webdriver->findElementBy(\LocatorStrategy::name, "username");
-                $password = $this->webdriver->findElementBy(\LocatorStrategy::name, "password");
-                if ($username) {
-                    $username->sendKeys(array($IUser));
-                    $password->sendKeys(array($IPass));
-                    $username->submit();
-                    sleep(1.5);
-                    echo "<br>-------Fazendo login no Instagram do user " . $IUser . "------------<br><br";
+            $username = $this->webdriver->findElementBy(\LocatorStrategy::name, "username");
+            $password = $this->webdriver->findElementBy(\LocatorStrategy::name, "password");
+            if ($username) {
+                $username->sendKeys(array($IUser));
+                $password->sendKeys(array($IPass));
+                $username->submit();
+                sleep(1.5);
+                echo "<br>-------Fazendo login no Instagram do user " . $IUser . "------------<br><br";
 
-                    //sleep(2);
-                    //$cookies = $webdriver->getAllCookies();
-                    // Get data for Reference User
+                //sleep(2);
+                //$cookies = $webdriver->getAllCookies();
+                // Get data for Reference User
 //                $reference_user_name = $Ref_Pprof->name;
-                    //$webdriver->get("https://www.instagram.com/$reference_user_name/");
-                    //sleep(2);
-                    //$reference_user = $this->get_reference_user($cookies, $reference_user_name);
-                    // Get insta follower for reference user
-                    //echo "-------Obtendo os " . $N . " seguidores do prerfil " . $Ref_Pprof->insta_name . "------------<br><br>";
-                    //$response = $this->get_insta_followers($cookies, $Ref_Pprof->insta_id, $N);
-                    // Follow $N user not followed before
-                    //echo "-------Comecando a fazer a requisicao de follow------------<br><br>";
-                    //$this->follow_not_followed($cookies, $response->followed_by->nodes, $N);
-                    //make_insta_follow($cookies, "3491366569");
-                    //$webdriver->close();
-                }
+                //$webdriver->get("https://www.instagram.com/$reference_user_name/");
+                //sleep(2);
+                //$reference_user = $this->get_reference_user($cookies, $reference_user_name);
+                // Get insta follower for reference user
+                //echo "-------Obtendo os " . $N . " seguidores do prerfil " . $Ref_Pprof->insta_name . "------------<br><br>";
+                //$response = $this->get_insta_followers($cookies, $Ref_Pprof->insta_id, $N);
+                // Follow $N user not followed before
+                //echo "-------Comecando a fazer a requisicao de follow------------<br><br>";
+                //$this->follow_not_followed($cookies, $response->followed_by->nodes, $N);
+                //make_insta_follow($cookies, "3491366569");
+                //$webdriver->close();
+            }
 //            }
         }
 
