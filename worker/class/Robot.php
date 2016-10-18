@@ -95,7 +95,7 @@ namespace dumbu\cls {
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
             echo "<br>Ref Profil: $daily_work->insta_name<br>";
-            echo time();
+            echo date("Y-m-d H:i:s");
             echo "<br> make_insta_friendships_command UNFOLLOW <br>";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 // Next profile to unfollow, not yet unfollwed
