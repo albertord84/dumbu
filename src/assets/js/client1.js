@@ -104,22 +104,7 @@ $(document).ready(function(){
             success : function(response) {
                 if(response['success']){
                     alert('Usuario cadastrado corretamente');
-                    $(location).attr('href',base_url+'index.php/welcome/panel_client');
-                    /*
-                    $.ajax({
-                        url : base_url+'index.php/welcome/user_do_login',
-                        data : {                            
-                            'client_login':data_client['client_login'],
-                            'client_pass':data_client['client_pass'],
-                        },
-                        type : 'POST',
-                        dataType : 'json',
-                        async: false,
-                        success : function(response) {                            
-                            alert
-                            $(location).attr('href',base_url+'index.php/welcome/panel_client');
-                        },
-                    });*/
+                    $(location).attr('href',base_url+'index.php/welcome/panel_client');                    
                 } else{
                     alert(response['message']);
                 }

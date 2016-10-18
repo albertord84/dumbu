@@ -98,7 +98,6 @@ $(document).ready(function(){
             type : 'POST',
             dataType : 'json',
             success : function(response) {
-                //alert(response['message']);
                 $("#del_link").click();
             }
         }); 

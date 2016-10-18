@@ -119,10 +119,17 @@
 
         
         
-        public function check_insta_user($master_login,$master_pass,$client_login,$client_pass) {            
-            $is_insta_user=true;
-            if($is_insta_user){
-                $data_insta['success']=true;
+        public function check_insta_user($client_login,$client_pass) {            
+            //TODO: 
+            //1.loguear el usuario en Instagram 
+            
+            //2.actualizar la variable $data_insta como descrita abajo
+            
+                       
+            $is_insta_user=true; //usada para pode ejecutar mis funciones, puedes eliminarla
+            
+            if($is_insta_user){                
+                $data_insta['success']=true;                
                 $data_insta['insta_id']='3858629065';
                 $data_insta['insta_followers_ini'] =40;
                 $data_insta['insta_following'] = 143;                
@@ -159,9 +166,11 @@
         }
         
         public function check_insta_profile($master_login,$master_pass,$profile,$NOT_INSTA_ID,$N) {
-            //loguear el usuario del sistema, verificar si esxiste el perfiles, y devolver el ID de instagram
+            //loguear el usuario del sistema, verificar si esxiste el perfile, y devolver el ID de instagram
             $perfil_is_correct=true;
+            
             $insta_id='1112223334';
+            
             if($perfil_is_correct)
                 return $insta_id;
             else

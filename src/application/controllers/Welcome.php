@@ -272,7 +272,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $datas=$this->input->post();        
         if( (count($this->user_model->get_user_role($datas['client_login'],$datas['client_pass']))==0) || $datas['updating']){
-            $data_insta=$this->client_model->check_insta_user(system_config::SYSTEM_USER_LOGIN,system_config::SYSTEM_USER_PASS,$datas['client_login'],$datas['client_pass']);
+            $data_insta=$this->client_model->check_insta_user($datas['client_login'],$datas['client_pass']);
             if($data_insta['success']){
                 $MIN_MARGIN = system_config::MIN_MARGIN_TO_INIT;
                 $MAX_FOLLOWING = system_config::INSTA_MAX_FOLLOWING;
