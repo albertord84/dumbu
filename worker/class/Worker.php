@@ -56,7 +56,12 @@ namespace dumbu\cls {
          *
          * @var type 
          */
-        public $Robot = NULL;
+        public $Robot;
+        
+        public function __construct() {
+            $this->Robot = new Robot();
+            $this->Robot->config = $GLOBALS['sistem_config'];
+        }
 
         /**
          * 
@@ -73,8 +78,6 @@ namespace dumbu\cls {
             $Clients = \dumbu\cls\Client::get_clients();
             $DB = new \dumbu\cls\DB();
             $Client = new \dumbu\cls\Client();
-            $this->Robot = new Robot();
-            $this->Robot->config = $GLOBALS['sistem_config'];
             foreach ($Clients as $Client) { // for each CLient
                 // Log user with webdriver in istagram to get needed session data
                 $this->Robot->bot_login($Client->login, $Client->pass);

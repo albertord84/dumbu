@@ -76,12 +76,14 @@ namespace dumbu\cls {
         function save_unfollow_work($Followeds_to_unfollow) {
             try {
                 foreach ($Followeds_to_unfollow as $unfollowed) {
-                    $this->connect();
-                    $result = mysqli_query($this->connection, ""
-                            . "UPDATE followed "
-                            . "SET followed.unfollowed = TRUE "
-                            . "WHERE followed.id = $unfollowed->id; "
-                    );
+                    if ($unfollowed->unfollowed) {
+                        $this->connect();
+                        $result = mysqli_query($this->connection, ""
+                                . "UPDATE followed "
+                                . "SET followed.unfollowed = TRUE "
+                                . "WHERE followed.id = $unfollowed->id; "
+                        );
+                    }
                 }
 
                 return TRUE;
@@ -177,7 +179,7 @@ namespace dumbu\cls {
         }
 
         function update_reference_cursor($reference_id, $end_cursor) {
-            $end_cursor = $end_cursor? "'" . $end_cursor . "'" : NULL;
+            $end_cursor = $end_cursor ? "'" . $end_cursor . "'" : NULL;
             try {
                 $sql = ""
                         . "UPDATE reference_profile "
