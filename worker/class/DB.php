@@ -114,13 +114,13 @@ namespace dumbu\cls {
             }
         }
 
-        function insert_daily_work($ref_prof_id, $to_follow, $cookies) {
+        function insert_daily_work($ref_prof_id, $to_follow, $login_data) {
             try {
                 $sql = ""
                         . "INSERT INTO daily_work "
                         . "(reference_id, to_follow, cookies) "
                         . "VALUES "
-                        . "($ref_prof_id, $to_follow, '$cookies');";
+                        . "($ref_prof_id, $to_follow, '$login_data');";
 
                 $result = mysqli_query($this->connection, $sql);
 
