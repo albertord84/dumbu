@@ -86,7 +86,7 @@ namespace dumbu\cls {
                     // Distribute work between clients
                     $to_follow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
                     foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
-                        $Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
+                        //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
                         $DB->insert_daily_work($Ref_Prof->id, $to_follow, json_encode($login_data));
                     }
                 }
