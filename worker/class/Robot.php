@@ -52,10 +52,10 @@ namespace dumbu\cls {
         public $Ref_profile;
 
         /**
-         * 
-         * @access public
+         *
+         * @var type 
          */
-        public $webdriver = null;
+        public $csrftoken = NULL;
 
         function __construct() {
             $this->Day_client_work = new Day_client_work();
@@ -71,6 +71,7 @@ namespace dumbu\cls {
          * @access public
          */
         public function login_client($Client) {
+            
         }
 
 // end of member function login_client
@@ -89,7 +90,7 @@ namespace dumbu\cls {
 //            $this->Day_client_work = $Day_client_work;
 //            $this->Ref_profile = $Ref_profile;
             $this->daily_work = $daily_work;
-            $cookies = $this->daily_work->cookies;
+            $login_data = $this->daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
             // Do unfollow work
@@ -101,7 +102,7 @@ namespace dumbu\cls {
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
                 $json_response = $this->make_insta_friendships_command(
-                        $cookies, $Profile->followed_id, 'unfollow'
+                        $login_data, $Profile->followed_id, 'unfollow'
                 );
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     var_dump(json_encode($json_response));
@@ -129,7 +130,7 @@ namespace dumbu\cls {
                 // Get next insta followers of Ref_profile
                 $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME));
                 $json_response = $this->get_insta_followers(
-                        $cookies, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
+                        $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                 );
                 //var_dump($json_response);
                 echo "<br>Ref Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>";
@@ -140,7 +141,7 @@ namespace dumbu\cls {
                     foreach ($Profiles as $Profile) {
                         if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
                             // Do follow request
-                            $json_response = $this->make_insta_friendships_command($cookies, $Profile->id, 'follow');
+                            $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                             var_dump($json_response);
                             echo "Profil name: $Profile->username<br>";
                             if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
@@ -171,13 +172,13 @@ namespace dumbu\cls {
 
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
-         * @param type $cookies
+         * @param type $login_data
          * @param type $user_id
          * @param type $command {follow, unfollow, ... }
          * @return type
          */
-        public function make_insta_friendships_command($cookies, $user_id, $command = 'follow') {
-            $curl_str = $this->make_curl_follow_str("'https://www.instagram.com/web/friendships/$user_id/$command/'", $cookies);
+        public function make_insta_friendships_command($login_data, $user_id, $command = 'follow') {
+            $curl_str = $this->make_curl_follow_str("'https://www.instagram.com/web/friendships/$user_id/$command/'", $login_data);
             //print("<br><br>$curl_str<br><br>");
             //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
@@ -193,13 +194,14 @@ namespace dumbu\cls {
 //            return $json_response;
         }
 
-        public function make_curl_follow_str($url, $cookies) {
-            $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
-            $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
-            $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
+        public function make_curl_follow_str($url, $login_data) {
+            $csrftoken = $login_data->csrftoken;
+            $ds_user_id = $login_data->ds_user_id;
+            $sessionid = $login_data->sessionid;
+            $mid = $login_data->mid;
             $curl_str = "curl '$url' ";
             $curl_str .= "-X POST ";
-            $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
+            $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Host: www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
             $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
@@ -239,9 +241,9 @@ namespace dumbu\cls {
             return $curl_str;
         }
 
-        public function get_insta_followers($cookies, $user, $N, $cursor = NULL) {
+        public function get_insta_followers($login_data, $user, $N, $cursor = NULL) {
             try {
-                $curl_str = $this->make_curl_followers_str("'https://www.instagram.com/query/'", $cookies, $user, $N, $cursor);
+                $curl_str = $this->make_curl_followers_str("'https://www.instagram.com/query/'", $login_data, $user, $N, $cursor);
                 //print("<br><br>$curl_str<br><br>");
                 exec($curl_str, $output, $status);
                 //print_r($output);
@@ -263,12 +265,14 @@ namespace dumbu\cls {
             }
         }
 
-        public function make_curl_followers_str($url, $cookies, $user, $N, $cursor = NULL) {
-            $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
-            $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
+        public function make_curl_followers_str($url, $login_data, $user, $N, $cursor = NULL) {
+            $csrftoken = $login_data->csrftoken;
+            $ds_user_id = $login_data->ds_user_id;
+            $sessionid = $login_data->sessionid;
+            $mid = $login_data->mid;
             $curl_str = "curl '$url' ";
             // TODO: automatizate mid
-            $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$user' ";
+            $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
             $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
@@ -375,46 +379,155 @@ namespace dumbu\cls {
             echo "data posted....! <br>";
         }
 
-        public function bot_login($login, $pass) {
-            $IUser = $login;
-            $IPass = $pass;
-            //$Ref_Pprof = $this->Ref_profile->insta_name;
-//            if ($this->webdriver == NULL) {
-            $this->webdriver = new \WebDriver("localhost", "4444");
-            $this->webdriver->connect("firefox");
-            //$this->webdriver->windowMaximize();
-            $this->webdriver->get("https://www.instagram.com/accounts/login/");
-            sleep(2);
+        public function get_insta_csrftoken($ch) {
+//curl_setopt($ch, CURLOPT_URL, $url);
+//curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+//curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLINFO_COOKIELIST, true);
+            curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+            global $cookies;
+            $cookies = array();
+            $response = curl_exec($ch);
+//var_dump($cookies);
+//TODO: recursive function to load cookie variavels properly
+//            $cur_info = curl_getinfo($ch);
+            echo $cookies[1][1];
+            $csrftoken = explode("=", $cookies[1][1]);
+            $csrftoken = $csrftoken[1];
+//            var_dump($csrftoken);
+            return $csrftoken;
 
-            $username = $this->webdriver->findElementBy(\LocatorStrategy::name, "username");
-            $password = $this->webdriver->findElementBy(\LocatorStrategy::name, "password");
-            if ($username) {
-                $username->sendKeys(array($IUser));
-                $password->sendKeys(array($IPass));
-                $username->submit();
-                sleep(1.5);
-                echo "<br>-------Fazendo login no Instagram do user " . $IUser . "------------<br><br";
+//var_dump($cur_info);
+//if (curl_errno($ch)) die(curl_error($ch));
+//$dom = new DomDocument();
+//$dom->loadHTML($response);
+//print_r($dom);
+        }
 
-                //sleep(2);
-                //$cookies = $webdriver->getAllCookies();
-                // Get data for Reference User
-//                $reference_user_name = $Ref_Pprof->name;
-                //$webdriver->get("https://www.instagram.com/$reference_user_name/");
-                //sleep(2);
-                //$reference_user = $this->get_reference_user($cookies, $reference_user_name);
-                // Get insta follower for reference user
-                //echo "-------Obtendo os " . $N . " seguidores do prerfil " . $Ref_Pprof->insta_name . "------------<br><br>";
-                //$response = $this->get_insta_followers($cookies, $Ref_Pprof->insta_id, $N);
-                // Follow $N user not followed before
-                //echo "-------Comecando a fazer a requisicao de follow------------<br><br>";
-                //$this->follow_not_followed($cookies, $response->followed_by->nodes, $N);
-                //make_insta_follow($cookies, "3491366569");
-                //$webdriver->close();
+        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken) {
+            $postinfo = "username=$login&password=$pass";
+
+            $headers = array();
+            $headers[] = "Host: www.instagram.com";
+            $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+            $headers[] = "Accept: application/json";
+            $headers[] = "Accept-Language: en-US,en;q=0.5, ";
+            $headers[] = "Accept-Encoding: gzip, deflate, br";
+//$headers[] = "--compressed ";
+            $headers[] = "Referer: https://www.instagram.com/";
+            $headers[] = "X-CSRFToken: $csrftoken";
+            $headers[] = "X-Instagram-AJAX: 1";
+//$headers[] = "Content-Type: application/x-www-form-urlencoded";
+            $headers[] = "Content-Type: application/json";
+            $headers[] = "X-Requested-With: XMLHttpRequest";
+            $headers[] = "Cookie: csrftoken=$csrftoken";
+            $url = "https://www.instagram.com/accounts/login/ajax/";
+            curl_setopt($ch, CURLOPT_URL, $url);
+//curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+//curl_setopt($ch, CURLOPT_POST, true);
+//            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+//            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+            global $cookies;
+            $cookies = array();
+//            var_dump($cookies);
+            $html = curl_exec($ch);
+            $info = curl_getinfo($ch);
+//            print_r($html);
+
+            $start = strpos($html, "{");
+//            var_dump($start);
+            $json_str = substr($html, $start);
+//            var_dump($json_str);
+            $json_response = json_decode($json_str);
+            $login_data = new \stdClass();
+            $login_data->json_response = $json_response;
+//            var_dump($json);
+//            print_r($info);
+//            echo "<br><br>";
+//            var_dump($html);
+            if (curl_errno($ch)) {
+                print curl_error($ch);
+            } else if (count($cookies) >= 5) {
+                $login_data->csrftoken = $csrftoken;
+                // Get sessionid from cookies
+                $sessionid = explode("=", $cookies[1][1]);
+                $sessionid = $sessionid[1];
+                $login_data->sessionid = $sessionid;
+                // Get ds_user_id from cookies
+                $ds_user_id = explode("=", $cookies[2][1]);
+                $ds_user_id = $ds_user_id[1];
+                $login_data->ds_user_id = $ds_user_id;
+                // Get mid from cookies
+                $mid = explode("=", $cookies[4][1]);
+                $mid = $mid[1];
+                $login_data->mid = $mid;
             }
+            curl_close($ch);
+            return $login_data;
+        }
+
+        public function get_insta_ref_prof_data($ref_prof) {
+            $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+            $users = json_decode($content)->users;
+
+            $User = NULL;
+            foreach ($users as $key => $user) {
+                if ($user->user->username === $ref_prof) {
+                    $User = $user->user;
+                    break;
+                }
+            }
+            $User->following = $this->get_insta_ref_prof_following($ref_prof);
+            
+            var_dump($User);
+            return $User;
+        }
+
+        public function get_insta_ref_prof_following($ref_prof) {
+            $content = file_get_contents("https://www.instagram.com/$ref_prof/");
+
+            $doc = new \DOMDocument();
+//$doc->loadXML($content);
+            $doc->loadHTML($content);
+//var_dump($doc);
+
+            $search = "\"follows\": {\"count\": ";
+            $start = strpos($doc->textContent, $search);
+
+            $substr1 = substr($doc->textContent, $start, 100);
+            $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
+            return intval($substr2)? intval($substr2) : NULL;            
+        }
+
+        public function bot_login($login, $pass) {
+            $url = "https://www.instagram.com/";
+//            $cookie = "/home/albertord/cookies.txt";
+            $ch = curl_init($url);
+//            if ($this->csrftoken == NULL) {
+            $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
 //            }
+            $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
+            var_dump($result);
+//            die("<br><br>Debug Finish!");
+            return $result;
         }
 
 //  end of member function bot_login
+        // get cookie
+        // multi-cookie variant contributed by @Combuster in comments
+        function curlResponseHeaderCallback($ch, $headerLine) {
+            global $cookies;
+            if (preg_match('/^Set-Cookie:\s*([^;]*)/mi', $headerLine, $cookie) == 1)
+                $cookies[] = $cookie;
+//        $cookies[] = $headerLine;
+            return strlen($headerLine); // Needed by curl
+        }
 
         public function get_reference_user($cookies, $reference_user_name) {
             echo "-------Obtindo dados de perfil de referencia------------<br><br";
@@ -436,9 +549,6 @@ namespace dumbu\cls {
             return json_decode($output[0]);
         }
 
-        public function bot_logout() {
-            $this->webdriver->close();
-        }
     }
 
     // end of Robot

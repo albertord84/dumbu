@@ -57,7 +57,7 @@ namespace dumbu\cls {
          * @var type 
          */
         public $Robot;
-        
+
         public function __construct() {
             $this->Robot = new Robot();
             $this->Robot->config = $GLOBALS['sistem_config'];
@@ -80,15 +80,21 @@ namespace dumbu\cls {
             $Client = new \dumbu\cls\Client();
             foreach ($Clients as $Client) { // for each CLient
                 // Log user with webdriver in istagram to get needed session data
-                $this->Robot->bot_login($Client->login, $Client->pass);
-                $cookies = $this->Robot->webdriver->getAllCookies();
-                $this->Robot->bot_logout();
-                // Distribute work between clients
-                $to_follow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
-                foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
-                    $DB->insert_daily_work($Ref_Prof->id, $to_follow, json_encode($cookies));
+                $login_data = $this->Robot->bot_login($Client->login, $Client->pass);
+                if ($login_data && $login_data->json_response->authenticated) {
+                    echo "<br>Autenticated Client: $Client->login <br><br>";
+                    // Distribute work between clients
+                    $to_follow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+                    foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
+                        //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
+                        $DB->insert_daily_work($Ref_Prof->id, $to_follow, json_encode($login_data));
+                    }
+                }
+                else {
+                    // TODO: do something in Client autentication error
                 }
             }
+            die("Loged all Clients");
             //
             //$DB->reset_preference_profile_cursors();
         }
@@ -193,7 +199,7 @@ namespace dumbu\cls {
                     //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
-                        $daily_work->cookies = json_decode($daily_work->cookies);
+                        $daily_work->login_data = json_decode($daily_work->cookies);
                         $elapsed_time = (time() - strtotime($daily_work->last_access)) / 60 % 60; // minutes
                         if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
                             sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
