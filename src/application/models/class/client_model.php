@@ -119,8 +119,9 @@
 
         
         
-        public function check_insta_user($client_login,$client_pass) {            
-            //TODO: 
+        public function check_insta_user($client_login,$client_pass) {
+            require_once('Robot.php');
+            //require_once '../../../worker/class/Robot.php';
             //1.loguear el usuario en Instagram 
             
             //2.actualizar la variable $data_insta como descrita abajo
@@ -137,6 +138,17 @@
                 $data_insta['success']=false;
             }   
             return $data_insta;
+        }
+        
+        public function get_client_by_ds_user_id($insta_id) {
+            try {    
+                $this->db->select('*');
+                $this->db->from('clients');        
+                $this->db->where('insta_id', $insta_id);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
         }
         
         public function get_client_active_profiles($user_id){
@@ -165,7 +177,7 @@
             }
         }
         
-        public function check_insta_profile($master_login,$master_pass,$profile,$NOT_INSTA_ID,$N) {
+        public function check_insta_profile($master_login,$master_pass,$profile) {
             //loguear el usuario del sistema, verificar si esxiste el perfile, y devolver el ID de instagram
             $perfil_is_correct=true;
             
@@ -174,7 +186,7 @@
             if($perfil_is_correct)
                 return $insta_id;
             else
-                return $NOT_INSTA_ID;
+                return 0;
         }
         
         public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       

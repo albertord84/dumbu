@@ -7,7 +7,7 @@ class Welcome extends CI_Controller {
     public function index() {
         $data['content']=$this->load->view('my_views/init_page', '', true);
         $this->load->view('welcome_message',$data);
-    }  
+    }
     
     public function user_do_login() {
         $data_user=$this->input->post();
@@ -55,7 +55,7 @@ class Welcome extends CI_Controller {
             'role_id'=>user_role::CLIENT,
             'status_id'=> user_status::ACTIVE,            
             'languaje'=>$datas['client_languaje']
-        );                
+        );
         $data_client = array(
             'credit_card_number'=>$datas['client_credit_card_number'],
             'credit_card_status_id'=>credit_card_status::ACTIVE,
@@ -64,7 +64,9 @@ class Welcome extends CI_Controller {
             'pay_day'=>$this->get_day_of_payment(),
             'insta_id'=>$datas['client_insta_id'],
             'insta_followers_ini'=>(int)$datas['client_insta_followers_ini'],                            
-            'insta_following'=>(int)$datas['client_insta_following']
+            'insta_following'=>(int)$datas['client_insta_following'],
+            //'foults'=>0,
+            //'last_access'=>0
         );        
         $a=$this->client_model->sign_in($data_user,$data_client);
         $this->user_model->login($data_user['login'], $data_user['pass'], $this->session);
@@ -127,7 +129,6 @@ class Welcome extends CI_Controller {
             $N=count($all_profiles_of_client);
             $is_active_profile=false;
             $is_deleted_profile=false;
-            //$all_profiles_of_client[0]['insta_id'];
             for($i=0;$i<$N;$i++){
                 if($all_profiles_of_client[$i]['insta_name']==$profile['profile']){
                     if($all_profiles_of_client[$i]['deleted']==false)
@@ -139,8 +140,8 @@ class Welcome extends CI_Controller {
             }
             if(!$is_active_profile && !$is_deleted_profile){                
                 if($N<system_config::REFERENCE_PROFILE_AMOUNT){
-                    $profile_insta_id=$this->client_model->check_insta_profile($this->session->userdata('login'),$this->session->userdata('pass'), $profile['profile'], system_config::NOT_INSTA_ID, $N);                                                            
-                    if($profile_insta_id!=system_config::NOT_INSTA_ID){
+                    $profile_insta_id=$this->client_model->check_insta_profile($this->session->userdata('login'),$this->session->userdata('pass'), $profile['profile']);
+                    if($profile_insta_id!=0){
                         $p=$this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_insta_id);
                         if($p){
                             $result['success']=true;
@@ -270,25 +271,23 @@ class Welcome extends CI_Controller {
         $this->load->model('class/system_config');
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
-        $datas=$this->input->post();        
-        if( (count($this->user_model->get_user_role($datas['client_login'],$datas['client_pass']))==0) || $datas['updating']){
-            $data_insta=$this->client_model->check_insta_user($datas['client_login'],$datas['client_pass']);
-            if($data_insta['success']){
-                $MIN_MARGIN = system_config::MIN_MARGIN_TO_INIT;
-                $MAX_FOLLOWING = system_config::INSTA_MAX_FOLLOWING;
-                if($data_insta['insta_following']+$MIN_MARGIN > $MAX_FOLLOWING){
+        $datas=$this->input->post();
+        
+        $data_insta=$this->client_model->check_insta_user($datas['client_login'],$datas['client_pass']);
+        /*if($data_insta['success']==true){
+            if((count($this->user_model->get_client_by_ds_user_id($data_insta['insta_id']))==0) || $datas['updating']==true){
+                if($data_insta['insta_following']+system_config::MIN_MARGIN_TO_INIT > system_config::INSTA_MAX_FOLLOWING){
                     $data_insta['need_delete']=true;
                 } else{
                     $data_insta['need_delete']=false;
                 }
-            } else{
-                $data_insta['success'] = false;
-                $data_insta['message'] = 'O usuario não existe no Instagram';
-            }                
+            } else{               
+                $data_insta['message'] = 'O usuario ja tem cadastro no sistema';
+            }
         } else{
-            $data_insta['success'] = false;
-            $data_insta['message'] = 'O usuario ja tem cadastro no sistema';
-        }
+            $data_insta['message'] = 'O usuario não existe no Instagram';
+        }*/
+        $data_insta['success']=true;
         echo json_encode($data_insta);
     }
     
@@ -305,10 +304,10 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
     
-    public function get_day_of_payment(){
+    public function get_day_of_payment(){        
         $promotion=false;
         if(!$promotion)
-            return time();
+            return  (string)time();
     }
     
     

@@ -18,12 +18,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>
     <script type="text/javascript">var user_active=false; </script>
     <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'?>"></script>
-    <script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js'?>" ></script>
     
+    
+    
+    <script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js'?>" ></script>    
     <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>
     
-    
-    <!--<script type="text/javascript" src="<?php //echo base_url().'assets/js/angular.min.js'?>"></script>-->
     
    
     <body style="z-index: 1">        
