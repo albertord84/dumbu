@@ -236,4 +236,5 @@ namespace dumbu\cls {
             $DB->delete_daily_work();
         }
     }
+
 }

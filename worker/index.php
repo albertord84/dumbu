@@ -24,4 +24,3 @@ $Worker = new dumbu\cls\Worker();
 //$Worker->do_work();
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";
-?>
