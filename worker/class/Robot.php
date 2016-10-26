@@ -2,9 +2,10 @@
 
 namespace dumbu\cls {
     require_once 'Reference_profile.php';
+    require_once 'Day_client_work.php';
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
-    echo $_SERVER['DOCUMENT_ROOT'];
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/webdriver/phpwebdriver/WebDriver.php';
+//    echo $_SERVER['DOCUMENT_ROOT'];
+//    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/webdriver/phpwebdriver/WebDriver.php';
 
     /**
      * class Robot
@@ -95,9 +96,9 @@ namespace dumbu\cls {
             $Profile = new Profile();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
-            echo "<br>Ref Profil: $daily_work->insta_name<br>";
+            echo "<br>\nRef Profil: $daily_work->insta_name<br>\n";
             echo date("Y-m-d h:i:sa");
-            echo "<br> make_insta_friendships_command UNFOLLOW <br>";
+            echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
@@ -106,7 +107,7 @@ namespace dumbu\cls {
                 );
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     var_dump(json_encode($json_response));
-                    echo "Followed ID: $Profile->followed_id<br>";
+                    echo "Followed ID: $Profile->followed_id<br>\n";
                     // Mark it unfollowed and send back to queue
                     $Profile->unfollowed = TRUE;
                     array_push($Followeds_to_unfollow, $Profile);
@@ -122,7 +123,7 @@ namespace dumbu\cls {
             }
             // Do follow work
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
-            echo "<br>make_insta_friendships_command FOLLOW <br>";
+            echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
             $follows = 0;
             $get_followers_count = 0;
             $Ref_profile_follows = array();
@@ -133,7 +134,7 @@ namespace dumbu\cls {
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                 );
                 //var_dump($json_response);
-                echo "<br>Ref Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>";
+                echo "<br>\nRef Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>\n";
                 $get_followers_count++;
                 if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
                     // Get Users 
@@ -143,7 +144,7 @@ namespace dumbu\cls {
                             // Do follow request
                             $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                             var_dump($json_response);
-                            echo "Profil name: $Profile->username<br>";
+                            echo "Profil name: $Profile->username<br>\n";
                             if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
                                 array_push($Ref_profile_follows, $Profile);
                                 $follows++;
@@ -307,7 +308,7 @@ namespace dumbu\cls {
             exec($curl_str, $output, $status);
             print_r($output);
             print_r($status);
-            print_r("-> $status<br><br>");
+            print_r("-> $status<br>\n<br>\n");
             return $output;
         }
 
@@ -376,7 +377,7 @@ namespace dumbu\cls {
             print_r($response);
 
             curl_close($session);
-            echo "data posted....! <br>";
+            echo "data posted....! <br>\n";
         }
 
         public function get_insta_csrftoken($ch) {
@@ -480,11 +481,11 @@ namespace dumbu\cls {
             foreach ($users as $key => $user) {
                 if ($user->user->username === $ref_prof) {
                     $User = $user->user;
+                    $User->following = $this->get_insta_ref_prof_following($ref_prof);
                     break;
                 }
             }
-            $User->following = $this->get_insta_ref_prof_following($ref_prof);
-            
+
             var_dump($User);
             return $User;
         }
@@ -502,7 +503,7 @@ namespace dumbu\cls {
 
             $substr1 = substr($doc->textContent, $start, 100);
             $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
-            return intval($substr2)? intval($substr2) : NULL;            
+            return intval($substr2) ? intval($substr2) : NULL;
         }
 
         public function bot_login($login, $pass) {
@@ -513,7 +514,7 @@ namespace dumbu\cls {
             $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
 //            }
             $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
-            var_dump($result);
+//            var_dump($result);
 //            die("<br><br>Debug Finish!");
             return $result;
         }
@@ -530,7 +531,7 @@ namespace dumbu\cls {
         }
 
         public function get_reference_user($cookies, $reference_user_name) {
-            echo "-------Obtindo dados de perfil de referencia------------<br><br";
+            echo "-------Obtindo dados de perfil de referencia------------<br>\n<br>\n";
             $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
             $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
             $sessionid = $this->obtine_cookie_value($cookies, "sessionid");

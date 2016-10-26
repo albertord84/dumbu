@@ -38,6 +38,12 @@ namespace dumbu\cls {
          */
         public $last_accesss;
 
+        /**
+         * 
+         * @access public
+         */
+        public $foults;
+
         function __construct() {
             $this->Client = new Client();
         }

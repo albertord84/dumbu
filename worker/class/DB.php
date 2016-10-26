@@ -12,18 +12,18 @@ namespace dumbu\cls {
 
         private $connection = NULL;
 
-        function __construct() {
+        public function __construct() {
             $this->connect();
         }
 
-        function connect() {
+        public function connect() {
             if (!$this->connection) {
                 // Connect to DB
                 $this->connection = mysqli_connect($this::host, $this::user, $this::pass, $this::db) or die("Cannot connect to database.");
             }
         }
 
-        function get_clients_data() {
+        public function get_clients_data() {
             try {
                 $this->connect();
                 $CLIENT = \dumbu\cls\user_role::CLIENT;
@@ -39,12 +39,14 @@ namespace dumbu\cls {
             }
         }
 
-        function get_reference_profiles_data($client_id) {
+        public function get_reference_profiles_data($client_id) {
             try {
                 $this->connect();
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM reference_profile "
-                        . "WHERE reference_profile.client_id = $client_id;"
+                        . "WHERE "
+                        . "  (reference_profile.client_id = $client_id) AND "
+                        . "  (reference_profile.deleted <> TRUE);"
                 );
                 return $result;
             } catch (\Exception $exc) {
@@ -52,7 +54,7 @@ namespace dumbu\cls {
             }
         }
 
-        function get_unfollow_work($client_id) {
+        public function get_unfollow_work($client_id) {
             try {
                 // Get profiles to unfollow today for this Client... 
                 // (i.e the last followed)
@@ -73,7 +75,7 @@ namespace dumbu\cls {
             }
         }
 
-        function save_unfollow_work($Followeds_to_unfollow) {
+        public function save_unfollow_work($Followeds_to_unfollow) {
             try {
                 foreach ($Followeds_to_unfollow as $unfollowed) {
                     if ($unfollowed->unfollowed) {
@@ -92,7 +94,7 @@ namespace dumbu\cls {
             }
         }
 
-        function save_follow_work($Ref_profile_follows, $daily_work) {
+        public function save_follow_work($Ref_profile_follows, $daily_work) {
             try {
                 //daily work: reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
                 foreach ($Ref_profile_follows as $follow) {
@@ -114,13 +116,13 @@ namespace dumbu\cls {
             }
         }
 
-        function insert_daily_work($ref_prof_id, $to_follow, $login_data) {
+        public function insert_daily_work($ref_prof_id, $to_follow_unfollow, $login_data) {
             try {
                 $sql = ""
                         . "INSERT INTO daily_work "
-                        . "(reference_id, to_follow, cookies) "
+                        . "(reference_id, to_follow, to_unfollow, cookies) "
                         . "VALUES "
-                        . "($ref_prof_id, $to_follow, '$login_data');";
+                        . "($ref_prof_id, $to_follow_unfollow, $to_follow_unfollow, '$login_data');";
 
                 $result = mysqli_query($this->connection, $sql);
 
@@ -130,19 +132,22 @@ namespace dumbu\cls {
             }
         }
 
-        function update_daily_work($ref_prof_id, $follows) {
+        public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
             try {
                 $sql = ""
                         . "UPDATE daily_work "
-                        . "SET daily_work.to_follow = (daily_work.to_follow - $follows) "
+                        . "SET daily_work.to_follow   = (daily_work.to_follow   - $follows), "
+                        . "    daily_work.to_unfollow = (daily_work.to_unfollow - $unfollows) "
                         . "WHERE daily_work.reference_id = $ref_prof_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
-                // Record Client last access
+                // Record Client last access and foults
+                $time = time();
                 $sql = ""
                         . "UPDATE clients "
                         . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
-                        . "SET clients.last_access = now() "
+                        . "SET clients.last_access = '$time' "
+                        . "    clients.foults = clients.foults + $faults "
                         . "WHERE reference_profile.id = $ref_prof_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
@@ -153,7 +158,7 @@ namespace dumbu\cls {
             }
         }
 
-        function delete_daily_work() {
+        public function delete_daily_work() {
             try {
                 $sql = "TRUNCATE daily_work;";
 
@@ -165,7 +170,7 @@ namespace dumbu\cls {
             }
         }
 
-        function reset_preference_profile_cursors() {
+        public function reset_preference_profile_cursors() {
             try {
                 $sql = ""
                         . "UPDATE reference_profile "
@@ -178,7 +183,7 @@ namespace dumbu\cls {
             }
         }
 
-        function update_reference_cursor($reference_id, $end_cursor) {
+        public function update_reference_cursor($reference_id, $end_cursor) {
             $end_cursor = $end_cursor ? "'" . $end_cursor . "'" : NULL;
             try {
                 $sql = ""
@@ -194,7 +199,7 @@ namespace dumbu\cls {
             }
         }
 
-        function get_follow_work() {
+        public function get_follow_work() {
             //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
             try {
                 $sql = ""
@@ -202,7 +207,8 @@ namespace dumbu\cls {
                         . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
                         . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
                         . "INNER JOIN users ON users.id = clients.user_id "
-                        . "WHERE daily_work.to_follow  > 0 "
+                        . "WHERE (daily_work.to_follow  > 0) "
+                        . "   OR (daily_work.to_unfollow  > 0) "
                         //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
                         . "ORDER BY clients.last_access ASC, "
                         . "         daily_work.to_follow DESC "
