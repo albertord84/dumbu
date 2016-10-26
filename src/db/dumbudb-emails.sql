@@ -3,7 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
+<<<<<<< HEAD
 -- Generation Time: Oct 26, 2016 at 11:18 PM
+=======
+-- Generation Time: Oct 27, 2016 at 01:23 AM
+>>>>>>> temp2
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
