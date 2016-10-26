@@ -272,23 +272,21 @@ class Welcome extends CI_Controller {
         $this->load->model('class/dumbu_system_config');
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
-        $datas=$this->input->post();
-        
+        $datas=$this->input->post();        
         try {
             $data_insta= $this->is_insta_user($datas['client_login'],$datas['client_pass']);
         } catch (Exception $exc) {
             //echo $exc->getTraceAsString();
         }
-        if($data_insta['success']==true){
-            if((count($this->client_model->get_client_by_ds_user_id($data_insta['insta_id']))==0) || $datas['updating']==true){
+        if($data_insta['success']==true){                        
+            if(count($this->client_model->get_client_by_ds_user_id($data_insta['insta_id']))==0  || $datas['updating']==='true'){
                 $data_insta['success']=true;
-                $data_insta['message']='siiiiiiiiiiiiiiiiiiiiiiiii';
                 if($data_insta['insta_following']+dumbu_system_config::MIN_MARGIN_TO_INIT > dumbu_system_config::INSTA_MAX_FOLLOWING){
                     $data_insta['need_delete']=true;
                 } else{
                     $data_insta['need_delete']=false;
                 }
-            } else{    
+            } else{
                 $data_insta['success']=false;
                 $data_insta['message'] = 'O usuario ja tem cadastro no sistema';
             }
