@@ -2,8 +2,9 @@
 
 namespace dumbu\cls {
     require_once 'Reference_profile.php';
+    require_once 'Day_client_work.php';
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
-    echo $_SERVER['DOCUMENT_ROOT'];
+    //echo $_SERVER['DOCUMENT_ROOT'];
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/webdriver/phpwebdriver/WebDriver.php';
 
     /**
@@ -168,7 +169,7 @@ namespace dumbu\cls {
             return $Ref_profile_follows;
         }
 
-// end of member function do_follow_unfollow_work
+        // end of member function do_follow_unfollow_work
 
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
@@ -380,30 +381,39 @@ namespace dumbu\cls {
         }
 
         public function get_insta_csrftoken($ch) {
-//curl_setopt($ch, CURLOPT_URL, $url);
-//curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-//curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            //curl_setopt($ch, CURLOPT_URL, $url);
+            //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+            //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            
+            //curl_setopt($ch, CURLOPT_CAINFO, "curl-ca-bundle.crt");
+            //curl_setopt ($ch, CURLOPT_CAINFO,"cacert.pem");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);     
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); 
+            
+            
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLINFO_COOKIELIST, true);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
             global $cookies;
             $cookies = array();
             $response = curl_exec($ch);
-//var_dump($cookies);
-//TODO: recursive function to load cookie variavels properly
-//            $cur_info = curl_getinfo($ch);
-            echo $cookies[1][1];
+            
+            
+            //var_dump($cookies);
+            //TODO: recursive function to load cookie variavels properly
+            //$cur_info = curl_getinfo($ch);
+            //echo $cookies[1][1];
             $csrftoken = explode("=", $cookies[1][1]);
             $csrftoken = $csrftoken[1];
-//            var_dump($csrftoken);
+            //var_dump($csrftoken);
             return $csrftoken;
 
-//var_dump($cur_info);
-//if (curl_errno($ch)) die(curl_error($ch));
-//$dom = new DomDocument();
-//$dom->loadHTML($response);
-//print_r($dom);
+            //var_dump($cur_info);
+            //if (curl_errno($ch)) die(curl_error($ch));
+            //$dom = new DomDocument();
+            //$dom->loadHTML($response);
+            //print_r($dom);
         }
 
         public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken) {
@@ -415,27 +425,27 @@ namespace dumbu\cls {
             $headers[] = "Accept: application/json";
             $headers[] = "Accept-Language: en-US,en;q=0.5, ";
             $headers[] = "Accept-Encoding: gzip, deflate, br";
-//$headers[] = "--compressed ";
+            //$headers[] = "--compressed ";
             $headers[] = "Referer: https://www.instagram.com/";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
-//$headers[] = "Content-Type: application/x-www-form-urlencoded";
+            //$headers[] = "Content-Type: application/x-www-form-urlencoded";
             $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
             $headers[] = "Cookie: csrftoken=$csrftoken";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
-//curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
-//curl_setopt($ch, CURLOPT_POST, true);
-//            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-//            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            //curl_setopt($ch, CURLOPT_POST, true);
+            //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+            //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
             global $cookies;
             $cookies = array();
-//            var_dump($cookies);
+            //            var_dump($cookies);
             $html = curl_exec($ch);
             $info = curl_getinfo($ch);
 //            print_r($html);
@@ -480,12 +490,12 @@ namespace dumbu\cls {
             foreach ($users as $key => $user) {
                 if ($user->user->username === $ref_prof) {
                     $User = $user->user;
+                    $User->following = $this->get_insta_ref_prof_following($ref_prof);
                     break;
                 }
-            }
-            $User->following = $this->get_insta_ref_prof_following($ref_prof);
+            }            
             
-            var_dump($User);
+            //var_dump($User);
             return $User;
         }
 
@@ -510,10 +520,12 @@ namespace dumbu\cls {
 //            $cookie = "/home/albertord/cookies.txt";
             $ch = curl_init($url);
 //            if ($this->csrftoken == NULL) {
+            
             $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
-//            }
+            
+            //}
             $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
-            var_dump($result);
+            //var_dump($result);
 //            die("<br><br>Debug Finish!");
             return $result;
         }

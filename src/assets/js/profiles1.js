@@ -1,16 +1,12 @@
-$(document).ready(function(){     
-    
-    
+$(document).ready(function(){  
     
     $("#list_profile").show();
     $("#add_profile").hide();
-    $("#delete_profile").hide();     
-    
-    
+    $("#delete_profile").hide();
     
     $("#list_link").click(display_profiles);
     display_profiles();
-    function display_profiles() {        
+    function display_profiles() { //obtiene todos los perfiles de referencia
         $.ajax({
             url : base_url+'index.php/welcome/client_list_active_profiles',      
             data : {},
@@ -61,7 +57,7 @@ $(document).ready(function(){
                 }                 
             },
             error : function(xhr, status) {
-                alert('Não foi possível comprobar a autenticidade do usuário no Instagram');               
+                alert('Não foi possível comprobar a autenticidade do perfil no Instagram');               
                 //$(location).attr('href',base_url+'index.php/welcome/');
             }
         });

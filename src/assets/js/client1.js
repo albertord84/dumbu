@@ -23,9 +23,9 @@ $(document).ready(function(){
             'client_credit_card_number':'',
             'client_credit_card_cvc':'',
             'client_credit_card_name':'',
-        };
-        $.ajax({
-            url : base_url+'index.php/welcome/is_insta_user',      
+        };      
+        $.ajax({            
+            url : base_url+'index.php/welcome/check_user',      
             data : {     
                 'updating':false,
                 'client_login':data_client['client_login'],
@@ -42,12 +42,12 @@ $(document).ready(function(){
                     $("#credit_card_data").show("fast");
                 } else{
                     alert(response['message']);
-                    $(location).attr('href',base_url+'index.php/welcome/');
+                    //$(location).attr('href',base_url+'index.php/welcome/');
                 }
             },
             error : function(xhr, status) {
-                alert('Não foi possível comprobar a autenticidade do usuario no Instagram');
-                $(location).attr('href',base_url+'index.php/welcome/');
+                alert('Não foi possível comprobar a autenticidade do usuario no Instagram. Erro no sistema');
+                //$(location).attr('href',base_url+'index.php/welcome/');
             }
         });
     });

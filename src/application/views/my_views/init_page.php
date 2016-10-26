@@ -16,7 +16,7 @@
         </div>
     </div>
     <div style="text-align:center; position:absolute; top:0%; height:100%; left:30%; width:40%;">
-        <img src="<?php echo base_url().'assets/img/celular.png'?>">
+        <img src="<?php echo base_url().'assets/img/iphone2.png'?>">
     </div>
     <div style="position:absolute; top:0%; height:100%; left:70%; width:30%;">
         <div style="position:absolute; top:10%; height:100%; left:0%; width:80%;">

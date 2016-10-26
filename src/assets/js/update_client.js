@@ -4,7 +4,7 @@ $(document).ready(function(){
     
     $("#personal_data").show();
     $("#credit_card_data").hide();    
-    $("#sumarize_data").hide();  
+    $("#sumarize_data").hide();
     
     
     $("#btn_personal_data_update").click(function() {
@@ -23,7 +23,7 @@ $(document).ready(function(){
             'client_credit_card_name':'',
         };
         $.ajax({
-            url : base_url+'index.php/welcome/is_insta_user',      
+            url : base_url+'index.php/welcome/check_user',      
             data : {
                 'updating':true,
                 'client_login':data_client['client_login'],
@@ -40,12 +40,12 @@ $(document).ready(function(){
                     $("#credit_card_data").show("fast");
                 } else{
                     alert(response['message']);
-                    $(location).attr('href',base_url+'index.php/welcome/');
+                    //$(location).attr('href',base_url+'index.php/welcome/');
                 }
             },
             error : function(xhr, status) {
                 alert('Não foi possível comprobar a autenticidade do usuario no Instagram');
-                $(location).attr('href',base_url+'index.php/welcome/');
+                //$(location).attr('href',base_url+'index.php/welcome/');
             }
         });
     });

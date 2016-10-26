@@ -26,7 +26,7 @@
     <div id="delete_profile" style="position: absolute; top: 10%;left: 30%; width: 50%;height: 80%; border:1px solid gray; border-radius: 5px;">
         <b style=" height:20%; width:65%; font-size: 20px; border-bottom: 1px solid gray;"><br>Eliminando perfis</b>
         <div id="container_profiles" style="color: white; text-align:left; position: absolute; top: 25%;left: 20%; width: 60%;height: 70%;">            
-            <form  id="form_profiles" style="z-index: 1; background-color: red"> 
+            <form  id="form_profiles" style="z-index: 1"> 
             </form>
         </div>
     </div>
