@@ -5,8 +5,7 @@ class dumbu_system_config {
     const DIALY_REQUESTS_BY_CLIENT = 5; // Change to 480 in production mode
     const REQUESTS_AT_SAME_TIME = 10;     // Reference Profile Followers amoun by request. Change to 10  in production mode   
     const DELAY_BETWEEN_REQUESTS = 0;
-    const INSTA_MAX_FOLLOWING =7000;
-    
+    const INSTA_MAX_FOLLOWING =7000;    
    
     const MIN_NEXT_ATTEND_TIME = 3; //1000 * 60; //5 * 1000 * 60; // 5 min
     const REFERENCE_PROFILE_AMOUNT = 3; // By Client
