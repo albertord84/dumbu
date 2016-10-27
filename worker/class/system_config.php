@@ -16,6 +16,8 @@ namespace dumbu\cls {
         CONST SYSTEM_EMAIL = 'dumbu.system@gmail.com';
         CONST SYSTEM_USER_LOGIN = 'dumbu.system';
         CONST SYSTEM_USER_PASS = 'sorvete69@';
+//        CONST SYSTEM_MERCHANT_KEY = 'bcb45ac4-7edb-49df-98d1-69fd37f4e1d6';
+        CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6';
 
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);

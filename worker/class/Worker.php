@@ -93,9 +93,12 @@ namespace dumbu\cls {
                     echo "<br>\nAutenticated Client: $Client->login <br>\n<br>\n";
 // Distribute work between clients
                     $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+                    // If User status = UNFOLLOW he do 0 follows
+                    $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
+                    $to_unfollow = $to_follow_unfollow;
                     foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
-                        $DB->insert_daily_work($Ref_Prof->id, $to_follow_unfollow, json_encode($login_data));
+                        $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
                     }
                 } else {
 // TODO: do something in Client autentication error
@@ -235,5 +238,7 @@ namespace dumbu\cls {
             $DB = new \dumbu\cls\DB();
             $DB->delete_daily_work();
         }
+
     }
+
 }

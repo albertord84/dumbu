@@ -26,12 +26,14 @@ namespace dumbu\cls {
         public function get_clients_data() {
             try {
                 $this->connect();
-                $CLIENT = \dumbu\cls\user_role::CLIENT;
-                $ACTIVE = \dumbu\cls\user_status::ACTIVE;
+                $CLIENT   = user_role::CLIENT;
+                $ACTIVE   = user_status::ACTIVE;
+                $UNFOLLOW = user_status::UNFOLLOW;
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
-                        . "WHERE users.role_id = $CLIENT AND users.status_id = $ACTIVE;"
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND (users.status_id = $ACTIVE OR users.status_id = $UNFOLLOW);"
                 );
                 return $result;
             } catch (\Exception $exc) {
@@ -116,13 +118,13 @@ namespace dumbu\cls {
             }
         }
 
-        public function insert_daily_work($ref_prof_id, $to_follow_unfollow, $login_data) {
+        public function insert_daily_work($ref_prof_id, $to_follow, $to_unfollow, $login_data) {
             try {
                 $sql = ""
                         . "INSERT INTO daily_work "
                         . "(reference_id, to_follow, to_unfollow, cookies) "
                         . "VALUES "
-                        . "($ref_prof_id, $to_follow_unfollow, $to_follow_unfollow, '$login_data');";
+                        . "($ref_prof_id, $to_follow, $to_unfollow, '$login_data');";
 
                 $result = mysqli_query($this->connection, $sql);
 

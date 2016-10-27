@@ -46,13 +46,13 @@ namespace dumbu\cls {
             $this->mail->SMTPAuth = true;
 
 //Username to use for SMTP authentication - use full email address for gmail
-            $this->mail->Username = "dumbu.system@gmail.com";
+            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN;
 
 //Password to use for SMTP authentication
-            $this->mail->Password = "sorvete69@";
+            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS;
 
 //Set who the message is to be sent from
-            $this->mail->setFrom('dumbu.system@gmail.com', 'DUMBU');
+            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL, 'DUMBU');
         }
 
         public function send_client_login_error($useremail, $username, $instaname, $instapass) {
@@ -78,6 +78,41 @@ namespace dumbu\cls {
 
 //Replace the plain text body with one created manually
             $this->mail->AltBody = 'DUMBU Client Login';
+
+//Attach an image file
+//$mail->addAttachment('images/phpmailer_mini.png');
+//send the message, check for errors
+            if (!$this->mail->send()) {
+                echo "Mailer Error: " . $this->mail->ErrorInfo;
+            } else {
+                echo "Message sent!";
+            }
+            $this->mail->smtpClose();
+        }
+
+        public function send_client_payment_error($useremail, $username, $instaname, $instapass) {
+            //Set an alternative reply-to address
+//$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
+//Set who the message is to be sent to
+            $this->mail->clearAddresses();
+            $this->mail->addAddress($useremail, $username);
+            $this->mail->clearCCs();
+            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+
+//Set the subject line
+            $this->mail->Subject = 'DUMBU Payment Problem';
+
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+            $username = urlencode($username);
+            $instaname = urlencode($instaname);
+            $instapass = urlencode($instapass);
+//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+
+//Replace the plain text body with one created manually
+            $this->mail->AltBody = 'DUMBU Payment Problem';
 
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');
