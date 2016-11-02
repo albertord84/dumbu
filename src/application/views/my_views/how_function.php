@@ -1,1 +1,0 @@
-<img aling='center' src="<?php echo base_url().'assets/img/function.jpg'?>" id="image_init" width="100%" height="100%">

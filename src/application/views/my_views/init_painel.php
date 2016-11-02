@@ -25,9 +25,7 @@
                     <b style="font-size: 21px;">PLANO MENSAL</b><br>
                     <b style="font-size: 18px;">Sem multa de recição.</b><br><br>
                     <b style="font-size: 35px;">R$</b><b style="font-size: 60px;">99<sup>,99</sup> </b><br><br><br>
-                    <div style="text-align:center; color: #28BB93; position:absolute; top:70%; height:20%; left:10%; width:75%; border:3px solid #28BB93; border-radius: 10px;">
-                        <br><b style="font-size: 21px;">ASSINAR AGORA</b>
-                    </div>
+                    <input type="button" style="background-image:url('<?php echo base_url()."assets/img/assinar_agora.png"; ?>');  background-repeat:no-repeat; background-size:100%; text-align:center; background-color: #2B2B2B; color: #28BB93; position:absolute; top:80%; height:25%; left:10%; width:85%; border:3px solid #28BB93; border-radius: 10px;">                      
                 </p>
             </div>
         </div>

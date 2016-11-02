@@ -1,0 +1,62 @@
+#loginform
+{
+   width:100%;
+   z-index: 2;
+   height:40%;
+   margin-top:55%;
+   background-color:white;
+   border-radius:3px;
+   box-shadow:0px 0px 5px 0px #424242;
+   padding:10px;
+   box-sizing:border-box;
+   font-family:helvetica;
+   visibility:hidden;
+   display:none;
+}
+#close_login
+{
+   position: relative;
+   top:1%;
+   left:47%;
+   width:15px;
+   height:15px;
+}
+#waiting_sign_in
+{
+ position: absolute; 
+ z-index: 3;
+ top:40%; 
+ left: 30%; 
+ width: 30%;
+ height:30%; 
+ visibility:hidden; 
+ display:none;
+}
+#loginform #clientLogin
+{
+   width:90%;
+   height:25%;
+   border:1px solid silver;
+   border-radius:3px;
+   padding:5px;
+}
+#loginform #clientPassword
+{
+   margin-top:5px;
+   width:90%;
+   height:25%;
+   border:1px solid silver;
+   border-radius:3px;
+   padding:5px;
+}
+#loginform #btn_insta_login
+{   
+   margin-top:10px;
+   width:80%;
+   height:25%;
+   border:none;
+   border-radius:3px;
+   color:#E6E6E6;
+   background-color:grey;
+   font-size:18px;
+}

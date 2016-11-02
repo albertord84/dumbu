@@ -82,16 +82,47 @@
          * @return bool
          * @access public
          */
-        public function sign_in($data_user,$data_client) {
+        
+        
+        public function insert_client($datas,$data_insta){
+            //insert respectivity datas in the user table
+            $data_user['name']=$data_insta['insta_name'];           //desde instagram
+            $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
+            $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
+            $data_user['role_id']=$datas['role_id'];                //desde el controlador
+            $data_user['status_id']=$datas['status_id'];            //desde el controlador            
+            $this->db->insert('users',$data_user);
+            $id_user_table=$this->db->insert_id();
+            
+            //insert respectivity datas in the client table
+            $data_client['user_id']=$id_user_table;                                     //desde insersion anterior
+            $data_client['insta_id']=$data_insta['insta_id'];                           //desde instagram
+            $data_client['insta_followers_ini']=$data_insta['insta_followers_ini'];     //desde instagram
+            $data_client['insta_following']=$data_insta['insta_following'];             //desde instagram
+            $this->db->insert('clients',$data_client);
+            
+            return $id_user_table;
+        }        
+        
+        public function check_mundipagg_credit_card($datas){
+            /*$datas['client_credit_card_number']
+            $datas['client_credit_card_cvv']
+            $datas['client_credit_card_name']
+            $datas['client_credit_card_validate_month']
+            $datas['client_credit_card_validate_year']*/
+            
+            //TODO: usar la funcion de Alberto, pasarle devidamente los datos
+            return true;
+        }
+        
+        public function update_client($id,$datas){
             try {
-                $this->db->insert('users',$data_user);
-                $id=$this->db->insert_id();
-                $data_client['user_id']=$id;
-                $this->db->insert('clients',$data_client);
-                $id=$this->db->insert_id();
+                $this->db->where('user_id',$id);
+                $this->db->update('clients',$datas);
                 return true;
-            } catch (Exception $exc) {
+            } catch (Exception $exc) {                
                 echo $exc->getTraceAsString();
+                return false;
             }
         }
         
@@ -108,7 +139,7 @@
             }
         }
         
-        public function sign_update($data_user,$data_client) {
+        /*public function sign_update($data_user,$data_client) {
             try {
                 $this->db->update('users',$data_user);
                 $this->db->update('clients',$data_client);
@@ -116,7 +147,7 @@
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }
+        }*/
         
         public function get_client_by_ds_user_id($insta_id) {
             try {    
@@ -128,6 +159,19 @@
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
+            try {
+                $data['client_id']=$clien_id;        
+                $data['insta_name']=$profile;
+                $data['insta_id']=$insta_id_profile;
+                $data['deleted']=false;
+                $this->db->insert('reference_profile',$data);
+                return true;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }       
         
         public function get_client_active_profiles($user_id){
             try {    
@@ -155,52 +199,14 @@
             }
         }
         
-        public function check_insta_profile111111111111111($profile) {
-            /*require_once $_SERVER['DOCUMENT_ROOT'].'/dumbu/worker/class/Robot.php';
-            $this->Robot = new \dumbu\cls\Robot();
-            $user_data=$this->Robot->get_insta_ref_prof_data($profile);*/  
-            $insta_id='1112223334';
-            
-            if($perfil_is_correct)
-                return $insta_id;
-            else
-                return 0;
-        }
-        
-        public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
-            try {
-                $data['client_id']=$clien_id;        
-                $data['insta_name']=$profile;
-                $data['insta_id']=$insta_id_profile;
-                $data['deleted']=false;
-                $this->db->insert('reference_profile',$data);
+        public function desactive_profiles($clien_id, $profile){
+            try {    
+                $this->db->where(array('client_id'=>$clien_id, 'insta_name'=>$profile, 'deleted'=>'0'));
+                $this->db->update('reference_profile',array('deleted'=>'1'));
                 return true;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }
-        
-        public function desactive_profiles($clien_id, $profiles,$N){
-            try {
-                for($i=0;$i<$N;$i++){
-                    $this->db->select('*');
-                    $this->db->from('reference_profile');
-                    $this->db->where('id',$profiles[$i]);
-                    $profile_data = $this->db->get()->row_array();            
-                    $profile_data['deleted']='1';
-                    
-                    $this->db->where("id",$profiles[$i]);
-                    $this->db->update('reference_profile',$profile_data);
-                }
-                return true;
-            } catch (Exception $exc) {
-                echo $exc->getTraceAsString();
-            }
-        }
-        
-        public function credit_card($client_credit_card_number, $client_credit_card_cvc, $client_credit_card_name){
-        
-            return true;
         }
         
         public function load_bank_datas_user($user_id){            
@@ -212,95 +218,7 @@
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }
-        
-        public function bot_login($login, $pass) {
-            $url = "https://www.instagram.com/";
-            $ch = curl_init($url);
-            $csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
-            /*$result = $this->login_insta_with_csrftoken($ch, $login, $pass, $csrftoken);
-            var_dump($result);
-            return $result;*/
-         echo 'fggdfg';
-        }
-        
-        public function get_insta_csrftoken($ch) {
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-            curl_setopt($ch, CURLINFO_COOKIELIST, true);
-            curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-            global $cookies;
-            $cookies = array();
-            $response = curl_exec($ch);
-            echo $cookies[1][1];
-            /*$csrftoken = explode("=", $cookies[1][1]);
-            $csrftoken = $csrftoken[1];
-            return $csrftoken;*/
-        }
-        
-        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken) {
-            $postinfo = "username=$login&password=$pass";
-            $headers = array();
-            $headers[] = "Host: www.instagram.com";
-            $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
-            $headers[] = "Accept: application/json";
-            $headers[] = "Accept-Language: en-US,en;q=0.5, ";
-            $headers[] = "Accept-Encoding: gzip, deflate, br";
-            //$headers[] = "--compressed ";
-            $headers[] = "Referer: https://www.instagram.com/";
-            $headers[] = "X-CSRFToken: $csrftoken";
-            $headers[] = "X-Instagram-AJAX: 1";
-            //$headers[] = "Content-Type: application/x-www-form-urlencoded";
-            $headers[] = "Content-Type: application/json";
-            $headers[] = "X-Requested-With: XMLHttpRequest";
-            $headers[] = "Cookie: csrftoken=$csrftoken";
-            $url = "https://www.instagram.com/accounts/login/ajax/";
-            curl_setopt($ch, CURLOPT_URL, $url);
-            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
-            //curl_setopt($ch, CURLOPT_POST, true);
-            //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-            //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
-            curl_setopt($ch, CURLOPT_HEADER, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-            global $cookies;
-            $cookies = array();
-            //            var_dump($cookies);
-            $html = curl_exec($ch);
-            $info = curl_getinfo($ch);
-//            print_r($html);
-
-            $start = strpos($html, "{");
-            $json_str = substr($html, $start);
-            $json_response = json_decode($json_str);
-            $login_data = new \stdClass();
-            $login_data->json_response = $json_response;
-            if (curl_errno($ch)) {
-                print curl_error($ch);
-            } else if (count($cookies) >= 5) {
-                $login_data->csrftoken = $csrftoken;
-                // Get sessionid from cookies
-                $sessionid = explode("=", $cookies[1][1]);
-                $sessionid = $sessionid[1];
-                $login_data->sessionid = $sessionid;
-                // Get ds_user_id from cookies
-                $ds_user_id = explode("=", $cookies[2][1]);
-                $ds_user_id = $ds_user_id[1];
-                $login_data->ds_user_id = $ds_user_id;
-                // Get mid from cookies
-                $mid = explode("=", $cookies[4][1]);
-                $mid = $mid[1];
-                $login_data->mid = $mid;
-            }
-            curl_close($ch);
-            return $login_data;
-        }
-        
-    }
-
+        }   
     // end of Client
-//}
-    
-
+}
 ?>
