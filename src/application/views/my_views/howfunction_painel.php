@@ -1,0 +1,1 @@
+<img aling='center' style="height: 100%; background-color: white;"  src="<?php echo base_url().'assets/img/como-funciona-perfis-de-referencia.png'?>" id="image_init" width="100%" height="100%">

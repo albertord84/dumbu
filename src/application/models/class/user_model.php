@@ -90,7 +90,7 @@ class User_model extends CI_Model {
      * @return unsigned short
      * @access public
      */
-    public function login($user_login, $user_pass , $session) {
+    public function set_sesion($user_login, $user_pass , $session) {
         try {
             $this->db->select('id, name, login, pass, email, telf, role_id, status_id, languaje');
             $this->db->from('users');
@@ -106,35 +106,55 @@ class User_model extends CI_Model {
                 $this->telf = $user_data['telf'];
                 $this->role_id = $user_data['role_id'];
                 $this->status_id = $user_data['status_id'];
-                $this->languaje = $user_data['languaje'];*/
-                
+                $this->languaje = $user_data['languaje'];*/                
                 $session->set_userdata('id',$user_data['id']);
                 $session->set_userdata('name',$user_data['name']);
                 $session->set_userdata('login',$user_data['login']);
                 $session->set_userdata('pass',$user_data['pass']);
                 $session->set_userdata('email',$user_data['email']);
-                $session->set_userdata('telf',$user_data['telf']);
+                //$session->set_userdata('telf',$user_data['telf']);
                 $session->set_userdata('role_id',$user_data['role_id']);
                 $session->set_userdata('status_id',$user_data['status_id']);
                 $session->set_userdata('languaje',$user_data['languaje']);
                 return $user_data['id'];
             } else {
-                return false;
+                return 0;
             }
         } catch (Exception $exception) {
             echo 'Error accediendo a la base de datos durante el login';
         }
     }
     
-    public function get_user_role($user_login, $user_pass){
+    public function get_user_role($user_login, $user_pass){        
         $this->db->select('role_id');
         $this->db->from('users');
         $this->db->where('login', $user_login);
         $this->db->where('pass', $user_pass);
-        return $this->db->get()->row_array();
+        $a=$this->db->get()->row_array();
+        return $a;
     }
+    
+    public function get_user_from_client_id($user_id){
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('id', $user_id);
+        return $this->db->get()->result_array();
+     }
+     
+    /*public function update_data_user($datas){
+        try {
+            $this->db->where('id', $datas['pk']);
+            $this->db->update('users',array(
+                                    'status_id' => $datas['status_id'],
+                                    'email' => $datas['client_email'],
+                            ));
+            return true;
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+            return false;
+        }         
+    }*/
 
-// end of member function do_login
 
     /**
      * 
@@ -142,12 +162,16 @@ class User_model extends CI_Model {
      * @return bool
      * @access public
      */
-    public function update_user() {
-        
+    public function update_user($id,$datas) {
+        try {
+            $this->db->where('id', $id);
+            $this->db->update('users',$datas);
+            return true;
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+            return false;
+        }        
     }
-    
-       
-// end of member function update_user
 
     /**
      * 
@@ -157,20 +181,13 @@ class User_model extends CI_Model {
      * @return User
      * @access public
      */
-    public function load_user($user_login=0, $user_pass=0) {
-        if($user_login!=0){
-            $this->db->select('*');
-            $this->db->from('users');        
-            $this->db->where('login', $user_login);
-            $this->db->where('pass', $user_pass);
-        } else{
-            $this->db->select('*');
-            $this->db->from('users');
-        }        
+    public function load_user($user_login, $user_pass) {
+        $this->db->select('*');
+        $this->db->from('users');        
+        $this->db->where('login', $user_login);
+        $this->db->where('pass', $user_pass);
         return $this->db->get()->row_array();
     }
-
-// end of member function load_user
 
     /**
      * 

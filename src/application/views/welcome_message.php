@@ -5,21 +5,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <head>
         <meta charset="utf-8">
         <title>DUMBU</title>
+        <!--p.footer { text-align: right;font-size: 11px; border-top: 1px solid #D0D0D0; line-height: 32px; padding: 0 10px 0 10px; margin: 20px 0 0 0;}-->
         <style type="text/css">                       
             a { color: white; background-color: transparent; font-weight: normal; font-size: 12px;}            
-            p.footer { text-align: right;font-size: 11px; border-top: 1px solid #D0D0D0; line-height: 32px; padding: 0 10px 0 10px; margin: 20px 0 0 0;}
-            #container {position: absolute; left: 0%; top:0%; width: 100%; height: 100%;}            
+            
+            #container {z-index: 1; position: absolute; left: 0%; top:0%; width: 100%; height: 100%;}            
             #head { position: absolute;  background-color: #0F0F0F; top:0%; height: 10%; width: 100%;}             
             #body {position: absolute; background-color: #2B2B2B; top:10%; height: 70%; width: 100%;}             
             #footer {position: absolute; background-color: #202020; top:80%; height: 20%; width: 100%;}
         </style>
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/users_login_style.css'?>">        
     </head>    
     
     <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>
     <script type="text/javascript">var user_active=false; </script>
     <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'?>"></script>
-    
-    
     
     <script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js'?>" ></script>    
     <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>
@@ -28,17 +28,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    
     <body style="z-index: 1">        
         <div id="container">
-            <div id="head"> 
-                <h2 style="color:white; position: absolute; top:2%; left: 47.5%; width:120px">dumbu</h2>      
-                <div style="position: absolute; top:2%; left: 70%;">
+            <div id="head">                 
+                <div style="z-index: 1;color:white; position: absolute; top:15%; height: 60%; left: 43%; width:14%">
+                    <a href="<?php echo base_url().'index.php/welcome/'?>"><img src="<?php echo base_url().'assets/img/dumbu_logo_png.png'?>" style=" z-index: 2;position: absolute; top:0%; height: 100%; left: 0%; width: 100%;"></a>
+                </div>   
+                <div style="position: absolute; top:2%; left: 67%;">
+                    <a id="how_function" href="<?php echo base_url().'index.php/welcome/talk_me'?>">FALE CONOSCO</a>
+                </div>
+                <div style="position: absolute; top:2%; left: 75%;">
                     <a id="how_function" href="<?php echo base_url().'index.php/welcome/how_function'?>">COMO FUNCIONA</a>
                 </div>
-                <div style="position: absolute; top:2%; left: 80%;">
-                    <a  id="sing_in" href="<?php echo base_url().'index.php/welcome/sing_in'?>">ASINAR AGORA</a>
+                <div style="position: absolute; top:2%; left: 84%;">
+                    <a  id="sing_in" href="<?php echo base_url().'index.php/welcome/sign_in'?>">ASSINAR AGORA</a>
                 </div>                
-                <div style="position: absolute; top:2%; left: 90%;"> 
-                    <a id="login" href="<?php echo base_url().'index.php/welcome/log_in'?>">ENTRAR</a>
+                <div style="position: absolute; top:2%; left: 93%;"> 
+                    <a id="login" >ENTRAR</a> <!--<?php// echo base_url().'index.php/welcome/log_in'?>-->                    
                 </div>
+                <center>
+                <div id = "usersLoginForm">
+                    <form method = "post" action = "">
+                        <img type = "image"       id = "userCloseLogin"   src = "<?php echo base_url().'assets/img/close.png'?>">
+                        <input type = "text"      id = "userLogin"         placeholder = "Usuário">
+                        <input type = "password"  id = "userPassword"      placeholder = "***"  >
+                        <input type = "button"    id = "btn_dumbu_login"       value = "Login">
+                    </form>
+                    <img id="waiting" src="<?php echo base_url().'assets/img/waiting.gif'?>"/>
+                </div>
+                </center>
+                
                 <div style="position: absolute; top:2%; left: 90%;"> 
                     <a id="logout" href="<?php echo base_url().'index.php/welcome/log_out'?>">SAIR</a>
                 </div>
@@ -49,10 +66,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             
             <div id="body">
-                <div id="content"> <?php if($content) echo $content; ?> </div>
+                <div id="content" style="height: 100%;"> <?php if($content) echo $content; ?> </div>
             </div>
             
-            <div id="footer">                
+           
+           <div id="footer">                
                 <div style="color: white; position: absolute; top: 20%; height: 60%; left: 15%; width: 20%">
                     <div style="position: absolute; left: 0%; top: 20%">
                         <img src="<?php echo base_url().'assets/img/user.png'?>">
