@@ -11,8 +11,8 @@ class Welcome extends CI_Controller {
     
      
     public function user_do_login() {
-        $datas=$this->input->post();                
-        $this->load->model('class/user_model');  
+        $datas=$this->input->post();
+        $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $this->load->model('class/user_role');
         $user_data = $this->user_model->load_user($datas['user_login'],$datas['user_pass']); 
@@ -392,19 +392,6 @@ class Welcome extends CI_Controller {
         $data['content']=$this->load->view('my_views/talkme_painel', '', true);
         $this->load->view('welcome_message',$data);
     }
-    
-    /*public function update_client(){
-        if($this->session->userdata('name')){
-            $this->load->model('class/user_model');
-            $this->load->model('class/client_model');            
-            $user_data['personal_datas']=$this->user_model->load_user($this->session->userdata('login'),$this->session->userdata('pass'));
-            $user_data['bank_datas']=$this->client_model->load_bank_datas_user($this->session->userdata('id'));            
-            $datas['user_data']=$user_data;
-            $data['content']=$this->load->view('my_views/update_client',$datas, true);
-            $this->load->view('welcome_message',$data);
-        }
-    }*/
-    
     
     //functions for load ad dispay the user views
     public function panel_client(){

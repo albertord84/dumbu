@@ -17,7 +17,7 @@ class dumbu_system_config {
     CONST SYSTEM_USER_LOGIN = 'dumbu.system';
     CONST SYSTEM_USER_PASS = 'sorvete69@';
     
-    CONST PROMOTION_N_FREE_DAYS= 0;    // N days free promotion
+    CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
     
 
     static public function Defines($const) {

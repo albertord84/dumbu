@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
 
-<div style="background-color:#F4F4F4; width:100%; height:100%;">
+<div style="position:absolute; background-color:#F4F4F4; width:100%; height:100%;">
         <div style="position:absolute; top:8%; left:20%; width:60%; height:7%; color:black; text-align:center;">
             <b style="font-family:sans-serif;font-size:24px">FALE CONOSCO</b>
         </div>

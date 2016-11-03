@@ -1,5 +1,4 @@
 $(document).ready(function(){
-        
     
     active_by_steep(1);
     
@@ -70,7 +69,6 @@ $(document).ready(function(){
                     error : function(xhr, status) {
                     }
                 });
-                alert('Dados OK. Inserindo');
             } else{
                 alert('Deve aceitar os termos de uso');
             }
