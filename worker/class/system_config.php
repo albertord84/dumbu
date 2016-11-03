@@ -16,6 +16,9 @@ namespace dumbu\cls {
         CONST SYSTEM_EMAIL = 'dumbu.system@gmail.com';
         CONST SYSTEM_USER_LOGIN = 'dumbu.system';
         CONST SYSTEM_USER_PASS = 'sorvete69@';
+//        CONST SYSTEM_MERCHANT_KEY = 'bcb45ac4-7edb-49df-98d1-69fd37f4e1d6';  // API Example
+        CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6'; // DUMBU Producition
+//        CONST SYSTEM_MERCHANT_KEY = 'b3ef5018-6653-4ce0-b515-51ac26ccdcb1';   // DUMBU sandbox
 
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);
@@ -30,3 +33,20 @@ namespace dumbu\cls {
 
     }
 }
+
+
+/*
+7777 xxxx xxxx 7777
+01/2020
+ALBERTO
+777
+Visa
+R$ 1,00 À vista
+Autorizar e capturar
+
+Buyer key
+6bdce42e-a018-41e2-aa1f-c779b832ad64
+
+InstantBuyKey
+97066a19-fee2-4ff5-86ec-e201a0f12419"
+ */
