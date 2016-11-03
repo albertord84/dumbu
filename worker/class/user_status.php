@@ -11,7 +11,7 @@ namespace dumbu\cls {
         const INACTIVE = 5;
         const PENDING = 6;
         const UNFOLLOW = 7;
-        const BEGINNER = 7;
+        const BEGINNER = 8;
 
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);

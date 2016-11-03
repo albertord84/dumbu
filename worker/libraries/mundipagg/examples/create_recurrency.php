@@ -1,15 +1,17 @@
 <?php
 
 require_once(dirname(__FILE__) . '/../init.php');
+require_once(dirname(__FILE__) . '/../../../class/system_config.php');
 
 try
 {
     // Define a url utilizada
     \Gateway\ApiClient::setBaseUrl("https://sandbox.mundipaggone.com");
 
-    // Define a chave da loja
-    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
-
+//    // Define a chave da loja
+//    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
+    \Gateway\ApiClient::setMerchantKey(\dumbu\cls\system_config::SYSTEM_MERCHANT_KEY);
+    
     // Cria objeto requisição
     $request = new \Gateway\One\DataContract\Request\CreateSaleRequest();
 
@@ -17,7 +19,7 @@ try
     $creditCardTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\CreditCardTransaction();
     $request->addCreditCardTransaction($creditCardTransaction);
     $creditCardTransaction
-    ->setAmountInCents(100)
+    ->setAmountInCents(7000)
     ->setInstallmentCount(1)
     ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_ONLY)
     ->setTransactionDateInMerchant(new DateTime())
@@ -54,11 +56,11 @@ try
     ->setDateToStartBilling(new DateTime())
     ->setFrequency(\Gateway\One\DataContract\Enum\FrequencyEnum::MONTHLY)
     ->setInterval(1)
-    ->setRecurrences(2);
+    ->setRecurrences(0);
 
     // Dados do comprador
     $request->getBuyer()
-    ->setName("Comprador Mundi")
+    ->setName("Comprador Mundi Rec")
     ->setPersonType(\Gateway\One\DataContract\Enum\PersonTypeEnum::COMPANY)
     ->setBuyerReference("123456")
     ->setBuyerCategory(\Gateway\One\DataContract\Enum\BuyerCategoryEnum::PLUS)

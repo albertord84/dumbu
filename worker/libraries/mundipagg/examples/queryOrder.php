@@ -6,17 +6,19 @@ require_once(dirname(__FILE__) . '/../../../class/system_config.php');
 try
 {
     // Define a url utilizada
-    \Gateway\ApiClient::setBaseUrl("https://sandbox.mundipaggone.com");
+//    \Gateway\ApiClient::setBaseUrl("https://sandbox.mundipaggone.com");
+    \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com");
 
     // Define a chave da loja
-    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
-//    \Gateway\ApiClient::setMerchantKey(\dumbu\cls\system_config::SYSTEM_MERCHANT_KEY);
+//    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
+    \Gateway\ApiClient::setMerchantKey(\dumbu\cls\system_config::SYSTEM_MERCHANT_KEY);
 
     //Cria um objeto ApiClient
     $client = new Gateway\ApiClient();
 
     // Faz a chamada para criação
-    $response = $client->searchSaleByOrderKey("9aa2f7f2-2a69-4b9e-93ca-3ab866e26fb4");
+    $response = $client->searchSaleByOrderKey("abe77bf2-2030-45a1-9cbf-3502e047f4ff");
+//    $response = $client->searchSaleByOrderReference("42e24322-a797-4a52-9c2c-7a8585f71a26");
 
     // Imprime resposta
     print "<pre>";

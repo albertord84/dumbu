@@ -1,14 +1,17 @@
 <?php
 
 require_once(dirname(__FILE__) . '/../init.php');
+require_once(dirname(__FILE__) . '/../../../class/system_config.php');
 
 try
 {
     // Define a url utilizada
     \Gateway\ApiClient::setBaseUrl("https://sandbox.mundipaggone.com");
+    \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com");
 
     // Define a chave da loja
-    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
+//    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
+    \Gateway\ApiClient::setMerchantKey(\dumbu\cls\system_config::SYSTEM_MERCHANT_KEY);
 
     // Cria objeto requisição
     $request = new \Gateway\One\DataContract\Request\CreateBuyerRequest();
@@ -20,7 +23,7 @@ try
     ->setCreateDateInMerchant(new \DateTime())
     ->setDocumentNumber("12345678901")
     ->setDocumentType(\Gateway\One\DataContract\Enum\DocumentTypeEnum::CPF)
-    ->setEmail("lskywalker@r2d2.com")
+    ->setEmail("albertord84@gmail.com")
     ->setEmailType(\Gateway\One\DataContract\Enum\EmailTypeEnum::PERSONAL)
     ->setFacebookId("1234567890")
     ->setGender(\Gateway\One\DataContract\Enum\GenderEnum::MALE)

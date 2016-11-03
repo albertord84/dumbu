@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/../init.php');
+require_once(dirname(__FILE__) . '/../../../class/system_config.php');
 
 try
 {
@@ -8,7 +9,8 @@ try
     \Gateway\ApiClient::setBaseUrl("https://sandbox.mundipaggone.com");
 
     // Define a chave da loja
-    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
+//    \Gateway\ApiClient::setMerchantKey("85328786-8BA6-420F-9948-5352F5A183EB");
+    \Gateway\ApiClient::setMerchantKey(\dumbu\cls\system_config::SYSTEM_MERCHANT_KEY);
 
     // Cria objeto requisição
     $request = new \Gateway\One\DataContract\Request\CreateSaleRequest();
@@ -17,9 +19,9 @@ try
     $creditCardTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\CreditCardTransaction();
     $request->addCreditCardTransaction($creditCardTransaction);
     $creditCardTransaction
-    ->setAmountInCents(100)
+    ->setAmountInCents(10000)
     ->setInstallmentCount(1)
-    ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_ONLY)
+    ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_AND_CAPTURE)
     ->setTransactionDateInMerchant(new DateTime())
     ->setTransactionReference(uniqid())
     ->getCreditCard()
@@ -80,7 +82,7 @@ try
     ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
 
     $request->getMerchant()
-    ->setMerchantReference("gateway LOJA 1");
+    ->setMerchantReference("DUMBU");
 
     $request->getOptions()
     ->disableAntiFraud()
@@ -93,8 +95,8 @@ try
 
     $request->getRequestData()
     ->setEcommerceCategory(\Gateway\One\DataContract\Enum\EcommerceCategoryEnum::B2B)
-    ->setIpAddress("255.255.255.255")
-    ->setOrigin("123")
+    ->setIpAddress("127.0.0.1")
+    ->setOrigin("mundipagg")
     ->setSessionId(uniqid());
 
     // Carrinho de compras
