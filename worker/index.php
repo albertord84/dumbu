@@ -3,6 +3,7 @@
 require_once 'class/Worker.php';
 require_once 'class/system_config.php';
 require_once 'class/Gmail.php';
+require_once 'class/Payment.php';
 
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
@@ -14,6 +15,8 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
+
+$Payment->check_payment("e0c0954a-dbd5-4e79-b513-0769d89bb490");
 
 //----------------------------------------------------------------
 

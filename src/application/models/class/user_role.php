@@ -5,6 +5,7 @@ class user_role
     const ADMIN = 1;
     const CLIENT = 2;
     const ATTENDET = 3;
+    const DELETED = 4;
 
     static public function Defines($const)
     {
