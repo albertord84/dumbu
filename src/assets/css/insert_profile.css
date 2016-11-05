@@ -1,0 +1,56 @@
+#insert_profile_form
+{
+   position: absolute;
+   top: 11%;
+   left: 80%;
+   width:13%;
+   height:22%;
+   z-index:4;
+   background-color:white;
+   border-radius:3px;
+   box-shadow:0px 0px 5px 0px #424242;
+   padding:10px;
+   box-sizing:border-box;
+   font-family:helvetica;
+   visibility:hidden;
+   display:none;
+}
+#close_palnel_insert_profile
+{
+   position: relative;
+   top:1%;
+   left:47%;
+   width:15px;
+   height:15px;
+}
+#waiting_inser_profile
+{
+ position: absolute; 
+ z-index: 3;
+ top:20%; 
+ left: 30%; 
+ width: 40%;
+ height:55%; 
+ visibility:hidden; 
+ display:none;
+}
+#insert_profile_form #login_profile
+{
+   width:90%;
+   height:25%;
+   border:1px solid silver;
+   border-radius:3px;
+   padding:5px;
+}
+
+#insert_profile_form #btn_insert_profile
+{   
+   margin-top:10px;
+   width:80%;
+   height:25%;
+   border:none;
+   border-radius:3px;
+   color:#E6E6E6;
+   background-color:grey;
+   font-size:18px;
+}

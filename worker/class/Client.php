@@ -81,7 +81,9 @@ namespace dumbu\cls {
                     $Client->name = $client_data->name;
                     $Client->login = $client_data->login;
                     $Client->pass = $client_data->pass;
+                    $Client->email = $client_data->email;
                     $Client->insta_id = $client_data->insta_id;
+                    $Client->status_id = $client_data->status_id;
                     $Client->insta_following = $client_data->insta_following;
                     $Client->get_reference_profiles($Client->id);
                     array_push($Clients, $Client);
@@ -106,7 +108,7 @@ namespace dumbu\cls {
          * @access public
          */
         public function sign_in() {
-            echo("Do Client sign_in!!! <br>");
+            echo("Do Client sign_in!!! <br>\n");
         }
 
 // end of member function sign_in

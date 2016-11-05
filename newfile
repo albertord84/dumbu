@@ -1,0 +1,17 @@
+acu.f <- function(data, i){
+d <- data[i,]
+m <- sum(data$str)
+if(length(unique((i)==(1:nrow(data))))!=1){
+d$blue[d$str==1]<-sample(d$blue,size=m,T)
+d$red[d$str==1]<-sample(d$red,size=m,T)}
+dif<- d$blue[d$str==0]-d$red[d$str==0]
+d2 <- d$blue[d$str==1]
+d3 <- d$red[d$str==1]
+v1 <- var(dif)/length(dif)
+v2 <-var(d2)/length(d2)+var(d3)/length(d3)
+v <- 1/(1/v1+1/v2)
+c((mean(dif)/v1+(mean(d2)-mean(d3))/v2)*v,v)}
+acu.b<-boot(acui,acu.f,R=999,strata=acui$str)
+boot.ci(acu.b,type=c("norm","basic","stud",
+"perc","bca"))
+

@@ -9,9 +9,11 @@ namespace dumbu\cls {
         const BLOCKED_BY_INSTA = 3;
         const DELETED = 4;
         const INACTIVE = 5;
+        const PENDING = 6;
+        const UNFOLLOW = 7;
+        const BEGINNER = 8;
 
         static public function Defines($const) {
-            $this->asd = 2;
             $cls = new ReflectionClass(__CLASS__);
             foreach ($cls->getConstants() as $key => $value) {
                 if ($value == $const) {
