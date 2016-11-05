@@ -1,7 +1,7 @@
 <?php
 
 //namespace dumbu\cls {
-    require_once 'user_model.php';
+    require_once 'User_model.php';
     
     /**
      * class Attendent

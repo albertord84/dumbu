@@ -1,8 +1,8 @@
 <?php
 
 namespace dumbu\cls {
-    require_once 'system_config.php';
-    require_once 'Client.php';
+    require_once 'System_config.php';
+    require_once 'Client_model.php';
     require_once 'Followed.php';
     /**
      * class Day_client_work
