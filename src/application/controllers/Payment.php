@@ -12,7 +12,7 @@ class Payment extends CI_Controller {
         $this->db->select('*');
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
-        $this->db->where('status !=', user_role::DELETED);
+        $this->db->where('status !=', user_status::DELETED);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $cient) {
