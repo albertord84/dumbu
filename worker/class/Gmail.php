@@ -9,7 +9,8 @@ namespace dumbu\cls {
 //This should be done in your php.ini, but this is how to do it if you don't have access to that
     date_default_timezone_set('Etc/UTC');
 
-    require_once 'libraries/PHPMailer-master/PHPMailerAutoload.php';
+    //require_once 'libraries/PHPMailer-master/PHPMailerAutoload.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/PHPMailer-master/PHPMailerAutoload.php';
 
     class Gmail {
 
@@ -127,38 +128,50 @@ namespace dumbu\cls {
 
         public function send_client_contact_form($username, $useremail, $usermsg, $usercompany = NULL, $userphone = NULL) {
             //Set an alternative reply-to address
-//$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
-//Set who the message is to be sent to
+            //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
+            //Set who the message is to be sent to
             $this->mail->clearAddresses();
             $this->mail->addAddress($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
             $this->mail->clearReplyTos();
             $this->mail->addReplyTo($useremail, $username);
 
-//Set the subject line
+            //Set the subject line
             $this->mail->Subject = 'User Contact';
 
-//Read an HTML message body from an external file, convert referenced images to embedded,
-//convert HTML into a basic plain-text alternative body
+            //Read an HTML message body from an external file, convert referenced images to embedded,
+            //convert HTML into a basic plain-text alternative body
             $username = urlencode($username);
             $usermsg = urlencode($usermsg);
             $usercompany = urlencode($usercompany);
             $userphone = urlencode($userphone);
-//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
             $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
 
-//Replace the plain text body with one created manually
+            //Replace the plain text body with one created manually
             $this->mail->AltBody = 'User Contact';
 
-//Attach an image file
-//$mail->addAttachment('images/phpmailer_mini.png');
-//send the message, check for errors
-            if (!$this->mail->send()) {
+            //Attach an image file
+            //$mail->addAttachment('images/phpmailer_mini.png');
+            //send the message, check for errors
+            //-------------Alberto
+            /*if (!$this->mail->send()) {
                 echo "Mailer Error: " . $this->mail->ErrorInfo;
             } else {
                 echo "Message sent!";
             }
+            $this->mail->smtpClose();*/
+            //-------------Jose R
+            if (!$this->mail->send()) {
+                $result['success']=false;
+                $result['message']="Mailer Error: " . $this->mail->ErrorInfo;
+            } else {
+                $result['success']=true;
+                $result['message']="Message sent!". $this->mail->ErrorInfo;
+            }
             $this->mail->smtpClose();
+            return $response;
+            //-------------------
         }
 
     }

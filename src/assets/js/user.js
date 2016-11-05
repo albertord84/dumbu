@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
     $("#btn_dumbu_login").click(function() {
-        if($('#userLogin').val()!='' && $('#userPassword').val()!=''){
+        if($('#userLogin').val()!='' && $('#userPassword').val()!==''){
             $("#waiting").css({"visibility":"visible","display":"block"});
             $.ajax({
                 url : base_url+'index.php/welcome/user_do_login',      

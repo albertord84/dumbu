@@ -18,8 +18,8 @@ class dumbu_system_config {
     CONST SYSTEM_USER_PASS = 'sorvete69@';
     
     CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
+    CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 7;    // promotion of percentegem discount by one month
     
-
     static public function Defines($const) {
         $cls = new ReflectionClass(__CLASS__);
         foreach ($cls->getConstants() as $key => $value) {

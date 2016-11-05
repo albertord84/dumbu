@@ -62,13 +62,13 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response){
                         if(response['success']){
-                            inser_icons_profiles(response);
-                            $("#waiting_inser_profile").css({"visibility":"hidden","display":"none"});
+                            inser_icons_profiles(response);                            
                             $('#login_profile').val('');
                             $("#insert_profile_form").fadeOut();
                             $("#insert_profile_form").css({"visibility":"hidden","display":"none"});                            
                         } else
                             alert(response['message']);                        
+                        $("#waiting_inser_profile").css({"visibility":"hidden","display":"none"});
                     },
                     error : function(xhr, status) {
                         alert('Não foi possível conectar com o Instagram');

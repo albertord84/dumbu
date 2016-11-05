@@ -1,5 +1,4 @@
-    
-<script type="text/javascript" src="<?php echo base_url().'assets/js/client.js'?>" ></script>
+<script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js'?>" ></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/sign_in_style.css'?>">
 
 <!--<style>
@@ -32,13 +31,13 @@
     <div id="login_panel" style="text-align:center; position:absolute; top:5%; height:100%; left:10%; width:15%;">      
         <p><b style="font-family:sans-serif;font-size:20px">PASSO 1</b></p>
         <center>
-            <input type="button" id="show_login" value="" style="background-image:url('<?php echo base_url()."assets/img/login-instagram-2.png"; ?>'); background-repeat:no-repeat; background-size:100%;border-radius:8px; position:absolute; top:25%; left:10%; width:80%; height:14%; ">             
+            <input type="button" id="show_login" value="" style="cursor:pointer; background-image:url('<?php echo base_url()."assets/img/login-instagram-2.png"; ?>'); background-repeat:no-repeat; background-size:100%;border-radius:8px; position:absolute; top:25%; left:10%; width:80%; height:14%; ">             
             <div id = "loginform">                
                 <form method = "post" action = "">
                     <img type = "image"       id = "close_login"   src = "<?php echo base_url().'assets/img/close.png'?>">
                     <input type = "text"      id = "clientLogin"         placeholder = "Usuário">
                     <input type = "password"  id = "clientPassword"      placeholder = "***"  >
-                    <input type = "button"    id = "btn_insta_login"       value = "Login">
+                    <input type = "button"    id = "btn_insta_login"       value = "Login" style="cursor:pointer;">
                 </form>
                 <img id="waiting_sign_in" src="<?php echo base_url().'assets/img/waiting.gif'?>"/>
             </div>
@@ -53,7 +52,7 @@
            <input id="client_credit_card_name" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" placeholder="Nome no cartão" style="text-transform:uppercase;position:absolute; top:20%; left:0%; height:10%; width:99%; border:1px solid gray;">
            <input id="client_email" type="text" placeholder="E-mail" style="position:absolute; top:35%; left:0%; height:10%; width:99%; border:1px solid gray;">
            <input id="client_credit_card_number" type="text" placeholder="Número do cartão" data-mask="0000 0000 0000 0000" maxlength="16" style="position:absolute; top:50%; left:0%; height:10%; width:74%; border:1px solid gray;">
-           <input id="client_credit_card_cvv" type="text" placeholder="CVV" maxlength="3"  style="position:absolute; top:50%; left:80%; height:10%; width:19%; border:1px solid gray;">           
+           <input id="client_credit_card_cvv" type="text" placeholder="CVV" maxlength="4"  style="position:absolute; top:50%; left:80%; height:10%; width:19%; border:1px solid gray;">           
            <div style="position:absolute; top:65%; left:15%; height:10%; width:20%; font-family:sans-serif;font-size:16px">Validade</div>           
            <input id="client_credit_card_validate_month" placeholder="MM"   maxlength="2" type="text" style="position:absolute; top:65%; left:40%; height:10%; width:20%; border:1px solid gray;"> 
            <input  id="client_credit_card_validate_year" placeholder="YYYY" maxlength="4" type="text" style="position:absolute; top:65%; left:65%; height:10%; width:34%; border:1px solid gray;">
@@ -74,10 +73,10 @@
     <!--PASSO 3--> 
     <div id="sing_in_panel" style="text-align:center; position:absolute; top:5%; height:100%; left:75%; width:15%;">        
         <p><b style="font-family:sans-serif;font-size:20px">PASSO 3</b></p>
-        <input id="btn_sing_in" type="button"  value="" style="position:absolute; top:25%; left:0%; width:80%; height:14%;border-radius:8px;  background-image:url('<?php echo base_url()."assets/img/assinar2.png"; ?>'); background-repeat:no-repeat; background-size:100%;">        
+        <input id="btn_sing_in" type="button"  value="" style="cursor:pointer; position:absolute; top:25%; left:0%; width:80%; height:14%;border-radius:8px;  background-image:url('<?php echo base_url()."assets/img/assinar2.png"; ?>'); background-repeat:no-repeat; background-size:100%;">        
         <div id="user_term" style="position:absolute; top:45%; left:0%; ">
             <input id="check_declaration" type="checkbox" name="declaration">
-            <a style="color:black" href="">Declaro que li e aceito os termos de uso</a>
+            <a id="lnk_use_term" style="color:black" href="#" >  Declaro que li e aceito os termos de uso  </a>
         </div>
     </div>
     

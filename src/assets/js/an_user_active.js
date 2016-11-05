@@ -4,13 +4,10 @@ $(document).ready(function(){
         $("#login").hide();
         $("#logout").show();
         $("#update_user").show();
-        /*$("#perfiles").show();*/
-        
     } else{
         $("#sing_in").show();
         $("#login").show();
         $("#logout").hide();
         $("#update_user").hide();
-        /*$("#perfiles").hide();*/
     }
 }); 

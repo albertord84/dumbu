@@ -1,10 +1,10 @@
 
-<div style="position:absolute; top:0%; height:25%; left:0%; width:100%;">
-    <p style="position: absolute; top:0%;  left:15%;color: white; font-size: 45px;"><b>Ganhe em média 3mil* seguidores reais por mes.</b></p>
+<div id="uppser_painel" style="position:absolute; top:0%; height:25%; left:0%; width:100%;">
+    <p style="position: absolute; top:0%;  left:15%;color: white; font-size: 45px;"><b>Ganhe em média 5mil* seguidores reais por mes.</b></p>
     <p style="position: absolute; top:60%; left:35%;color: white; font-size: 25px;"><b>Pague e receba seguidores todos os dias.</b></p>
 </div>
-<div style="position:absolute; top:25%; height:75%; left:0%; width:100%;">
-    <div style="position:absolute; top:0%; height:100%; left:0%; width:30%;">
+<div id="bottom_painel" style="position:absolute; top:25%; height:75%; left:0%; width:100%;">
+    <div id="bottom_left_painel" style="position:absolute; top:0%; height:100%; left:0%; width:30%;">
         <div style="position:absolute; top:10%; height:100%; left:20%; width:80%;">
             <p style="position: absolute; top:0%;  left:5%;color: white; font-family: sans-serif;">
                 <b style="font-size: 30px;">PASSO A PASSO:</b><br><br>
@@ -15,17 +15,25 @@
             </p>
         </div>
     </div>
-    <div style="text-align:center; position:absolute; top:0%; height:100%; left:30%; width:40%;">
+    <div id="bottom_center_painel" style="text-align:center; position:absolute; top:0%; height:100%; left:30%; width:40%;">
         <img src="<?php echo base_url().'assets/img/iphone2.png'?>">
     </div>
-    <div style="position:absolute; top:0%; height:100%; left:70%; width:30%;">
-        <div style="position:absolute; top:10%; height:100%; left:0%; width:80%;">
-            <div style="position:absolute; top:10%; height:70%; left:5%; width:85%; border:3px solid gray; border-radius: 10px;">
+    
+    <div id="bottom_rigth_painel" style="position:absolute; top:0%; height:100%; left:70%; width:30%;">        
+        <div id="promotional_text" style="text-align:center; font-size: 21px; font-family:sans-serif; position:absolute; top:0%; left:10%; height:12%; width:80%;">
+            <input type="button"  style="cursor:pointer; background-image:url('<?php echo base_url()."assets/img/teste_7_dias.png"; ?>');  background-repeat:no-repeat; background-position-x:20%; background-size:95%; background-color: #2B2B2B; color: #28BB93; position:absolute; top:0%; height:100%; left:10%; width:70%; border:3px solid #28BB93; border-radius: 10px;">            
+        </div>
+        <div id="promotional_text" style="text-align:center; color:white; font-size: 21px; font-family:sans-serif; position:absolute; top:15%; left:10%; height:12%; width:70%;">
+            <b>OU</b>
+        </div>
+        
+        <div style="position:absolute; top:25%; height:100%; left:0%; width:80%;">
+            <div style="position:absolute; top:0%; left:15%; height:70%; width:85%; border:3px solid gray; border-radius: 10px;">
                 <p  style="text-align:center;  position: absolute; top:5%;  left:15%;color: white; font-family: sans-serif;">
                     <b style="font-size: 21px;">PLANO MENSAL</b><br>
                     <b style="font-size: 18px;">Sem multa de recição.</b><br><br>
                     <b style="font-size: 35px;">R$</b><b style="font-size: 60px;">99<sup>,99</sup> </b><br><br><br>
-                    <input type="button" style="background-image:url('<?php echo base_url()."assets/img/assinar_agora.png"; ?>');  background-repeat:no-repeat; background-size:100%; text-align:center; background-color: #2B2B2B; color: #28BB93; position:absolute; top:80%; height:25%; left:10%; width:85%; border:3px solid #28BB93; border-radius: 10px;">                      
+                    <input type="button"  style="cursor:pointer; background-image:url('<?php echo base_url()."assets/img/assinar_agora.png"; ?>');  background-repeat:no-repeat; background-size:100%; text-align:center; background-color: #2B2B2B; color: #28BB93; position:absolute; top:80%; height:25%; left:10%; width:85%; border:3px solid #28BB93; border-radius: 10px;"/>                      
                 </p>
             </div>
         </div>

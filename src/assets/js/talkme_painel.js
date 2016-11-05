@@ -1,12 +1,14 @@
-$(document).ready(function(){      
+$(document).ready(function(){
    
     $("#btn_send_message").click(function(){
         name=validate_empty('#visitor_name');
-        company=validate_empty('#visitor_company');
         email=validate_element('#visitor_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");
-        telf=validate_element('#visitor_phone',"^\([0-9]{2}\) [0-9]{5}-[0-9{4}$");        
+        if($('#visitor_phone').val()!='')
+            telf=validate_element('#visitor_phone',"^\([0-9]{2,3}\) [0-9]{5}-[0-9{4}$");        
+        else
+            telf=true;
         message=validate_empty('#visitor_message');
-        if(name && company && email && telf && message){
+        if(name && email && telf && message){
             $.ajax({
                 url : base_url+'index.php/welcome/message',
                 data :{ 'name':$("#visitor_name").val(),
@@ -27,13 +29,12 @@ $(document).ready(function(){
                         alert(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert('Não foi possível conectar com o Instagram');
+                    alert('Erro enviando a mensagem, tente depois...');
                 }
             });
         } else{
             alert('Alguns dados incorretos');
-        }
-        
+        }        
     });
         
     function validate_element(element_selector,pattern){

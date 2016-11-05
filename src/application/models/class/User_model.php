@@ -134,11 +134,15 @@ class User_model extends CI_Model {
         return $a;
     }
     
-    public function get_user_from_client_id($user_id){
-        $this->db->select('*');
-        $this->db->from('users');
-        $this->db->where('id', $user_id);
-        return $this->db->get()->result_array();
+    public function get_user_by_id($user_id){
+        try {    
+            $this->db->select('*');
+            $this->db->from('users');
+            $this->db->where('id', $user_id);
+            return $this->db->get()->result_array();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
      }
      
     /*public function update_data_user($datas){

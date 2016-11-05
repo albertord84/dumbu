@@ -1,21 +1,10 @@
 
-<script type="text/javascript">user_active=true;</script>
+
 <script type="text/javascript" src="<?php echo base_url().'assets/js/client_painel.js'?>"></script>
 <script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js';?>"></script>
 <script type="text/javascript">profiles=<?php echo json_encode($profiles)?>; MAX_NUM_PROFILES=3<?php //TODO:echo $MAX_NUM_PROFILES?>;</script>
 
-
-
-<script type="text/javascript" src="<?php echo base_url().'assets/js/demo/jquery-1.js'?>"></script>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/demo/jquery_002.js'?>"></script>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/demo/jquery-ui-1.js'?>"></script>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/demo/jquery1.js'?>"></script>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/demo/demo.js'?>"></script>
-<link type="text/css" rel="stylesheet" href="<?php echo base_url().'assets/js/demo/ui.css'?>">
-
 <link type="text/css" rel="stylesheet" href="<?php echo base_url().'assets/css/insert_profile.css'?>">
-
-
 
 <div style="width:100%;height:100%; background-color:white">
     <div style="color:black;text-align:center; position:absolute; left:35%; top:5%; height:6%; width:30%; ">
@@ -83,7 +72,18 @@
     </center>
     
     
-    <div style="color:black;  position:absolute; left:27%; top:40%; height:25%; width:20%; border:1px solid silver; border-radius:5px;">
+    <div style="color:black;  position:absolute; left:16%; top:50%; height:35%; width:65%; border:1px solid silver; border-radius:5px;">
+        <div id="important_warning" style="background-color: red; align-content:left; position:absolute; top:0%; left:0%; width: 25%;height: 15%">
+            <img src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
+        </div>
+        <div id="important_warning" style="background-color: red; align-content:left; position:absolute; top:18%; left:3%; width: 94%;height: 81%">
+            <img src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
+        </div>
+    </div>
+
+    
+    
+    <!--<div style="color:black;  position:absolute; left:27%; top:40%; height:25%; width:20%; border:1px solid silver; border-radius:5px;">
         <b style="position:absolute; top:20%; left:40%; font-size:18px; font-family:sans-serif;">STATUS</b>
         <div style="position:absolute; top:50%; left:42%; font-size:18px; font-family:sans-serif;">
             <div class="ui-switchbutton ui-switchbutton-default ui-switchbutton-ios5 ui-state-active" >
@@ -100,23 +100,10 @@
         </div>
     </div>
     
-    
-    
-    
     <div style="color:black;  position:absolute; left:53%; top:40%; height:25%; width:20%; border:1px solid silver; border-radius:5px;">
-        <b id="senha" style="position:absolute; top:20%; left:40%; font-size:18px; font-family:sans-serif;">SENHA</b>
-        
-    </div>
-    
-    <!--<center>
-        <div id = "delete_profile_menu">
-            <img type = "image"       id = "close_palnel_insert_profile"   src = "<?php echo base_url().'assets/img/close.png'?>">
-            <input type = "text"      id = "login_profile"         placeholder = "Perfil">                    
-            <input type = "button"    id = "btn_insert_profile"       value = "Aceitar">
-        </div>
-    </center>-->
-    
-    
+        <b id="senha" style="position:absolute; top:20%; left:40%; font-size:18px; font-family:sans-serif;">SENHA</b>        
+    </div>    
+   -->
 </div>
 
 
@@ -130,38 +117,12 @@
 
 
 
-<!-- Ogly version
-<script type="text/javascript"> user_active=true; </script>
-<script type="text/javascript" src="<?php //echo base_url().'assets/js/profiles1.js'?>" ></script>
-
-<div style="color:white;text-align:center; position:absolute; left:35%; top:8%; height:6%; width:30%; ">
-    <b style="font-size:20px; font-family:sans-serif;">PERFIS DE REFERÊNCIA</b>
-</div>
-<div style="color:white;text-align:center; position:absolute; left:38%; top:15%; height:6%; width:30%; ">    
-    <a id="list_link" style="position:absolute; left:0%">VER PERFIS</a>
-    <a id="add_link" style="position:absolute; left:33%">ADICIONAR</a>    
-    <a id="del_link" style="position:absolute; left:66%">ELIMINAR</a>
-</div>
-<div id="container_profiles" style="text-align:center; color:white; position:absolute; left:30%; top:20%;height:60%; width:40%; border:1px solid silver; border-radius:5px;">    
-    <div id="list_profile" style="position:absolute; top:10%;left:30%; width:50%;height:80%; border:1px solid silver; border-radius:5px;">
-        <b style=" height:20%; width:65%; font-size:20px; border-bottom:1px solid silver;"><br>Meus perfis</b>
-        <div id="my_active_profiles" style="color:white; text-align:left; position:absolute; top:20%;left:20%; width:60%;height:70%;">            
-        </div>
-    </div>
-    <div id="add_profile" style="position:absolute; top:20%;left:30%;width:40%;height:60%; border:1px solid silver; border-radius:5px;">
-        <b style=" height:20%; width:65%; font-size:20px; border-radius:5px"><br>Adicionando perfis</b>
-        <input id="text_perfil" type="text" style="position:absolute; top:35%; left:3%; height:20%; width:65%; border-radius:5px">
-        <input id="btn_add_profile" type="submit" value="Add" style="position:absolute; top:35%; left:71%; height:23%; width:25%; border-radius:5px">
-    </div>  
-    
-    <div id="delete_profile" style="position:absolute; top:10%;left:30%; width:50%;height:80%; border:1px solid silver; border-radius:5px;">
-        <b style=" height:20%; width:65%; font-size:20px; border-bottom:1px solid silver;"><br>Eliminando perfis</b>
-        <div id="container_profiles" style="color:white; text-align:left; position:absolute; top:25%;left:20%; width:60%;height:70%;">            
-            <form  id="form_profiles" style="z-index:1"> 
-            </form>
-        </div>
-    </div>
-</div>-->
-
+<!--
+<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery-1.js'?>"></script>
+<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery_002.js'?>"></script>
+<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery-ui-1.js'?>"></script>
+<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery1.js'?>"></script>
+<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/demo.js'?>"></script>
+<link type="text/css" rel="stylesheet" href="<?php //echo base_url().'assets/js/demo/ui.css'?>">-->
 
 

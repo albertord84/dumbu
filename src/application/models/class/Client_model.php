@@ -160,6 +160,17 @@
             }
         }
         
+        public function get_client_by_id($user_id) {
+            try {    
+                $this->db->select('*');
+                $this->db->from('clients');        
+                $this->db->where('user_id', $user_id);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
         public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
             try {
                 $data['client_id']=$clien_id;        
