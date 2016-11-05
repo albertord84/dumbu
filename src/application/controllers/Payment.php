@@ -16,12 +16,13 @@ class Payment extends CI_Controller {
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $cient) {
-            $checked = $this->check_client_payment($client);
+            //$checked = $this->check_client_payment($client);
+            var_dump($cient);
         }
     }
     
     
-    public function check_client_payment() {
+    public function check_client_payment($client) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         
