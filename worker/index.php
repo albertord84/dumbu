@@ -16,14 +16,14 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
 
-$Payment->check_payment("e0c0954a-dbd5-4e79-b513-0769d89bb490");
+//$Payment->check_payment("e0c0954a-dbd5-4e79-b513-0769d89bb490");
 
 //----------------------------------------------------------------
 
 // GMAIL
 // 
-//$Gmail = new dumbu\cls\Gmail();
-//$Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg", "DUMBU", "555-777-777");
+$Gmail = new dumbu\cls\Gmail();
+$Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("josergm86@gmail.com", "Jose Ramon", "josergm86", "joseramon");
 
 //$Robot = new dumbu\cls\Robot();

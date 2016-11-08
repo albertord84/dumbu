@@ -889,7 +889,7 @@ class PHPMailer
             }
             return false;
         }
-        var_dump($this->RecipientsQueue);
+        //var_dump($this->RecipientsQueue);
         // Immediately add standard addresses without IDN.
         return call_user_func_array(array($this, 'addAnAddress'), $params);
     }
