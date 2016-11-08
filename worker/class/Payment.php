@@ -95,7 +95,7 @@ namespace dumbu\cls {
             }
         }
 
-// end of member function add_payment
+        // end of member function add_payment
 
         /**
          * 
@@ -107,7 +107,7 @@ namespace dumbu\cls {
             
         }
 
-// end of member function delete_payment
+        // end of member function delete_payment
 
         /**
          * 
@@ -119,7 +119,7 @@ namespace dumbu\cls {
             
         }
 
-// end of member function update_payment
+        // end of member function update_payment
 
         /**
          * 
@@ -132,7 +132,7 @@ namespace dumbu\cls {
             return $result;
         }
 
-// end of member function update_payment
+        // end of member function update_payment
 
         function queryOrder($order_key) {
             try {
