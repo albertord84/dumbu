@@ -20,6 +20,8 @@ class dumbu_system_config {
     CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
     CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 7;    // promotion of percentegem discount by one month
     
+    CONST PAYMENT_VALUE=9990; //quantity to payment
+    
     static public function Defines($const) {
         $cls = new ReflectionClass(__CLASS__);
         foreach ($cls->getConstants() as $key => $value) {

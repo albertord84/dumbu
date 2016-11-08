@@ -103,18 +103,7 @@
             
             return $id_user_table;
         }        
-        
-        public function check_mundipagg_credit_card($datas){
-            /*$datas['client_credit_card_number']
-            $datas['client_credit_card_cvv']
-            $datas['client_credit_card_name']
-            $datas['client_credit_card_validate_month']
-            $datas['client_credit_card_validate_year']*/
-            
-            //TODO: usar la funcion de Alberto, pasarle devidamente los datos
-            
-            return true;
-        }
+
         
         public function update_client($id,$datas){
             try {

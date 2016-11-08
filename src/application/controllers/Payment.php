@@ -5,10 +5,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Payment extends CI_Controller {
 
     public function do_payment($payment_data) {
-        $this->load->model('class/user_model');
-        $this->load->model('class/client_model');
-        $this->load->model('class/user_role');
-        $this->load->model('class/user_status');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
@@ -60,10 +56,13 @@ class Payment extends CI_Controller {
             $now = DateTime::createFromFormat('U', time());
             $diff_info = $last_saled_date->diff($now);
             var_dump($diff_info);
-            if ($diff_info->days > 34) {
-                // TODO: Block client by paiment
-                print "Block this client: " . json_encode($client);
-            } elseif ($diff_info->days > 6) {
+            if ($diff_info->days > 33) {
+                //Block client by paiment
+                $this->load->model('class/user_status');
+                $this->load->model('class/user_model');
+                $this->user_model->update_user($client['user_id'], array('status_id' =>  user_status::BLOCKED_BY_PAYMENT));                
+                //print "Block this client: " . json_encode($client);
+            } elseif ($diff_info->days > 30) {
                 // Send email to Client
                 $this->send_payment_email($client);
             }

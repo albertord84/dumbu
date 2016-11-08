@@ -1,5 +1,4 @@
-$(document).ready(function(){
-    
+$(document).ready(function(){   
     $("#btn_dumbu_login").click(function() {
         if($('#userLogin').val()!='' && $('#userPassword').val()!==''){
             $("#waiting").css({"visibility":"visible","display":"block"});
@@ -33,6 +32,7 @@ $(document).ready(function(){
     });
     
     $("#login").click(function(){
+        alert('btn');
         $("#usersLoginForm").fadeIn();
         $("#usersLoginForm").css({"visibility":"visible","display":"block"});
     });

@@ -40,20 +40,6 @@ namespace dumbu\cls {
          * @access public
          */
         public function create_recurrency_payment($payment_data) {
-            $payment_data['credit_card_number'] = "5555444433332222";
-            $payment_data['credit_card_name'] = "Alberto Reyes Diaz";
-            $payment_data['credit_card_exp_month'] = "07";
-            $payment_data['credit_card_exp_year'] = "2020";
-            $payment_data['credit_card_cvc'] = "777";
-            
-            $payment_data['amount_in_cents'] = "9999";
-            $day_plus_7d = strtotime('+7 days', time());
-            $payment_data['pay_day'] = $day_plus_7d;
-            $day_plus_7d = \DateTime::createFromFormat('U', $payment_data['pay_day']);
-//            var_dump($day_plus_7d);
-//            die("End test");
-            
-
             try {
 // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
@@ -109,7 +95,7 @@ namespace dumbu\cls {
             }
         }
 
-// end of member function add_payment
+        // end of member function add_payment
 
         /**
          * 
@@ -121,7 +107,7 @@ namespace dumbu\cls {
             
         }
 
-// end of member function delete_payment
+        // end of member function delete_payment
 
         /**
          * 
@@ -133,7 +119,7 @@ namespace dumbu\cls {
             
         }
 
-// end of member function update_payment
+        // end of member function update_payment
 
         /**
          * 
@@ -146,7 +132,7 @@ namespace dumbu\cls {
             return $result;
         }
 
-// end of member function update_payment
+        // end of member function update_payment
 
         function queryOrder($order_key) {
             try {
