@@ -6,7 +6,6 @@ namespace dumbu\cls {
 //    require_once('libraries/mundipagg/init.php');
 //    require_once('class/system_config.php');
 
-
     /**
      * class Payment
      * 
@@ -40,8 +39,74 @@ namespace dumbu\cls {
          * @return Payment
          * @access public
          */
-        public function add_payment() {
+        public function create_recurrency_payment($payment_data) {
+            $payment_data['credit_card_number'] = "5555444433332222";
+            $payment_data['credit_card_name'] = "Alberto Reyes Diaz";
+            $payment_data['credit_card_exp_month'] = "07";
+            $payment_data['credit_card_exp_year'] = "2020";
+            $payment_data['credit_card_cvc'] = "777";
             
+            $payment_data['amount_in_cents'] = "9999";
+            $day_plus_7d = strtotime('+7 days', time());
+            $payment_data['pay_day'] = $day_plus_7d;
+            $day_plus_7d = \DateTime::createFromFormat('U', $payment_data['pay_day']);
+//            var_dump($day_plus_7d);
+//            die("End test");
+            
+
+            try {
+// Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+// Define a chave da loja
+                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+
+                // Cria objeto requisição
+                $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
+
+                // Cria objeto do cartão de crédito
+                $creditCard = \Gateway\One\Helper\CreditCardHelper::createCreditCard(
+                                $payment_data['credit_card_number'], $payment_data['credit_card_name'], $payment_data['credit_card_exp_month'] . "/" . $payment_data['credit_card_exp_year'], $payment_data['credit_card_cvc']
+                );
+
+                // Dados da transação de cartão de crédito
+                $creditCardTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\CreditCardTransaction();
+                $creditCardTransaction
+                        ->setAmountInCents($payment_data['amount_in_cents'])
+                        ->setInstallmentCount(1)
+                        ->setCreditCard($creditCard)
+                ;
+
+                // Dados da recorrência
+                $creditCardTransaction->getRecurrency()
+                        ->setDateToStartBilling(\DateTime::createFromFormat('U', $payment_data['pay_day']))
+                        ->setFrequency(\Gateway\One\DataContract\Enum\FrequencyEnum::MONTHLY)
+                        ->setInterval(1)
+                        ->setRecurrences(0);
+
+                // Define dados da transação
+                $createSaleRequest->addCreditCardTransaction($creditCardTransaction);
+
+//                //Define dados do pedido
+//                $createSaleRequest->getOrder()
+//                        ->setOrderReference('NumeroDoPedido');
+                // Cria um objeto ApiClient
+                $apiClient = new \Gateway\ApiClient();
+
+                // Faz a chamada para criação
+                $response = $apiClient->createSale($createSaleRequest);
+
+                // Mapeia resposta
+                $httpStatusCode = $response->isSuccess() ? 201 : 401;
+            } catch (\Gateway\One\DataContract\Report\CreditCardError $error) {
+                $response = array("message" => $error->getMessage());
+            } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
+            } catch (\Exception $ex) {
+                $response = array("message" => "Ocorreu um erro inesperado.");
+            } finally {
+                return $response;
+            }
         }
 
 // end of member function add_payment
@@ -77,8 +142,8 @@ namespace dumbu\cls {
          * @access public
          */
         public function check_payment($order_key) {
-           $result = $this->queryOrder($order_key);
-           return $result;
+            $result = $this->queryOrder($order_key);
+            return $result;
         }
 
 // end of member function update_payment
@@ -96,11 +161,12 @@ namespace dumbu\cls {
 
 // Faz a chamada para criação
                 $response = $client->searchSaleByOrderKey($order_key);
+                return $response;
 //                $response = $client->searchSaleByOrderKey("e0c0954a-dbd5-4e79-b513-0769d89bb490");
 // Imprime resposta
-                print "<pre>";
-                print json_encode(array('success' => $response->isSuccess(), 'data' => $response->getData()), JSON_PRETTY_PRINT);
-                print "</pre>";
+//                print "<pre>";
+//                print json_encode(array('success' => $response->isSuccess(), 'data' => $response->getData()), JSON_PRETTY_PRINT);
+//                print "</pre>";
             } catch (\Gateway\One\DataContract\Report\ApiError $error) {
 // Imprime json
                 print "<pre>";
@@ -115,6 +181,7 @@ namespace dumbu\cls {
         }
 
     }
+
     // end of Payment
 }
 

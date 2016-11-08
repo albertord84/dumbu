@@ -17,7 +17,7 @@ try
     $client = new Gateway\ApiClient();
 
     // Faz a chamada para criação
-    $response = $client->searchSaleByOrderKey("e0c0954a-dbd5-4e79-b513-0769d89bb490");
+    $response = $client->searchSaleByOrderKey("fbabcfe5-0680-4599-bfbc-b9038ad0625b");
 //    $response = $client->searchSaleByOrderReference("42e24322-a797-4a52-9c2c-7a8585f71a26");
 
     // Imprime resposta
