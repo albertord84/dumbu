@@ -24,7 +24,7 @@ class Payment extends CI_Controller {
         $this->db->join('users', 'clients.user_id = users.id');
 //        $this->db->where('status !=', user_status::UNFOLLOW);
         //TESTE
-        $this->db->where('status_id', user_status::UNFOLLOW);
+        $this->db->where('status_id', user_status::ACTIVE);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
