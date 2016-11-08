@@ -24,6 +24,8 @@ namespace dumbu\cls {
         CONST SYSTEM_MERCHANT_KEY = 'b3ef5018-6653-4ce0-b515-51ac26ccdcb1';   // DUMBU sandbox
 //        CONST SYSTEM_MERCHANT_KEY = 'bcb45ac4-7edb-49df-98d1-69fd37f4e1d6';  // API Example
 
+        // Payment Recurrency 
+        
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);
             foreach ($cls->getConstants() as $key => $value) {
