@@ -14,7 +14,7 @@ class Payment extends CI_Controller {
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_recurrency_payment($payment_data);
         // Save Order Key
-        var_dump($response->OrderResult->OrderKey);
+        var_dump($response->Data->OrderResult->OrderKey);
     }
 
     public function check_payment() {
