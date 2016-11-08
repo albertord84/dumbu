@@ -26,6 +26,9 @@ $(document).ready(function(){
                         active_by_steep(2);
                     } else{
                         /*TODO: mensaje de ERROR*/alert(response['message']);
+                        if(response['cause']=='checkpoint_required'){
+                            $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#clientLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
+                        }
                     }
                 },
                 error : function(xhr, status) {

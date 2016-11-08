@@ -11,14 +11,14 @@
         <b style="font-size:16px; font-family:sans-serif;">PERFIS DE REFERÊNCIA</b>
     </div>
     
-    <div id="my_profile" style="text-align:center; position:absolute; left:14%; top:10%; height:28%; width:10%;">       
+    <div id="my_profile" style="text-align:center; position:absolute; left:16%; top:10%; height:28%; width:10%;">       
         <img id="my_img" src="<?php echo $my_img_profile;?>" style=" position:absolute; left:8%; top:1%;height:83%; width:83%; border:1px solid silver; border-radius:100px;"/>
         <div style="position:absolute; top:78%; left:0%; width:100%; height:25%;">
             <b><p id="my_name" style="font-size:16px; font-family:sans-serif;"><?php echo $my_login_profile;?></p></b>
         </div>
     </div>
     
-    <div id="container_profiles" style="z-index:1;overflow:hidden; background-color:#F4F4F4; position:absolute; left:25%; top:10%;height:24%; width:55%; border:1px solid silver; border-radius:100px;">
+    <div id="container_profiles" style="z-index:1;overflow:hidden; background-color:#F4F4F4; position:absolute; left:27%; top:10%;height:24%; width:55%; border:1px solid silver; border-radius:100px;">
         <div id="actual_profiles" style="z-index:2; position:absolute; left:0%; top:0%;height:100%; width:85%; ">
             
             <div id="reference_profile0"  style="z-index:3; visibility:hidden; display:none; text-align:center;font-size:20px; font-family:sans-serif; position:absolute; left:4%; top:1%;height:98%; width:20%;">                
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div id="action_profiles" style="z-index:4; position:absolute; left:78%; top:0%;height:100%; width:20%; ">             
-            <input type="submit" id="adding_profile" value="+" style=" color:white; font-size:28px; font-family:sans-serif; background-color:#6BA7F5; position:absolute; top:20%; left:45%; width:45%; height:60%; border:1px solid silver; border-radius:50px;"/>            
+            <input type="submit" id="adding_profile" value="+" style=" color:white; font-size:28px; font-family:sans-serif; background-color:#6BA7F5; position:absolute; top:20%; left:45%; width:80px; height:80px; border:1px solid silver; border-radius:50px;"/>            
         </div>
     </div>
     <center>            
@@ -72,12 +72,27 @@
     </center>
     
     
-    <div style="color:black;  position:absolute; left:16%; top:50%; height:35%; width:65%; border:1px solid silver; border-radius:5px;">
-        <div id="important_warning" style="background-color: red; align-content:left; position:absolute; top:0%; left:0%; width: 25%;height: 15%">
-            <img src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
+    <div style="background-color:#F4F4F4; position:absolute; left:14%; top:50%; height:42%; width:71%; border:1px solid silver; border-radius:5px;">
+        <div id="important_warning" style="align-content:left; position:absolute; top:4%; left:2%; width: 25%;height: 9%">
+            <img height="80%" src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
         </div>
-        <div id="important_warning" style="background-color: red; align-content:left; position:absolute; top:18%; left:3%; width: 94%;height: 81%">
-            <img src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
+        <div id="important_warning" style="align-content:left; position:absolute; top:18%; left:4%; width: 94%;height: 81%">
+            <div id="important_warning1" style="align-content:left; position:absolute; top:0%; left:0%; width: 100%;height: 17%">
+                <img src="<?php echo base_url().'assets/img/aviso_importante1.png'?>" />
+            </div>
+            
+            <div id="important_warning2" style="align-content:left; position:absolute; top:22%; left:0%; width: 100%;height: 17%">
+                <img src="<?php echo base_url().'assets/img/aviso_importante2.png'?>" />
+            </div>
+            
+            <div id="important_warning3" style="align-content:left; position:absolute; top:44%; left:0%; width: 100%;height: 17%">
+                <img src="<?php echo base_url().'assets/img/aviso_importante3.png'?>" />
+            </div>
+            
+            <div id="important_warning4" style="align-content:left; position:absolute; top:76%; left:0%; width: 100%;height: 17%">
+                <img src="<?php echo base_url().'assets/img/aviso_importante4.png'?>" />
+            </div>
+            
         </div>
     </div>
 

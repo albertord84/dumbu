@@ -18,7 +18,8 @@
                 <input id="client_credit_card_validate_month" placeholder="MM"   maxlength="2" type="text" style="position:absolute; top:65%; left:40%; height:10%; width:20%; border:1px solid gray;"> 
                 <input  id="client_credit_card_validate_year" placeholder="YYYY" maxlength="4" type="text" style="position:absolute; top:65%; left:65%; height:10%; width:34%; border:1px solid gray;">                     
                 
-                <input id="btn_update_datas" type="button" value="ENVIAR" style="cursor:pointer; background-color:#3F3F3F; position:absolute; top:88%; left:40%; height:8%; width:20%; border:1px solid gray; font-size:14px; border-radius: 14px; font-family:sans-serif;font-size:19px; color:white; font-weight: bold;" />                
+                <input id="btn_send_update_datas" type="button" value="ENVIAR" style="cursor:pointer; background-color:#3F3F3F; position:absolute; top:88%; left:25%; height:8%; width:24%; border:1px solid gray; font-size:14px; border-radius: 14px; font-family:sans-serif;font-size:19px; color:white; font-weight: bold;" />
+                <input id="btn_cancel_update_datas" type="button" value="CANCELAR" style="cursor:pointer; background-color:#3F3F3F; position:absolute; top:88%; left:55%; height:8%; width:24%; border:1px solid gray; font-size:14px; border-radius: 14px; font-family:sans-serif;font-size:19px; color:white; font-weight: bold;" />
             </form>
             
             <!--

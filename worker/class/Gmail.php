@@ -27,7 +27,7 @@ namespace dumbu\cls {
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-            $this->mail->SMTPDebug = 2;
+            $this->mail->SMTPDebug = 0;
 
 //Ask for HTML-friendly debug output
             $this->mail->Debugoutput = 'html';
@@ -170,7 +170,7 @@ namespace dumbu\cls {
                 $result['message']="Message sent!". $this->mail->ErrorInfo;
             }
             $this->mail->smtpClose();
-            return $response;
+            return $result;
             //-------------------
         }
 
