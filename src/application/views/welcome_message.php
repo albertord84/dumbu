@@ -15,12 +15,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         
         <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/users_login_style.css'?>">    
         <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/js/alert/css/wow-alert.css'?>">        
+        
     </head>
     <body style="z-index: 1">        
         <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
         <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'?>"></script>        
         <!--<script type="text/javascript" src="<?php // echo base_url().'assets/js/alert/js/wow-alert.js'?>" ></script>-->
-        
+        <script type="text/javascript">
+            var user_active=0;
+        </script>
         
         <div id="container">
             <div id="head">                 
@@ -84,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
                       
         <script type="text/javascript">
-            var user_active=<?php if($user_active===true) echo 1;  else echo 0;?>;
+            user_active=<?php if($user_active===true) echo 1;  else echo 0;?>;
         </script>
        <script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js'?>" ></script>    
        <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>     

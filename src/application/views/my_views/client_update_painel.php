@@ -12,7 +12,7 @@
                 <input id="client_credit_card_name" onkeyup="javascript:this.value=this.value.toUpperCase();" type="text" placeholder="Nome no cartão" style="text-transform:uppercase;position:absolute; top:20%; left:0%; height:10%; width:99%; border:1px solid gray;">
                 <input id="client_email" type="text" placeholder="E-mail" style="position:absolute; top:35%; left:0%; height:10%; width:99%; border:1px solid gray;">
                 <input id="client_credit_card_number" type="text" placeholder="Número do cartão" data-mask="0000 0000 0000 0000" maxlength="16" style="position:absolute; top:50%; left:0%; height:10%; width:74%; border:1px solid gray;">
-                <input id="client_credit_card_cvv" type="text" placeholder="CVV" maxlength="3"  style="position:absolute; top:50%; left:80%; height:10%; width:19%; border:1px solid gray;">           
+                <input id="client_credit_card_cvv" type="text" placeholder="CVV" maxlength="4"  style="position:absolute; top:50%; left:80%; height:10%; width:19%; border:1px solid gray;">           
                 <div style="position:absolute; top:67%; left:18%; height:10%; width:20%; font-family:sans-serif;font-size:18px">Validade</div>           
                 <input id="client_credit_card_validate_month" placeholder="MM"   maxlength="2" type="text" style="position:absolute; top:65%; left:40%; height:10%; width:20%; border:1px solid gray;"> 
                 <input  id="client_credit_card_validate_year" placeholder="YYYY" maxlength="4" type="text" style="position:absolute; top:65%; left:65%; height:10%; width:34%; border:1px solid gray;">                     

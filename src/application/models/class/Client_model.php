@@ -159,7 +159,7 @@
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }
+        }        
         
         public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
             try {

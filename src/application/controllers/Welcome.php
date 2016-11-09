@@ -6,9 +6,9 @@ class Welcome extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata('id'))
-            $data['user_active']=false;
-        else
             $data['user_active']=true;
+        else
+            $data['user_active']=false;
         //$data['content_header'] = $this->load->view('my_views/users_header','', true);
         $data['content'] = $this->load->view('my_views/init_painel', '', true);        
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
@@ -193,10 +193,8 @@ class Welcome extends CI_Controller {
             $day_plus = strtotime("+".dumbu_system_config::PROMOTION_N_FREE_DAYS." days", time());
             $datas['pay_day'] = $day_plus;
             $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;            
-            $resp=$this->check_mundipagg_credit_card($datas);            
-            //var_dump($resp->iSuccess);
-            //var_dump($resp->data->OrderResult->OrderKey);   
-            if (isset($resp->iSuccess)&& $resp->iSuccess) {
+            $resp=$this->check_mundipagg_credit_card($datas);
+            if (is_object($resp)&& $resp->isSuccess() ) {
                 if ($datas['need_delete'] < dumbu_system_config::MIN_MARGIN_TO_INIT)
                     $datas['status_id'] = user_status::UNFOLLOW;
                 else
@@ -212,7 +210,7 @@ class Welcome extends CI_Controller {
                     'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
                     'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
                     'credit_card_status_id' => credit_card_status::ACTIVE,
-                    'order_key'=>$resp->data->OrderResult->OrderKey,                    
+                    'order_key'=>$resp->getData()->OrderResult->OrderKey,                    
                     'pay_day' => $datas['pay_day']));                
                 if ($a && $b) {
                     $result['success'] = true;
@@ -258,7 +256,11 @@ class Welcome extends CI_Controller {
             $this->load->model('class/credit_card_status');
             $datas = $this->input->post();
             if (/* TODO */$this->validate_post_credit_card_datas($datas)) {
-                if ($this->client_model->check_mundipagg_credit_card($datas)) {
+                $client_data=$this->client_model->get_client_by_id($this->session->userdata('id'))[0];                
+                $datas['pay_day'] = $client_data['pay_day'];
+                $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;                
+                $resp=$this->check_mundipagg_credit_card($datas);
+                if(is_object($resp)&& $resp->isSuccess()) {
                     //-------------------------------------------------------------------------
                     //Opcion 1. Si el cliente estava pendiente o bloqueado por pagamento, hacer el 
                     //pagamento y activarlo inmediatamente
@@ -532,8 +534,7 @@ class Welcome extends CI_Controller {
             $data['content'] = $this->load->view('my_views/init_painel', '', true);        
             $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
             $this->load->view('welcome_message', $data);
-        } else
-            $data['user_active'] = false;
+        }
     }
 
     public function talk_me() {
