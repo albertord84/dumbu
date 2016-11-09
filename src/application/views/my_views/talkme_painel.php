@@ -5,8 +5,9 @@
         <div style="position:absolute; top:8%; left:20%; width:60%; height:7%; color:black; text-align:center;">
             <b style="font-family:sans-serif;font-size:24px">FALE CONOSCO</b>
         </div>
-        <div style="position:absolute; top:16%; left:20%; width:60%; height:80%;">            
-            <form  id="talkme_frm" style="position:absolute; top:5%; left:10%; width:80%; height:87%; font-family:helvetica; border:1px solid gray; font-size:14px;">                    
+    <img id="waiting1" height="80px" width="80px" style="z-index:10; visibility:hidden; display:none; position:absolute;top:48%;left:48%; " src="<?php echo base_url().'assets/img/waiting.gif'?>"/>
+        <div style=" position:absolute; top:16%; left:20%; width:60%; height:80%;">            
+            <form  id="talkme_frm" style="position:absolute; top:5%; left:10%; width:80%; height:87%; font-family:helvetica; border:1px solid gray; font-size:14px;">                                    
                     <input spellcheck="false" autocomplete="on" id="visitor_name" type="text" placeholder="Nome"        style="background-color:#F8FFFF; position:absolute; top:5%; left:3%;  height:8%; width:44%; border:1px solid gray; font-size:14px;"/>
                     <input autocomplete="on" id="visitor_company" type="text" placeholder="Empresa"  style="background-color:#F8FFFF; position:absolute; top:5%; left:52%; height:8%; width:44%; border:1px solid gray; font-size:14px;"/>
                     
@@ -17,4 +18,5 @@
                     <input id="btn_send_message" type="button" value="ENVIAR"      style="cursor:pointer; background-color:#3F3F3F; position:absolute; top:88%; left:40%; height:8%; width:20%; border:1px solid gray; font-size:14px; border-radius: 14px; font-family:sans-serif;font-size:19px; color:white; font-weight: bold;" />
                 </form>
         </div>
+    
 </div>

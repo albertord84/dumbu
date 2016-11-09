@@ -1,7 +1,6 @@
 
 
 <script type="text/javascript" src="<?php echo base_url().'assets/js/verify_account.js'?>"></script>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js';?>"></script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo base_url().'assets/css/insert_profile.css'?>">
 

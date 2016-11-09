@@ -9,7 +9,7 @@ class Welcome extends CI_Controller {
             $data['user_active']=true;
         else
             $data['user_active']=false;
-        $data['content_header'] = $this->load->view('my_views/users_header','', true);
+        //$data['content_header'] = $this->load->view('my_views/users_header','', true);
         $data['content'] = $this->load->view('my_views/init_painel', '', true);        
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
         $this->load->view('welcome_message', $data);
@@ -22,7 +22,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_role');
         $this->load->model('class/user_status');
         $user_data = $this->user_model->load_user($datas['user_login'], $datas['user_pass']);        
-        if (count($user_data)) {
+        if (count($user_data)) { 
             if ($user_data['role_id'] == user_role::ADMIN) {
                 $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
                 $result['resource'] = 'panel_admin';
@@ -35,20 +35,27 @@ class Welcome extends CI_Controller {
                 $result['message'] = 'Atendente ' . $datas['user_login'] . ' logueado';
                 $result['authenticated'] = true;
             } else
-            if ($user_data['role_id'] == user_role::CLIENT) {                
+            if ($user_data['role_id'] == user_role::CLIENT) {
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                    $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
-                    if (count($client)) { //si ademas el ds_user_id de INSTAG coincide con el que esta en DUMBU                                                                        
-                        if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
-                            $this->user_model->update_user($this->session->userdata('id'), array('status_id' => user_status::ACTIVE));
+                    if($user_data['status_id']!=user_status::BEGINNER){
+                        $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
+                        if (count($client)) { //si ademas el ds_user_id de INSTAG coincide con el que esta en DUMBU                                                                        
+                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
+                                $this->user_model->update_user($this->session->userdata('id'), array('status_id' => user_status::ACTIVE));
+                            }
+                            $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
+                            $result['resource'] = 'panel_client';
+                            $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
+                            $result['authenticated'] = true;
+                        } else {
+                            /* Antiguo usuario de Instagram que elimino su cuenta de Instagram y volvio a crear una nueva y todavia es cliente de nuestro sistema */
                         }
-                        $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
-                        $result['resource'] = 'panel_client';
-                        $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
-                        $result['authenticated'] = true;
-                    } else {
-                        /* Antiguo usuario de Instagram que elimino su cuenta de Instagram y volvio a crear una nueva y todavia es cliente de nuestro sistema */
+                    } else{
+                        $result['resource'] = 'sign_in';
+                        $result['message'] = 'Você deve terminar de assinar para recever o serviço';
+                        $result['cause'] = 'signin_required';
+                        $result['authenticated'] = false;
                     }
                 } else
                 if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
@@ -181,13 +188,13 @@ class Welcome extends CI_Controller {
         $this->load->model('class/dumbu_system_config');
         $this->load->model('class/credit_card_status');
         $datas = $this->input->post();
-        if ($this->validate_post_credit_card_datas($datas)) {            
-            $this->load->model('class/dumbu_system_config');            
+        if ($this->validate_post_credit_card_datas($datas)) {
+            $this->load->model('class/dumbu_system_config');
             $day_plus = strtotime("+".dumbu_system_config::PROMOTION_N_FREE_DAYS." days", time());
             $datas['pay_day'] = $day_plus;
-            $data['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;
-            $resp=$this->check_mundipagg_credit_card($datas);            
-            if ($resp->iSuccess) {
+            $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;            
+            $resp=$this->check_mundipagg_credit_card($datas);
+            if (is_object($resp)&& $resp->isSuccess() ) {
                 if ($datas['need_delete'] < dumbu_system_config::MIN_MARGIN_TO_INIT)
                     $datas['status_id'] = user_status::UNFOLLOW;
                 else
@@ -195,8 +202,7 @@ class Welcome extends CI_Controller {
                 
                 $a = $this->user_model->update_user($datas['pk'], array(
                     'status_id' => $datas['status_id'],
-                    'email' => $datas['client_email']));
-                
+                    'email' => $datas['client_email']));                
                 $b = $this->client_model->update_client($datas['pk'], array(
                     'credit_card_number' => $datas['client_credit_card_number'],
                     'credit_card_cvc' => $datas['client_credit_card_cvv'],
@@ -204,9 +210,8 @@ class Welcome extends CI_Controller {
                     'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
                     'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
                     'credit_card_status_id' => credit_card_status::ACTIVE,
-                    'order_key'=>$resp->data->OrderResult->OrderKey,                    
-                    'pay_day' => $datas['pay_day']));
-                
+                    'order_key'=>$resp->getData()->OrderResult->OrderKey,                    
+                    'pay_day' => $datas['pay_day']));                
                 if ($a && $b) {
                     $result['success'] = true;
                     $result['message'] = 'Dados bancários confirmados corretamente';
@@ -225,18 +230,18 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function check_mundipagg_credit_card($datas) {        
+    public function check_mundipagg_credit_card($datas) {
         $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
         $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
         $payment_data['credit_card_exp_year'] =$datas['client_credit_card_validate_year'] ;
         $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
-        $payment_data['amount_in_cents'] = $data['amount_in_cents'];
+        $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
-        $response = $Payment->create_recurrency_payment($payment_data);                
+        $response = $Payment->create_recurrency_payment($payment_data);
         return $response;
     }
 
@@ -251,7 +256,11 @@ class Welcome extends CI_Controller {
             $this->load->model('class/credit_card_status');
             $datas = $this->input->post();
             if (/* TODO */$this->validate_post_credit_card_datas($datas)) {
-                if ($this->client_model->check_mundipagg_credit_card($datas)) {
+                $client_data=$this->client_model->get_client_by_id($this->session->userdata('id'))[0];                
+                $datas['pay_day'] = $client_data['pay_day'];
+                $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;                
+                $resp=$this->check_mundipagg_credit_card($datas);
+                if(is_object($resp)&& $resp->isSuccess()) {
                     //-------------------------------------------------------------------------
                     //Opcion 1. Si el cliente estava pendiente o bloqueado por pagamento, hacer el 
                     //pagamento y activarlo inmediatamente
@@ -456,26 +465,22 @@ class Welcome extends CI_Controller {
         return $data_insta;
     }
 
-    public function get_day_of_payment() {
-        
-        return (string) time() + ($ndays * 24 * 60 * 60);
-    }
-
+    
     //functions for load ad dispay the diferent funtionalities views
     public function how_function() {
         if ($this->session->userdata('id'))
             $data['user_active'] = true;
         else
             $data['user_active'] = false;
-        $data['content_header'] = $this->load->view('my_views/users_header', '', true);
+        //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
         $data['content'] = $this->load->view('my_views/howfunction_painel', '', true);
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
         $this->load->view('welcome_message', $data);
     }
 
-    public function sign_in() {        
-        $params['user_active']=false;
-        $data['content_header'] = $this->load->view('my_views/users_header',$params, true);
+    public function sign_in() {
+        $data['user_active']=false;
+        //$data['content_header'] = $this->load->view('my_views/users_header','', true);
         $data['content'] = $this->load->view('my_views/singin_painel', '', true);
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
         $this->load->view('welcome_message', $data);
@@ -483,7 +488,7 @@ class Welcome extends CI_Controller {
 
     public function sign_client_update() {
         if ($this->session->userdata('name')) {
-            $param['user_active'] = true;
+            $data['user_active'] = true;
             $this->load->model('class/user_model');
             $this->load->model('class/client_model');
             $user_data = $this->user_model->get_user_by_id($this->session->userdata('id'))[0];
@@ -494,7 +499,7 @@ class Welcome extends CI_Controller {
                 'credit_card_name' => $client_data['credit_card_name'],
                 'credit_card_exp_month' => $client_data['credit_card_exp_month'],
                 'credit_card_exp_year' => $client_data['credit_card_exp_year']);
-            $data['content_header'] = $this->load->view('my_views/users_header', $param, true);
+            //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
             $data['content'] = $this->load->view('my_views/client_update_painel', $datas, true);
             $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
             $this->load->view('welcome_message', $data);
@@ -511,23 +516,25 @@ class Welcome extends CI_Controller {
     }
 
     public function log_in() {
-        if ($this->session->userdata('id'))
-            $param['user_active'] = true;
+        /*if ($this->session->userdata('id'))
+            $data['user_active'] = true;
         else
             $data['user_active'] = false;
-        $data['content_header'] = $this->load->view('my_views/users_header', '', true);
+        //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
         $data['content'] = $this->load->view('my_views/log_in', '', true);
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-        $this->load->view('welcome_message', $data);
+        $this->load->view('welcome_message', $data);*/
     }
 
     public function log_out() {
         if ($this->session->userdata('name')) {
-            $data['user_active'] = true;
-            $this->session->sess_destroy();
-            header('Location: ' . base_url() . 'index.php/welcome/');
-        } else
             $data['user_active'] = false;
+            $this->session->sess_destroy();
+            //header('Location: ' . base_url() . 'index.php/welcome/');
+            $data['content'] = $this->load->view('my_views/init_painel', '', true);        
+            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
+            $this->load->view('welcome_message', $data);
+        }
     }
 
     public function talk_me() {
@@ -535,7 +542,7 @@ class Welcome extends CI_Controller {
             $data['user_active'] = true;
         else
             $data['user_active'] = false;
-        $data['content_header'] = $this->load->view('my_views/users_header', '', true);
+        //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
         $data['content'] = $this->load->view('my_views/talkme_painel', '', true);
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
         $this->load->view('welcome_message', $data);
@@ -552,7 +559,7 @@ class Welcome extends CI_Controller {
         $insta_datas = $this->Robot->get_insta_ref_prof_data($data_user['user_login']);
         $data_user['profile_pic_url'] = $insta_datas->profile_pic_url;
         $data_user['full_name'] = $insta_datas->full_name;
-        $data['content_header'] = $this->load->view('my_views/users_header', '', true);
+        //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
         $data['content'] = $this->load->view('my_views/verify_account_painel', $data_user, true);
         $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
         $this->load->view('welcome_message', $data);
@@ -569,10 +576,9 @@ class Welcome extends CI_Controller {
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['profiles'] = $this->create_profiles_datas_to_display();
             $datas2['user_active'] = true;
-            $data2['content_header'] = $this->load->view('my_views/users_header', '', true);
+            //$data2['content_header'] = $this->load->view('my_views/users_header', '', true);
             $datas2['content'] = $this->load->view('my_views/client_painel', $datas1, true);
             $datas2['content_footer'] = $this->load->view('my_views/client_footer', '', true);
-            var_dump($data2);
             $this->session->set_userdata('datas1', $datas1);
             $this->load->view('welcome_message', $datas2);
         }
@@ -581,7 +587,7 @@ class Welcome extends CI_Controller {
     public function reload_panel_client() {
         if ($this->session->userdata('name')) {
             $datas2['user_active'] = true;
-            $data2['content_header'] = $this->load->view('my_views/users_header', '', true);
+            //$data2['content_header'] = $this->load->view('my_views/users_header', '', true);
             $datas2['content'] = $this->load->view('my_views/client_painel', $this->session->userdata('datas1'), true);
             $datas2['content_footer'] = $this->load->view('my_views/client_footer', '', true);
             $this->load->view('welcome_message', $datas2);
@@ -600,7 +606,7 @@ class Welcome extends CI_Controller {
             $data['user_active'] = true;
         } else
             $data['user_active'] = false;
-        $data['content_header'] = $this->load->view('my_views/admin_header', '', true);
+        //$data['content_header'] = $this->load->view('my_views/admin_header', '', true);
         $data['content'] = $this->load->view('my_views/admin_painel', '', true);
         $data['content_footer'] = $this->load->view('my_views/admin_footer', '', true);
         $this->load->view('layout_admin', $data);

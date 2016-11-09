@@ -16,7 +16,7 @@ $(document).ready(function(){
         var name=validate_element('#client_credit_card_name', "^[A-Z ]{4,50}$");
         var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
         var number=validate_element('#client_credit_card_number',"^[0-9]{16,16}$");
-        var cvv=validate_element('#client_credit_card_cvv',"^[0-9 ]{3,3}$");
+        var cvv=validate_element('#client_credit_card_cvv',"^[0-9 ]{3,4}$");
         var month=validate_month('#client_credit_card_validate_month',"^[0-10-9]{2,2}$");
         var year=validate_year('#client_credit_card_validate_year',"^[2-20-01-20-9]{4,4}$");
         
