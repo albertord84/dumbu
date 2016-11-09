@@ -14,6 +14,9 @@ class Payment extends CI_Controller {
     }
 
     public function check_payment() {
+        echo "Check Payment Inited...!<br>\n";
+        echo date("Y-m-d h:i:sa");
+
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $this->load->model('class/user_role');
@@ -22,15 +25,28 @@ class Payment extends CI_Controller {
         $this->db->select('*');
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
-//        $this->db->where('status !=', user_status::UNFOLLOW);
-        //TESTE
+        // TODO: UNCOMENT
         $this->db->where('status_id', user_status::ACTIVE);
+        //TESTE
+//        $this->db->where('status_id', user_status::UNFOLLOW);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
-            $checked = $this->check_client_payment($client);
-            var_dump($client);
+            $clientname = $client['name'];
+            if ($client['order_key'] != NULL) {
+                $checked = $this->check_client_payment($client);
+                if ($checked) {
+                    //var_dump($client);
+                    print "\n<br>Client in day: $clientname<br>\n";
+                } else {
+                    print "\n<br>Client with payment issue: $clientname<br>\n";
+                }
+            } else {
+                print "\n<br>Client without ORDER KEY!!!: $clientname<br>\n";
+            }
         }
+
+        echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
     }
 
     public function check_client_payment($client) {
@@ -40,7 +56,7 @@ class Payment extends CI_Controller {
         $result = $Payment->check_payment($client['order_key']);
         if ($result->isSuccess()) {
             $data = $result->getData();
-            var_dump($data);
+            //var_dump($data);
             $SaleDataCollection = $data->SaleDataCollection[0];
             $LastSaledData = NULL;
             // Get last client payment
@@ -48,27 +64,39 @@ class Payment extends CI_Controller {
                 if ($SaleData->CapturedAmountInCents == NULL) {
                     break;
                 }
-                var_dump($SaleData);
+                //var_dump($SaleData);
                 $LastSaledData = $SaleData;
             }
-            // Check difference between last payment and now
-            $last_saled_date = new DateTime($LastSaledData->DueDate);
-            $now = DateTime::createFromFormat('U', time());
-            $diff_info = $last_saled_date->diff($now);
-            var_dump($diff_info);
-            if ($diff_info->days > 33) {
-                //Block client by paiment
-                $this->load->model('class/user_status');
-                $this->load->model('class/user_model');
-                $this->user_model->update_user($client['user_id'], array('status_id' =>  user_status::BLOCKED_BY_PAYMENT));                
-                //print "Block this client: " . json_encode($client);
-            } elseif ($diff_info->days > 30) {
-                // Send email to Client
-                $this->send_payment_email($client);
+            if ($LastSaledData != NULL) { // if have not payment jet
+                // Check difference between last payment and now
+                $last_saled_date = new DateTime($LastSaledData->DueDate);
+                $now = DateTime::createFromFormat('U', time());
+                $diff_info = $last_saled_date->diff($now);
+                //var_dump($diff_info);
+                // Diff in days
+                $diff_days = ($diff_info->m * 30) + $diff_info->days;
+                // TODO: Put 34 in system_config
+                //$diff_days = 35;
+                if ($diff_days > 34) { // Limit to bolck
+                    //Block client by paiment
+                    $this->load->model('class/user_status');
+                    $this->load->model('class/user_model');
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                    print "This client was blocked by payment just now: " . json_encode($client);
+                    // TODO: Put 31 in system_config    
+                } elseif ($diff_days > 31) { // Limit to advice
+                    // Send email to Client
+                    $this->send_payment_email($client);
+                } else {
+                    return TRUE;
+                }
+            } else {
+                print "\n<br>This client has not payment yet (PROMOTIONAL?): " . $client['name'] . "<br>\n";
             }
         } else {
             throw new Exception("Payment error: " . json_encode($result->getData()));
         }
+        return FALSE;
 //        print "<pre>";
 //        print json_encode($result->getData(), JSON_PRETTY_PRINT);
 //        print "</pre>";
@@ -84,8 +112,7 @@ class Payment extends CI_Controller {
         if ($result['success']) {
             $clientname = $client['name'];
             print "<br>Email send to client: $clientname<br>";
-        }
-        else {
+        } else {
             throw new Exception("Email not sent to: " . json_encode($client));
         }
     }
