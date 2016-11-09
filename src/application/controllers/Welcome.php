@@ -209,7 +209,7 @@ class Welcome extends CI_Controller {
                     'credit_card_name' => $datas['client_credit_card_name'],
                     'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
                     'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
-                    'credit_card_status_id' => credit_card_status::ACTIVE,
+                    //'credit_card_status_id' => credit_card_status::ACTIVE,
                     'order_key'=>$resp->getData()->OrderResult->OrderKey,                    
                     'pay_day' => $datas['pay_day']));                
                 if ($a && $b) {
