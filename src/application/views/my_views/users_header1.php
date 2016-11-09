@@ -25,7 +25,7 @@
 </div>
 
 <div id="logout" style="position: absolute; top:2%; left: 94%">
-    <a  href="'.base_url().'index.php/welcome/log_out'.'">SAIR</a>
+    <a  href="<?php echo base_url().'index.php/welcome/log_out'?>">SAIR</a>
 </div>
         
 <div id="my_sesion" style="position: absolute; top:55%; left: 93%;">

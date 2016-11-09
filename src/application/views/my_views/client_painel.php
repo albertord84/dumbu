@@ -1,7 +1,6 @@
 
 
 <script type="text/javascript" src="<?php echo base_url().'assets/js/client_painel.js'?>"></script>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/an_user_active.js';?>"></script>
 <script type="text/javascript">profiles=<?php echo json_encode($profiles)?>; MAX_NUM_PROFILES=3<?php //TODO:echo $MAX_NUM_PROFILES?>;</script>
 
 <link type="text/css" rel="stylesheet" href="<?php echo base_url().'assets/css/insert_profile.css'?>">
@@ -72,7 +71,7 @@
     </center>
     
     
-    <div style="background-color:#F4F4F4; position:absolute; left:14%; top:50%; height:42%; width:71%; border:1px solid silver; border-radius:5px;">
+    <div style="background-color:#F4F4F4; position:absolute; left:14%; top:50%; height:42%; width:79%; border:1px solid silver; border-radius:5px;">
         <div id="important_warning" style="align-content:left; position:absolute; top:4%; left:2%; width: 25%;height: 9%">
             <img height="80%" src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
         </div>
@@ -96,48 +95,4 @@
         </div>
     </div>
 
-    
-    
-    <!--<div style="color:black;  position:absolute; left:27%; top:40%; height:25%; width:20%; border:1px solid silver; border-radius:5px;">
-        <b style="position:absolute; top:20%; left:40%; font-size:18px; font-family:sans-serif;">STATUS</b>
-        <div style="position:absolute; top:50%; left:42%; font-size:18px; font-family:sans-serif;">
-            <div class="ui-switchbutton ui-switchbutton-default ui-switchbutton-ios5 ui-state-active" >
-                <label class="ui-switchbutton-disabled" style="width:57px;">
-                    <span style="width:33px; margin-right:-38px;">OFF</span>
-                </label>
-                <label class="ui-switchbutton-enabled" style="width:38px;">
-                    <span style="width:33px; margin-left:0px;">ON</span>
-                </label>
-                <div class="ui-switchbutton-handle" style="width:34px; left:38px;">                    
-                </div>
-                <input  id="switch_status" checked="checked" type="checkbox">
-            </div>
-        </div>
-    </div>
-    
-    <div style="color:black;  position:absolute; left:53%; top:40%; height:25%; width:20%; border:1px solid silver; border-radius:5px;">
-        <b id="senha" style="position:absolute; top:20%; left:40%; font-size:18px; font-family:sans-serif;">SENHA</b>        
-    </div>    
-   -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery-1.js'?>"></script>
-<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery_002.js'?>"></script>
-<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery-ui-1.js'?>"></script>
-<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/jquery1.js'?>"></script>
-<script type="text/javascript" src="<?php //echo base_url().'assets/js/demo/demo.js'?>"></script>
-<link type="text/css" rel="stylesheet" href="<?php //echo base_url().'assets/js/demo/ui.css'?>">-->
-
-

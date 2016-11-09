@@ -1,4 +1,4 @@
-$(document).ready(function(){ 
+$(document).ready(function(){      
     if(user_active){        
         $("#sing_in").hide();
         $("#login").hide();

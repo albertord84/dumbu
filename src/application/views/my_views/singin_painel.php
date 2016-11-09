@@ -1,13 +1,6 @@
 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js'?>" ></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/sign_in_style.css'?>">
 
-<!--<style>
-    form.frm_card_datas input {
-        background-color: red;
-    }
-</style>-->
-
-
 <div id="title_panel" style="text-align:center; color:black; background-color:white; position:absolute; top:0%; height:10%;left:0%;width:100%;">        
     <p><b style="font-family:sans-serif;font-size:24px">ASSINAR</b></p>
 </div> 
