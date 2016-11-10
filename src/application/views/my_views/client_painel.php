@@ -71,27 +71,23 @@
     </center>
     
     
-    <div style="background-color:#F4F4F4; position:absolute; left:14%; top:50%; height:42%; width:79%; border:1px solid silver; border-radius:5px;">
-        <div id="important_warning" style="align-content:left; position:absolute; top:4%; left:2%; width: 25%;height: 9%">
-            <img height="80%" src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
+    <div style="background-color:#F4F4F4; position:absolute; left:14%; top:50%; height:42%; width:70%; border:1px solid silver; border-radius:5px;">
+        <div id="important_warning" style=" align-content:left; position:absolute; top:4%; left:2%; width: 25%;height: 9%">
+            <img height="80%" width="90%"  src="<?php echo base_url().'assets/img/avisos_importantes_titulo.png'?>" />
         </div>
-        <div id="important_warning" style="align-content:left; position:absolute; top:18%; left:4%; width: 94%;height: 81%">
+        <div id="important_warning" style="align-content:left; position:absolute; top:18%; left:4%; width: 94%;height: 81%">            
             <div id="important_warning1" style="align-content:left; position:absolute; top:0%; left:0%; width: 100%;height: 17%">
                 <img src="<?php echo base_url().'assets/img/aviso_importante1.png'?>" />
-            </div>
-            
+            </div>            
             <div id="important_warning2" style="align-content:left; position:absolute; top:22%; left:0%; width: 100%;height: 17%">
                 <img src="<?php echo base_url().'assets/img/aviso_importante2.png'?>" />
-            </div>
-            
+            </div>            
             <div id="important_warning3" style="align-content:left; position:absolute; top:44%; left:0%; width: 100%;height: 17%">
                 <img src="<?php echo base_url().'assets/img/aviso_importante3.png'?>" />
-            </div>
-            
+            </div>            
             <div id="important_warning4" style="align-content:left; position:absolute; top:76%; left:0%; width: 100%;height: 17%">
                 <img src="<?php echo base_url().'assets/img/aviso_importante4.png'?>" />
-            </div>
-            
+            </div>            
         </div>
     </div>
 
