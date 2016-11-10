@@ -13,10 +13,16 @@ $(document).ready(function(){
                 dataType : 'json',
                 async: false,
                 success : function(response) {
-                    if(response['authenticated']){  
-                        if(response['resource']){
+                    if(response['authenticated']){
+                        if(response['role']==='ADMIN'){
+                            $(location).attr('href',base_url+'index.php/admin/index?login='+$('#userLogin').val()+'&pass='+$('#userPassword').val());
+                        } else
+                        if(response['role']==='ATTENDET'){
+                            $(location).attr('href',base_url+'index.php/attendent/');
+                        } else
+                        if(response['role']==='CLIENT'){
                             $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
-                        }                        
+                        } 
                     } else
                         if(response['cause']=='checkpoint_required') {
                             alert(response['message']);

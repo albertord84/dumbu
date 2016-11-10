@@ -24,15 +24,17 @@ class Welcome extends CI_Controller {
         $user_data = $this->user_model->load_user($datas['user_login'], $datas['user_pass']);        
         if (count($user_data)) { 
             if ($user_data['role_id'] == user_role::ADMIN) {
-                $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
-                $result['resource'] = 'panel_admin';
-                $result['message'] = 'Administador ' . $datas['user_login'] . ' logueado';
+                //$this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
+                //$result['resource'] = 'panel_admin';
+                //$result['message'] = 'Administador ' . $datas['user_login'] . ' logueado';
+                $result['role'] = 'ADMIN';
                 $result['authenticated'] = true;
             } else
             if ($user_data['role_id'] == user_role::ATTENDET) {
-                $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
-                $result['resource'] = 'panel_atendent';
-                $result['message'] = 'Atendente ' . $datas['user_login'] . ' logueado';
+                //$this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
+                //$result['resource'] = 'panel_atendent';
+                //$result['message'] = 'Atendente ' . $datas['user_login'] . ' logueado';
+                $result['role'] = 'ATTENDET';
                 $result['authenticated'] = true;
             } else
             if ($user_data['role_id'] == user_role::CLIENT) {
@@ -47,6 +49,7 @@ class Welcome extends CI_Controller {
                             $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
                             $result['resource'] = 'panel_client';
                             $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
+                            $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else {
                             /* Antiguo usuario de Instagram que elimino su cuenta de Instagram y volvio a crear una nueva y todavia es cliente de nuestro sistema */
@@ -86,6 +89,7 @@ class Welcome extends CI_Controller {
                     }
                     $result['resource'] = 'panel_client';
                     $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
+                    $result['role'] = 'CLIENT';
                     $result['authenticated'] = true;
                 } else {
                     $result['resource'] = 'sign_in';
@@ -209,7 +213,7 @@ class Welcome extends CI_Controller {
                     'credit_card_name' => $datas['client_credit_card_name'],
                     'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
                     'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
-                    'credit_card_status_id' => credit_card_status::ACTIVE,
+                    //'credit_card_status_id' => credit_card_status::ACTIVE,
                     'order_key'=>$resp->getData()->OrderResult->OrderKey,                    
                     'pay_day' => $datas['pay_day']));                
                 if ($a && $b) {
@@ -606,7 +610,7 @@ class Welcome extends CI_Controller {
             $data['user_active'] = true;
         } else
             $data['user_active'] = false;
-        //$data['content_header'] = $this->load->view('my_views/admin_header', '', true);
+        $data['content_header'] = $this->load->view('my_views/admin_header', '', true);
         $data['content'] = $this->load->view('my_views/admin_painel', '', true);
         $data['content_footer'] = $this->load->view('my_views/admin_footer', '', true);
         $this->load->view('layout_admin', $data);
