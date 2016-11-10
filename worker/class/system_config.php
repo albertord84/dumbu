@@ -7,7 +7,9 @@ namespace dumbu\cls {
         const DIALY_REQUESTS_BY_CLIENT = 480; // Change to 480 in production mode
         const REQUESTS_AT_SAME_TIME = 10;     // Reference Profile Followers amoun by request. Change to 10  in production mode   
         const DELAY_BETWEEN_REQUESTS = 0;
-        const MIN_NEXT_ATTEND_TIME = 5; // 5 min --->>> not //5 * 1000 * 60; 
+        const INSTA_MAX_FOLLOWING =7000;    
+        
+        const MIN_NEXT_ATTEND_TIME = 5; //1000 * 60; //5 * 1000 * 60; // 5 min
         const REFERENCE_PROFILE_AMOUNT = 3; // By Client
         const UNFOLLOW_ELAPSED_TIME_LIMIT = 48; // 48; // In hours
         const MAX_GET_FOLLOWERS_REQUESTS = 3; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
@@ -18,6 +20,11 @@ namespace dumbu\cls {
         CONST SYSTEM_USER_LOGIN = 'dumbu.system';
         CONST SYSTEM_USER_PASS = 'sorvete69@';
         
+        CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
+        CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 7;    // promotion of percentegem discount by one month
+    
+        CONST PAYMENT_VALUE=9999; //quantity to payment in cents
+
         CONST MUNDIPAGG_BASE_URL = 'https://transactionv2.mundipaggone.com';  // PRODUCTION
         CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6';   // DUMBU Producition
         
@@ -25,8 +32,6 @@ namespace dumbu\cls {
 //        CONST SYSTEM_MERCHANT_KEY = 'b3ef5018-6653-4ce0-b515-51ac26ccdcb1';   // DUMBU sandbox
 //        CONST SYSTEM_MERCHANT_KEY = 'bcb45ac4-7edb-49df-98d1-69fd37f4e1d6';  // API Example
 
-        // Payment Recurrency 
-        
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);
             foreach ($cls->getConstants() as $key => $value) {
@@ -34,26 +39,7 @@ namespace dumbu\cls {
                     return true;
                 }
             }
-
             return false;
         }
 
     }
-}
-
-
-/*
-7777 xxxx xxxx 7777
-01/2020
-ALBERTO
-777
-Visa
-R$ 1,00 À vista
-Autorizar e capturar
-
-Buyer key
-6bdce42e-a018-41e2-aa1f-c779b832ad64
-
-InstantBuyKey
-97066a19-fee2-4ff5-86ec-e201a0f12419"
- */
