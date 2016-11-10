@@ -8,7 +8,7 @@ namespace dumbu\cls {
         const port = '3128';
         const db = 'dumbudb';
         const user = 'root';
-        const pass = '';
+        const pass = 'csduo2004mysql';
 
         private $connection = NULL;
 
@@ -148,7 +148,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "UPDATE clients "
                         . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
-                        . "SET clients.last_access = '$time' "
+                        . "SET clients.last_access = '$time', "
                         . "    clients.foults = clients.foults + $faults "
                         . "WHERE reference_profile.id = $ref_prof_id; ";
 

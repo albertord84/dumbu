@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){   
     
     $("#btn_dumbu_login").click(function() {
         if($('#userLogin').val()!='' && $('#userPassword').val()!==''){
@@ -13,12 +13,22 @@ $(document).ready(function(){
                 dataType : 'json',
                 async: false,
                 success : function(response) {
-                    if(!response['success']){                        
-                        /*TODO: error message*/alert(response['message']);
-                    }
-                    if(response['resource']){
-                        $(location).attr('href',base_url+'index.php/welcome/'+response['resource']);                        
-                    }
+                    if(response['authenticated']){
+                        if(response['role']==='ADMIN'){
+                            $(location).attr('href',base_url+'index.php/admin/index?login='+$('#userLogin').val()+'&pass='+$('#userPassword').val());
+                        } else
+                        if(response['role']==='ATTENDET'){
+                            $(location).attr('href',base_url+'index.php/attendent/');
+                        } else
+                        if(response['role']==='CLIENT'){
+                            $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
+                        } 
+                    } else
+                        if(response['cause']=='checkpoint_required') {
+                            alert(response['message']);
+                            $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
+                        } else
+                            alert(response['message']);                    
                     $("#waiting").css({"visibility":"hidden","display":"none"});
                 },                
                 error : function(xhr, status) {
@@ -37,6 +47,22 @@ $(document).ready(function(){
         $("#usersLoginForm").fadeOut();
         $("#usersLoginForm").css({"visibility":"hidden","display":"none"});
     }); 
+    
+    $("#promotional_btn").click(function(){
+        $(location).attr('href',base_url+'index.php/welcome/sign_in');
+    });    
+    $('#promotional_btn').hover(
+        function () { $(this).css({"border":"1px solid silver"}); }, 
+        function () { $(this).css({"border":"2px solid #28BB93"});}
+     );
+    
+    $("#signin_btn").click(function(){
+        $(location).attr('href',base_url+'index.php/welcome/sign_in');
+    }); 
+    $('#signin_btn').hover(
+        function () { $(this).css({"border":"1px solid silver"}); }, 
+        function () { $(this).css({"border":"2px solid #28BB93"});}
+     );
     
     
  }); 

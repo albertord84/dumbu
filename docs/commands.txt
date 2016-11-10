@@ -22,6 +22,7 @@ git push origin new_branch #< pushes to the server
 git config credential.helper store
 =======
 ssh  albertord84@162.249.2.205 -p 7822
+ssh  albertord@vps0417.publiccloud.com.br
 
 
 // Init to work in a local folder from server

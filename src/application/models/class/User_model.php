@@ -94,19 +94,9 @@ class User_model extends CI_Model {
         try {
             $this->db->select('id, name, login, pass, email, telf, role_id, status_id, languaje');
             $this->db->from('users');
-            $this->db->where('login', $user_login);
-            $this->db->where('pass', $user_pass);
+            $this->db->where(array('login'=>$user_login,'pass'=> $user_pass));
             $user_data = $this->db->get()->row_array();
             if (count($user_data)) {
-                /*$this->id = $user_data['id'];
-                $this->name = $user_data['name'];                
-                $this->login = $user_data['login'];
-                $this->pass = $user_data['pass'];
-                $this->email = $user_data['email'];
-                $this->telf = $user_data['telf'];
-                $this->role_id = $user_data['role_id'];
-                $this->status_id = $user_data['status_id'];
-                $this->languaje = $user_data['languaje'];*/                
                 $session->set_userdata('id',$user_data['id']);
                 $session->set_userdata('name',$user_data['name']);
                 $session->set_userdata('login',$user_data['login']);
@@ -188,9 +178,19 @@ class User_model extends CI_Model {
     public function load_user($user_login, $user_pass) {
         $this->db->select('*');
         $this->db->from('users');        
-        $this->db->where('login', $user_login);
-        $this->db->where('pass', $user_pass);
+        $this->db->where(array('login' => $user_login, 'pass'=> $user_pass));
         return $this->db->get()->row_array();
+    }
+    
+    /*public function load_all_user($condition) {
+        $this->db->select('*');
+        $this->db->from('users');        
+        $this->db->where($condition);
+        return $this->db->get()->result_array();
+    }*/
+    
+    public function get_cliets_by_query($query){
+        return $this->db->query($query)->result_array();
     }
 
     /**

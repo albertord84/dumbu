@@ -445,7 +445,7 @@ namespace dumbu\cls {
 //            var_dump($cookies);
             $html = curl_exec($ch);
             $info = curl_getinfo($ch);
-//            print_r($html);
+            //var_dump($html);
 
             $start = strpos($html, "{");
 //            var_dump($start);
@@ -459,7 +459,7 @@ namespace dumbu\cls {
 //            echo "<br><br>";
 //            var_dump($html);
             if (curl_errno($ch)) {
-                print curl_error($ch);
+                //print curl_error($ch);
             } else if (count($cookies) >= 5) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
@@ -476,6 +476,7 @@ namespace dumbu\cls {
                 $login_data->mid = $mid;
             }
             curl_close($ch);
+//            var_dump($login_data);
             return $login_data;
         }
 
@@ -520,8 +521,8 @@ namespace dumbu\cls {
             $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
 //            }
             $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
-//            var_dump($result);
-//            die("<br><br>Debug Finish!");
+            //var_dump($result);
+            //die("<br><br>Debug Finish!");
             return $result;
         }
 

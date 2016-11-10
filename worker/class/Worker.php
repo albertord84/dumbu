@@ -89,7 +89,7 @@ namespace dumbu\cls {
             foreach ($Clients as $Client) { // for each CLient
 // Log user with webdriver in istagram to get needed session data
                 $login_data = $this->Robot->bot_login($Client->login, $Client->pass);
-                if ($login_data && $login_data->json_response->authenticated) {
+                if (is_object($login_data) && isset($login_data->json_response->authenticated)) {
                     echo "<br>\nAutenticated Client: $Client->login <br>\n<br>\n";
 // Distribute work between clients
                     $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
@@ -219,6 +219,11 @@ namespace dumbu\cls {
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
                         $daily_work->login_data = json_decode($daily_work->cookies);
+                        // Calculate time to sleep    
+//                        $last_access = DateTime::createFromFormat('U', $daily_work->last_access);
+//                        $now = DateTime::createFromFormat('U', time());
+//                        $diff_info = $last_access->diff($now);
+//                        $elapsed_time = $diff_info->i; // In minutes
                         $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
                         if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
                             sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds

@@ -14,9 +14,9 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 // MUNDIPAGG
-$Payment = new dumbu\cls\Payment();
+//$Payment = new dumbu\cls\Payment();
 
-$Payment->check_payment("e0c0954a-dbd5-4e79-b513-0769d89bb490");
+//$Payment->check_payment("e0c0954a-dbd5-4e79-b513-0769d89bb490");
 
 //----------------------------------------------------------------
 
@@ -33,13 +33,13 @@ $Payment->check_payment("e0c0954a-dbd5-4e79-b513-0769d89bb490");
 //----------------------------------------------------------------
 
 // WORKER
-//
-//$Worker = new dumbu\cls\Worker();
+
+$Worker = new dumbu\cls\Worker();
 
 //$Worker->check_daily_work();
-//$Worker->delete_daily_work();
-//$Worker->prepare_daily_work();
-//$Worker->do_work();
+$Worker->delete_daily_work();
+$Worker->prepare_daily_work();
+$Worker->do_work();
 
 //----------------------------------------------------------------
 

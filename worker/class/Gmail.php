@@ -27,7 +27,7 @@ namespace dumbu\cls {
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-            $this->mail->SMTPDebug = 2;
+            $this->mail->SMTPDebug = 0;
 
 //Ask for HTML-friendly debug output
             $this->mail->Debugoutput = 'html';
@@ -84,11 +84,14 @@ namespace dumbu\cls {
 //$mail->addAttachment('images/phpmailer_mini.png');
 //send the message, check for errors
             if (!$this->mail->send()) {
-                echo "Mailer Error: " . $this->mail->ErrorInfo;
+                $result['success'] = false;
+                $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
             } else {
-                echo "Message sent!";
+                $result['success'] = true;
+                $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
             }
             $this->mail->smtpClose();
+            return $result;
         }
 
         public function send_client_payment_error($useremail, $username, $instaname, $instapass) {
@@ -119,11 +122,14 @@ namespace dumbu\cls {
 //$mail->addAttachment('images/phpmailer_mini.png');
 //send the message, check for errors
             if (!$this->mail->send()) {
-                echo "Mailer Error: " . $this->mail->ErrorInfo;
+                $result['success'] = false;
+                $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
             } else {
-                echo "Message sent!";
+                $result['success'] = true;
+                $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
             }
             $this->mail->smtpClose();
+            return $result;
         }
 
         public function send_client_contact_form($username, $useremail, $usermsg, $usercompany = NULL, $userphone = NULL) {
@@ -155,22 +161,22 @@ namespace dumbu\cls {
             //$mail->addAttachment('images/phpmailer_mini.png');
             //send the message, check for errors
             //-------------Alberto
-            /*if (!$this->mail->send()) {
-                echo "Mailer Error: " . $this->mail->ErrorInfo;
-            } else {
-                echo "Message sent!";
-            }
-            $this->mail->smtpClose();*/
+            /* if (!$this->mail->send()) {
+              echo "Mailer Error: " . $this->mail->ErrorInfo;
+              } else {
+              echo "Message sent!";
+              }
+              $this->mail->smtpClose(); */
             //-------------Jose R
             if (!$this->mail->send()) {
-                $result['success']=false;
-                $result['message']="Mailer Error: " . $this->mail->ErrorInfo;
+                $result['success'] = false;
+                $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
             } else {
-                $result['success']=true;
-                $result['message']="Message sent!". $this->mail->ErrorInfo;
+                $result['success'] = true;
+                $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
             }
             $this->mail->smtpClose();
-            return $response;
+            return $result;
             //-------------------
         }
 

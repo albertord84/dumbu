@@ -26,6 +26,9 @@ $(document).ready(function(){
                         active_by_steep(2);
                     } else{
                         /*TODO: mensaje de ERROR*/alert(response['message']);
+                        if(response['cause']=='checkpoint_required'){
+                            $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#clientLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
+                        }
                     }
                 },
                 error : function(xhr, status) {
@@ -40,7 +43,7 @@ $(document).ready(function(){
         var name=validate_element('#client_credit_card_name', "^[A-Z ]{4,50}$");
         var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
         var number=validate_element('#client_credit_card_number',"^[0-9]{16,16}$");
-        var cvv=validate_element('#client_credit_card_cvv',"^[0-9 ]{3,3}$");        
+        var cvv=validate_element('#client_credit_card_cvv',"^[0-9 ]{3,4}$");
         var month=validate_month('#client_credit_card_validate_month',"^[0-10-9]{2,2}$");
         var year=validate_year('#client_credit_card_validate_year',"^[2-20-01-20-9]{4,4}$");        
         if(name && email && number && cvv && month && year){
@@ -70,7 +73,7 @@ $(document).ready(function(){
                     }
                 });
             } else{
-                alert('Deve aceitar os termos de uso');
+                alert('Deve ler e aceitar os termos de uso');
             }
         } else{
             alert('Erro nos dados fornecidos no Passo 2');
