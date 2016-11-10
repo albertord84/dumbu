@@ -89,7 +89,7 @@ namespace dumbu\cls {
             foreach ($Clients as $Client) { // for each CLient
 // Log user with webdriver in istagram to get needed session data
                 $login_data = $this->Robot->bot_login($Client->login, $Client->pass);
-                if ($login_data && $login_data->json_response->authenticated) {
+                if (is_object($login_data) && isset($login_data->json_response->authenticated)) {
                     echo "<br>\nAutenticated Client: $Client->login <br>\n<br>\n";
 // Distribute work between clients
                     $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);

@@ -1,0 +1,1358 @@
+Worker Inited...!<br>
+2016-11-10 07:00:01am<br>
+Autenticated Client: josergm86 <br>
+<br>
+<br>
+Autenticated Client: smartsushidelivery <br>
+<br>
+<br>
+Autenticated Client: albertoreyesd84 <br>
+<br>
+<br />
+<font size='1'><table class='xdebug-error xe-warning' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Warning: Division by zero in /opt/lampp/htdocs/dumbu/worker/class/Worker.php on line <i>95</i></th></tr>
+<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
+<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
+<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0003</td><td bgcolor='#eeeeec' align='right'>359448</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='/opt/lampp/htdocs/dumbu/worker/index.php' bgcolor='#eeeeec'>.../index.php<b>:</b>0</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.5021</td><td bgcolor='#eeeeec' align='right'>1153448</td><td bgcolor='#eeeeec'>dumbu\cls\Worker->prepare_daily_work(  )</td><td title='/opt/lampp/htdocs/dumbu/worker/index.php' bgcolor='#eeeeec'>.../index.php<b>:</b>41</td></tr>
+</table></font>
+<br>
+Ref Profil: plazaniteroi<br>
+2016-11-10 07:00:23am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 27408004<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 19544, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQA79slEieer9-uKdSYX3I2Ahe240t72lzF0-EGWtSeB_ADUsf2Jq26rvFKJoqWxubTpeez9SYKE3sfj-M14oaA97S7z6AQLsJOr6ygIYkOZPqjY3oprDBPVeyfZF3GDTlo&quot;, &quot;end_cursor&quot;: &quot;AQCLvfS0gFEL3NMhrBvCreAnv8ipQQEb8-2x05_jAsRAvygL5ir63lYJAr2C_Um_hDH0BQmPinq9ieD_LglhhSuxJvohKnItzGDwGwKM_uRS6uZ1jV3mFMovL4SHsJLKdPU&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;nandamorena&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;'...</font> <i>(length=1254)</i>
+</pre><br>
+Ref Profil: plazaniteroi     ------>   End Cursor: AQCLvfS0gFEL3NMhrBvCreAnv8ipQQEb8-2x05_jAsRAvygL5ir63lYJAr2C_Um_hDH0BQmPinq9ieD_LglhhSuxJvohKnItzGDwGwKM_uRS6uZ1jV3mFMovL4SHsJLKdPU<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>31</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: nandamorena<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: annykrombauer<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>31</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marcia.josenorberto<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: isabelamatuck_<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>31</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: jocianapimentel<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:00:30am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 2583684103<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1305842511<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 2244342262<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 3445715175<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 419374279<br>
+<br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDPDIUfjFCjLXQxl6buKDbv3u-hTqbG8EaTcOXs1am6Dykn5eR_72ihgjxeBCp9Wf0hTZTnAJEKPxFLZiQ_wOKRYbwMEnYKFyK0KnqIIQCo83dIOS-MjDtu9PYdBJFKw3A&quot;, &quot;end_cursor&quot;: &quot;AQAa8yxOUTnB9j5u8HcR5dB6Ev7Z7YWXDySPNgTKoNQqWefOEjOxNjHSl8_PfR8FhjLfHROVFJWTZR_V8Jy7eb-M9Qnkn4ctajvvUYhW0ToHLpOfVEo1zAk7b91vTH6KkpE&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;patricia_saraivac&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fa'...</font> <i>(length=1310)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQAa8yxOUTnB9j5u8HcR5dB6Ev7Z7YWXDySPNgTKoNQqWefOEjOxNjHSl8_PfR8FhjLfHROVFJWTZR_V8Jy7eb-M9Qnkn4ctajvvUYhW0ToHLpOfVEo1zAk7b91vTH6KkpE<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>24</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: patricia_saraivac<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>11</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marcoserichmuller<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>24</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: alexandreflores1<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>11</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: ceramicanovaimagem<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAa8yxOUTnB9j5u8HcR5dB6Ev7Z7YWXDySPNgTKoNQqWefOEjOxNjHSl8_PfR8FhjLfHROVFJWTZR_V8Jy7eb-M9Qnkn4ctajvvUYhW0ToHLpOfVEo1zAk7b91vTH6KkpE&quot;, &quot;end_cursor&quot;: &quot;AQBiGEAUgOeeGSj-hj_W0s4CSC_fmCAOgNqsJwKcqTiTz9FKLW6SBhucd3EDVPFvHjWZ7tYthhJtKX6hajgsxoDtnW1PNt9S5daf9pFKbWAVlw8ezLPPaHQqfEE2LCNInig&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;marianaruiz&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;'...</font> <i>(length=1259)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQBiGEAUgOeeGSj-hj_W0s4CSC_fmCAOgNqsJwKcqTiTz9FKLW6SBhucd3EDVPFvHjWZ7tYthhJtKX6hajgsxoDtnW1PNt9S5daf9pFKbWAVlw8ezLPPaHQqfEE2LCNInig<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marianaruiz<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:03:39am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 226479985<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876025, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQC5cuRazrepBMf_TbOG9HkxB7nYNkO8SPt1YPoWgJh8B0bMIu4PEz_fOGzbV4jBIT3pcYGxU3ZF8Vvl9ETJIPtyumU3EK62NSJM5jj8sVxjCkWPr0_N8WL10X3sVP5HT68&quot;, &quot;end_cursor&quot;: &quot;AQBVOgb1V2aeSaznUFYXHwn_uYQtaAIoju1tdqaAajTdWV3obDAiyjS0Ey7EDQEUfb4ZAL6jomAOvl7A6i-iqoO-zucaZJbpW4MulrBoaLqtoJhq7aQAcc_NnkxJ76luNMU&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;bhavika9326&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false'...</font> <i>(length=1215)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQBVOgb1V2aeSaznUFYXHwn_uYQtaAIoju1tdqaAajTdWV3obDAiyjS0Ey7EDQEUfb4ZAL6jomAOvl7A6i-iqoO-zucaZJbpW4MulrBoaLqtoJhq7aQAcc_NnkxJ76luNMU<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: bhavika9326<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>14</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: ueururu4u4748487575<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876023, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBVOgb1V2aeSaznUFYXHwn_uYQtaAIoju1tdqaAajTdWV3obDAiyjS0Ey7EDQEUfb4ZAL6jomAOvl7A6i-iqoO-zucaZJbpW4MulrBoaLqtoJhq7aQAcc_NnkxJ76luNMU&quot;, &quot;end_cursor&quot;: &quot;AQDDOyRm7iIXZsiPusPBxlvFG5Lo6pN4WTHgGwNkomOW_OReuYaZ9VPdDcrG2GIJRSYv7FcUvuIqWL4pS6bFNvob4zvSQuLbRcas-nyFd4sTxyW_Ll1wyoHtpHNRctQXC_M&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;swamy1065&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: true, &quot;'...</font> <i>(length=1222)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQDDOyRm7iIXZsiPusPBxlvFG5Lo6pN4WTHgGwNkomOW_OReuYaZ9VPdDcrG2GIJRSYv7FcUvuIqWL4pS6bFNvob4zvSQuLbRcas-nyFd4sTxyW_Ll1wyoHtpHNRctQXC_M<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>34</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: svtlopez<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876023, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDDOyRm7iIXZsiPusPBxlvFG5Lo6pN4WTHgGwNkomOW_OReuYaZ9VPdDcrG2GIJRSYv7FcUvuIqWL4pS6bFNvob4zvSQuLbRcas-nyFd4sTxyW_Ll1wyoHtpHNRctQXC_M&quot;, &quot;end_cursor&quot;: &quot;AQCwVd4A082ZHDjmhty4sHXy-GDKIhOShW7N8aFuB9sWWohdq77PZfO0iXOlNjdTokwGX_KN0NPM26vJcb37uFLXP58CgDxKIoNaDbDU_WnsdFrl0NKkS--mrrs2fnf-hUQ&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;zhongyiweizhenzhu&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;:'...</font> <i>(length=1088)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQCwVd4A082ZHDjmhty4sHXy-GDKIhOShW7N8aFuB9sWWohdq77PZfO0iXOlNjdTokwGX_KN0NPM26vJcb37uFLXP58CgDxKIoNaDbDU_WnsdFrl0NKkS--mrrs2fnf-hUQ<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>11</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: kc.rob<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:03:50am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBiGEAUgOeeGSj-hj_W0s4CSC_fmCAOgNqsJwKcqTiTz9FKLW6SBhucd3EDVPFvHjWZ7tYthhJtKX6hajgsxoDtnW1PNt9S5daf9pFKbWAVlw8ezLPPaHQqfEE2LCNInig&quot;, &quot;end_cursor&quot;: &quot;AQCzZA9rkJR8YwrARiXhSjiO-YDOhNFg_h-mtPj2WYSXbI4hxnRcP3Bm05Xwl-baUlIDJi4CQcV6KdJf0JeN5ZtTwBr64Rm8nNmAicCTllGFaM31pwQ4M9tR4S95M3aR4mk&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;marcelosantos8212&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fa'...</font> <i>(length=1096)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQCzZA9rkJR8YwrARiXhSjiO-YDOhNFg_h-mtPj2WYSXbI4hxnRcP3Bm05Xwl-baUlIDJi4CQcV6KdJf0JeN5ZtTwBr64Rm8nNmAicCTllGFaM31pwQ4M9tR4S95M3aR4mk<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>11</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marcelosantos8212<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>15</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: byaah_slv<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>11</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: carolinaericka<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>15</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: conectamkt<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQCzZA9rkJR8YwrARiXhSjiO-YDOhNFg_h-mtPj2WYSXbI4hxnRcP3Bm05Xwl-baUlIDJi4CQcV6KdJf0JeN5ZtTwBr64Rm8nNmAicCTllGFaM31pwQ4M9tR4S95M3aR4mk&quot;, &quot;end_cursor&quot;: &quot;AQAdawqA7FbSu2QPt9HnL3_0MIXSbRxPLZQn6Ltv9f_1f9ga6OHGP5mBeSc9oDtXjQb_ynPHv0dPZp5h8Swo1Qb2-yhq0ALY8BmuVOnf4syQZ-UrvSphsGlL4jT31GM3pBs&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;taticosta.tatinha&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fa'...</font> <i>(length=1248)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQAdawqA7FbSu2QPt9HnL3_0MIXSbRxPLZQn6Ltv9f_1f9ga6OHGP5mBeSc9oDtXjQb_ynPHv0dPZp5h8Swo1Qb2-yhq0ALY8BmuVOnf4syQZ-UrvSphsGlL4jT31GM3pBs<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>15</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: taticosta.tatinha<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:07:00am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 3163453288<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876095, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQCwVd4A082ZHDjmhty4sHXy-GDKIhOShW7N8aFuB9sWWohdq77PZfO0iXOlNjdTokwGX_KN0NPM26vJcb37uFLXP58CgDxKIoNaDbDU_WnsdFrl0NKkS--mrrs2fnf-hUQ&quot;, &quot;end_cursor&quot;: &quot;AQC_J7aGSVya-w2ZqsvphS8mpmRPEXo0Tq5wceJwSxID_yEJIfp9IZe0tXY97v5Ig3uYZoJGz8wMFqKlYkCPQ52fjNT4PgAtLBcOc2JpjJwpZkEc4o-_bYI8Fc7jOz_kztM&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;josephthompson9347&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;'...</font> <i>(length=1074)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQC_J7aGSVya-w2ZqsvphS8mpmRPEXo0Tq5wceJwSxID_yEJIfp9IZe0tXY97v5Ig3uYZoJGz8wMFqKlYkCPQ52fjNT4PgAtLBcOc2JpjJwpZkEc4o-_bYI8Fc7jOz_kztM<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876095, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQC_J7aGSVya-w2ZqsvphS8mpmRPEXo0Tq5wceJwSxID_yEJIfp9IZe0tXY97v5Ig3uYZoJGz8wMFqKlYkCPQ52fjNT4PgAtLBcOc2JpjJwpZkEc4o-_bYI8Fc7jOz_kztM&quot;, &quot;end_cursor&quot;: &quot;AQB0kBdK9QYNBG8R6MyHy8pa3DwDN5jYToBW5vyz4zRwm4QkItoAbU6QeGfKlS1YwyJfCZ3_iLy1x0cugiPgfIBkaqoHgqCVZUST1NECUBdE1pw_xamPsTx9TlwscXg4QQs&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;vsedliashymken&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: tr'...</font> <i>(length=1343)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQB0kBdK9QYNBG8R6MyHy8pa3DwDN5jYToBW5vyz4zRwm4QkItoAbU6QeGfKlS1YwyJfCZ3_iLy1x0cugiPgfIBkaqoHgqCVZUST1NECUBdE1pw_xamPsTx9TlwscXg4QQs<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: aonballshop<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>25</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: m_o_s_z_a_04<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: __yulimar<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876090, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQB0kBdK9QYNBG8R6MyHy8pa3DwDN5jYToBW5vyz4zRwm4QkItoAbU6QeGfKlS1YwyJfCZ3_iLy1x0cugiPgfIBkaqoHgqCVZUST1NECUBdE1pw_xamPsTx9TlwscXg4QQs&quot;, &quot;end_cursor&quot;: &quot;AQAzMuUrgTisw1DbgDgowhnBZAhS42fhX6ECo30lVBe8EtEDJHJ4nKgdqF7BxxOGzkHidfnhFX3YXkhRx_CvkAKzZfqx8aM5MZzAT9Wa1Rq8olQ3NVKT64s_oTglRrKUiw8&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;emily_bishop24&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fa'...</font> <i>(length=1064)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQAzMuUrgTisw1DbgDgowhnBZAhS42fhX6ECo30lVBe8EtEDJHJ4nKgdqF7BxxOGzkHidfnhFX3YXkhRx_CvkAKzZfqx8aM5MZzAT9Wa1Rq8olQ3NVKT64s_oTglRrKUiw8<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>21</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: emily_bishop24<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>25</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: lorena_mejia80<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:07:07am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAdawqA7FbSu2QPt9HnL3_0MIXSbRxPLZQn6Ltv9f_1f9ga6OHGP5mBeSc9oDtXjQb_ynPHv0dPZp5h8Swo1Qb2-yhq0ALY8BmuVOnf4syQZ-UrvSphsGlL4jT31GM3pBs&quot;, &quot;end_cursor&quot;: &quot;AQDnFFKALxR-Xko_f2X3nW2ARskTnAS9D3UP7UVFBRV8PDq0OLGjaYXEM5kD9cUbfmjZLBbbpsZwJ823aBpbLHmbAcz92ae12e1TvTi3_5M2-WKMfESQuG6aRR1tbzk13gA&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;nebraska_marketing&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: f'...</font> <i>(length=1270)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQDnFFKALxR-Xko_f2X3nW2ARskTnAS9D3UP7UVFBRV8PDq0OLGjaYXEM5kD9cUbfmjZLBbbpsZwJ823aBpbLHmbAcz92ae12e1TvTi3_5M2-WKMfESQuG6aRR1tbzk13gA<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>21</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: nebraska_marketing<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>14</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: cardoso1875<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>21</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: ricletobass<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>14</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: profgeraldoneto<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>21</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: vivian_gostosinha<br>
+<br>
+Ref Profil: plazaniteroi<br>
+2016-11-10 07:10:12am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 4035948664<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 19544, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQCLvfS0gFEL3NMhrBvCreAnv8ipQQEb8-2x05_jAsRAvygL5ir63lYJAr2C_Um_hDH0BQmPinq9ieD_LglhhSuxJvohKnItzGDwGwKM_uRS6uZ1jV3mFMovL4SHsJLKdPU&quot;, &quot;end_cursor&quot;: &quot;AQBXRqjShvxzL3P2KmulWfA2_yrGTjl3GEZAQRHaw2AzD3IVOGD4RM55Pp4bAWQtjQZwve57jXpJVqyqocbN-sMN-i1oxT1KlzN0TNmloDb0FjalM2O3b6IXSRQDCX4YdOw&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;camiilafranca&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false,'...</font> <i>(length=1269)</i>
+</pre><br>
+Ref Profil: plazaniteroi     ------>   End Cursor: AQBXRqjShvxzL3P2KmulWfA2_yrGTjl3GEZAQRHaw2AzD3IVOGD4RM55Pp4bAWQtjQZwve57jXpJVqyqocbN-sMN-i1oxT1KlzN0TNmloDb0FjalM2O3b6IXSRQDCX4YdOw<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>13</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: camiilafranca<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: arual.nielsen<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>13</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: thamiresferreirasilva<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: carloseduardo.marques.794<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>13</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: silva_jnr<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:10:18am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDnFFKALxR-Xko_f2X3nW2ARskTnAS9D3UP7UVFBRV8PDq0OLGjaYXEM5kD9cUbfmjZLBbbpsZwJ823aBpbLHmbAcz92ae12e1TvTi3_5M2-WKMfESQuG6aRR1tbzk13gA&quot;, &quot;end_cursor&quot;: &quot;AQBJ_KapNq2y9dUSBVP4b6zpxe77P6xsXKHI7o9VAl7F7JrNTn-AjFbYUYWy1wJ4-WAFJcsEBYtzzoZN8EutRcr-Z_YdzN3qrlEuvwdC-E2Xrz5PJLN7WOSlcUMN9cB4HuE&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;chocolatesqueromais&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: '...</font> <i>(length=1271)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQBJ_KapNq2y9dUSBVP4b6zpxe77P6xsXKHI7o9VAl7F7JrNTn-AjFbYUYWy1wJ4-WAFJcsEBYtzzoZN8EutRcr-Z_YdzN3qrlEuvwdC-E2Xrz5PJLN7WOSlcUMN9cB4HuE<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>20</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: chocolatesqueromais<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>18</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: walysson_andrade<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>20</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: lxmanutencoes<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>18</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: mundo_corderosa._<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBJ_KapNq2y9dUSBVP4b6zpxe77P6xsXKHI7o9VAl7F7JrNTn-AjFbYUYWy1wJ4-WAFJcsEBYtzzoZN8EutRcr-Z_YdzN3qrlEuvwdC-E2Xrz5PJLN7WOSlcUMN9cB4HuE&quot;, &quot;end_cursor&quot;: &quot;AQDDFVvk49EHghrGH_-pMxQCYLDrqoH44e7LAi4nDKArgPVNizhyghNR9nawwed3e-zsYn1QgMePYcTwwdMuFFfXKlr-luS9N9CNE4rNSgN8XXx7cDXdQz6EYVCTnRoyTqM&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;jessylopes&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: true, &quot;fu'...</font> <i>(length=1288)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQDDFVvk49EHghrGH_-pMxQCYLDrqoH44e7LAi4nDKArgPVNizhyghNR9nawwed3e-zsYn1QgMePYcTwwdMuFFfXKlr-luS9N9CNE4rNSgN8XXx7cDXdQz6EYVCTnRoyTqM<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>37</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: jaciararibeiroo<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:13:23am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1504436021<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876267, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAzMuUrgTisw1DbgDgowhnBZAhS42fhX6ECo30lVBe8EtEDJHJ4nKgdqF7BxxOGzkHidfnhFX3YXkhRx_CvkAKzZfqx8aM5MZzAT9Wa1Rq8olQ3NVKT64s_oTglRrKUiw8&quot;, &quot;end_cursor&quot;: &quot;AQA7RQTCjIGmhS2PGR1Yk0htE-ETQwhmcPtUUP7MwpQh9N7uCuYy-fMd5deaSWXlLkQz3vDYQPPzn_T5F0Id7GtU4rNiutqOuS1PJTGAGLxaeQQoQXPZcPVrnbKQviKR2EI&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;jessicads2016&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: tru'...</font> <i>(length=1256)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQA7RQTCjIGmhS2PGR1Yk0htE-ETQwhmcPtUUP7MwpQh9N7uCuYy-fMd5deaSWXlLkQz3vDYQPPzn_T5F0Id7GtU4rNiutqOuS1PJTGAGLxaeQQoQXPZcPVrnbKQviKR2EI<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>10</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: cy_weinrich_326<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876270, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQA7RQTCjIGmhS2PGR1Yk0htE-ETQwhmcPtUUP7MwpQh9N7uCuYy-fMd5deaSWXlLkQz3vDYQPPzn_T5F0Id7GtU4rNiutqOuS1PJTGAGLxaeQQoQXPZcPVrnbKQviKR2EI&quot;, &quot;end_cursor&quot;: &quot;AQDgymKefm5AwXBrWtkyTbSLubf44F-9up3bOFUBMdbWkL5WE2FH9hxFoY_bx_C2HH5jVx0-KoNvI-fjQiKYM5GXqpOfCzTDVemmElW9KtT2ZUMUoS5BHWhy42Uf0g9RXeM&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;lorena_remesso&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: tr'...</font> <i>(length=1051)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQDgymKefm5AwXBrWtkyTbSLubf44F-9up3bOFUBMdbWkL5WE2FH9hxFoY_bx_C2HH5jVx0-KoNvI-fjQiKYM5GXqpOfCzTDVemmElW9KtT2ZUMUoS5BHWhy42Uf0g9RXeM<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876271, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDgymKefm5AwXBrWtkyTbSLubf44F-9up3bOFUBMdbWkL5WE2FH9hxFoY_bx_C2HH5jVx0-KoNvI-fjQiKYM5GXqpOfCzTDVemmElW9KtT2ZUMUoS5BHWhy42Uf0g9RXeM&quot;, &quot;end_cursor&quot;: &quot;AQBAfuh9lB1qomPVkSfKCi9LTYKGhvUnWsX2HlM5w06nDLCY100B4NM1K3kTFBUyipDvgUjeGcphtZWf-NjwfpPHHRH-Bcbnh-WTLqbgwellfr1TcUwmyj0TP9j1ZoS4ipU&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;mayi214&quot;, &quot;requested_by_viewer&quot;: true, &quot;followed_by_viewer&quot;: false, &quot;fu'...</font> <i>(length=1174)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQBAfuh9lB1qomPVkSfKCi9LTYKGhvUnWsX2HlM5w06nDLCY100B4NM1K3kTFBUyipDvgUjeGcphtZWf-NjwfpPHHRH-Bcbnh-WTLqbgwellfr1TcUwmyj0TP9j1ZoS4ipU<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>27</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: echtambot93<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>15</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: aibek.makhambet<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>27</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: bruh_it_amanda113<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:13:30am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 683347745<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 233460595<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 42640365<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 308234682<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 540253592<br>
+<br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDDFVvk49EHghrGH_-pMxQCYLDrqoH44e7LAi4nDKArgPVNizhyghNR9nawwed3e-zsYn1QgMePYcTwwdMuFFfXKlr-luS9N9CNE4rNSgN8XXx7cDXdQz6EYVCTnRoyTqM&quot;, &quot;end_cursor&quot;: &quot;AQD1fNTdqAgNhUVxZ1PDu51SqWNVfoGZG8nSEatcb6babjUhTtdsNhqdIohh4wG3VaY30U7jPvR7tThlo7EXY8fJKi46W4oJAjiQaMNidj5sjtg5_TMqfddubqHC9SvG3W4&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;rodrigogbb&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: true, &quot;fu'...</font> <i>(length=1222)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQD1fNTdqAgNhUVxZ1PDu51SqWNVfoGZG8nSEatcb6babjUhTtdsNhqdIohh4wG3VaY30U7jPvR7tThlo7EXY8fJKi46W4oJAjiQaMNidj5sjtg5_TMqfddubqHC9SvG3W4<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>35</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: siilvamelo<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQD1fNTdqAgNhUVxZ1PDu51SqWNVfoGZG8nSEatcb6babjUhTtdsNhqdIohh4wG3VaY30U7jPvR7tThlo7EXY8fJKi46W4oJAjiQaMNidj5sjtg5_TMqfddubqHC9SvG3W4&quot;, &quot;end_cursor&quot;: &quot;AQAc_UPlv2TKtzqWPmMG2FEwq15hwYDDvXt3CiX8SlYvTDOayqwdyd548HgONphMrAeNPkQaqX-ehQGaIz6_2-wLUQ5l-PsvC0gaKqidNH24gNAT1sFscl9uTKYerbaSquc&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;a.miriane&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;fu'...</font> <i>(length=1233)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQAc_UPlv2TKtzqWPmMG2FEwq15hwYDDvXt3CiX8SlYvTDOayqwdyd548HgONphMrAeNPkQaqX-ehQGaIz6_2-wLUQ5l-PsvC0gaKqidNH24gNAT1sFscl9uTKYerbaSquc<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: a.miriane<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: japahousedelivery<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: lulucapessoa<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: robertovargasrio<br>
+<br>
+Ref Profil: plazaniteroi<br>
+2016-11-10 07:16:38am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 4035570287<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 19544, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBXRqjShvxzL3P2KmulWfA2_yrGTjl3GEZAQRHaw2AzD3IVOGD4RM55Pp4bAWQtjQZwve57jXpJVqyqocbN-sMN-i1oxT1KlzN0TNmloDb0FjalM2O3b6IXSRQDCX4YdOw&quot;, &quot;end_cursor&quot;: &quot;AQDZ-RueUw195g4pi8Dvm0-rrLQT6RG5U-t4aKR-tjUKp63uO-J-bGBXEqV9fJrq-eJXTMjT2n9DYWSUlXm_UhT-yKnygDI_0lJwn4Bx1eeYuIHkpakEsHi3Rky5zpIuRwM&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;lelle_borges_&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false,'...</font> <i>(length=1222)</i>
+</pre><br>
+Ref Profil: plazaniteroi     ------>   End Cursor: AQDZ-RueUw195g4pi8Dvm0-rrLQT6RG5U-t4aKR-tjUKp63uO-J-bGBXEqV9fJrq-eJXTMjT2n9DYWSUlXm_UhT-yKnygDI_0lJwn4Bx1eeYuIHkpakEsHi3Rky5zpIuRwM<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>12</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: lelle_borges_<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: afmatta<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>12</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: rael_face<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: marixs<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>12</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: priscilladuatte<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:16:44am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAc_UPlv2TKtzqWPmMG2FEwq15hwYDDvXt3CiX8SlYvTDOayqwdyd548HgONphMrAeNPkQaqX-ehQGaIz6_2-wLUQ5l-PsvC0gaKqidNH24gNAT1sFscl9uTKYerbaSquc&quot;, &quot;end_cursor&quot;: &quot;AQAr2yBa_1EEwVuGF_mAiGOrTABaOx7UUO-2rc8Kyb84CJwo1FLeqJ8ODBJxslDHlBrReQ0DBwNZNh1W_Sk6CYOryugnbDBQZqeFxfBMH9ELCbmjHXCN100RoLTHLNqhg5I&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;pitanga1000&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;'...</font> <i>(length=1251)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQAr2yBa_1EEwVuGF_mAiGOrTABaOx7UUO-2rc8Kyb84CJwo1FLeqJ8ODBJxslDHlBrReQ0DBwNZNh1W_Sk6CYOryugnbDBQZqeFxfBMH9ELCbmjHXCN100RoLTHLNqhg5I<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>36</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: pitanga1000<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: dj.alex.capa.capa<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>36</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: analuciasaldanha<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAr2yBa_1EEwVuGF_mAiGOrTABaOx7UUO-2rc8Kyb84CJwo1FLeqJ8ODBJxslDHlBrReQ0DBwNZNh1W_Sk6CYOryugnbDBQZqeFxfBMH9ELCbmjHXCN100RoLTHLNqhg5I&quot;, &quot;end_cursor&quot;: &quot;AQBg5QUlrM20x7HrPl3q8Ks2nKYJQ0znPAHEOFT5RQDtRIksw0TXFm4zwgaNarjC8vsXBs5yUgJ4YshnGD6VXSPC_x9dDDV4uWb1VDzttNLmyQHc--r1-qahHjW78oCyJo0&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;daltvivi&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;ful'...</font> <i>(length=1093)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQBg5QUlrM20x7HrPl3q8Ks2nKYJQ0znPAHEOFT5RQDtRIksw0TXFm4zwgaNarjC8vsXBs5yUgJ4YshnGD6VXSPC_x9dDDV4uWb1VDzttNLmyQHc--r1-qahHjW78oCyJo0<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: daltvivi<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: aninha_deazevedo<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:19:50am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 501773413<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876429, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBAfuh9lB1qomPVkSfKCi9LTYKGhvUnWsX2HlM5w06nDLCY100B4NM1K3kTFBUyipDvgUjeGcphtZWf-NjwfpPHHRH-Bcbnh-WTLqbgwellfr1TcUwmyj0TP9j1ZoS4ipU&quot;, &quot;end_cursor&quot;: &quot;AQBwafOLW1JZakIPCoWwHiQ0iUgDe3uD8Amfhw-TiMGyVJniCPp0_ybjylh2JEqh-UIkH8-kr8kYZmOUsQlQ1H1PEWAk5DWVt8cObkCrqM1bR-U1CZ7HdzeqjIo4OULK7-g&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;aleksandrtria&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fal'...</font> <i>(length=1328)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQBwafOLW1JZakIPCoWwHiQ0iUgDe3uD8Amfhw-TiMGyVJniCPp0_ybjylh2JEqh-UIkH8-kr8kYZmOUsQlQ1H1PEWAk5DWVt8cObkCrqM1bR-U1CZ7HdzeqjIo4OULK7-g<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: aleksandrtria<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>14</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: luisrocha180796<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: luke._grey._<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>14</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: diana100pre_hermosa<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: aneukpidie7355<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:19:55am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBg5QUlrM20x7HrPl3q8Ks2nKYJQ0znPAHEOFT5RQDtRIksw0TXFm4zwgaNarjC8vsXBs5yUgJ4YshnGD6VXSPC_x9dDDV4uWb1VDzttNLmyQHc--r1-qahHjW78oCyJo0&quot;, &quot;end_cursor&quot;: &quot;AQDtkZ4aB_jkEkeedmq9EMJ4LShs1ypCoRx6rgELMJad0RdU9-wFBNymyddLljS7sT2eBiaGxisdckl2ki3VcWm-xc9HGyHy096E2Xr2illZqz65KOEFSPogHVuTfO5jhD0&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;marciacapelletto&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fal'...</font> <i>(length=1224)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQDtkZ4aB_jkEkeedmq9EMJ4LShs1ypCoRx6rgELMJad0RdU9-wFBNymyddLljS7sT2eBiaGxisdckl2ki3VcWm-xc9HGyHy096E2Xr2illZqz65KOEFSPogHVuTfO5jhD0<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: marciacapelletto<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: ortograficarlalfa<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: lahcortelazzi<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDtkZ4aB_jkEkeedmq9EMJ4LShs1ypCoRx6rgELMJad0RdU9-wFBNymyddLljS7sT2eBiaGxisdckl2ki3VcWm-xc9HGyHy096E2Xr2illZqz65KOEFSPogHVuTfO5jhD0&quot;, &quot;end_cursor&quot;: &quot;AQC8iBTTxTcweeI2lkZiHs3OKqfe3zDYq9DbksuOWZ_sZam-i8W0HIluwrQuo51JH-_G_xn7r_IzYbUiTVLY0hq2JQRLek-kjXioz2YI1LqBn3F6PKBq5kP90xC7TpFcYa8&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;rodrigo_biagioni&quot;, &quot;requested_by_viewer&quot;: true, &quot;followed_by_viewer&quot;: fals'...</font> <i>(length=1293)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQC8iBTTxTcweeI2lkZiHs3OKqfe3zDYq9DbksuOWZ_sZam-i8W0HIluwrQuo51JH-_G_xn7r_IzYbUiTVLY0hq2JQRLek-kjXioz2YI1LqBn3F6PKBq5kP90xC7TpFcYa8<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: ericksonesueli<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: lokodesign<br>
+<br>
+Ref Profil: plazaniteroi<br>
+2016-11-10 07:23:01am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 4035116631<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 19544, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDZ-RueUw195g4pi8Dvm0-rrLQT6RG5U-t4aKR-tjUKp63uO-J-bGBXEqV9fJrq-eJXTMjT2n9DYWSUlXm_UhT-yKnygDI_0lJwn4Bx1eeYuIHkpakEsHi3Rky5zpIuRwM&quot;, &quot;end_cursor&quot;: &quot;AQBBBKr6AZLqe0AWWgQvzJprKVZjja-hA15dvKa--Li5e5qLwrS67yo1GvIlD5TZrI2mYVImg4KGnZ-W-XNb9LzaptWM-oFYmBL35tVM6eKB0Ww1w_KH7F7TM_lTTBBrOJc&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;rafinhatellesn&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false'...</font> <i>(length=1236)</i>
+</pre><br>
+Ref Profil: plazaniteroi     ------>   End Cursor: AQBBBKr6AZLqe0AWWgQvzJprKVZjja-hA15dvKa--Li5e5qLwrS67yo1GvIlD5TZrI2mYVImg4KGnZ-W-XNb9LzaptWM-oFYmBL35tVM6eKB0Ww1w_KH7F7TM_lTTBBrOJc<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: rafinhatellesn<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>24</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: arteimagem<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: __priimarksss<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>24</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: alessandra4938<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>22</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: fabby_albernaz22<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:23:06am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1545707058<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1504341219<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 828584832<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 3436469259<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 3441311627<br>
+<br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQC8iBTTxTcweeI2lkZiHs3OKqfe3zDYq9DbksuOWZ_sZam-i8W0HIluwrQuo51JH-_G_xn7r_IzYbUiTVLY0hq2JQRLek-kjXioz2YI1LqBn3F6PKBq5kP90xC7TpFcYa8&quot;, &quot;end_cursor&quot;: &quot;AQBNRRzGekxc21cg_3J763byo1V0AB8R0SD7x-59ZUPGJSpbf9OkuhzvQrUgmmQ0riZBwe2uj0CCyTaSL-viS0aE2N5FJjb_wtsOsvmOSKJbA7jFMRBeRTiDUhUU9bxcXBU&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;maurinhonatalia&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fals'...</font> <i>(length=1273)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQBNRRzGekxc21cg_3J763byo1V0AB8R0SD7x-59ZUPGJSpbf9OkuhzvQrUgmmQ0riZBwe2uj0CCyTaSL-viS0aE2N5FJjb_wtsOsvmOSKJbA7jFMRBeRTiDUhUU9bxcXBU<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: maurinhonatalia<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>34</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: oscomandantesdacozinha<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: julianapastura<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>34</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: biaventurotti<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: helry_santos<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:26:15am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1971967645<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876575, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBwafOLW1JZakIPCoWwHiQ0iUgDe3uD8Amfhw-TiMGyVJniCPp0_ybjylh2JEqh-UIkH8-kr8kYZmOUsQlQ1H1PEWAk5DWVt8cObkCrqM1bR-U1CZ7HdzeqjIo4OULK7-g&quot;, &quot;end_cursor&quot;: &quot;AQA4ESsN9tb8AWaNACUiDlecy5PGrdGQFCTx4g_ba3U4LtjtklMRRnwN0tqb31El8q6rITMhnnFqyiu-HPuCLpWhVwgQyXF8VfTyHtevca43-59EHKqOugTLeQ6xDg3Szao&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;beessassy02&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: true,'...</font> <i>(length=1217)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQA4ESsN9tb8AWaNACUiDlecy5PGrdGQFCTx4g_ba3U4LtjtklMRRnwN0tqb31El8q6rITMhnnFqyiu-HPuCLpWhVwgQyXF8VfTyHtevca43-59EHKqOugTLeQ6xDg3Szao<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876573, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQA4ESsN9tb8AWaNACUiDlecy5PGrdGQFCTx4g_ba3U4LtjtklMRRnwN0tqb31El8q6rITMhnnFqyiu-HPuCLpWhVwgQyXF8VfTyHtevca43-59EHKqOugTLeQ6xDg3Szao&quot;, &quot;end_cursor&quot;: &quot;AQDOAbNaJ139wqgMOhZwY2H27UeAKPkS6y0mGACOHXmzoDMEU2lU603Y0uFNIj4DE55O3FyM6KUt60IdLJR0taPMxuAn4MMMFBDsAlODeffROwmq0uIxVj_xysL7nvXBp7A&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;h5391833&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: true, &quot;f'...</font> <i>(length=1242)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQDOAbNaJ139wqgMOhZwY2H27UeAKPkS6y0mGACOHXmzoDMEU2lU603Y0uFNIj4DE55O3FyM6KUt60IdLJR0taPMxuAn4MMMFBDsAlODeffROwmq0uIxVj_xysL7nvXBp7A<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876572, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDOAbNaJ139wqgMOhZwY2H27UeAKPkS6y0mGACOHXmzoDMEU2lU603Y0uFNIj4DE55O3FyM6KUt60IdLJR0taPMxuAn4MMMFBDsAlODeffROwmq0uIxVj_xysL7nvXBp7A&quot;, &quot;end_cursor&quot;: &quot;AQD8EkrFgfho6WzQrDPaaNQzHtNS0_axipUH9SfLhOQEtBzUxCgYrNzYNmSyaxGrhUKSueT3hs8-TxsJhj-Cl2-sTRgLCT_NnhuGDAOfZ4EAWBMUpcgow19YAr9NOLsZPYk&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;jeanpier.c.vargas&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;:'...</font> <i>(length=1291)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQD8EkrFgfho6WzQrDPaaNQzHtNS0_axipUH9SfLhOQEtBzUxCgYrNzYNmSyaxGrhUKSueT3hs8-TxsJhj-Cl2-sTRgLCT_NnhuGDAOfZ4EAWBMUpcgow19YAr9NOLsZPYk<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>38</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: dajiidaj<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:26:19am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBNRRzGekxc21cg_3J763byo1V0AB8R0SD7x-59ZUPGJSpbf9OkuhzvQrUgmmQ0riZBwe2uj0CCyTaSL-viS0aE2N5FJjb_wtsOsvmOSKJbA7jFMRBeRTiDUhUU9bxcXBU&quot;, &quot;end_cursor&quot;: &quot;AQD-v3y1t95--oeotWjn1-SFF48KZbAakZQsrD-FFHBpF-ITqcPcuIfwXeggRF1G_BUz4m7qMdQh48ri4RiIObfj9285aqE959EyDenlA_agp6AMLWmgTWBpDkLiC4R1OzA&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;arielaflexa&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;'...</font> <i>(length=1231)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQD-v3y1t95--oeotWjn1-SFF48KZbAakZQsrD-FFHBpF-ITqcPcuIfwXeggRF1G_BUz4m7qMdQh48ri4RiIObfj9285aqE959EyDenlA_agp6AMLWmgTWBpDkLiC4R1OzA<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: arielaflexa<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>25</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: moniqueassessora23<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: rurystilus<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>25</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: dansalustiano<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQD-v3y1t95--oeotWjn1-SFF48KZbAakZQsrD-FFHBpF-ITqcPcuIfwXeggRF1G_BUz4m7qMdQh48ri4RiIObfj9285aqE959EyDenlA_agp6AMLWmgTWBpDkLiC4R1OzA&quot;, &quot;end_cursor&quot;: &quot;AQD7Y1Y9wdkZtzQ1LgybpUVagYS3qjvJEXK_ciNEDEZFxB58pi9bBCmEqMbDwoqYJ8qPHGkhQJiCnCI6e9PoC9m-9U5SeCmJgHKfpkzznl70TjWl_KvCTHWu9moLb_Vkwfg&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;germana.silveira.3&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: f'...</font> <i>(length=1083)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQD7Y1Y9wdkZtzQ1LgybpUVagYS3qjvJEXK_ciNEDEZFxB58pi9bBCmEqMbDwoqYJ8qPHGkhQJiCnCI6e9PoC9m-9U5SeCmJgHKfpkzznl70TjWl_KvCTHWu9moLb_Vkwfg<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>34</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: germana.silveira.3<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:29:24am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 4035998418<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876685, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQD8EkrFgfho6WzQrDPaaNQzHtNS0_axipUH9SfLhOQEtBzUxCgYrNzYNmSyaxGrhUKSueT3hs8-TxsJhj-Cl2-sTRgLCT_NnhuGDAOfZ4EAWBMUpcgow19YAr9NOLsZPYk&quot;, &quot;end_cursor&quot;: &quot;AQAWiVaLgzGUq2l4ZmHEh9L84BDsb-2Kzuy9S0eGNXr5ioINzGxskh1aHuC-411ZYHR9g23ZTG2pSvJmTOI9OlCH72f43cDtEKjy-IljfpuFymya84F4WVHjBLL2UiqJy70&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;camgearacelove&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: tr'...</font> <i>(length=1152)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQAWiVaLgzGUq2l4ZmHEh9L84BDsb-2Kzuy9S0eGNXr5ioINzGxskh1aHuC-411ZYHR9g23ZTG2pSvJmTOI9OlCH72f43cDtEKjy-IljfpuFymya84F4WVHjBLL2UiqJy70<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876685, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAWiVaLgzGUq2l4ZmHEh9L84BDsb-2Kzuy9S0eGNXr5ioINzGxskh1aHuC-411ZYHR9g23ZTG2pSvJmTOI9OlCH72f43cDtEKjy-IljfpuFymya84F4WVHjBLL2UiqJy70&quot;, &quot;end_cursor&quot;: &quot;AQCsg7Zra1MeelcNbV9Hys793CgGFWiAl9MRsktwjY_9txtk0Ul5Z5S-EvwHweLQIdBuoyrShMvQ_7Dnk35U7MxI1-tYbGM46KQgJtj9AzNlWkN1_H-oNXrv1tj3R5Yg6lg&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;mo.fekry&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;'...</font> <i>(length=1353)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQCsg7Zra1MeelcNbV9Hys793CgGFWiAl9MRsktwjY_9txtk0Ul5Z5S-EvwHweLQIdBuoyrShMvQ_7Dnk35U7MxI1-tYbGM46KQgJtj9AzNlWkN1_H-oNXrv1tj3R5Yg6lg<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: mo.fekry<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: tlbyg<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marielab15<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>33</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: _riskoo_gang_332__95600<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>9</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: phisthaaaekwkhaaw<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:29:30am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQD7Y1Y9wdkZtzQ1LgybpUVagYS3qjvJEXK_ciNEDEZFxB58pi9bBCmEqMbDwoqYJ8qPHGkhQJiCnCI6e9PoC9m-9U5SeCmJgHKfpkzznl70TjWl_KvCTHWu9moLb_Vkwfg&quot;, &quot;end_cursor&quot;: &quot;AQDIrtkt2vYHb5dA_CUtwxAyT94qNC5QAPhDcN7SqAuY8ZTZq7JDzW1tayCXT3yXCkoQ3F14FsiH1y1o8S1SlTVQfmSpCHp4xCxcyRYiwERyT0q2Y3m0wpGtvSFRBMvmvP8&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;marcia_baiana&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false,'...</font> <i>(length=1255)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQDIrtkt2vYHb5dA_CUtwxAyT94qNC5QAPhDcN7SqAuY8ZTZq7JDzW1tayCXT3yXCkoQ3F14FsiH1y1o8S1SlTVQfmSpCHp4xCxcyRYiwERyT0q2Y3m0wpGtvSFRBMvmvP8<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marcia_baiana<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>20</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: raiane_10001<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: pastarosa_servicos<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>20</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: fernandalimoeiro<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDIrtkt2vYHb5dA_CUtwxAyT94qNC5QAPhDcN7SqAuY8ZTZq7JDzW1tayCXT3yXCkoQ3F14FsiH1y1o8S1SlTVQfmSpCHp4xCxcyRYiwERyT0q2Y3m0wpGtvSFRBMvmvP8&quot;, &quot;end_cursor&quot;: &quot;AQCJczoBinpm6GOluAVcJRjJQmMWadULntGJ6meCzaxJk-fpdknoooOoVL5Et2Y1m9oXdqVra_zgi2jVjv12Y_RWBPQ1ybdDu-bS0DBorbgEJOh7HFtBl1NA0lGs4cs6NYQ&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;priscila3421&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, '...</font> <i>(length=1222)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQCJczoBinpm6GOluAVcJRjJQmMWadULntGJ6meCzaxJk-fpdknoooOoVL5Et2Y1m9oXdqVra_zgi2jVjv12Y_RWBPQ1ybdDu-bS0DBorbgEJOh7HFtBl1NA0lGs4cs6NYQ<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>34</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: priscila3421<br>
+<br>
+Ref Profil: plazaniteroi<br>
+2016-11-10 07:32:41am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 4034379216<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 19544, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBBBKr6AZLqe0AWWgQvzJprKVZjja-hA15dvKa--Li5e5qLwrS67yo1GvIlD5TZrI2mYVImg4KGnZ-W-XNb9LzaptWM-oFYmBL35tVM6eKB0Ww1w_KH7F7TM_lTTBBrOJc&quot;, &quot;end_cursor&quot;: &quot;AQBiedqaJlD9CJuVUS6fB1H4Zvu1OIqh4RzCJBx7ON4GFdXpLOWKEKY7NATSJumNcKmZtz86YyQfpGgXei-PLyzFG6Zh2Db_p-VLkyxcnWmRM3iOhMf5p21kWrUv4iQM0RQ&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;robertakelli94&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false'...</font> <i>(length=1263)</i>
+</pre><br>
+Ref Profil: plazaniteroi     ------>   End Cursor: AQBiedqaJlD9CJuVUS6fB1H4Zvu1OIqh4RzCJBx7ON4GFdXpLOWKEKY7NATSJumNcKmZtz86YyQfpGgXei-PLyzFG6Zh2Db_p-VLkyxcnWmRM3iOhMf5p21kWrUv4iQM0RQ<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>29</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: robertakelli94<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>31</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: gi_sellesobral<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>29</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: paula_monteirodebarros<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>31</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: cottaantonio<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>29</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: fernandinhagatinha123<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:32:47am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Há solicitações demais. Tente novamente mais tarde.'</font> <i>(length=54)</i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQCJczoBinpm6GOluAVcJRjJQmMWadULntGJ6meCzaxJk-fpdknoooOoVL5Et2Y1m9oXdqVra_zgi2jVjv12Y_RWBPQ1ybdDu-bS0DBorbgEJOh7HFtBl1NA0lGs4cs6NYQ&quot;, &quot;end_cursor&quot;: &quot;AQA03IYrxChp69STTkoK6M6ZMLRILs70gnHQdGKYHtEl01-VPYR5G3tBhlFAN-4XlguUtZP2x897nYWXd26rwy2g4h0oZz-HafjgFbFED4wakEygupTXduIE8ebUdBrTfnk&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;diantoniocarrinhosgourmet&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_vie'...</font> <i>(length=1386)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQA03IYrxChp69STTkoK6M6ZMLRILs70gnHQdGKYHtEl01-VPYR5G3tBhlFAN-4XlguUtZP2x897nYWXd26rwy2g4h0oZz-HafjgFbFED4wakEygupTXduIE8ebUdBrTfnk<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>12</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: diantoniocarrinhosgourmet<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: francoborgescantor<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>12</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: gabrielacravoecanelaoriginal<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQA03IYrxChp69STTkoK6M6ZMLRILs70gnHQdGKYHtEl01-VPYR5G3tBhlFAN-4XlguUtZP2x897nYWXd26rwy2g4h0oZz-HafjgFbFED4wakEygupTXduIE8ebUdBrTfnk&quot;, &quot;end_cursor&quot;: &quot;AQCxANk0sgNm1qZqTb0VA_eLDFcggVweV9QgirM6CTzmZTDT4ES905mQwWKocp22o3hFSFml-7KR4RgsxGk_4WyA8OjExF3cXpxqq9uDiafjf3vuhTu5jDHTRrZwLl5OR28&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;estarlenereis&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: true, '...</font> <i>(length=1250)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQCxANk0sgNm1qZqTb0VA_eLDFcggVweV9QgirM6CTzmZTDT4ES905mQwWKocp22o3hFSFml-7KR4RgsxGk_4WyA8OjExF3cXpxqq9uDiafjf3vuhTu5jDHTRrZwLl5OR28<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>14</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: pbuentes<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: andreanakamura21<br>
+<br>
+Ref Profil: nike<br>
+2016-11-10 07:35:53am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 2152883875<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876855, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQCsg7Zra1MeelcNbV9Hys793CgGFWiAl9MRsktwjY_9txtk0Ul5Z5S-EvwHweLQIdBuoyrShMvQ_7Dnk35U7MxI1-tYbGM46KQgJtj9AzNlWkN1_H-oNXrv1tj3R5Yg6lg&quot;, &quot;end_cursor&quot;: &quot;AQAs_zZTB7bT-c4qwUkMAyF8SL11ptppZ6rsuS7ShYrCpMKQ6ErjVGDFaV-4MwtiCAByAGIpciqNBYFpri_6dtulFHQ9-PJ4pHGGPrWYOeH4fD9gSU8rOnudDY5zcspTjyI&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;restrepo5486&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: fals'...</font> <i>(length=1317)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQAs_zZTB7bT-c4qwUkMAyF8SL11ptppZ6rsuS7ShYrCpMKQ6ErjVGDFaV-4MwtiCAByAGIpciqNBYFpri_6dtulFHQ9-PJ4pHGGPrWYOeH4fD9gSU8rOnudDY5zcspTjyI<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: restrepo5486<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>19</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: roz151551<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>30</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: dzhamilia1688<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>19</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: blakezack123<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876857, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQAs_zZTB7bT-c4qwUkMAyF8SL11ptppZ6rsuS7ShYrCpMKQ6ErjVGDFaV-4MwtiCAByAGIpciqNBYFpri_6dtulFHQ9-PJ4pHGGPrWYOeH4fD9gSU8rOnudDY5zcspTjyI&quot;, &quot;end_cursor&quot;: &quot;AQBwTKFAC5javVNubhS6H7ttuGrWYdBRwWJv9dRYmksSvGmsfdNDA85uehtGqbuSMVW7BmhyvB2h9DxiQi9DxHe9eMdQ8Aq1xRwBTcGA1F_6lmvWFH2gMjdtWsJZofu28UU&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;jorgeemilianogonzalezcolin&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by'...</font> <i>(length=1108)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQBwTKFAC5javVNubhS6H7ttuGrWYdBRwWJv9dRYmksSvGmsfdNDA85uehtGqbuSMVW7BmhyvB2h9DxiQi9DxHe9eMdQ8Aq1xRwBTcGA1F_6lmvWFH2gMjdtWsJZofu28UU<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 65876859, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBwTKFAC5javVNubhS6H7ttuGrWYdBRwWJv9dRYmksSvGmsfdNDA85uehtGqbuSMVW7BmhyvB2h9DxiQi9DxHe9eMdQ8Aq1xRwBTcGA1F_6lmvWFH2gMjdtWsJZofu28UU&quot;, &quot;end_cursor&quot;: &quot;AQDakaELpr09mXuOgHqQhvZol482_5sTQp8G31QaFg63CbmGCyNbE_7Z8nJifMwp8BwmOxg5MQlFCY60V8lDaDg6PUJqG7SLwH1IUCyvQDA8HgAhL7_aubFsC7hir0GCFgM&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;lebinhphuongnguyen_leo&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_vie'...</font> <i>(length=1244)</i>
+</pre><br>
+Ref Profil: nike     ------>   End Cursor: AQDakaELpr09mXuOgHqQhvZol482_5sTQp8G31QaFg63CbmGCyNbE_7Z8nJifMwp8BwmOxg5MQlFCY60V8lDaDg6PUJqG7SLwH1IUCyvQDA8HgAhL7_aubFsC7hir0GCFgM<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:36:01am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1487559627<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 470394739<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 2692026968<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 3229954172<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1427899133<br>
+<br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQCxANk0sgNm1qZqTb0VA_eLDFcggVweV9QgirM6CTzmZTDT4ES905mQwWKocp22o3hFSFml-7KR4RgsxGk_4WyA8OjExF3cXpxqq9uDiafjf3vuhTu5jDHTRrZwLl5OR28&quot;, &quot;end_cursor&quot;: &quot;AQDHDzVQH7Fkx378bcd45VnSkosMfs8D2sfUj18PEr_CBBOLAHEwyqx69INHLiVCDbS2Q6QMEgGlm4ENF6eAnSvkC2li51imN61HbeZRYNb2JNvGr2ON1910TTzVZhEDwOs&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;debyamorim2307&quot;, &quot;requested_by_viewer&quot;: true, &quot;followed_by_viewer&quot;: false,'...</font> <i>(length=1266)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQDHDzVQH7Fkx378bcd45VnSkosMfs8D2sfUj18PEr_CBBOLAHEwyqx69INHLiVCDbS2Q6QMEgGlm4ENF6eAnSvkC2li51imN61HbeZRYNb2JNvGr2ON1910TTzVZhEDwOs<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>23</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: alexoelzepersonal<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>28</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: giovannampm<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQDHDzVQH7Fkx378bcd45VnSkosMfs8D2sfUj18PEr_CBBOLAHEwyqx69INHLiVCDbS2Q6QMEgGlm4ENF6eAnSvkC2li51imN61HbeZRYNb2JNvGr2ON1910TTzVZhEDwOs&quot;, &quot;end_cursor&quot;: &quot;AQBOwUt0C_XyDzrW-QZBq5zuyHw9y2wEvrs0PO6CHR7OAiI3slH5pXl0x2a70O9K-l5mKGwzslloufWI0AkRjPic3FvEtxjdRp0jK-VNYIe2rEVQfRzqkilYzWdNw2tiBZM&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;renatageromel&quot;, &quot;requested_by_viewer&quot;: true, &quot;followed_by_viewer&quot;: false, '...</font> <i>(length=1274)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQBOwUt0C_XyDzrW-QZBq5zuyHw9y2wEvrs0PO6CHR7OAiI3slH5pXl0x2a70O9K-l5mKGwzslloufWI0AkRjPic3FvEtxjdRp0jK-VNYIe2rEVQfRzqkilYzWdNw2tiBZM<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>18</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: vihh_beegamin<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>23</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: alinemoreira1407<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 46491, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBOwUt0C_XyDzrW-QZBq5zuyHw9y2wEvrs0PO6CHR7OAiI3slH5pXl0x2a70O9K-l5mKGwzslloufWI0AkRjPic3FvEtxjdRp0jK-VNYIe2rEVQfRzqkilYzWdNw2tiBZM&quot;, &quot;end_cursor&quot;: &quot;AQAaGkifuntlrRgx8s-mk5JNHfDtRdogMnYt_pW7xHNKReeksnVzszejBhGbV8dxKFlpYCURNTQHs0M4bY_EL-PM6h6R5Q8lFATHHlBJpbLBWkMBAVUxDUtXkFtnAJ0chjQ&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;marrenildy&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, &quot;f'...</font> <i>(length=1221)</i>
+</pre><br>
+Ref Profil: restaurantemanekineko     ------>   End Cursor: AQAaGkifuntlrRgx8s-mk5JNHfDtRdogMnYt_pW7xHNKReeksnVzszejBhGbV8dxKFlpYCURNTQHs0M4bY_EL-PM6h6R5Q8lFATHHlBJpbLBWkMBAVUxDUtXkFtnAJ0chjQ<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>12</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: marrenildy<br>
+<br>
+Ref Profil: plazaniteroi<br>
+2016-11-10 07:39:11am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 4037326723<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:117:</small>
+<b>array</b> <i>(size=0)</i>
+  <i><font color='#888a85'>empty</font></i>
+</pre><br>
+make_insta_friendships_command FOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:253:</small>
+<b>array</b> <i>(size=1)</i>
+  0 <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'{&quot;status&quot;: &quot;ok&quot;, &quot;followed_by&quot;: {&quot;count&quot;: 19544, &quot;page_info&quot;: {&quot;has_previous_page&quot;: true, &quot;start_cursor&quot;: &quot;AQBiedqaJlD9CJuVUS6fB1H4Zvu1OIqh4RzCJBx7ON4GFdXpLOWKEKY7NATSJumNcKmZtz86YyQfpGgXei-PLyzFG6Zh2Db_p-VLkyxcnWmRM3iOhMf5p21kWrUv4iQM0RQ&quot;, &quot;end_cursor&quot;: &quot;AQChFcs4VAF8IyrcUS2Gjbbr-vjKwZ2UuO5VAlnFLBr8YnJ8sNsp5DtN5LmN2Jpm9o8dDKO8X2lJIALzFl32u--ZQVHOH4Is0Xkq6_HR8Or6GUnYm9dSzFQsS-m9QYx9ANE&quot;, &quot;has_next_page&quot;: true}, &quot;nodes&quot;: [{&quot;username&quot;: &quot;grion_aquino&quot;, &quot;requested_by_viewer&quot;: false, &quot;followed_by_viewer&quot;: false, '...</font> <i>(length=1330)</i>
+</pre><br>
+Ref Profil: plazaniteroi     ------>   End Cursor: AQChFcs4VAF8IyrcUS2Gjbbr-vjKwZ2UuO5VAlnFLBr8YnJ8sNsp5DtN5LmN2Jpm9o8dDKO8X2lJIALzFl32u--ZQVHOH4Is0Xkq6_HR8Or6GUnYm9dSzFQsS-m9QYx9ANE<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>41</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: grion_aquino<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>10</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: ortobom.shoppingicarai<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>41</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'requested'</font> <i>(length=9)</i>
+</pre>Profil name: jesspiress<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>10</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: free.design<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:146:</small>
+<b>object</b>(<i>stdClass</i>)[<i>41</i>]
+  <i>public</i> 'status' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'ok'</font> <i>(length=2)</i>
+  <i>public</i> 'result' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'following'</font> <i>(length=9)</i>
+</pre>Profil name: mais.cor.pfvr<br>
+<br>
+Ref Profil: restaurantemanekineko<br>
+2016-11-10 07:39:18am<br>
+ make_insta_friendships_command UNFOLLOW <br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1299029620<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1175365209<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1523415212<br>
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/dumbu/worker/class/Robot.php:109:</small><small>string</small> <font color='#cc0000'>'{&quot;status&quot;:&quot;ok&quot;}'</font> <i>(length=15)</i>
+</pre>Followed ID: 1628127279<br>
+<pre class='xdebug-var-dump' dir=

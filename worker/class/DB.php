@@ -8,7 +8,7 @@ namespace dumbu\cls {
         const port = '3128';
         const db = 'dumbudb';
         const user = 'root';
-        const pass = '';
+        const pass = 'csduo2004mysql';
 
         private $connection = NULL;
 
