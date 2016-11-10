@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link rel="shortcut icon" href="<?php echo base_url().'assets/img/icon.png'?>">
         <style type="text/css">                       
             a { color: white; background-color: transparent; font-weight: normal; font-size: 12px;}                        
-            #container {z-index: 1; position: absolute; left: 0.1%; top:0.1%; width: 99.8%; height: 99.8%;}            
+            #container {z-index: 1; position: absolute; left: 0%; top:0%; width: 100%; height: 100%;}            
             #head { position: absolute;  background-color: #0F0F0F; top:0%; height: 10%; width: 100%;}             
             #body {position: absolute; background-color: #2B2B2B; top:10%; height: 74%; width: 100%;}             
             #footer {position: absolute; background-color: #202020; top:84%; height: 16%; width: 100%;}
@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
 
                 <div id="my_sesion" style="position: absolute; top:55%; left: 93%;">
-                    <a  href="<?php echo base_url().'index.php/welcome/reload_panel_client'?>">PERFIS</a>
+                    <a  href="<?php echo base_url().'index.php/welcome/panel_client'?>">PERFIS</a>
                 </div>
 
                 <center>

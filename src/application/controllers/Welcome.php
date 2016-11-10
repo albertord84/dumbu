@@ -5,7 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index() {
-        if ($this->session->userdata('id'))
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT)
             $data['user_active']=true;
         else
             $data['user_active']=false;
@@ -139,7 +140,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_role');
         $datas = $this->input->post();
         $data_insta = $this->is_insta_user($datas['client_login'], $datas['client_pass']);
-        if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+        if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
             $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
             $N = count($client);
             if ($N == 0) { //si no existe em dumbus
@@ -196,7 +197,74 @@ class Welcome extends CI_Controller {
             $this->load->model('class/dumbu_system_config');
             $day_plus = strtotime("+".dumbu_system_config::PROMOTION_N_FREE_DAYS." days", time());
             $datas['pay_day'] = $day_plus;
-            $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;            
+            $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE; 
+            try {
+                $this->user_model->update_user($datas['pk'], array(
+                    'email' => $datas['client_email']));                
+                $this->client_model->update_client($datas['pk'], array(
+                    'credit_card_number' => $datas['client_credit_card_number'],
+                    'credit_card_cvc' => $datas['client_credit_card_cvv'],
+                    'credit_card_name' => $datas['client_credit_card_name'],
+                    'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
+                    'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
+                    //'credit_card_status_id' => credit_card_status::ACTIVE,
+                    //'order_key'=>$resp->getData()->OrderResult->OrderKey,                    
+                    'pay_day' => $datas['pay_day']));
+            } catch (Exception $exc) {
+                $result['success'] = false;
+                $result['exception'] = $exc->getTraceAsString();                
+                $result['message'] = 'Error actualizando en base de datos';
+            } finally {
+                $resp=$this->check_mundipagg_credit_card($datas);
+                if (is_object($resp)&& $resp->isSuccess() ) {
+                    try {
+                        $this->client_model->update_client($datas['pk'], array(
+                            'order_key'=>$resp->getData()->OrderResult->OrderKey));                        
+                        if ($datas['need_delete'] < dumbu_system_config::MIN_MARGIN_TO_INIT)
+                            $datas['status_id'] = user_status::UNFOLLOW;
+                        else
+                            $datas['status_id'] = user_status::ACTIVE;                                                
+                        $this->user_model->update_user($datas['pk'], array(
+                            'status_id' => $datas['status_id']));
+                    } catch (Exception $exc) {
+                        $this->user_model->update_user($datas['pk'], array(
+                            'status_id' => user_status::BEGINNER));
+                        $this->client_model->update_client($datas['pk'], array(
+                            'order_key'=>NULL));
+                        //deshacer el pagamento en Mundipagg
+                        $result['success'] = false;
+                        $result['exception'] = $exc->getTraceAsString();                
+                        $result['message'] = 'Error actualizando en base de datos';                        
+                    } finally {
+                        $result['success'] = true;
+                        $result['message'] = 'Dados bancários confirmados corretamente';
+                    }
+                } else {
+                    $result['success'] = false;
+                    $result['message'] = 'Dados bancários incorretos';
+                }
+            }
+        } else {
+            $result['success'] = false;
+            $result['message'] = 'Violação, accesso não permitido';
+        }
+        echo json_encode($result);
+    }
+        
+    /*public function check_client_data_bank() { //Original
+        //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
+        //---despues de verificar datos bancarios correctos, pasar as user_status::UNFOLLOW o a ACTIVE
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        $this->load->model('class/dumbu_system_config');
+        $this->load->model('class/credit_card_status');
+        $datas = $this->input->post();
+        if ($this->validate_post_credit_card_datas($datas)) {
+            $this->load->model('class/dumbu_system_config');
+            $day_plus = strtotime("+".dumbu_system_config::PROMOTION_N_FREE_DAYS." days", time());
+            $datas['pay_day'] = $day_plus;
+            $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;
             $resp=$this->check_mundipagg_credit_card($datas);
             if (is_object($resp)&& $resp->isSuccess() ) {
                 if ($datas['need_delete'] < dumbu_system_config::MIN_MARGIN_TO_INIT)
@@ -232,7 +300,7 @@ class Welcome extends CI_Controller {
             $result['message'] = 'Violação, accesso não permitido';
         }
         echo json_encode($result);
-    }
+    }*/
 
     public function check_mundipagg_credit_card($datas) {
         $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
@@ -248,7 +316,7 @@ class Welcome extends CI_Controller {
         $response = $Payment->create_recurrency_payment($payment_data);
         return $response;
     }
-
+    
     public function update_client_datas() {
         if ($this->session->userdata('id')) {
             //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
@@ -262,16 +330,100 @@ class Welcome extends CI_Controller {
             if (/* TODO */$this->validate_post_credit_card_datas($datas)) {
                 $client_data=$this->client_model->get_client_by_id($this->session->userdata('id'))[0];                
                 $datas['pay_day'] = $client_data['pay_day'];
-                $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;                
+                $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;
+                
+                try {
+                    $this->user_model->update_user($this->session->userdata('id'), array(
+                        //'status_id' => $datas['status_id'],
+                        'email' => $datas['client_email']));
+                    $this->client_model->update_client($this->session->userdata('id'), array(
+                        'credit_card_number' => $datas['client_credit_card_number'],
+                        'credit_card_cvc' => $datas['client_credit_card_cvv'],
+                        'credit_card_name' => $datas['client_credit_card_name'],
+                        'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
+                        'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
+                        //'credit_card_status_id' => credit_card_status::ACTIVE
+                        //'order_key'=>$resp->getData()->OrderResult->OrderKey
+                       ));                    
+                } catch (Exception $exc) {
+                    $result['success'] = false;
+                    $result['exception'] = $exc->getTraceAsString();                
+                    $result['message'] = 'Error actualizando en base de datos';
+                } finally {
+                    $resp=$this->check_mundipagg_credit_card($datas);
+                    if (is_object($resp)&& $resp->isSuccess() ) {
+                        try {
+                            $this->client_model->update_client($datas['pk'], array(
+                                'order_key'=>$resp->getData()->OrderResult->OrderKey));
+                            //------------ACTUALIZANDO EL STATUS---------------------------------------
+                            //Opcion 1. Si el cliente estava pendiente o bloqueado por pagamento, hacer el 
+                            //pagamento y activarlo inmediatamente
+                            /* if($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id')==user_status::PENDING){
+                              $this->do_payment($this->session->userdata('id'))
+                              $datas['status_id']=user_status::ACTIVE;
+                              } */
+                            //-------------------------------------------------------------------------
+                            //Opcion 2. Si cliente esta bloqueado por pagamento, pasarlo al estado de pendiente
+                            //para que el sistema de pagamento sea el lo active despues de
+                            //hacer el pagamento (posiblemente al otro dia)
+                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
+                                $datas['status_id'] = user_status::PENDING;
+                            }
+                            //-------------------------------------------------------------------------
+                            else
+                                $datas['status_id'] = $this->session->userdata('status_id');
+                            $this->user_model->update_user($datas['pk'], array(
+                                'status_id' => $datas['status_id']));
+                        } catch (Exception $exc) {
+                            $this->user_model->update_user($datas['pk'], array(
+                                'status_id' => $this->session->userdata('status_id'))); //the previous
+                            $this->client_model->update_client($datas['pk'], array(
+                                'order_key'=>$client_data['order_key'])); //the previous
+                            //TODO: deshacer el pagamento en Mundipagg
+                            $result['success'] = false;
+                            $result['exception'] = $exc->getTraceAsString();
+                            $result['message'] = 'Error actualizando en base de datos';                        
+                        } finally {
+                            $result['success'] = true;
+                            $result['message'] = 'Dados bancários confirmados corretamente';
+                        }
+                    } else {
+                        $result['success'] = false;
+                        $result['message'] = 'Dados bancários incorretos';
+                    }
+                }   
+               
+            } else {
+                $result['success'] = false;
+                $result['message'] = 'Violação, accesso não permitido';
+            }
+            echo json_encode($result);
+        }
+    }
+    
+   /* public function update_client_datas() {  Original
+        if ($this->session->userdata('id')) {
+            //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
+            //---despues de verificar datos bancarios correctos, pasar as user_status::UNFOLLOW o a ACTIVE
+            $this->load->model('class/client_model');
+            $this->load->model('class/user_model');
+            $this->load->model('class/user_status');
+            $this->load->model('class/dumbu_system_config');
+            $this->load->model('class/credit_card_status');
+            $datas = $this->input->post();
+            if ($this->validate_post_credit_card_datas($datas)) {//TODO
+                $client_data=$this->client_model->get_client_by_id($this->session->userdata('id'))[0];                
+                $datas['pay_day'] = $client_data['pay_day'];
+                $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;
                 $resp=$this->check_mundipagg_credit_card($datas);
                 if(is_object($resp)&& $resp->isSuccess()) {
                     //-------------------------------------------------------------------------
                     //Opcion 1. Si el cliente estava pendiente o bloqueado por pagamento, hacer el 
                     //pagamento y activarlo inmediatamente
-                    /* if($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id')==user_status::PENDING){
-                      $this->do_payment($this->session->userdata('id'))
-                      $datas['status_id']=user_status::ACTIVE;
-                      } */
+                    // if($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id')==user_status::PENDING){
+                    //  $this->do_payment($this->session->userdata('id'))
+                    //  $datas['status_id']=user_status::ACTIVE;
+                    //  } 
                     //-------------------------------------------------------------------------
                     //Opcion 2. Si cliente esta bloqueado por pagamento, pasarlo al estado de pendiente
                     //para que el sistema de pagamento sea el lo active despues de
@@ -309,9 +461,9 @@ class Welcome extends CI_Controller {
             }
             echo json_encode($result);
         }
-    }
-
-    public function client_sing_up() { //usada por administradores
+    }*/    
+    
+    public function client_sing_up() { //a ser usada por administradores
         $this->load->model('class/user_role');
         if ($this->session->userdata('role_id') == user_role::ADMIN) {
             //1. almacenar la causa por la que el cliente esta cerrando su cuenta
@@ -472,7 +624,8 @@ class Welcome extends CI_Controller {
     
     //functions for load ad dispay the diferent funtionalities views
     public function how_function() {
-        if ($this->session->userdata('id'))
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT)
             $data['user_active'] = true;
         else
             $data['user_active'] = false;
@@ -483,6 +636,8 @@ class Welcome extends CI_Controller {
     }
 
     public function sign_in() {
+        if ($this->session->userdata('name'))
+            $this->session->sess_destroy();
         $data['user_active']=false;
         //$data['content_header'] = $this->load->view('my_views/users_header','', true);
         $data['content'] = $this->load->view('my_views/singin_painel', '', true);
@@ -491,7 +646,8 @@ class Welcome extends CI_Controller {
     }
 
     public function sign_client_update() {
-        if ($this->session->userdata('name')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT) {
             $data['user_active'] = true;
             $this->load->model('class/user_model');
             $this->load->model('class/client_model');
@@ -507,42 +663,22 @@ class Welcome extends CI_Controller {
             $data['content'] = $this->load->view('my_views/client_update_painel', $datas, true);
             $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
             $this->load->view('welcome_message', $data);
+        } else{
+            $this->display_access_error();
         }
+        
     }
 
-    public function sign_out() {
-        if ($this->session->userdata('name')) {
-            $data['user_active'] = true;
-            $data['content'] = $this->load->view('my_views/sing_up', '', true);
-            $this->load->view('welcome_message', $data);
-        } else
-            $data['user_active'] = false;
-    }
 
-    public function log_in() {
-        /*if ($this->session->userdata('id'))
-            $data['user_active'] = true;
-        else
-            $data['user_active'] = false;
-        //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
-        $data['content'] = $this->load->view('my_views/log_in', '', true);
-        $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-        $this->load->view('welcome_message', $data);*/
-    }
-
-    public function log_out() {
-        if ($this->session->userdata('name')) {
-            $data['user_active'] = false;
-            $this->session->sess_destroy();
-            //header('Location: ' . base_url() . 'index.php/welcome/');
-            $data['content'] = $this->load->view('my_views/init_painel', '', true);        
-            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-            $this->load->view('welcome_message', $data);
-        }
+    public function log_out() {        
+        $data['user_active'] = false;
+        $this->session->sess_destroy();
+        header('Location: ' . base_url() . 'index.php/welcome/');        
     }
 
     public function talk_me() {
-        if ($this->session->userdata('id'))
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT)
             $data['user_active'] = true;
         else
             $data['user_active'] = false;
@@ -553,7 +689,8 @@ class Welcome extends CI_Controller {
     }
 
     public function verify_account() {
-        if ($this->session->userdata('id'))
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT)
             $data['user_active'] = true;
         else
             $data['user_active'] = false;
@@ -571,7 +708,8 @@ class Welcome extends CI_Controller {
 
     //functions for load ad dispay the user views
     public function panel_client() {
-        if ($this->session->userdata('name')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT) {
             $this->load->model('class/dumbu_system_config');
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
@@ -585,28 +723,31 @@ class Welcome extends CI_Controller {
             $datas2['content_footer'] = $this->load->view('my_views/client_footer', '', true);
             $this->session->set_userdata('datas1', $datas1);
             $this->load->view('welcome_message', $datas2);
+        } else{
+            $this->display_access_error();
         }
     }
 
     public function reload_panel_client() {
-        if ($this->session->userdata('name')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT) {
             $datas2['user_active'] = true;
             //$data2['content_header'] = $this->load->view('my_views/users_header', '', true);
             $datas2['content'] = $this->load->view('my_views/client_painel', $this->session->userdata('datas1'), true);
             $datas2['content_footer'] = $this->load->view('my_views/client_footer', '', true);
             $this->load->view('welcome_message', $datas2);
+        } else{
+            $this->display_access_error();
         }
     }
 
     public function panel_atendent() {
-        if ($this->session->userdata('name')) {
-            $data['user_active'] = true;
-        } else
-            $data['user_active'] = false;
+        
     }
 
     public function panel_admin() {
-        if ($this->session->userdata('name')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('role_id')==user_role::CLIENT){
             $data['user_active'] = true;
         } else
             $data['user_active'] = false;
@@ -639,11 +780,19 @@ class Welcome extends CI_Controller {
             }
             $response['N'] = $N;
             return json_encode($response);
+        } else{
+            $this->display_access_error();
         }
     }
 
     public function create_profiles_datas_to_display_as_json() {
         echo($this->create_profiles_datas_to_display());
+    }
+    
+    
+    public function display_access_error(){
+        $this->session->sess_destroy();
+        header('Location: '. base_url().'index.php/welcome/');
     }
 
 }

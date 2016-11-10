@@ -96,7 +96,7 @@ class User_model extends CI_Model {
             $this->db->from('users');
             $this->db->where(array('login'=>$user_login,'pass'=> $user_pass));
             $user_data = $this->db->get()->row_array();
-            if (count($user_data)) {                        
+            if (count($user_data)) {
                 $session->set_userdata('id',$user_data['id']);
                 $session->set_userdata('name',$user_data['name']);
                 $session->set_userdata('login',$user_data['login']);
