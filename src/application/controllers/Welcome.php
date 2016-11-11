@@ -16,7 +16,124 @@ class Welcome extends CI_Controller {
         $this->load->view('welcome_message', $data);
     }
 
+    
     public function user_do_login() {
+        $datas = $this->input->post();
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_role');
+        $this->load->model('class/user_status');
+        
+        //Is an active Administrator?
+        $query='SELECT * FROM users'.
+                ' WHERE login="'.$datas['user_login'].'" AND pass="'.$datas['user_pass'].
+                '" AND role_id='.user_role::ADMIN.' AND status_id='.user_status::ACTIVE ;
+        $user= $this->user_model->execute_sql_query($query);
+        if(count($user)){
+            $result['role'] = 'ADMIN';
+            $result['authenticated'] = true;
+        } else{
+            //Is an active Attendent?
+            $query='SELECT * FROM users'.
+                ' WHERE login="'.$datas['user_login'].'" AND pass="'.$datas['user_pass'].
+                '" AND role_id='.user_role::ATTENDET.' AND status_id='.user_status::ACTIVE ;            
+            $user= $this->user_model->execute_sql_query($query);
+            if(count($user)){
+                $result['role'] = 'ATTENDET';
+                $result['authenticated'] = true;
+            } else{
+                //Is an actually Instagram user?
+                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
+                if($data_insta['status'] === 'ok' &&  $data_insta['authenticated']) {
+                    //Is a DUMBU Client by Insta ds_user_id?
+                    $query='SELECT * FROM users,clients'.
+                           ' WHERE clients.insta_id="'.$data_insta['insta_id'].'" AND clients.user_id=users.id';
+                    $user= $this->user_model->execute_sql_query($query);
+                    if(count($user)){
+                        $st=(int)$user[0]['status_id'];
+                        
+                        if($st==user_status::ACTIVE || $st==user_status::BLOCKED_BY_INSTA){
+                            $this->user_model->update_user($user[0]['id'], array(
+                                        'name' => $data_insta['insta_name'],
+                                        'login' =>$datas['user_login'],
+                                        'pass' =>$datas['user_pass'],
+                                        'status_id' => user_status::ACTIVE));
+                            $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
+                            $result['resource'] = 'panel_client';
+                            $result['message'] = 'Usuário '.$datas['user_login'].' logueado';
+                            $result['role'] = 'CLIENT';
+                            $result['authenticated'] = true;
+                        } else
+                        if($st==user_status::BLOCKED_BY_PAYMENT || $st==user_status::PENDING || $st==user_status::UNFOLLOW){
+                            $this->user_model->update_user($user[0]['id'], array(
+                                        'name' => $data_insta['insta_name'],
+                                        'login' =>$datas['user_login'],
+                                        'pass' =>$datas['user_pass']));
+                            $this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
+                            $result['resource'] = 'panel_client';
+                            $result['message'] = 'Usuário '.$datas['user_login'].' logueado';
+                            $result['role'] = 'CLIENT';
+                            $result['authenticated'] = true;
+                        } else
+                        if($st==user_status::BEGINNER){
+                            $result['resource'] = 'sign_in';
+                            $result['message'] = 'Seu cadastro esta incompleto. Por favor, complete assinatura.';
+                            $result['cause'] = 'signin_required';
+                            $result['authenticated'] = false;
+                        } else
+                        if($st==user_status::DELETED || $st==user_status::INACTIVE){
+                            $result['resource'] = 'sign_in';
+                            $result['message'] = 'Seu usuario foi eliminado pela sua própria decisão. Assine novamente para recever o serviço';
+                            $result['cause'] = 'signin_required';
+                            $result['authenticated'] = false;
+                        }
+                    } else{                        
+                        $result['resource'] = 'sign_in';
+                        $result['message'] = 'Você deve assinar para recever o serviço';
+                        $result['cause'] = 'signin_required';
+                        $result['authenticated'] = false;
+                    }
+                } else
+                if($data_insta['status'] === 'ok' && !$data_insta['authenticated']){
+                    //Is a client with oldest Instagram credentials?
+                    $query='SELECT * FROM users'.
+                           ' WHERE users.login="'.$datas['user_login'].
+                                   '" AND users.pass="'.$datas['user_pass'].
+                                   '" AND users.role_id="'.user_role::CLIENT.'"';
+                    $user= $this->user_model->execute_sql_query($query);
+                    if($user){
+                        if($user[0]['status_id']!=user_status::DELETED && $user[0]['status_id']!=user_status::INACTIVE){
+                            $result['resource'] = 'index';
+                            $result['message'] = 'Faça login com credenciais de Instagram';
+                            $result['cause'] = 'credentials_update_required';
+                            $result['authenticated'] = false;
+                        } else{
+                            $result['resource'] = 'sign_in';
+                            $result['message'] = 'Seu usuario foi eliminado pela sua própria decisão. Assine novamente para recever o serviço';
+                            $result['cause'] = 'signin_required';
+                            $result['authenticated'] = false;
+                        }
+                    } else{
+                        $result['resource'] = 'index';
+                        $result['message'] = 'Usuário ou Senha incorretos';
+                        $result['cause'] = 'credentials_required';
+                        $result['authenticated'] = false;
+                    }                    
+                }else
+                if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required'){
+                    $result['resource'] = 'verify_account';
+                    $result['verify_link'] = $data_insta['verify_account_url'];
+                    $result['return_link'] = 'index';
+                    $result['message'] = 'Sua conta precisa ser verificada no Instagram';
+                    $result['cause'] = 'checkpoint_required';
+                    $result['authenticated'] = false;
+                }
+            }
+        }
+        echo json_encode($result);
+    }
+    
+    /*public function user_do_login1() {
         $datas = $this->input->post();
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
@@ -25,16 +142,10 @@ class Welcome extends CI_Controller {
         $user_data = $this->user_model->load_user($datas['user_login'], $datas['user_pass']);        
         if (count($user_data)) { 
             if ($user_data['role_id'] == user_role::ADMIN) {
-                //$this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
-                //$result['resource'] = 'panel_admin';
-                //$result['message'] = 'Administador ' . $datas['user_login'] . ' logueado';
                 $result['role'] = 'ADMIN';
                 $result['authenticated'] = true;
             } else
             if ($user_data['role_id'] == user_role::ATTENDET) {
-                //$this->user_model->set_sesion($datas['user_login'], $datas['user_pass'], $this->session);
-                //$result['resource'] = 'panel_atendent';
-                //$result['message'] = 'Atendente ' . $datas['user_login'] . ' logueado';
                 $result['role'] = 'ATTENDET';
                 $result['authenticated'] = true;
             } else
@@ -53,7 +164,7 @@ class Welcome extends CI_Controller {
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else {
-                            /* Antiguo usuario de Instagram que elimino su cuenta de Instagram y volvio a crear una nueva y todavia es cliente de nuestro sistema */
+                            //* Antiguo usuario de Instagram que elimino su cuenta de Instagram y volvio a crear una nueva y todavia es cliente de nuestro sistema 
                         }
                     } else{
                         $result['resource'] = 'sign_in';
@@ -115,7 +226,7 @@ class Welcome extends CI_Controller {
             }
         }
         echo json_encode($result);
-    }
+    }*/
 
     public function re_login() {
         $data_user = $this->input->get();
@@ -141,9 +252,11 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         $data_insta = $this->is_insta_user($datas['client_login'], $datas['client_pass']);
         if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-            $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
-            $N = count($client);
-            if ($N == 0) { //si no existe em dumbus
+            
+            $query='SELECT * FROM users,clients WHERE clients.insta_id="'.$data_insta['insta_id'].'"'. 
+                            'AND clients.user_id=users.id AND (users.status_id='.user_status::DELETED.' OR users.status_id='.user_status::INACTIVE.')';                                          
+            $client=$this->user_model->execute_sql_query($query);            
+            if (count($client)) { //si no existe em dumbus, o si existe debe estar eliminado o inactivo
                 $datas['role_id'] = user_role::CLIENT;
                 $datas['status_id'] = user_status::BEGINNER;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);

@@ -189,7 +189,8 @@ class User_model extends CI_Model {
         return $this->db->get()->result_array();
     }*/
     
-    public function get_cliets_by_query($query){
+
+    public function execute_sql_query($query){
         return $this->db->query($query)->result_array();
     }
 

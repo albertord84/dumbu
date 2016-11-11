@@ -27,8 +27,11 @@ $(document).ready(function(){
                         if(response['cause']=='checkpoint_required') {
                             alert(response['message']);
                             $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
-                        } else
-                            alert(response['message']);                    
+                        } else{
+                            alert(response['message']);
+                            $(location).attr('href',base_url+'index.php/welcome/'+response['resource']);
+                        }
+                            
                     $("#waiting").css({"visibility":"hidden","display":"none"});
                 },                
                 error : function(xhr, status) {
