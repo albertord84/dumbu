@@ -14,7 +14,7 @@ class Admin extends CI_Controller {
             $query='SELECT users.id, users.name, users.login, users.pass, users.email, users.status_id, clients.pay_day '.
                     'FROM users,clients '.
                     'WHERE users.id=clients.user_id'; 
-            $result['clients']= $this->user_model->get_cliets_by_query($query);
+            $result['clients']= $this->user_model->execute_sql_query($query);
             
             
             $data['content_header'] = $this->load->view('my_views/admin_header','', true);
