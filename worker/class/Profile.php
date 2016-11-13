@@ -34,6 +34,16 @@ namespace dumbu\cls {
          * @access public
          */
         public $unfollowed;
+
+        public function get_insta_ref_prof_data($ref_prof) {
+            $Robot = new Robot();
+            return $Robot->get_insta_ref_prof_data($ref_prof);
+        }
+        
+        public function is_private($ref_prof) {
+            $ref_prof_data = $this->get_insta_ref_prof_data($ref_prof);
+            return $ref_prof_data? $ref_prof_data->is_private : NULL;
+        }
 //
 //        
 //        function __set($name, $value) {

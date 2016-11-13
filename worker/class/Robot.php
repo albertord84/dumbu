@@ -219,28 +219,29 @@ namespace dumbu\cls {
             return $curl_str;
         }
 
-        public function make_curl_friendships_str($url, $cookies) {
-            $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
-            $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
-            $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
-            $curl_str = "curl '$url' ";
-            $curl_str .= "-X POST ";
-            $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
-            $curl_str .= "-H 'Host: www.instagram.com' ";
-            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
-            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
-            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-            $curl_str .= "-H 'X-Instagram-Ajax: 1' ";
-            $curl_str .= "-H 'Content-Type: application/x-www-form-urlencoded' ";
-            $curl_str .= "-H 'Accept: */*' ";
-            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-            $curl_str .= "-H 'Authority: www.instagram.com' ";
-            $curl_str .= "-H 'Content-Length: 0' ";
-            $curl_str .= "--compressed ";
-            return $curl_str;
-        }
+        // TODO: Remove if not use
+//        public function make_curl_friendships_str($url, $cookies) {
+//            $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
+//            $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
+//            $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
+//            $curl_str = "curl '$url' ";
+//            $curl_str .= "-X POST ";
+//            $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
+//            $curl_str .= "-H 'Host: www.instagram.com' ";
+//            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
+//            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+//            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+//            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
+//            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+//            $curl_str .= "-H 'X-Instagram-Ajax: 1' ";
+//            $curl_str .= "-H 'Content-Type: application/x-www-form-urlencoded' ";
+//            $curl_str .= "-H 'Accept: */*' ";
+//            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
+//            $curl_str .= "-H 'Authority: www.instagram.com' ";
+//            $curl_str .= "-H 'Content-Length: 0' ";
+//            $curl_str .= "--compressed ";
+//            return $curl_str;
+//        }
 
         public function get_insta_followers($login_data, $user, $N, $cursor = NULL) {
             try {
@@ -267,6 +268,7 @@ namespace dumbu\cls {
         }
 
         public function make_curl_followers_str($url, $login_data, $user, $N, $cursor = NULL) {
+//            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
@@ -299,6 +301,7 @@ namespace dumbu\cls {
             }
             $curl_str .= "--compressed ";
             return $curl_str;
+//            }
         }
 
         public function make_insta_login($cookies) {
@@ -385,11 +388,11 @@ namespace dumbu\cls {
 //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
 //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-            
+
             //curl_setopt($ch, CURLOPT_CAINFO, "curl-ca-bundle.crt");
             //curl_setopt ($ch, CURLOPT_CAINFO,"cacert.pem");
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);     
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); 
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLINFO_COOKIELIST, true);
@@ -484,6 +487,7 @@ namespace dumbu\cls {
             $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
             $users = json_decode($content)->users;
 
+            // Get user with $ref_prof name over all matchs 
             $User = NULL;
             foreach ($users as $key => $user) {
                 if ($user->user->username === $ref_prof) {
@@ -514,13 +518,14 @@ namespace dumbu\cls {
         }
 
         public function bot_login($login, $pass) {
+            $result = NULL;
             $url = "https://www.instagram.com/";
 //            $cookie = "/home/albertord/cookies.txt";
             $ch = curl_init($url);
-//            if ($this->csrftoken == NULL) {
             $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
-//            }
-            $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
+            if ($this->csrftoken != NULL && $this->csrftoken != "" ) {
+                $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
+            }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
             return $result;
