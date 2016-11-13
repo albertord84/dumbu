@@ -5,7 +5,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Admin extends CI_Controller {
 
     public function index() {
-        $datas=$this->input->get();
+        $str=urldecode($this->input->get());
+        var_dump($str);
+        foreach(explode('&', $str) as $chunk) {
+            $param = explode("=", $chunk);
+        }
+        var_dump($param);
+        $datas['login']=$param[0];
+        $datas['pass']=$param[1];
+        var_dump($datas);
+        
         $this->load->model('class/user_model');
         if($this->user_model->set_sesion($datas['login'], $datas['pass'], $this->session)){  
             $this->load->model('class/user_status');
