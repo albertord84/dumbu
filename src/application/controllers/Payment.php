@@ -54,7 +54,7 @@ class Payment extends CI_Controller {
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         $result = $Payment->check_payment($client['order_key']);
-        if ($result->isSuccess()) {
+        if (is_object($result) && $result->isSuccess()) {
             $data = $result->getData();
             //var_dump($data);
             $SaleDataCollection = $data->SaleDataCollection[0];
@@ -67,10 +67,10 @@ class Payment extends CI_Controller {
                 //var_dump($SaleData);
                 $LastSaledData = $SaleData;
             }
+            $now = DateTime::createFromFormat('U', time());
             if ($LastSaledData != NULL) { // if have not payment jet
                 // Check difference between last payment and now
                 $last_saled_date = new DateTime($LastSaledData->DueDate);
-                $now = DateTime::createFromFormat('U', time());
                 $diff_info = $last_saled_date->diff($now);
                 //var_dump($diff_info);
                 // Diff in days
@@ -91,10 +91,16 @@ class Payment extends CI_Controller {
                     return TRUE;
                 }
             } else {
-                print "\n<br>This client has not payment yet (PROMOTIONAL?): " . $client['name'] . "<br>\n";
+                $pay_day = new DateTime($client['pay_day']);
+                $diff_info = $pay_day->diff($now);    
+                $diff_days = ($diff_info->m * 30) + $diff_info->days;
+                print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
             }
         } else {
-            throw new Exception("Payment error: " . json_encode($result->getData()));
+            $bool = is_object($result);
+            $str = is_object($result) && is_callable($result->getData())? json_encode($result->getData()) : "NULL";
+//            throw new Exception("Payment error: " . $str);
+            print ("\n<br>Payment error: " . $str . " \nClient name: " . $client['name'] . "<br>\n");
         }
         return FALSE;
 //        print "<pre>";
