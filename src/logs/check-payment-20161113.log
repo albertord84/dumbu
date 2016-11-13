@@ -1,8 +1,7 @@
-Check Payment Inited...!<br>
-2016-11-13 10:04:01pm<pre>{
+Check Payment Inited...!<br> 2016-11-13 10:05:01pm<pre>{
     "httpStatusCode": 404,
-    "requestKey": "f0961a37-8ccb-45ce-9302-fb2fd1649c7b",
-    "responseBody": "{\"ErrorReport\":{\"Category\":\"RequestError\",\"ErrorItemCollection\":[{\"Description\":\"Identifica\u00e7\u00e3o do pedido inv\u00e1lida.\",\"ErrorCode\":404,\"ErrorField\":\"QuerySaleRequest.OrderKey\",\"SeverityCode\":\"Error\"}]},\"InternalTime\":4,\"MerchantKey\":\"bcb45ac4-7edb-49df-98d1-69fd37f4e1d6\",\"RequestKey\":\"f0961a37-8ccb-45ce-9302-fb2fd1649c7b\",\"SaleDataCollection\":[],\"SaleDataCount\":0,\"TokenData\":null}",
+    "requestKey": "26aa6cda-b6ee-4fc3-847a-fa2a751ecfab",
+    "responseBody": "{\"ErrorReport\":{\"Category\":\"RequestError\",\"ErrorItemCollection\":[{\"Description\":\"Identifica\u00e7\u00e3o do pedido inv\u00e1lida.\",\"ErrorCode\":404,\"ErrorField\":\"QuerySaleRequest.OrderKey\",\"SeverityCode\":\"Error\"}]},\"InternalTime\":3,\"MerchantKey\":\"bcb45ac4-7edb-49df-98d1-69fd37f4e1d6\",\"RequestKey\":\"26aa6cda-b6ee-4fc3-847a-fa2a751ecfab\",\"SaleDataCollection\":[],\"SaleDataCount\":0,\"TokenData\":null}",
     "errorCollection": {
         "Category": "RequestError",
         "ErrorItemCollection": [
@@ -16,63 +15,20 @@ Check Payment Inited...!<br>
     },
     "requestQueryStringData": null,
     "requestBodyData": null,
-    "xdebug_message": "<tr><th align='left' bgcolor='#f57900' colspan=\"5\"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )<\/span> Gateway\\One\\DataContract\\Report\\ApiError:  in \/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php on line <i>374<\/i><\/th><\/tr>\n<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack<\/th><\/tr>\n<tr><th align='center' bgcolor='#eeeeec'>#<\/th><th align='left' bgcolor='#eeeeec'>Time<\/th><th align='left' bgcolor='#eeeeec'>Memory<\/th><th align='left' bgcolor='#eeeeec'>Function<\/th><th align='left' bgcolor='#eeeeec'>Location<\/th><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>1<\/td><td bgcolor='#eeeeec' align='center'>0.1070<\/td><td bgcolor='#eeeeec' align='right'>378944<\/td><td bgcolor='#eeeeec'>{main}(  )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/index.php' bgcolor='#eeeeec'>...\/index.php<b>:<\/b>0<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>2<\/td><td bgcolor='#eeeeec' align='center'>0.1087<\/td><td bgcolor='#eeeeec' align='right'>425816<\/td><td bgcolor='#eeeeec'>require_once( <font color='#00bb00'>'\/opt\/lampp\/htdocs\/dumbu\/src\/system\/core\/CodeIgniter.php'<\/font> )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/index.php' bgcolor='#eeeeec'>...\/index.php<b>:<\/b>315<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>3<\/td><td bgcolor='#eeeeec' align='center'>0.1419<\/td><td bgcolor='#eeeeec' align='right'>2175208<\/td><td bgcolor='#eeeeec'>Payment->check_payment(  )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/system\/core\/CodeIgniter.php' bgcolor='#eeeeec'>...\/CodeIgniter.php<b>:<\/b>514<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>4<\/td><td bgcolor='#eeeeec' align='center'>0.1464<\/td><td bgcolor='#eeeeec' align='right'>2389584<\/td><td bgcolor='#eeeeec'>Payment->check_client_payment( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/application\/controllers\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>37<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>5<\/td><td bgcolor='#eeeeec' align='center'>0.1515<\/td><td bgcolor='#eeeeec' align='right'>2454584<\/td><td bgcolor='#eeeeec'>dumbu\\cls\\Payment->check_payment( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/application\/controllers\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>56<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>6<\/td><td bgcolor='#eeeeec' align='center'>0.1515<\/td><td bgcolor='#eeeeec' align='right'>2454584<\/td><td bgcolor='#eeeeec'>dumbu\\cls\\Payment->queryOrder( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/class\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>131<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>7<\/td><td bgcolor='#eeeeec' align='center'>0.1528<\/td><td bgcolor='#eeeeec' align='right'>2543376<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->searchSaleByOrderKey( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/class\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>149<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>8<\/td><td bgcolor='#eeeeec' align='center'>0.1528<\/td><td bgcolor='#eeeeec' align='right'>2543376<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->QueryImplementation( ???, ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php' bgcolor='#eeeeec'>...\/ApiClient.php<b>:<\/b>467<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>9<\/td><td bgcolor='#eeeeec' align='center'>0.1530<\/td><td bgcolor='#eeeeec' align='right'>2544608<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->sendRequest( ???, ???, ???, ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php' bgcolor='#eeeeec'>...\/ApiClient.php<b>:<\/b>632<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>10<\/td><td bgcolor='#eeeeec' align='center'>1.0379<\/td><td bgcolor='#eeeeec' align='right'>2552848<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->handleApiError( ???, ???, ???, ???, ???, ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php' bgcolor='#eeeeec'>...\/ApiClient.php<b>:<\/b>198<\/td><\/tr>\n"
+    "xdebug_message": "<tr><th align='left' bgcolor='#f57900' colspan=\"5\"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )<\/span> Gateway\\One\\DataContract\\Report\\ApiError:  in \/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php on line <i>374<\/i><\/th><\/tr>\n<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack<\/th><\/tr>\n<tr><th align='center' bgcolor='#eeeeec'>#<\/th><th align='left' bgcolor='#eeeeec'>Time<\/th><th align='left' bgcolor='#eeeeec'>Memory<\/th><th align='left' bgcolor='#eeeeec'>Function<\/th><th align='left' bgcolor='#eeeeec'>Location<\/th><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>1<\/td><td bgcolor='#eeeeec' align='center'>0.1085<\/td><td bgcolor='#eeeeec' align='right'>378944<\/td><td bgcolor='#eeeeec'>{main}(  )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/index.php' bgcolor='#eeeeec'>...\/index.php<b>:<\/b>0<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>2<\/td><td bgcolor='#eeeeec' align='center'>0.1102<\/td><td bgcolor='#eeeeec' align='right'>425816<\/td><td bgcolor='#eeeeec'>require_once( <font color='#00bb00'>'\/opt\/lampp\/htdocs\/dumbu\/src\/system\/core\/CodeIgniter.php'<\/font> )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/index.php' bgcolor='#eeeeec'>...\/index.php<b>:<\/b>315<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>3<\/td><td bgcolor='#eeeeec' align='center'>0.1558<\/td><td bgcolor='#eeeeec' align='right'>2175664<\/td><td bgcolor='#eeeeec'>Payment->check_payment(  )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/system\/core\/CodeIgniter.php' bgcolor='#eeeeec'>...\/CodeIgniter.php<b>:<\/b>514<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>4<\/td><td bgcolor='#eeeeec' align='center'>0.1608<\/td><td bgcolor='#eeeeec' align='right'>2390008<\/td><td bgcolor='#eeeeec'>Payment->check_client_payment( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/application\/controllers\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>37<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>5<\/td><td bgcolor='#eeeeec' align='center'>0.1657<\/td><td bgcolor='#eeeeec' align='right'>2455072<\/td><td bgcolor='#eeeeec'>dumbu\\cls\\Payment->check_payment( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/src\/application\/controllers\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>56<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>6<\/td><td bgcolor='#eeeeec' align='center'>0.1657<\/td><td bgcolor='#eeeeec' align='right'>2455072<\/td><td bgcolor='#eeeeec'>dumbu\\cls\\Payment->queryOrder( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/class\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>132<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>7<\/td><td bgcolor='#eeeeec' align='center'>0.1673<\/td><td bgcolor='#eeeeec' align='right'>2543864<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->searchSaleByOrderKey( ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/class\/Payment.php' bgcolor='#eeeeec'>...\/Payment.php<b>:<\/b>151<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>8<\/td><td bgcolor='#eeeeec' align='center'>0.1673<\/td><td bgcolor='#eeeeec' align='right'>2543864<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->QueryImplementation( ???, ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php' bgcolor='#eeeeec'>...\/ApiClient.php<b>:<\/b>467<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>9<\/td><td bgcolor='#eeeeec' align='center'>0.1675<\/td><td bgcolor='#eeeeec' align='right'>2545096<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->sendRequest( ???, ???, ???, ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php' bgcolor='#eeeeec'>...\/ApiClient.php<b>:<\/b>632<\/td><\/tr>\n<tr><td bgcolor='#eeeeec' align='center'>10<\/td><td bgcolor='#eeeeec' align='center'>1.2680<\/td><td bgcolor='#eeeeec' align='right'>2553336<\/td><td bgcolor='#eeeeec'>Gateway\\ApiClient->handleApiError( ???, ???, ???, ???, ???, ??? )<\/td><td title='\/opt\/lampp\/htdocs\/dumbu\/worker\/libraries\/mundipagg\/lib\/ApiClient.php' bgcolor='#eeeeec'>...\/ApiClient.php<b>:<\/b>198<\/td><\/tr>\n"
 }</pre>
-<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+<br>Payment error: NULL 
+Client name: Jose Ramon<br>
 
-<h4>A PHP Error was encountered</h4>
+<br>Client with payment issue: Jose Ramon<br>
 
-<p>Severity: Warning</p>
-<p>Message:  Cannot modify header information - headers already sent by (output started at /opt/lampp/htdocs/dumbu/worker/class/Payment.php:159)</p>
-<p>Filename: core/Common.php</p>
-<p>Line Number: 573</p>
+<br>Client without ORDER KEY!!!: Pedro Petti<br>
 
+<br>Client without ORDER KEY!!!: Smart Sushi<br>
 
-	<p>Backtrace:</p>
-	
-		
-	
-		
-	
-		
-	
-		
-	
-		
-	
-		
-	
-		
-	
+<br>Client without ORDER KEY!!!: luna_westie<br>
 
-</div>
-<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>An uncaught Exception was encountered</h4>
-
-<p>Type: Error</p>
-<p>Message: Call to a member function isSuccess() on null</p>
-<p>Filename: /opt/lampp/htdocs/dumbu/src/application/controllers/Payment.php</p>
-<p>Line Number: 57</p>
+<br>Client without ORDER KEY!!!: sandrozion7<br>
 
 
-	<p>Backtrace:</p>
-	
-		
-			<p style="margin-left:10px">
-			File: /opt/lampp/htdocs/dumbu/src/application/controllers/Payment.php<br />
-			Line: 37<br />
-			Function: check_client_payment			</p>
-		
-	
-		
-	
-		
-			<p style="margin-left:10px">
-			File: /opt/lampp/htdocs/dumbu/src/index.php<br />
-			Line: 315<br />
-			Function: require_once			</p>
-		
-	
-
-</div>
+<br>Job Done!2016-11-13 10:05:02pm
