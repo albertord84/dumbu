@@ -86,7 +86,7 @@ class Welcome extends CI_Controller {
         $user= $this->user_model->execute_sql_query($query);
         if(count($user)){
             $result['role'] = 'ADMIN';
-            $result['str'] = urlencode('login='.$datas['user_login'].'&pass='.$datas['user_pass']);             
+            //$result['str'] = urlencode('login='.$datas['user_login'].'&pass='.$datas['user_pass']);             
             $result['authenticated'] = true;
         } else{
             //Is an active Attendent?
@@ -216,6 +216,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }
+        
         echo json_encode($result);
     }
 
@@ -289,7 +290,6 @@ class Welcome extends CI_Controller {
             $response['cause'] = 'checkpoint_required';
             $response['success'] = false;
         }
-
         echo json_encode($response);
     }
 

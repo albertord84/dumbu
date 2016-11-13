@@ -14,15 +14,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             
             
             
-            <script type="text/javascript" async="" src="menu_files/ga.js"></script>
+            <!--<script type="text/javascript" async="" src="menu_files/ga.js"></script>
             <script type="text/javascript" src="menu_files/jquery-1.js"></script>
             <script type="text/javascript" src="menu_files/jquery.js"></script>
             <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/js/menu/fixedMenu_style2.css'?>">
             <script>
-                $('document').ready(function(){
-                    $('.menu').fixedMenu();
-                });
-            </script>
+                //$('document').ready(function(){
+                  //  $('.menu').fixedMenu();
+               // });
+            </script>-->
             
             
             

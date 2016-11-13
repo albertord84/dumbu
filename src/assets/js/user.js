@@ -14,14 +14,15 @@ $(document).ready(function(){
                 async: false,
                 success : function(response) {
                     if(response['authenticated']){
-                        if(response['role']==='ADMIN'){
-                            $(location).attr('href',base_url+'index.php/admin/index?str='+response['str']);
-                                    //login='+$('#userLogin').val()+'&pass='+$('#userPassword').val());
+                        if(response['role']=='ADMIN'){
+                            //$(location).attr('href',base_url+'index.php/admin/index?str='+response['str']);
+                            var cad=base_url+'index.php/admin/index?login='+$('#userLogin').val()+'&pass='+$('#userPassword').val();
+                            $(location).attr('href',cad);
                         } else
-                        if(response['role']==='ATTENDET'){
+                        if(response['role']=='ATTENDET'){
                             $(location).attr('href',base_url+'index.php/attendent/');
                         } else
-                        if(response['role']==='CLIENT'){
+                        if(response['role']=='CLIENT'){
                             $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
                         } 
                     } else

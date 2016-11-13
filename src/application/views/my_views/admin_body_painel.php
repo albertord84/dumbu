@@ -59,7 +59,7 @@
                                         <TD class="td-left">  '.$clients[$i]['login'].'</TD>
                                         <TD class="td-center">  '.$clients[$i]['pass'].'</TD>
                                         <TD class="td-left">  '.$clients[$i]['email'].'</TD>
-                                        <TD class="td-center">  '. $clients[$i]['pay_day'].'</TD>                                        
+                                        <TD class="td-center">  '. date('d-m-Y H:i', $clients[$i]['pay_day']) .'</TD>                                        
                                         <TD class="td-center">  '.get_name_status($clients[$i]['status_id']).'</TD>
                                             
                                         

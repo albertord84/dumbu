@@ -21,7 +21,7 @@ class dumbu_system_config {
     CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
     CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 7;    // promotion of percentegem discount by one month
 
-    CONST PAYMENT_VALUE=9999; //quantity to payment in cents
+    CONST PAYMENT_VALUE=9990; //quantity to payment in cents
     
     CONST MUNDIPAGG_BASE_URL = 'https://transactionv2.mundipaggone.com';  // PRODUCTION
     CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6';   // DUMBU Producition
