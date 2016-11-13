@@ -67,7 +67,7 @@ namespace dumbu\cls {
                         . "SELECT * FROM followed "
                         . "WHERE followed.client_id = $client_id "
                         . "     AND followed.unfollowed = false "
-                        . "     AND ((UNIX_TIMESTAMP(NOW()) - followed.date) DIV 60 DIV 60) > $Elapsed_time_limit "
+                        . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(followed.date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
                         . "ORDER BY followed.date ASC "
                         . "LIMIT $Limit;"
                 );

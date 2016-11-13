@@ -218,7 +218,7 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($result);
     }
-        
+
     //functions for client signature (in, update)
     public function check_user_for_sing_in() {
         $this->load->model('class/dumbu_system_config');
@@ -228,7 +228,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_role');
         $datas = $this->input->post();
         $data_insta = $this->is_insta_user($datas['client_login'], $datas['client_pass']);
-        if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+        if(is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) {            
             $query='SELECT * FROM users,clients WHERE clients.insta_id="'.$data_insta['insta_id'].'"'. 
                             'AND clients.user_id=users.id';// AND (users.status_id='.user_status::DELETED.' OR users.status_id='.user_status::INACTIVE.')';                                          
             $client=$this->user_model->execute_sql_query($query);
@@ -590,8 +590,9 @@ class Welcome extends CI_Controller {
     public function is_insta_user($client_login, $client_pass) {        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
+        $data_insta = NULL;
         $login_data = $this->Robot->bot_login($client_login, $client_pass);
-        if ($login_data->json_response->status === "ok") {
+        if (isset($login_data->json_response->status) && $login_data->json_response->status === "ok") {
             $data_insta['status'] = $login_data->json_response->status;
             if ($login_data->json_response->authenticated) {
                 $data_insta['authenticated'] = true;

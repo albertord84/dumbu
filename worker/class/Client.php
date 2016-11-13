@@ -139,12 +139,14 @@ namespace dumbu\cls {
                 while ($prof_data = $ref_profs_data->fetch_object()) {
                     $Ref_Prof = new \dumbu\cls\Reference_profile();
                     //print_r($prof_data);
-                    // Update Ref Prof Data
-                    $Ref_Prof->id                    = $prof_data->id;
-                    $Ref_Prof->insta_id              = $prof_data->insta_id;
-                    $Ref_Prof->insta_name            = $prof_data->insta_name;
-                    $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
-                    array_push($this->reference_profiles, $Ref_Prof);
+                    // Update Ref Prof Data if not privated
+                    if ($Ref_Prof->is_private($prof_data->insta_name) === FALSE) {
+                        $Ref_Prof->id = $prof_data->id;
+                        $Ref_Prof->insta_id = $prof_data->insta_id;
+                        $Ref_Prof->insta_name = $prof_data->insta_name;
+                        $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
+                        array_push($this->reference_profiles, $Ref_Prof);
+                    }
                 }
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -171,7 +173,6 @@ namespace dumbu\cls {
 //            }
 //            return null;
 //        }
-
         // end of generic setter an getter definition
     }
 
