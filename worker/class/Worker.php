@@ -89,7 +89,7 @@ namespace dumbu\cls {
             foreach ($Clients as $Client) { // for each CLient
 // Log user with webdriver in istagram to get needed session data
                 $login_data = $this->Robot->bot_login($Client->login, $Client->pass);
-                if (is_object($login_data) && isset($login_data->json_response->authenticated)) {
+                if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
                     echo "<br>\nAutenticated Client: $Client->login <br>\n<br>\n";
 // Distribute work between clients
                     $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
@@ -103,6 +103,7 @@ namespace dumbu\cls {
                 } else {
 // TODO: do something in Client autentication error
                     // Send email to client and dumbu system
+                    echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                 }
             }

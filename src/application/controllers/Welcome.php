@@ -40,7 +40,7 @@ class Welcome extends CI_Controller {
             } else
             if ($user_data['role_id'] == user_role::CLIENT) {
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
-                if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                if (is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                     if($user_data['status_id']!=user_status::BEGINNER){
                         $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
                         if (count($client)) { //si ademas el ds_user_id de INSTAG coincide con el que esta en DUMBU                                                                        
@@ -79,7 +79,7 @@ class Welcome extends CI_Controller {
             }
         } else {
             $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
-            if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+            if (is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                 $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
                 if (count($client)) { //si ademas el ds_user_id de INSTAG coincide con el que esta en DUMBU                                                                    
                     $client = $client[0];
@@ -140,7 +140,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_role');
         $datas = $this->input->post();
         $data_insta = $this->is_insta_user($datas['client_login'], $datas['client_pass']);
-        if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+        if(is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) {
             $client = $this->client_model->get_client_by_ds_user_id($data_insta['insta_id']);
             $N = count($client);
             if ($N == 0) { //si no existe em dumbus
@@ -595,8 +595,9 @@ class Welcome extends CI_Controller {
     public function is_insta_user($client_login, $client_pass) {        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
+        $data_insta = NULL;
         $login_data = $this->Robot->bot_login($client_login, $client_pass);
-        if ($login_data->json_response->status === "ok") {
+        if (isset($login_data->json_response->status) && $login_data->json_response->status === "ok") {
             $data_insta['status'] = $login_data->json_response->status;
             if ($login_data->json_response->authenticated) {
                 $data_insta['authenticated'] = true;
