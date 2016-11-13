@@ -90,11 +90,11 @@ class User_model extends CI_Model {
      * @return unsigned short
      * @access public
      */
-    public function set_sesion($user_login, $user_pass , $session) {
+    public function set_sesion($id, $session) {
         try {
             $this->db->select('id, name, login, pass, email, telf, role_id, status_id, languaje');
             $this->db->from('users');
-            $this->db->where(array('login'=>$user_login,'pass'=> $user_pass));
+            $this->db->where(array('id'=>$id));
             $user_data = $this->db->get()->row_array();
             if (count($user_data)) {
                 $session->set_userdata('id',$user_data['id']);
@@ -106,9 +106,9 @@ class User_model extends CI_Model {
                 $session->set_userdata('role_id',$user_data['role_id']);
                 $session->set_userdata('status_id',$user_data['status_id']);
                 $session->set_userdata('languaje',$user_data['languaje']);
-                return $user_data['id'];
+                return true;
             } else {
-                return 0;
+                return false;
             }
         } catch (Exception $exception) {
             echo 'Error accediendo a la base de datos durante el login';

@@ -39,7 +39,7 @@ $(document).ready(function(){
     });
     
     
-    $("#btn_sing_in").click(function(){       
+    $("#btn_sing_in").click(function(){
         var name=validate_element('#client_credit_card_name', "^[A-Z ]{4,50}$");
         var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
         var number=validate_element('#client_credit_card_number',"^[0-9]{16,16}$");
@@ -51,6 +51,8 @@ $(document).ready(function(){
                 $.ajax({
                     url : base_url+'index.php/welcome/check_client_data_bank',
                     data : {
+                        'user_login':login,
+                        'user_pass':pass,
                         'client_email':$('#client_email').val(),
                         'client_credit_card_number':$('#client_credit_card_number').val(),
                         'client_credit_card_cvv':$('#client_credit_card_cvv').val(),
@@ -58,13 +60,13 @@ $(document).ready(function(){
                         'client_credit_card_validate_month':$('#client_credit_card_validate_month').val(),
                         'client_credit_card_validate_year':$('#client_credit_card_validate_year').val(),
                         'need_delete':need_delete,
-                        'pk':pk //el id del usuario deve estar en las cookies, pero cifrado con md5,
+                        'pk':pk
                     },
                     type : 'POST',
                     dataType : 'json',
                     success : function(response) {
                         if(response['success']){
-                            $(location).attr('href',base_url+'index.php/welcome/re_login?user_login='+login+'&user_pass='+pass);                                                       
+                            $(location).attr('href',base_url+'index.php/welcome/client');                                                       
                         } else{
                             alert(response['message']);
                         }
@@ -114,8 +116,7 @@ $(document).ready(function(){
         url=base_url+"assets/others/TERMOS DE USO DUMBU.pdf";
         window.open(url, '_blank');
         return false;        
-    });   
-    
+    });
        
     function validate_element(element_selector,pattern){
         if(!$(element_selector).val().match(pattern)){
@@ -125,7 +126,8 @@ $(document).ready(function(){
             $(element_selector).css("border", "1px solid gray");
             return true;
         }
-    }    
+    }
+    
     function validate_month(element_selector,pattern){
         if(!$(element_selector).val().match(pattern) || Number($(element_selector).val())>12){
             $(element_selector).css("border", "1px solid red");
