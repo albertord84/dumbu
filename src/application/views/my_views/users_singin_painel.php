@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/sign_in_style.css'?>">
 
 <div id="title_panel" style="text-align:center; color:black; background-color:white; position:absolute; top:0%; height:10%;left:0%;width:100%;">        
-    <p><b style="font-family:sans-serif;font-size:24px">ASSINAR</b></p>
+    <p><b style="font-family:sans-serif;font-size:18px">ASSINAR</b></p>
 </div> 
 
    

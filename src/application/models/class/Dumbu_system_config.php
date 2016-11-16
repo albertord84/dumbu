@@ -8,7 +8,7 @@ class dumbu_system_config {
     const INSTA_MAX_FOLLOWING =7000;    
    
     const MIN_NEXT_ATTEND_TIME = 5; //1000 * 60; //5 * 1000 * 60; // 5 min
-    const REFERENCE_PROFILE_AMOUNT = 3; // By Client
+    const REFERENCE_PROFILE_AMOUNT = 5; // By Client
     const UNFOLLOW_ELAPSED_TIME_LIMIT = 48; // 48; // In hours
     const MAX_GET_FOLLOWERS_REQUESTS = 3; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
     const MAX_CLIENT_FAUTL_TRIES = 2; // Quantity max of failures with this client
@@ -21,7 +21,7 @@ class dumbu_system_config {
     CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
     CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 7;    // promotion of percentegem discount by one month
 
-    CONST PAYMENT_VALUE=9999; //quantity to payment in cents
+    CONST PAYMENT_VALUE=9990; //quantity to payment in cents
     
     CONST MUNDIPAGG_BASE_URL = 'https://transactionv2.mundipaggone.com';  // PRODUCTION
     CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6';   // DUMBU Producition

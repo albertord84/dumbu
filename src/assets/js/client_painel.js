@@ -1,5 +1,7 @@
 $(document).ready(function(){  
     
+    
+    
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':''},
         1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':''},
@@ -88,20 +90,42 @@ $(document).ready(function(){
             alert('Alcançou a quantidade maxima permitida');        
     });
     
+    $("#adding_profile").hover(function(){},function(){});
+    
     $("#close_palnel_insert_profile").click(function(){
         $("#insert_profile_form").fadeOut();
         $("#insert_profile_form").css({"visibility":"hidden","display":"none"});
-    });          
+    });  
     
-    $("#switch_status").change(function() {
-        //alert(this.checked);
-    });   
+    function important_warnings()       {
+        var canvas = $("#cnv_warnings");
+        var ctx = canvas.getContext("2d");
+    }
    
-    function display_reference_profiles(){        
-        for(i=0;i<num_profiles;i++){
-            icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
-            icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
-            icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
+    function display_reference_profiles(){
+        flag=false;
+        if(num_profiles==0){
+            $('#missing_referrence_profiles').css({"visibility":"visible","display":"block"});            
+            if($("#status_text").text()=='ATIVO'){
+                $("#list_warnings").prepend('<li id="missing_st" style="font-weight:red; color:red; margin-bottom:0.7em;"> O Dumbu precisa que você adicione perfis de referência para poder começar a recever o serviço;');
+                $("#status_text").css({'color':'red'});
+                $("#status_text").text('NÂO INICIADO');
+                flag=true;
+            }
+            
+        }
+        else{
+            $('#missing_referrence_profiles').css({"visibility":"hidden","display":"none"}); 
+            if(flag=true){
+                $("#missing_st").remove();
+                $("#status_text").css({'color':'green'});
+                $("#status_text").text('ATIVO');
+            }
+            for(i=0;i<num_profiles;i++){
+                icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
+                icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
+                icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
+            }
         }
     }
     
@@ -142,6 +166,7 @@ $(document).ready(function(){
         display_reference_profiles();
         icons_profiles[j]['ptr_panel_obj'].css({"visibility":"hidden","display":"none"});
     }
+    
     
     init_icons_profiles(profiles); 
  }); 

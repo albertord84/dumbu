@@ -128,7 +128,9 @@ namespace dumbu\cls {
          * @access public
          */
         public function check_payment($order_key) {
-            $result = $this->queryOrder($order_key);
+            if ($order_key) {
+                $result = $this->queryOrder($order_key);
+            }
             return $result;
         }
 
