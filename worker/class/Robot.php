@@ -96,7 +96,7 @@ namespace dumbu\cls {
             $Profile = new Profile();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
-            echo "<br>\nRef Profil: $daily_work->insta_name<br>\n";
+            echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
@@ -123,47 +123,49 @@ namespace dumbu\cls {
             }
             // Do follow work
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
-            echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
-            $follows = 0;
-            $get_followers_count = 0;
             $Ref_profile_follows = array();
-            while ($follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
-                // Get next insta followers of Ref_profile
-                $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME));
-                $json_response = $this->get_insta_followers(
-                        $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
-                );
-                //var_dump($json_response);
-                echo "<br>\nRef Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>\n";
-                $get_followers_count++;
-                if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
-                    // Get Users 
-                    $Profiles = $json_response->followed_by->nodes;
-                    foreach ($Profiles as $Profile) {
-                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
-                            // Do follow request
-                            $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                            var_dump($json_response);
-                            echo "Profil name: $Profile->username<br>\n";
-                            if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
-                                array_push($Ref_profile_follows, $Profile);
-                                $follows++;
-                                if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
-                                    break;
-                            } else {
+            $follows = 0;
+            if ($daily_work->to_follow > 0) { // If has to follow
+                echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
+                $get_followers_count = 0;
+                while ($follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
+                    // Get next insta followers of Ref_profile
+                    $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME));
+                    $json_response = $this->get_insta_followers(
+                            $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
+                    );
+                    //var_dump($json_response);
+                    echo "<br>\nRef Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>\n";
+                    $get_followers_count++;
+                    if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
+                        // Get Users 
+                        $Profiles = $json_response->followed_by->nodes;
+                        foreach ($Profiles as $Profile) {
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
+                                // Do follow request
+                                $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                                 var_dump($json_response);
+                                echo "Profil name: $Profile->username<br>\n";
+                                if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                                    array_push($Ref_profile_follows, $Profile);
+                                    $follows++;
+                                    if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
+                                        break;
+                                } else {
+                                    var_dump($json_response);
 //                                throw new \Exception(json_encode($json_response), 1001);
+                                }
+                                //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
+                                // Sleep up to proper delay between request
+                                sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
-                            //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
-                            // Sleep up to proper delay between request
-                            sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                         }
                     }
-                }
 //                else {
 //                    var_dump($json_response);
 //                    throw new \Exception(json_encode($json_response), 1002);
 //                }
+                }
             }
             //$this->webdriver->close();
             return $Ref_profile_follows;
@@ -523,7 +525,7 @@ namespace dumbu\cls {
 //            $cookie = "/home/albertord/cookies.txt";
             $ch = curl_init($url);
             $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
-            if ($this->csrftoken != NULL && $this->csrftoken != "" ) {
+            if ($this->csrftoken != NULL && $this->csrftoken != "") {
                 $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
             }
             //var_dump($result);
