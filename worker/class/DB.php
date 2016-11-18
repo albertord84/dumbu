@@ -71,6 +71,7 @@ namespace dumbu\cls {
                         . "ORDER BY followed.date ASC "
                         . "LIMIT $Limit;"
                 );
+		print "\nClient: $client_id " . mysqli_num_rows($result);
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
