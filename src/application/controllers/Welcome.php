@@ -3,8 +3,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
+    
+    /*public function index() {
+        $this->load->view('view','' );
+    }*/
 
-    public function index() {$data['head_section1'] = $this->load->view('my_views/users_header_painel','', true);
+    public function index() {
+        $data['head_section1'] = $this->load->view('my_views/users_header_painel','', true);
         $data['body_section1'] = $this->load->view('my_views/users_body_painel', '', true); 
         $data['footer_section1'] = $this->load->view('my_views/users_footer_painel', '', true);
         $data['body_section2'] = $this->load->view('my_views/users_howfunction_painel', '', true);
