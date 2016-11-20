@@ -127,17 +127,7 @@
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }
-        
-        /*public function sign_update($data_user,$data_client) {
-            try {
-                $this->db->update('users',$data_user);
-                $this->db->update('clients',$data_client);
-                return true;
-            } catch (Exception $exc) {
-                echo $exc->getTraceAsString();
-            }
-        }*/
+        }        
         
         public function get_client_by_ds_user_id($insta_id) {
             try {    
@@ -168,11 +158,63 @@
                 $data['insta_id']=$insta_id_profile;
                 $data['deleted']=false;
                 $this->db->insert('reference_profile',$data);
+                return $this->db->insert_id();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+                return 0;
+            }
+        }  
+        
+        public function insert_profile_in_daily_work($reference_id, $insta_datas, $N, $active_profiles, $DIALY_REQUESTS_BY_CLIENT){
+            $total_to_follow=0;
+            for($i=0;$i<$N;$i++){
+                $work=$this->get_daily_work_to_profile($active_profiles[$i]['id']);
+                if(count($work)){
+                    $total_to_follow=$total_to_follow+$work[0]['to_follow'];
+                }
+            }
+            if(!$total_to_follow)
+                $total_to_follow=$DIALY_REQUESTS_BY_CLIENT;
+            $cnt_to_follow=floor($total_to_follow/($N+1));
+            try {                
+                $this->db->insert('daily_work',array(
+                    'reference_id'=>$reference_id,
+                    'to_follow'=>$cnt_to_follow,
+                    'to_unfollow'=>0,
+                    'cookies'=>  json_encode($insta_datas)
+                ));
+                for($i=0;$i<$N;$i++){
+                    $flag=1;
+                    if(!$this->upadate_profile_in_daily_work($active_profiles[$i]['id'],array('to_follow'=>$cnt_to_follow)))
+                       $flag=0;
+                }
+                return TRUE;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+                return 0;
+            }
+        }
+        
+        public function upadate_profile_in_daily_work($id,$datas){
+            try {                
+                $this->db->where('reference_id',$id);
+                $this->db->update('daily_work',$datas);
                 return true;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }       
+        }
+        
+        public function get_daily_work_to_profile($id_profile){
+             try {    
+                $this->db->select('*');
+                $this->db->from('daily_work'); 
+                $this->db->where('reference_id', $id_profile);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
         
         public function get_client_active_profiles($user_id){
             try {    
@@ -200,8 +242,43 @@
             }
         }
         
+        public function execute_sql_query($query){
+            return $this->db->query($query)->result_array();
+        }
+        
         public function desactive_profiles($clien_id, $profile){
-            try {    
+            //deleting daily work of this profile add balancing the work of the rest
+            $active_profiles=$this->get_client_active_profiles($clien_id);
+            $N=count($active_profiles);
+            $index=0;
+            if($N>1){
+                for($i=0;$i<$N;$i++){
+                    if($active_profiles[$i]['insta_name']==$profile){
+                        $index=$i;
+                        break;
+                    }
+                }
+                $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$index]['id'].'"';
+                $profile_work= $this->execute_sql_query($query);
+                $cnt_follow_of_profile=$profile_work[0]['to_follow'];
+                $cnt_to_add=floor($cnt_follow_of_profile/($N-1));
+                
+                for($i=0;$i<$N;$i++){
+                    if($i!=$index){
+                        $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$i]['id'].'"';
+                        $other_profile_work=$this->execute_sql_query($query);
+                        $other_cnt_follow_of_profile=$profile_work[0]['to_follow'];
+                        $cnt=$cnt_to_add+$other_cnt_follow_of_profile;
+                        $this->upadate_profile_in_daily_work($active_profiles[$i]['id'],array('to_follow'=>$cnt));
+                    }
+                }
+            }
+            $this->db->where('reference_id', $active_profiles[$index]['id']);
+            $this->db->delete('daily_work'); 
+            
+            //desactivating reference profile
+            try {
+                
                 $this->db->where(array('client_id'=>$clien_id, 'insta_name'=>$profile, 'deleted'=>'0'));
                 $this->db->update('reference_profile',array('deleted'=>'1'));
                 return true;

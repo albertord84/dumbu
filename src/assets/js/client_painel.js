@@ -3,16 +3,16 @@ $(document).ready(function(){
     
     
     var icons_profiles={            
-        0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':''},
-        1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':''},
-        2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':''},
-        3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':''},
-        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':''}
-        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':''},
-        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':''},
-        7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':''},
-        8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':''},
-        9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':''}*/
+        0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':''},
+        1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':''},
+        2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':''},
+        3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':''},
+        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':''}
+        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':''},
+        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':''},
+        7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':''},
+        8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':''},
+        9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':'','status_profile':''}*/
     };    
     
     var num_profiles;
@@ -55,7 +55,7 @@ $(document).ready(function(){
     
     $("#btn_insert_profile").click(function(){
         if(num_profiles<MAX_NUM_PROFILES){
-            if($('#login_profile').val()!=''){                
+            if($('#login_profile').val()!=''){
                 $("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
                 $.ajax({
                     url : base_url+'index.php/welcome/client_insert_profile',
@@ -64,7 +64,7 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response){
                         if(response['success']){
-                            inser_icons_profiles(response);                            
+                            inser_icons_profiles(response);
                             $('#login_profile').val('');
                             $("#insert_profile_form").fadeOut();
                             $("#insert_profile_form").css({"visibility":"hidden","display":"none"});                            
@@ -96,12 +96,7 @@ $(document).ready(function(){
         $("#insert_profile_form").fadeOut();
         $("#insert_profile_form").css({"visibility":"hidden","display":"none"});
     });  
-    
-    function important_warnings()       {
-        var canvas = $("#cnv_warnings");
-        var ctx = canvas.getContext("2d");
-    }
-   
+      
     function display_reference_profiles(){
         flag=false;
         if(num_profiles==0){
@@ -111,8 +106,7 @@ $(document).ready(function(){
                 $("#status_text").css({'color':'red'});
                 $("#status_text").text('NÂO INICIADO');
                 flag=true;
-            }
-            
+            }            
         }
         else{
             $('#missing_referrence_profiles').css({"visibility":"hidden","display":"none"}); 
@@ -121,9 +115,19 @@ $(document).ready(function(){
                 $("#status_text").css({'color':'green'});
                 $("#status_text").text('ATIVO');
             }
+            var any_private_profile=false;
+            for(i=0;i<num_profiles;i++){
+                if(icons_profiles[i]['status_profile']==='privated')
+                    any_private_profile=true;
+            }
+            if(any_private_profile){
+                $("#list_warnings").prepend('<li id="private_st" style="font-weight:red; color:red; margin-bottom:0.7em;"> Exitem perfis de referencia privados, considere trocar por outros;');                
+            }            
             for(i=0;i<num_profiles;i++){
                 icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
                 icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
+                if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
+                    icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
                 icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
             }
         }
@@ -136,6 +140,7 @@ $(document).ready(function(){
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['img_profile']=prof[i]['img_profile'];
             icons_profiles[i]['login_profile']=prof[i]['login_profile'];
+            icons_profiles[i]['status_profile']=prof[i]['status_profile'];
         }
         display_reference_profiles();
     }
@@ -143,6 +148,7 @@ $(document).ready(function(){
     function inser_icons_profiles(datas){
         icons_profiles[num_profiles]['img_profile']=datas['img_url'];
         icons_profiles[num_profiles]['login_profile']=datas['profile'];
+        icons_profiles[num_profiles]['status_profile']=datas['status_profile'];
         num_profiles=num_profiles+1;
         display_reference_profiles();
     }
@@ -157,6 +163,7 @@ $(document).ready(function(){
             if(j+1<num_profiles){
                 icons_profiles[j]['img_profile']=icons_profiles[j+1]['img_profile'];
                 icons_profiles[j]['login_profile']=icons_profiles[j+1]['login_profile'];
+                icons_profiles[j]['status_profile']=icons_profiles[j+1]['status_profile'];
             }
         }
         j=j-1;

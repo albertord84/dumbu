@@ -4,10 +4,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
     
-    /*public function index() {
-        $this->load->view('view','' );
-    }*/
+    public function index1() {
+        $data['head_section1'] = $this->load->view('responsive_views/users_header_painel','', true);
+        $data['body_section1'] = $this->load->view('responsive_views/users_body_painel', '', true);
+        $data['footer_section1'] = $this->load->view('responsive_views/users_footer_painel', '', true);
+        $data['body_section2'] = $this->load->view('responsive_views/users_howfunction_painel', '', true);
+        $data['body_section3'] = $this->load->view('responsive_views/users_singin_painel', '', true);
+        $data['body_section4'] = $this->load->view('responsive_views/users_talkme_painel', '', true);
+        $data['body_section5'] = $this->load->view('responsive_views/users_final_footer_painel', '', true);
+        $this->load->view('view',$data);
+    }
 
+    public function index2() {
+        echo encode_php_tags('joseramongm');
+    }
     public function index() {
         $data['head_section1'] = $this->load->view('my_views/users_header_painel','', true);
         $data['body_section1'] = $this->load->view('my_views/users_body_painel', '', true); 
@@ -91,7 +101,7 @@ class Welcome extends CI_Controller {
         $user= $this->user_model->execute_sql_query($query);
         if(count($user)){
             $result['role'] = 'ADMIN';
-            //$result['str'] = urlencode('login='.$datas['user_login'].'&pass='.$datas['user_pass']);             
+            $result['str'] ='login='.urlencode($datas['user_login']).'&pass='.urlencode($datas['user_pass']);
             $result['authenticated'] = true;
         } else{
             //Is an active Attendent?
@@ -101,6 +111,7 @@ class Welcome extends CI_Controller {
             $user= $this->user_model->execute_sql_query($query);
             if(count($user)){
                 $result['role'] = 'ATTENDET';
+                $result['str'] = urlencode('login='.$datas['user_login'].'&pass='.$datas['user_pass']);             
                 $result['authenticated'] = true;
             } else{
                 //Is an actually Instagram user?
@@ -134,7 +145,7 @@ class Welcome extends CI_Controller {
                                         'login' =>$datas['user_login'],
                                         'pass' =>$datas['user_pass'],
                                         'status_id' => user_status::ACTIVE));
-                            $this->user_model->set_sesion($user[$index]['id'], $this->session);
+                            $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta);
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário '.$datas['user_login'].' logueado';
                             $result['role'] = 'CLIENT';
@@ -145,7 +156,7 @@ class Welcome extends CI_Controller {
                                         'name' => $data_insta['insta_name'],
                                         'login' =>$datas['user_login'],
                                         'pass' =>$datas['user_pass']));
-                            $this->user_model->set_sesion($user[$index]['id'], $this->session);
+                            $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta);
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário '.$datas['user_login'].' logueado';
                             $result['role'] = 'CLIENT';
@@ -257,6 +268,7 @@ class Welcome extends CI_Controller {
                 $datas['status_id'] = user_status::BEGINNER;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
+                $response['datas'] = serialize($data_insta);
                 $response['success'] = true;
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
             } else {                 
@@ -267,9 +279,10 @@ class Welcome extends CI_Controller {
                         'pass' => $datas['client_pass']));
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta['insta_followers_ini'],                        
-                        'insta_following' => $data_insta['insta_following']));
-                    $response['success'] = true;
+                        'insta_following' => $data_insta['insta_following']));                    
+                    $response['datas'] = serialize($data_insta);
                     $response['pk'] = $client[$index]['user_id'];
+                    $response['success'] = true;
                 } else {
                     $response['success'] = false;
                     $response['message'] = 'O usuario ja tem cadastro no sistema';
@@ -348,7 +361,7 @@ class Welcome extends CI_Controller {
                         $result['exception'] = $exc->getTraceAsString();                
                         $result['message'] = 'Error actualizando en base de datos';                        
                     } finally {                        
-                        $this->user_model->set_sesion($datas['pk'], $this->session);
+                        $this->user_model->set_sesion($datas['pk'], $this->session, unserialize($datas['datas']));
                         $result['success'] = true;
                         $result['message'] = 'Usuário cadastrado satisfatóriamente';
                     }
@@ -488,13 +501,13 @@ class Welcome extends CI_Controller {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');
             $profile = $this->input->post();
-            $all_profiles_of_client = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-            $N = count($all_profiles_of_client);
+            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+            $N = count($active_profiles);
             $is_active_profile = false;
             $is_deleted_profile = false;
             for ($i = 0; $i < $N; $i++) {
-                if ($all_profiles_of_client[$i]['insta_name'] == $profile['profile']) {
-                    if ($all_profiles_of_client[$i]['deleted'] == false)
+                if ($active_profiles[$i]['insta_name'] == $profile['profile']) {
+                    if ($active_profiles[$i]['deleted'] == false)
                         $is_active_profile = true;
                     else
                         $is_deleted_profile = true;
@@ -504,20 +517,34 @@ class Welcome extends CI_Controller {
             if (!$is_active_profile && !$is_deleted_profile) {
                 if ($N < dumbu_system_config::REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas = $this->check_insta_profile($profile['profile']);
-                    if ($profile_datas) {
-                        $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);
-                        if ($p) {
-                            $result['success'] = true;
-                            $result['message'] = 'Perfil adicionado corretamente';
-                            $result['img_url'] = $profile_datas->profile_pic_url;
-                            $result['profile'] = $profile['profile'];
-                        } else {
+                    if($profile_datas) {
+                        if(!$profile_datas->is_private){
+                            $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);                                                        
+                            if ($p) {
+                                $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                if ($q) {    
+                                    $result['success'] = true;
+                                    $result['message'] = 'Perfil adicionado corretamente';
+                                    $result['img_url'] = $profile_datas->profile_pic_url;
+                                    $result['profile'] = $profile['profile'];   
+                                } else{
+                                    $result['success'] = true;
+                                    $result['message'] = 'O trabalho com o perfil começara em depois';
+                                    $result['img_url'] = $profile_datas->profile_pic_url;
+                                    $result['profile'] = $profile['profile'];                                       
+                                } 
+                            } else {
+                                $result['success'] = false;
+                                $result['message'] = 'Erro no sistema, tente depois';
+                            }
+                        }
+                        else{
                             $result['success'] = false;
-                            $result['message'] = 'Erro no sistema, tente depois';
+                            $result['message'] = 'O perfil '.$profile['profile'].' é um perfil privado' ;                            
                         }
                     } else {
                         $result['success'] = false;
-                        $result['message'] = 'Não é um perfil do Instagram';
+                        $result['message'] = $profile['profile'].' não é um perfil do Instagram';
                     }
                 } else {
                     $result['success'] = false;
@@ -669,10 +696,20 @@ class Welcome extends CI_Controller {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile);
                     $array_profiles[$i]['login_profile'] = $name_profile;
-                    if ($datas_of_profile)
-                        $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
-                    else
-                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_missing.png';
+                    if (!$datas_of_profile){
+                        $array_profiles[$i]['status_profile']='deleted';
+                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_deleted.jpg';
+                    }                        
+                    else{
+                        if($datas_of_profile->is_private){
+                            $array_profiles[$i]['status_profile']='privated';
+                            $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_privated.jpg';
+                        }                            
+                        else{
+                            $array_profiles[$i]['status_profile']='active';
+                            $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
+                        }
+                    }
                 }
                 $response['array_profiles'] = $array_profiles;
             } else {

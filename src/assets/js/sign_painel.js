@@ -17,6 +17,7 @@ $(document).ready(function(){
                     $("#waiting_sign_in").css({"visibility":"hidden","display":"none"});
                     if(response['success']){
                         set_global_var('pk',response['pk']);
+                        set_global_var('datas',response['datas']);
                         set_global_var('login',$('#clientLogin').val());
                         set_global_var('pass',$('#clientPassword').val());                        
                         set_global_var('need_delete',response['need_delete']);
@@ -60,7 +61,8 @@ $(document).ready(function(){
                         'client_credit_card_validate_month':$('#client_credit_card_validate_month').val(),
                         'client_credit_card_validate_year':$('#client_credit_card_validate_year').val(),
                         'need_delete':need_delete,
-                        'pk':pk
+                        'pk':pk,
+                        'datas':datas
                     },
                     type : 'POST',
                     dataType : 'json',
@@ -161,9 +163,12 @@ $(document).ready(function(){
             case 'pass':
                 pass=value;
                 break;
+            case 'datas':
+                datas=value;
+                break;
         }
     }
     
-    var pk, login, pass, need_delete=0;
+    var pk, datas, login, pass, need_delete=0;
     
  }); 
