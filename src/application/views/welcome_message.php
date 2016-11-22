@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en">
     <head>
+	    <meta name="google-site-verification" content="0E7a5_j1eX8dCmhyUPM9-gWKQCyrBshagGL5_BqVvOc" />
             <meta charset="utf-8">
             <title>DUMBU</title>
             <link rel="shortcut icon" href="<?php echo base_url().'assets/img/icon.png'?>">        
