@@ -35,11 +35,11 @@ namespace dumbu\cls {
 
         /**
          * 
-         *
-         * @return Payment
-         * @access public
+         * @param type $payment_data
+         * @param type $recurrence Default to infinite (0)
+         * @return string
          */
-        public function create_recurrency_payment($payment_data) {
+        public function create_recurrency_payment($payment_data, $recurrence = 0) {
             try {
 // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
@@ -61,6 +61,7 @@ namespace dumbu\cls {
                         ->setAmountInCents($payment_data['amount_in_cents'])
                         ->setInstallmentCount(1)
                         ->setCreditCard($creditCard)
+                        ->setIsOneDollarAuthEnabled(true)
                 ;
 
                 // Dados da recorrência
@@ -68,7 +69,7 @@ namespace dumbu\cls {
                         ->setDateToStartBilling(\DateTime::createFromFormat('U', $payment_data['pay_day']))
                         ->setFrequency(\Gateway\One\DataContract\Enum\FrequencyEnum::MONTHLY)
                         ->setInterval(1)
-                        ->setRecurrences(0);
+                        ->setRecurrences($recurrence);
 
                 // Define dados da transação
                 $createSaleRequest->addCreditCardTransaction($creditCardTransaction);
@@ -103,8 +104,42 @@ namespace dumbu\cls {
          * @return bool
          * @access public
          */
-        public function delete_payment() {
-            
+        public function delete_payment($order_key) {
+            try {
+// Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+// Define a chave da loja
+                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+
+                // Cria objeto requisição
+                $request = new \Gateway\One\DataContract\Request\CancelRequest();
+
+                // Define dados da requisição
+//                $request->setOrderKey("5f4ef87d-cf0d-4da1-91f6-5a394924c308");
+                $request->setOrderKey($order_key);
+
+                //Cria um objeto ApiClient
+                $client = new \Gateway\ApiClient();
+
+                // Faz a chamada para criação
+                $response = $client->cancel($request);
+
+                // Imprime resposta
+                print "<pre>";
+                print json_encode(array('success' => $response->isSuccess(), 'data' => $response->getData()), JSON_PRETTY_PRINT);
+                print "</pre>";
+            } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                // Imprime json
+                print "<pre>";
+                print json_encode($error, JSON_PRETTY_PRINT);
+                print "</pre>";
+            } catch (Exception $ex) {
+                // Imprime json
+                print "<pre>";
+                print json_encode($ex, JSON_PRETTY_PRINT);
+                print "</pre>";
+            }
         }
 
         // end of member function delete_payment

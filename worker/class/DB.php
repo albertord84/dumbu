@@ -134,6 +134,19 @@ namespace dumbu\cls {
             }
         }
 
+        public function delete_daily_work($ref_prof_id) {
+            try {
+                $sql = ""
+                        . "DELETE FROM daily_work "
+                        . "WHERE reference_id = $ref_prof_id; ";
+                $result = mysqli_query($this->connection, $sql);
+
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
             try {
                 $sql = ""
@@ -160,7 +173,7 @@ namespace dumbu\cls {
             }
         }
 
-        public function delete_daily_work() {
+        public function truncate_daily_work() {
             try {
                 $sql = "TRUNCATE daily_work;";
 

@@ -240,9 +240,19 @@ namespace dumbu\cls {
             }
         }
 
-        function delete_daily_work() {
+        function insert_daily_work($Ref_Prof, $to_follow, $to_unfollow, $login_data) {
             $DB = new \dumbu\cls\DB();
-            $DB->delete_daily_work();
+            $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
+        }
+        
+        function delete_daily_work($ref_prof_id) {
+            $DB = new \dumbu\cls\DB();
+            $DB->truncate_daily_work($ref_prof_id);
+        }
+
+        function truncate_daily_work() {
+            $DB = new \dumbu\cls\DB();
+            $DB->truncate_daily_work();
         }
 
     }

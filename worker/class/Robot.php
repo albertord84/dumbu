@@ -115,7 +115,9 @@ namespace dumbu\cls {
                     $has_next = !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     var_dump($json_response);
-                    break;
+                    if (is_array($json_response) && count($json_response)) {
+                        break;
+                    }
                     // TODO: if response is "Há solicitações demais. Tente novamente mais tarde." then
                     // stop this user work flow...
 //                    throw new \Exception(json_encode($json_response), 1003);
