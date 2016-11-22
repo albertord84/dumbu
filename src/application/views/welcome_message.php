@@ -3,49 +3,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en">
     <head>
+<<<<<<< HEAD
             <meta name="google-site-verification" content="0E7a5_j1eX8dCmhyUPM9-gWKQCyrBshagGL5_BqVvOc" />
+=======
+	    <meta name="google-site-verification" content="0E7a5_j1eX8dCmhyUPM9-gWKQCyrBshagGL5_BqVvOc" />
+>>>>>>> 9e5725a5314441484d16098c7d9be5e6b7d93fe5
             <meta charset="utf-8">
             <title>DUMBU</title>
             <link rel="shortcut icon" href="<?php echo base_url().'assets/img/icon.png'?>">        
+            
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            
             <style type="text/css">
                 a { color: white; background-color: transparent; font-weight: normal; font-size: 12px;}            
-            </style>        
+                #container {
+                    z-index:5; 
+                    position:absolute; 
+                    background-color:white; 
+                    top:0%; 
+                    left:0%;  
+                    /*height:100%; */
+                    width:100%;
+                }
+            </style>
             <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/users_login_style.css'?>">    
-            <link rel="stylesheet" type="text/css" href="<?php //echo base_url().'assets/js/alert/css/wow-alert.css'?>">                
-            
-            
-            
-            <!--<script type="text/javascript" async="" src="menu_files/ga.js"></script>
-            <script type="text/javascript" src="menu_files/jquery-1.js"></script>
-            <script type="text/javascript" src="menu_files/jquery.js"></script>
-            <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/js/menu/fixedMenu_style2.css'?>">
-            <script>
-                //$('document').ready(function(){
-                  //  $('.menu').fixedMenu();
-               // });
-            </script>-->
-            
-            
-            
-            
-            
+            <link rel="stylesheet" type="text/css" href="<?php //echo base_url().'assets/js/alert/css/wow-alert.css'?>">                            
     </head>
     
     <body style="z-index:1">
             <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
             <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>
-            <div style="position:absolute; top:0%; left:0%; height:100%;width:100%">
+            <div id="container" style="position:absolute; top:0%; left:0%; height:100%;width:100%">
             <!--SECTION 1-->
-                <div id="section1"              style="z-index:5; position:absolute;  background-color:white;   top:0%;   left:0%;     height:100%;    width:100%;">                
+                <div id="section1">
                     <div id="head_section1"     style="z-index:6; position:absolute;  background-color:#0F0F0F;  top:0%;   left:0%;     height:10%;     width:100%;">                
                         <?php if($head_section1) echo $head_section1; ?> 
                     </div>            
                     <div id="body_section1"     style="z-index:2; position:absolute;  background-color:#2B2B2B;  top:10%;   left:0%;    height:75%;     width:100%;">                
-                        <?php if($head_section1) echo $body_section1; ?> 
+                        <?php if($body_section1) echo $body_section1; ?> 
                     </div>            
                     <div id="footer_section1"   style="z-index:2; position:absolute;  background-color:#202020;  top:85%;   left:0%;    height:15%;     width:100%;">
-                        <?php if($head_section1) echo $footer_section1; ?> 
+                        <?php if($footer_section1) echo $footer_section1; ?> 
                     </div>
                 </div>
 

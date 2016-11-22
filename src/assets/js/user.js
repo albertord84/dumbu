@@ -1,5 +1,4 @@
 $(document).ready(function(){   
-    
     $("#btn_dumbu_login").click(function() {
         if($('#userLogin').val()!='' && $('#userPassword').val()!==''){
             $("#waiting").css({"visibility":"visible","display":"block"});
@@ -14,9 +13,8 @@ $(document).ready(function(){
                 async: false,
                 success : function(response) {
                     if(response['authenticated']){
-                        if(response['role']=='ADMIN'){
-                            //$(location).attr('href',base_url+'index.php/admin/index?str='+response['str']);
-                            var cad=base_url+'index.php/admin/index?login='+$('#userLogin').val()+'&pass='+$('#userPassword').val();
+                        if(response['role']=='ADMIN'){                            
+                            var cad=base_url+'index.php/admin/index?'+response['str'];              
                             $(location).attr('href',cad);
                         } else
                         if(response['role']=='ATTENDET'){
@@ -28,7 +26,8 @@ $(document).ready(function(){
                     } else
                         if(response['cause']=='checkpoint_required') {
                             alert(response['message']);
-                            $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
+                            var cad=base_url+'index.php/welcome/verify_account?'+'user_login='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];
+                            $(location).attr('href',cad);                            
                         } else{
                             alert(response['message']);
                             $(location).attr('href',base_url+'index.php/welcome/'+response['resource']);

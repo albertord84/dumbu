@@ -1,7 +1,7 @@
 
 <div id="uppser_painel" style="position:absolute; top:0%; height:25%; left:0%; width:100%;">
-		<p style="position: absolute; top:0%;  left:18%;color: white; font-size: 270%;"><b>Ganhe em média 5mil* seguidores reais por mes.</b></p>
-		<p style="position: absolute; top:60%; left:35%;color: white; font-size: 25px;"><b>Pague e receba seguidores todos os dias.</b></p>
+		<p style="position: absolute; top:0%;  left:18%;color: white; font-size: 170%;"><b>Ganhe em média 5mil* seguidores reais por mes.</b></p>
+		<p style="position: absolute; top:60%; left:35%;color: white; font-size: 100%;"><b>Pague e receba seguidores todos os dias.</b></p>
 </div>
 <div id="bottom_painel" style="position:absolute; top:25%; height:75%; left:0%; width:100%;">
     <div id="bottom_left_painel" style="position:absolute; top:0%; height:100%; left:0%; width:30%;">

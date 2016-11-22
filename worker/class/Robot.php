@@ -96,7 +96,7 @@ namespace dumbu\cls {
             $Profile = new Profile();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
-            echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n";
+            echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: " . $has_next;
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
@@ -118,6 +118,11 @@ namespace dumbu\cls {
                     if (is_array($json_response) && count($json_response)) {
                         break;
                     }
+<<<<<<< HEAD
+=======
+                    //var_dump($json_response);
+                    //break;
+>>>>>>> 9e5725a5314441484d16098c7d9be5e6b7d93fe5
                     // TODO: if response is "Há solicitações demais. Tente novamente mais tarde." then
                     // stop this user work flow...
 //                    throw new \Exception(json_encode($json_response), 1003);
