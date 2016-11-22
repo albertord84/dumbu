@@ -16,9 +16,14 @@ namespace dumbu\cls {
         const MAX_CLIENT_FAUTL_TRIES = 2; // Quantity max of failures with this client
         CONST MIN_MARGIN_TO_INIT = 1000;  //margen inicial requerido para trabajar con un cliente        
         
-        CONST SYSTEM_EMAIL = 'dumbu.system@gmail.com';
-        CONST SYSTEM_USER_LOGIN = 'dumbu.system';
-        CONST SYSTEM_USER_PASS = 'sorvete69@';
+        // EMAIL gmail old
+//        CONST SYSTEM_EMAIL = 'dumbu.system@gmail.com';
+//        CONST SYSTEM_USER_LOGIN = 'dumbu.system';
+//        CONST SYSTEM_USER_PASS = 'sorvete69@';
+        // New email 
+        CONST SYSTEM_EMAIL = 'atendimento@dumbu.pro';
+        CONST SYSTEM_USER_LOGIN = 'atendimento@dumbu.pro';
+        CONST SYSTEM_USER_PASS = 'Sorvete69@';
         
         CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
         CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 7;    // promotion of percentegem discount by one month
