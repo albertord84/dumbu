@@ -118,11 +118,8 @@ namespace dumbu\cls {
                     if (is_array($json_response) && count($json_response)) {
                         break;
                     }
-<<<<<<< HEAD
-=======
                     //var_dump($json_response);
                     //break;
->>>>>>> 9e5725a5314441484d16098c7d9be5e6b7d93fe5
                     // TODO: if response is "Há solicitações demais. Tente novamente mais tarde." then
                     // stop this user work flow...
 //                    throw new \Exception(json_encode($json_response), 1003);
