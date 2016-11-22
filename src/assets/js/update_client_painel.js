@@ -43,8 +43,7 @@ $(document).ready(function(){
                 },
                 error : function(xhr, status) {
                 }
-            });
-            
+            });            
         } else{
             alert('Erro nos dados fornecidos');
         }
@@ -68,7 +67,7 @@ $(document).ready(function(){
         }
     }    
     function validate_year(element_selector,pattern){
-        if(!$(element_selector).val().match(pattern) || Number($(element_selector).val())<2017 || Number($(element_selector).val())>2030){
+        if(!$(element_selector).val().match(pattern) || Number($(element_selector).val())<2017){
            $(element_selector).css("border", "1px solid red");
             return false;
         } else{

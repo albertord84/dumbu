@@ -1,15 +1,18 @@
-<script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js'?>" ></script>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/sign_in_style.css'?>">
+
 
 <br><br><p class="section-titles">ASSINAR</p><br>
-<div>
-    <button type="button" style="width:20%; padding:0%;">
-        <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/siete-dias-verde.png'?>"/>
-    </button>
-    <strong>OU</strong>
-    <button type="button" style="width:20%; padding:0%;">
-        <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/plano-mensual-gris.png'?>"/>
-    </button>
+<div class="row">
+    <div class="col-md-2"></div> 
+    <div class="col-md-8">
+        <button id="sete_dias" style="width:35%;margin:0%" type="button">
+            <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/siete-dias-verde.png'?>"/>
+        </button>
+        <strong>OU</strong>
+        <button id="palno_mensal" style="width:35%;margin:0%" type="button">
+            <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/plano-mensual-gris.png'?>"/>
+        </button>
+    </div>
+    <div class="col-md-2"></div> 
 </div>
 
 <br><br>
@@ -17,27 +20,27 @@
 
 <div class="container-fluid filter-menu">
     <div class="row">
-        <div class="col-md-4">   <!--col-xs-4 col-sm-4 filter-buttons-->
+        <div id="login_panel" class="col-md-4">   <!--col-xs-4 col-sm-4 filter-buttons-->
             <hr>
             <label>PASSO 1</label><br><br>
             <button type="button" style="width:60%; padding:0%;">
                 <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/login-instagram-3.png'?>"/>
             </button>
-            <form id="login_sign_in"  style="width: 60%; border-radius: 5px; border:1px solid silver; margin-left:20%;  padding:4%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+            <form id="login_sign_in"  action="#" method="#"  style="width: 60%; border-radius: 5px; border:1px solid silver; margin-left:20%;  padding:4%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
                 <div class="form-group">                   
-                   <input type="email" class="form-control" id="text-login" placeholder="Usuário" required>
+                   <input id = "signin_clientLogin" type="text" class="form-control"  placeholder="Usuário" required>
                 </div>
-                <div class="form-group">                   
-                   <input type="password" class="form-control" id="text-pass" placeholder="Senha" required>
+                <div class="form-group">
+                   <input id = "signin_clientPassword" type="password" class="form-control" placeholder="Senha" required>
                 </div>                
                 <div class="form-group">
-                    <button type="button" class="btn btn-success btn-block" >Login</button>
+                    <button id = "signin_btn_insta_login"  type="button" class="btn btn-success btn-block" >Login</button>
                 </div>
              </form>
             <br><br>          
         </div>
         
-        <div class="col-md-4">   <!--col-xs-4 col-sm-4 filter-buttons-->
+        <div id="data_panel" class="col-md-4">   <!--col-xs-4 col-sm-4 filter-buttons-->
             <hr>
             <label>PASSO 2</label><br><br>            
             <label>INFORMAÇÕES DE PAGAMENTO</label><br>            
@@ -76,7 +79,7 @@
                     <div class="col-xs-4">                        
                         <div class="form-group">      
                             <select id="client_credit_card_validate_year" class="form-control">
-                                <option>2016</option> <option>2017</option><option>2018</option>
+                                 <option>2017</option><option>2018</option>
                                 <option>2019</option><option>2020</option><option>2021</option>
                                 <option>2022</option><option>2023</option><option>2024</option>
                                 <option>2025</option><option>2026</option><option>2027</option>
@@ -96,38 +99,22 @@
             
         </div>   
         
-        <div class="col-md-4">   
+        <div id="sing_in_panel" class="col-md-4">   
             <hr>     
             <label>PASSO 3</label><br><br>
-            <button type="button" style="width:60%; padding:0%;">
+            <button id="btn_sing_in" type="button" style="width:60%; padding:0%;">
                 <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/assinar3.png'?>"/>
             </button>
             <br><br>
-            <label class="checkbox-inline"><input type="checkbox" value=""> 
-                Declaro que li e aceito os <a id="lnk_use_term" style="color:blue" href="#">termos de uso</a></label>
+            <label  class="checkbox-inline">
+                <input id="check_declaration" type="checkbox" name="declaration">
+                Declaro que li e aceito os <a id="lnk_use_term" style="text-decoration:underline; color:blue" href="#">termos de uso</a>
+            </label>
             <br><br>            
         </div>        
     </div>
 </div>
 <br>
-
-
-
-
-
-
-
-   <!-- <div class="form-group">      
-      <select class="form-control" id="sel1">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>      
-    </div>-->
-
-
-
 
 
 <!--

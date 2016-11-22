@@ -1,5 +1,4 @@
 $(document).ready(function(){   
-    
     $("#btn_dumbu_login").click(function() {
         if($('#userLogin').val()!='' && $('#userPassword').val()!==''){
             $("#waiting").css({"visibility":"visible","display":"block"});

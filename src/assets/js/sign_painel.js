@@ -2,14 +2,17 @@ $(document).ready(function(){
     
     active_by_steep(1);
     
-    $("#btn_insta_login").click(function(){
-        if($('#clientLogin').val()!='' && $('#clientPassword').val()!=''){
+    $('#palno_mensal').prop('disabled',true);   
+    
+    
+    $("#signin_btn_insta_login").click(function(){
+        if($('#signin_clientLogin').val()!='' && $('#signin_clientPassword').val()!=''){
             $("#waiting_sign_in").css({"visibility":"visible","display":"block"});
             $.ajax({            
                 url : base_url+'index.php/welcome/check_user_for_sing_in',      
                 data : {
-                    'client_login':$('#clientLogin').val(),
-                    'client_pass': $('#clientPassword').val()
+                    'client_login':$('#signin_clientLogin').val(),
+                    'client_pass': $('#signin_clientPassword').val()
                 },
                 type : 'POST',
                 dataType : 'json',
@@ -18,8 +21,8 @@ $(document).ready(function(){
                     if(response['success']){
                         set_global_var('pk',response['pk']);
                         set_global_var('datas',response['datas']);
-                        set_global_var('login',$('#clientLogin').val());
-                        set_global_var('pass',$('#clientPassword').val());                        
+                        set_global_var('login',$('#signin_clientLogin').val());
+                        set_global_var('pass',$('#signin_clientPassword').val());                        
                         set_global_var('need_delete',response['need_delete']);
                         if(need_delete<response['MIN_MARGIN_TO_INIT']){                        
                             /*TODO: mensaje de WARNING ou DECISAO*/alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');
