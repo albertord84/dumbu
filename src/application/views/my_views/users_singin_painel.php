@@ -8,13 +8,13 @@
    
 <div id="plane_promotianal_panel" style="text-align:center; background-color:white; position:absolute; top:10%; height:15%;left:0%;width:100%;">   
     <div id="promotion" style="background-color:white;position:absolute; top:0%; height:100%; left:20%; width:27%;">      
-        <img src="<?php echo base_url().'assets/img/7-dias-grátis-2.png'?>" style="border-radius:4px; position:absolute; top:0%; height:100%; left:0%; width:100%;">
+        <img src="<?php echo base_url().'assets/img/siete-dias-verde.png'?>" style="border-radius:4px; position:absolute; top:0%; height:100%; left:0%; width:100%;">
     </div>
    <div id="ou" style="background-color:white;position:absolute; top:5%; height:100%; left:47%; width:5%;">
        <p><b style="font-family:sans-serif;font-size:20px">OU</b></p>
    </div>
     <div id="plane" style="background-color:white;position:absolute; top:0%; height:100%; left:52%; width:27%;">        
-        <img src="<?php echo base_url().'assets/img/plano mensal-3.png'?>" style="border-radius:4px;position:absolute; top:0%; height:100%; left:0%; width:100%;">
+        <img src="<?php echo base_url().'assets/img/plano-mensual-gris.png'?>" style="border-radius:4px;position:absolute; top:0%; height:100%; left:0%; width:100%;">
     </div>    
 </div>
 

@@ -4,18 +4,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
+   public function index1() {
+       echo urlencode('index?foo=perroviejo');
+       echo '<br>';
+       echo 'index?'.urlencode('foo=perroviejo');
+       echo '<br>';
+       echo 'index?foo='.urlencode('perroviejo');
+       echo '<br>';
+       echo 'index?foo='.urlencode('perroviejo');
+   }
    public function index() {
-        /*$str=urldecode($this->input->get());
-        var_dump($str);
-        foreach(explode('&', $str) as $chunk) {
-            $param = explode("=", $chunk);
-        }
-        var_dump($param);
-        $datas['login']=$param[0];
-        $datas['pass']=$param[1];
-        var_dump($datas);*/
-        
-        $datas=$this->input->get();
+        $datas1=$this->input->get();
+        var_dump($datas1);
+        $datas['login']=urldecode($datas1['login']);
+        $datas['pass']=urldecode($datas1['pass']);
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
@@ -24,7 +26,7 @@ class Admin extends CI_Controller {
                 '" AND role_id='.user_role::ADMIN.' AND status_id='.user_status::ACTIVE ;
         $user= $this->user_model->execute_sql_query($query);
         
-        if($this->user_model->set_sesion($user[0]['id'], $this->session)){  
+        if($this->user_model->set_sesion($user[0]['id'], $this->session, '')){  
             
             //TODO: INNER JOIN
             $query='SELECT users.id, users.name, users.login, users.pass, users.email, users.status_id, clients.pay_day '.

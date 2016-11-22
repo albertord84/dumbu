@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>
             <div style="position:absolute; top:0%; left:0%; height:100%;width:100%">
             <!--SECTION 1-->
-                <div id="section1"              style="z-index:5; position:absolute;  background-color:white;   top:0%;   left:0%;     height:100%;    width:100%;">                
+                <div id="section1"    style="z-index:5; position:absolute;  background-color:white;   top:0%;   left:0%;     height:100%;    width:100%;">                
                     <div id="head_section1"     style="z-index:6; position:absolute;  background-color:#0F0F0F;  top:0%;   left:0%;     height:10%;     width:100%;">                
                         <?php if($head_section1) echo $head_section1; ?> 
                     </div>            
