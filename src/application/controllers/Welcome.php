@@ -4,8 +4,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
     
-    //echo "Tu dirección IP es:".$_SERVER['REMOTE_ADDR'];        
+        
+   /* public function index555() {
+        $this->session->set_userdata('name','joseraulgv011');
+        $data_insta = $this->check_insta_profile('joseraulgv011');
+        var_dump($data_insta);
+        /*$data_insta=$this->is_insta_user('josergm86', 'joseramongm');
+        if(is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) 
+            var_dump ($data_insta);
+        else echo false;
+    }
     
+    
+   /* public function index_data() {
+        echo "Dirección IP es:".$_SERVER['REMOTE_ADDR']; echo '<br>';
+        $info=  $this->detect();
+        echo "Sistema operativo: ".$info["os"];echo '<br>';
+        echo "Navegador: ".$info["browser"];echo '<br>';
+        echo "Versión: ".$info["version"];
+    }
+    
+    public function detect(){
+	$browser=array("IE","OPERA","MOZILLA","NETSCAPE","FIREFOX","SAFARI","CHROME");
+	$os=array("WIN","MAC","LINUX");
+	# definimos unos valores por defecto para el navegador y el sistema operativo
+	$info['browser'] = "OTHER";
+	$info['os'] = "OTHER";
+	# buscamos el navegador con su sistema operativo
+	foreach($browser as $parent){
+            $s = strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), $parent);
+            $f = $s + strlen($parent);
+            $version = substr($_SERVER['HTTP_USER_AGENT'], $f, 15);
+            $version = preg_replace('/[^0-9,.]/','',$version);
+            if ($s){
+                $info['browser'] = $parent;
+                $info['version'] = $version;
+            }
+	}
+	# obtenemos el sistema operativo
+	foreach($os as $val){
+            if (strpos(strtoupper($_SERVER['HTTP_USER_AGENT']),$val)!==false)
+                $info['os'] = $val;
+	}
+	# devolvemos el array de valores
+	return $info;
+    }*/
+
     public function index() {// responsive
         $data['head_section1'] = $this->load->view('responsive_views/users_header_painel','', true);
         $data['body_section1'] = $this->load->view('responsive_views/users_body_painel', '', true);
@@ -15,10 +59,6 @@ class Welcome extends CI_Controller {
         $data['body_section4'] = $this->load->view('responsive_views/users_talkme_painel', '', true);
         $data['body_section5'] = $this->load->view('responsive_views/users_final_footer_painel', '', true);
         $this->load->view('view',$data);
-    }
-
-    public function indexp() {
-        echo encode_php_tags('joseramongm');
     }
     
     public function index1() {//nao responsive
@@ -89,7 +129,7 @@ class Welcome extends CI_Controller {
             $this->display_access_error();
         }        
     }
-    
+            
     public function user_do_login() {
         $datas = $this->input->post();
         $this->load->model('class/user_model');
@@ -241,21 +281,19 @@ class Welcome extends CI_Controller {
 
     
     
-    public function check_user_for_sing() { //sign in with passive instagram profile verification
+    public function check_user_for_sing_in() { //sign in with passive instagram profile verification
         $this->load->model('class/dumbu_system_config');
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
         $datas = $this->input->post();
-        
         $data_insta = $this->check_insta_profile($datas['client_login']);        
-        
-        
-        
-        if(is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) {            
-            $query='SELECT * FROM users,clients WHERE clients.insta_id="'.$data_insta['insta_id'].'"'. 
-                            'AND clients.user_id=users.id';// AND (users.status_id='.user_status::DELETED.' OR users.status_id='.user_status::INACTIVE.')';                                          
+        if($data_insta) {
+            if(!$data_insta->following)
+                $data_insta->following=0;            
+            $query='SELECT * FROM users,clients WHERE clients.insta_id="'.$data_insta->pk.'"'. 
+                            'AND clients.user_id=users.id';// AND (users.status_id='.user_status::DELETED.' OR users.status_id='.user_status::INACTIVE.')';                                                                              
             $client=$this->user_model->execute_sql_query($query);
             $N=count($client);
             $real_status=0; //No existe, eliminado o inactivo
@@ -279,15 +317,15 @@ class Welcome extends CI_Controller {
                 $response['datas'] = serialize($data_insta);
                 $response['success'] = true;
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
-            } else {                 
+            } else {
             if($real_status==1){
                     $this->user_model->update_user($client[$i]['id'], array(
-                        'name' => $data_insta['insta_name'],
+                        'name' => $data_insta->full_name,
                         'login' => $datas['client_login'],
                         'pass' => $datas['client_pass']));
                     $this->client_model->update_client($client[$i]['id'], array(
-                        'insta_followers_ini' => $data_insta['insta_followers_ini'],                        
-                        'insta_following' => $data_insta['insta_following']));                    
+                        'insta_followers_ini' => $data_insta->follower_count,                        
+                        'insta_following' => $data_insta->following));                    
                     $response['datas'] = serialize($data_insta);
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
@@ -298,24 +336,15 @@ class Welcome extends CI_Controller {
             }
             
             if ($response['success'] == true) {
-                $response['need_delete'] = (dumbu_system_config::INSTA_MAX_FOLLOWING - $data_insta['insta_following']);
+                $response['need_delete'] = (dumbu_system_config::INSTA_MAX_FOLLOWING - $data_insta->following);
                 //TODO: guardar esta cantidad en las cookies para trabajar con lo que este en la cookie
                 $response['MIN_MARGIN_TO_INIT'] = dumbu_system_config::MIN_MARGIN_TO_INIT;
             }
-        } else
-        if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
+        } else{
             $response['success'] = false;
             $response['cause'] = 'missing_user';
-            $response['message'] = 'A conta informada não existe no Instagram';
-        } else
-        if ($data_insta['status'] === 'fail' && $data_insta['message'] === 'checkpoint_required') {
-            $response['resource'] = 'verify_account';
-            $response['verify_link'] = $data_insta['verify_account_url'];
-            $response['return_link'] = 'sign_in';
-            $response['message'] = 'Voce precisa verificar sua conta no Instagram e depois assinar no DUMBUS';
-            $response['cause'] = 'checkpoint_required';
-            $response['success'] = false;
-        }
+            $response['message'] = 'O nome de usuario informado não é um perfil do Instagram';
+        }         
         echo json_encode($response);
     }
     

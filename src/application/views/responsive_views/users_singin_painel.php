@@ -104,7 +104,7 @@
         <div id="sing_in_panel" class="col-md-4">   
             <hr>     
             <label>PASSO 3</label><br><br>
-            <button id="btn_sing_in" type="button" style="width:60%; padding:0%;" type="button" >
+            <button id="btn_sing_in" type="button" style="width:60%; padding:0%;" type="button">
                 <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/assinar4.png'?>"/>
             </button>
             <br><br>

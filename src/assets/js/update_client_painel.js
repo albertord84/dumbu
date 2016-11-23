@@ -1,10 +1,10 @@
 $(document).ready(function(){  
     
-    $("#client_credit_card_name").val(upgradable_datas['credit_card_name']);    
+    /*$("#client_credit_card_name").val(upgradable_datas['credit_card_name']);    
     $("#client_credit_card_number").val(upgradable_datas['credit_card_number']);
     $("#client_credit_card_cvv").val(upgradable_datas['credit_card_cvc']);
     $("#client_credit_card_validate_month").val(upgradable_datas['credit_card_exp_month']);
-    $("#client_credit_card_validate_year").val(upgradable_datas['credit_card_exp_year']);
+    $("#client_credit_card_validate_year").val(upgradable_datas['credit_card_exp_year']);*/
     $("#client_email").val(upgradable_datas['email']);
     
     
@@ -21,6 +21,7 @@ $(document).ready(function(){
         var year=validate_year('#client_credit_card_validate_year',"^[2-20-01-20-9]{4,4}$");
         
         if(name && email && number && cvv && month && year){
+            var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({
                 url : base_url+'index.php/welcome/update_client_datas',
                 data : {
@@ -40,8 +41,10 @@ $(document).ready(function(){
                     } else{
                         alert(response['message']);
                     }
+                    l.stop();
                 },
                 error : function(xhr, status) {
+                    l.stop();
                 }
             });            
         } else{
