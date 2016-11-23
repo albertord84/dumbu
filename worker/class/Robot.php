@@ -435,6 +435,12 @@ namespace dumbu\cls {
             $headers[] = "Referer: https://www.instagram.com/";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
+            
+            $ip=$_SERVER['REMOTE_ADDR'];
+            //var_dump($ip);
+            $headers[] = "REMOTE_ADDR: $ip";
+            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            
 //$headers[] = "Content-Type: application/x-www-form-urlencoded";
             $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
