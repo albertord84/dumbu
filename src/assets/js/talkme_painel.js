@@ -5,7 +5,8 @@ $(document).ready(function(){
         email=validate_element('#visitor_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");
         message=validate_empty('#visitor_message');
         if(name && email && message){
-            $("#waiting1").css({"visibility":"visible","display":"block"});
+            //$("#waiting1").css({"visibility":"visible","display":"block"});
+            var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({
                 url : base_url+'index.php/welcome/message',
                 data :{ 'name':$("#visitor_name").val(),
@@ -24,12 +25,13 @@ $(document).ready(function(){
                             this.reset();
                         });                        
                     } else
-                        alert(response['message']);                   
+                        alert(response['message']);    
+                    l.stop();
                 },
                 error : function(xhr, status) {
                     alert('Erro enviando a mensagem, tente depois...');
-                }
-                
+                    l.stop();
+                }                
             });
         } else{
             alert('Alguns dados incorretos');

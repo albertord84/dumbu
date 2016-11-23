@@ -28,20 +28,24 @@ namespace dumbu\cls {
 // 1 = client messages
 // 2 = client and server messages
             $this->mail->SMTPDebug = 0;
+//            $this->mail->SMTPDebug = 2;
 
 //Ask for HTML-friendly debug output
             $this->mail->Debugoutput = 'html';
 
 //Set the hostname of the mail server
             $this->mail->Host = 'smtp.gmail.com'; // dumbu.system
+//            $this->mail->Host = 'imap.gmail.com'; // atendimento
 // use
 // $mail->Host = gethostbyname('smtp.gmail.com');
 // if your network does not support SMTP over IPv6
 //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
             $this->mail->Port = 587; // dumbu.system
+//            $this->mail->Port = 993; // atendimento
 
 //Set the encryption system to use - ssl (deprecated) or tls
             $this->mail->SMTPSecure = 'tls'; // dumbu.system
+//            $this->mail->SMTPSecure = 'ssl'; // atendimento
 
 //Whether to use SMTP authentication
             $this->mail->SMTPAuth = true;

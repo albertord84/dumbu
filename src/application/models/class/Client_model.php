@@ -86,6 +86,25 @@
         
         public function insert_client($datas,$data_insta){
             //insert respectivity datas in the user table
+            $data_user['name']=$data_insta->full_name;              //desde instagram
+            $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
+            $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
+            $data_user['role_id']=$datas['role_id'];                //desde el controlador
+            $data_user['status_id']=$datas['status_id'];            //desde el controlador            
+            $this->db->insert('users',$data_user);
+            $id_user_table=$this->db->insert_id();
+            
+            //insert respectivity datas in the client table
+            $data_client['user_id']=$id_user_table;                                     //desde insersion anterior
+            $data_client['insta_id']=$data_insta->pk;                                   //desde instagram
+            $data_client['insta_followers_ini']=$data_insta->follower_count;            //desde instagram
+            $data_client['insta_following']=$data_insta->following;             //desde instagram
+            $this->db->insert('clients',$data_client);
+            return $id_user_table;
+        }        
+        
+        public function insert_client_in_strict_instagram_login($datas,$data_insta){
+            //insert respectivity datas in the user table
             $data_user['name']=$data_insta['insta_name'];           //desde instagram
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
