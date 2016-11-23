@@ -1,7 +1,8 @@
 $(document).ready(function(){   
     $("#btn_dumbu_login").click(function() {
         if($('#userLogin').val()!='' && $('#userPassword').val()!==''){
-            $("#waiting").css({"visibility":"visible","display":"block"});
+            //$("#waiting").css({"visibility":"visible","display":"block"});
+            var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({
                 url : base_url+'index.php/welcome/user_do_login',      
                 data : {
@@ -30,13 +31,15 @@ $(document).ready(function(){
                             $(location).attr('href',cad);                            
                         } else{
                             alert(response['message']);
-                            $(location).attr('href',base_url+'index.php/welcome/'+response['resource']);
+                            //$(location).attr('href',base_url+'index.php/welcome/'+response['resource']);
                         }
                             
-                    $("#waiting").css({"visibility":"hidden","display":"none"});
+                    //$("#waiting").css({"visibility":"hidden","display":"none"});
+                    l.stop();
                 },                
                 error : function(xhr, status) {
-                    /*TODO: mensaje de ERROR*/alert('noooooooooooooo');                
+                    /*TODO: mensaje de ERROR*/alert('internal error');    
+                    l.stop();
                 }
             });            
         } 

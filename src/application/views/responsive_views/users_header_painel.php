@@ -31,8 +31,10 @@
                                                         <input id="userPassword" type="password" class="form-control" placeholder="Senha" required>
                                                     </div>                                                             
                                                     <div class="form-group">
-                                                        <button id="btn_dumbu_login" type="button" class="btn btn-success btn-block">Entrar</button>
-                                                    </div>                                                    
+                                                        <button id="btn_dumbu_login" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                            <span class="ladda-label">Entrar</span>
+                                                        </button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -49,17 +51,3 @@
     <div class="center">
         <a href="#"><img  class="logo" src="<?php echo base_url().'assets/img/dumbu_logo_png.png'?>"/></a>        
     </div>
-   
-
-<!--<center>
-    <div id = "usersLoginForm" >
-        <form method = "post" action = "">
-            <img type = "image"       id = "userCloseLogin"   src = "<?php //echo base_url().'assets/img/close.png'?>">
-            <input type = "text"      id = "userLogin"         placeholder = "Usuário">
-            <input type = "password"  id = "userPassword"      placeholder = "***"  >
-            <input type = "button"    id = "btn_dumbu_login"       value = "Entrar" style="cursor:pointer;">
-        </form>
-        <img id="waiting" src="<?php //echo base_url().'assets/img/waiting.gif'?>"/>
-    </div>
-</center>
--->
