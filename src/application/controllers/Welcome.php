@@ -690,7 +690,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_insta_profile($profile) {
-        if ($this->session->userdata('name')) {
+//        if ($this->session->userdata('name')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $data = $this->Robot->get_insta_ref_prof_data($profile);
@@ -699,7 +699,7 @@ class Welcome extends CI_Controller {
             } else {
                 return NULL;
             }
-        }
+//        }
     }
 
     public function message() {
