@@ -56,7 +56,8 @@ $(document).ready(function(){
     $("#btn_insert_profile").click(function(){
         if(num_profiles<MAX_NUM_PROFILES){
             if($('#login_profile').val()!=''){
-                $("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
+                //$("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
+                var l = Ladda.create(this);  l.start(); l.start();
                 $.ajax({
                     url : base_url+'index.php/welcome/client_insert_profile',
                     data : {'profile':$('#login_profile').val()},
@@ -71,9 +72,11 @@ $(document).ready(function(){
                         } else
                             alert(response['message']);                        
                         $("#waiting_inser_profile").css({"visibility":"hidden","display":"none"});
+                        l.stop();
                     },
                     error : function(xhr, status) {
                         alert('Não foi possível conectar com o Instagram');
+                        l.stop();
                     }
                 });               
             }

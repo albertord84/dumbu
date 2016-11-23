@@ -68,7 +68,9 @@
                     <input id = "login_profile"  type="text" class="form-control"  placeholder="Perfil" required>
                 </div>                              
                 <div class="form-group">
-                    <button id="btn_insert_profile"   type="submit" class="btn btn-success btn-block" >Adicionar</button>
+                    <button id="btn_insert_profile"   type="button" class="btn btn-success btn-block ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <span class="ladda-label">Adicionar</span>
+                    </button>
                 </div>
              </form>
         </div>

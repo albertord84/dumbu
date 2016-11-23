@@ -60,7 +60,9 @@
                 <br>
             </div>            
             <div class="row center">
-                <button id="btn_send_update_datas" type="button" style="margin-left:4%; width:40%" class="btn btn-success " >Atualizar</button>
+                <button id="btn_send_update_datas" type="button" style="margin-left:4%; width:40%" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                    <span class="ladda-label">Atualizar</span>
+                </button>
             </div>
         </div>   
         
