@@ -22,8 +22,8 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // GMAIL
 // 
-//$Gmail = new dumbu\cls\Gmail();
-//$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW!", "DUMBU", "555-777-777");
+$Gmail = new dumbu\cls\Gmail();
+$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("pedro@seiva.pro", "pedropetti", "pedropetti", "pedropetti");
 //var_dump($result);
 
