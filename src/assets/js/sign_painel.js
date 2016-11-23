@@ -7,7 +7,8 @@ $(document).ready(function(){
     
     $("#signin_btn_insta_login").click(function(){
         if($('#signin_clientLogin').val()!='' && $('#signin_clientPassword').val()!=''){
-            $("#waiting_sign_in").css({"visibility":"visible","display":"block"});
+            //$("#waiting_sign_in").css({"visibility":"visible","display":"block"});
+            var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({            
                 url : base_url+'index.php/welcome/check_user_for_sing_in',      
                 data : {
@@ -17,7 +18,7 @@ $(document).ready(function(){
                 type : 'POST',
                 dataType : 'json',
                 success : function(response) {
-                    $("#waiting_sign_in").css({"visibility":"hidden","display":"none"});
+                    //$("#waiting_sign_in").css({"visibility":"hidden","display":"none"});
                     if(response['success']){
                         set_global_var('pk',response['pk']);
                         set_global_var('datas',response['datas']);
@@ -34,9 +35,11 @@ $(document).ready(function(){
                             $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#clientLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
                         }
                     }
+                    l.stop();
                 },
                 error : function(xhr, status) {
                     /*TODO: mensaje de ERROR*/alert('Não foi possível comprobar a autenticidade do usuario no Instagram...');                
+                    l.stop();
                 }
             });
         }

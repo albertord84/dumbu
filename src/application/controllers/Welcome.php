@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
     
+    //echo "Tu dirección IP es:".$_SERVER['REMOTE_ADDR'];        
+    
     public function index() {// responsive
         $data['head_section1'] = $this->load->view('responsive_views/users_header_painel','', true);
         $data['body_section1'] = $this->load->view('responsive_views/users_body_painel', '', true);
@@ -237,8 +239,87 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
 
-    //functions for client signature (in, update)
-    public function check_user_for_sing_in() {
+    
+    
+    public function check_user_for_sing() { //sign in with passive instagram profile verification
+        $this->load->model('class/dumbu_system_config');
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        $this->load->model('class/user_role');
+        $datas = $this->input->post();
+        
+        $data_insta = $this->check_insta_profile($datas['client_login']);        
+        
+        
+        
+        if(is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) {            
+            $query='SELECT * FROM users,clients WHERE clients.insta_id="'.$data_insta['insta_id'].'"'. 
+                            'AND clients.user_id=users.id';// AND (users.status_id='.user_status::DELETED.' OR users.status_id='.user_status::INACTIVE.')';                                          
+            $client=$this->user_model->execute_sql_query($query);
+            $N=count($client);
+            $real_status=0; //No existe, eliminado o inactivo
+            $index=0;
+            for($i=0;$i<$N;$i++){
+                if($client[$i]['status_id']==user_status::BEGINNER ){
+                    $real_status=1; //Beginner
+                    $index=$i;
+                    break;
+                } else
+                if($client[$i]['status_id']!=user_status::DELETED && $client[$i]['status_id']!=user_status::INACTIVE){
+                    $real_status=2; //cualquier otro estado
+                    break;
+                }
+            }
+            if($real_status==0){
+                $datas['role_id'] = user_role::CLIENT;
+                $datas['status_id'] = user_status::BEGINNER;
+                $id_user = $this->client_model->insert_client($datas, $data_insta);
+                $response['pk'] = $id_user;
+                $response['datas'] = serialize($data_insta);
+                $response['success'] = true;
+                //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
+            } else {                 
+            if($real_status==1){
+                    $this->user_model->update_user($client[$i]['id'], array(
+                        'name' => $data_insta['insta_name'],
+                        'login' => $datas['client_login'],
+                        'pass' => $datas['client_pass']));
+                    $this->client_model->update_client($client[$i]['id'], array(
+                        'insta_followers_ini' => $data_insta['insta_followers_ini'],                        
+                        'insta_following' => $data_insta['insta_following']));                    
+                    $response['datas'] = serialize($data_insta);
+                    $response['pk'] = $client[$index]['user_id'];
+                    $response['success'] = true;
+                } else {
+                    $response['success'] = false;
+                    $response['message'] = 'O usuario ja tem cadastro no sistema';
+                }
+            }
+            
+            if ($response['success'] == true) {
+                $response['need_delete'] = (dumbu_system_config::INSTA_MAX_FOLLOWING - $data_insta['insta_following']);
+                //TODO: guardar esta cantidad en las cookies para trabajar con lo que este en la cookie
+                $response['MIN_MARGIN_TO_INIT'] = dumbu_system_config::MIN_MARGIN_TO_INIT;
+            }
+        } else
+        if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
+            $response['success'] = false;
+            $response['cause'] = 'missing_user';
+            $response['message'] = 'A conta informada não existe no Instagram';
+        } else
+        if ($data_insta['status'] === 'fail' && $data_insta['message'] === 'checkpoint_required') {
+            $response['resource'] = 'verify_account';
+            $response['verify_link'] = $data_insta['verify_account_url'];
+            $response['return_link'] = 'sign_in';
+            $response['message'] = 'Voce precisa verificar sua conta no Instagram e depois assinar no DUMBUS';
+            $response['cause'] = 'checkpoint_required';
+            $response['success'] = false;
+        }
+        echo json_encode($response);
+    }
+    
+    public function check_user_for_sing_in_strict_instagram_login() { //functions for client signature with STRICT instragram login verification 
         $this->load->model('class/dumbu_system_config');
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');

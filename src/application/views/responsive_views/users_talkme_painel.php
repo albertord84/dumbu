@@ -36,7 +36,9 @@
                 </div>
                 <div class="form-group" style="width:94%">
                     <div class="row center">
-                        <button id="btn_send_message" type="button" style="margin-left:8%; width: 40%" class="btn btn-success " >Enviar</button>
+                        <button id="btn_send_message" type="button" style="margin-left:8%; width: 40%" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff" >
+                            <span class="ladda-label">Enviar</span>
+                        </button>
                     </div>
                 </div>
             </form>

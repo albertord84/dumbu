@@ -10,13 +10,19 @@
         <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css'?>" rel="stylesheet">
         <link href="<?php echo base_url().'assets/bootstrap/css/style.css'?>" rel="stylesheet">
         
+        <link rel="stylesheet" href="<?php echo base_url().'assets/labda/ladda-themeless.min.css'?>">
+        
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <!--<script type="text/javascript" src="<?php //echo base_url().'assets/js/jquery.js'?>"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="<?php echo base_url().'assets/bootstrap/js/bootstrap.min.js'?>"></script>
         
+        
+        <script src="<?php echo base_url().'assets/labda/spin.min.js'?>"></script>
+        <script src="<?php echo base_url().'assets/labda/ladda.min.js'?>"></script>        
+        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script> 
+        <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
         <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js'?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>        
