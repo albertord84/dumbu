@@ -61,6 +61,12 @@ namespace dumbu\cls {
          * @access public
          */
         public $insta_following;
+        
+        /**
+         * 
+         * @access public
+         */
+        public $HTTP_SERVER_VARS;
 
         /**
          * 

@@ -23,13 +23,14 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // GMAIL
 // 
 $Gmail = new dumbu\cls\Gmail();
-$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW!", "DUMBU", "555-777-777");
-//$Gmail->send_client_payment_error("pedro@seiva.pro", "pedropetti", "pedropetti", "pedropetti");
+//$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
+//$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
+//$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //var_dump($result);
 
 //$Robot = new dumbu\cls\Robot();
-//
-//$Robot->bot_login("josergm86", "joseramon");
+
+//$Robot->bot_login("albertoreyesd1984", "alberto");
 
 //----------------------------------------------------------------
 

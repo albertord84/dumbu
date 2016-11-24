@@ -157,6 +157,7 @@ namespace dumbu\cls {
                                         break;
                                 } else {
                                     var_dump($json_response);
+                                    break;
 //                                throw new \Exception(json_encode($json_response), 1001);
                                 }
                                 //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
@@ -422,7 +423,7 @@ namespace dumbu\cls {
 //print_r($dom);
         }
 
-        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken) {
+        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client = NULL) {
             $postinfo = "username=$login&password=$pass";
 
             $headers = array();
@@ -437,9 +438,13 @@ namespace dumbu\cls {
             $headers[] = "X-Instagram-AJAX: 1";
 
             $ip = $_SERVER['REMOTE_ADDR'];
+            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
+                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);              
+                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+            }
             $headers[] = "REMOTE_ADDR: $ip";
             $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-//
+            
 //$headers[] = "Content-Type: application/x-www-form-urlencoded";
             $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -529,14 +534,14 @@ namespace dumbu\cls {
             return intval($substr2) ? intval($substr2) : NULL;
         }
 
-        public function bot_login($login, $pass) {
+        public function bot_login($login, $pass, $Client = NULL) {
             $result = NULL;
             $url = "https://www.instagram.com/";
 //            $cookie = "/home/albertord/cookies.txt";
             $ch = curl_init($url);
             $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
             if ($this->csrftoken != NULL && $this->csrftoken != "") {
-                $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken);
+                $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");

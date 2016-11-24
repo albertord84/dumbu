@@ -48,7 +48,8 @@ namespace dumbu\cls {
 //            $this->mail->SMTPSecure = 'ssl'; // atendimento
 
 //Whether to use SMTP authentication
-            $this->mail->SMTPAuth = true;
+            $this->mail->SMTPAuth = true; // dumbu.system
+//            $this->mail->SMTPAuth = false; // atendimento
 
 //Username to use for SMTP authentication - use full email address for gmail
             $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN;
@@ -67,7 +68,8 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail, $username);
             $this->mail->clearCCs();
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+//            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
             $this->mail->Subject = 'DUMBU Client Login';
@@ -105,7 +107,8 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail, $username);
             $this->mail->clearCCs();
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+//            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
             $this->mail->Subject = 'DUMBU Payment Problem';
@@ -141,7 +144,8 @@ namespace dumbu\cls {
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
             //Set who the message is to be sent to
             $this->mail->clearAddresses();
-            $this->mail->addAddress($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+//            $this->mail->addAddress($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
             $this->mail->clearReplyTos();
             $this->mail->addReplyTo($useremail, $username);
 
