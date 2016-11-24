@@ -434,8 +434,12 @@ namespace dumbu\cls {
 //$headers[] = "--compressed ";
             $headers[] = "Referer: https://www.instagram.com/";
             $headers[] = "X-CSRFToken: $csrftoken";
-            $headers[] = "X-Instagram-AJAX: 1";          
-            
+            $headers[] = "X-Instagram-AJAX: 1";
+
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $headers[] = "REMOTE_ADDR: $ip";
+            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+//
 //$headers[] = "Content-Type: application/x-www-form-urlencoded";
             $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -450,7 +454,7 @@ namespace dumbu\cls {
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-            
+
             global $cookies;
             $cookies = array();
 //            var_dump($cookies);

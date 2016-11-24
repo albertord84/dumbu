@@ -57,7 +57,7 @@ $(document).ready(function(){
         if(num_profiles<MAX_NUM_PROFILES){
             if($('#login_profile').val()!=''){
                 //$("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
-                var l = Ladda.create(this);  l.start(); l.start();
+                var l = Ladda.create(this);  l.start();
                 $.ajax({
                     url : base_url+'index.php/welcome/client_insert_profile',
                     data : {'profile':$('#login_profile').val()},
