@@ -4,52 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
     
-        
-   /* public function index555() {
-        $this->session->set_userdata('name','joseraulgv011');
-        $data_insta = $this->check_insta_profile('joseraulgv011');
-        var_dump($data_insta);
-        /*$data_insta=$this->is_insta_user('josergm86', 'joseramongm');
-        if(is_array($data_insta) && $data_insta['status'] === 'ok' && $data_insta['authenticated']) 
-            var_dump ($data_insta);
-        else echo false;
-    }
-    
-    
-   /* public function index_data() {
-        echo "Dirección IP es:".$_SERVER['REMOTE_ADDR']; echo '<br>';
-        $info=  $this->detect();
-        echo "Sistema operativo: ".$info["os"];echo '<br>';
-        echo "Navegador: ".$info["browser"];echo '<br>';
-        echo "Versión: ".$info["version"];
-    }
-    
-    public function detect(){
-	$browser=array("IE","OPERA","MOZILLA","NETSCAPE","FIREFOX","SAFARI","CHROME");
-	$os=array("WIN","MAC","LINUX");
-	# definimos unos valores por defecto para el navegador y el sistema operativo
-	$info['browser'] = "OTHER";
-	$info['os'] = "OTHER";
-	# buscamos el navegador con su sistema operativo
-	foreach($browser as $parent){
-            $s = strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), $parent);
-            $f = $s + strlen($parent);
-            $version = substr($_SERVER['HTTP_USER_AGENT'], $f, 15);
-            $version = preg_replace('/[^0-9,.]/','',$version);
-            if ($s){
-                $info['browser'] = $parent;
-                $info['version'] = $version;
-            }
-	}
-	# obtenemos el sistema operativo
-	foreach($os as $val){
-            if (strpos(strtoupper($_SERVER['HTTP_USER_AGENT']),$val)!==false)
-                $info['os'] = $val;
-	}
-	# devolvemos el array de valores
-	return $info;
-    }*/
-
     public function index() {// responsive
         $data['head_section1'] = $this->load->view('responsive_views/users_header_painel','', true);
         $data['body_section1'] = $this->load->view('responsive_views/users_body_painel', '', true);
@@ -61,7 +15,7 @@ class Welcome extends CI_Controller {
         $this->load->view('view',$data);
     }
     
-    public function index1() {//nao responsive
+    public function index_nao_responsive() {//nao responsive
         $data['head_section1'] = $this->load->view('my_views/users_header_painel','', true);
         $data['body_section1'] = $this->load->view('my_views/users_body_painel', '', true); 
         $data['footer_section1'] = $this->load->view('my_views/users_footer_painel', '', true);
