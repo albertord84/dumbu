@@ -90,7 +90,7 @@ class User_model extends CI_Model {
      * @return unsigned short
      * @access public
      */
-    public function set_sesion($id, $session, $datas) {
+    public function set_sesion($id, $session, $datas=NULL) {
         try {
             $this->db->select('id, name, login, pass, email, telf, role_id, status_id, languaje');
             $this->db->from('users');
@@ -105,7 +105,7 @@ class User_model extends CI_Model {
                 //$session->set_userdata('telf',$user_data['telf']);
                 $session->set_userdata('role_id',$user_data['role_id']);
                 $session->set_userdata('status_id',$user_data['status_id']);
-                $session->set_userdata('languaje',$user_data['languaje']);
+                $session->set_userdata('languaje',$user_data['languaje']);                
                 $session->set_userdata('insta_datas',$datas);
                 return true;
             } else {
