@@ -61,7 +61,7 @@ namespace dumbu\cls {
                         ->setAmountInCents($payment_data['amount_in_cents'])
                         ->setInstallmentCount(1)
                         ->setCreditCard($creditCard)
-                        ->setIsOneDollarAuthEnabled(true)
+//                        ->setIsOneDollarAuthEnabled(true)
                 ;
 
                 // Dados da recorrência
