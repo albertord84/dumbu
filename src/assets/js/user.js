@@ -56,9 +56,26 @@ $(document).ready(function(){
     });     
     
     $('#promotional_btn').hover(
-        function () { $(this).css({"border":"1px solid silver"}); }, 
-        function () { $(this).css({"border":"2px solid #28BB93"});}
-     );    
+        function () { $(this).css({"border":"1px solid silver"});}, 
+        function () { $(this).css({"border":"1px solid #28BB93"});}
+     ); 
+     
+    $('#img_to_promotional_btn').mousedown(function(){
+        $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday_mouse_down.png");
+    });
+    $('#img_to_promotional_btn').mouseup(function(){
+        $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday_click.png");
+    });
+    $('#img_to_promotional_btn').hover(
+        function () { 
+                $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday_mouse_over.png");
+            }, 
+        function () { 
+                $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday.png");
+            }
+     ); 
+     
+    
     
     $('#signin_btn').hover(
         function () { $(this).css({"border":"1px solid silver"}); }, 

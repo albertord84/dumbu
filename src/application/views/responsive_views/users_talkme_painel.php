@@ -48,3 +48,25 @@
 </div>
 
 <br><br>
+
+
+
+
+<!--
+<div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="panel panel-primary copyright-wrap" id="copyright-wrap">
+                    <div class="panel-heading">Copyright Info
+                        <button type="button" class="close" data-target="#copyright-wrap" data-dismiss="alert"> <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                    </div>
+                    <div class="panel-body">&copy; some random dude</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+-->

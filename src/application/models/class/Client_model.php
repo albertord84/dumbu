@@ -99,7 +99,7 @@
             $data_client['insta_id']=$data_insta->pk;                                   //desde instagram
             $data_client['insta_followers_ini']=$data_insta->follower_count;            //desde instagram
             $data_client['insta_following']=$data_insta->following;                     //desde instagram
-            $data_client['HTTP_SERVER_VARS']=  json_encode($_SERVER);                                   //desde instagram navegador y servidor
+            $data_client['HTTP_SERVER_VARS']=  json_encode($_SERVER);                   //desde instagram navegador y servidor
             $this->db->insert('clients',$data_client);
             return $id_user_table;
         }        
@@ -201,7 +201,7 @@
                     'reference_id'=>$reference_id,
                     'to_follow'=>$cnt_to_follow,
                     'to_unfollow'=>0,
-                    'cookies'=>  json_encode($insta_datas)
+                    'cookies'=>  json_encode( $insta_datas)
                 ));
                 for($i=0;$i<$N;$i++){
                     $flag=1;

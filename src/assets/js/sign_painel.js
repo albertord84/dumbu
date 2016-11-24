@@ -2,7 +2,7 @@ $(document).ready(function(){
     
     active_by_steep(1);
     
-    $('#palno_mensal').prop('disabled',true);   
+    $('#palno_mensal').prop('disabled',true);
     
     
     $("#signin_btn_insta_login").click(function(){
@@ -74,6 +74,7 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response) {
                         if(response['success']){
+                            alert("Sua compra foi realizada corretamente.");
                             $(location).attr('href',base_url+'index.php/welcome/client');                                                       
                         } else{
                             alert(response['message']);
@@ -86,7 +87,7 @@ $(document).ready(function(){
                 alert('Deve ler e aceitar os termos de uso');
             }
         } else{
-            alert('Erro nos dados fornecidos no Passo 2');
+            alert('Verifique os dados fornecidos');
         }
     });         
     

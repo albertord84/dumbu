@@ -3,13 +3,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
-    
+        
     public function index() {// responsive
-        $data['head_section1'] = $this->load->view('responsive_views/users_header_painel','', true);
-        $data['body_section1'] = $this->load->view('responsive_views/users_body_painel', '', true);
+        $data['head_section1'] = $this->load->view('responsive_views/users_header_painel_black_friday','', true);        
+        $data['body_section1'] = $this->load->view('responsive_views/users_body_painel_black_friday', '', true);        
         $data['footer_section1'] = $this->load->view('responsive_views/users_footer_painel', '', true);
         $data['body_section2'] = $this->load->view('responsive_views/users_howfunction_painel', '', true);
-        $data['body_section3'] = $this->load->view('responsive_views/users_singin_painel', '', true);
+        $data['body_section3'] = $this->load->view('responsive_views/users_singin_painel_black_friday', '', true);
         $data['body_section4'] = $this->load->view('responsive_views/users_talkme_painel', '', true);
         $data['body_section5'] = $this->load->view('responsive_views/users_final_footer_painel', '', true);
         $this->load->view('view',$data);
@@ -57,6 +57,11 @@ class Welcome extends CI_Controller {
             $datas1['status'] = $this->client_status_description();
             $datas1['messages'] = $this->client_status_messages();
             $datas1['profiles'] = $this->create_profiles_datas_to_display();
+            
+            /*if($this->session->userdata('insta_datas'))
+                $datas1['active'] =true;
+            else
+                $datas1['active'] =false;*/
             
             $data['head_section1'] = $this->load->view('responsive_views/client_header_painel','', true);
             $data['body_section1'] = $this->load->view('responsive_views/client_body_painel', $datas1, true); 
@@ -142,7 +147,7 @@ class Welcome extends CI_Controller {
                                         'login' =>$datas['user_login'],
                                         'pass' =>$datas['user_pass'],
                                         'status_id' => user_status::ACTIVE));
-                            $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta);
+                            $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário '.$datas['user_login'].' logueado';
                             $result['role'] = 'CLIENT';
@@ -153,7 +158,7 @@ class Welcome extends CI_Controller {
                                         'name' => $data_insta['insta_name'],
                                         'login' =>$datas['user_login'],
                                         'pass' =>$datas['user_pass']));
-                            $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta);
+                            $this->user_model->set_sesion($user[$index]['id'], $this->session,  $data_insta['insta_login_response']);
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário '.$datas['user_login'].' logueado';
                             $result['role'] = 'CLIENT';
@@ -233,8 +238,7 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
 
-    
-    
+        
     public function check_user_for_sing_in() { //sign in with passive instagram profile verification
         $this->load->model('class/dumbu_system_config');
         $this->load->model('class/client_model');
@@ -242,7 +246,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
         $datas = $this->input->post();
-        $data_insta = $this->check_insta_profile($datas['client_login']);        
+        $data_insta = $this->check_insta_profile($datas['client_login']);
         if($data_insta) {
             if(!$data_insta->following)
                 $data_insta->following=0;            
@@ -279,7 +283,8 @@ class Welcome extends CI_Controller {
                         'pass' => $datas['client_pass']));
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta->follower_count,                        
-                        'insta_following' => $data_insta->following));                    
+                        'insta_following' => $data_insta->following,
+                        'HTTP_SERVER_VARS' => json_encode($_SERVER)));
                     $response['datas'] = serialize($data_insta);
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
@@ -425,8 +430,8 @@ class Welcome extends CI_Controller {
                         $result['success'] = false;
                         $result['exception'] = $exc->getTraceAsString();                
                         $result['message'] = 'Error actualizando en base de datos';                        
-                    } finally {                        
-                        $this->user_model->set_sesion($datas['pk'], $this->session, unserialize($datas['datas']));
+                    } finally {
+                        $this->user_model->set_sesion($datas['pk'], $this->session);
                         $result['success'] = true;
                         $result['message'] = 'Usuário cadastrado satisfatóriamente';
                     }
@@ -586,7 +591,10 @@ class Welcome extends CI_Controller {
                         if(!$profile_datas->is_private){
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);                                                        
                             if ($p) {
-                                $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                if ($this->session->userdata('insta_datas'))
+                                    $q = $this->client_model->insert_profile_in_daily_work($p,$this->session->userdata('insta_datas'), $N, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                else
+                                    $q=true;
                                 if ($q) {    
                                     $result['success'] = true;
                                     $result['message'] = 'Perfil adicionado corretamente';
@@ -698,7 +706,7 @@ class Welcome extends CI_Controller {
                 $data_insta['insta_followers_ini'] = $user_data->follower_count;
                 $data_insta['insta_following'] = $user_data->following;
                 $data_insta['insta_name'] = $user_data->full_name;
-                $data_insta['insta_login_response'] = $login_data;
+                $data_insta['insta_login_response'] = $login_data;                
             } else {
                 $data_insta['authenticated'] = false;
             }
