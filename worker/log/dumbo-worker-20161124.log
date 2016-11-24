@@ -8697,4 +8697,107 @@ array(1) {
 Ref Profil: fila     ------>   End Cursor: AQDCwMzR3JqkWW5F47KVSrOYYsJLab_mWgcvVR_ZOwniPdNwoOCvrplL77ZWmbx3I3iIdcPkqlITlxl73fpmdffgQfnoZUksKS69A92JLR6b7ltYfpF4LBDquYhb1rpHs9A<br>
 array(1) {
   [0]=>
-  string(1874) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": true, "start_cursor": "AQDCwMzR3JqkWW5F47KVSrOYYsJLab_mWgcvVR_ZOwniPdNwoOCvrplL77ZWmbx3I3iIdcPkqlITlxl73fpmdffgQfnoZUksKS69A92JLR6b7ltYfpF4LBDquYhb1rpHs9A", "end_cursor": "AQC59rhUdmt0XyUwHop3pPeCmkjUKfEWpjOCM6IGHU-BArcsZK8ocNgLzoaZnr4Aui0-gD19m5rl406MxhAC0eHJ1uhfSMMeYhzhb1zlkKHZcn4Z3Q4c0Ol1WsUtVYN1jzo", "has_next_page": true}, "nodes": [{"username": "sandhulovesaab", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Love shah", "is_verified": false, "id": "1035147618"}, {"username": "elmiraalipoor", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": null, "is_verified": false, "id": "630390745"}, {"username": "behnam996", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "behnam", "is_verified": false, "id": "748045548"}, {"username": "czoran50", "requested_by_viewer": false, "followed_by_viewer": 
+  string(1874) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": true, "start_cursor": "AQDCwMzR3JqkWW5F47KVSrOYYsJLab_mWgcvVR_ZOwniPdNwoOCvrplL77ZWmbx3I3iIdcPkqlITlxl73fpmdffgQfnoZUksKS69A92JLR6b7ltYfpF4LBDquYhb1rpHs9A", "end_cursor": "AQC59rhUdmt0XyUwHop3pPeCmkjUKfEWpjOCM6IGHU-BArcsZK8ocNgLzoaZnr4Aui0-gD19m5rl406MxhAC0eHJ1uhfSMMeYhzhb1zlkKHZcn4Z3Q4c0Ol1WsUtVYN1jzo", "has_next_page": true}, "nodes": [{"username": "sandhulovesaab", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Love shah", "is_verified": false, "id": "1035147618"}, {"username": "elmiraalipoor", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": null, "is_verified": false, "id": "630390745"}, {"username": "behnam996", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "behnam", "is_verified": false, "id": "748045548"}, {"username": "czoran50", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Zoran.....", "is_verified": false, "id": "525360122"}, {"username": "starryeyedforever", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Starryeyed Photography", "is_verified": false, "id": "774420675"}, {"username": "mindmintna", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Nilobol Rongthong \ud83d\udc44\ud83d\udc44", "is_verified": false, "id": "226757734"}, {"username": "mohsenehsani96", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Mohsen Ehsani", "is_verified": false, "id": "498873640"}, {"username": "enkhuush_0725", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "se7en\ud83c\udf0f", "is_verified": false, "id": "256128236"}, {"username": "culinariaecoisas", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Culinaria", "is_verified": false, "id": "554384054"}]}}"
+}
+<br>
+Ref Profil: fila     ------>   End Cursor: AQC59rhUdmt0XyUwHop3pPeCmkjUKfEWpjOCM6IGHU-BArcsZK8ocNgLzoaZnr4Aui0-gD19m5rl406MxhAC0eHJ1uhfSMMeYhzhb1zlkKHZcn4Z3Q4c0Ol1WsUtVYN1jzo<br>
+
+Client: 16 0<br>
+<br>
+<br>
+Ref Profil: cristiano<br>
+ Count: 0 Hasnext: 2016-11-24 10:37:17pm<br>
+ make_insta_friendships_command UNFOLLOW <br>
+
+Client: 2 10<br>
+<br>
+<br>
+Ref Profil: fila<br>
+ Count: 10 Hasnext: 12016-11-24 10:40:17pm<br>
+ make_insta_friendships_command UNFOLLOW <br>
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+<br>
+make_insta_friendships_command FOLLOW <br>
+array(1) {
+  [0]=>
+  string(2028) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": true, "start_cursor": "AQC59rhUdmt0XyUwHop3pPeCmkjUKfEWpjOCM6IGHU-BArcsZK8ocNgLzoaZnr4Aui0-gD19m5rl406MxhAC0eHJ1uhfSMMeYhzhb1zlkKHZcn4Z3Q4c0Ol1WsUtVYN1jzo", "end_cursor": "AQDSE8mQZKe2DGsneRwJd2Np_UJVK1qaUF6nfL3yCAu8hi3BSyECAbgI_JOtesCIT700ac2vso6KfkKN_Cd2kBMlHEnFLwmIqPEvD_iZLbEKeMMr-X2Yv_E-rFnKWuDDyQU", "has_next_page": true}, "nodes": [{"username": "cierrat97", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Cierra", "is_verified": false, "id": "308230505"}, {"username": "minimalshh", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "cristin", "is_verified": false, "id": "513349809"}, {"username": "ginamarcelalopez", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Gina M", "is_verified": false, "id": "267113375"}, {"username": "dariush_naeiji", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "DARiUSH", "is_verified": false, "id": "461581373"}, {"username": "lion9012345789", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Lion", "is_verified": false, "id": "451180422"}, {"username": "agha_milad_hastam", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "\u24c2\u2139L\ud83c\udd70D (\ud83c\udd70\u24c2\ud83c\udd7e\u24c2\u2139L\u2139)", "is_verified": false, "id": "392539356"}, {"username": "cami_escobedo", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": null, "is_verified": false, "id": "341397867"}, {"username": "futuretro315", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Dominique", "is_verified": false, "id": "286627050"}, {"username": "rayn1340", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Rayn Amaizing", "is_verified": false, "id": "279611787"}, {"username": "ladyleoluck", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "Kia Brown", "is_verified": false, "id": "282997029"}]}}"
+}
+<br>
+Ref Profil: fila     ------>   End Cursor: AQDSE8mQZKe2DGsneRwJd2Np_UJVK1qaUF6nfL3yCAu8hi3BSyECAbgI_JOtesCIT700ac2vso6KfkKN_Cd2kBMlHEnFLwmIqPEvD_iZLbEKeMMr-X2Yv_E-rFnKWuDDyQU<br>
+array(1) {
+  [0]=>
+  string(1373) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": true, "start_cursor": "AQDSE8mQZKe2DGsneRwJd2Np_UJVK1qaUF6nfL3yCAu8hi3BSyECAbgI_JOtesCIT700ac2vso6KfkKN_Cd2kBMlHEnFLwmIqPEvD_iZLbEKeMMr-X2Yv_E-rFnKWuDDyQU", "end_cursor": null, "has_next_page": false}, "nodes": [{"username": "benji_skinner44", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "\u26a1Ben Skinner\u26a1", "is_verified": false, "id": "237016750"}, {"username": "funnys2", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Funny s2", "is_verified": false, "id": "55849391"}, {"username": "mkm917", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Fanny Mak", "is_verified": false, "id": "17624347"}, {"username": "titanini", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "nini galang", "is_verified": false, "id": "34227427"}, {"username": "yojoel", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Mr Instagram", "is_verified": false, "id": "16060364"}, {"username": "on_the_field", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": null, "is_verified": false, "id": "23505730"}, {"username": "luczone", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Larry Lu aka gargamel", "is_verified": false, "id": "1614046"}]}}"
+}
+string(1275) "{"status":"ok","followed_by":{"count":298,"page_info":{"has_previous_page":true,"start_cursor":"AQDSE8mQZKe2DGsneRwJd2Np_UJVK1qaUF6nfL3yCAu8hi3BSyECAbgI_JOtesCIT700ac2vso6KfkKN_Cd2kBMlHEnFLwmIqPEvD_iZLbEKeMMr-X2Yv_E-rFnKWuDDyQU","end_cursor":null,"has_next_page":false},"nodes":[{"username":"benji_skinner44","requested_by_viewer":false,"followed_by_viewer":true,"full_name":"\u26a1Ben Skinner\u26a1","is_verified":false,"id":"237016750"},{"username":"funnys2","requested_by_viewer":false,"followed_by_viewer":true,"full_name":"Funny s2","is_verified":false,"id":"55849391"},{"username":"mkm917","requested_by_viewer":false,"followed_by_viewer":true,"full_name":"Fanny Mak","is_verified":false,"id":"17624347"},{"username":"titanini","requested_by_viewer":false,"followed_by_viewer":true,"full_name":"nini galang","is_verified":false,"id":"34227427"},{"username":"yojoel","requested_by_viewer":false,"followed_by_viewer":true,"full_name":"Mr Instagram","is_verified":false,"id":"16060364"},{"username":"on_the_field","requested_by_viewer":false,"followed_by_viewer":true,"full_name":null,"is_verified":false,"id":"23505730"},{"username":"luczone","requested_by_viewer":false,"followed_by_viewer":true,"full_name":"Larry Lu aka gargamel","is_verified":false,"id":"1614046"}]}}"
+END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>
+Ref Profil: fila     ------>   End Cursor: <br>
+array(1) {
+  [0]=>
+  string(1737) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": false, "start_cursor": null, "end_cursor": "AQBWbxfKkrgxcZEooeIVhWS7a01l1EPP3psPQbwX9hrVPJdK900qhl0PSUjaWKtqifAtkvqDPJlcOGUsaF0qGWCP2IGpGXpoqiZvCgFg-UZBWE_bPNZgoOz-ABo-OJDyYpo", "has_next_page": true}, "nodes": [{"username": "riskioktafi", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "riski okta fianto", "is_verified": false, "id": "4167396618"}, {"username": "fayezali1996", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "AL\u2022Hammadi", "is_verified": false, "id": "2059106353"}, {"username": "th14g0.999", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": null, "is_verified": false, "id": "280431068"}, {"username": "kateyoh77", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Kate", "is_verified": false, "id": "3254619945"}, {"username": "syawal0155", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "syawal", "is_verified": false, "id": "2171713125"}, {"username": "barbariyetehran", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "\u0627\u062a\u0648\u0628\u0627\u0631 \u062a\u0647\u0631\u0627\u0646", "is_verified": false, "id": "4104413070"}, {"username": "a.tope559", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": null, "is_verified": false, "id": "1749990934"}, {"username": "asanbekov58", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "asanbekov58", "is_verified": false, "id": "3885556718"}, {"username": "rossy_bold", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "rossy87", "is_verified": false, "id": "3657818934"}]}}"
+}
+<br>
+Ref Profil: fila     ------>   End Cursor: AQBWbxfKkrgxcZEooeIVhWS7a01l1EPP3psPQbwX9hrVPJdK900qhl0PSUjaWKtqifAtkvqDPJlcOGUsaF0qGWCP2IGpGXpoqiZvCgFg-UZBWE_bPNZgoOz-ABo-OJDyYpo<br>
+
+Client: 16 0<br>
+<br>
+<br>
+Ref Profil: cristiano<br>
+ Count: 0 Hasnext: 2016-11-24 10:44:24pm<br>
+ make_insta_friendships_command UNFOLLOW <br>
+
+Client: 2 10<br>
+<br>
+<br>
+Ref Profil: fila<br>
+ Count: 10 Hasnext: 12016-11-24 10:51:24pm<br>
+ make_insta_friendships_command UNFOLLOW <br>
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+array(0) {
+}
+<br>
+make_insta_friendships_command FOLLOW <br>
+array(1) {
+  [0]=>
+  string(1875) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": true, "start_cursor": "AQBeFbmkmVfCapzig3_3ooVsFK0cLoYxBpC3fMOdH1QRtowbJFaw1Q7SKvUriK9YJA7xxU9OzSnEQSbYmFT6MAlTqntA0DvOUfmpglP0ty6G9ba5MWcX0Z002qvAUqmJgDc", "end_cursor": "AQAbXq1_H4oNdRE0FCiuRxKZ9L6pXCor_7tc674fIFuzOo7akKmKtWxGvFgommOaGHjXLZJJTNfUdFROJqhAZhvIGgYIlGQgYY191sm9CqgeqvPaqD1v_rEHL-hyW0TmdKM", "has_next_page": true}, "nodes": [{"username": "_selmours", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "sorr\u00ebn", "is_verified": false, "id": "1993431362"}, {"username": "leouch_", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "L\u00e9a N", "is_verified": false, "id": "1662753303"}, {"username": "perrine_78m", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": null, "is_verified": false, "id": "2157935049"}, {"username": "mrmklch", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": null, "is_verified": false, "id": "695841696"}, {"username": "helia_dupas", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "H\u00e9lia \ud83c\udf19 Snap : heliadupas", "is_verified": false, "id": "1362707459"}, {"username": "stessy_lsp", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "\ud83d\udc8b/stessy/\ud83d\udc8b\u2650\ufe0f", "is_verified": false, "id": "522243413"}, {"username": "veg3ta_93", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "JOSHUA \ud83d\udd25", "is_verified": false, "id": "2030740479"}, {"username": "soibampoirei", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Poirei Soibam", "is_verified": false, "id": "4002693668"}, {"username": "_blockweez_", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "_blockweez_", "is_verified": false, "id": "330700732"}]}}"
+}
+<br>
+Ref Profil: fila     ------>   End Cursor: AQAbXq1_H4oNdRE0FCiuRxKZ9L6pXCor_7tc674fIFuzOo7akKmKtWxGvFgommOaGHjXLZJJTNfUdFROJqhAZhvIGgYIlGQgYY191sm9CqgeqvPaqD1v_rEHL-hyW0TmdKM<br>
+array(1) {
+  [0]=>
+  string(2021) "{"status": "ok", "followed_by": {"count": 298, "page_info": {"has_previous_page": true, "start_cursor": "AQAbXq1_H4oNdRE0FCiuRxKZ9L6pXCor_7tc674fIFuzOo7akKmKtWxGvFgommOaGHjXLZJJTNfUdFROJqhAZhvIGgYIlGQgYY191sm9CqgeqvPaqD1v_rEHL-hyW0TmdKM", "end_cursor": "AQDrSIrAfSQ60kI22ZsAFWLTNLkJV9QGc7CKw2CIQqBjrWha8XkfoM5w6fNVpY7O_ZJ6EcpvsEKoHwhcb5uEMO-eL5thOrLZQYwKmJ3ASU3x-qParnmPzzGL0xA2Lk1kcxI", "has_next_page": true}, "nodes": [{"username": "natalkahyckova12", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": null, "is_verified": false, "id": "3712368459"}, {"username": "jules_magnien", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "Jules Magnien", "is_verified": false, "id": "2080164468"}, {"username": "nabila_ninggar", "requested_by_viewer": true, "followed_by_viewer": false, "full_name": "nabilaninggar", "is_verified": false, "id": "3509567029"}, {"username": "angelroller4", "requested_by_viewer": false, "followed_by_viewer": true, "full_name": "angel xy", "is_verified": false, "id": "3194944397"}, {"username": "nnn.nunu", "requested_by_viewer": fa
