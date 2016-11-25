@@ -92,7 +92,8 @@ class Payment extends CI_Controller {
                     return TRUE;
                 }
             } else {
-                $pay_day = new DateTime($client['pay_day']);
+                $pay_day = new DateTime();
+                $pay_day->setTimestamp($client['pay_day']);
                 $diff_info = $pay_day->diff($now);    
                 $diff_days = ($diff_info->m * 30) + $diff_info->days;
                 print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
