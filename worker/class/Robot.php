@@ -539,7 +539,7 @@ namespace dumbu\cls {
             $url = "https://www.instagram.com/";
 //            $cookie = "/home/albertord/cookies.txt";
             $ch = curl_init($url);
-            $this->csrftoken = $this->get_insta_csrftoken($ch, $login, $pass);
+            $this->csrftoken = $this->get_insta_csrftoken($ch);
             if ($this->csrftoken != NULL && $this->csrftoken != "") {
                 $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
             }
