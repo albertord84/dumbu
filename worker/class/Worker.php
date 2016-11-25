@@ -90,8 +90,9 @@ namespace dumbu\cls {
 //                var_dump($Client);
 // Log user with webdriver in istagram to get needed session data
                 $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client = FALSE);
-//                var_dump($login_data);
+                var_dump($Client);
                 if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
+                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
 // Distribute work between clients
                     if (count($Client->reference_profiles) > 0) {
