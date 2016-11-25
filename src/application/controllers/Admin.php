@@ -15,7 +15,7 @@ class Admin extends CI_Controller {
    }
    public function index() {
         $datas1=$this->input->get();
-        var_dump($datas1);
+//        var_dump($datas1);
         $datas['login']=urldecode($datas1['login']);
         $datas['pass']=urldecode($datas1['pass']);
         $this->load->model('class/user_model');
