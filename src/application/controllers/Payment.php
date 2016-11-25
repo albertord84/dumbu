@@ -26,6 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: UNCOMENT
+        $this->db->where('role_id',   user_role::CLIENT);
         $this->db->where('status_id', user_status::ACTIVE);
         //TESTE
 //        $this->db->where('status_id', user_status::UNFOLLOW);
@@ -39,7 +40,7 @@ class Payment extends CI_Controller {
                     //var_dump($client);
                     print "\n<br>Client in day: $clientname<br>\n";
                 } else {
-                    print "\n<br>Client with payment issue: $clientname<br>\n";
+                    print "\n<br>----Client with payment issue: $clientname<br>\n<br>\n<br>\n";
                 }
             } else {
                 print "\n<br>Client without ORDER KEY!!!: $clientname<br>\n";
@@ -91,7 +92,8 @@ class Payment extends CI_Controller {
                     return TRUE;
                 }
             } else {
-                $pay_day = new DateTime($client['pay_day']);
+                $pay_day = new DateTime();
+                $pay_day->setTimestamp($client['pay_day']);
                 $diff_info = $pay_day->diff($now);    
                 $diff_days = ($diff_info->m * 30) + $diff_info->days;
                 print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
