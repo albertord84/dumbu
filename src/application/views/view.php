@@ -32,13 +32,13 @@
     <?php include_once("analyticstracking.php") ?>
     <div class="container shadow">
         <!--SECTION 1-->
-            <div class="row header-section-1" style="background-image:url('<?php echo base_url()."assets/img/black-friday/teto.png"; ?>');  background-size:100%;">
+            <div class="row header-section-1">
                 <?php //echo $head_section1; ?>                 
             </div>
             <div class="row" style="background-image:url('<?php echo base_url()."assets/img/black-friday/BG.png"; ?>'); background-repeat:no-repeat; background-size:cover;">
                 <?php if ($body_section1) echo $body_section1; ?> 
             </div>            
-            <div class="row footter-section-1 center" ">                
+            <div class="row footter-section-1 center" >                
                 <?php //echo $footer_section1; ?> 
             </div>
 
