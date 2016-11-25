@@ -87,14 +87,14 @@ namespace dumbu\cls {
             $DB = new \dumbu\cls\DB();
             $Client = new \dumbu\cls\Client();
             foreach ($Clients as $Client) { // for each CLient
-                var_dump($Client);
+//                var_dump($Client);
 // Log user with webdriver in istagram to get needed session data
                 $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client = FALSE);
-                var_dump($login_data);
+//                var_dump($login_data);
                 if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
-                    echo "<br>\nAutenticated Client: $Client->login <br>\n<br>\n";
+                    print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
 // Distribute work between clients
-                    if (isset($Client->reference_profiles) && count($Client->reference_profiles)) {
+                    if (count($Client->reference_profiles) > 0) {
                         $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
                         // If User status = UNFOLLOW he do 0 follows
                         $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
