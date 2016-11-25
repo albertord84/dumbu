@@ -28,7 +28,7 @@
             </button>
             <form id="login_sign_in"  action="#" method="#"  style="width: 60%; border-radius: 5px; border:1px solid silver; margin-left:20%;  padding:4%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
                 <div class="form-group">                   
-                   <input id = "signin_clientLogin" type="text" class="form-control"  placeholder="Usuário" required>
+                   <input id = "signin_clientLogin" type="text" class="form-control"  placeholder="Usuário" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
                 </div>
                 <div class="form-group">
                    <input id = "signin_clientPassword" type="password" class="form-control" placeholder="Senha" required>

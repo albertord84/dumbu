@@ -273,6 +273,7 @@ class Welcome extends CI_Controller {
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
                 $response['datas'] = serialize($data_insta);
+                $response['jsondatas_datas'] = json_encode($data_insta);
                 $response['success'] = true;
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
             } else {
@@ -286,6 +287,7 @@ class Welcome extends CI_Controller {
                         'insta_following' => $data_insta->following,
                         'HTTP_SERVER_VARS' => json_encode($_SERVER)));
                     $response['datas'] = serialize($data_insta);
+                     $response['json_datas'] = json_encode($data_insta);
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
                 } else {

@@ -18,7 +18,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'?>"></script>
     </head>    
     
-    <body style="z-index: 1">        
+    <body style="z-index: 1">  
+        <?php include_once("analyticstracking.php") ?>
         <div id="container">
             <div id="head">                 
                 <div id="content_header" style="height: 100%; width:100%"> <?php if($content_header) echo $content_header; ?> </div>

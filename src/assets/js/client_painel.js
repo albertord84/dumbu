@@ -126,8 +126,7 @@ $(document).ready(function(){
                     any_private_profile=true;
             }            
             if(any_private_profile)
-                status_messages['warning'][3]='Exitem perfis de referencia privados, considere trocar por outros;';                
-            
+                status_messages['warning'][3]='Exitem perfis de referencia privados, considere trocar por outros;';                            
         }
                 
         $("#list_warnings").empty();

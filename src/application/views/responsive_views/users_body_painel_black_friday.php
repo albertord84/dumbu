@@ -49,10 +49,7 @@
         <a href="#"><img  class="logo-black-friday" src="<?php echo base_url().'assets/img/black-friday/05.png'?>"/></a>        
     </div>
 
-
-
-
-
+    
 <div class="row">
     <div class="col-xs-4">         
         <img width="100%" style="margin-top:18%;margin-left:25%" src="<?php echo base_url().'assets/img/black-friday/01.png'?>"/> 
@@ -61,7 +58,8 @@
         <img width="100%" style="margin-top:5%" src="<?php echo base_url().'assets/img/black-friday/04.png'?>"/>  
     </div>
     <div class="col-xs-4">
-        <img width="100%" style="margin-top:22%; margin-left:-27%" src="<?php echo base_url().'assets/img/black-friday/02.png'?>"/>  
+        <img width="100%" style="margin-top:5%; margin-left:-27%" src="<?php echo base_url().'assets/img/black-friday/02.png'?>"/>  
+        <img class="img-footter-section-11"  src="<?php echo base_url().'assets/img/precio.png'?>"/>
     </div>
 </div>
 
@@ -73,12 +71,12 @@
                <img id="img_to_promotional_btn"  class="img-btn-black-friday" src="<?php echo base_url().'assets/img/black-friday/assinar_agora_black_friday.png'?>"/>               
             </a>
             
-            <label style="margin: 4%"  class="checkbox-inline">
+            <!--<label style="margin: 4%"  class="checkbox-inline">
                 <input id="check_promotion" type="checkbox" name="declaration">
                     <a id="lnk_promotion_term" style="text-decoration:underline; color:blue" href="#">
-                        <img id="img_to_promotional_btn"  class="img-btn-black-friday" src="<?php echo base_url().'assets/img/black-friday/termos-promocao.png'?>"/>
+                        <img id="img_to_promotional_btn"  class="img-btn-black-friday" src="<?php //echo base_url().'assets/img/black-friday/termos-promocao.png'?>"/>
                     </a>
-            </label>
+            </label>-->
             <br>
         </div>
     </div>
@@ -87,7 +85,19 @@
 </div>
 
 <div class="row center">
-    <img class="img-footter-section-1"  src="<?php echo base_url().'assets/img/100-porciento.png'?>"/>
-    <img class="img-footter-section-1"  src="<?php echo base_url().'assets/img/voce-escolhe.png'?>"/>
-    <img class="img-footter-section-1" style="margin-left:4%"  src="<?php echo base_url().'assets/img/sus-seguidores.png'?>"/>
+    <img class="img-footter-section-11"   src="<?php echo base_url().'assets/img/100-porciento.png'?>"/>    
+    <img class="img-footter-section-11"  src="<?php echo base_url().'assets/img/voce-escolhe.png'?>"/>
+    <img class="img-footter-section-11" style="margin-left: 4%"  src="<?php echo base_url().'assets/img/sus-seguidores.png'?>"/>
+    <!--<div class="col-xs-3">
+        <img class="img-footter-section-11" style="margin-top: 10%"  src="<?php //echo base_url().'assets/img/100-porciento.png'?>"/>
+    </div>
+    <div class="col-xs-3">
+        <img class="img-footter-section-11" style="width: 60%; margin-top: 10%; margin-bottom:10%"  src="<?php //echo base_url().'assets/img/precio.png'?>"/>        
+    </div>
+    <div class="col-xs-3">
+        <img class="img-footter-section-11" style="margin-top: 10%"  src="<?php //echo base_url().'assets/img/sus-seguidores.png'?>"/>
+    </div>
+    <div class="col-xs-3">
+        <img class="img-footter-section-11" style="margin-top: 10%"  src="<?php //echo base_url().'assets/img/voce-escolhe.png'?>"/>
+    </div>-->
 </div>

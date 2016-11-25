@@ -4,6 +4,16 @@
     var MAX_NUM_PROFILES=<?php echo $MAX_NUM_PROFILES; ?>;
 </script>
 
+<div class="row">
+    <div class="col-xs-3" ></div>
+    <div class="col-xs-6" >
+        <div class="alert alert-danger" role="alert"><ul id="dangers_success">
+            O Dumbu segue os seguidores dos seus Perfis de Referencia, e muitos deles seguirão você volta. Adicione seus perfis de referência aqui...
+        </div>
+    </div>
+    <div class="col-xs-3" ></div>
+</div>
+
 
 <div class="row">
     <br><br><p class="section-titles center">PERFIS DE REFERÊNCIA</p><br>

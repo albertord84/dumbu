@@ -25,6 +25,7 @@
         <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
   </head>
   <body>
+    <?php include_once("analyticstracking.php") ?>
     <div class="container shadow">
         <!--SECTION 1-->
             <div class="row header-section-1">
