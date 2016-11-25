@@ -14,17 +14,17 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 // MUNDIPAGG
-$Payment = new dumbu\cls\Payment();
-
-$payment_data['credit_card_number'] = '5133680051852331';
-$payment_data['credit_card_name'] = 'THIAGO A L BARBALHO';
-$payment_data['credit_card_exp_month'] = '09';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '062';
-$payment_data['amount_in_cents'] = 9990;
-$payment_data['pay_day'] = '1482693376';
-        
-$Payment->create_recurrency_payment($payment_data);
+//$Payment = new dumbu\cls\Payment();
+//
+//$payment_data['credit_card_number'] = '5133680051852331';
+//$payment_data['credit_card_name'] = 'THIAGO A L BARBALHO';
+//$payment_data['credit_card_exp_month'] = '09';
+//$payment_data['credit_card_exp_year'] = '2021';
+//$payment_data['credit_card_cvc'] = '062';
+//$payment_data['amount_in_cents'] = 9990;
+//$payment_data['pay_day'] = '1482693376';
+//        
+//$Payment->create_recurrency_payment($payment_data);
 
 //----------------------------------------------------------------
 
