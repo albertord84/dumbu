@@ -8,7 +8,7 @@
     <div class="col-xs-3" ></div>
     <div class="col-xs-6" >
         <div class="alert alert-danger" role="alert"><ul id="dangers_success">
-            O Dumbu segue os seguidores dos seus Perfis de Referencia, e muitos deles seguirão você volta. Adicione seus perfis de referência aqui...
+            O Dumbu segue os seguidores dos seus Perfis de Referência, e muitos deles seguirão você de volta. Adicione seus perfis de referência aqui.
         </div>
     </div>
     <div class="col-xs-3" ></div>
