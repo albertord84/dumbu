@@ -40,7 +40,7 @@ class Payment extends CI_Controller {
                     //var_dump($client);
                     print "\n<br>Client in day: $clientname<br>\n";
                 } else {
-                    print "\n<br>Client with payment issue: $clientname<br>\n";
+                    print "\n<br>----Client with payment issue: $clientname<br>\n<br>\n<br>\n";
                 }
             } else {
                 print "\n<br>Client without ORDER KEY!!!: $clientname<br>\n";

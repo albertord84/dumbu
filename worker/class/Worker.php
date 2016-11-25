@@ -92,13 +92,18 @@ namespace dumbu\cls {
                 if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
                     echo "<br>\nAutenticated Client: $Client->login <br>\n<br>\n";
 // Distribute work between clients
-                    $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
-                    // If User status = UNFOLLOW he do 0 follows
-                    $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
-                    $to_unfollow = $to_follow_unfollow;
-                    foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
+                    if (count($Client->reference_profiles)) {
+                        $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+                        // If User status = UNFOLLOW he do 0 follows
+                        $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
+                        $to_unfollow = $to_follow_unfollow;
+                        foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
-                        $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));                                            
+                            $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
+                        }
+                    }
+                    else {
+                        echo "Not reference profiles: $Client->login <br>\n<br>\n";
                     }
                 } else {
 // TODO: do something in Client autentication error
@@ -244,7 +249,7 @@ namespace dumbu\cls {
             $DB = new \dumbu\cls\DB();
             $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
         }
-        
+
         function delete_daily_work($ref_prof_id) {
             $DB = new \dumbu\cls\DB();
             $DB->truncate_daily_work($ref_prof_id);
