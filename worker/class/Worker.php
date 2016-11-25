@@ -89,10 +89,10 @@ namespace dumbu\cls {
             foreach ($Clients as $Client) { // for each CLient
 //                var_dump($Client);
 // Log user with webdriver in istagram to get needed session data
-                $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client = FALSE);
-                var_dump($Client);
+                $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client);
+//                var_dump($Client);
                 if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
-                    var_dump($Client->login);
+//                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
 // Distribute work between clients
                     if (count($Client->reference_profiles) > 0) {
