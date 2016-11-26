@@ -99,6 +99,8 @@ $(document).ready(function(){
             $('#btn_sing_in').prop('disabled',false);
             $('#btn_sing_in').css('cursor', 'pointer');
         }
+        $('#btn_sing_in').prop('disabled',false);
+        $('#btn_sing_in').css('cursor', 'pointer');
     });         
     
     function active_by_steep(steep) {
