@@ -96,6 +96,8 @@ $(document).ready(function(){
             }*/
         } else{
             alert('Verifique os dados fornecidos');
+            $('#btn_sing_in').prop('disabled',false);
+            $('#btn_sing_in').css('cursor', 'pointer');
         }
     });         
     
