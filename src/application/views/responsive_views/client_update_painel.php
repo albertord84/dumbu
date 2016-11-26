@@ -13,17 +13,17 @@
             <div class="form-group" style="width:100%">
                 <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Nome no cartão" required style="text-transform:uppercase;">                 
             </div>
-            <div class="form-group" style="width:100%">                                      
+            <!--<div class="form-group" style="width:100%">                                      
                 <input id="client_email" type="email" class="form-control" placeholder="E-mail" required>
-            </div>
+            </div>-->
             <div class=" form-group" style="width:100%">
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 filter-buttons">
-                        <input id="client_credit_card_number" type="text" class="form-control" placeholder="Número no cartão" data-mask="0000 0000 0000 0000" maxlength="16" required>
+                        <input id="client_credit_card_number" type="text" class="form-control" placeholder="Número no cartão" data-mask="0000 0000 0000 0000" maxlength="20" required>
                     </div>
                     <div class="col-xs-2 col-sm-2 filter-buttons"></div>
                     <div class="col-xs-4 col-sm-4 filter-buttons">
-                        <input id="client_credit_card_cvv" type="text" class="form-control" placeholder="CVV" maxlength="4" required>
+                        <input id="client_credit_card_cvv" type="text" class="form-control" placeholder="CVV" maxlength="5" required>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,10 @@
                     <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/login-instagram-3.png'?>"/>
                 </button>
                 <form id="login_sign_in"  action="#" method="#"  style="visibility:visible; width: 60%; border-radius: 5px; border:1px solid silver; margin-left:20%;  padding:4%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-                    <div class="form-group">                   
+                    <div class="form-group" style="width:100%">                                      
+                        <input id="client_email" type="email" class="form-control" placeholder="E-mail pessoal" required>
+                    </div>
+                    <div class="form-group">
                        <input id = "signin_clientLogin" type="text" class="form-control"  placeholder="Usuário" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
                     </div>
                     <div class="form-group">
@@ -25,7 +28,7 @@
                     </div>
                  </form>
                 
-                <div id="signin_profile" style="visibility:hidden;margin-top:-60%;">
+                <div id="signin_profile" style="visibility:hidden;margin-top:-70%;">
                     <br><p style="font-family:sans-serif; font-size:1em; color: green">Perfil conferido!<br><br></p>                    
                     <div id="reference_profile">
                         <img id="img_ref_prof" class="img-circle image-reference-profile" style="width:20%" src=""><br>
@@ -46,10 +49,7 @@
                 <label>INFORMAÇÕES DE PAGAMENTO</label><br>            
                 <div class="form-group" style="width:100%">                   
                     <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Nome no cartão" required style="text-transform:uppercase;">                 
-                </div>
-                <div class="form-group" style="width:100%">                                      
-                    <input id="client_email" type="email" class="form-control" placeholder="E-mail" required>
-                </div>
+                </div>                
                 <div class=" form-group" style="width:100%">
                     <div class="row">
                         <div class="col-xs-8 col-sm-8 filter-buttons">

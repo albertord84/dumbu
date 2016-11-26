@@ -87,13 +87,14 @@
         public function insert_client($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta->full_name;              //desde instagram
+            $data_user['email']=$datas['client_email'];             //desde el formulario de logueo
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
             $this->db->insert('users',$data_user);
             $id_user_table=$this->db->insert_id();
-            
+           
             //insert respectivity datas in the client table
             $data_client['user_id']=$id_user_table;                                     //desde insersion anterior
             $data_client['insta_id']=$data_insta->pk;                                   //desde instagram

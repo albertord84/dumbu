@@ -268,26 +268,26 @@ class Welcome extends CI_Controller {
                 }
             }
             if($real_status==0){
+                //var_dump($datas);
                 $datas['role_id'] = user_role::CLIENT;
                 $datas['status_id'] = user_status::BEGINNER;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
-                $response['datas'] = serialize($data_insta);
-                $response['jsondatas_datas'] = json_encode($data_insta);
+                $response['datas'] = json_encode($data_insta);
                 $response['success'] = true;
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
             } else {
             if($real_status==1){
                     $this->user_model->update_user($client[$i]['id'], array(
                         'name' => $data_insta->full_name,
+                        'email' => $datas['client_email'],
                         'login' => $datas['client_login'],
                         'pass' => $datas['client_pass']));
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta->follower_count,                        
                         'insta_following' => $data_insta->following,
                         'HTTP_SERVER_VARS' => json_encode($_SERVER)));
-                    $response['datas'] = serialize($data_insta);
-                     $response['json_datas'] = json_encode($data_insta);
+                    $response['datas'] = json_encode($data_insta);
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
                 } else {
@@ -340,7 +340,7 @@ class Welcome extends CI_Controller {
                 $datas['status_id'] = user_status::BEGINNER;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
-                $response['datas'] = serialize($data_insta);
+                $response['datas'] = json_encode($data_insta);
                 $response['success'] = true;
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
             } else {                 
@@ -352,7 +352,7 @@ class Welcome extends CI_Controller {
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta['insta_followers_ini'],                        
                         'insta_following' => $data_insta['insta_following']));                    
-                    $response['datas'] = serialize($data_insta);
+                    $response['datas'] = json_encode($data_insta);
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
                 } else {
@@ -398,8 +398,8 @@ class Welcome extends CI_Controller {
             $datas['pay_day'] = $day_plus;
             $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE; 
             try {
-                $this->user_model->update_user($datas['pk'], array(
-                    'email' => $datas['client_email']));                
+                /*$this->user_model->update_user($datas['pk'], array(
+                    'email' => $datas['client_email']));      */          
                 $this->client_model->update_client($datas['pk'], array(
                     'credit_card_number' => $datas['client_credit_card_number'],
                     'credit_card_cvc' => $datas['client_credit_card_cvv'],
@@ -480,9 +480,9 @@ class Welcome extends CI_Controller {
                 $datas['amount_in_cents']=dumbu_system_config::PAYMENT_VALUE;
                 
                 try {
-                    $this->user_model->update_user($this->session->userdata('id'), array(
+                    //$this->user_model->update_user($this->session->userdata('id'), array(
                         //'status_id' => $datas['status_id'],
-                        'email' => $datas['client_email']));
+                     //   'email' => $datas['client_email']));
                     $this->client_model->update_client($this->session->userdata('id'), array(
                         'credit_card_number' => $datas['client_credit_card_number'],
                         'credit_card_cvc' => $datas['client_credit_card_cvv'],
@@ -535,6 +535,16 @@ class Welcome extends CI_Controller {
                             $result['message'] = 'Dados bancários confirmados corretamente';
                         }
                     } else {
+                        //restablecer en la base de datos los datos anteriores
+                        $this->client_model->update_client($this->session->userdata('id'), array(
+                            'credit_card_number' => $client_data['credit_card_number'],
+                            'credit_card_cvc' => $client_data['credit_card_cvc'],
+                            'credit_card_name' => $client_data['credit_card_name'],
+                            'credit_card_exp_month' => $client_data['credit_card_exp_month'],
+                            'credit_card_exp_year' => $client_data['credit_card_exp_year'],
+                            //'credit_card_status_id' => credit_card_status::ACTIVE
+                            'order_key'=>$resp->$client_data['order_key']
+                           ));  
                         $result['success'] = false;
                         $result['message'] = 'Dados bancários incorretos';
                     }

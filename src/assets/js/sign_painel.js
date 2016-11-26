@@ -6,65 +6,76 @@ $(document).ready(function(){
     
     
     $("#signin_btn_insta_login").click(function(){
-        if($('#signin_clientLogin').val()!='' && $('#signin_clientPassword').val()!=''){
-            //$("#waiting_sign_in").css({"visibility":"visible","display":"block"});
-            var l = Ladda.create(this);  l.start(); l.start();
-            $.ajax({            
-                url : base_url+'index.php/welcome/check_user_for_sing_in',      
-                data : {
-                    'client_login':$('#signin_clientLogin').val(),
-                    'client_pass': $('#signin_clientPassword').val()
-                },
-                type : 'POST',
-                dataType : 'json',
-                success : function(response) {
-                    //$("#waiting_sign_in").css({"visibility":"hidden","display":"none"});
-                    if(response['success']){                         
-                        set_global_var('insta_profile_datas',jQuery.parseJSON(response['json_datas']));
-                        set_global_var('pk',response['pk']);
-                        set_global_var('datas',response['datas']);
-                        set_global_var('login',$('#signin_clientLogin').val());
-                        set_global_var('pass',$('#signin_clientPassword').val());
-                        set_global_var('need_delete',response['need_delete']);
-                        
-                        if(need_delete<response['MIN_MARGIN_TO_INIT']){                        
-                            /*TODO: mensaje de WARNING ou DECISAO*/alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');
+        if($('#signin_clientLogin').val()!='' && $('#signin_clientPassword').val()!='' && $('#client_email').val()!=''){
+            if(validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")){
+                if(validate_element('#signin_clientLogin','^[a-zA-Z0-9\._]{1,300}$')){
+                    //$("#waiting_sign_in").css({"visibility":"visible","display":"block"});                   
+                    var l = Ladda.create(this);  l.start(); l.start();
+                    $.ajax({            
+                        url : base_url+'index.php/welcome/check_user_for_sing_in',      
+                        data : {
+                            'client_email':$('#client_email').val(),
+                            'client_login':$('#signin_clientLogin').val(),
+                            'client_pass': $('#signin_clientPassword').val()
+                        },
+                        type : 'POST',
+                        dataType : 'json',
+                        success : function(response) {
+                            //$("#waiting_sign_in").css({"visibility":"hidden","display":"none"});
+                            if(response['success']){                         
+                                set_global_var('insta_profile_datas',jQuery.parseJSON(response['datas']));
+                                set_global_var('pk',response['pk']);
+                                set_global_var('datas',response['datas']);
+                                set_global_var('login',$('#signin_clientLogin').val());
+                                set_global_var('pass',$('#signin_clientPassword').val());
+                                set_global_var('need_delete',response['need_delete']);
+
+                                if(need_delete<response['MIN_MARGIN_TO_INIT']){                        
+                                    /*TODO: mensaje de WARNING ou DECISAO*/alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');
+                                }
+                                active_by_steep(2);
+                            } else{
+                                /*TODO: mensaje de ERROR*/alert(response['message']);
+                                if(response['cause']=='checkpoint_required'){
+                                    $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#clientLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
+                                }
+                            }
+                            l.stop();
+                        },
+                        error : function(xhr, status) {
+                            /*TODO: mensaje de ERROR*/alert('Não foi possível comprobar a autenticidade do usuario no Instagram...');                
+                            l.stop();
                         }
-                        active_by_steep(2);
-                    } else{
-                        /*TODO: mensaje de ERROR*/alert(response['message']);
-                        if(response['cause']=='checkpoint_required'){
-                            $(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#clientLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
-                        }
-                    }
-                    l.stop();
-                },
-                error : function(xhr, status) {
-                    /*TODO: mensaje de ERROR*/alert('Não foi possível comprobar a autenticidade do usuario no Instagram...');                
-                    l.stop();
+                    });                   
+                } else {
+                    alert('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
                 }
-            });
+            } else{
+                alert('O email informado não é correto');
+            }
+        }else {
+            alert('Formulario incompleto');
         }
     });
     
     
     $("#btn_sing_in").click(function(){
         $('#btn_sing_in').prop('disabled',true);
-        $('#btn_sing_in').css('cursor', 'wait');        
+        $('#btn_sing_in').css('cursor', 'wait');
         var name=validate_element('#client_credit_card_name', "^[A-Z ]{4,50}$");
-        var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
+        //var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
         var number=validate_element('#client_credit_card_number',"^[0-9]{10,20}$");
         var cvv=validate_element('#client_credit_card_cvv',"^[0-9 ]{3,5}$");
         var month=validate_month('#client_credit_card_validate_month',"^[0-10-9]{2,2}$");
         var year=validate_year('#client_credit_card_validate_year',"^[2-20-01-20-9]{4,4}$");
-        if(name && email && number && cvv && month && year){
+        if(name &&  number && cvv && month && year){
             //if( $('#check_declaration').prop('checked') ) {
                 $.ajax({
                     url : base_url+'index.php/welcome/check_client_data_bank',
                     data : {
                         'user_login':login,
                         'user_pass':pass,
-                        'client_email':$('#client_email').val(),
+                        //'client_email':$('#client_email').val(),
                         'client_credit_card_number':$('#client_credit_card_number').val(),
                         'client_credit_card_cvv':$('#client_credit_card_cvv').val(),
                         'client_credit_card_name':$('#client_credit_card_name').val(),
