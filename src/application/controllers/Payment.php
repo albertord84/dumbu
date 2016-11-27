@@ -26,7 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: UNCOMENT
-        $this->db->where('role_id',   user_role::CLIENT);
+        $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id', user_status::ACTIVE);
         //TESTE
 //        $this->db->where('status_id', user_status::UNFOLLOW);
@@ -87,20 +87,22 @@ class Payment extends CI_Controller {
                     // TODO: Put 31 in system_config    
                 } elseif ($diff_days > 31) { // Limit to advice
                     // Send email to Client
-                    $this->send_payment_email($client);
+                    // TODO: Think about it
+//                    $this->send_payment_email($client);
                 } else {
                     return TRUE;
                 }
             } else {
                 $pay_day = new DateTime();
                 $pay_day->setTimestamp($client['pay_day']);
-                $diff_info = $pay_day->diff($now);    
+                $diff_info = $pay_day->diff($now);
                 $diff_days = ($diff_info->m * 30) + $diff_info->days;
-                print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
+                if ($now > $pay_day)
+                    print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
             }
         } else {
             $bool = is_object($result);
-            $str = is_object($result) && is_callable($result->getData())? json_encode($result->getData()) : "NULL";
+            $str = is_object($result) && is_callable($result->getData()) ? json_encode($result->getData()) : "NULL";
 //            throw new Exception("Payment error: " . $str);
             print ("\n<br>Payment error: " . $str . " \nClient name: " . $client['name'] . "<br>\n");
         }
