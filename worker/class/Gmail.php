@@ -188,6 +188,52 @@ namespace dumbu\cls {
             //-------------------
         }
 
+        public function send_new_client_payment_done($username, $useremail) {
+            //Set an alternative reply-to address
+            //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
+            //Set who the message is to be sent to
+            $this->mail->clearAddresses();
+//            $this->mail->addAddress($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            $this->mail->clearReplyTos();
+            $this->mail->addReplyTo($useremail, $username);
+
+            //Set the subject line
+            $this->mail->Subject = 'New Client with payment!';
+
+            //Read an HTML message body from an external file, convert referenced images to embedded,
+            //convert HTML into a basic plain-text alternative body
+            $username = urlencode($username);
+            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/new_client_with_payment.php?username=$username&useremail=$useremail"), dirname(__FILE__));
+
+            //Replace the plain text body with one created manually
+            $this->mail->AltBody = 'New Client with payment';
+
+            //Attach an image file
+            //$mail->addAttachment('images/phpmailer_mini.png');
+            //send the message, check for errors
+            //-------------Alberto
+            /* if (!$this->mail->send()) {
+              echo "Mailer Error: " . $this->mail->ErrorInfo;
+              } else {
+              echo "Message sent!";
+              }
+              $this->mail->smtpClose(); */
+            //-------------Jose R
+            if (!$this->mail->send()) {
+                $result['success'] = false;
+                $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
+            } else {
+                $result['success'] = true;
+                $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
+            }
+            $this->mail->smtpClose();
+            return $result;
+            //-------------------
+        }
+
     }
 
 }

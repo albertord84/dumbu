@@ -61,7 +61,7 @@ namespace dumbu\cls {
          * @access public
          */
         public $insta_following;
-        
+
         /**
          * 
          * @access public
@@ -127,6 +127,17 @@ namespace dumbu\cls {
          */
         public function check_insta_user() {
             
+        }
+
+        public function set_client_status($client_id, $status_id) {
+            try {
+                $client_id = $client_id ? $client_id : $this->id;
+                $status_id = $status_id ? $status_id : $this->$status_id;
+                $DB = new \dumbu\cls\DB();
+                $DB->set_client_status($client_id, $status_id);
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
         }
 
 // end of member function sign_in
