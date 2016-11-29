@@ -21,6 +21,9 @@
                                         <div class="row">
                                             <div class="col-md-12" >
                                                 <form id="usersLoginForm"  action="#" method="#"  class="form" role="form"  accept-charset="UTF-8" >
+                                                    <div class="form-group center" style="font-family:sans-serif; font-size:0.9em">
+                                                        EXCLUSIVO PARA USUÁRIOS
+                                                    </div>
                                                     <div class="form-group">                                                                
                                                          <input id="userLogin" type="text" class="form-control" placeholder="Usuário" required>
                                                     </div>
@@ -31,6 +34,8 @@
                                                         <button id="btn_dumbu_login" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
                                                             <span class="ladda-label">Entrar</span>
                                                         </button>
+                                                    </div>
+                                                    <div id="container_login_message" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
                                                     </div>
                                                 </form>
                                             </div>
