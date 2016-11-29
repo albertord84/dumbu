@@ -11,6 +11,17 @@ echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
+$Worker = new dumbu\cls\Worker();
+$Robot = new dumbu\cls\Robot();
+$DB = new \dumbu\cls\DB();
+$daily_work = $DB->get_follow_work();
+$daily_work->login_data = json_decode($daily_work->cookies);
+var_dump($daily_work);
+//$Worker->do_follow_unfollow_work($daily_work);
+$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
+var_dump($Ref_profile_follows);
+
+
 //$Client = new dumbu\cls\Client();
 //
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
@@ -40,20 +51,20 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-$Robot = new dumbu\cls\Robot();
-
-$result = $Robot->bot_login("julianadagostini", "juli1109");
-var_dump($result);
-$result = $Robot->bot_login("droneboy.tv", "b3b4r2q0");
-var_dump($result);
-$result = $Robot->bot_login("micmicnews", "micmicnews2007");
-var_dump($result);
-$result = $Robot->bot_login("Opiniaoconservadora", "Glob@l500%");
-var_dump($result);
-$result = $Robot->bot_login("centraldeaplicativos", "315629RICALDONI");
-var_dump($result);
-$result = $Robot->bot_login("jeff_need", "24549088");
-var_dump($result);
+//$Robot = new dumbu\cls\Robot();
+//
+//$result = $Robot->bot_login("julianadagostini", "juli1109");
+//var_dump($result);
+//$result = $Robot->bot_login("droneboy.tv", "b3b4r2q0");
+//var_dump($result);
+//$result = $Robot->bot_login("micmicnews", "micmicnews2007");
+//var_dump($result);
+//$result = $Robot->bot_login("Opiniaoconservadora", "Glob@l500%");
+//var_dump($result);
+//$result = $Robot->bot_login("centraldeaplicativos", "315629RICALDONI");
+//var_dump($result);
+//$result = $Robot->bot_login("jeff_need", "24549088");
+//var_dump($result);
 //$result = $Robot->bot_login("baladauberlandia", "calypso");
 //var_dump($result);
 //$result = $Robot->bot_login("albertoreyesd1984", "albertord");
@@ -69,7 +80,7 @@ var_dump($result);
 
 // WORKER
 
-$Worker = new dumbu\cls\Worker();
+//$Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();

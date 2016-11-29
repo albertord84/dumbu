@@ -233,7 +233,7 @@ namespace dumbu\cls {
             //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
             try {
                 $sql = ""
-                        . "SELECT *, reference_profile.insta_id as rp_insta_id FROM daily_work "
+                        . "SELECT *, clients.cookies as client_cookies, reference_profile.insta_id as rp_insta_id FROM daily_work "
                         . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
                         . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
                         . "INNER JOIN users ON users.id = clients.user_id "
