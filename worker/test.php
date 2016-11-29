@@ -40,9 +40,30 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-//$Robot = new dumbu\cls\Robot();
+$Robot = new dumbu\cls\Robot();
 
-//$Robot->bot_login("albertoreyesd1984", "alberto");
+$result = $Robot->bot_login("julianadagostini", "juli1109");
+var_dump($result);
+$result = $Robot->bot_login("droneboy.tv", "b3b4r2q0");
+var_dump($result);
+$result = $Robot->bot_login("micmicnews", "micmicnews2007");
+var_dump($result);
+$result = $Robot->bot_login("Opiniaoconservadora", "Glob@l500%");
+var_dump($result);
+$result = $Robot->bot_login("centraldeaplicativos", "315629RICALDONI");
+var_dump($result);
+$result = $Robot->bot_login("jeff_need", "24549088");
+var_dump($result);
+//$result = $Robot->bot_login("baladauberlandia", "calypso");
+//var_dump($result);
+//$result = $Robot->bot_login("albertoreyesd1984", "albertord");
+//var_dump($result);
+//$result = $Robot->bot_login("josergm86", "josergm");
+//var_dump($result);
+//$result = $Robot->bot_login("smartsushidelivery", "838485");
+//var_dump($result);
+//$result = $Robot->bot_login("pedropetti", "Pp106020946");
+//var_dump($result);
 
 //----------------------------------------------------------------
 

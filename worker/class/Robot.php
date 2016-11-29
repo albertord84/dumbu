@@ -105,17 +105,17 @@ namespace dumbu\cls {
                 $json_response = $this->make_insta_friendships_command(
                         $login_data, $Profile->followed_id, 'unfollow'
                 );
+                $Profile->unfollowed = TRUE;
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     var_dump(json_encode($json_response));
                     echo "Followed ID: $Profile->followed_id<br>\n";
                     // Mark it unfollowed and send back to queue
-                    $Profile->unfollowed = TRUE;
-                    array_push($Followeds_to_unfollow, $Profile);
                     // If have some Profile to unfollow
                     $has_next = !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     var_dump($json_response);
                     if (is_array($json_response) && count($json_response)) {
+                        $Profile->unfollowed = FALSE;
                         break;
                     }
                     //var_dump($json_response);
@@ -124,6 +124,7 @@ namespace dumbu\cls {
                     // stop this user work flow...
 //                    throw new \Exception(json_encode($json_response), 1003);
                 }
+                array_push($Followeds_to_unfollow, $Profile);
             }
             // Do follow work
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
@@ -439,12 +440,13 @@ namespace dumbu\cls {
 
             $ip = $_SERVER['REMOTE_ADDR'];
             if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
-                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);              
+                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                 $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
             }
+            $ip = "127.0.0.1";
             $headers[] = "REMOTE_ADDR: $ip";
             $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-            
+
 //$headers[] = "Content-Type: application/x-www-form-urlencoded";
             $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
