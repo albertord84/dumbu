@@ -26,14 +26,28 @@ namespace dumbu\cls {
         public function get_clients_data() {
             try {
                 $this->connect();
-                $CLIENT   = user_role::CLIENT;
-                $ACTIVE   = user_status::ACTIVE;
+                $CLIENT = user_role::CLIENT;
+                $ACTIVE = user_status::ACTIVE;
                 $UNFOLLOW = user_status::UNFOLLOW;
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "WHERE users.role_id = $CLIENT "
                         . "     AND (users.status_id = $ACTIVE OR users.status_id = $UNFOLLOW);"
+                );
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function set_client_status($client_id, $status_id) {
+            try {
+                $this->connect();
+                $result = mysqli_query($this->connection, ""
+                        . "UPDATE users "
+                        . "SET users.status_id = $status_id "
+                        . "WHERE users.id = $client_id; "
                 );
                 return $result;
             } catch (\Exception $exc) {
@@ -71,7 +85,7 @@ namespace dumbu\cls {
                         . "ORDER BY followed.date ASC "
                         . "LIMIT $Limit;"
                 );
-		print "\nClient: $client_id " . mysqli_num_rows($result);
+                print "\nClient: $client_id " . mysqli_num_rows($result);
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();

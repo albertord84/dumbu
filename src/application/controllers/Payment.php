@@ -76,29 +76,32 @@ class Payment extends CI_Controller {
                 //var_dump($diff_info);
                 // Diff in days
                 $diff_days = ($diff_info->m * 30) + $diff_info->days;
-                // TODO: Put 34 in system_config
-                //$diff_days = 35;
-                if ($diff_days > 34) { // Limit to bolck
-                    //Block client by paiment
-                    $this->load->model('class/user_status');
-                    $this->load->model('class/user_model');
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
-                    print "This client was blocked by payment just now: " . json_encode($client);
-                    // TODO: Put 31 in system_config    
-                } elseif ($diff_days > 31) { // Limit to advice
-                    // Send email to Client
-                    // TODO: Think about it
-//                    $this->send_payment_email($client);
-                } else {
-                    return TRUE;
-                }
             } else {
                 $pay_day = new DateTime();
                 $pay_day->setTimestamp($client['pay_day']);
                 $diff_info = $pay_day->diff($now);
                 $diff_days = ($diff_info->m * 30) + $diff_info->days;
+                // TODO: check whend not pay and block user
                 if ($now > $pay_day)
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
+            }
+
+            // TODO: Put 34 in system_config
+            //$diff_days = 35;
+            if ($diff_days > 34) { // Limit to bolck
+                //Block client by paiment
+                $this->load->model('class/user_status');
+                $this->load->model('class/user_model');
+                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                print "This client was blocked by payment just now: " . json_encode($client);
+                // TODO: Put 31 in system_config    
+            } elseif ($diff_days > 31) { // Limit to advice
+                // Send email to Client
+                // TODO: Think about send email
+                print "Diff in days bigger tham 31 days: $diff_days";
+//                    $this->send_payment_email($client);
+            } else {
+                return TRUE;
             }
         } else {
             $bool = is_object($result);
