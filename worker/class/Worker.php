@@ -112,7 +112,7 @@ namespace dumbu\cls {
 // TODO: do something in Client autentication error
                     // Send email to client and dumbu system
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
-                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+//                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     // TODO: set client bloqued by insta
                     $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                 }
