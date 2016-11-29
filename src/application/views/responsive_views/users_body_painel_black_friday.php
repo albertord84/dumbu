@@ -12,7 +12,7 @@
                     </div>
                     <div  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">           
                          <ul class="nav navbar-nav navbar-left">
-                             <li><a  href="#lnk_how_function">COMO FUNCIONA</a></li> <!--style="color:white"-->
+                            <li><a  href="#lnk_how_function">COMO FUNCIONA</a></li> <!--style="color:white"-->
                             <li><a  href="#lnk_sign_in_now">ASSINAR AGORA</a></li> <!--style="color:white"-->
                             <li class="dropdown" >
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">ENTRAR<b class="caret"></b></a> <!--style="background-color:transparent; color:white" -->

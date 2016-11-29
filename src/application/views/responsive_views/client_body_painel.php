@@ -2,33 +2,45 @@
     <script type="text/javascript">
         var profiles=<?php echo json_encode($profiles);?>;
         var MAX_NUM_PROFILES=<?php echo $MAX_NUM_PROFILES; ?>;
-        var status_messages ='<?php echo json_encode($messages);?>';
+        var status_messages ='<?php echo json_encode($messages);?>';           
     </script>
     <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js'?>"></script>
 <!---------------------------------------------------------------------------------------->
    <br>
     <div class="row">
         <?php
-            if($status=="need_activate_acount")
-                echo '
-                    <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                        <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
-                        <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>             
-                        <button id="btn_send_update_datas" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                            <span class="ladda-label">ACTIVAR AGORA</span>
-                        </button>
-                    </div>';
-            else
-                echo '
-                    <div id= class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">'.
-                        //$status["status_message"].
+            switch ($status['status_id']) {
+                case 2:
+                case 6:
+                case 7:
+                    echo '
+                    <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">'.
+                        $status["status_message"].
                     '</div>';
+                    break;
+                
+                    break;
+                case 9:
+                    if(isset($verify_account_datas)&&is_array($verify_account_datas)){
+                        echo '
+                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
+                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>             
+                            <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="'.$verify_account_datas['verify_account_url'].'">
+                                <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                    ACTIVAR AGORA
+                                </button>
+                            </a>
+                        </div>';
+                    }
+                    break;
+            }
         ?>
     </div>
     
 <!---------------------------------------------------------------------------------------->
     <div class="row">
-        <br><br><p class="section-titles center">PERFIS DE REFERÊNCIA</p>
+        <br><br><p class="section-titles center" >PERFIS DE REFERÊNCIA</p> 
     </div>
     <div class="row" style="margin-bottom: 0%">
         <div class="col-xs-2" ></div>
@@ -50,11 +62,9 @@
                 <?php
                     if($status['status_id']==1)
                         echo '<b id="status_text" style="color:green; font-size:1.2em; font-family:sans-serif">'.$status["status_name"].'</b>';
-                    else
-                    if($status['status_id']==2)
+                    else                   
                         echo '<b id="status_text" style="color:red; font-size:1.2em; font-family:sans-serif">'.$status["status_name"].'</b>';
-                    else
-                        echo '<b id="status_text" style="color:orange; font-size:1.2em; font-family:sans-serif">'.$status["status_name"].'</b>';
+                    
                 ?>
             </div>        
             <br><br>
@@ -122,8 +132,7 @@
 
 <!---------------------------------------------------------------------------------------->
     <!--<script type="text/javascript">var upgradable_datas=<?php// echo json_encode($upgradable_datas);?></script>-->
-    
-
+    <A name="lnk_update"></A>
     <div class="row">
        <p class="section-titles center">ATUALIZAR DADOS</p><br>
     </div>
@@ -173,7 +182,7 @@
     <br>
 
 <!---------------------------------------------------------------------------------------->
-<!--<div class="row">
+<div class="row">
     <div class="row">
         <br><br><p class="section-titles center">AVISOS IMPORTANTES</p><br>
     </div>    
@@ -196,4 +205,3 @@
 </div>
     
 <br><br>
--->

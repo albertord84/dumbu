@@ -3,12 +3,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
-    
-//    public function index(){
-//        $data_insta=$this->check_insta_profile('josergm86');
-//        var_dump($data_insta);
-//    }
 
+//            public function index(){
+//                var_dump($this->is_insta_user('vaniapetti','202020'));
+//            }
+    
     public function index() {// responsive
         $data['head_section1'] = $this->load->view('responsive_views/users_header_painel_black_friday','', true);        
         $data['body_section1'] = $this->load->view('responsive_views/users_body_painel_black_friday', '', true);        
@@ -47,6 +46,18 @@ class Welcome extends CI_Controller {
             $datas1['my_img_profile'] = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'))->profile_pic_url;
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['status'] = $this->client_status_description();
+            if($datas1['status']['status_id']==9){
+                $insta_login=$this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));
+                if($insta_login['status'] === 'fail' && $insta_login['message'] == 'checkpoint_required')
+                    $datas1['verify_account_datas']=$insta_login;
+                else
+                if($insta_login['status'] === 'ok' &&  $insta_login['authenticated']){
+                    $this->load->model('class/user_model');
+                    $this->load->model('class/user_status');
+                    $this->user_model->update_user($this->session->userdata('role_id'),array('status_id'=>user_status::ACTIVE));
+                    $datas1['status'] = $this->client_status_description();
+                }
+            }
             $datas1['messages'] = $this->client_status_messages();
             $datas1['profiles'] = $this->create_profiles_datas_to_display();
             
@@ -391,14 +402,11 @@ class Welcome extends CI_Controller {
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
             } finally {
-                //$resp=$this->check_mundipagg_credit_card($datas);
-                //if (is_object($resp)&& $resp->isSuccess() ) {
-/*---------------*/if(true){
+                $resp=$this->check_mundipagg_credit_card($datas);
+                if (is_object($resp)&& $resp->isSuccess() ) {
                     try {
-                        //$this->client_model->update_client($datas['pk'], array(
-                            //'order_key'=>$resp->getData()->OrderResult->OrderKey));
                         $this->client_model->update_client($datas['pk'], array(
-                            'order_key'=>'my order key jajajaja'));
+                            'order_key'=>$resp->getData()->OrderResult->OrderKey));                        
                     } catch (Exception $exc) {
                         $this->user_model->update_user($datas['pk'], array(
                             'status_id' => user_status::BEGINNER));
@@ -436,7 +444,8 @@ class Welcome extends CI_Controller {
                             $result['message'] = 'Sua conta precisa ser verificada no Instagram';
                             $result['cause'] = 'checkpoint_required';
                             $this->user_model->set_sesion($datas['pk'], $this->session);
-                        }                        
+                        }      
+                        $this->success_buy_to_atendiment($datas['user_login'],$datas['user_email'] );
                         $result['success'] = true;
                         $result['message'] = 'Usuário cadastrado satisfatóriamente';
                     }
@@ -568,6 +577,7 @@ class Welcome extends CI_Controller {
         if ($this->session->userdata('name')) {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');
+            $this->load->model('class/user_status');
             $profile = $this->input->post();
             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
             $N = count($active_profiles);
@@ -589,7 +599,7 @@ class Welcome extends CI_Controller {
                         if(!$profile_datas->is_private){
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);                                                        
                             if ($p) {
-                                if ($this->session->userdata('insta_datas'))
+                                if ($this->session->userdata('status_id')==user_status::ACTIVE && $this->session->userdata('insta_datas'))
                                     $q = $this->client_model->insert_profile_in_daily_work($p,$this->session->userdata('insta_datas'), $N, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
                                 else
                                     $q=true;
@@ -675,17 +685,16 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
     
-    public function success_buy_to_atendiment() {
+    public function success_buy_to_atendiment($username, $useremail) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
         $this->Gmail = new \dumbu\cls\Gmail();
         $datas = $this->input->post();
-        $result = $this->Gmail->send_client_contact_form($datas['name'], $datas['email'], $datas['message'], $datas['company'], $datas['telf']);
-        if ($result['success']) {
-            $result['message'] = 'Mensagem enviada, agradecemos seu contato ...';
-        }
-        echo json_encode($result);
+        $result = $this->Gmail->send_new_client_payment_done($username, $useremail);
+        if ($result['success']) 
+            return TRUE;
+        return false;            
     }
 
     //auxiliar function
@@ -821,13 +830,15 @@ class Welcome extends CI_Controller {
             case 1:
                 return array('status_id'=>$st, 'status_name'=>'ATIVO', 'status_message'=>'');
             case 2:
-                return array('status_id'=>$st, 'status_name'=>'DESABILITADO', 'status_message'=>'Informamos que o serviço que você receve com o Dumbu encontre-se deshabilitado devido a que não foi possível fazer o pagamento no plazo estabelecido, deve <a style="font-size:1em; color:blue" href="#lnk_update">atualizar</a> seus dados;');
+                return array('status_id'=>$st, 'status_name'=>'DESABILITADO', 'status_message'=>'Sua conta encontre-se deshabilitado porque não foi possível fazer o pagamento no prazo estabelecido, deve <a style="font-size:1em; color:blue" href="#lnk_update">atualizar</a> seus dados.');
             case 3:
                 return array('status_id'=>$st, 'status_name'=>'INATIVO', 'status_message'=>'');
             case 6:
-                return array('status_id'=>$st, 'status_name'=>'PENDENTE', 'status_message'=>'Informamos que ainda não foi possível realizar o pagamento do serviço devido a problemas com seu cartão de crédito, <a style="font-size:1em; color:blue" href="#lnk_update">atualice</a> seus dados bancarios para evitar deshabilitar o serviço');
+                return array('status_id'=>$st, 'status_name'=>'PENDENTE', 'status_message'=>'Ainda não foi possível realizar o pagamento do serviço devido a problemas com seu cartão de crédito, <a style="font-size:1em; color:blue" href="#lnk_update">atualice</a> seus dados bancarios para evitar deshabilitar o serviço.');
             case 7:
                 return array('status_id'=>$st, 'status_name'=>'NÂO INICIADO', 'status_message'=>'Precisamos que você siga máximo 6000 perfis para poder iniciar a ferramenta');
+            case 9:
+                return array('status_id'=>$st, 'status_name'=>'INATIVO', 'status_message'=>'Verificação de conta');
         }
     }
     

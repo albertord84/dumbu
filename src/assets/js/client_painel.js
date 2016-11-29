@@ -13,7 +13,20 @@ $(document).ready(function(){
     };    
     
     var num_profiles,flag=false;
+    var verify=false;
     
+    $("#btn_verify_account").click(function(){
+        if(!verify){
+            $("#btn_verify_account").text('CONFIRMO ATIVAÇÂO');    
+            verify=true;
+        } else{
+            $("#lnk_verify_account").attr('target', '_self');
+            $("#lnk_verify_account").attr("href", base_url+'index.php/welcome/client');
+            //$(location).attr('href',base_url+'index.php/welcome/client');
+            verify=false;
+        }
+        
+    });
     $("#reference_profile0").click(function(){
         delete_profile_click($("#name_ref_prof0"));
     });
