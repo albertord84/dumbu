@@ -1,4 +1,7 @@
-$(document).ready(function(){ 
+$(document).ready(function(){  
+    
+    
+    
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':''},
         1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':''},
@@ -13,20 +16,7 @@ $(document).ready(function(){
     };    
     
     var num_profiles,flag=false;
-    var verify=false;
     
-    $("#btn_verify_account").click(function(){
-        if(!verify){
-            $("#btn_verify_account").text('CONFIRMO ATIVAÇÂO');    
-            verify=true;
-        } else{
-            $("#lnk_verify_account").attr('target', '_self');
-            $("#lnk_verify_account").attr("href", base_url+'index.php/welcome/client');
-            //$(location).attr('href',base_url+'index.php/welcome/client');
-            verify=false;
-        }
-        
-    });
     $("#reference_profile0").click(function(){
         delete_profile_click($("#name_ref_prof0"));
     });
@@ -43,7 +33,7 @@ $(document).ready(function(){
         delete_profile_click($("#name_ref_prof4"));
     });
    
-    function delete_profile_click(element){
+   function delete_profile_click(element){
        if(confirm('Deseja elimiar o perfil de referência '+element.text())){
             $.ajax({
                 url : base_url+'index.php/welcome/client_desactive_profiles',
@@ -122,24 +112,14 @@ $(document).ready(function(){
             alert('Alcançou a quantidade maxima permitida');        
     });
     
-    $("#adding_profile").hover(function(){},function(){});    
-   
-    function display_reference_profiles(){ 
-        status_messages['warning'][2]='';
-        status_messages['warning'][3]='';
-        
-        for(i=0;i<num_profiles;i++){
-            icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
-            icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
-            if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
-                icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-            else
-                icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
-            icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
-        }
-    }
+    $("#adding_profile").hover(function(){},function(){});
     
-    /*function display_reference_profiles(){ 
+    $("#close_palnel_insert_profile").click(function(){
+        $("#insert_profile_form").fadeOut();
+        $("#insert_profile_form").css({"visibility":"hidden","display":"none"});
+    });  
+      
+    function display_reference_profiles(){ 
         status_messages['warning'][2]='';
         status_messages['warning'][3]='';
         if(num_profiles==0){
@@ -201,7 +181,56 @@ $(document).ready(function(){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
             icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
         }
-    }*/
+        
+        
+        
+    }
+    
+    function display_reference_profiles2(){
+        flag=false;
+        if(num_profiles==0){
+            $('#missing_referrence_profiles').css({"z-index":"5","visibility":"visible","display":"block"});                        
+            if($("#status_text").text()=='ATIVO' && !flag){
+                alert($("#middle_warnings"));
+                if(!$("#middle_warnings")){
+                    $("#list_warnings").prepend('<div id="container_middle_warnings" class="alert alert-warning" role="alert"><ul id="middle_warnings"></ul></div>');
+                }                
+                $("#middle_warnings").prepend('<li id="missing_st"> O Dumbu precisa que você adicione perfis de referência para poder começar a recever o serviço;');
+                
+                $("#status_text").css({'color':'red'});
+                $("#status_text").text('NÂO INICIADO');
+                flag=true;
+            }            
+        }
+        else{
+            $('#missing_referrence_profiles').css({"visibility":"hidden","display":"none"}); 
+            if(flag=true){
+                $("#missing_st").remove();
+                if(!$("#middle_warnings").children())
+                    $("#container_middle_warnings").remove();
+                $("#status_text").css({'color':'green'});
+                $("#status_text").text('ATIVO');
+            }
+            var any_private_profile=false;
+            for(i=0;i<num_profiles;i++){
+                if(icons_profiles[i]['status_profile']==='privated')
+                    any_private_profile=true;
+            }
+            if(any_private_profile){
+                if(!$("#middle_warnings")){
+                    $("#list_warnings").prepend('<div class="alert alert-warning" role="alert"><ul id="middle_warnings"></ul></div>');
+                }
+                $("#middle_warnings").prepend('<li id="private_st"> Exitem perfis de referencia privados, considere trocar por outros;');                                
+            }            
+            for(i=0;i<num_profiles;i++){
+                icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
+                icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
+                if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
+                    icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
+                icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
+            }
+        }
+    }
     
     function init_icons_profiles(datas){
         response=jQuery.parseJSON(datas);

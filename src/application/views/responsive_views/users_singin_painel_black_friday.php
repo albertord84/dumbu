@@ -11,7 +11,7 @@
                 <button id="indication_login_btn" type="button" style="width:60%; padding:0%;" >
                     <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/login-instagram-3.png'?>"/>
                 </button>
-                <form id="login_sign_in"  action="#" method="#"  style="visibility:visible; width: 60%; border-radius: 5px; border:1px solid silver; margin-left:20%;  padding:4%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                <form id="login_sign_in"  action="#" method="#"  style="visibility:visible; width: 60%; border-radius: 5px; border:1px solid silver; margin-left:20%;  padding:4%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">                    
                     <div class="form-group" style="width:100%">                                      
                         <input id="client_email" type="email" class="form-control" placeholder="E-mail pessoal" required>
                     </div>
@@ -25,6 +25,8 @@
                         <button  id = "signin_btn_insta_login" type="button" class="btn btn-success btn-block ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Login</span>
                         </button>
+                    </div>
+                    <div id="container_sigin_message" class="form-group" style="text-align:justify; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
                     </div>
                  </form>
                 
@@ -104,7 +106,7 @@
             <div id="container_sing_in_panel">
                 <label>PASSO 3</label><br><br>
                 <button id="btn_sing_in" type="button" style="width:60%; padding:0%;" type="button">
-                    <img class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/assinar4.png'?>"/>
+                    <img id="img_btn_sing_in" class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/assinar4.png'?>"/>
                 </button>
                 <br><br>            
                 Ao assinar já estou aceitando os <a id="lnk_use_term" style="text-decoration:underline; color:blue" href="#">termos de uso</a>            

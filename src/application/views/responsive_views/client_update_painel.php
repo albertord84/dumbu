@@ -3,8 +3,6 @@
 
 
 <br><br><p class="section-titles">ATUALIZAR DADOS</p><br>
-
-
 <div class="container-fluid filter-menu">
     <div class="row">
         <div id="login_panel" class="col-xs-3 "></div>        

@@ -43,10 +43,10 @@
         </div>-->
         
         <!--SECTION 3-->
-        <div class="row client-body-section-3 center">
+        <!--<div class="row client-body-section-3 center">
             <A name="lnk_update"></A>
-            <?php echo $body_section3; ?>
-        </div>
+            <?php// echo $body_section3; ?>
+        </div>-->
         
         <!--SECTION 4-->
         <div class="row client-body-section-4">
