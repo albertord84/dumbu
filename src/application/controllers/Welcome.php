@@ -408,12 +408,12 @@ class Welcome extends CI_Controller {
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
             } finally {
-                if(true){
-                //$resp=$this->check_mundipagg_credit_card($datas);
-                //if (is_object($resp)&& $resp->isSuccess() ) {
+                //if(true){
+                $resp=$this->check_mundipagg_credit_card($datas);
+                if (is_object($resp)&& $resp->isSuccess() ) {
                     try {
-                        //$this->client_model->update_client($datas['pk'], array(
-                        //    'order_key'=>$resp->getData()->OrderResult->OrderKey));                        
+                        $this->client_model->update_client($datas['pk'], array(
+                            'order_key'=>$resp->getData()->OrderResult->OrderKey));                        
                     } catch (Exception $exc) {
                         $this->user_model->update_user($datas['pk'], array(
                             'status_id' => user_status::BEGINNER));
