@@ -51,10 +51,10 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-//$Robot = new dumbu\cls\Robot();
-//
-//$result = $Robot->bot_login("santatemakeria", "santa1410");
-//var_dump($result);
+$Robot = new dumbu\cls\Robot();
+
+$result = $Robot->bot_login("equilibriumactivewearbrasil", "eqbrasil1703");
+var_dump($result);
 //$result = $Robot->bot_login("lojadotorcedor", "adidas123");
 //var_dump($result);
 //$result = $Robot->bot_login("vaniapetti", "202020");
