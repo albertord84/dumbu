@@ -70,6 +70,21 @@ namespace dumbu\cls {
             }
         }
 
+        public function get_reference_profiles_follows($ref_prof_id) {
+            try {
+                $this->connect();
+                $result = mysqli_query($this->connection, ""
+                        . "SELECT COUNT(*) as total FROM followed "
+                        . "WHERE "
+                        . "  followed.reference_id = $ref_prof_id;"
+                );
+                $data=\mysqli_fetch_assoc($result);
+                return $data['total'];
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function get_unfollow_work($client_id) {
             try {
                 // Get profiles to unfollow today for this Client... 
@@ -85,7 +100,7 @@ namespace dumbu\cls {
                         . "ORDER BY followed.date ASC "
                         . "LIMIT $Limit;"
                 );
-                print "\nClient: $client_id " . mysqli_num_rows($result);
+                print "\nClient: $client_id " . mysqli_num_rows($result) . "  ";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();

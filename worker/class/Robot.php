@@ -1,6 +1,7 @@
 <?php
 
 namespace dumbu\cls {
+    require_once 'DB.php';
     require_once 'Reference_profile.php';
     require_once 'Day_client_work.php';
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
@@ -502,7 +503,7 @@ namespace dumbu\cls {
             return $login_data;
         }
 
-        public function get_insta_ref_prof_data($ref_prof) {
+        public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
             $users = json_decode($content)->users;
 
@@ -511,6 +512,7 @@ namespace dumbu\cls {
             foreach ($users as $key => $user) {
                 if ($user->user->username === $ref_prof) {
                     $User = $user->user;
+                    $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                     $User->following = $this->get_insta_ref_prof_following($ref_prof);
                     break;
                 }
@@ -520,6 +522,11 @@ namespace dumbu\cls {
             return $User;
         }
 
+        public function get_insta_ref_prof_follows($ref_prof_id) {
+            $follows = $ref_prof_id? Reference_profile::static_get_follows($ref_prof_id) : 0;
+            return $follows;
+        }
+        
         public function get_insta_ref_prof_following($ref_prof) {
             $content = file_get_contents("https://www.instagram.com/$ref_prof/");
 

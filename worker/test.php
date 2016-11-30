@@ -5,11 +5,18 @@ require_once 'class/system_config.php';
 require_once 'class/Gmail.php';
 require_once 'class/Payment.php';
 require_once 'class/Client.php';
+require_once 'class/Reference_profile.php';
 
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+
+$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
+var_dump($follows_count);
+$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
+var_dump($follows_count);
+
 
 //$Worker = new dumbu\cls\Worker();
 //$Robot = new dumbu\cls\Robot();
@@ -51,10 +58,10 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-$Robot = new dumbu\cls\Robot();
-
-$result = $Robot->bot_login("equilibriumactivewearbrasil", "eqbrasil1703");
-var_dump($result);
+//$Robot = new dumbu\cls\Robot();
+//
+//$result = $Robot->bot_login("equilibriumactivewearbrasil", "eqbrasil1703");
+//var_dump($result);
 //$result = $Robot->bot_login("lojadotorcedor", "adidas123");
 //var_dump($result);
 //$result = $Robot->bot_login("vaniapetti", "202020");
