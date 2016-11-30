@@ -51,6 +51,7 @@
                             case 6:    return 'PENDING';
                             case 7:    return 'UNFOLLOW';
                             case 8:    return 'BEGINNER';
+                            case 9:    return 'VERIFY_ACCOUNT';
                         }
                     }
 
