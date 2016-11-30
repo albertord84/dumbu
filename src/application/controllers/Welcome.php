@@ -137,7 +137,7 @@ class Welcome extends CI_Controller {
                     }
                     if($real_status>0){
                         $st=(int)$user[$index]['status_id'];                 
-                        if($st==user_status::ACTIVE || $st==user_status::BLOCKED_BY_INSTA || $st==user_status::VERYFY_ACCOUNT){
+                        if($st==user_status::ACTIVE || $st==user_status::BLOCKED_BY_INSTA || $st==user_status::VERIFY_ACCOUNT){
                             $this->user_model->update_user($user[$index]['id'], array(
                                         'name' => $data_insta['insta_name'],
                                         'login' =>$datas['user_login'],
@@ -285,13 +285,13 @@ class Welcome extends CI_Controller {
                             break;
                         }
                     }      
-                    if($real_status>1){
+                    if($real_status==2){
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if($user[$index]['status_id']!=user_status::BLOCKED_BY_PAYMENT && $user[$index]['status_id']!=user_status::PENDING){
                            $this->user_model->update_user($user[$index]['id'], array(
-                                'status_id' => user_status::VERYFY_ACCOUNT));
+                                'status_id' => user_status::VERIFY_ACCOUNT));
                         }/* else
-                            $this->session->set_userdata('login_status')=user_status::VERYFY_ACCOUNT;*/                                            
+                            $this->session->set_userdata('login_status')=user_status::VERIFY_ACCOUNT;*/                                            
                         $result['resource'] = 'client';
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
@@ -444,7 +444,7 @@ class Welcome extends CI_Controller {
                         }else
                         if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required'){
                             $this->user_model->update_user($datas['pk'], array(
-                                'status_id' => user_status::VERYFY_ACCOUNT));
+                                'status_id' => user_status::VERIFY_ACCOUNT));
                             $result['resource'] = 'client';
                             $result['verify_link'] = $data_insta['verify_account_url'];
                             $result['return_link'] = 'client';
