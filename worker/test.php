@@ -12,10 +12,10 @@ echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
-var_dump($follows_count);
-$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
-var_dump($follows_count);
+//$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
+//var_dump($follows_count);
+//$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
+//var_dump($follows_count);
 
 
 //$Worker = new dumbu\cls\Worker();
@@ -60,7 +60,7 @@ var_dump($follows_count);
 
 //$Robot = new dumbu\cls\Robot();
 //
-//$result = $Robot->bot_login("equilibriumactivewearbrasil", "eqbrasil1703");
+//$result = $Robot->bot_login("baladauberlandia", "LuizFelipe");
 //var_dump($result);
 //$result = $Robot->bot_login("lojadotorcedor", "adidas123");
 //var_dump($result);
