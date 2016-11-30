@@ -12,6 +12,10 @@ echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
+// Ref Prof
+
+//$RP = new \dumbu\cls\Reference_profile();
+//$RP->get_insta_ref_prof_data($ref_prof);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
 //var_dump($follows_count);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
@@ -58,12 +62,13 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-//$Robot = new dumbu\cls\Robot();
-//
-//$result = $Robot->bot_login("baladauberlandia", "LuizFelipe");
-//var_dump($result);
+$Robot = new dumbu\cls\Robot();
+
+$result = $Robot->bot_login("joaovitoreedsonoficial", "carlaandre8");
+var_dump($result);
 //$result = $Robot->bot_login("lojadotorcedor", "adidas123");
 //var_dump($result);
+//$Gmail->send_client_login_error("atendimento@lojadotorcedor.com", "Loja do Torcedor", "lojadotorcedor", "adidas123");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
 //$result = $Robot->bot_login("_doradorallice", "Loja2016");
