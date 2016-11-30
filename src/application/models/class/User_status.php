@@ -10,7 +10,7 @@ class user_status {
     const PENDING = 6;
     const UNFOLLOW= 7;
     const BEGINNER= 8;
-    const VERYFY_ACCOUNT= 9;
+    const VERIFY_ACCOUNT= 9;
 
     static public function Defines($const) {
         $cls = new ReflectionClass(__CLASS__);
