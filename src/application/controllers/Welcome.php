@@ -5,11 +5,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
 //            public function index(){
-//                var_dump($this->is_insta_user('vaniapetti','202020'));
+//                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+//                $this->Robot = new \dumbu\cls\Robot();
+//                $this->load->model('class/client_model');
+//                $datas_of_profile = $this->Robot->get_insta_ref_prof_data('nike',28);
+//                var_dump($datas_of_profile);
+//                $datas_of_profile = $this->Robot->get_insta_ref_prof_data('josergm86');
+//                var_dump($datas_of_profile);
 //            }
     
     public function index() {// responsive
-        $data['head_section1'] = $this->load->view('responsive_views/users_header_painel_black_friday','', true);        
+        //$data['head_section1'] = $this->load->view('responsive_views/users_header_painel_black_friday','', true);        
         $data['body_section1'] = $this->load->view('responsive_views/users_body_painel_black_friday', '', true);        
         $data['footer_section1'] = $this->load->view('responsive_views/users_footer_painel', '', true);
         $data['body_section2'] = $this->load->view('responsive_views/users_howfunction_painel', '', true);
@@ -402,11 +408,12 @@ class Welcome extends CI_Controller {
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
             } finally {
-                $resp=$this->check_mundipagg_credit_card($datas);
-                if (is_object($resp)&& $resp->isSuccess() ) {
+                if(true){
+                //$resp=$this->check_mundipagg_credit_card($datas);
+                //if (is_object($resp)&& $resp->isSuccess() ) {
                     try {
-                        $this->client_model->update_client($datas['pk'], array(
-                            'order_key'=>$resp->getData()->OrderResult->OrderKey));                        
+                        //$this->client_model->update_client($datas['pk'], array(
+                        //    'order_key'=>$resp->getData()->OrderResult->OrderKey));                        
                     } catch (Exception $exc) {
                         $this->user_model->update_user($datas['pk'], array(
                             'status_id' => user_status::BEGINNER));
@@ -476,6 +483,13 @@ class Welcome extends CI_Controller {
         return $response;
     }
     
+    public function delete_recurrency_payment($order_key) {        
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';        
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->delete_payment($order_key);
+        return $response;
+    }
+    
     public function update_client_datas() {
         if ($this->session->userdata('id')) {
             //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
@@ -505,30 +519,34 @@ class Welcome extends CI_Controller {
                     $result['exception'] = $exc->getTraceAsString();                
                     $result['message'] = 'Error actualizando en base de datos';
                 } finally {
+                    $response_delete_early_payment='';
                     $resp=$this->check_mundipagg_credit_card($datas);
                     if(is_object($resp)&& $resp->isSuccess()) {
                         try {
-                            $this->client_model->update_client($datas['pk'], array(
+                            $this->client_model->update_client($this->session->userdata('id'), array(
                                 'order_key'=>$resp->getData()->OrderResult->OrderKey));                            
+                            
+                            $response_delete_early_payment=$this->delete_recurrency_payment($client_data['order_key']);                            
+                            
                             if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
                                 $datas['status_id'] = user_status::PENDING; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
                             }
                             else
                                 $datas['status_id'] = $this->session->userdata('status_id');
-                            $this->user_model->update_user($datas['pk'], array(
-                                'status_id' => $datas['status_id']));
+                            $this->user_model->update_user($this->session->userdata('id'), array(
+                                'status_id' => $datas['status_id']));                            
                         } catch (Exception $exc) {
                             $this->user_model->update_user($datas['pk'], array(
                                 'status_id' => $this->session->userdata('status_id'))); //the previous
                             $this->client_model->update_client($datas['pk'], array(
                                 'order_key'=>$client_data['order_key'])); //the previous
-                            //TODO: deshacer el pagamento en Mundipagg
                             $result['success'] = false;
                             $result['exception'] = $exc->getTraceAsString();
                             $result['message'] = 'Error actualizando en base de datos';                        
                         } finally {
                             $result['success'] = true;
                             $result['message'] = 'Dados bancários confirmados corretamente';
+                            $result['response_delete_early_payment']=$response_delete_early_payment;
                         }
                     } else {
                         //restablecer en la base de datos los datos anteriores
@@ -543,8 +561,7 @@ class Welcome extends CI_Controller {
                         $result['success'] = false;
                         $result['message'] = 'Dados bancários incorretos';
                     }
-                }   
-               
+                }                  
             } else {
                 $result['success'] = false;
                 $result['message'] = 'Violação, accesso não permitido';
@@ -603,16 +620,16 @@ class Welcome extends CI_Controller {
                                     $q = $this->client_model->insert_profile_in_daily_work($p,$this->session->userdata('insta_datas'), $N, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
                                 else
                                     $q=true;
-                                if ($q) {    
-                                    $result['success'] = true;
-                                    $result['message'] = 'Perfil adicionado corretamente';
-                                    $result['img_url'] = $profile_datas->profile_pic_url;
-                                    $result['profile'] = $profile['profile'];   
-                                } else{
-                                    $result['success'] = true;
-                                    $result['message'] = 'O trabalho com o perfil começara em depois';
-                                    $result['img_url'] = $profile_datas->profile_pic_url;
-                                    $result['profile'] = $profile['profile'];                                       
+                                
+                                $profile_datas = $this->check_insta_profile($profile['profile'],$p);
+                                $result['success'] = true;
+                                $result['img_url'] = $profile_datas->profile_pic_url;
+                                $result['profile'] = $profile['profile'];   
+                                $result['follows_from_profile'] = $profile_datas->follows;
+                                if ($q) {
+                                    $result['message'] = 'Perfil adicionado corretamente';                                    
+                                } else{                                    
+                                    $result['message'] = 'O trabalho com o perfil começara depois';            
                                 } 
                             } else {
                                 $result['success'] = false;
@@ -782,13 +799,15 @@ class Welcome extends CI_Controller {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $this->load->model('class/client_model');
-            $client_active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+            $client_active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));            
             $N = count($client_active_profiles);
             if ($N > 0) {
                 for ($i = 0; $i < $N; $i++) {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
-                    $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile);
+                    $id_profile = $client_active_profiles[$i]['id'];
+                    $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile,$id_profile);
                     $array_profiles[$i]['login_profile'] = $name_profile;
+                    $array_profiles[$i]['follows_from_profile'] = $datas_of_profile->follows;
                     if (!$datas_of_profile){
                         $array_profiles[$i]['status_profile']='deleted';
                         $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_deleted.jpg';

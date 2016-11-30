@@ -1,6 +1,6 @@
 <!---------------------------------------------------------------------------------------->
     <script type="text/javascript">
-        var profiles=<?php echo json_encode($profiles);?>;
+        var profiles=<?php echo json_encode($profiles);?>; 
         var MAX_NUM_PROFILES=<?php echo $MAX_NUM_PROFILES; ?>;
         var status_messages ='<?php echo json_encode($messages);?>';           
     </script>
@@ -10,15 +10,68 @@
     <div class="row">
         <?php
             switch ($status['status_id']) {
-                case 2:
-                case 6:
-                case 7:
+                case 3:
                     echo '
-                    <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">'.
-                        $status["status_message"].
-                    '</div>';
+                        <div id="activate_account" class="center" style="margin-left:25%; width:50%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
+                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">INFORME NOVAMENTE LOGIN E SENHA DE INSTAGRAM</b>             
+                            <br><br>
+                            <form id="usersLoginForm"  action="#" method="#"  class="form" role="form" style="margin-left:25%;margin-right:25%;"  accept-charset="UTF-8" >                                
+                                <div class="form-group">                                                                
+                                     <input id="userLogin" type="text" class="form-control" value="'.$my_login_profile.'" disabled="true">
+                                </div>
+                                <div class="form-group">                                                                
+                                    <input id="userPassword" type="password" class="form-control" placeholder="Senha" required>
+                                </div>                                                             
+                                <div class="form-group">
+                                    <button id="activate_account_by_status_3" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                        <span class="ladda-label">ACTIVAR AGORA</span>
+                                    </button>
+                                </div>
+                                <div id="container_login_message" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                </div>
+                            </form>
+                        </div>';
                     break;
-                
+                case 2:
+                    echo '
+                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">HABILITE SUA CONTA</b><BR>
+                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS</b>  <BR>           
+                            <a id="lnk_verify_account" href="#lnk_update">
+                                <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                    ATUALIZAR AGORA
+                                </button>
+                            </a>
+                        </div>';
+                    break;
+                case 6:
+                     echo '
+                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
+                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS</b>  <BR>           
+                            <a id="lnk_verify_account" href="#lnk_update">
+                                <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                    ATUALIZAR AGORA
+                                </button>
+                            </a>
+                        </div>';
+                    break;
+                case 7:
+                    /*echo '
+                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b>
+                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;"><BR>PRECISAMOS QUE VOCÊ SIGA MÁXIMO 6000 PERFIS NO INSTAGRAM</b>  <BR>           
+                            <b id="message_status3" style="margin:1%; font-family:sans-serif; font-size:0.8em;">DESEJA QUE O DUMBU DESSIGA ALEATÓRIAMENTE OS PERFIS NECESSÁRIOS?</b>  <BR>                                       
+                            <button id="btn_unfollow_permition" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                    DESSEGIR
+                                </button>                            
+                        </div>';   */
+                    echo '
+                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b>
+                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;"><BR>PRECISAMOS QUE VOCÊ SIGA MÁXIMO 6000 PERFIS NO INSTAGRAM PARA INICIAR A FERRAMENTA NO SEU PERFIL</b>  <BR>           
+                        </div>'; 
                     break;
                 case 9:
                     if(isset($verify_account_datas)&&is_array($verify_account_datas)){
@@ -75,24 +128,28 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-2" >
                         <div id="reference_profile0" class="container-reference-profile">
+                            <br><b title="Seguidos por mim" id="cnt_follows_prof0" style="color:red;font-family:sans-serif; font-size:1em;"></b>
                             <img id="img_ref_prof0" class="img-circle image-reference-profile" src="">
                             <br><b id="name_ref_prof0" style="font-family:sans-serif; font-size:1em;"></b>
                         </div>
                     </div>
                     <div class="col-xs-2" >
                         <div id="reference_profile1" class="container-reference-profile">
+                            <br><b title="Seguidos por mim" id="cnt_follows_prof1" style="color:red;font-family:sans-serif; font-size:1em;"></b>
                             <img id="img_ref_prof1" class="img-circle image-reference-profile" src="">
                             <br><b id="name_ref_prof1" style="font-family:sans-serif; font-size:1em;"></b>
                         </div>
                     </div>
                     <div class="col-xs-2" >
                         <div id="reference_profile2" class="container-reference-profile">
+                            <br><b title="Seguidos por mim" id="cnt_follows_prof2" style="color:red;font-family:sans-serif; font-size:1em;"></b>
                             <img id="img_ref_prof2" class="img-circle image-reference-profile" src="">
                             <br><b id="name_ref_prof2" style="font-family:sans-serif; font-size:1em;"></b>
                         </div>
                     </div>
                     <div class="col-xs-2" >
                         <div id="reference_profile3" class="container-reference-profile">
+                            <br><b title="Seguidos por mim" id="cnt_follows_prof3" style="color:red;font-family:sans-serif; font-size:1em;"></b>
                             <img id="img_ref_prof3" class="img-circle image-reference-profile" src="">
                             <br><b id="name_ref_prof3" style="font-family:sans-serif; font-size:1em;"></b>
                         </div>
@@ -100,7 +157,9 @@
                     <div class="col-xs-1"></div>
                     <div class="col-xs-2">
                         <div id="btn_reference_profile">
+                            <br><b></b>
                             <button id="adding_profile" type="button" class="btn btn-info btn-social-icon" ><b style="font-size:1.5em ">+</b></button>
+                            <br><b></b>
                         </div>                    
                     </div>
                 </div>

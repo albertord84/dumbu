@@ -79,6 +79,7 @@ $(document).ready(function(){
     $("#btn_sing_in").click(function(){
         if(flag==false){            
             flag=true;    
+            console.log('boton');
             $("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4_enviando.png");
             $('#btn_sing_in *').css('cursor', 'wait');
             $('#btn_sing_in *').attr('disabled',true);

@@ -1,15 +1,15 @@
 $(document).ready(function(){ 
     var icons_profiles={            
-        0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':''},
-        1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':''},
-        2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':''},
-        3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':''},
-        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':''}
-        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':''},
-        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':''},
-        7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':''},
-        8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':''},
-        9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':'','status_profile':''}*/
+        0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''}
+      /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),  'ptr_label_obj':$('#cnt_follows_prof7'),     'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),  'ptr_label_obj':$('#cnt_follows_prof8'),     'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),  'ptr_label_obj':$('#cnt_follows_prof9'),     'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''}*/
     };    
     
     var num_profiles,flag=false;
@@ -24,9 +24,16 @@ $(document).ready(function(){
             $("#lnk_verify_account").attr("href", base_url+'index.php/welcome/client');
             //$(location).attr('href',base_url+'index.php/welcome/client');
             verify=false;
-        }
-        
+        }        
     });
+        
+    $("#btn_unfollow_permition").click(function(){        
+        $("#message_status1").remove();
+        $("#btn_unfollow_permition").remove();
+        $("#message_status2").text('A SOLICITACÃO ESTA SENDO PROCESSADA');
+        $("#message_status3").text('INMEDIATEMENTE DE TERMINAR COMEÇARÁ A RECEBER O SERVIÇO');            
+    });
+    
     $("#reference_profile0").click(function(){
         delete_profile_click($("#name_ref_prof0"));
     });
@@ -114,6 +121,48 @@ $(document).ready(function(){
         }        
     });
     
+    $("#activate_account_by_status_3").click(function(){
+        if($('#userLogin').val()!='' && $('#userPassword').val()!==''){            
+            if(validate_element('#userLogin','^[a-zA-Z0-9\._]{1,300}$')){
+                var l = Ladda.create(this);  l.start(); l.start();
+                $.ajax({
+                    url : base_url+'index.php/welcome/user_do_login',      
+                    data : {
+                        'user_login':$('#userLogin').val(),
+                        'user_pass': $('#userPassword').val()
+                    },
+                    type : 'POST',
+                    dataType : 'json',
+                    async: false,
+                    success : function(response) {
+                        if(response['authenticated']){                            
+                            if(response['role']=='CLIENT'){
+                                $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
+                            } 
+                        } else{
+                                $('#container_login_message').text(response['message']);
+                                $('#container_login_message').css('visibility','visible');
+                                $('#container_login_message').css('color','red');                              
+                            }
+                        l.stop();
+                    },                
+                    error : function(xhr, status) {
+                        alert('internal error');    
+                        l.stop();
+                    }
+                });   
+            } else{
+                $('#container_login_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
+                $('#container_login_message').css('visibility','visible');
+                $('#container_login_message').css('color','red');
+            }       
+        } else{
+            $('#container_login_message').text('Deve preencher todos os dados corretamente.');
+            $('#container_login_message').css('visibility','visible');
+            $('#container_login_message').css('color','red');
+        }
+    });
+    
     $("#adding_profile").click(function(){
         if(num_profiles<MAX_NUM_PROFILES){
             $("#insert_profile_form").fadeIn();
@@ -131,6 +180,7 @@ $(document).ready(function(){
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
             icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
+            icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);
             if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
             else
@@ -139,70 +189,6 @@ $(document).ready(function(){
         }
     }
     
-    /*function display_reference_profiles(){ 
-        status_messages['warning'][2]='';
-        status_messages['warning'][3]='';
-        if(num_profiles==0){
-            $('#missing_referrence_profiles').css({"z-index":"5","visibility":"visible","display":"block"});                        
-            if($("#status_text").text()=='ATIVO' && !flag){                
-                status_messages['warning'][2]='O Dumbu precisa que você adicione perfis de referência para poder começar a recever o serviço;';
-                $("#status_text").css({'color':'red'});
-                $("#status_text").text('NÂO INICIADO');
-                flag=true; 
-            }            
-        }
-        else{
-            $('#missing_referrence_profiles').css({"visibility":"hidden","display":"none"}); 
-            if(flag==true){
-                status_messages['warning'][2]='';
-                $("#status_text").css({'color':'green'});
-                $("#status_text").text('ATIVO');
-                flag=false;
-            }
-            var any_private_profile=false;
-            for(i=0;i<num_profiles;i++){
-                if(icons_profiles[i]['status_profile']==='privated')
-                    any_private_profile=true;
-            }            
-            if(any_private_profile)
-                status_messages['warning'][3]='Exitem perfis de referencia privados, considere trocar por outros;';                            
-        }
-                
-        $("#list_warnings").empty();
-        
-        if(status_messages['danger'][0]){
-            $("#list_warnings").append('<div class="alert alert-danger" role="alert"><ul id="danger_warnings"></ul></div>');
-            for(i=1;i<=status_messages['danger'][0];i++){
-                if(status_messages['danger'][i]!='')
-                    $("#danger_warnings").append('<li>'+status_messages['danger'][i]);
-            }
-        }
-        if(status_messages['warning'][1]!='' || status_messages['warning'][2]!='' || status_messages['warning'][3]!=''){
-            $("#list_warnings").append('<div class="alert alert-warning" role="alert"><ul id="warning_warnings"></ul></div>');
-            for(i=1;i<=3;i++){
-                if(status_messages['warning'][i]!='')                    
-                    $("#warning_warnings").append('<li>'+status_messages['warning'][i]);
-            }
-        }
-        if(status_messages['info'][0]){
-            $("#list_warnings").append('<div class="alert alert-info" role="alert"><ul id="info_warnings"></ul></div>');
-            for(i=1;i<=status_messages['info'][0];i++){
-                if(status_messages['info'][i]!='')
-                    $("#info_warnings").append('<li>'+status_messages['info'][i]);
-            }
-        }
-        
-        for(i=0;i<num_profiles;i++){
-            icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
-            icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
-            if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
-                icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-            else
-                icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
-            icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
-        }
-    }*/
-    
     function init_icons_profiles(datas){
         response=jQuery.parseJSON(datas);
         prof=response['array_profiles'];
@@ -210,6 +196,7 @@ $(document).ready(function(){
         num_profiles=response['N'];
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['img_profile']=prof[i]['img_profile'];
+            icons_profiles[i]['follows_from_profile']=prof[i]['follows_from_profile'];
             icons_profiles[i]['login_profile']=prof[i]['login_profile'];
             icons_profiles[i]['status_profile']=prof[i]['status_profile'];
         }
@@ -219,6 +206,7 @@ $(document).ready(function(){
     function inser_icons_profiles(datas){
         icons_profiles[num_profiles]['img_profile']=datas['img_url'];
         icons_profiles[num_profiles]['login_profile']=datas['profile'];
+        icons_profiles[num_profiles]['follows_from_profile']=datas['follows_from_profile'];
         icons_profiles[num_profiles]['status_profile']=datas['status_profile'];
         num_profiles=num_profiles+1;
         display_reference_profiles();
@@ -234,12 +222,14 @@ $(document).ready(function(){
             if(j+1<num_profiles){
                 icons_profiles[j]['img_profile']=icons_profiles[j+1]['img_profile'];
                 icons_profiles[j]['login_profile']=icons_profiles[j+1]['login_profile'];
+                icons_profiles[j]['follows_from_profile']=icons_profiles[j+1]['follows_from_profile'];
                 icons_profiles[j]['status_profile']=icons_profiles[j+1]['status_profile'];
             }
         }
         j=j-1;
         icons_profiles[j]['img_profile']='';
         icons_profiles[j]['login_profile']='';
+        icons_profiles[j]['follows_from_profile']='';
         num_profiles=num_profiles-1; 
         display_reference_profiles();
         icons_profiles[j]['ptr_panel_obj'].css({"visibility":"hidden","display":"none"});
