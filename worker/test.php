@@ -62,11 +62,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-$Robot = new dumbu\cls\Robot();
-
-$result = $Robot->bot_login("joaovitoreedsonoficial", "carlaandre8");
-var_dump($result);
-//$result = $Robot->bot_login("lojadotorcedor", "adidas123");
+//$Robot = new dumbu\cls\Robot();
+//
+//$result = $Robot->bot_login("luna_westie", "luna.0404");
+//var_dump($result);
+//$result = $Robot->bot_login("lambaosbeicos", "75005310");
 //var_dump($result);
 //$Gmail->send_client_login_error("atendimento@lojadotorcedor.com", "Loja do Torcedor", "lojadotorcedor", "adidas123");
 //$result = $Robot->bot_login("vaniapetti", "202020");
