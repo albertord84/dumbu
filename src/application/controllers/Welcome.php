@@ -44,6 +44,7 @@ class Welcome extends CI_Controller {
     
     public function client() {
         $this->load->model('class/user_role');
+        $this->load->model('class/user_status');
         if ($this->session->userdata('role_id')==user_role::CLIENT) {            
             $this->load->model('class/dumbu_system_config');
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
@@ -52,9 +53,9 @@ class Welcome extends CI_Controller {
             $datas1['my_img_profile'] = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'))->profile_pic_url;
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['status'] = $this->client_status_description();
-            if($datas1['status']['status_id']==9){
+            if($datas1['status']['status_id']==user_status::VERIFY_ACCOUNT){
                 $insta_login=$this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));
-                if($insta_login['status'] === 'fail' && $insta_login['message'] == 'checkpoint_required')
+                if($insta_login['status'] === 'fail' && $insta_login['cause'] == 'checkpoint_required')
                     $datas1['verify_account_datas']=$insta_login;
                 else
                 if($insta_login['status'] === 'ok' &&  $insta_login['authenticated']){
