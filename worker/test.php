@@ -11,15 +11,15 @@ echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-$Worker = new dumbu\cls\Worker();
-$Robot = new dumbu\cls\Robot();
-$DB = new \dumbu\cls\DB();
-$daily_work = $DB->get_follow_work();
-$daily_work->login_data = json_decode($daily_work->cookies);
-var_dump($daily_work);
-//$Worker->do_follow_unfollow_work($daily_work);
-$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
-var_dump($Ref_profile_follows);
+//$Worker = new dumbu\cls\Worker();
+//$Robot = new dumbu\cls\Robot();
+//$DB = new \dumbu\cls\DB();
+//$daily_work = $DB->get_follow_work();
+//$daily_work->login_data = json_decode($daily_work->cookies);
+//var_dump($daily_work);
+////$Worker->do_follow_unfollow_work($daily_work);
+//$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
+//var_dump($Ref_profile_follows);
 
 
 //$Client = new dumbu\cls\Client();
@@ -53,15 +53,15 @@ var_dump($Ref_profile_follows);
 
 //$Robot = new dumbu\cls\Robot();
 //
-//$result = $Robot->bot_login("julianadagostini", "juli1109");
+//$result = $Robot->bot_login("santatemakeria", "santa1410");
 //var_dump($result);
-//$result = $Robot->bot_login("droneboy.tv", "b3b4r2q0");
+//$result = $Robot->bot_login("lojadotorcedor", "adidas123");
 //var_dump($result);
-//$result = $Robot->bot_login("micmicnews", "micmicnews2007");
+//$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
-//$result = $Robot->bot_login("Opiniaoconservadora", "Glob@l500%");
+//$result = $Robot->bot_login("_doradorallice", "Loja2016");
 //var_dump($result);
-//$result = $Robot->bot_login("centraldeaplicativos", "315629RICALDONI");
+//$result = $Robot->bot_login("graciaalonsoplus", "gainsta");
 //var_dump($result);
 //$result = $Robot->bot_login("jeff_need", "24549088");
 //var_dump($result);
