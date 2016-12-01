@@ -104,8 +104,7 @@ namespace dumbu\cls {
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
                             $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
                         }
-                    }
-                    else {
+                    } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
                     }
                 } else {
@@ -113,7 +112,10 @@ namespace dumbu\cls {
                     // Send email to client and dumbu system
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
-                    $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required')
+                        $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+                    else 
+                        $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                 }
             }
 //            die("Loged all Clients");
