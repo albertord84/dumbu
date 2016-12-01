@@ -141,7 +141,7 @@ namespace dumbu\cls {
                             $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                     );
                     //var_dump($json_response);
-                    echo "<br>\nRef Profil: $daily_work->insta_name     ------>   End Cursor: $daily_work->insta_follower_cursor<br>\n";
+                    echo "<br>\nRef Profil: $daily_work->insta_name     ->   End Cursor: $daily_work->insta_follower_cursor<br>\n";
                     $get_followers_count++;
                     if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
                         // Get Users 
