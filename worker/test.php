@@ -55,7 +55,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // GMAIL
  
-//$Gmail = new dumbu\cls\Gmail();
+$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
@@ -64,11 +64,12 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 $Robot = new dumbu\cls\Robot();
  	
-$result = $Robot->bot_login("rodrigobering", "88060018");
-var_dump($result);
-$result = $Robot->bot_login("lojadotorcedor", "adidas123");
-var_dump($result);
-//$Gmail->send_client_login_error("atendimento@lojadotorcedor.com", "Loja do Torcedor", "lojadotorcedor", "adidas123");
+//$result = $Robot->bot_login("rodrigobering", "88060018");
+//var_dump($result);
+//$result = $Robot->bot_login("lojadotorcedor", "adidas123");
+//var_dump($result);
+ 	 	
+$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
 //$result = $Robot->bot_login("_doradorallice", "Loja2016");
