@@ -5,11 +5,22 @@ require_once 'class/system_config.php';
 require_once 'class/Gmail.php';
 require_once 'class/Payment.php';
 require_once 'class/Client.php';
+require_once 'class/Reference_profile.php';
 
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+
+// Ref Prof
+
+//$RP = new \dumbu\cls\Reference_profile();
+//$RP->get_insta_ref_prof_data($ref_prof);
+//$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
+//var_dump($follows_count);
+//$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
+//var_dump($follows_count);
+
 
 //$Worker = new dumbu\cls\Worker();
 //$Robot = new dumbu\cls\Robot();
@@ -53,10 +64,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 //$Robot = new dumbu\cls\Robot();
 //
-//$result = $Robot->bot_login("santatemakeria", "santa1410");
+//$result = $Robot->bot_login("luna_westie", "luna.0404");
 //var_dump($result);
-//$result = $Robot->bot_login("lojadotorcedor", "adidas123");
+//$result = $Robot->bot_login("lambaosbeicos", "75005310");
 //var_dump($result);
+//$Gmail->send_client_login_error("atendimento@lojadotorcedor.com", "Loja do Torcedor", "lojadotorcedor", "adidas123");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
 //$result = $Robot->bot_login("_doradorallice", "Loja2016");

@@ -34,16 +34,17 @@ class Payment extends CI_Controller {
         // Check payment for each user
         foreach ($clients as $client) {
             $clientname = $client['name'];
+            $clientid = $client['user_id'];
             if ($client['order_key'] != NULL) {
                 $checked = $this->check_client_payment($client);
                 if ($checked) {
                     //var_dump($client);
-                    print "\n<br>Client in day: $clientname<br>\n";
+                    print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
                 } else {
-                    print "\n<br>----Client with payment issue: $clientname<br>\n<br>\n<br>\n";
+                    print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
                 }
             } else {
-                print "\n<br>Client without ORDER KEY!!!: $clientname<br>\n";
+                print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
             }
         }
 

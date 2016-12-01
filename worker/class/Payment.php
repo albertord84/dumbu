@@ -126,19 +126,19 @@ namespace dumbu\cls {
                 $response = $client->cancel($request);
 
                 // Imprime resposta
-                print "<pre>";
-                print json_encode(array('success' => $response->isSuccess(), 'data' => $response->getData()), JSON_PRETTY_PRINT);
-                print "</pre>";
+               // print "<pre>";
+                return json_encode(array('success' => $response->isSuccess(), 'data' => $response->getData()), JSON_PRETTY_PRINT);
+                //print "</pre>";
             } catch (\Gateway\One\DataContract\Report\ApiError $error) {
                 // Imprime json
-                print "<pre>";
-                print json_encode($error, JSON_PRETTY_PRINT);
-                print "</pre>";
+                //print "<pre>";
+                return json_encode($error, JSON_PRETTY_PRINT);
+                //print "</pre>";
             } catch (Exception $ex) {
                 // Imprime json
-                print "<pre>";
-                print json_encode($ex, JSON_PRETTY_PRINT);
-                print "</pre>";
+                //print "<pre>";
+                return json_encode($ex, JSON_PRETTY_PRINT);
+                //print "</pre>";
             }
         }
 

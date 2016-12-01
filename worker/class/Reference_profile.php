@@ -2,7 +2,8 @@
 
 namespace dumbu\cls {
     require_once 'Profile.php';
-    
+    require_once 'DB.php';
+    require_once 'Robot.php';    
     /**
      * class Reference_profile
      * 
@@ -16,7 +17,33 @@ namespace dumbu\cls {
          * 
          * @access public
          */
+        public $follows;
+
+        /**
+         * 
+         * @access public
+         */
         public $insta_follower_cursor;
+
+        /**
+         * 
+         * @param type $ref_prof_id
+         * @return type
+         */
+        public function get_follows() {
+            return $this->id ? static_get_follows($this->id) : 0;
+        }
+
+        /**
+         * 
+         * @param type $ref_prof_id
+         * @return type
+         */
+        static function static_get_follows($ref_prof_id) {
+            $DB = new DB();
+            $follows_count = $DB->get_reference_profiles_follows($ref_prof_id);
+            return $follows_count;
+        }
 
         /**
          * 

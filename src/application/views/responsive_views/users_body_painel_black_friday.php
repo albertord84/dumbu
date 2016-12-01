@@ -24,6 +24,9 @@
                                                     <div class="form-group center" style="font-family:sans-serif; font-size:0.9em">
                                                         EXCLUSIVO PARA USUÁRIOS
                                                     </div>
+                                                    <div class="form-group center" style="font-family:sans-serif; font-size:0.7em">
+                                                        Use login e senha de Instagram
+                                                    </div>
                                                     <div class="form-group">                                                                
                                                          <input id="userLogin" type="text" class="form-control" placeholder="Usuário" required>
                                                     </div>

@@ -12,6 +12,7 @@ namespace dumbu\cls {
         const PENDING = 6;
         const UNFOLLOW = 7;
         const BEGINNER = 8;
+        const VERIFY_ACCOUNT = 9;
 
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);
