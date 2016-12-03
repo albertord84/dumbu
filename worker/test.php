@@ -63,18 +63,19 @@ $Gmail = new dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
- 	
+ 	  		 	
+ 	 	
+//$result = $Robot->bot_login("boatebus", "boatebus2015");
+//var_dump($result);
 //$result = $Robot->bot_login("rodrigobering", "88060018");
 //var_dump($result);
-//$result = $Robot->bot_login("lojadotorcedor", "adidas123");
-//var_dump($result);
  	 	
-$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
+//$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
-//$result = $Robot->bot_login("_doradorallice", "Loja2016");
+//$result = $Robot->bot_login("dona_fina", "aquarell2016");
 //var_dump($result);
-//$result = $Robot->bot_login("graciaalonsoplus", "gainsta");
+//$result = $Robot->bot_login("noivaemforma", "noivaemforma2016");
 //var_dump($result);
 //$result = $Robot->bot_login("jeff_need", "24549088");
 //var_dump($result);

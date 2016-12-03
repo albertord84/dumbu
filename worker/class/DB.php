@@ -85,6 +85,37 @@ namespace dumbu\cls {
             }
         }
 
+        public function get_follow_work() {
+            //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
+            try {
+                $sql = ""
+                        . "SELECT *, "
+                        . "   daily_work.cookies as cookies, "
+                        . "   users.id as users_id, "
+                        . "   clients.cookies as client_cookies, "
+                        . "   reference_profile.insta_id as rp_insta_id, "
+                        . "   reference_profile.id as rp_id "
+                        . "FROM daily_work "
+                        . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
+                        . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
+                        . "INNER JOIN users ON users.id = clients.user_id "
+                        . "WHERE ((daily_work.to_follow  > 0) "
+                        . "   OR  (daily_work.to_unfollow  > 0)) "
+                        . "   AND (reference_profile.deleted <> TRUE) "
+                        //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
+                        . "ORDER BY clients.last_access ASC, "
+                        . "         daily_work.to_follow DESC "
+                        . "LIMIT 1;";
+
+                $result = mysqli_query($this->connection, $sql);
+                $object = $result->fetch_object();
+                //$object->num_rows = mysql_num_rows($result);
+                return $object;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function get_unfollow_work($client_id) {
             try {
                 // Get profiles to unfollow today for this Client... 
@@ -239,31 +270,6 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, $sql);
 
                 return TRUE;
-            } catch (\Exception $exc) {
-                echo $exc->getTraceAsString();
-            }
-        }
-
-        public function get_follow_work() {
-            //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
-            try {
-                $sql = ""
-                        . "SELECT *, daily_work.cookies as cookies, clients.cookies as client_cookies, reference_profile.insta_id as rp_insta_id FROM daily_work "
-                        . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
-                        . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
-                        . "INNER JOIN users ON users.id = clients.user_id "
-                        . "WHERE ((daily_work.to_follow  > 0) "
-                        . "   OR  (daily_work.to_unfollow  > 0)) "
-                        . "   AND (reference_profile.deleted <> TRUE) "
-                        //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
-                        . "ORDER BY clients.last_access ASC, "
-                        . "         daily_work.to_follow DESC "
-                        . "LIMIT 1;";
-
-                $result = mysqli_query($this->connection, $sql);
-                $object = $result->fetch_object();
-                //$object->num_rows = mysql_num_rows($result);
-                return $object;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }

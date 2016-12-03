@@ -115,7 +115,7 @@ namespace dumbu\cls {
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required')
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
-                    else 
+                    else
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                 }
             }
@@ -152,14 +152,17 @@ namespace dumbu\cls {
             if ($daily_work) {
 // Get new follows
                 $DB = new \dumbu\cls\DB();
-                $unfollow_work = $DB->get_unfollow_work($daily_work->client_id);
+                $unfollow_work = NULL;
                 $Followeds_to_unfollow = array();
-                while ($Followed = $unfollow_work->fetch_object()) { //
-                    $To_Unfollow = new \dumbu\cls\Followed();
+                if ($daily_work->to_unfollow > 0) {
+                    $unfollow_work = $DB->get_unfollow_work($daily_work->client_id);
+                    while ($Followed = $unfollow_work->fetch_object()) { //
+                        $To_Unfollow = new \dumbu\cls\Followed();
 // Update Ref Prof Data
-                    $To_Unfollow->id = $Followed->id;
-                    $To_Unfollow->followed_id = $Followed->followed_id;
-                    array_push($Followeds_to_unfollow, $To_Unfollow);
+                        $To_Unfollow->id = $Followed->id;
+                        $To_Unfollow->followed_id = $Followed->followed_id;
+                        array_push($Followeds_to_unfollow, $To_Unfollow);
+                    }
                 }
 // Do the FOLLOW work
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);

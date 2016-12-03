@@ -97,7 +97,7 @@ namespace dumbu\cls {
             $Profile = new Profile();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
-            echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: " . $has_next;
+            echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
@@ -134,7 +134,8 @@ namespace dumbu\cls {
             if ($daily_work->to_follow > 0) { // If has to follow
                 echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
                 $get_followers_count = 0;
-                while ($follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
+                $error = FALSE;
+                while (!$error && $follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
                     // Get next insta followers of Ref_profile
                     $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME));
                     $json_response = $this->get_insta_followers(
@@ -147,18 +148,20 @@ namespace dumbu\cls {
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $daily_work->insta_name != $Profile->usernam) { // If user not requested or follwed by Client
                                 // Do follow request
+                                echo "Profil name: $Profile->username<br>\n";
                                 $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                                 var_dump($json_response);
-                                echo "Profil name: $Profile->username<br>\n";
                                 if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
                                     $follows++;
                                     if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
                                         break;
                                 } else {
-                                    var_dump($json_response);
+                                    $error = $this->process_follow_error($json_response);
+
+//                                    var_dump($json_response);
                                     break;
 //                                throw new \Exception(json_encode($json_response), 1001);
                                 }
@@ -179,6 +182,31 @@ namespace dumbu\cls {
         }
 
 // end of member function do_follow_unfollow_work
+
+        function process_follow_error($json_response) {
+            $DB = new \dumbu\cls\DB();
+            $Profile = new Profile();
+            $ref_prof_id = $this->daily_work->rp_id;
+            $client_id = $this->daily_work->insta_name;
+            $error = $Profile->parse_profile_follow_errors($json_response);
+            switch ($error) {
+                case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
+                    $DB->delete_daily_work($ref_prof_id);
+                    print "<br>\n Ref Prof (id: $ref_prof_id) removed from daily work!!! <br>\n";
+                    break;
+
+                case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
+                    $DB->delete_daily_work($ref_prof_id);
+                    $DB->set_client_status($client_id, user_status::UNFOLLOW);
+                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
+                    break;
+
+                default:
+                    $error = FALSE;
+                    break;
+            }
+            return $error;
+        }
 
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
@@ -260,7 +288,7 @@ namespace dumbu\cls {
                 //print_r($output);
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
-                var_dump($output);
+//                var_dump($output);
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
                     $DB = new \dumbu\cls\DB();
                     $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);
@@ -523,10 +551,10 @@ namespace dumbu\cls {
         }
 
         public function get_insta_ref_prof_follows($ref_prof_id) {
-            $follows = $ref_prof_id? Reference_profile::static_get_follows($ref_prof_id) : 0;
+            $follows = $ref_prof_id ? Reference_profile::static_get_follows($ref_prof_id) : 0;
             return $follows;
         }
-        
+
         public function get_insta_ref_prof_following($ref_prof) {
             $content = file_get_contents("https://www.instagram.com/$ref_prof/");
 
