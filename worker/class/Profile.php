@@ -1,7 +1,6 @@
 <?php
 
 namespace dumbu\cls {
-
     /**
      * class Profile
      * 
@@ -39,11 +38,30 @@ namespace dumbu\cls {
             $Robot = new Robot();
             return $Robot->get_insta_ref_prof_data($ref_prof);
         }
-        
+
         public function is_private($ref_prof) {
             $ref_prof_data = $this->get_insta_ref_prof_data($ref_prof);
-            return $ref_prof_data? $ref_prof_data->is_private : NULL;
+            return $ref_prof_data ? $ref_prof_data->is_private : NULL;
         }
+
+        /**
+         * Code or FALSE if error occur
+         * @param type $response
+         * @return boolean
+         */
+        public function parse_profile_follow_errors($response) {
+            $error = FALSE;
+            if (is_array($response) && count($response)) {
+                if (strpos($response[0], 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) {
+                    $error = 1;
+                }
+                else if (strpos($response[0], 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
+                    $error = 2;
+                }
+            }
+            return $error;
+        }
+
 //
 //        
 //        function __set($name, $value) {
@@ -64,9 +82,7 @@ namespace dumbu\cls {
 //            }
 //            return null;
 //        }
-
- // end of generic setter an getter definition
-        
+        // end of generic setter an getter definition
     }
 
     // end of Profile
