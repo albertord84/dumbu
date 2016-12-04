@@ -26,24 +26,18 @@ $(document).ready(function(){
                                 $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
                             } 
                             if(response['cause']=='checkpoint_required') {
-                                //alert(response['message']);
-                                //var cad=base_url+'index.php/welcome/verify_account?'+'user_login='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];
-                                var cad=base_url+'index.php/welcome/client?'+'checkpoint_required='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];
-                                
+                                var cad=base_url+'index.php/welcome/client?'+'checkpoint_required='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];                                
                                 $(location).attr('href',cad);                            
                             }
                         } else{
                                 $('#container_login_message').text(response['message']);
                                 $('#container_login_message').css('visibility','visible');
                                 $('#container_login_message').css('color','red');
-                                //alert(response['message']);                            
+                                l.stop();                            
                             }
-
-                        //$("#waiting").css({"visibility":"hidden","display":"none"});
-                        l.stop();
                     },                
                     error : function(xhr, status) {
-                        /*TODO: mensaje de ERROR*/alert('internal error');    
+                        alert('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente');    
                         l.stop();
                     }
                 });   
@@ -78,7 +72,7 @@ $(document).ready(function(){
         $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday_mouse_down.png");
     });
     $('#img_to_promotional_btn').mouseup(function(){
-        $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday_click.png");
+        $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday.png");
     });
     $('#img_to_promotional_btn').hover(
         function () { 

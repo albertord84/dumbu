@@ -1,11 +1,11 @@
-$(document).ready(function(){ 
+﻿$(document).ready(function(){ 
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
         1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
         2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
         3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''}
-      /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
+        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
         6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
         7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),  'ptr_label_obj':$('#cnt_follows_prof7'),     'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
         8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),  'ptr_label_obj':$('#cnt_follows_prof8'),     'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
@@ -17,7 +17,7 @@ $(document).ready(function(){
     
     $("#btn_verify_account").click(function(){
         if(!verify){
-            $("#btn_verify_account").text('CONFIRMO ATIVAÇÂO');    
+            $("#btn_verify_account").text('CONFIRMO ATIVAÇÃ‚O');    
             verify=true;
         } else{
             $("#lnk_verify_account").attr('target', '_self');
@@ -114,10 +114,10 @@ $(document).ready(function(){
                 //alert('Alcançou a quantidade maxima permitida');
             }
         } else{
-            $('#reference_profile_message').text('* O nome do perfil só pode conter letras, números, sublinhados e pontos.');
+            $('#reference_profile_message').text('* O nome do perfil só pode conter letras, nÃºmeros, sublinhados e pontos.');
             $('#reference_profile_message').css('visibility','visible');
             $('#reference_profile_message').css('color','red');
-            //alert('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
+            //alert('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
         }        
     });
     
@@ -152,7 +152,7 @@ $(document).ready(function(){
                     }
                 });   
             } else{
-                $('#container_login_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
+                $('#container_login_message').text('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
                 $('#container_login_message').css('visibility','visible');
                 $('#container_login_message').css('color','red');
             }       
@@ -171,12 +171,10 @@ $(document).ready(function(){
             alert('Alcançou a quantidade maxima permitida');        
     });
     
-    $("#adding_profile").hover(function(){},function(){});    
+    
+     
    
-    function display_reference_profiles(){ 
-        status_messages['warning'][2]='';
-        status_messages['warning'][3]='';
-        
+    function display_reference_profiles(){         
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
             icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
@@ -192,7 +190,7 @@ $(document).ready(function(){
     function init_icons_profiles(datas){
         response=jQuery.parseJSON(datas);
         prof=response['array_profiles'];
-        status_messages=jQuery.parseJSON(status_messages);
+        //status_messages=jQuery.parseJSON(status_messages);
         num_profiles=response['N'];
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['img_profile']=prof[i]['img_profile'];
