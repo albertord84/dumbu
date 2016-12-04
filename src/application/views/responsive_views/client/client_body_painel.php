@@ -3,11 +3,12 @@
     echo '<script type="text/javascript">';
         if(isset($profiles))
             echo 'var profiles='.json_encode($profiles).';';
+        else
+             echo 'var profiles='.json_encode(array()).';';
         if(isset($MAX_NUM_PROFILES))
             echo 'var MAX_NUM_PROFILES='.$MAX_NUM_PROFILES.';';
-            
-    echo '</script>' ;      
-    ?>  
+    echo '</script>' ;
+    ?>
     
     <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js'?>"></script>
 <!---------------------------------------------------------------------------------------->
