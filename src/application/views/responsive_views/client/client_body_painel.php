@@ -1,9 +1,14 @@
 ﻿<!---------------------------------------------------------------------------------------->
-    <script type="text/javascript">
-        var profiles=<?php echo json_encode($profiles);?>; 
-        var MAX_NUM_PROFILES=<?php echo $MAX_NUM_PROFILES; ?>;
-        //var status_messages ='<?php// echo json_encode($messages);?>';           
-    </script>
+    <?php
+    echo '<script type="text/javascript">';
+        if(isset($profiles))
+            echo 'var profiles='.json_encode($profiles).';';
+        if(isset($MAX_NUM_PROFILES))
+            echo 'var MAX_NUM_PROFILES='.$MAX_NUM_PROFILES.';';
+            
+    echo '</script>' ;      
+    ?>  
+    
     <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js'?>"></script>
 <!---------------------------------------------------------------------------------------->
    <br>
