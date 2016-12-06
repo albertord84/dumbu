@@ -78,7 +78,7 @@ namespace dumbu\cls {
                         . "WHERE "
                         . "  followed.reference_id = $ref_prof_id;"
                 );
-                $data=\mysqli_fetch_assoc($result);
+                $data = \mysqli_fetch_assoc($result);
                 return $data['total'];
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -131,7 +131,7 @@ namespace dumbu\cls {
                         . "ORDER BY followed.date ASC "
                         . "LIMIT $Limit;"
                 );
-                print "\nClient: $client_id " . mysqli_num_rows($result) . "  ";
+                //print "\nClient: $client_id " . mysqli_num_rows($result) . "  ";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -199,7 +199,23 @@ namespace dumbu\cls {
             try {
                 $sql = ""
                         . "DELETE FROM daily_work "
-                        . "WHERE reference_id = $ref_prof_id; ";
+                        . "WrHERE reference_id = $ref_prof_id; ";
+                $result = mysqli_query($this->connection, $sql);
+
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function delete_daily_work_client($client_id) {
+            try {
+                $sql = ""
+                        . "DELETE FROM daily_work WHERE daily_work.reference_id IN "
+                        . "(SELECT reference_profile.id "
+                        . "FROM reference_profile "
+                        . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
+                        . "WHERE clients.user_id = $client_id); ";
                 $result = mysqli_query($this->connection, $sql);
 
                 return $result;
