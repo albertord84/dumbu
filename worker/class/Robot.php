@@ -289,9 +289,9 @@ namespace dumbu\cls {
                 //print_r($output);
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
-                var_dump($output);
+//                var_dump($output);
+                $DB = new \dumbu\cls\DB();
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
-                    $DB = new \dumbu\cls\DB();
                     $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);
                     $this->daily_work->insta_follower_cursor = $json->followed_by->page_info->end_cursor;
                     if ($json->followed_by->page_info->end_cursor == '') {
