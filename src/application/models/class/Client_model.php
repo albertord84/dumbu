@@ -100,7 +100,7 @@
             $data_client['insta_id']=$data_insta->pk;                                   //desde instagram
             $data_client['insta_followers_ini']=$data_insta->follower_count;            //desde instagram
             $data_client['insta_following']=$data_insta->following;                     //desde instagram
-            $data_client['HTTP_SERVER_VARS']=  json_encode($_SERVER);                   //desde instagram navegador y servidor
+            $data_client['HTTP_SERVER_VARS']=$datas['HTTP_SERVER_VARS'];                //desde instagram navegador y servidor
             $this->db->insert('clients',$data_client);
             return $id_user_table;
         }        
@@ -281,16 +281,19 @@
                 }
                 $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$index]['id'].'"';
                 $profile_work= $this->execute_sql_query($query);
-                $cnt_follow_of_profile=$profile_work[0]['to_follow'];
-                $cnt_to_add=floor($cnt_follow_of_profile/($N-1));
                 
-                for($i=0;$i<$N;$i++){
-                    if($i!=$index){
-                        $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$i]['id'].'"';
-                        $other_profile_work=$this->execute_sql_query($query);
-                        $other_cnt_follow_of_profile=$profile_work[0]['to_follow'];
-                        $cnt=$cnt_to_add+$other_cnt_follow_of_profile;
-                        $this->upadate_profile_in_daily_work($active_profiles[$i]['id'],array('to_follow'=>$cnt));
+                if(count($profile_work)){
+                    $cnt_follow_of_profile=$profile_work[0]['to_follow'];
+                    $cnt_to_add=floor($cnt_follow_of_profile/($N-1));
+
+                    for($i=0;$i<$N;$i++){
+                        if($i!=$index){
+                            $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$i]['id'].'"';
+                            $other_profile_work=$this->execute_sql_query($query);
+                            $other_cnt_follow_of_profile=$profile_work[0]['to_follow'];
+                            $cnt=$cnt_to_add+$other_cnt_follow_of_profile;
+                            $this->upadate_profile_in_daily_work($active_profiles[$i]['id'],array('to_follow'=>$cnt));
+                        }
                     }
                 }
             }

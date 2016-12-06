@@ -1,88 +1,78 @@
-<?php
+﻿<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-//            public function index(){
-//                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-//                $this->Robot = new \dumbu\cls\Robot();
-//                $this->load->model('class/client_model');
-//                $datas_of_profile = $this->Robot->get_insta_ref_prof_data('nike',28);
-//                var_dump($datas_of_profile);
-//                $datas_of_profile = $this->Robot->get_insta_ref_prof_data('josergm86');
-//                var_dump($datas_of_profile);
-//            }
-
-    public function index() {// responsive
-        //$data['head_section1'] = $this->load->view('responsive_views/users_header_painel_black_friday','', true);        
-        $data['body_section1'] = $this->load->view('responsive_views/users_body_painel_black_friday', '', true);
-        $data['footer_section1'] = $this->load->view('responsive_views/users_footer_painel', '', true);
-        $data['body_section2'] = $this->load->view('responsive_views/users_howfunction_painel', '', true);
-        $data['body_section3'] = $this->load->view('responsive_views/users_singin_painel_black_friday', '', true);
-        $data['body_section4'] = $this->load->view('responsive_views/users_talkme_painel', '', true);
-        $data['body_section5'] = $this->load->view('responsive_views/users_final_footer_painel', '', true);
+//    public function index() {
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php'; 
+//        $this->Robot = new \dumbu\cls\Robot();
+//        $this->Robot->last_recent_followme();
+//    }
+    
+    public function index() {
+        $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
+        $data['section2'] = $this->load->view('responsive_views/user/users_howfunction_painel', '', true);
+        $data['section3'] = $this->load->view('responsive_views/user/users_singin_painel', '', true);
+        $data['section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
+        $data['section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
         $this->load->view('view', $data);
-    }
-
-    public function verify_account() {
-        $data_user = $this->input->get();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-        $this->Robot = new \dumbu\cls\Robot();
-        $insta_datas = $this->Robot->get_insta_ref_prof_data($data_user['user_login']);
-        $data_user['profile_pic_url'] = $insta_datas->profile_pic_url;
-        $data_user['full_name'] = $insta_datas->full_name;
-        $data['head_section1'] = $this->load->view('my_views/users_header_painel', '', true);
-        $data['body_section1'] = $this->load->view('my_views/verify_account_painel', $data_user, true);
-        $data['footer_section1'] = $this->load->view('my_views/users_footer_painel', '', true);
-        $data['body_section2'] = $this->load->view('my_views/users_howfunction_painel', '', true);
-        $data['body_section3'] = $this->load->view('my_views/users_singin_painel', '', true);
-        $data['body_section4'] = $this->load->view('my_views/users_talkme_painel', '', true);
-        $data['body_section5'] = $this->load->view('my_views/users_final_footer_painel', '', true);
-        $this->load->view('welcome_message', $data);
     }
 
     public function client() {
         $this->load->model('class/user_role');
+        $this->load->model('class/dumbu_system_config');
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
         $this->load->model('class/user_status');
-        if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $this->load->model('class/dumbu_system_config');
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $status_description=array(1=>'ATIVO',2=>'DESABILITADO',3=>'INATIVO',4=>'',5=>'',6=>'ATIVO'/*'PENDENTE'*/,7=>'NÂO INICIADO',8=>'',9=>'INATIVO');         
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {  
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php'; 
             $this->Robot = new \dumbu\cls\Robot();
             $datas1['MAX_NUM_PROFILES'] = dumbu_system_config::REFERENCE_PROFILE_AMOUNT;
             $datas1['my_img_profile'] = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'))->profile_pic_url;
-            $datas1['my_login_profile'] = $this->session->userdata('login');
-            $datas1['status'] = $this->client_status_description();
-            if ($datas1['status']['status_id'] == user_status::VERIFY_ACCOUNT) {
-//                var_dump($loing = $this->session->userdata('login'));
-//                var_dump($pass = $this->session->userdata('pass'));
-                $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));
-                if ($insta_login['status'] === 'fail' && $insta_login['message'] == 'checkpoint_required')
+            $datas1['my_login_profile'] = $this->session->userdata('login');            
+            
+            if($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
+                $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));                
+                if ($insta_login['status'] === 'ok') {
+                    if($insta_login['authenticated']) {
+                        $this->user_model->update_user($this->session->userdata('id'), array(
+                            'status_id' => user_status::ACTIVE));
+                        //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
+                        $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
+                        $N=count($active_profiles);
+                        for($i=0;$i<$N;$i++) {                                    
+                            $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
+                            $response=count($this->user_model->execute_sql_query($sql));
+                            if(!$response)
+                                $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$data_insta['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                        }
+                        $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
+                    } else{                        
+                        $this->user_model->update_user($this->session->userdata('id'), array(
+                            'status_id' => user_status::BLOCKED_BY_INSTA));
+                        $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+                    }
+                } else
+                if ($insta_login['status'] === 'fail' && $insta_login['message'] == 'checkpoint_required'){
+                    $this->user_model->update_user($this->session->userdata('id'), array(
+                        'status_id' => user_status::VERIFY_ACCOUNT));
+                    $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
                     $datas1['verify_account_datas'] = $insta_login;
-                else
-                if (($insta_login['status'] === 'ok') && ($insta_login['authenticated'])) {
-                    $this->load->model('class/user_model');
-                    $this->load->model('class/user_status');
-                    $this->user_model->update_user($this->session->userdata('role_id'), array('status_id' => user_status::ACTIVE));
-                    $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
-                    $datas1['status'] = $this->client_status_description();
                 }
-            }
-            $datas1['messages'] = $this->client_status_messages();
+            }     
+            
+            $datas1['status'] =array('status_id'=>$this->session->userdata('status_id'), 'status_name'=>$status_description[$this->session->userdata('status_id')]);                        
             $datas1['profiles'] = $this->create_profiles_datas_to_display();
 
-            $data['head_section1'] = $this->load->view('responsive_views/client_header_painel', '', true);
-            $data['body_section1'] = $this->load->view('responsive_views/client_body_painel', $datas1, true);
-
-            //$data['body_section2'] = $this->load->view('my_views/client_statistic_painel', '', true);            
-
-            $this->load->model('class/user_model');
-            $this->load->model('class/client_model');
-            $user_data = $this->user_model->get_user_by_id($this->session->userdata('id'))[0];
-            $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-            //$data['body_section3'] = $this->load->view('responsive_views/client_update_painel', $datas, true);
-            $data['body_section4'] = $this->load->view('responsive_views/users_talkme_painel', '', true);
-            $data['body_section5'] = $this->load->view('responsive_views/users_final_footer_painel', '', true);
+            $data['head_section1'] = $this->load->view('responsive_views/client/client_header_painel', '', true);
+            $data['body_section1'] = $this->load->view('responsive_views/client/client_body_painel', $datas1, true);
+            
+            //$data['body_section2'] = $this->load->view('my_views/client_statistic_painel', '', true);  
+            
+            $data['body_section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
+            $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             $this->load->view('view_client', $data);
         } else {
             $this->display_access_error();
@@ -95,7 +85,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_role');
         $this->load->model('class/user_status');
-
+        $this->load->model('class/dumbu_system_config');
         //Is an active Administrator?
         $query = 'SELECT * FROM users' .
                 ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
@@ -139,9 +129,9 @@ class Welcome extends CI_Controller {
                             break;
                         }
                     }
-                    if ($real_status > 0) {
+                    if($real_status > 0) {
                         $st = (int) $user[$index]['status_id'];
-                        if ($st == user_status::ACTIVE || $st == user_status::BLOCKED_BY_INSTA || $st == user_status::VERIFY_ACCOUNT) {
+                        if ($st == user_status::BLOCKED_BY_INSTA || $st == user_status::VERIFY_ACCOUNT) {
                             $this->user_model->update_user($user[$index]['id'], array(
                                 'name' => $data_insta['insta_name'],
                                 'login' => $datas['user_login'],
@@ -150,12 +140,22 @@ class Welcome extends CI_Controller {
                             $this->client_model->update_client($user[$index]['id'], array(
                                 'cookies' => json_encode($data_insta['insta_login_response'])));
                             $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
+                            
+                            //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
+                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
+                            $N=count($active_profiles);
+                            for($i=0;$i<$N;$i++) {                                    
+                                $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
+                                $response=count($this->user_model->execute_sql_query($sql));
+                                if(!$response)
+                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$data_insta['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                            }                            
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
-                        if ($st == user_status::BLOCKED_BY_PAYMENT || $st == user_status::PENDING || $st == user_status::UNFOLLOW) {
+                        if ($st == user_status::ACTIVE ||$st == user_status::BLOCKED_BY_PAYMENT || $st == user_status::PENDING || $st == user_status::UNFOLLOW) {
                             $this->user_model->update_user($user[$index]['id'], array(
                                 'name' => $data_insta['insta_name'],
                                 'login' => $datas['user_login'],
@@ -170,19 +170,19 @@ class Welcome extends CI_Controller {
                         } else
                         if ($st == user_status::BEGINNER) {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = 'Falha no login! Seu cadastro esta incompleto. Por favor, termine a sua assinatura.';
+                            $result['message'] = 'Falha no login! Seu cadastro esta incompleto. Por favor, termine sua assinatura.';
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         } else
                         if ($st == user_status::DELETED || $st == user_status::INACTIVE) {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = 'Falha no login! Você deve assinar novamente para recever o serviço';
+                            $result['message'] = 'Falha no login! Você deve assinar novamente para receber o serviço';
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         }
                     } else {
                         $result['resource'] = 'index#lnk_sign_in_now';
-                        $result['message'] = 'Falha no login! Você deve assinar para recever o serviço';
+                        $result['message'] = 'Falha no login! Você deve assinar para receber o serviço';
                         $result['cause'] = 'signin_required';
                         $result['authenticated'] = false;
                     }
@@ -213,12 +213,12 @@ class Welcome extends CI_Controller {
                     if ($real_status > 0) {
                         if ($user[$index]['status_id'] != user_status::DELETED && $user[$index]['status_id'] != user_status::INACTIVE) {
                             $result['resource'] = 'index';
-                            $result['message'] = 'Falha no login! Entre com as suas credenciais do Instagram.';
+                            $result['message'] = 'Falha no login! Entre com suas credenciais do Instagram.';
                             $result['cause'] = 'credentials_update_required';
                             $result['authenticated'] = false;
                         } else {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = 'Você deve assinar novamente para recever o serviço.';
+                            $result['message'] = 'Você deve assinar novamente para receber o serviço.';
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         }
@@ -248,7 +248,7 @@ class Welcome extends CI_Controller {
                             }
                             if ($real_status > 0) {
                                 //perfil exite en instagram y en la base de datos, senha incorrecta           
-                                $result['message'] = 'Senha incorreta!. Entre com a sua senha de Instagram.';
+                                $result['message'] = 'Senha incorreta!. Entre com sua senha de Instagram.';
                                 $result['cause'] = 'error_login';
                                 $result['authenticated'] = false;
                             } else {
@@ -262,11 +262,7 @@ class Welcome extends CI_Controller {
                             $result['message'] = 'Falha no login! O nome de usuário fornecido não existe no Instagram.';
                             $result['cause'] = 'error_login';
                             $result['authenticated'] = false;
-                        }
-                        /* $result['resource'] = 'index';
-                          $result['message'] = 'Usuário ou senha incorretos';
-                          $result['cause'] = 'credentials_required';
-                          $result['authenticated'] = false; */
+                        }                        
                     }
                 } else
                 if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required') {
@@ -299,13 +295,7 @@ class Welcome extends CI_Controller {
                             'pass' => $datas['user_pass'],
                             'status_id' => $status_id
                         ));
-
-
-                        /* else
-                          $this->session->set_userdata('login_status')=user_status::VERIFY_ACCOUNT; */
-
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
-
                         $result['resource'] = 'client';
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
@@ -336,7 +326,7 @@ class Welcome extends CI_Controller {
             if (!$data_insta->following)
                 $data_insta->following = 0;
             $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $data_insta->pk . '"' .
-                    'AND clients.user_id=users.id'; // AND (users.status_id='.user_status::DELETED.' OR users.status_id='.user_status::INACTIVE.')';                                                                              
+                    'AND clients.user_id=users.id'; 
             $client = $this->user_model->execute_sql_query($query);
             $N = count($client);
             $real_status = 0; //No existe, eliminado o inactivo
@@ -353,9 +343,9 @@ class Welcome extends CI_Controller {
                 }
             }
             if ($real_status == 0) {
-                //var_dump($datas);
                 $datas['role_id'] = user_role::CLIENT;
                 $datas['status_id'] = user_status::BEGINNER;
+                $datas['HTTP_SERVER_VARS'] = json_encode($_SERVER);
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
                 $response['datas'] = json_encode($data_insta);
@@ -432,7 +422,6 @@ class Welcome extends CI_Controller {
                             'status_id' => user_status::BEGINNER));
                         $this->client_model->update_client($datas['pk'], array(
                             'order_key' => NULL));
-                        //deshacer el pagamento en Mundipagg
                         $result['success'] = false;
                         $result['exception'] = $exc->getTraceAsString();
                         $result['message'] = 'Error actualizando en base de datos';
@@ -465,9 +454,9 @@ class Welcome extends CI_Controller {
                             $result['cause'] = 'checkpoint_required';
                             $this->user_model->set_sesion($datas['pk'], $this->session);
                         }
-                        $this->success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                        $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                         $result['success'] = true;
-                        $result['message'] = 'Usuário cadastrado satisfatóriamente';
+                        $result['message'] = 'Usuário cadastrado com sucesso';
                     }
                 } else {
                     $result['success'] = false;
@@ -476,7 +465,7 @@ class Welcome extends CI_Controller {
             }
         } else {
             $result['success'] = false;
-            $result['message'] = 'Violação, accesso não permitido';
+            $result['message'] = 'Acesso não permitido';
         }
         echo json_encode($result);
     }
@@ -532,15 +521,15 @@ class Welcome extends CI_Controller {
                     $result['exception'] = $exc->getTraceAsString();
                     $result['message'] = 'Error actualizando en base de datos';
                 } finally {
+                    //if(true){
                     $response_delete_early_payment = '';
                     $resp = $this->check_mundipagg_credit_card($datas);
                     if (is_object($resp) && $resp->isSuccess()) {
                         try {
                             $this->client_model->update_client($this->session->userdata('id'), array(
                                 'order_key' => $resp->getData()->OrderResult->OrderKey));
-
                             $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
-
+                            $response_delete_early_payment = '';
                             if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
                                 $datas['status_id'] = user_status::PENDING; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
                             } else
@@ -557,7 +546,8 @@ class Welcome extends CI_Controller {
                             $result['message'] = 'Error actualizando en base de datos';
                         } finally {
                             $result['success'] = true;
-                            $result['message'] = 'Dados bancários confirmados corretamente';
+                            $result['resource'] = 'client';
+                            $result['message'] = 'Dados bancários confirmados corretamenteeeee';
                             $result['response_delete_early_payment'] = $response_delete_early_payment;
                         }
                     } else {
@@ -576,7 +566,7 @@ class Welcome extends CI_Controller {
                 }
             } else {
                 $result['success'] = false;
-                $result['message'] = 'Violação, accesso não permitido';
+                $result['message'] = 'Acesso não permitido';
             }
             echo json_encode($result);
         }
@@ -596,7 +586,7 @@ class Welcome extends CI_Controller {
                 $result['message'] = 'Conta desativada com sucesso';
             } else {
                 $result['success'] = false;
-                $result['message'] = 'Sua solicitude não pode ser processada no momento. Tente depois';
+                $result['message'] = 'Sua solicitação não pode ser processada no momento. Tente novamente.';
             }
         }
     }
@@ -633,7 +623,7 @@ class Welcome extends CI_Controller {
                                 else
                                     $q = true;
 
-                                $profile_datas = $this->check_insta_profile($profile['profile'], $p);
+                                //$profile_datas = $this->check_insta_profile($profile['profile'], $p);
                                 $result['success'] = true;
                                 $result['img_url'] = $profile_datas->profile_pic_url;
                                 $result['profile'] = $profile['profile'];
@@ -645,7 +635,7 @@ class Welcome extends CI_Controller {
                                 }
                             } else {
                                 $result['success'] = false;
-                                $result['message'] = 'Erro no sistema, tente depois';
+                                $result['message'] = 'Erro no sistema, tente novamente';
                             }
                         } else {
                             $result['success'] = false;
@@ -657,12 +647,12 @@ class Welcome extends CI_Controller {
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = 'Já tem a quantidade máxima possível de perfis activos';
+                    $result['message'] = 'Você alcançou a quantidade máxima de perfis ativos';
                 }
             } else {
                 if ($is_active_profile) {
                     $result['success'] = false;
-                    $result['message'] = 'O perfil informado ja está activo';
+                    $result['message'] = 'O perfil informado ja está ativo';
                 } elseif ($is_deleted_profile && $N < dumbu_system_config::REFERENCE_PROFILE_AMOUNT) {
                     // $this->client_model->activate_profile($this->session->userdata('id'),$profile);
                 }
@@ -681,14 +671,14 @@ class Welcome extends CI_Controller {
                 $result['message'] = 'Perfil eliminado';
             } else {
                 $result['success'] = false;
-                $result['message'] = 'Erro no sistema, tente depois';
+                $result['message'] = 'Erro no sistema, tente novamente';
             }
             echo json_encode($result);
         }
     }
 
     public function check_insta_profile($profile) {
-//        if ($this->session->userdata('name')) {
+        //if ($this->session->userdata('name')) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $data = $this->Robot->get_insta_ref_prof_data($profile);
@@ -697,7 +687,7 @@ class Welcome extends CI_Controller {
         } else {
             return NULL;
         }
-//        }
+        //}
     }
 
     public function message() {
@@ -708,12 +698,12 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         $result = $this->Gmail->send_client_contact_form($datas['name'], $datas['email'], $datas['message'], $datas['company'], $datas['telf']);
         if ($result['success']) {
-            $result['message'] = 'Mensagem enviada, agradecemos seu contato ...';
+            $result['message'] = 'Mensagem enviada, agradecemos seu contato';
         }
         echo json_encode($result);
     }
 
-    public function success_buy_to_atendiment($username, $useremail) {
+    public function email_success_buy_to_atendiment($username, $useremail) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
@@ -847,63 +837,5 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url() . 'index.php/welcome/');
     }
 
-    public function client_status_description() {
-        $st = $this->session->userdata('status_id');
-        switch ($st) {
-            case 1:
-                return array('status_id' => $st, 'status_name' => 'ATIVO', 'status_message' => '');
-            case 2:
-                return array('status_id' => $st, 'status_name' => 'DESABILITADO', 'status_message' => 'Sua conta encontre-se deshabilitado porque não foi possível fazer o pagamento no prazo estabelecido, deve <a style="font-size:1em; color:blue" href="#lnk_update">atualizar</a> seus dados.');
-            case 3:
-                return array('status_id' => $st, 'status_name' => 'INATIVO', 'status_message' => '');
-            case 6:
-                return array('status_id' => $st, 'status_name' => 'PENDENTE', 'status_message' => 'Ainda não foi possível realizar o pagamento do serviço devido a problemas com seu cartão de crédito, <a style="font-size:1em; color:blue" href="#lnk_update">atualice</a> seus dados bancarios para evitar deshabilitar o serviço.');
-            case 7:
-                return array('status_id' => $st, 'status_name' => 'NÂO INICIADO', 'status_message' => 'Precisamos que você siga máximo 6000 perfis para poder iniciar a ferramenta');
-            case 9:
-                return array('status_id' => $st, 'status_name' => 'INATIVO', 'status_message' => 'Verificação de conta');
-        }
-    }
-
-    public function client_status_messages() {
-        $st = $this->session->userdata('status_id');
-        $status_message = array(
-            'danger' => array(0 => 0),
-            'warning' => array(0 => 0),
-            'info' => array(0 => 0)
-        );
-        $status_message['danger'][1] = '';
-        $status_message['warning'][1] = '';
-
-        $status_message['info'][1] = 'O Instagram só permite que você siga em média 7000 perfis. Precisamos que você siga no máximo 6000 perfis para iniciar a ferramenta em seu perfil;';
-        $status_message['info'][2] = 'Nossa ferramenta é interligada ao Instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo Instagram;';
-        $status_message['info'][3] = 'Caso altere seu nome de usuário ou senha no Instagram, o seviço será desconectado temporariamente. Para ativar novamente a ferramenta, você precisa fazer login em nosso site para atualizar sua conta e continuar o serviço;';
-        $status_message['info'][4] = 'Nunca utilize outras ferramentas junto a Dumbu.';
-        $status_message['info'][0] = 4;
-
-        switch ($st) {
-            /* case 1:
-              $status_message['info'][0]=4;
-              $status_message['info'][1]='O Instagram só permite que você siga alredor de 7000 perfis. Precisamos que você siga máximo 6000 perfis para iniciar a ferramenta;';
-              break; */
-            case 2:
-                $status_message['danger'][0] = 1;
-                $status_message['danger'][1] = 'O serviço que você receve com Dumbu encontre-se deshabilitado devido a que não foi possível fazer o pagamento no plazo estabelecido, deve <a style=\"font-size:1em; color:blue\" href=\"#lnk_update\">atualizar</a> seus dados;';
-                break;
-            case 6:
-                $status_message['warning'][0] = 1;
-                $status_message['warning'][1] = 'Informamos que ainda não foi possível realizar o pagamento do serviço devido a problemas com seu cartão de crédito, <a style=\"font-size:1em; color:blue\" href=\"#lnk_update\">atualice</a> seus dados bancarios para evitar deshabilitar o serviço;';
-                break;
-            case 7:
-                $status_message['info'][0] = 3;
-                $status_message['info'][1] = 'Nossa ferramenta é interligada ao Instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo Instagram;;';
-                $status_message['info'][2] = 'Casso altere seu nome de usuário ou senha no Instagram, o seviço de Dumbu será desconetado temporáriamente. Somente precisa fazer login no Dumbu para atualizar as suas credenciais e continuar recevendo o serviço;;';
-                $status_message['info'][3] = 'Nunca utilice outras ferramentas junto a Dumbu.';
-                $status_message['warning'][0] = 1;
-                $status_message['warning'][1] = 'Precisamos que você siga máximo 6000 perfis para poder iniciar a ferramenta';
-                break;
-        }
-        return $status_message;
-    }
-
+    
 }

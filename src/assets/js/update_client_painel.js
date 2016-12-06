@@ -37,8 +37,8 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response) {
                     if(response['success']){
-                        alert(response['message']);
-                        //$(location).attr('href',base_url+'index.php/welcome/reload_panel_client');                                                       
+                        alert(response['message']); 
+                        $(location).attr('href',base_url+'index.php/welcome/client');                                                       
                     } else{
                         alert(response['message']);
                     }

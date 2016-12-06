@@ -33,8 +33,10 @@ $(document).ready(function(){
                                 if(need_delete<response['MIN_MARGIN_TO_INIT']){                        
                                     /*TODO: mensaje de WARNING ou DECISAO*/
                                     alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');
+                                
                                 }
                                 active_by_steep(2);
+                                l.stop();
                             } else{
                                 if(response['cause']=='checkpoint_required'){
                                     alert(response['message']);
@@ -44,8 +46,9 @@ $(document).ready(function(){
                                     $('#container_sigin_message').css('visibility','visible');
                                     $('#container_sigin_message').css('color','red');
                                 }
+                                l.stop();
                             }
-                            l.stop();
+                            
                         },
                         error : function(xhr, status) {
                             //alert('Não foi possível comprobar a autenticidade do usuario no Instagram...');                
@@ -114,8 +117,10 @@ $(document).ready(function(){
                         } else{
                             alert(response['message']);
                             set_global_var('flag',true);
+                            $('#btn_sing_in').attr('disabled',false);
+                            $('#btn_sing_in').css('cursor', 'pointer');
                         }
-                        $("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4.png");
+                        //$("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4.png");
                     },
                     error : function(xhr, status) {
                         set_global_var('flag',true);                                                
@@ -142,6 +147,22 @@ $(document).ready(function(){
                 $("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4.png");
             }
      ); 
+     
+    $('#btn_seven_days').click(function(){
+        if(!option_seven_days){
+            option_seven_days=true;
+            $("#img_seven_days").attr("src",base_url+"assets/img/siete-dias-verde.png");
+            $("#img_singin_now").attr("src",base_url+"assets/img/plano-mensual-gris.png");
+        }
+    });
+    
+    $('#btn_singin_now').click(function(){
+        if(option_seven_days){
+            option_seven_days=false;
+            $("#img_seven_days").attr("src",base_url+"assets/img/siete-dias-gris.png");
+            $("#img_singin_now").attr("src",base_url+"assets/img/plano mensual-verde.png");
+        }
+    });
     
     function active_by_steep(steep) {
         switch (steep){
@@ -150,16 +171,20 @@ $(document).ready(function(){
                 $('#indication_login_btn').css('visibility','visible');
                 
                 $('#container_login_panel *').prop('disabled',false);            
-                $('#container_login_panel *').css('color', '#000000');           
+                $('#container_login_panel *').css('color', '#000000'); 
+                
+                $('#container_login_panel').css('visibility', 'visible');           
+                $('#container_login_panel').css('display', 'block');  
+                $('#signin_profile').css('visibility','hidden');
+                $('#signin_profile').css('display', 'none');     
+                
+                
                 $('#coniner_data_panel *').prop('disabled',true);
                 $('#coniner_data_panel *').css('color', '#7F7F7F');            
                 $('#container_sing_in_panel *').prop('disabled',true);
                 $('#container_sing_in_panel *').css('color', '#7F7F7F');
                 
-                $('#container_sing_in_panel').height($('#coniner_data_panel').height());  
-                $('#container_login_panel').height($('#coniner_data_panel').height());     
-                
-                $('#container_login_panel').css('background-color','transparent');
+                $('#container_sing_in_panel').height($('#coniner_data_panel').height());
                 $('#coniner_data_panel').css('background-color','#F5F5F5');
                 $('#container_sing_in_panel').css('background-color','#F5F5F5');               
                 
@@ -172,7 +197,12 @@ $(document).ready(function(){
                 $('#indication_login_btn').css('visibility','hidden');          
                 $('#login_sign_in').css('visibility','hidden');
                 $('#container_sigin_message').css('visibility','hidden');
+                
+                $('#container_login_panel').css('visibility', 'hidden');           
+                $('#container_login_panel').css('display', 'none');       
                 $('#signin_profile').css('visibility','visible');
+                $('#signin_profile').css('display', 'block');     
+                
                 $('#img_ref_prof').attr("src",insta_profile_datas.profile_pic_url);
                 $('#name_ref_prof').text(insta_profile_datas.username);
                 $('#ref_prof_followers').text('Seguidores: '+insta_profile_datas.follower_count);
@@ -183,7 +213,7 @@ $(document).ready(function(){
                 $('#container_sing_in_panel *').prop('disabled',false);
                 $('#container_sing_in_panel *').css('color', '#000000');  
                 
-                //$('#container_login_panel').css('background-color','#D3ECC9');
+                
                 $('#coniner_data_panel').css('background-color','transparent');
                 $('#container_sing_in_panel').css('background-color','transparent');
                
@@ -272,6 +302,6 @@ $(document).ready(function(){
     
     
     
-    var pk, datas, login, pass,email, insta_profile_datas, need_delete=0, flag=true;
+    var pk, datas, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
     
  }); 
