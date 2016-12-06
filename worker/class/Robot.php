@@ -97,6 +97,7 @@ namespace dumbu\cls {
             $Profile = new Profile();
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
+            echo "<br>\nClient: $daily_work->client_id <br>\n";
             echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
@@ -148,7 +149,7 @@ namespace dumbu\cls {
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $daily_work->insta_name != $Profile->usernam) { // If user not requested or follwed by Client
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
@@ -187,11 +188,11 @@ namespace dumbu\cls {
             $DB = new \dumbu\cls\DB();
             $Profile = new Profile();
             $ref_prof_id = $this->daily_work->rp_id;
-            $client_id = $this->daily_work->insta_name;
+            $client_id = $this->daily_work->client_id;
             $error = $Profile->parse_profile_follow_errors($json_response);
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
-                    $DB->delete_daily_work($ref_prof_id);
+                    $DB->delete_daily_work_client($client_id);
                     print "<br>\n Ref Prof (id: $ref_prof_id) removed from daily work!!! <br>\n";
                     break;
 
@@ -297,6 +298,10 @@ namespace dumbu\cls {
                         var_dump(json_encode($json));
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
+                }
+                else {
+                    var_dump($output);
+                    var_dump($status);
                 }
                 return $json;
             } catch (\Exception $exc) {

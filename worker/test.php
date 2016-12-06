@@ -25,6 +25,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Worker = new dumbu\cls\Worker();
 //$Robot = new dumbu\cls\Robot();
 //$DB = new \dumbu\cls\DB();
+//$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
 //var_dump($daily_work);
@@ -65,8 +66,8 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	
-//$result = $Robot->bot_login("boatebus", "boatebus2015");
-//var_dump($result);
+//$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
+//print_r(json_encode($result));
 //$result = $Robot->bot_login("rodrigobering", "88060018");
 //var_dump($result);
  	 	
