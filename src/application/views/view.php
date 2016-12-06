@@ -32,37 +32,31 @@
     <?php include_once("analyticstracking.php") ?>
     <div class="container shadow">
         <!--SECTION 1-->
-            <div class="row header-section-1">
-                <?php //echo $head_section1; ?>                 
-            </div>
-            <div class="row" style="background-image:url('<?php echo base_url()."assets/img/black-friday/BG.png"; ?>'); background-repeat:no-repeat; background-size:cover;">
-                <?php if ($body_section1) echo $body_section1; ?> 
-            </div>            
-            <div class="row footter-section-1 center" >                
-                <?php //echo $footer_section1; ?> 
+            <div class="row body-section-2 center" style="background-image:url('<?php echo base_url()."assets/img/black-friday/BG.png"; ?>'); background-repeat:no-repeat; background-size:cover;">
+                <?php echo $section1;?> 
             </div>
 
         <!--SECTION 2-->
             <div class="row body-section-2 center">
                 <A name="lnk_how_function"></A>
-                <?php echo $body_section2; ?>          
+                <?php echo $section2; ?>          
             </div>
 
         <!--SECTION 3-->
             <div class="row body-section-3 center">
                 <A name="lnk_sign_in_now"></A>
-                <?php echo $body_section3; ?>
+                <?php echo $section3; ?>
             </div>
 
         <!--SECTION 4-->
             <div class="row body-section-4 center">
                 <A name="lnk_talkme"></A>
-                <?php echo $body_section4; ?>
+                <?php echo $section4; ?>
             </div>
 
         <!--SECTION 5-->
             <div class="row body-section-5 center">                           
-                <?php echo $body_section5; ?>            
+                <?php echo $section5; ?>            
             </div>
 
         </div>
