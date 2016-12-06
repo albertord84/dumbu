@@ -66,9 +66,9 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	
-//$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
-//print_r(json_encode($result));
-//$result = $Robot->bot_login("rodrigobering", "88060018");
+$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
+print_r(json_encode($result));
+//$result = $Robot->bot_login("urpia", "romeus33");
 //var_dump($result);
  	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");

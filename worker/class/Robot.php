@@ -301,6 +301,7 @@ namespace dumbu\cls {
                 } else {
                     var_dump($output);
                     var_dump($curl_str);
+                    $DB->update_reference_cursor($this->daily_work->reference_id, NULL);
                 }
                 return $json;
             } catch (\Exception $exc) {
