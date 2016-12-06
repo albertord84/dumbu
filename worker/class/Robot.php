@@ -197,12 +197,13 @@ namespace dumbu\cls {
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
-                    $DB->delete_daily_work($ref_prof_id);
+                    $DB->delete_daily_work_client($client_id);
                     $DB->set_client_status($client_id, user_status::UNFOLLOW);
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     break;
 
                 default:
+                    print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
                     $error = FALSE;
                     break;
             }

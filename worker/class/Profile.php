@@ -1,6 +1,7 @@
 <?php
 
 namespace dumbu\cls {
+
     /**
      * class Profile
      * 
@@ -51,13 +52,15 @@ namespace dumbu\cls {
          */
         public function parse_profile_follow_errors($response) {
             $error = FALSE;
-            if (is_array($response) && count($response)) {
-                if (strpos($response[0], 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) {
+            if (is_object($response) && isset($response->message)) {
+                if (strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) {
                     $error = 1;
-                }
-                else if (strpos($response[0], 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
+                } else if (strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
                     $error = 2;
                 }
+            } else {
+                var_dump($response);
+                print 'Not error found!';
             }
             return $error;
         }

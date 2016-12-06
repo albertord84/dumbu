@@ -277,7 +277,7 @@ namespace dumbu\cls {
         }
 
         public function update_reference_cursor($reference_id, $end_cursor) {
-            $end_cursor = $end_cursor ? "'" . $end_cursor . "'" : NULL;
+//            $end_cursor = $end_cursor ? "'" . $end_cursor . "'" : NULL;
             try {
                 $sql = ""
                         . "UPDATE reference_profile "
