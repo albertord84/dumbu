@@ -96,28 +96,28 @@ namespace dumbu\cls {
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
             // Do unfollow work
-            $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
+            $has_next = count($Followeds_to_unfollow);
             echo "<br>\nClient: $daily_work->client_id <br>\n";
-            echo "<br>\n<br>\n<br>\nRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
+            echo "<br>\nnRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
+                $Profile->unfollowed = FALSE;
                 $json_response = $this->make_insta_friendships_command(
                         $login_data, $Profile->followed_id, 'unfollow'
                 );
-                $Profile->unfollowed = TRUE;
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
+                    $Profile->unfollowed = TRUE;
                     var_dump(json_encode($json_response));
                     echo "Followed ID: $Profile->followed_id<br>\n";
                     // Mark it unfollowed and send back to queue
                     // If have some Profile to unfollow
-                    $has_next = !$Followeds_to_unfollow[0]->unfollowed;
+                    $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     var_dump($json_response);
                     if (is_array($json_response) && count($json_response)) {
-                        $Profile->unfollowed = FALSE;
                         break;
                     }
                     //var_dump($json_response);
@@ -298,10 +298,9 @@ namespace dumbu\cls {
                         var_dump(json_encode($json));
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
-                }
-                else {
+                } else {
                     var_dump($output);
-                    var_dump($status);
+                    var_dump($curl_str);
                 }
                 return $json;
             } catch (\Exception $exc) {
