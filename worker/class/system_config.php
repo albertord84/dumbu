@@ -12,7 +12,7 @@ namespace dumbu\cls {
         const MIN_NEXT_ATTEND_TIME = 10; //1000 * 60; //5 * 1000 * 60; // 5 min
         const REFERENCE_PROFILE_AMOUNT = 4; // By Client
         const UNFOLLOW_ELAPSED_TIME_LIMIT = 48; // 48; // In hours
-        const MAX_GET_FOLLOWERS_REQUESTS = 3; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
+        const MAX_GET_FOLLOWERS_REQUESTS = 10; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
         const MAX_CLIENT_FAUTL_TRIES = 1; // Quantity max of failures with this client
         CONST MIN_MARGIN_TO_INIT = 1000;  //margen inicial requerido para trabajar con un cliente        
         
@@ -29,8 +29,8 @@ namespace dumbu\cls {
 //        CONST SYSTEM_USER_LOGIN = 'atendimento@dumbu.pro';
 //        CONST SYSTEM_USER_PASS = 'Sorvete69@';
         
-//        CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
-        CONST PROMOTION_N_FREE_DAYS= 30;    // N days BLACK FRIDAY
+        CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
+//        CONST PROMOTION_N_FREE_DAYS= 30;    // N days BLACK FRIDAY
     
         CONST PAYMENT_VALUE=9990; //quantity to payment in cents
 

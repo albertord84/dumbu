@@ -145,37 +145,39 @@ namespace dumbu\cls {
                     //var_dump($json_response);
                     echo "<br>\nRef Profil: $daily_work->insta_name     ->   End Cursor: $daily_work->insta_follower_cursor<br>\n";
                     $get_followers_count++;
-                    if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
-                        // Get Users 
-                        $Profiles = $json_response->followed_by->nodes;
-                        foreach ($Profiles as $Profile) {
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
-                                // Do follow request
-                                echo "Profil name: $Profile->username<br>\n";
-                                $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                                var_dump($json_response);
-                                if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
-                                    array_push($Ref_profile_follows, $Profile);
-                                    $follows++;
-                                    if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
-                                        break;
-                                } else {
-                                    $error = $this->process_follow_error($json_response);
+                    if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                        if (isset($json_response->followed_by->nodes)) { // if have nodes
+                            // Get Users 
+                            $Profiles = $json_response->followed_by->nodes;
+                            foreach ($Profiles as $Profile) {
+                                if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
+                                    // Do follow request
+                                    echo "Profil name: $Profile->username<br>\n";
+                                    $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
+                                    var_dump($json_response);
+                                    if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                                        array_push($Ref_profile_follows, $Profile);
+                                        $follows++;
+                                        if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
+                                            break;
+                                    } else {
+                                        $error = $this->process_follow_error($json_response);
 
 //                                    var_dump($json_response);
-                                    break;
+                                        break;
 //                                throw new \Exception(json_encode($json_response), 1001);
+                                    }
+                                    //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
+                                    // Sleep up to proper delay between request
+                                    sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                                 }
-                                //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
-                                // Sleep up to proper delay between request
-                                sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
+                        } else { // delete work for this RF
+                            $DB = new DB();
+                            $ref_prof_id = $daily_work->rp_id;
+                            $DB->delete_daily_work($ref_prof_id);
                         }
                     }
-//                else {
-//                    var_dump($json_response);
-//                    throw new \Exception(json_encode($json_response), 1002);
-//                }
                 }
             }
             //$this->webdriver->close();
@@ -185,7 +187,7 @@ namespace dumbu\cls {
 // end of member function do_follow_unfollow_work
 
         function process_follow_error($json_response) {
-            $DB = new \dumbu\cls\DB();
+            $DB = new DB();
             $Profile = new Profile();
             $ref_prof_id = $this->daily_work->rp_id;
             $client_id = $this->daily_work->client_id;
@@ -228,6 +230,7 @@ namespace dumbu\cls {
                     return $json_response;
                 }
             }
+
             return $output;
             //print_r($status);
             //print("-> $status<br><br>");
@@ -258,7 +261,7 @@ namespace dumbu\cls {
             return $curl_str;
         }
 
-        // TODO: Remove if not use
+// TODO: Remove if not use
 //        public function make_curl_friendships_str($url, $cookies) {
 //            $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
 //            $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
@@ -592,8 +595,8 @@ namespace dumbu\cls {
         }
 
 //  end of member function bot_login
-        // get cookie
-        // multi-cookie variant contributed by @Combuster in comments
+// get cookie
+// multi-cookie variant contributed by @Combuster in comments
         function curlResponseHeaderCallback($ch, $headerLine) {
             global $cookies;
             if (preg_match('/^Set-Cookie:\s*([^;]*)/mi', $headerLine, $cookie) == 1)
@@ -624,7 +627,7 @@ namespace dumbu\cls {
 
     }
 
-    // end of Robot
+// end of Robot
 }
 
 ?>
