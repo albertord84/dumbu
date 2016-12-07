@@ -125,7 +125,11 @@
             return $id_user_table;
         }        
 
-        
+        public function delete_work_of_profile($reference_id){
+                $this->db->where('reference_id', $reference_id);
+                $this->db->delete('daily_work'); 
+            }
+
         public function update_client($id,$datas){
             try {
                 $this->db->where('user_id',$id);
@@ -170,7 +174,7 @@
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }        
+        }
         
         public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
             try {

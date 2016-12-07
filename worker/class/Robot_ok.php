@@ -440,24 +440,28 @@ namespace dumbu\cls {
             
             $a=$this->bot_login('josergm86', 'joseramon1986');
             
-            $ch = curl_init();
+            
             $headers = array();
             $headers[] = "Host: www.instagram.com";
             $headers[] = "User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:49.0) Gecko/20100101 Firefox/49.0";
             $headers[] = "Accept: *";
             $headers[] = "X-Requested-With: XMLHttpRequest";            
             $headers[] = "Accept-Language: en-US,en;q=0.5, ";
-            $headers[] = "Accept-Encoding: gzip, deflate, br";
+            $headers[] = "Accept-Encoding: deflate, br";
+			/*$headers[] = "Accept-Encoding: gzip, deflate, br";*/
             $headers[] = "Referer: https://www.instagram.com/josergm86/";
             $headers[] = 'Cookie: mid='.$a->mid.'; fbm_124024574287414=base_domain=.instagram.com; s_network=; ig_pr=1; ig_vw=1280; csrftoken='.$a->csrftoken.'; sessionid='.$a->sessionid.'; ds_user_id='.$a->ds_user_id;
                  
             $url = "https://www.instagram.com/accounts/activity/?__a=1";
-            
+            $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+			
             $response = curl_exec($ch);
+			var_dump($response);
             $info = curl_getinfo($ch);
            
         }
