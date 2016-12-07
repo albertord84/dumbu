@@ -2,21 +2,21 @@
 
 <br><br><p class="section-titles">ASSINAR</p><br>
 
-<!--<div class="row">
+<div class="row">
     <div class="col-md-3">
     </div>
     <div class="col-md-6" style="margin-left:2%;margin-right:2%">
         <button id="btn_seven_days" type="button" style="width:43%; padding:0%;" type="button">
-            <img id="img_seven_days" class="img-btn" style="width:100%;margin:0%" src="<?php //echo base_url().'assets/img/siete-dias-verde.png'?>"/>
+            <img id="img_seven_days" class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/siete-dias-verde.png'?>"/>
         </button>
         OU    
-        <button id="btn_singin_now" type="button" style="width:43%; padding:0%;" type="button">
-            <img id="img_singin_now" class="img-btn" style="width:100%;margin:0%" src="<?php //echo base_url().'assets/img/plano-mensual-gris.png'?>"/>
+        <button id="btn_singin_now" type="button" style="width:43%; padding:0%;" type="button" disabled="true">
+            <img id="img_singin_now" class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/plano-mensual-gris.png'?>"/>
         </button>
     </div>
     <div class="col-md-3">
     </div>
-</div>-->
+</div>
 
 <br>
 
@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="alert alert-success" role="alert">
-                Caso não haja o cancelamento em até 30 dias começará o plano mensal automáticamente!
+                Caso não haja o cancelamento em até 7 dias começará o plano mensal automáticamente!
             </div>            
         </div>
         

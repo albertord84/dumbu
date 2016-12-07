@@ -29,8 +29,8 @@ namespace dumbu\cls {
 //        CONST SYSTEM_USER_LOGIN = 'atendimento@dumbu.pro';
 //        CONST SYSTEM_USER_PASS = 'Sorvete69@';
         
-//        CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
-        CONST PROMOTION_N_FREE_DAYS= 30;    // N days BLACK FRIDAY
+        CONST PROMOTION_N_FREE_DAYS= 7;    // N days free promotion
+//        CONST PROMOTION_N_FREE_DAYS= 30;    // N days BLACK FRIDAY
     
         CONST PAYMENT_VALUE=9990; //quantity to payment in cents
 

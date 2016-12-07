@@ -101,8 +101,14 @@
 </div>      
 
 
+<!--<div class="row center">
+    <img class="img-footter-section-11"   src="<?php// echo base_url().'assets/img/100-porciento.png'?>"/>    
+    <img class="img-footter-section-11"  src="<?php //echo base_url().'assets/img/voce-escolhe.png'?>"/>
+    <img class="img-footter-section-11" style="margin-left: 4%"  src="<?php //echo base_url().'assets/img/sus-seguidores.png'?>"/>    
+</div>-->
+
 <div class="row center">
-    <img class="img-footter-section-11"   src="<?php echo base_url().'assets/img/100-porciento.png'?>"/>    
-    <img class="img-footter-section-11"  src="<?php echo base_url().'assets/img/voce-escolhe.png'?>"/>
-    <img class="img-footter-section-11" style="margin-left: 4%"  src="<?php echo base_url().'assets/img/sus-seguidores.png'?>"/>    
+    <img class="img-footter-section-11" width="20%"   src="<?php echo base_url().'assets/img/100-porciento.png'?>"/>    
+    <img class="img-footter-section-11" width="20%" src="<?php echo base_url().'assets/img/voce-escolhe.png'?>"/>
+    <img class="img-footter-section-11" width="20%" style="margin-left: 4%"  src="<?php echo base_url().'assets/img/sus-seguidores.png'?>"/>    
 </div>
