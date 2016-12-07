@@ -227,6 +227,7 @@ namespace dumbu\cls {
 
         public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
             try {
+		if ($follows == 0) $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
                 $sql = ""
                         . "UPDATE daily_work "
                         . "SET daily_work.to_follow   = (daily_work.to_follow   - $follows), "
@@ -244,7 +245,11 @@ namespace dumbu\cls {
                         . "WHERE reference_profile.id = $ref_prof_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
-
+		//$affected = mysqli_num_rows($result);
+		if($result)
+ 		   print "<br>Update daily_work! Time: $time <br>";
+		else
+		   print "<br>NOT UPDATED daily_work!!!<br> $sql <br>";
                 return TRUE;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();

@@ -290,7 +290,7 @@ namespace dumbu\cls {
                 //print_r($output);
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
-//                var_dump($output);
+                var_dump($output);
                 $DB = new \dumbu\cls\DB();
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
                     $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);
@@ -302,7 +302,7 @@ namespace dumbu\cls {
                 } else {
                     var_dump($output);
                     var_dump($curl_str);
-                    $DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    //$DB->update_reference_cursor($this->daily_work->reference_id, NULL);
                 }
                 return $json;
             } catch (\Exception $exc) {
