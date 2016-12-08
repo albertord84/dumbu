@@ -45,6 +45,23 @@ namespace dumbu\cls {
             }
         }
 
+        public function get_unfollow_clients_data() {
+            try {
+                $this->connect();
+                $CLIENT = user_role::CLIENT;
+                $UNFOLLOW = user_status::UNFOLLOW;
+                $result = mysqli_query($this->connection, ""
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND users.status_id = $UNFOLLOW; "
+                );
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function get_client_data($client_id) {
             try {
                 $this->connect();
