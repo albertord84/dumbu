@@ -61,6 +61,8 @@ namespace dumbu\cls {
                     $error = 3;
                 } else if (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida') !== FALSE) {
                     $error = 4;
+                } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
+                    $error = 5;
                 }
             } else {
                 var_dump($response);
