@@ -119,7 +119,7 @@ namespace dumbu\cls {
                 } else {
                     var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
-                    if ($error)
+                    if ($error || (is_array($json_response) && count($json_response) == 1)) // To much request response string only
                         break;
                 }
                 array_push($Followeds_to_unfollow, $Profile);
@@ -139,9 +139,10 @@ namespace dumbu\cls {
                             $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                     );
                     //var_dump($json_response);
-                    echo "<br>\nRef Profil: $daily_work->insta_name     ->   End Cursor: $daily_work->insta_follower_cursor<br>\n";
+                    echo "<br>\nRef Profil: $daily_work->insta_name<br>\n";
                     $get_followers_count++;
                     if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
+                        echo "Nodes: " . count($json_response->followed_by->nodes) . " <br>\n";
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
@@ -166,14 +167,17 @@ namespace dumbu\cls {
                                 sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
                         }
+                        if (!$json->followed_by->page_info->has_next_page) break;
                     } else {
                         $DB = new DB();
                         $ref_prof_id = $daily_work->rp_id;
                         $deleted = $DB->delete_daily_work($ref_prof_id);
                         if ($deleted)
                             print "Deleted WORK! (Ref Prof: $ref_prof_id)";
-                        else
+                        else {
+                            var_dump($deleted);
                             print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
+                        }
                         $error = TRUE;
                     }
                 }
@@ -192,18 +196,28 @@ namespace dumbu\cls {
             $error = $Profile->parse_profile_follow_errors($json_response);
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
-                    $DB->delete_daily_work_client($client_id);
+                    $result = $DB->delete_daily_work_client($client_id);
+                    var_dump($result);
                     print "<br>\n Ref Prof (id: $ref_prof_id) removed from daily work!!! <br>\n";
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
-                    $DB->delete_daily_work_client($client_id);
+                    $result = $DB->delete_daily_work_client($client_id);
+                    var_dump($result);
                     $DB->set_client_status($client_id, user_status::UNFOLLOW);
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     break;
 
                 case 3: // "Unautorized"
-                    $DB->delete_daily_work_client($client_id);
+                    $result = $DB->delete_daily_work_client($client_id);
+                    var_dump($result);
+                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
+                    break;
+
+                case 4: // "Parece que você estava usando este recurso de forma indevida"
+                    $result = $DB->delete_daily_work_client($client_id);
+                    var_dump($result);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;

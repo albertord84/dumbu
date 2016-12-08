@@ -23,15 +23,19 @@ while ($clients_data[$CN] = $clients_data_db->fetch_object()) {
     $CN++;
 }
 
+// Before
+print 'BEFORE:<br>\n';
+print_r($clients_data);
+
 for ($i = 0; $i < 100; $i++) {
     // Process all UNFOLLOW clients
     for ($ci = 0; $ci < $CN; $ci++) {
         $client_data = $clients_data[$ci];
         echo "<br>\nClient: $client_data->login ($client_data->id) <br>\n";
-        $client_data->insta_follows_cursor = NULL;
+//        $client_data->insta_follows_cursor = NULL;
         $login_data = json_decode($client_data->cookies);
         $json_response = $Robot->get_insta_follows(
-                $login_data, $client_data->insta_id, 10, $client_data->insta_follows_cursor
+                $login_data, $client_data->insta_id, 10, NULL
         );
         if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
             // Get Users 
@@ -57,11 +61,16 @@ for ($i = 0; $i < 100; $i++) {
 for ($ci = 0; $ci < $CN; $ci++) {
     $client_data = $clients_data[$ci];
     $Client = new dumbu\cls\Client();
-    if ($client_data->unfollows >= 900) { // TODO: Set to 900
+    if ($client_data->unfollows >= 500) { // TODO: Set to 900
         $Client->set_client_status($client_data->id, dumbu\cls\user_status::ACTIVE);
         echo "<br>\nNew Status ACTIVE: $client_data->login ($client_data->id) <br>\n";
     }
 }
+
+// AFTER
+print 'AFTER:<br>\n';
+print_r($clients_data);
+
 
 //$clients_data = $DB->get_unfollow_clients_data();
 //while ($client_data = $clients_data->fetch_object()) {

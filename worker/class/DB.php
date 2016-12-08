@@ -234,7 +234,7 @@ namespace dumbu\cls {
             try {
                 $sql = ""
                         . "DELETE FROM daily_work "
-                        . "WrHERE reference_id = $ref_prof_id; ";
+                        . "WHERE reference_id = $ref_prof_id; ";
                 $result = mysqli_query($this->connection, $sql);
 
                 return $result;

@@ -59,6 +59,8 @@ namespace dumbu\cls {
                     $error = 2;
                 } else if (strpos($response->message, 'unauthorized') !== FALSE) {
                     $error = 3;
+                } else if (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida') !== FALSE) {
+                    $error = 4;
                 }
             } else {
                 var_dump($response);
