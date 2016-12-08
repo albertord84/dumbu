@@ -33,23 +33,28 @@ for ($i = 0; $i < 100; $i++) {
         $client_data = $clients_data[$ci];
         echo "<br>\nClient: $client_data->login ($client_data->id) <br>\n";
 //        $client_data->insta_follows_cursor = NULL;
-        $login_data = json_decode($client_data->cookies);
-        $json_response = $Robot->get_insta_follows(
-                $login_data, $client_data->insta_id, 10
-        );
-        if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
-            // Get Users 
-            $Profiles = $json_response->follows->nodes;
-            foreach ($Profiles as $Profile) {
-                // Do unfollow request
-                echo "Profil name: $Profile->username<br>\n";
-                $json_response = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
-                //var_dump($json_response);
-                if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
-                    $clients_data[$ci]->unfollows++;
-                } else
-                    break;
+        if ($client_data->cookies) {
+            $login_data = json_decode($client_data->cookies);
+            $json_response = $Robot->get_insta_follows(
+                    $login_data, $client_data->insta_id, 10
+            );
+            if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
+                // Get Users 
+                $Profiles = $json_response->follows->nodes;
+                foreach ($Profiles as $Profile) {
+                    // Do unfollow request
+                    echo "Profil name: $Profile->username<br>\n";
+                    $json_response = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
+                    //var_dump($json_response);
+                    if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                        $clients_data[$ci]->unfollows++;
+                    } else
+                        break;
+                }
             }
+        }
+        else {
+            print "NOT COOKIES!!!";
         }
     }
     // Wait some minutes
