@@ -114,10 +114,12 @@ namespace dumbu\cls {
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     // TODO: uncomment this
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required')
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required') {
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
-                    else
+                    }
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated) {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+                    }
                 }
             }
 //            die("Loged all Clients");

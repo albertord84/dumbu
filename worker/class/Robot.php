@@ -101,6 +101,7 @@ namespace dumbu\cls {
             echo "<br>\nnRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
+            $error = FALSE;
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
@@ -127,7 +128,7 @@ namespace dumbu\cls {
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             $Ref_profile_follows = array();
             $follows = 0;
-            if ($daily_work->to_follow > 0) { // If has to follow
+            if (!$error && $daily_work->to_follow > 0) { // If has to follow
                 echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
                 $get_followers_count = 0;
                 $error = FALSE;
@@ -156,8 +157,7 @@ namespace dumbu\cls {
                                         break;
                                 } else {
                                     $error = $this->process_follow_error($json_response);
-
-//                                    var_dump($json_response);
+                                    var_dump($json_response);
                                     break;
 //                                throw new \Exception(json_encode($json_response), 1001);
                                 }
@@ -202,7 +202,7 @@ namespace dumbu\cls {
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     break;
 
-                case 3: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
+                case 3: // "Unautorized"
                     $DB->delete_daily_work_client($client_id);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
@@ -297,7 +297,7 @@ namespace dumbu\cls {
                 //print_r($output);
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
-                var_dump($output);
+                //var_dump($output);
                 $DB = new \dumbu\cls\DB();
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
                     $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);

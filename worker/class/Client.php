@@ -181,9 +181,14 @@ namespace dumbu\cls {
         public function set_client_status($client_id, $status_id) {
             try {
                 $client_id = $client_id ? $client_id : $this->id;
-                $status_id = $status_id ? $status_id : $this->$status_id;
+                $status_id = $status_id ? $status_id : $this->status_id;
                 $DB = new \dumbu\cls\DB();
-                $DB->set_client_status($client_id, $status_id);
+                $result = $DB->set_client_status($client_id, $status_id);
+                if ($result) {
+                    print "Client $client_id to status $status_id!!!";
+                } else {
+                    print "FAIL CHANGING Client $client_id to status $status_id!!!";
+                }
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }

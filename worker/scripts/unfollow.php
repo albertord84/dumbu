@@ -40,7 +40,7 @@ for ($i = 0; $i < 100; $i++) {
                 // Do unfollow request
                 echo "Profil name: $Profile->username<br>\n";
                 $json_response = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
-                var_dump($json_response);
+                //var_dump($json_response);
                 if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
                     $clients_data[$ci]->unfollows++;
                 } else

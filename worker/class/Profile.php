@@ -57,7 +57,7 @@ namespace dumbu\cls {
                     $error = 1;
                 } else if (strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
                     $error = 2;
-                } else if ($response->status === 'fail') {
+                } else if (strpos($response->message, 'unauthorized') !== FALSE) {
                     $error = 3;
                 }
             } else {
