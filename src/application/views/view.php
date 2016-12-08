@@ -27,9 +27,11 @@
         <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js'?>" ></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js'?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>        
+                
   </head>
   <body>
-    <?php include_once("analyticstracking.php") ?>
+    <?php include_once("analyticstracking.php") ?>    
+    <?php include_once("remarketing.php")?>
     <div class="container shadow">
         <!--SECTION 1-->
             <div class="row body-section-2 center" style="background-image:url('<?php echo base_url()."assets/img/black-friday/BG.png"; ?>'); background-repeat:no-repeat; background-size:cover;">
@@ -58,8 +60,7 @@
             <div class="row body-section-5 center">                           
                 <?php echo $section5; ?>            
             </div>
-
-        </div>
+    </div>
 
     </body>
 </html>

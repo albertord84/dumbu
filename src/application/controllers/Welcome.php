@@ -39,17 +39,22 @@ class Welcome extends CI_Controller {
                 $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));                
                 if ($insta_login['status'] === 'ok') {
                     if($insta_login['authenticated']) {
+                        //1. actualizar estado a ACTIVO
                         $this->user_model->update_user($this->session->userdata('id'), array(
                             'status_id' => user_status::ACTIVE));
-                        //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
+                        //2. actualizar la cookies
+                        $this->client_model->update_client($this->session->userdata('id'), array(
+                            'cookies' => $insta_login['insta_login_response']));
+                        //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                         $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
                         $N=count($active_profiles);
                         for($i=0;$i<$N;$i++) {                                    
                             $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
                             $response=count($this->user_model->execute_sql_query($sql));
                             if(!$response)
-                                $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$data_insta['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$insta_login['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
                         }
+                        //4. actualizar la sesion
                         $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
                     } else{                        
                         $this->user_model->update_user($this->session->userdata('id'), array(
@@ -61,10 +66,9 @@ class Welcome extends CI_Controller {
                     //actualizo su estado
                     $this->user_model->update_user($this->session->userdata('id'), array(
                         'status_id' => user_status::VERIFY_ACCOUNT));
-                    //eliminar su trabajo si tenia                   
+                    //eliminar su trabajo si contrasenhas son diferentes
                     $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                    $N=count($active_profiles);
-                    //quitar trabajo si contrasenhas son diferentes
+                    $N=count($active_profiles);                    
                     for($i=0;$i<$N;$i++) {
                         $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
                     }
@@ -465,7 +469,7 @@ class Welcome extends CI_Controller {
                     } finally {
                         //passo 3: login con instagram para saber el estado
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
-                        if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                        if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             if ($datas['need_delete'] < dumbu_system_config::MIN_MARGIN_TO_INIT)
                                 $datas['status_id'] = user_status::UNFOLLOW;
                             else

@@ -26,6 +26,7 @@
   </head>
   <body>
     <?php include_once("analyticstracking.php") ?>
+    <?php include_once("remarketing.php")?>
     <div class="container shadow">
         <!--SECTION 1-->
             <div class="row header-section-1">
