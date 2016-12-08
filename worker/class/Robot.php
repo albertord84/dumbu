@@ -169,9 +169,12 @@ namespace dumbu\cls {
                     } else {
                         $DB = new DB();
                         $ref_prof_id = $daily_work->rp_id;
-                        $DB->delete_daily_work($ref_prof_id);
+                        $deleted = $DB->delete_daily_work($ref_prof_id);
+                        if ($deleted)
+                            print "Deleted WORK! (Ref Prof: $ref_prof_id)";
+                        else
+                            print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
                         $error = TRUE;
-                        print "Deleted WORK! (Ref Prof: $ref_prof_id)";
                     }
                 }
             }
