@@ -149,16 +149,16 @@ namespace dumbu\cls {
                             if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
-                                $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
+                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                                 //var_dump($json_response);
-                                if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                                if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
                                     $follows++;
                                     if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
                                         break;
                                 } else {
-                                    $error = $this->process_follow_error($json_response);
-                                    var_dump($json_response);
+                                    $error = $this->process_follow_error($json_response2);
+                                    var_dump($json_response2);
                                     break;
 //                                throw new \Exception(json_encode($json_response), 1001);
                                 }
