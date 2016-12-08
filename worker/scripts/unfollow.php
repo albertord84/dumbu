@@ -35,7 +35,7 @@ for ($i = 0; $i < 100; $i++) {
 //        $client_data->insta_follows_cursor = NULL;
         $login_data = json_decode($client_data->cookies);
         $json_response = $Robot->get_insta_follows(
-                $login_data, $client_data->insta_id, 10, NULL
+                $login_data, $client_data->insta_id, 10
         );
         if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
             // Get Users 
