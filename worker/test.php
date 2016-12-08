@@ -34,8 +34,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //var_dump($Ref_profile_follows);
 
 
-//$Client = new dumbu\cls\Client();
-//
+$Client = new dumbu\cls\Client();
+
+//$Client->create_daily_work(234);
+
+
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 
 
@@ -66,11 +69,12 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	 	
-//$result = $Robot->bot_login("urpia", "romeus33");
-//print_r(json_encode($result));
+$result = $Robot->bot_login("avnergomes", "marea02");
+print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
-//$result = $Robot->bot_login("urpia", "romeus33");
+ 	
+//$result = $Robot->bot_login("evelyn_dias_santos", "p1p0c@ss");
 //var_dump($result);
  	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");

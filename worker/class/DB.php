@@ -42,6 +42,20 @@ namespace dumbu\cls {
             }
         }
 
+        public function get_client_data($client_id) {
+            try {
+                $this->connect();
+                $result = mysqli_query($this->connection, ""
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "WHERE users.id = $client_id; "
+                );
+                return $result ? $result->fetch_object() : NULL;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function set_client_status($client_id, $status_id) {
             try {
                 $this->connect();

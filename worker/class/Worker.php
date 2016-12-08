@@ -234,17 +234,21 @@ namespace dumbu\cls {
 //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
-                        $daily_work->login_data = json_decode($daily_work->cookies);
-                        // Calculate time to sleep    
+                        if ($daily_work->login_data != NULL) {
+                            $daily_work->login_data = json_decode($daily_work->cookies);
+                            // Calculate time to sleep    
 //                        $last_access = DateTime::createFromFormat('U', $daily_work->last_access);
 //                        $now = DateTime::createFromFormat('U', time());
 //                        $diff_info = $last_access->diff($now);
 //                        $elapsed_time = $diff_info->i; // In minutes
-                        $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
-                        if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
-                            sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                            $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
+                            if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
+                                sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                            }
+                            $this->do_follow_unfollow_work($daily_work);
+                        } else {
+                            print "<br> Login data NULL!!!!!!!!!!!! <br>";
                         }
-                        $this->do_follow_unfollow_work($daily_work);
                     } else {
                         $has_work = FALSE;
                     }

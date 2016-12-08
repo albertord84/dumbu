@@ -117,14 +117,9 @@ namespace dumbu\cls {
                     $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     var_dump($json_response);
-                    if (is_array($json_response) && count($json_response)) {
+                    $error = $this->process_follow_error($json_response);
+                    if ($error)
                         break;
-                    }
-                    //var_dump($json_response);
-                    //break;
-                    // TODO: if response is "Há solicitações demais. Tente novamente mais tarde." then
-                    // stop this user work flow...
-//                    throw new \Exception(json_encode($json_response), 1003);
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
@@ -145,38 +140,38 @@ namespace dumbu\cls {
                     //var_dump($json_response);
                     echo "<br>\nRef Profil: $daily_work->insta_name     ->   End Cursor: $daily_work->insta_follower_cursor<br>\n";
                     $get_followers_count++;
-                    if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
-                        if (isset($json_response->followed_by->nodes)) { // if have nodes
-                            // Get Users 
-                            $Profiles = $json_response->followed_by->nodes;
-                            foreach ($Profiles as $Profile) {
-                                if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
-                                    // Do follow request
-                                    echo "Profil name: $Profile->username<br>\n";
-                                    $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                                    var_dump($json_response);
-                                    if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
-                                        array_push($Ref_profile_follows, $Profile);
-                                        $follows++;
-                                        if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
-                                            break;
-                                    } else {
-                                        $error = $this->process_follow_error($json_response);
+                    if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->followed_by->nodes)) { // if response is ok
+                        // Get Users 
+                        $Profiles = $json_response->followed_by->nodes;
+                        foreach ($Profiles as $Profile) {
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
+                                // Do follow request
+                                echo "Profil name: $Profile->username<br>\n";
+                                $json_response = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
+                                var_dump($json_response);
+                                if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                                    array_push($Ref_profile_follows, $Profile);
+                                    $follows++;
+                                    if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
+                                        break;
+                                } else {
+                                    $error = $this->process_follow_error($json_response);
 
 //                                    var_dump($json_response);
-                                        break;
+                                    break;
 //                                throw new \Exception(json_encode($json_response), 1001);
-                                    }
-                                    //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
-                                    // Sleep up to proper delay between request
-                                    sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                                 }
+                                //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
+                                // Sleep up to proper delay between request
+                                sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
-                        } else { // delete work for this RF
-                            $DB = new DB();
-                            $ref_prof_id = $daily_work->rp_id;
-                            $DB->delete_daily_work($ref_prof_id);
                         }
+                    } else {
+                        $DB = new DB();
+                        $ref_prof_id = $daily_work->rp_id;
+                        $DB->delete_daily_work($ref_prof_id);
+                        $error = TRUE;
+                        print "Deleted WORK! (Ref Prof: $ref_prof_id)";
                     }
                 }
             }
@@ -202,6 +197,12 @@ namespace dumbu\cls {
                     $DB->delete_daily_work_client($client_id);
                     $DB->set_client_status($client_id, user_status::UNFOLLOW);
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
+                    break;
+
+                case 3: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
+                    $DB->delete_daily_work_client($client_id);
+                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;
 
                 default:
