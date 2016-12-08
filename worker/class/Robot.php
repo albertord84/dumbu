@@ -167,7 +167,7 @@ namespace dumbu\cls {
                                 sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
                         }
-                        if (!$json->followed_by->page_info->has_next_page) break;
+                        if (!$json_response->followed_by->page_info->has_next_page) break;
                     } else {
                         $DB = new DB();
                         $ref_prof_id = $daily_work->rp_id;
