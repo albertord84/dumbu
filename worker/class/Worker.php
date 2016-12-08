@@ -83,7 +83,7 @@ namespace dumbu\cls {
 
         function prepare_daily_work() {
 // Get Users Info
-            $Clients = \dumbu\cls\Client::get_clients();
+            $Clients = (new Client())->get_clients();
             $DB = new \dumbu\cls\DB();
             $Client = new \dumbu\cls\Client();
             foreach ($Clients as $Client) { // for each CLient
@@ -94,6 +94,7 @@ namespace dumbu\cls {
                 if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
 //                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
+                    $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
                     if (count($Client->reference_profiles) > 0) {
                         $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
@@ -234,8 +235,8 @@ namespace dumbu\cls {
 //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
+                        $daily_work->login_data = json_decode($daily_work->cookies);
                         if ($daily_work->login_data != NULL) {
-                            $daily_work->login_data = json_decode($daily_work->cookies);
                             // Calculate time to sleep    
 //                        $last_access = DateTime::createFromFormat('U', $daily_work->last_access);
 //                        $now = DateTime::createFromFormat('U', time());

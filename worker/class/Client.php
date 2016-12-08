@@ -81,7 +81,7 @@ namespace dumbu\cls {
          */
         public $reference_profiles = array();
 
-        static function get_clients() {
+        public function get_clients() {
             try {
                 $Clients = array();
                 $DB = new \dumbu\cls\DB();

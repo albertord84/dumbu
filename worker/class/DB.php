@@ -29,12 +29,15 @@ namespace dumbu\cls {
                 $CLIENT = user_role::CLIENT;
                 $ACTIVE = user_status::ACTIVE;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
-                $UNFOLLOW = user_status::UNFOLLOW;
+                $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
+                //$UNFOLLOW = user_status::UNFOLLOW;
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND (users.status_id = $ACTIVE OR users.status_id = $VERIFY_ACCOUNT OR users.status_id = $UNFOLLOW);"
+                        . "     AND (users.status_id = $ACTIVE OR "
+                        . "          users.status_id = $VERIFY_ACCOUNT OR "
+                        . "          users.status_id = $BLOCKED_BY_INSTA);"
                 );
                 return $result;
             } catch (\Exception $exc) {
