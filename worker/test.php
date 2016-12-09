@@ -68,7 +68,7 @@ $Robot = new dumbu\cls\Robot();
  	 	 	
 //$result = $Robot->bot_login("urpia", "romeus33");
 //print_r(json_encode($result));
-$result = $Robot->bot_login('julianabaraldi83','tininha1712');
+$result = $Robot->bot_login('julianabaraldi83','tininha1712');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("urpia", "romeus33");
 var_dump($result);

@@ -4,15 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-    public function index() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php'; 
-        $this->Robot = new \dumbu\cls\Robot();         
-         //var_dump($this->Robot->bot_login('julianabaraldi83','tininha1712'));
-         var_dump($this->Robot->bot_login('julianabaraldi83','tininha1712'));
-        //$this->Robot->last_recent_followme();
-    }
-    
-
     public function index1() {
         //$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
