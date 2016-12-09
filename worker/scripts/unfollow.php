@@ -31,7 +31,7 @@ for ($i = 0; $i < 100; $i++) {
     // Process all UNFOLLOW clients
     for ($ci = 0; $ci < $CN; $ci++) {
         $client_data = $clients_data[$ci];
-        echo "<br>\nClient: $client_data->login ($client_data->id) <br>\n";
+        echo "<br>\nClient: $client_data->login ($client_data->id)   " . date("Y-m-d h:i:sa") . "<br>\n";
         $client_data->insta_follows_cursor = NULL;
         if ($client_data->cookies) {
             $login_data = json_decode($client_data->cookies);
@@ -39,7 +39,7 @@ for ($i = 0; $i < 100; $i++) {
                     $login_data, $client_data->insta_id, 10, $client_data->insta_follows_cursor
             );
             $json_response = $Robot->get_insta_follows(
-                    $login_data, $client_data->insta_id, 10, $client_data->insta_follows_cursor
+                    $login_data, $client_data->insta_id, 15, $client_data->insta_follows_cursor
             );
 //            var_dump($json_response);
             if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
@@ -51,6 +51,7 @@ for ($i = 0; $i < 100; $i++) {
                     echo "Profil name: $Profile->username<br>\n";
                     $json_response2 = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
                     var_dump($json_response2);
+                    echo "<br>\n";
                     if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                         $clients_data[$ci]->unfollows++;
                     } else
@@ -63,7 +64,7 @@ for ($i = 0; $i < 100; $i++) {
         }
     }
     // Wait some minutes
-    sleep(10 * 60);
+    sleep(20 * 60);
 }
 
 
