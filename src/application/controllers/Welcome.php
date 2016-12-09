@@ -4,13 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-//    public function index() {
-//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot_ok.php'; 
-//        $this->Robot = new \dumbu\cls\Robot();
-//        $this->Robot->last_recent_followme();
-//    }
-    
-
     public function index() {
         //$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
@@ -43,17 +36,21 @@ class Welcome extends CI_Controller {
                         $this->user_model->update_user($this->session->userdata('id'), array(
                             'status_id' => user_status::ACTIVE));
                         //2. actualizar la cookies
-                        $this->client_model->update_client($this->session->userdata('id'), array(
-                            'cookies' => $insta_login['insta_login_response']));
-                        //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
-                        $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
-                        $N=count($active_profiles);
-                        for($i=0;$i<$N;$i++) {                                    
-                            $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
-                            $response=count($this->user_model->execute_sql_query($sql));
-                            if(!$response)
-                                $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$insta_login['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                        
+                        if($insta_login['insta_login_response'] ){
+                            $this->client_model->update_client($this->session->userdata('id'), array(
+                                'cookies' =>json_encode($insta_login['insta_login_response'])));
+                            //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
+                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
+                            $N=count($active_profiles);
+                            for($i=0;$i<$N;$i++) {                                    
+                                $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
+                                $response=count($this->user_model->execute_sql_query($sql));
+                                if(!$response)
+                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$insta_login['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                }
                         }
+                        
                         //4. actualizar la sesion
                         $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
                     } else{                        
@@ -152,9 +149,12 @@ class Welcome extends CI_Controller {
                                 'login' => $datas['user_login'],
                                 'pass' => $datas['user_pass'],
                                 'status_id' => user_status::ACTIVE));
-                            $this->client_model->update_client($user[$index]['id'], array(
-                                'cookies' => json_encode($data_insta['insta_login_response'])));
-                            $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
+                            if( $data_insta['insta_login_response'] ){
+                                $this->client_model->update_client($user[$index]['id'], array(
+                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+                                $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
+                            }
+                            
                             
                             //quitar trabajo si contrasenhas son diferentes
                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
@@ -168,13 +168,16 @@ class Welcome extends CI_Controller {
                             
                             //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                             //$active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
-                            $N=count($active_profiles);
-                            for($i=0;$i<$N;$i++) {                                    
-                                $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
-                                $response=count($this->user_model->execute_sql_query($sql));
-                                if(!$response)
-                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$data_insta['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
-                            }   
+                            if($data_insta['insta_login_response']){
+                                $N=count($active_profiles);
+                                for($i=0;$i<$N;$i++) {
+                                    $sql='SELECT * FROM daily_work WHERE reference_id='.$active_profiles[$i]['id'];
+                                    $response=count($this->user_model->execute_sql_query($sql));
+                                    if(!$response)
+                                        $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'],$data_insta['insta_login_response'],$i,$active_profiles,dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                }   
+                            }
+                            
                             
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
@@ -201,8 +204,10 @@ class Welcome extends CI_Controller {
                                 'name' => $data_insta['insta_name'],
                                 'login' => $datas['user_login'],
                                 'pass' => $datas['user_pass']));
+                            if($data_insta['insta_login_response']){
                             $this->client_model->update_client($user[$index]['id'], array(
-                                'cookies' => json_encode($data_insta['insta_login_response'])));
+                                'cookies' =>json_encode($data_insta['insta_login_response'])));
+                            }
                             $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             $result['resource'] = 'client';
                             $result['message'] = 'Usuário ' . $datas['user_login'] . ' logueado';
@@ -476,8 +481,10 @@ class Welcome extends CI_Controller {
                                 $datas['status_id'] = user_status::ACTIVE;
                             $this->user_model->update_user($datas['pk'], array(
                                 'status_id' => $datas['status_id']));
-                            $this->client_model->update_client($datas['pk'], array(
-                                'cookies' => json_encode($data_insta['insta_login_response'])));
+                            if($data_insta['insta_login_response']){
+                                $this->client_model->update_client($datas['pk'], array(
+                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+                            }
                             $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
                         }else
                         if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
@@ -659,11 +666,10 @@ class Welcome extends CI_Controller {
                         if (!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);
                             if ($p) {
-                                if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
+                                if($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))                                    
                                     $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
                                 else
                                     $q = true;
-
                                 //$profile_datas = $this->check_insta_profile($profile['profile'], $p);
                                 $result['success'] = true;
                                 $result['img_url'] = $profile_datas->profile_pic_url;
@@ -785,7 +791,10 @@ class Welcome extends CI_Controller {
                 $data_insta['insta_followers_ini'] = $user_data->follower_count;
                 $data_insta['insta_following'] = $user_data->following;
                 $data_insta['insta_name'] = $user_data->full_name;
-                $data_insta['insta_login_response'] = $login_data;
+                if(is_object($login_data))
+                    $data_insta['insta_login_response'] = $login_data;
+                else
+                    $data_insta['insta_login_response'] =NULL;
             } else {
                 $data_insta['authenticated'] = false;
             }

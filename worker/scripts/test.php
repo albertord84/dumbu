@@ -69,13 +69,14 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	 	
-$result = $Robot->bot_login("sandirfigueiredo", "⁠⁠⁠FRATERNOamor");
-print_r(json_encode($result));
+//$result = $Robot->bot_login("sandirfigueiredo", "⁠⁠⁠FRATERNOamor");
+//print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
- 	
-//$result = $Robot->bot_login("evelyn_dias_santos", "p1p0c@ss");
-var_dump($result);
+//$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
+//print_r(json_encode($result));
+//$result = $Robot->bot_login("urpia", "romeus33");
+//var_dump($result);
  	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
