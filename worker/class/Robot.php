@@ -349,7 +349,7 @@ namespace dumbu\cls {
                     $cursor = $json->follows->page_info->end_cursor;
                     if (count($json->follows->nodes) == 0) {
                         var_dump($json);
-                        var_dump($curl_str);
+//                        var_dump($curl_str);
                         echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
                 } else {

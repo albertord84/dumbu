@@ -32,11 +32,14 @@ for ($i = 0; $i < 100; $i++) {
     for ($ci = 0; $ci < $CN; $ci++) {
         $client_data = $clients_data[$ci];
         echo "<br>\nClient: $client_data->login ($client_data->id) <br>\n";
-//        $client_data->insta_follows_cursor = NULL;
+        $client_data->insta_follows_cursor = NULL;
         if ($client_data->cookies) {
             $login_data = json_decode($client_data->cookies);
             $json_response = $Robot->get_insta_follows(
-                    $login_data, $client_data->insta_id, 10
+                    $login_data, $client_data->insta_id, 10, $client_data->insta_follows_cursor
+            );
+            $json_response = $Robot->get_insta_follows(
+                    $login_data, $client_data->insta_id, 10, $client_data->insta_follows_cursor
             );
 //            var_dump($json_response);
             if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
