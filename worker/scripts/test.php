@@ -1,11 +1,11 @@
 <?PHP
 
-require_once 'class/Worker.php';
-require_once 'class/system_config.php';
-require_once 'class/Gmail.php';
-require_once 'class/Payment.php';
-require_once 'class/Client.php';
-require_once 'class/Reference_profile.php';
+require_once '../class/Worker.php';
+require_once '../class/system_config.php';
+require_once '../class/Gmail.php';
+require_once '../class/Payment.php';
+require_once '../class/Client.php';
+require_once '../class/Reference_profile.php';
 
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
@@ -34,8 +34,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //var_dump($Ref_profile_follows);
 
 
-//$Client = new dumbu\cls\Client();
-//
+$Client = new dumbu\cls\Client();
+
+//$Client->create_daily_work(234);
+
+
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 
 
@@ -68,7 +71,7 @@ $Robot = new dumbu\cls\Robot();
  	 	 	
 //$result = $Robot->bot_login("urpia", "romeus33");
 //print_r(json_encode($result));
-$result = $Robot->bot_login('julianabaraldi83','tininha1712');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
+$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("urpia", "romeus33");
 var_dump($result);

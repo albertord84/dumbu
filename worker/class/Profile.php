@@ -57,6 +57,12 @@ namespace dumbu\cls {
                     $error = 1;
                 } else if (strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
                     $error = 2;
+                } else if (strpos($response->message, 'unauthorized') !== FALSE) {
+                    $error = 3;
+                } else if (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida') !== FALSE) {
+                    $error = 4;
+                } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
+                    $error = 5;
                 }
             } else {
                 var_dump($response);

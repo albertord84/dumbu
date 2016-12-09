@@ -29,14 +29,48 @@ namespace dumbu\cls {
                 $CLIENT = user_role::CLIENT;
                 $ACTIVE = user_status::ACTIVE;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
+                $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
+                //$UNFOLLOW = user_status::UNFOLLOW;
+                $result = mysqli_query($this->connection, ""
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND (users.status_id = $ACTIVE OR "
+                        . "          users.status_id = $VERIFY_ACCOUNT OR "
+                        . "          users.status_id = $BLOCKED_BY_INSTA);"
+                );
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function get_unfollow_clients_data() {
+            try {
+                $this->connect();
+                $CLIENT = user_role::CLIENT;
                 $UNFOLLOW = user_status::UNFOLLOW;
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND (users.status_id = $ACTIVE OR users.status_id = $VERIFY_ACCOUNT OR users.status_id = $UNFOLLOW);"
+                        . "     AND users.status_id = $UNFOLLOW; "
                 );
                 return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function get_client_data($client_id) {
+            try {
+                $this->connect();
+                $result = mysqli_query($this->connection, ""
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "WHERE users.id = $client_id; "
+                );
+                return $result ? $result->fetch_object() : NULL;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
@@ -200,7 +234,7 @@ namespace dumbu\cls {
             try {
                 $sql = ""
                         . "DELETE FROM daily_work "
-                        . "WrHERE reference_id = $ref_prof_id; ";
+                        . "WHERE reference_id = $ref_prof_id; ";
                 $result = mysqli_query($this->connection, $sql);
 
                 return $result;

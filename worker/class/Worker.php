@@ -83,7 +83,7 @@ namespace dumbu\cls {
 
         function prepare_daily_work() {
 // Get Users Info
-            $Clients = \dumbu\cls\Client::get_clients();
+            $Clients = (new Client())->get_clients();
             $DB = new \dumbu\cls\DB();
             $Client = new \dumbu\cls\Client();
             foreach ($Clients as $Client) { // for each CLient
@@ -94,6 +94,7 @@ namespace dumbu\cls {
                 if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
 //                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
+                    $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
                     if (count($Client->reference_profiles) > 0) {
                         $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
@@ -113,10 +114,12 @@ namespace dumbu\cls {
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     // TODO: uncomment this
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required')
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required') {
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
-                    else
+                    }
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated) {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+                    }
                 }
             }
 //            die("Loged all Clients");
@@ -235,16 +238,20 @@ namespace dumbu\cls {
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
                         $daily_work->login_data = json_decode($daily_work->cookies);
-                        // Calculate time to sleep    
+                        if ($daily_work->login_data != NULL) {
+                            // Calculate time to sleep    
 //                        $last_access = DateTime::createFromFormat('U', $daily_work->last_access);
 //                        $now = DateTime::createFromFormat('U', time());
 //                        $diff_info = $last_access->diff($now);
 //                        $elapsed_time = $diff_info->i; // In minutes
-                        $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
-                        if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
-                            sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                            $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
+                            if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
+                                sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                            }
+                            $this->do_follow_unfollow_work($daily_work);
+                        } else {
+                            print "<br> Login data NULL!!!!!!!!!!!! <br>";
                         }
-                        $this->do_follow_unfollow_work($daily_work);
                     } else {
                         $has_work = FALSE;
                     }

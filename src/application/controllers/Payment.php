@@ -28,8 +28,10 @@ class Payment extends CI_Controller {
         // TODO: UNCOMENT
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id', user_status::ACTIVE);
-        //TESTE
-//        $this->db->where('status_id', user_status::UNFOLLOW);
+        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
+        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
+        $this->db->where('status_id', user_status::UNFOLLOW);
+        $this->db->where('status_id', user_status::BLOCKED_BY_PAYMENT);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
@@ -100,7 +102,7 @@ class Payment extends CI_Controller {
                 // Send email to Client
                 // TODO: Think about send email
                 print "Diff in days bigger tham 31 days: $diff_days";
-//                    $this->send_payment_email($client);
+                $this->send_payment_email($client);
             } else {
                 return TRUE;
             }
