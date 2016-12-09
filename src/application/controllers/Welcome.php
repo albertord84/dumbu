@@ -4,14 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-//    public function index() {
-//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot_ok.php'; 
-//        $this->Robot = new \dumbu\cls\Robot();
-//        $this->Robot->last_recent_followme();
-//    }
+    public function index() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php'; 
+        $this->Robot = new \dumbu\cls\Robot();         
+         //var_dump($this->Robot->bot_login('julianabaraldi83','tininha1712'));
+         var_dump($this->Robot->bot_login('julianabaraldi83','tininha1712'));
+        //$this->Robot->last_recent_followme();
+    }
     
 
-    public function index() {
+    public function index1() {
         //$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
         $data['section2'] = $this->load->view('responsive_views/user/users_howfunction_painel', '', true);
@@ -452,12 +454,12 @@ class Welcome extends CI_Controller {
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
             } finally {
-                //if(true){
-                $resp = $this->check_mundipagg_credit_card($datas);
-                if (is_object($resp) && $resp->isSuccess()) {
+                if(true){
+                //$resp = $this->check_mundipagg_credit_card($datas);
+                //if (is_object($resp) && $resp->isSuccess()) {
                     try {
-                        $this->client_model->update_client($datas['pk'], array(
-                            'order_key' => $resp->getData()->OrderResult->OrderKey));
+                        //$this->client_model->update_client($datas['pk'], array(
+                            //'order_key' => $resp->getData()->OrderResult->OrderKey));
                     } catch (Exception $exc) {
                         $this->user_model->update_user($datas['pk'], array(
                             'status_id' => user_status::BEGINNER));
@@ -495,7 +497,7 @@ class Welcome extends CI_Controller {
                             $result['cause'] = 'checkpoint_required';
                             $this->user_model->set_sesion($datas['pk'], $this->session);
                         }
-                        $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                        //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                         $result['success'] = true;
                         $result['message'] = 'Usuário cadastrado com sucesso';
                     }

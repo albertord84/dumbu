@@ -68,10 +68,10 @@ $Robot = new dumbu\cls\Robot();
  	 	 	
 //$result = $Robot->bot_login("urpia", "romeus33");
 //print_r(json_encode($result));
-//$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
+$result = $Robot->bot_login('julianabaraldi83','tininha1712');
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("urpia", "romeus33");
-//var_dump($result);
+var_dump($result);
  	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
