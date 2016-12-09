@@ -12,7 +12,7 @@ namespace dumbu\cls {
         const MIN_NEXT_ATTEND_TIME = 10; //1000 * 60; //5 * 1000 * 60; // 5 min
         const REFERENCE_PROFILE_AMOUNT = 5; // By Client
         const UNFOLLOW_ELAPSED_TIME_LIMIT = 48; // 48; // In hours
-        const MAX_GET_FOLLOWERS_REQUESTS = 7; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
+        const MAX_GET_FOLLOWERS_REQUESTS = 10; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
         const MAX_CLIENT_FAUTL_TRIES = 1; // Quantity max of failures with this client
         CONST MIN_MARGIN_TO_INIT = 1000;  //margen inicial requerido para trabajar con un cliente        
         
