@@ -69,7 +69,7 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	 	
-$result = $Robot->bot_login("⁠⁠⁠julianabaraldi83", "tininha1712");
+$result = $Robot->bot_login("sandirfigueiredo", "⁠⁠⁠FRATERNOamor");
 print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));

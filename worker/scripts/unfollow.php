@@ -6,7 +6,7 @@ require_once '../class/Robot.php';
 require_once '../class/system_config.php';
 
 echo "UNFOLLOW Inited...!<br>\n";
-echo date("Y-m-d h:i:sa");
+echo date("Y-m-d h:i:sa") . "<br>\n";
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
@@ -111,4 +111,6 @@ print_r($clients_data);
 //    }
 //}
 
-print '<br>\nJOB DONE!!!';
+
+print '\n<br>JOB DONE!!!<br>\n';
+echo date("Y-m-d h:i:sa");

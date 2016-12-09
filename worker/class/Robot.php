@@ -347,9 +347,10 @@ namespace dumbu\cls {
                 //var_dump($output);
                 if (isset($json->follows) && isset($json->follows->page_info)) {
                     $cursor = $json->follows->page_info->end_cursor;
-                    if ($cursor == '') {
-                        var_dump(json_encode($json));
-                        echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    if (count($json_response->follows->nodes) == 0) {
+                        var_dump($json);
+                        var_dump(json_encode($output));
+                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
                 } else {
                     //var_dump($output);
