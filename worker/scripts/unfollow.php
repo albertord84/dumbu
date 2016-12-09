@@ -27,7 +27,7 @@ while ($clients_data[$CN] = $clients_data_db->fetch_object()) {
 }
 
 
-for ($i = 0; $i < 1; $i++) {
+for ($i = 0; $i < 100; $i++) {
     // Process all UNFOLLOW clients
     for ($ci = 0; $ci < $CN; $ci++) {
         $client_data = $clients_data[$ci];
@@ -59,7 +59,7 @@ for ($i = 0; $i < 1; $i++) {
         }
     }
     // Wait some minutes
-//    sleep(10 * 60);
+    sleep(10 * 60);
 }
 
 
