@@ -18,14 +18,14 @@ $DB = new \dumbu\cls\DB();
 $clients_data_db = $DB->get_unfollow_clients_data();
 
 // Before
-print 'BEFORE:<br>\n';
+print '<br>\nBEFORE:<br>\n';
 $CN = 0;
 while ($clients_data[$CN] = $clients_data_db->fetch_object()) {
     $clients_data[$CN]->unfollows = 0;
     print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
     $CN++;
 }
-
+//var_dump($clients_data);
 
 for ($i = 0; $i < 100; $i++) {
     // Process all UNFOLLOW clients
@@ -38,6 +38,7 @@ for ($i = 0; $i < 100; $i++) {
             $json_response = $Robot->get_insta_follows(
                     $login_data, $client_data->insta_id, 10
             );
+//            var_dump($json_response);
             if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
                 // Get Users 
                 print '\n<br> Count: ' . count($json_response->follows->nodes) . '\n<br>';
@@ -45,9 +46,9 @@ for ($i = 0; $i < 100; $i++) {
                 foreach ($Profiles as $Profile) {
                     // Do unfollow request
                     echo "Profil name: $Profile->username<br>\n";
-                    $json_response = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
-                    //var_dump($json_response);
-                    if (is_object($json_response) && $json_response->status == 'ok') { // if response is ok
+                    $json_response2 = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
+                    var_dump($json_response2);
+                    if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                         $clients_data[$ci]->unfollows++;
                     } else
                         break;

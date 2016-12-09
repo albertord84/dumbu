@@ -1,11 +1,11 @@
 <?PHP
 
-require_once 'class/Worker.php';
-require_once 'class/system_config.php';
-require_once 'class/Gmail.php';
-require_once 'class/Payment.php';
-require_once 'class/Client.php';
-require_once 'class/Reference_profile.php';
+require_once '../class/Worker.php';
+require_once '../class/system_config.php';
+require_once '../class/Gmail.php';
+require_once '../class/Payment.php';
+require_once '../class/Client.php';
+require_once '../class/Reference_profile.php';
 
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
@@ -69,7 +69,7 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	 	
-$result = $Robot->bot_login("lojamarqueza", "euamovalentina2015");
+$result = $Robot->bot_login("⁠⁠⁠julianabaraldi83", "tininha1712");
 print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
