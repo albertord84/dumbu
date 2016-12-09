@@ -150,7 +150,7 @@ namespace dumbu\cls {
             $this->mail->addReplyTo($useremail, $username);
 
             //Set the subject line
-            $this->mail->Subject = 'User Contact';
+            $this->mail->Subject = "User Contact: $username";
 
             //Read an HTML message body from an external file, convert referenced images to embedded,
             //convert HTML into a basic plain-text alternative body
@@ -163,7 +163,7 @@ namespace dumbu\cls {
             $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
-            $this->mail->AltBody = 'User Contact';
+            $this->mail->AltBody = "User Contact: $username";
 
             //Attach an image file
             //$mail->addAttachment('images/phpmailer_mini.png');

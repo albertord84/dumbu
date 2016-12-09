@@ -17,17 +17,17 @@ $DB = new \dumbu\cls\DB();
 
 $clients_data_db = $DB->get_unfollow_clients_data();
 
+// Before
+print 'BEFORE:<br>\n';
 $CN = 0;
 while ($clients_data[$CN] = $clients_data_db->fetch_object()) {
     $clients_data[$CN]->unfollows = 0;
+    print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
     $CN++;
 }
 
-// Before
-print 'BEFORE:<br>\n';
-print_r($clients_data);
 
-for ($i = 0; $i < 100; $i++) {
+for ($i = 0; $i < 1; $i++) {
     // Process all UNFOLLOW clients
     for ($ci = 0; $ci < $CN; $ci++) {
         $client_data = $clients_data[$ci];
@@ -40,6 +40,7 @@ for ($i = 0; $i < 100; $i++) {
             );
             if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
                 // Get Users 
+                print '\n<br> Count: ' . count($json_response->follows->nodes) . '\n<br>';
                 $Profiles = $json_response->follows->nodes;
                 foreach ($Profiles as $Profile) {
                     // Do unfollow request
@@ -58,7 +59,7 @@ for ($i = 0; $i < 100; $i++) {
         }
     }
     // Wait some minutes
-    sleep(10 * 60);
+//    sleep(10 * 60);
 }
 
 

@@ -197,6 +197,7 @@ namespace dumbu\cls {
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
                     $result = $DB->delete_daily_work_client($client_id);
+                    //$DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
                     var_dump($result);
                     print "<br>\n Ref Prof (id: $ref_prof_id) removed from daily work!!! <br>\n";
                     break;
@@ -343,8 +344,7 @@ namespace dumbu\cls {
                 $curl_str = $this->make_curl_follows_str("'https://www.instagram.com/query/'", $login_data, $user, $N, $cursor);
                 exec($curl_str, $output, $status);
                 $json = json_decode($output[0]);
-                var_dump($output);
-                $DB = new \dumbu\cls\DB();
+                //var_dump($output);
                 if (isset($json->follows) && isset($json->follows->page_info)) {
                     $cursor = $json->follows->page_info->end_cursor;
                     if ($cursor == '') {
@@ -352,7 +352,7 @@ namespace dumbu\cls {
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
                 } else {
-                    var_dump($output);
+                    //var_dump($output);
                     var_dump($curl_str);
                     //$DB->update_reference_cursor($this->daily_work->reference_id, NULL);
                 }
