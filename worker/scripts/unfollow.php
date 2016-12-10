@@ -36,7 +36,7 @@ for ($i = 0; $i < 100; $i++) {
         if ($client_data->cookies) {
             $login_data = json_decode($client_data->cookies);
             $json_response = $Robot->get_insta_follows(
-                    $login_data, $client_data->insta_id, 10, $client_data->insta_follows_cursor
+                    $login_data, $client_data->insta_id, 15, $client_data->insta_follows_cursor
             );
             $json_response = $Robot->get_insta_follows(
                     $login_data, $client_data->insta_id, 15, $client_data->insta_follows_cursor

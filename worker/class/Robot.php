@@ -629,6 +629,7 @@ namespace dumbu\cls {
 
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+            var_dump($content);
             $users = json_decode($content)->users;
 
             // Get user with $ref_prof name over all matchs 
