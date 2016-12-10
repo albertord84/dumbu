@@ -84,8 +84,8 @@ namespace dumbu\cls {
         function prepare_daily_work() {
 // Get Users Info
             $Clients = (new Client())->get_clients();
-            $DB = new \dumbu\cls\DB();
-            $Client = new \dumbu\cls\Client();
+            $DB = new DB();
+            $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
 //                var_dump($Client);
 // Log user with webdriver in istagram to get needed session data
