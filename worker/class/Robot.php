@@ -167,7 +167,8 @@ namespace dumbu\cls {
                                 sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
                         }
-                        if (!$json_response->followed_by->page_info->has_next_page) break;
+                        if (!$json_response->followed_by->page_info->has_next_page)
+                            break;
                     } else {
                         $DB = new DB();
                         $ref_prof_id = $daily_work->rp_id;
@@ -219,7 +220,7 @@ namespace dumbu\cls {
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
                     $result = $DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;
 
@@ -347,9 +348,10 @@ namespace dumbu\cls {
                 //var_dump($output);
                 if (isset($json->follows) && isset($json->follows->page_info)) {
                     $cursor = $json->follows->page_info->end_cursor;
-                    if ($cursor == '') {
-                        var_dump(json_encode($json));
-                        echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    if (count($json->follows->nodes) == 0) {
+                        var_dump($json);
+//                        var_dump($curl_str);
+                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }
                 } else {
                     //var_dump($output);
@@ -628,6 +630,7 @@ namespace dumbu\cls {
 
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+            //var_dump($content);
             $users = json_decode($content)->users;
 
             // Get user with $ref_prof name over all matchs 
@@ -655,14 +658,20 @@ namespace dumbu\cls {
 
             $doc = new \DOMDocument();
 //$doc->loadXML($content);
-            $doc->loadHTML($content);
-//var_dump($doc);
+            $substr2 = NULL;
+            $loaded = @$doc->loadHTML('<?xml encoding="UTF-8">' . $content);
+            if ($loaded) {
 
-            $search = "\"follows\": {\"count\": ";
-            $start = strpos($doc->textContent, $search);
+                $search = "\"follows\": {\"count\": ";
+                $start = strpos($doc->textContent, $search);
 
-            $substr1 = substr($doc->textContent, $start, 100);
-            $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
+                $substr1 = substr($doc->textContent, $start, 100);
+                $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
+            }
+            else {
+                print "<br>\nProblem parsing document:<br>\n";
+                var_dump($doc);
+            }
             return intval($substr2) ? intval($substr2) : NULL;
         }
 

@@ -3,7 +3,7 @@
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
 require_once '../class/Gmail.php';
-require_once '..class/Payment.php';
+require_once '../class/Payment.php';
 
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
