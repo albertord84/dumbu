@@ -9,7 +9,7 @@
         <div id="data_panel" class="col-xs-6" style="width:60%; margin-left:20%; border-radius: 5px; border:1px solid silver; padding: 2%;">                      
             <label>INFORMAÇÕES DE PAGAMENTO</label><br>
             <div class="form-group" style="width:100%">
-                <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Nome no cartão" required style="text-transform:uppercase;">                 
+                <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Meu nome no cartão" required style="text-transform:uppercase;">                 
             </div>
             <!--<div class="form-group" style="width:100%">                                      
                 <input id="client_email" type="email" class="form-control" placeholder="E-mail" required>

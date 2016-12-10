@@ -11,6 +11,7 @@ class user_status {
     const UNFOLLOW= 7;
     const BEGINNER= 8;
     const VERIFY_ACCOUNT= 9;
+    const BLOCKED_BY_TIME= 10;
 
     static public function Defines($const) {
         $cls = new ReflectionClass(__CLASS__);

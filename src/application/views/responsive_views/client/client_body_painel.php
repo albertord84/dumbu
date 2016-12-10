@@ -81,23 +81,66 @@
                     break;
                 case 9:
                     if(isset($verify_account_datas)&&is_array($verify_account_datas)){
-                        echo '
-                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
-                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>             
-                            <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="'.$verify_account_datas['verify_account_url'].'">
-                                <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                    ACTIVAR AGORA
-                                </button>
-                            </a>
-                        </div>';
+                        if($verify_account_datas['verify_account_url']!="")
+                            echo '
+                            <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
+                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>             
+                                <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="'.$verify_account_datas['verify_account_url'].'">
+                                    <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                        ACTIVAR AGORA
+                                    </button>
+                                </a>
+                            </div>';
+                        else
+                            echo '
+                            <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
+                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>                                             
+                            </div>';
                     }
+                    break;
+                case 10:
+                    echo '
+                        <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">SUA CONTA ESTA TEMPORÁRIAMENTE LIMITADA NO DUMBU DEVIDO A RESTRIÇÕES DE TEMPO COM O INSTRAGRAM</b>  <BR>           
+                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">EM POUCO TEMPO SERÁ RESTABELECIDO O SERVIÇO PARA VOCÊ <BR>           
+                        </div>'; 
                     break;
             }
         ?>
     </div>
     
 <!---------------------------------------------------------------------------------------->
+    <!--<br>
+    <div class="row">
+        <br><br><p class="section-titles center" >RESULTADOS</p> 
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-xs-2" ></div>
+        <div class="col-xs-3" >
+            <button id="initial_date" type="button" style="color:#087AB9; font-size:1.2em; border-radius: 25px; border:1px solid #087AB9; padding-left: 10%; padding-left: 10%;" class="btn" ><b style="font-size:1.5em ">Início</b></button>           
+        </div>
+        <div class="col-xs-2" ></div>
+        <div class="col-xs-3" >
+            <div id="initial_date" style="width:50%;  margin-left: 25%; text-align:center; color:#087AB9; font-size:1.5em; font-weight:bold; argin-left:10%; border-radius: 25px; border:1px solid #087AB9; padding: 2%;">Agora</div>
+        </div>
+        <div class="col-xs-2" ></div>
+    </div>
+    
+    
+    <div id="row">
+        <div class="col-xs-2" ></div>
+        <div class="col-xs-8 center" >
+                    hola    
+        </div>
+        <div class="col-xs-2" ></div>
+    </div>
+    <br>-->
+<!---------------------------------------------------------------------------------------->
+
     <div class="row">
         <br><br><p class="section-titles center" >PERFIS DE REFERÊNCIA</p> 
     </div>
@@ -119,7 +162,7 @@
                 <img id="my_img" class="my_img_profile" src="<?php echo $my_img_profile;?>"/><br>
                 <b><p id="my_name" style="font-size:1.2em; font-family:sans-serif;"><?php echo $my_login_profile;?></p></b>                        
                 <?php
-                    if($status['status_id']==1 ||$status['status_id']==6)
+                    if($status['status_id']==1 ||$status['status_id']==6 || $status['status_id']==10)
                         echo '<b id="status_text" style="color:green; font-size:1.2em; font-family:sans-serif">'.$status["status_name"].'</b>';
                     else                   
                         echo '<b id="status_text" style="color:red; font-size:1.2em; font-family:sans-serif">'.$status["status_name"].'</b>';                    
@@ -213,7 +256,7 @@
             <div class=" form-group" style="width:100%">
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 filter-buttons">
-                        <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Nome no cartão" required style="text-transform:uppercase;">                 
+                        <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Meu nome no cartão" required style="text-transform:uppercase;">                 
                     </div>
                     <div class="col-xs-6 col-sm-6 filter-buttons">
                         <input id="client_email" type="email" class="form-control" placeholder="E-mail" required>

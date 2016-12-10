@@ -28,13 +28,33 @@ $(document).ready(function(){
                             if(response['cause']=='checkpoint_required') {
                                 var cad=base_url+'index.php/welcome/client?'+'checkpoint_required='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];                                
                                 $(location).attr('href',cad);                            
-                            }
-                        } else{
+                            }    
+                        } else{                            
+                            if(response['cause']=='phone_verification_settings') {
                                 $('#container_login_message').text(response['message']);
                                 $('#container_login_message').css('visibility','visible');
                                 $('#container_login_message').css('color','red');
-                                l.stop();                            
-                            }
+                                l.stop();
+                            } else
+                                if(response['cause']=='empty_message'){
+                                    $('#container_login_message').text(response['message']);
+                                    $('#container_login_message').css('visibility','visible');
+                                    $('#container_login_message').css('color','red');
+                                    l.stop();
+                                } else 
+                                    if(response['cause']=='unknow_message'){
+                                        $('#container_login_message').text(response['message']);
+                                        $('#container_login_message').css('visibility','visible');
+                                        $('#container_login_message').css('color','red');
+                                        l.stop();
+                                    }
+                                    else{
+                                        $('#container_login_message').text(response['message']);
+                                        $('#container_login_message').css('visibility','visible');
+                                        $('#container_login_message').css('color','red');
+                                        l.stop();   
+                                    }                                
+                        }
                     },                
                     error : function(xhr, status) {
                         alert('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente');    

@@ -27,6 +27,24 @@
         }        
     });
         
+   /* $(".image-reference-profile").hover(
+        function(e){
+            //alert($(e.target).attr('id'))
+            $('.image-reference-profile').css('cursor', 'pointer');
+        },
+        function(){
+            $('.image-reference-profile').css('cursor', 'default');
+        }
+    );
+    $("#my_img").hover(
+        function(){
+            $('#my_img').css('cursor', 'pointer');
+        },
+        function(){
+            $('#my_img').css('cursor', 'default');
+        }
+    );*/
+    
     $("#btn_unfollow_permition").click(function(){        
         $("#message_status1").remove();
         $("#btn_unfollow_permition").remove();

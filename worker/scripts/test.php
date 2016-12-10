@@ -45,15 +45,15 @@ $Client = new dumbu\cls\Client();
 // MUNDIPAGG
 //$Payment = new dumbu\cls\Payment();
 //
-//$payment_data['credit_card_number'] = '5133680051852331';
-//$payment_data['credit_card_name'] = 'THIAGO A L BARBALHO';
-//$payment_data['credit_card_exp_month'] = '09';
-//$payment_data['credit_card_exp_year'] = '2021';
-//$payment_data['credit_card_cvc'] = '062';
+//$payment_data['credit_card_number'] = '5155901166592924';
+//$payment_data['credit_card_name'] = 'SERAMI HAM';
+//$payment_data['credit_card_exp_month'] = '01';
+//$payment_data['credit_card_exp_year'] = '2023';
+//$payment_data['credit_card_cvc'] = '018';
 //$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = '1482693376';
+//$payment_data['pay_day'] = '1481755021';
 //        
-//$Payment->create_recurrency_payment($payment_data);
+//var_dump($Payment->create_recurrency_payment($payment_data));
 
 //----------------------------------------------------------------
 
@@ -71,11 +71,10 @@ $Robot = new dumbu\cls\Robot();
  	 	 	
 //$result = $Robot->bot_login("urpia", "romeus33");
 //print_r(json_encode($result));
-$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
+//$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
-//$result = $Robot->bot_login("urpia", "romeus33");
-var_dump($result);
- 	 	
+$result = $Robot->bot_login('julianabaraldi83','tininha1712');
+var_dump($result); 	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);

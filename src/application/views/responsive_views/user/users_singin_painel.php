@@ -124,6 +124,7 @@
                 <label>PASSO 3</label><br><br>
                 <button id="btn_sing_in" type="button" style="width:60%; padding:0%;" type="button">
                     <img id="img_btn_sing_in" class="img-btn" style="width:100%;margin:0%" src="<?php echo base_url().'assets/img/assinar4.png'?>"/>
+                    <!--<img id="img_btn_sing_in" class="img-btn" style="float:inside; width:100%;margin:0%" src="<?php //echo base_url().'assets/img/waiting.gif'?>"/>                    -->
                 </button>
                 <br><br>            
                 Ao assinar já estou aceitando os <a id="lnk_use_term" style="text-decoration:underline; color:blue" href="#">termos de uso</a>            
