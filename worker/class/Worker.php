@@ -113,7 +113,7 @@ namespace dumbu\cls {
                     // Send email to client and dumbu system
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     // TODO: uncomment this
-                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                    //$this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required') {
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
                     }
