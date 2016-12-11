@@ -104,7 +104,7 @@
                     echo '
                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                             <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">SUA CONTA ESTA TEMPORÁRIAMENTE LIMITADA NO DUMBU DEVIDO A RESTRIÇÕES DE TEMPO COM O INSTRAGRAM</b>  <BR>           
-                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">EM POUCO TEMPO SERÁ RESTABELECIDO O SERVIÇO PARA VOCÊ <BR>           
+                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">EM POUCO TEMPO SERÁ RESTABELECIDO O SERVIÇO PARA VOCÊ </b><BR>           
                         </div>'; 
                     break;
             }
