@@ -5,10 +5,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
 //    public function index() {
-//        var_dump($this->is_insta_user('josergm86','josergm'));        
-//        //var_dump($this->is_insta_user('julianabaraldi83','tininha1712'));        
-//    }
-//        
+//        $this->load->model('class/user_model');
+//        $lines = file('C:/xampp/htdocs/dumbu/src/assets/js/order_key.txt');
+//        for($i=0;$i<count($lines);$i++){
+//            //$sql="SELECT * FROM users,clients WHERE users.id=clients.user_id and clients.order_key='".$lines[$i]."'";
+//            $sql='SELECT * FROM clients ';
+//            $record=$this->user_model->execute_sql_query($sql);
+//            print_r($record).'<br>';
+//            //echo $lines[$i].'<br>';
+//            break;            
+//        }
+//    }        
         
     public function index() {
        //$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
