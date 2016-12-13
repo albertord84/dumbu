@@ -300,7 +300,7 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
 
-                return TRUE;
+                return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
@@ -313,14 +313,14 @@ namespace dumbu\cls {
                         . "SET reference_profile.insta_follower_cursor = null;  ";
                 $result = mysqli_query($this->connection, $sql);
 
-                return TRUE;
+                return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
 
         public function update_reference_cursor($reference_id, $end_cursor) {
-            $date = $end_cursor == ''? time() : NULL;
+            $date = ($end_cursor == '' || $end_cursor == NULL)? time() : NULL;
             try {
                 $sql = ""
                         . "UPDATE reference_profile "
@@ -331,7 +331,12 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
 
-                return TRUE;
+		if($result)
+ 		   print "<br>Update reference_cursor! reference_id: $reference_id <br>";
+		else
+		   print "<br>NOT UPDATED reference_cursor!!!<br> $sql <br>";
+
+                return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
