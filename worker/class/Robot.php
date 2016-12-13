@@ -103,6 +103,7 @@ namespace dumbu\cls {
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             $error = FALSE;
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
+                $error = FALSE;
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
                 $Profile->unfollowed = FALSE;
@@ -122,16 +123,12 @@ namespace dumbu\cls {
                     $error = $this->process_follow_error($json_response);
                     // TODO: Class for error messages
                     if ($error == 6) {// Just empty message:
-                        $error = NULL;
                         $Profile->unfollowed = TRUE;
-                    }
-                    else if ($error == 7) { // To much request response string only
-                        $error = NULL;
+                    } else if ($error == 7) { // To much request response string only
+                        $error = FALSE;
                         break;
                     }
-                    else if ($error) {
-                        break;
-                    }
+                    break;
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
@@ -242,11 +239,11 @@ namespace dumbu\cls {
                     $DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
-                
+
                 case 6: // "" Empty message
                     print "<br>\n Empty message (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
-                
+
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." 
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
