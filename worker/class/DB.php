@@ -82,12 +82,12 @@ namespace dumbu\cls {
             try {
                 $this->connect();
                 $status_date = time();
-                $result = mysqli_query($this->connection, ""
-                        . "UPDATE users "
+                $sql =    "UPDATE users "
                         . "     SET users.status_id   = $status_id, "
                         . "     SET users.status_date = '$status_date' "
-                        . "WHERE users.id = $client_id; "
-                );
+                        . "WHERE users.id = $client_id; ";
+
+                $result = mysqli_query($this->connection, $sql);
                 if ($result)
                     print "<br>Update client_status! status_date: $status_date <br>";
                 else
@@ -290,7 +290,7 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, $sql);
                 //$affected = mysqli_num_rows($result);
                 if ($result)
-                    print "<br>Update daily_work! Time: $time <br>";
+                    print "<br>Update daily_work! follows: $follows | unfollows: $unfollows <br>";
                 else
                     print "<br>NOT UPDATED daily_work!!!<br> $sql <br>";
                 return TRUE;
@@ -336,10 +336,10 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
 
-                if ($result)
-                    print "<br>Update reference_cursor! reference_id: $reference_id <br>";
-                else
-                    print "<br>NOT UPDATED reference_cursor!!!<br> $sql <br>";
+//                if ($result)
+//                    print "<br>Updated reference_cursor! reference_id: $reference_id <br>";
+//                else
+//                    print "<br>NOT UPDATED reference_cursor!!!<br> $sql <br>";
 
                 return $result;
             } catch (\Exception $exc) {
