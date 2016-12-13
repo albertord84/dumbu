@@ -330,7 +330,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "UPDATE reference_profile "
                         . "SET "
-                        . "     reference_profile.insta_follower_cursor = $end_cursor, "
+                        . "     reference_profile.insta_follower_cursor = '$end_cursor', "
                         . "     reference_profile.end_date = '$date' "
                         . "WHERE reference_profile.id = $reference_id; ";
 
