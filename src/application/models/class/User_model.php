@@ -92,11 +92,11 @@ class User_model extends CI_Model {
      */
     public function set_sesion($id, $session, $datas=NULL) {
         try {
-            $this->db->select('id, name, login, pass, email, telf, role_id, status_id, languaje');
+            $this->db->select('*');
             $this->db->from('users');
             $this->db->where(array('id'=>$id));
             $user_data = $this->db->get()->row_array();
-            if (count($user_data)) {
+            if (count($user_data)){
                 $session->set_userdata('id',$user_data['id']);
                 $session->set_userdata('name',$user_data['name']);
                 $session->set_userdata('login',$user_data['login']);
@@ -104,6 +104,7 @@ class User_model extends CI_Model {
                 $session->set_userdata('email',$user_data['email']);
                 $session->set_userdata('role_id',$user_data['role_id']);
                 $session->set_userdata('status_id',$user_data['status_id']);
+                $session->set_userdata('init_date',$user_data['init_date']);
                 $session->set_userdata('languaje',$user_data['languaje']);                
                 $session->set_userdata('insta_datas',$datas);
                 return true;
