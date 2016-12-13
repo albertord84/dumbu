@@ -137,8 +137,8 @@ namespace dumbu\cls {
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             $Ref_profile_follows = array();
             $follows = 0;
+            echo "<br>\nmake_insta_friendships_command FOLLOW: $daily_work->to_follow <br>\n";
             if (!$error && $daily_work->to_follow > 0) { // If has to follow
-                echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
                 $get_followers_count = 0;
                 $error = FALSE;
                 while (!$error && $follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
