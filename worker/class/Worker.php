@@ -125,8 +125,10 @@ namespace dumbu\cls {
                     $status_date = new \DateTime();
                     $status_date->setTimestamp($Client->status_date);
                     $diff_info = $status_date->diff($now);
+                    var_dump($diff_info->days);
                     if ($diff_info->days <= 3) {
-                        $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                        // TODO, UNCOMMENT
+                        //$this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 }
             }

@@ -179,17 +179,20 @@ namespace dumbu\cls {
                         if (!$json_response->followed_by->page_info->has_next_page)
                             break;
                     } else {
-//                        $DB = new DB();
-//                        $ref_prof_id = $daily_work->rp_id;
+                        $DB = new DB();
+                        $ref_prof_id = $daily_work->rp_insta_id;
                         $error = $this->process_follow_error($json_response);
-//                        $deleted = $DB->delete_daily_work($ref_prof_id);
-//                        if ($deleted)
-//                            print "Deleted WORK! (Ref Prof: $ref_prof_id)";
-//                        else {
-//                            var_dump($deleted);
-//                            print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
-//                        }
-//                        $error = TRUE;
+                        if ($error = -1) {
+                            $deleted = $DB->delete_daily_work($ref_prof_id);
+                            if ($deleted) {
+                                print "Deleted WORK! (Ref Prof: $ref_prof_id)";
+                            }
+                            else {
+                                //var_dump($deleted);
+                                print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
+                            }
+                        }
+                        $error = TRUE;
                     }
                 }
             }
