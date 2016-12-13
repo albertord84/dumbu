@@ -123,6 +123,7 @@ namespace dumbu\cls {
                     $error = $this->process_follow_error($json_response);
                     // TODO: Class for error messages
                     if ($error == 6) {// Just empty message:
+                        $error = FALSE;
                         $Profile->unfollowed = TRUE;
                     } else if ($error == 7) { // To much request response string only
                         $error = FALSE;
