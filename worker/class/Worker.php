@@ -122,7 +122,7 @@ namespace dumbu\cls {
                     }
                     // Send email to client
                     $now = time();
-                    $status_date = new DateTime();
+                    $status_date = new \DateTime();
                     $status_date->setTimestamp($Client->status_date);
                     $diff_info = $status_date->diff($now);
                     if ($diff_info->days <= 3) {

@@ -83,8 +83,9 @@ namespace dumbu\cls {
                 $this->connect();
                 $status_date = time();
                 $sql =    "UPDATE users "
-                        . "     SET users.status_id   = $status_id, "
-                        . "     SET users.status_date = '$status_date' "
+                        . "SET "
+                        . "      users.status_id   = $status_id, "
+                        . "      users.status_date = '$status_date' "
                         . "WHERE users.id = $client_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
