@@ -27,12 +27,13 @@ class Payment extends CI_Controller {
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: UNCOMENT
         $this->db->where('role_id', user_role::CLIENT);
-        $this->db->where('status_id', user_status::ACTIVE);
-        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
-        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
-        $this->db->where('status_id', user_status::UNFOLLOW);
-        $this->db->where('status_id', user_status::BLOCKED_BY_PAYMENT);
-        $this->db->where('status_id', user_status::BLOCKED_BY_TIME);
+        $this->db->where('status_id <>', user_status::DELETED);
+//        $this->db->where('status_id', user_status::ACTIVE);
+//        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
+//        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
+//        $this->db->where('status_id', user_status::UNFOLLOW);
+//        $this->db->where('status_id', user_status::BLOCKED_BY_PAYMENT);
+//        $this->db->where('status_id', user_status::BLOCKED_BY_TIME);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
