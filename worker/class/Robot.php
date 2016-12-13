@@ -120,7 +120,8 @@ namespace dumbu\cls {
                     echo "ID: $Profile->followed_id<br>\n";
                     var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
-                    if (is_array($json_response) && isset($json_response["message"]) && $json_response["message"] == "")
+                    // TODO: Class for error messages
+                    if ($error == 6)
                         $Profile->unfollowed = TRUE;
                     if ($error || (is_array($json_response) && count($json_response) == 1)) // To much request response string only
                         break;
@@ -233,6 +234,10 @@ namespace dumbu\cls {
                     var_dump($result);
                     $DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
+                    break;
+                
+                case 6: // "" Empty message
+                    print "<br>\n Empty message (id: $client_id)!!! <br>\n";
                     break;
 
                 default:

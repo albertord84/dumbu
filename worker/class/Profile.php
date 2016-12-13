@@ -63,8 +63,11 @@ namespace dumbu\cls {
                     $error = 4;
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
+                } else if ($response->message === '') {
+                    $error = 6; // Empty message
                 }
             } else {
+                $error = -1;
                 var_dump($response);
                 print 'Not error found!';
             }
