@@ -247,7 +247,7 @@
                 <div class="col-xs-6">
                     <div style="text-align: center"">
                         <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
-                            <?php $total_amount_followers_today;?>
+                            <?php echo $total_amount_followers_today;?>
                         </b>
                         <br>
                         <b style="text-align:center; width:100%; font-size:1em;">

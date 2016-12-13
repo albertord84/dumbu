@@ -43,8 +43,8 @@ class Welcome extends CI_Controller {
             $sql = "SELECT count(*) as followeds FROM followed INNER JOIN reference_profile ON reference_profile.id = followed.reference_id INNER JOIN clients ON clients.user_id = reference_profile.client_id WHERE (clients.user_id = " . $this->session->userdata('id') . ")";
             //$sql="SELECT * FROM reference_profile WHERE client_id='".$this->session->userdata('id')."'";
             $total_amount_followers_today = $this->user_model->execute_sql_query($sql);
-            $followeds = (string)$total_amount_followers_today[0]["followeds"];
-
+            $followeds = (string)$total_amount_followers_today[0]["followeds"];            
+            
             $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
             $datas1['my_actual_followings'] = $my_profile_datas->following;
             $datas1['my_sigin_date'] = date('d-m-Y', $this->session->userdata('init_date'));
