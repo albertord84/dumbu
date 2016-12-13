@@ -112,33 +112,158 @@
     </div>
     
 <!---------------------------------------------------------------------------------------->
-    <!--<br>
+    <br>
     <div class="row">
         <br><br><p class="section-titles center" >RESULTADOS</p> 
     </div>
     
     
+    
     <div class="row">
-        <div class="col-xs-2" ></div>
-        <div class="col-xs-3" >
-            <button id="initial_date" type="button" style="color:#087AB9; font-size:1.2em; border-radius: 25px; border:1px solid #087AB9; padding-left: 10%; padding-left: 10%;" class="btn" ><b style="font-size:1.5em ">Início</b></button>           
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <br><br>
+            <div class="row">
+                <div class="col-xs-3"></div>
+                <div class="col-xs-6">
+                    <div style="text-align: center">
+                        <b id="initial_date_text" style="padding-top:5px; padding-bottom:5px; padding-left:20px; padding-right:20px;  text-align:center; width:100%; color:#087AB9; font-size:0.85em; border-radius: 25px; border:1px solid #087AB9;">
+                            Início <?php echo $my_sigin_date;?>
+                        </b>
+                    </div>
+                </div>
+                <div class="col-xs-3"></div>
+            </div>
+            <div class="row"><br></div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div style="float:right;text-align: center"">
+                        <b id="initial_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $my_initial_followings;?>
+                        </b>
+                        <br>
+                        <b style="text-align:center; width:100%; font-size:1em;">
+                            Seguindo
+                        </b>
+                    </div>
+                </div>
+                <div class="col-xs-2"></div>
+                <div class="col-xs-6">
+                    <div style="float:left;text-align: center">
+                        <b id="initial_date_follwers" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $my_initial_followers;?>
+                        </b>
+                        <br>
+                        <b style="text-align:center; width:100%; font-size:1em;">
+                            Seguidores
+                        </b>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        
+        
+        
+        
+        <div class="col-md-5">
+            <br><br>
+            <div class="row">
+                <div class="col-xs-3"></div>
+                <div class="col-xs-6">
+                    <div style="text-align: center">
+                        <b id="now_date_text" style="padding-top:5px; padding-bottom:5px; padding-left:20px; padding-right:20px;   text-align:center; width:100%; color:#087AB9; font-size:0.85em; border-radius: 25px; border:1px solid #087AB9;">
+                            Agora <?php echo $today;?>
+                        </b>
+                    </div>
+                </div>
+                <div class="col-xs-3"></div>
+            </div>
+            <div class="row"><br></div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div style="float:right;text-align: center"">
+                        <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $my_actual_followings;?>
+                        </b>
+                        <br>
+                        <b style="text-align:center; width:100%; font-size:1em;">
+                            Seguindo
+                        </b>
+                    </div>
+                </div>
+                <div class="col-xs-2"></div>
+                <div class="col-xs-6">
+                    <div style="float:left;text-align: center">
+                        <b id="now_date_follwers" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $my_actual_followers;?>
+                        </b>
+                        <br>
+                        <b style="text-align:center; width:100%; font-size:1em;">
+                            Seguidores
+                        </b>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-2" ></div>
-        <div class="col-xs-3" >
-            <div id="initial_date" style="width:50%;  margin-left: 25%; text-align:center; color:#087AB9; font-size:1.5em; font-weight:bold; argin-left:10%; border-radius: 25px; border:1px solid #087AB9; padding: 2%;">Agora</div>
+        <div class="col-md-1"></div>
+    </div>
+        
+    <br><br>
+    
+    <div class="row">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-6">
+            <div style="text-align: center">
+                <b id="now_date_follwers_gains" style="text-align:center; font-size:1.8em;  width:100%; color:#00A569; ">
+                    <?php echo $my_actual_followers - $my_initial_followers;?>
+                </b>
+                <br>
+                <b style="text-align:center; width:100%; color:#00A569; font-size:0.85em; padding-top:5px; padding-bottom:5px; padding-left:20px; padding-right:20px; border-radius: 25px; border:1px solid #00A569;">
+                    Seguidores ganhos
+                </b>
+            </div>
         </div>
-        <div class="col-xs-2" ></div>
+        <div class="col-xs-3"></div>
+    </div>
+    
+    <br><br>
+    
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div style="text-align: center"">
+                        <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $total_amount_reference_profile_today;?>
+                        </b>
+                        <br>
+                        <b style="text-align:center; width:100%; font-size:1em;">
+                            Perfis de referências<br>utilizados até hoje
+                        </b>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div style="text-align: center"">
+                        <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php $total_amount_followers_today;?>
+                        </b>
+                        <br>
+                        <b style="text-align:center; width:100%; font-size:1em;">
+                            Seguidos até<br>hoje
+                        </b>
+                    </div>
+                </div>
+                
+            </div>
+            <br><br><hr>
+        </div>
+        <div class="col-md-3"></div>
     </div>
     
     
-    <div id="row">
-        <div class="col-xs-2" ></div>
-        <div class="col-xs-8 center" >
-                    hola    
-        </div>
-        <div class="col-xs-2" ></div>
-    </div>
-    <br>-->
+    
 <!---------------------------------------------------------------------------------------->
 
     <div class="row">
