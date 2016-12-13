@@ -121,10 +121,17 @@ namespace dumbu\cls {
                     var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
                     // TODO: Class for error messages
-                    if ($error == 6) // Just empty message:
+                    if ($error == 6) {// Just empty message:
+                        $error = NULL;
                         $Profile->unfollowed = TRUE;
-                    else if ($error || (is_array($json_response) && count($json_response) == 1)) // To much request response string only
+                    }
+                    else if ($error == 7) { // To much request response string only
+                        $error = NULL;
                         break;
+                    }
+                    else if ($error) {
+                        break;
+                    }
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
@@ -238,6 +245,10 @@ namespace dumbu\cls {
                 
                 case 6: // "" Empty message
                     print "<br>\n Empty message (ref_prof_id: $ref_prof_id)!!! <br>\n";
+                    break;
+                
+                case 7: // "Há solicitações demais. Tente novamente mais tarde." 
+                    print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
 
                 default:

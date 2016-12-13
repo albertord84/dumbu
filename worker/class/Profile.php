@@ -65,6 +65,8 @@ namespace dumbu\cls {
                     $error = 5;
                 } else if ($response->message === '') {
                     $error = 6; // Empty message
+                } else if (strpos($response->message, 'Tente novamente mais tarde') !== FALSE) {
+                    $error = 7; // Tente novamente mais tarde
                 }
             } else {
                 $error = -1;
