@@ -32,6 +32,7 @@ class Payment extends CI_Controller {
         $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
         $this->db->where('status_id', user_status::UNFOLLOW);
         $this->db->where('status_id', user_status::BLOCKED_BY_PAYMENT);
+        $this->db->where('status_id', user_status::BLOCKED_BY_TIME);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
@@ -78,12 +79,14 @@ class Payment extends CI_Controller {
                 $diff_info = $last_saled_date->diff($now);
                 //var_dump($diff_info);
                 // Diff in days
-                $diff_days = ($diff_info->m * 30) + $diff_info->days;
+                $diff_days = $diff_info->days;
+//                $diff_days = ($diff_info->m * 30) + $diff_info->days;
             } else {
                 $pay_day = new DateTime();
                 $pay_day->setTimestamp($client['pay_day']);
                 $diff_info = $pay_day->diff($now);
-                $diff_days = ($diff_info->m * 30) + $diff_info->days;
+                $diff_days = $diff_info->days;
+//                $diff_days = ($diff_info->m * 30) + $diff_info->days;
                 // TODO: check whend not pay and block user
                 if ($now > $pay_day)
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";

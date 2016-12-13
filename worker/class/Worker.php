@@ -96,8 +96,9 @@ namespace dumbu\cls {
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
-                    if (count($Client->reference_profiles) > 0) {
-                        $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+                    $RPWC = $Client->rp_workable_count();
+                    if ($RPWC > 0) {
+                        $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / $RPWC;
                         // If User status = UNFOLLOW he do 0 follows
                         $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
                         $to_unfollow = $to_follow_unfollow;
@@ -112,13 +113,20 @@ namespace dumbu\cls {
 // TODO: do something in Client autentication error
                     // Send email to client and dumbu system
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
-                    // TODO: uncomment this
-                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                    // Chague client status
                     if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required') {
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
                     }
                     if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated) {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+                    }
+                    // Send email to client
+                    $now = time();
+                    $status_date = new DateTime();
+                    $status_date->setTimestamp($Client->status_date);
+                    $diff_info = $status_date->diff($now);
+                    if ($diff_info->days <= 3) {
+                        $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 }
             }

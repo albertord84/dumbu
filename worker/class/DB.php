@@ -81,9 +81,11 @@ namespace dumbu\cls {
         public function set_client_status($client_id, $status_id) {
             try {
                 $this->connect();
+                $status_date = time();
                 $result = mysqli_query($this->connection, ""
                         . "UPDATE users "
-                        . "SET users.status_id = $status_id "
+                        . "     SET users.status_id   = $status_id, "
+                        . "     SET users.status_date = '$status_date' "
                         . "WHERE users.id = $client_id; "
                 );
                 return $result;
@@ -318,11 +320,13 @@ namespace dumbu\cls {
         }
 
         public function update_reference_cursor($reference_id, $end_cursor) {
-//            $end_cursor = $end_cursor ? "'" . $end_cursor . "'" : NULL;
+            $date = $end_cursor == ''? time() : NULL;
             try {
                 $sql = ""
                         . "UPDATE reference_profile "
-                        . "SET reference_profile.insta_follower_cursor = $end_cursor "
+                        . "SET "
+                        . "     reference_profile.insta_follower_cursor = $end_cursor, "
+                        . "     reference_profile.end_date = '$date' "
                         . "WHERE reference_profile.id = $reference_id; ";
 
                 $result = mysqli_query($this->connection, $sql);

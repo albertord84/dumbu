@@ -117,8 +117,11 @@ namespace dumbu\cls {
                     // If have some Profile to unfollow
                     $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
+                    echo "ID: $Profile->followed_id<br>\n";
                     var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
+                    if (is_array($json_response) && isset($json_response["message"]) && $json_response["message"] == "")
+                        $Profile->unfollowed = TRUE;
                     if ($error || (is_array($json_response) && count($json_response) == 1)) // To much request response string only
                         break;
                 }
@@ -170,16 +173,17 @@ namespace dumbu\cls {
                         if (!$json_response->followed_by->page_info->has_next_page)
                             break;
                     } else {
-                        $DB = new DB();
-                        $ref_prof_id = $daily_work->rp_id;
-                        $deleted = $DB->delete_daily_work($ref_prof_id);
-                        if ($deleted)
-                            print "Deleted WORK! (Ref Prof: $ref_prof_id)";
-                        else {
-                            var_dump($deleted);
-                            print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
-                        }
-                        $error = TRUE;
+//                        $DB = new DB();
+//                        $ref_prof_id = $daily_work->rp_id;
+                        $error = $this->process_follow_error($json_response);
+//                        $deleted = $DB->delete_daily_work($ref_prof_id);
+//                        if ($deleted)
+//                            print "Deleted WORK! (Ref Prof: $ref_prof_id)";
+//                        else {
+//                            var_dump($deleted);
+//                            print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
+//                        }
+//                        $error = TRUE;
                     }
                 }
             }
@@ -321,13 +325,14 @@ namespace dumbu\cls {
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
                 //var_dump($output);
-                $DB = new \dumbu\cls\DB();
+                $DB = new DB();
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
-                    $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);
                     $this->daily_work->insta_follower_cursor = $json->followed_by->page_info->end_cursor;
+                    $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);
                     if ($json->followed_by->page_info->end_cursor == '') {
-                        var_dump(json_encode($json));
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        var_dump(json_encode($json));
+                        $result = $DB->delete_daily_work($this->daily_work->reference_id);
                     }
                 } else {
                     var_dump($output);
@@ -667,8 +672,7 @@ namespace dumbu\cls {
 
                 $substr1 = substr($doc->textContent, $start, 100);
                 $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
-            }
-            else {
+            } else {
                 print "<br>\nProblem parsing document:<br>\n";
                 var_dump($doc);
             }
