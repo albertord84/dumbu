@@ -28,7 +28,8 @@ class Payment extends CI_Controller {
         // TODO: UNCOMENT
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
-//        $this->db->where('status_id', user_status::ACTIVE);
+        $this->db->where('status_id <>', user_status::BEGINNER);
+        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);
 //        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
 //        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
 //        $this->db->where('status_id', user_status::UNFOLLOW);
