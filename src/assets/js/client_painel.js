@@ -1,15 +1,15 @@
 ﻿$(document).ready(function(){ 
     var icons_profiles={            
-        0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),  'ptr_label_obj':$('#cnt_follows_prof7'),     'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),  'ptr_label_obj':$('#cnt_follows_prof8'),     'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''},
-        9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),  'ptr_label_obj':$('#cnt_follows_prof9'),     'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':''}*/
+        0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof0')},
+        1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof1')},
+        2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof2')},
+        3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof3')},
+        4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof4')},
+        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof5')},
+        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof6')},
+        7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),  'ptr_label_obj':$('#cnt_follows_prof7'),     'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof7')},
+        8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),  'ptr_label_obj':$('#cnt_follows_prof8'),     'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof8')},
+        9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),  'ptr_label_obj':$('#cnt_follows_prof9'),     'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof9')}*/
     };    
     
     var num_profiles,flag=false;
@@ -27,7 +27,7 @@
         }        
     });
         
-   /* $(".image-reference-profile").hover(
+    $(".image-reference-profile").hover(
         function(e){
             //alert($(e.target).attr('id'))
             $('.image-reference-profile').css('cursor', 'pointer');
@@ -43,7 +43,15 @@
         function(){
             $('#my_img').css('cursor', 'default');
         }
-    );*/
+    );
+    $(".red_number").hover(
+        function(){
+            $('.red_number').css('cursor', 'pointer');
+        },
+        function(){
+            $('.red_number').css('cursor', 'default');
+        }
+    );
     
     $("#btn_unfollow_permition").click(function(){        
         $("#message_status1").remove();
@@ -52,19 +60,19 @@
         $("#message_status3").text('INMEDIATEMENTE DE TERMINAR COMEÇARÁ A RECEBER O SERVIÇO');            
     });
     
-    $("#reference_profile0").click(function(){
+    $("#img_ref_prof0").click(function(){
         delete_profile_click($("#name_ref_prof0"));
     });
-    $("#reference_profile1").click(function(){
+    $("#img_ref_prof1").click(function(){
         delete_profile_click($("#name_ref_prof1"));
     });
-    $("#reference_profile2").click(function(){
+    $("#img_ref_prof2").click(function(){
         delete_profile_click($("#name_ref_prof2"));
     });
-    $("#reference_profile3").click(function(){
+    $("#img_ref_prof3").click(function(){
         delete_profile_click($("#name_ref_prof3"));
     });
-    $("#reference_profile4").click(function(){
+    $("#img_ref_prof4").click(function(){
         delete_profile_click($("#name_ref_prof4"));
     });
    
@@ -192,11 +200,12 @@
     
      
    
-    function display_reference_profiles(){         
+    function display_reference_profiles(){
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
             icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);
+            icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');             
             if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
             else
@@ -208,13 +217,12 @@
     function init_icons_profiles(datas){
         response=jQuery.parseJSON(datas);
         prof=response['array_profiles'];
-        //status_messages=jQuery.parseJSON(status_messages);
         num_profiles=response['N'];
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['img_profile']=prof[i]['img_profile'];
             icons_profiles[i]['follows_from_profile']=prof[i]['follows_from_profile'];
             icons_profiles[i]['login_profile']=prof[i]['login_profile'];
-            icons_profiles[i]['status_profile']=prof[i]['status_profile'];
+            icons_profiles[i]['status_profile']=prof[i]['status_profile'];                        
         }
         display_reference_profiles();
     }
@@ -224,6 +232,7 @@
         icons_profiles[num_profiles]['login_profile']=datas['profile'];
         icons_profiles[num_profiles]['follows_from_profile']=datas['follows_from_profile'];
         icons_profiles[num_profiles]['status_profile']=datas['status_profile'];
+        icons_profiles[num_profiles]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+datas['profile']+'/');         
         num_profiles=num_profiles+1;
         display_reference_profiles();
     }
@@ -240,12 +249,14 @@
                 icons_profiles[j]['login_profile']=icons_profiles[j+1]['login_profile'];
                 icons_profiles[j]['follows_from_profile']=icons_profiles[j+1]['follows_from_profile'];
                 icons_profiles[j]['status_profile']=icons_profiles[j+1]['status_profile'];
+                icons_profiles[j]['ptr_lnk_ref_prof'].attr("href",icons_profiles[j+1]['ptr_lnk_ref_prof'].attr("href"));             
             }
         }
         j=j-1;
         icons_profiles[j]['img_profile']='';
         icons_profiles[j]['login_profile']='';
         icons_profiles[j]['follows_from_profile']='';
+        icons_profiles[j]['ptr_lnk_ref_prof'].attr("href","");
         num_profiles=num_profiles-1; 
         display_reference_profiles();
         icons_profiles[j]['ptr_panel_obj'].css({"visibility":"hidden","display":"none"});
