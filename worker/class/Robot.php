@@ -128,8 +128,9 @@ namespace dumbu\cls {
                     } else if ($error == 7) { // To much request response string only
                         $error = FALSE;
                         break;
+                    } else {
+                        break;
                     }
-                    break;
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
@@ -180,14 +181,13 @@ namespace dumbu\cls {
                             break;
                     } else {
                         $DB = new DB();
-                        $ref_prof_id = $daily_work->rp_insta_id;
+                        $ref_prof_id = $daily_work->rp_id;
                         $error = $this->process_follow_error($json_response);
                         if ($error = -1) {
                             $deleted = $DB->delete_daily_work($ref_prof_id);
                             if ($deleted) {
                                 print "Deleted WORK! (Ref Prof: $ref_prof_id)";
-                            }
-                            else {
+                            } else {
                                 //var_dump($deleted);
                                 print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
                             }
