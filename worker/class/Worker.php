@@ -114,10 +114,12 @@ namespace dumbu\cls {
                     // Send email to client and dumbu system
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     // Chague client status
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required') {
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required'
+                            && $Client->status_id != user_status::VERIFY_ACCOUNT) {
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
                     }
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated) {
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated
+                            && $Client->status_id != user_status::BLOCKED_BY_INSTA) {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                     }
                     // Send email to client

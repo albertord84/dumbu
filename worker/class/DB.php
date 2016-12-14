@@ -29,7 +29,7 @@ namespace dumbu\cls {
                 $CLIENT = user_role::CLIENT;
                 $ACTIVE = user_status::ACTIVE;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
-                $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
+//                $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
                 $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;
                 //$UNFOLLOW = user_status::UNFOLLOW;
                 $sql = ""
@@ -38,8 +38,8 @@ namespace dumbu\cls {
                         . "WHERE users.role_id = $CLIENT "
                         . "     AND (users.status_id = $ACTIVE OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
-                        . "          users.status_id = $BLOCKED_BY_TIME OR "
-                        . "          users.status_id = $BLOCKED_BY_INSTA);";
+//                        . "          users.status_id = $BLOCKED_BY_INSTA OR "
+                        . "          users.status_id = $BLOCKED_BY_TIME);";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
             } catch (\Exception $exc) {
@@ -132,6 +132,14 @@ namespace dumbu\cls {
         public function get_follow_work() {
             //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
             try {
+                // Update daily work time
+                $time = time();
+                $sql = ""
+                        . "UPDATE clients "
+                        . "SET clients.last_access = '$time'; ";
+                $result = mysqli_query($this->connection, $sql);
+                
+                // Get daily work
                 $sql = ""
                         . "SELECT *, "
                         . "   daily_work.cookies as cookies, "
