@@ -830,7 +830,7 @@ class Welcome extends CI_Controller {
 
     //functions for reference profiles
     public function client_insert_profile() {
-        if ($this->session->userdata('name')) {
+        if ($this->session->userdata('id')) {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');
             $this->load->model('class/user_status');
