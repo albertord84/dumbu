@@ -693,7 +693,7 @@ namespace dumbu\cls {
         }
 
         public function get_insta_ref_prof_following($ref_prof) {
-            $content = file_get_contents("https://www.instagram.com/$ref_prof/");
+            $content = @file_get_contents("https://www.instagram.com/$ref_prof/", false);
 
             $doc = new \DOMDocument();
 //$doc->loadXML($content);
@@ -710,7 +710,7 @@ namespace dumbu\cls {
                 print "<br>\nProblem parsing document:<br>\n";
                 var_dump($doc);
             }
-            return intval($substr2) ? intval($substr2) : NULL;
+            return intval($substr2) ? intval($substr2) : 0;
         }
 
         public function bot_login($login, $pass, $Client = NULL) {
