@@ -29,7 +29,7 @@ class Payment extends CI_Controller {
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
-        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);
+        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
 //        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
 //        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
 //        $this->db->where('status_id', user_status::UNFOLLOW);
@@ -75,7 +75,7 @@ class Payment extends CI_Controller {
                 $LastSaledData = $SaleData;
             }
             $now = DateTime::createFromFormat('U', time());
-            if ($LastSaledData != NULL) { // if have not payment jet
+            if ($LastSaledData != NULL) { // if have payment
                 // Check difference between last payment and now
                 $last_saled_date = new DateTime($LastSaledData->DueDate);
                 $diff_info = $last_saled_date->diff($now);
@@ -83,7 +83,8 @@ class Payment extends CI_Controller {
                 // Diff in days
                 $diff_days = $diff_info->days;
 //                $diff_days = ($diff_info->m * 30) + $diff_info->days;
-            } else {
+            } else { // if have not payment jet
+                print "\n<br> LastSaledData = NULL";
                 $pay_day = new DateTime();
                 $pay_day->setTimestamp($client['pay_day']);
                 $diff_info = $pay_day->diff($now);
@@ -93,7 +94,7 @@ class Payment extends CI_Controller {
                 if ($now > $pay_day)
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
             }
-
+            print "\n<br> Diff days: $diff_days";
             // TODO: Put 34 in system_config
             //$diff_days = 35;
             if ($diff_days > 34) { // Limit to bolck

@@ -121,7 +121,7 @@ namespace dumbu\cls {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                     }
                     // Send email to client
-                    $now = new DateTime("now");
+                    $now = new \DateTime("now");
                     $status_date = new \DateTime();
                     $status_date->setTimestamp($Client->status_date? $Client->status_date : 0);
                     $diff_info = $status_date->diff($now);
