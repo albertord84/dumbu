@@ -154,17 +154,20 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
                 $object = $result->fetch_object();
-                
+
                 // Update daily work time
-                $ref_prof_id = $object->rp_insta_id;
-                $time = time();
-                $sql = ""
-                        . "UPDATE clients "
-                        . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
-                        . "SET clients.last_access = '$time' "
-                        . "WHERE reference_profile.id = $ref_prof_id; ";
-                $result = mysqli_query($this->connection, $sql);
-                
+                if ($object) {
+                    //$ref_prof_id = $object->rp_insta_id;
+                    $time = time();
+                    $sql2 = ""
+                            . "UPDATE clients "
+                            . "SET clients.last_access = '$time' "
+                            . "WHERE clients.user_id = $object->users_id; ";
+                    $result2 = mysqli_query($this->connection, $sql2);
+                    if (!$result2) {
+                        var_dump($sql2);
+                    }
+                }
                 return $object;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
