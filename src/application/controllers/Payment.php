@@ -107,7 +107,7 @@ class Payment extends CI_Controller {
             } elseif ($diff_days > 31) { // Limit to advice
                 // Send email to Client
                 // TODO: Think about send email
-                print "Diff in days bigger tham 31 days: $diff_days";
+                print "Diff in days bigger tham 31 days: $diff_days ";
                 $this->send_payment_email($client);
             } else {
                 return TRUE;
