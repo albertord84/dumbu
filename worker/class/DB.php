@@ -82,7 +82,7 @@ namespace dumbu\cls {
             try {
                 $this->connect();
                 $status_date = time();
-                $sql =    "UPDATE users "
+                $sql = "UPDATE users "
                         . "SET "
                         . "      users.status_id   = $status_id, "
                         . "      users.status_date = '$status_date' "
@@ -132,13 +132,6 @@ namespace dumbu\cls {
         public function get_follow_work() {
             //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
             try {
-                // Update daily work time
-                $time = time();
-                $sql = ""
-                        . "UPDATE clients "
-                        . "SET clients.last_access = '$time'; ";
-                $result = mysqli_query($this->connection, $sql);
-                
                 // Get daily work
                 $sql = ""
                         . "SELECT *, "
@@ -161,7 +154,17 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
                 $object = $result->fetch_object();
-                //$object->num_rows = mysql_num_rows($result);
+                
+                // Update daily work time
+                $ref_prof_id = $object->rp_insta_id;
+                $time = time();
+                $sql = ""
+                        . "UPDATE clients "
+                        . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
+                        . "SET clients.last_access = '$time' "
+                        . "WHERE reference_profile.id = $ref_prof_id; ";
+                $result = mysqli_query($this->connection, $sql);
+                
                 return $object;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
