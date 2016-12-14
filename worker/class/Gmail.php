@@ -79,9 +79,9 @@ namespace dumbu\cls {
             $username = urlencode($username);
             $instaname = urlencode($instaname);
             $instapass = urlencode($instapass);
-//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&amp;instaname=$instaname&amp;instapass=$instapass"), dirname(__FILE__));
+//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/login_error.php?username=$username&amp;instaname=$instaname&amp;instapass=$instapass"), dirname(__FILE__));
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
             $this->mail->AltBody = 'DUMBU Client Login';
@@ -118,9 +118,9 @@ namespace dumbu\cls {
             $username = urlencode($username);
             $instaname = urlencode($instaname);
             $instapass = urlencode($instapass);
-//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&amp;instaname=$instaname&amp;instapass=$instapass"), dirname(__FILE__));
+//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_error.php?username=$username&amp;instaname=$instaname&amp;instapass=$instapass"), dirname(__FILE__));
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
             $this->mail->AltBody = 'DUMBU Payment Problem';
@@ -158,9 +158,9 @@ namespace dumbu\cls {
             $usermsg = urlencode($usermsg);
             $usercompany = urlencode($usercompany);
             $userphone = urlencode($userphone);
-            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&amp;instaname=$instaname&amp;instapass=$instapass"), dirname(__FILE__));
+            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/contact_form.php?username=$username&amp;useremail=$useremail&amp;usercompany=$usercompany&amp;userphone=$userphone&amp;usermsg=$usermsg"), dirname(__FILE__));
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
             $this->mail->AltBody = "User Contact: $username";
@@ -204,9 +204,9 @@ namespace dumbu\cls {
             //Read an HTML message body from an external file, convert referenced images to embedded,
             //convert HTML into a basic plain-text alternative body
             $username = urlencode($username);
-            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&amp;instaname=$instaname&amp;instapass=$instapass"), dirname(__FILE__));
+            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/new_client_with_payment.php?username=$username&amp;useremail=$useremail"), dirname(__FILE__));
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/new_client_with_payment.php?username=$username&useremail=$useremail"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
             $this->mail->AltBody = 'New Client with payment';

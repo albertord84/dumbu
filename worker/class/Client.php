@@ -144,6 +144,18 @@ namespace dumbu\cls {
             }
         }
 
+        public function rp_workable_count() {
+            $count = 0;
+            if ($this->reference_profiles) {
+                foreach ($this->reference_profiles as $ref_prof) {
+                    if ($ref_prof->end_date == NULL) {
+                        $count++;
+                    }
+                }
+            }
+            return $count;
+        }
+
         public function delete_daily_work($client_id) {
             $DB = new DB();
             $DB->delete_daily_work_client($client_id);

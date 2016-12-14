@@ -45,13 +45,13 @@ $Client = new dumbu\cls\Client();
 // MUNDIPAGG
 //$Payment = new dumbu\cls\Payment();
 //
-//$payment_data['credit_card_number'] = '5155901166592924';
-//$payment_data['credit_card_name'] = 'SERAMI HAM';
-//$payment_data['credit_card_exp_month'] = '01';
-//$payment_data['credit_card_exp_year'] = '2023';
-//$payment_data['credit_card_cvc'] = '018';
+//$payment_data['credit_card_number'] = '5067311984444220';
+//$payment_data['credit_card_name'] = 'TATIANA ZEFIRA GARCIA';
+//$payment_data['credit_card_exp_month'] = '02';
+//$payment_data['credit_card_exp_year'] = '2019';
+//$payment_data['credit_card_cvc'] = '038';
 //$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = '1481755021';
+//$payment_data['pay_day'] = '1482247880';
 //        
 //var_dump($Payment->create_recurrency_payment($payment_data));
 
@@ -68,8 +68,8 @@ $Gmail = new dumbu\cls\Gmail();
 
 $Robot = new dumbu\cls\Robot();
  	  		 	
- 	 	 	
-//$result = $Robot->bot_login("sandirfigueiredo", "⁠⁠⁠FRATERNOamor");
+ 	 	 	 	
+//$result = $Robot->bot_login("gugafitnes", "310878");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
@@ -77,7 +77,7 @@ $Robot = new dumbu\cls\Robot();
 //print_r(json_encode($result));
 
 //$result = $Robot->bot_login("urpia", "romeus33");
-//var_dump($result);
+var_dump($result);
  	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
