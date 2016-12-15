@@ -3,13 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-    public function index1() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-        $this->Robot = new \dumbu\cls\Robot();
-        $my_profile_datas = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'));
-        var_dump($my_profile_datas);
-    }
-
     public function index() {
         //$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
@@ -830,7 +823,7 @@ class Welcome extends CI_Controller {
 
     //functions for reference profiles
     public function client_insert_profile() {
-        if ($this->session->userdata('name')) {
+        if ($this->session->userdata('id')) {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');
             $this->load->model('class/user_status');
@@ -898,7 +891,7 @@ class Welcome extends CI_Controller {
     }
 
     public function client_desactive_profiles() {
-        if ($this->session->userdata('name')) {
+        if ($this->session->userdata('id')) {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');
             $profile = $this->input->post();
@@ -914,7 +907,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_insta_profile($profile) {
-        //if ($this->session->userdata('name')) {
+        //if ($this->session->userdata('id')) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $data = $this->Robot->get_insta_ref_prof_data($profile);
@@ -1095,7 +1088,7 @@ class Welcome extends CI_Controller {
     }
 
     public function create_profiles_datas_to_display() {
-        if ($this->session->userdata('login')) {
+        if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $this->load->model('class/client_model');

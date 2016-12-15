@@ -5,8 +5,8 @@
         2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof2')},
         3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof3')},
         4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof4')},
-        /*5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof5')},
-        6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof6')},
+        5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof5')},
+        /*6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof6')},
         7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),  'ptr_label_obj':$('#cnt_follows_prof7'),     'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof7')},
         8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),  'ptr_label_obj':$('#cnt_follows_prof8'),     'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof8')},
         9:{'ptr_img_obj':$('#img_ref_prof9'),'ptr_p_obj':$('#name_ref_prof9'),  'ptr_label_obj':$('#cnt_follows_prof9'),     'ptr_panel_obj':$('#reference_profile9'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof9')}*/
@@ -212,6 +212,13 @@
                 icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
             icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
         }
+        if(num_profiles){
+            $('#container_present_profiles').css({"visibility":"visible","display":"block"})
+            $('#container_missing_profiles').css({"visibility":"hidden","display":"none"});
+        } else{
+            $('#container_missing_profiles').css({"visibility":"visible","display":"block"})
+            $('#container_present_profiles').css({"visibility":"hidden","display":"none"});
+        }
     }
     
     function init_icons_profiles(datas){
@@ -235,6 +242,13 @@
         icons_profiles[num_profiles]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+datas['profile']+'/');         
         num_profiles=num_profiles+1;
         display_reference_profiles();
+        if(num_profiles){
+            $('#container_present_profiles').css({"visibility":"visible","display":"block"})
+            $('#container_missing_profiles').css({"visibility":"hidden","display":"none"});
+        } else{
+            $('#container_missing_profiles').css({"visibility":"visible","display":"block"})
+            $('#container_present_profiles').css({"visibility":"hidden","display":"none"});
+        }
     }
     
     function delete_icons_profiles(name_profile){
@@ -260,6 +274,14 @@
         num_profiles=num_profiles-1; 
         display_reference_profiles();
         icons_profiles[j]['ptr_panel_obj'].css({"visibility":"hidden","display":"none"});
+        
+        if(num_profiles){
+            $('#container_present_profiles').css({"visibility":"visible","display":"block"})
+            $('#container_missing_profiles').css({"visibility":"hidden","display":"none"});
+        } else{
+            $('#container_missing_profiles').css({"visibility":"visible","display":"block"})
+            $('#container_present_profiles').css({"visibility":"hidden","display":"none"});
+        }
     }
     
     function validate_element(element_selector,pattern){
