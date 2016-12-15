@@ -52,6 +52,7 @@ namespace dumbu\cls {
          */
         public function parse_profile_follow_errors($response) {
             $error = FALSE;
+            // If object
             if (is_object($response) && isset($response->message)) {
                 if (strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) {
                     $error = 1;
@@ -63,8 +64,15 @@ namespace dumbu\cls {
                     $error = 4;
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
+                } else if ($response->message === '') {
+                    $error = 6; // Empty message
                 }
+            } // If array
+            else if (is_array($response) && count($response) == 1 && is_string($response[0]) 
+                    && strpos($response[0], 'Tente novamente mais tarde') !== FALSE) {
+                $error = 7; // Tente novamente mais tarde
             } else {
+                $error = -1;
                 var_dump($response);
                 print 'Not error found!';
             }

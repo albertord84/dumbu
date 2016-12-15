@@ -55,6 +55,12 @@ namespace dumbu\cls {
          * 
          * @access public
          */
+        public $status_date;
+
+        /**
+         * 
+         * @access public
+         */
         public $insta_followers_ini;
 
         /**

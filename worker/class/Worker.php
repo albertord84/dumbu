@@ -121,12 +121,14 @@ namespace dumbu\cls {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                     }
                     // Send email to client
-                    $now = time();
-                    $status_date = new DateTime();
-                    $status_date->setTimestamp($Client->status_date);
+                    $now = new DateTime("now");
+                    $status_date = new \DateTime();
+                    $status_date->setTimestamp($Client->status_date? $Client->status_date : 0);
                     $diff_info = $status_date->diff($now);
+                    var_dump($diff_info->days);
                     if ($diff_info->days <= 3) {
-                        $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                        // TODO, UNCOMMENT
+                        //$this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 }
             }

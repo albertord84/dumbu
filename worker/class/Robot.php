@@ -103,6 +103,7 @@ namespace dumbu\cls {
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             $error = FALSE;
             for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
+                $error = FALSE;
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
                 $Profile->unfollowed = FALSE;
@@ -120,10 +121,15 @@ namespace dumbu\cls {
                     echo "ID: $Profile->followed_id<br>\n";
                     var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
-                    if (is_array($json_response) && isset($json_response["message"]) && $json_response["message"] == "")
+                    // TODO: Class for error messages
+                    if ($error == 6) {// Just empty message:
+                        $error = FALSE;
                         $Profile->unfollowed = TRUE;
-                    if ($error || (is_array($json_response) && count($json_response) == 1)) // To much request response string only
+                    } else if ($error == 7) { // To much request response string only
+                        $error = FALSE;
                         break;
+                    }
+                    break;
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
@@ -131,8 +137,8 @@ namespace dumbu\cls {
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             $Ref_profile_follows = array();
             $follows = 0;
+            echo "<br>\nmake_insta_friendships_command FOLLOW: $daily_work->to_follow <br>\n";
             if (!$error && $daily_work->to_follow > 0) { // If has to follow
-                echo "<br>\nmake_insta_friendships_command FOLLOW <br>\n";
                 $get_followers_count = 0;
                 $error = FALSE;
                 while (!$error && $follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
@@ -173,17 +179,20 @@ namespace dumbu\cls {
                         if (!$json_response->followed_by->page_info->has_next_page)
                             break;
                     } else {
-//                        $DB = new DB();
-//                        $ref_prof_id = $daily_work->rp_id;
+                        $DB = new DB();
+                        $ref_prof_id = $daily_work->rp_insta_id;
                         $error = $this->process_follow_error($json_response);
-//                        $deleted = $DB->delete_daily_work($ref_prof_id);
-//                        if ($deleted)
-//                            print "Deleted WORK! (Ref Prof: $ref_prof_id)";
-//                        else {
-//                            var_dump($deleted);
-//                            print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
-//                        }
-//                        $error = TRUE;
+                        if ($error = -1) {
+                            $deleted = $DB->delete_daily_work($ref_prof_id);
+                            if ($deleted) {
+                                print "Deleted WORK! (Ref Prof: $ref_prof_id)";
+                            }
+                            else {
+                                //var_dump($deleted);
+                                print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
+                            }
+                        }
+                        $error = TRUE;
                     }
                 }
             }
@@ -233,6 +242,14 @@ namespace dumbu\cls {
                     var_dump($result);
                     $DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
+                    break;
+
+                case 6: // "" Empty message
+                    print "<br>\n Empty message (ref_prof_id: $ref_prof_id)!!! <br>\n";
+                    break;
+
+                case 7: // "Há solicitações demais. Tente novamente mais tarde." 
+                    print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
 
                 default:

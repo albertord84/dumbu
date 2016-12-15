@@ -33,13 +33,13 @@ namespace dumbu\cls {
                 $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;
                 //$UNFOLLOW = user_status::UNFOLLOW;
                 $sql = ""
-                . "SELECT * FROM users "
-                . "     INNER JOIN clients ON clients.user_id = users.id "
-                . "WHERE users.role_id = $CLIENT "
-                . "     AND (users.status_id = $ACTIVE OR "
-                . "          users.status_id = $VERIFY_ACCOUNT OR "
-                . "          users.status_id = $BLOCKED_BY_TIME OR "
-                . "          users.status_id = $BLOCKED_BY_INSTA);";
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND (users.status_id = $ACTIVE OR "
+                        . "          users.status_id = $VERIFY_ACCOUNT OR "
+                        . "          users.status_id = $BLOCKED_BY_TIME OR "
+                        . "          users.status_id = $BLOCKED_BY_INSTA);";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
             } catch (\Exception $exc) {
@@ -82,12 +82,17 @@ namespace dumbu\cls {
             try {
                 $this->connect();
                 $status_date = time();
-                $result = mysqli_query($this->connection, ""
-                        . "UPDATE users "
-                        . "     SET users.status_id   = $status_id, "
-                        . "     SET users.status_date = '$status_date' "
-                        . "WHERE users.id = $client_id; "
-                );
+                $sql =    "UPDATE users "
+                        . "SET "
+                        . "      users.status_id   = $status_id, "
+                        . "      users.status_date = '$status_date' "
+                        . "WHERE users.id = $client_id; ";
+
+                $result = mysqli_query($this->connection, $sql);
+                if ($result)
+                    print "<br>Update client_status! status_date: $status_date <br>";
+                else
+                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -265,7 +270,8 @@ namespace dumbu\cls {
 
         public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
             try {
-		if ($follows == 0) $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
+                if ($follows == 0)
+                    $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
                 $sql = ""
                         . "UPDATE daily_work "
                         . "SET daily_work.to_follow   = (daily_work.to_follow   - $follows), "
@@ -283,11 +289,11 @@ namespace dumbu\cls {
                         . "WHERE reference_profile.id = $ref_prof_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
-		//$affected = mysqli_num_rows($result);
-		if($result)
- 		   print "<br>Update daily_work! Time: $time <br>";
-		else
-		   print "<br>NOT UPDATED daily_work!!!<br> $sql <br>";
+                //$affected = mysqli_num_rows($result);
+                if ($result)
+                    print "<br>Update daily_work! follows: $follows | unfollows: $unfollows <br>";
+                else
+                    print "<br>NOT UPDATED daily_work!!!<br> $sql <br>";
                 return TRUE;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -300,7 +306,7 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
 
-                return TRUE;
+                return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
@@ -313,25 +319,30 @@ namespace dumbu\cls {
                         . "SET reference_profile.insta_follower_cursor = null;  ";
                 $result = mysqli_query($this->connection, $sql);
 
-                return TRUE;
+                return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
 
         public function update_reference_cursor($reference_id, $end_cursor) {
-            $date = $end_cursor == ''? time() : NULL;
+            $date = ($end_cursor == '' || $end_cursor == NULL) ? time() : NULL;
             try {
                 $sql = ""
                         . "UPDATE reference_profile "
                         . "SET "
-                        . "     reference_profile.insta_follower_cursor = $end_cursor, "
+                        . "     reference_profile.insta_follower_cursor = '$end_cursor', "
                         . "     reference_profile.end_date = '$date' "
                         . "WHERE reference_profile.id = $reference_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
 
-                return TRUE;
+//                if ($result)
+//                    print "<br>Updated reference_cursor! reference_id: $reference_id <br>";
+//                else
+//                    print "<br>NOT UPDATED reference_cursor!!!<br> $sql <br>";
+
+                return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
