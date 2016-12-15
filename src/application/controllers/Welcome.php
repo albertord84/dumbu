@@ -898,7 +898,7 @@ class Welcome extends CI_Controller {
     }
 
     public function client_desactive_profiles() {
-        if ($this->session->userdata('name')) {
+        if ($this->session->userdata('id')) {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');
             $profile = $this->input->post();

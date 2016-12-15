@@ -211,9 +211,9 @@ namespace dumbu\cls {
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
                     $result = $DB->delete_daily_work_client($client_id);
-                    //$DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     var_dump($result);
-                    print "<br>\n Ref Prof (id: $ref_prof_id) removed from daily work!!! <br>\n";
+                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
@@ -234,7 +234,7 @@ namespace dumbu\cls {
                     $result = $DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
+                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     break;
 
                 case 5: // "checkpoint_required"
