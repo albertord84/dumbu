@@ -91,6 +91,7 @@ namespace dumbu\cls {
         public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
 //            $this->Day_client_work = $Day_client_work;
 //            $this->Ref_profile = $Ref_profile;
+            $DB = new DB();
             $this->daily_work = $daily_work;
             $login_data = $this->daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
@@ -177,10 +178,12 @@ namespace dumbu\cls {
                                 sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
                             }
                         }
+                        // Update cursor
+                        $this->daily_work->insta_follower_cursor = $json_response->followed_by->page_info->end_cursor;
+                        $DB->update_reference_cursor($this->daily_work->reference_id, $json_response->followed_by->page_info->end_cursor);
                         if (!$json_response->followed_by->page_info->has_next_page)
                             break;
                     } else {
-                        $DB = new DB();
                         $ref_prof_id = $daily_work->rp_id;
                         $error = $this->process_follow_error($json_response);
                         if ($error = -1) {
@@ -342,13 +345,11 @@ namespace dumbu\cls {
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
                 //var_dump($output);
-                $DB = new DB();
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
-                    $this->daily_work->insta_follower_cursor = $json->followed_by->page_info->end_cursor;
-                    $DB->update_reference_cursor($this->daily_work->reference_id, $json->followed_by->page_info->end_cursor);
                     if ($json->followed_by->page_info->end_cursor == '') {
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         var_dump(json_encode($json));
+                        $DB = new DB();
                         $result = $DB->delete_daily_work($this->daily_work->reference_id);
                     }
                 } else {
@@ -668,14 +669,13 @@ namespace dumbu\cls {
 //
 //            //var_dump($User);
 //            return $User;
-            $content= file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+            $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
             $users = json_decode($content)->users;
-             //var_dump($users[0]->user->username);
-             
+            //var_dump($users[0]->user->username);
             // Get user with $ref_prof name over all matchs 
             $User = NULL;
-            if(is_array($users)){               
-                for($i=0;$i<count($users);$i++){            
+            if (is_array($users)) {
+                for ($i = 0; $i < count($users); $i++) {
                     if ($users[$i]->user->username === $ref_prof) {
                         $User = $users[$i]->user;
                         $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);

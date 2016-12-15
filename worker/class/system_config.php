@@ -10,7 +10,7 @@ namespace dumbu\cls {
         const INSTA_MAX_FOLLOWING =7300;    
         
         const MIN_NEXT_ATTEND_TIME = 10; //1000 * 60; //5 * 1000 * 60; // 5 min
-        const REFERENCE_PROFILE_AMOUNT = 5; // By Client
+        const REFERENCE_PROFILE_AMOUNT = 6; // By Client
         const UNFOLLOW_ELAPSED_TIME_LIMIT = 48; // 48; // In hours
         const MAX_GET_FOLLOWERS_REQUESTS = 15; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
         const MAX_CLIENT_FAUTL_TRIES = 1; // Quantity max of failures with this client
