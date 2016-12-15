@@ -298,63 +298,81 @@
         <div class="col-md-8">
             <div class="container-profiles">           
                 <div class="row" style="padding:1%;">
-                    <div class="col-xs-2" >
-                        <div id="reference_profile0" class="container-reference-profile">
-                            <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof0" style="color:red;font-family:sans-serif; font-size:1em;"></b>
-                            <img id="img_ref_prof0" class="img-circle image-reference-profile" src="">
-                            <br>
-                            <a id="lnk_ref_prof0" target="_blank" href="">
-                                <b id="name_ref_prof0" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
-                                </b>
-                            </a>
+                    <div  class="col-xs-10"> 
+                        <div id="container_present_profiles" style="visibility:hidden; display:none">
+                            <div class="col-xs-2" >
+                                <div id="reference_profile0" class="container-reference-profile">
+                                    <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof0" style="color:red;font-family:sans-serif; font-size:1em;"></b>
+                                    <img id="img_ref_prof0" class="img-circle image-reference-profile" src="">
+                                    <br>
+                                    <a id="lnk_ref_prof0" target="_blank" href="">
+                                        <b id="name_ref_prof0" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
+                                        </b>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-2" >
+                                <div id="reference_profile1" class="container-reference-profile">
+                                    <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof1" style="color:red;font-family:sans-serif; font-size:1em;"></b>
+                                    <img id="img_ref_prof1" class="img-circle image-reference-profile" src="">
+                                    <br>
+                                    <a id="lnk_ref_prof1" target="_blank" href="">
+                                        <b id="name_ref_prof1" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                
+                                        </b>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-2" >
+                                <div id="reference_profile2" class="container-reference-profile">
+                                    <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof2" style="color:red;font-family:sans-serif; font-size:1em;"></b>
+                                    <img id="img_ref_prof2" class="img-circle image-reference-profile" src="">
+                                    <br>
+                                    <a id="lnk_ref_prof2" target="_blank" href="">
+                                        <b id="name_ref_prof2" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
+                                        </b>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-2" >
+                                <div id="reference_profile3" class="container-reference-profile">
+                                    <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof3" style="color:red;font-family:sans-serif; font-size:1em;"></b>
+                                    <img id="img_ref_prof3" class="img-circle image-reference-profile" src="">
+                                    <br>
+                                    <a id="lnk_ref_prof3" target="_blank" href="">
+                                        <b id="name_ref_prof3" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
+                                        </b>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-2" >
+                                <div id="reference_profile4" class="container-reference-profile">
+                                    <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof4" style="color:red;font-family:sans-serif; font-size:1em;"></b>
+                                    <img id="img_ref_prof4" class="img-circle image-reference-profile" src="">
+                                    <br>
+                                    <a id="lnk_ref_prof4" target="_blank" href="">
+                                        <b id="name_ref_prof4" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
+                                        </b>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xs-2" >
+                                <div id="reference_profile5" class="container-reference-profile">
+                                    <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof5" style="color:red;font-family:sans-serif; font-size:1em;"></b>
+                                    <img id="img_ref_prof5" class="img-circle image-reference-profile" src="">
+                                    <br>
+                                    <a id="lnk_ref_prof5" target="_blank" href="">
+                                        <b id="name_ref_prof5" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
+                                        </b>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-xs-2" >
-                        <div id="reference_profile1" class="container-reference-profile">
-                            <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof1" style="color:red;font-family:sans-serif; font-size:1em;"></b>
-                            <img id="img_ref_prof1" class="img-circle image-reference-profile" src="">
-                            <br>
-                            <a id="lnk_ref_prof1" target="_blank" href="">
-                                <b id="name_ref_prof1" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                
-                                </b>
-                            </a>
+                        <div id="container_missing_profiles" style="visibility:hidden; display:none">
+                            <br><br>
+                            <img style="margin-left:15%;width:12%;opacity: 0.7;border-radius:40px" src="<?php echo base_url().'assets/img/add_reference_profiles.jpg'?>"/>
+                            <b style="color:gray; font-size:1.3em;">Adicione seus Perfis de Referência aqui...</b>
                         </div>
-                    </div>
-                    <div class="col-xs-2" >
-                        <div id="reference_profile2" class="container-reference-profile">
-                            <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof2" style="color:red;font-family:sans-serif; font-size:1em;"></b>
-                            <img id="img_ref_prof2" class="img-circle image-reference-profile" src="">
-                            <br>
-                            <a id="lnk_ref_prof2" target="_blank" href="">
-                                <b id="name_ref_prof2" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
-                                </b>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xs-2" >
-                        <div id="reference_profile3" class="container-reference-profile">
-                            <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof3" style="color:red;font-family:sans-serif; font-size:1em;"></b>
-                            <img id="img_ref_prof3" class="img-circle image-reference-profile" src="">
-                            <br>
-                            <a id="lnk_ref_prof3" target="_blank" href="">
-                                <b id="name_ref_prof3" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
-                                </b>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xs-2" >
-                        <div id="reference_profile4" class="container-reference-profile">
-                            <br><b title="Seguidos por mim para este perfil" class="red_number" id="cnt_follows_prof4" style="color:red;font-family:sans-serif; font-size:1em;"></b>
-                            <img id="img_ref_prof4" class="img-circle image-reference-profile" src="">
-                            <br>
-                            <a id="lnk_ref_prof4" target="_blank" href="">
-                                <b id="name_ref_prof4" title="Ver no Instagram" style="font-family:sans-serif; font-size:1em;">                                    
-                                </b>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    
+                    </div>                    
                     <div class="col-xs-2">
                         <div id="btn_reference_profile">
                             <br><b></b>
@@ -362,6 +380,7 @@
                             <br><b></b>
                         </div>                    
                     </div>
+                    
                 </div>
             </div>
             <div class="alert" role="alert" style="text-align:justify">

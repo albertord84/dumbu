@@ -652,26 +652,10 @@ namespace dumbu\cls {
         }
 
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
-//            $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
-//            //var_dump($content);
-//            $users = json_decode($content)->users;
-//
-//            // Get user with $ref_prof name over all matchs 
-//            $User = NULL;
-//            foreach ($users as $key => $user) {
-//                if ($user->user->username === $ref_prof) {
-//                    $User = $user->user;
-//                    $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
-//                    $User->following = $this->get_insta_ref_prof_following($ref_prof);
-//                    break;
-//                }
-//            }
-//
-//            //var_dump($User);
-//            return $User;
-            $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+            $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
+            //var_dump($content);
             $users = json_decode($content)->users;
-            //var_dump($users[0]->user->username);
+
             // Get user with $ref_prof name over all matchs 
             $User = NULL;
             if (is_array($users)) {
@@ -685,6 +669,24 @@ namespace dumbu\cls {
                 }
             }
             return $User;
+            // JOSE
+//            $content= file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+//            $users = json_decode($content)->users;
+//             //var_dump($users[0]->user->username);
+//             
+//            // Get user with $ref_prof name over all matchs 
+//            $User = NULL;
+//            if(is_array($users)){               
+//                for($i=0;$i<count($users);$i++){            
+//                    if ($users[$i]->user->username === $ref_prof) {
+//                        $User = $users[$i]->user;
+//                        $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
+//                        $User->following = $this->get_insta_ref_prof_following($ref_prof);
+//                        break;
+//                    }
+//                }
+//            }
+//            return $User;
         }
 
         public function get_insta_ref_prof_follows($ref_prof_id) {

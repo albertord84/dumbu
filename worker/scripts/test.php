@@ -77,14 +77,14 @@ $Robot = new dumbu\cls\Robot();
 //print_r(json_encode($result));
 
 //$result = $Robot->bot_login("urpia", "romeus33");
-var_dump($result);
+//var_dump($result);
  	 	
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
 //$result = $Robot->bot_login("dona_fina", "aquarell2016");
 //var_dump($result);
-$result = $Robot->bot_login("centraldeaplicativos", "315629RICALDONI");
+$result = $Robot->bot_login("abrfuncional", "treinoabr");
 var_dump($result);
 //$result = $Robot->bot_login("jeff_need", "24549088");
 //var_dump($result);
