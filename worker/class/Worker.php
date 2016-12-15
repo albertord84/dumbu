@@ -130,7 +130,7 @@ namespace dumbu\cls {
                     var_dump($diff_info->days);
                     if ($diff_info->days <= 3) {
                         // TODO, UNCOMMENT
-                        //$this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                        $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 }
             }
