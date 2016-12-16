@@ -255,6 +255,13 @@ namespace dumbu\cls {
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
 
+                case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
+                    $result = $DB->delete_daily_work($ref_prof_id);
+                    //$DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    //var_dump($result);
+                    print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
+                    break;
+
                 default:
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
                     $error = FALSE;
@@ -634,21 +641,58 @@ namespace dumbu\cls {
             } else if (count($cookies) >= 5) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
-                $sessionid = explode("=", $cookies[1][1]);
-                $sessionid = $sessionid[1];
-                $login_data->sessionid = $sessionid;
+//                $sessionid = explode("=", $cookies[1][1]);
+//                $sessionid = $sessionid[1];
+//                $login_data->sessionid = $sessionid;
+                $login_data->sessionid = $this->get_cookies_value("sessionid");
                 // Get ds_user_id from cookies
-                $ds_user_id = explode("=", $cookies[2][1]);
-                $ds_user_id = $ds_user_id[1];
-                $login_data->ds_user_id = $ds_user_id;
+//                $ds_user_id = explode("=", $cookies[2][1]);
+//                $ds_user_id = $ds_user_id[1];
+//                $login_data->ds_user_id = $ds_user_id;
+                $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
                 // Get mid from cookies
-                $mid = explode("=", $cookies[4][1]);
-                $mid = $mid[1];
-                $login_data->mid = $mid;
+//                $mid = explode("=", $cookies[4][1]);
+//                $mid = $mid[1];
+//                $login_data->mid = $mid;
+                $login_data->mid = $this->get_cookies_value("mid");
             }
             curl_close($ch);
 //            var_dump($login_data);
             return $login_data;
+        }
+
+        public function get_cookies_value($key) {
+            $value = NULL;
+            global $cookies;
+            foreach ($cookies as $index => $cookie) {
+                if (strpos($key, $cookie[1]) !== NULL) {
+                    $value = explode("=", $cookie[1]);
+                    $value = $value[1];
+                }
+            }
+//            array(5) (
+//                [0] => array(2) (
+//                    [0] => (string) Set-Cookie: target = ""
+//                    [1] => (string) target = ""
+//                )
+//                [1] => array(2) (
+//                    [0] => (string) Set-Cookie: sessionid = IGSCe1aaf9cbd92bdb97f6392541718f0f1cc3c9f104fa582781747eea41f45feab6%3AaWt6gfw3qwDWgZ4pm5z3KJdHi97IhFXj%3A%7B%22_token%22%3A%223858629065%3ASaCRKRRXkW6bOn1hABewWJMkpIjPJnVH%3A02085c8afdf6bccc4e3aeda68d33cf4d9d24fd52c778bb5ef68d9055e3de38d8%22%2C%22_auth_user_id%22%3A3858629065%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_platform%22%3A4%2C%22last_refreshed%22%3A1481805181.8183546%2C%22_auth_user_hash%22%3A%22%22%7D
+//                    [1] => (string) sessionid = IGSCe1aaf9cbd92bdb97f6392541718f0f1cc3c9f104fa582781747eea41f45feab6%3AaWt6gfw3qwDWgZ4pm5z3KJdHi97IhFXj%3A%7B%22_token%22%3A%223858629065%3ASaCRKRRXkW6bOn1hABewWJMkpIjPJnVH%3A02085c8afdf6bccc4e3aeda68d33cf4d9d24fd52c778bb5ef68d9055e3de38d8%22%2C%22_auth_user_id%22%3A3858629065%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_platform%22%3A4%2C%22last_refreshed%22%3A1481805181.8183546%2C%22_auth_user_hash%22%3A%22%22%7D
+//                )
+//                [2] => array(2) (
+//                    [0] => (string) Set-Cookie: csrftoken = LRroVq0dMCKrMf3ZEHHxlK4096vWjS4L
+//                    [1] => (string) csrftoken = LRroVq0dMCKrMf3ZEHHxlK4096vWjS4L
+//                )
+//                [3] => array(2) (
+//                    [0] => (string) Set-Cookie: ds_user_id = 3858629065
+//                    [1] => (string) ds_user_id = 3858629065
+//                )
+//                [4] => array(2) (
+//                    [0] => (string) Set-Cookie: mid = WFKNfQAEAAFmshFCfCuZHStSf0Ou
+//                    [1] => (string) mid = WFKNfQAEAAFmshFCfCuZHStSf0Ou
+//                )
+//            )
+            return $value;
         }
 
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {

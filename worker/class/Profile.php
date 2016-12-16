@@ -64,6 +64,8 @@ namespace dumbu\cls {
                     $error = 4;
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
+                } else if (strpos($response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
+                    $error = 8;
                 } else if ($response->message === '') {
                     $error = 6; // Empty message
                 }
