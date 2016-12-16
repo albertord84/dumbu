@@ -29,7 +29,7 @@ namespace dumbu\cls {
                 $CLIENT = user_role::CLIENT;
                 $ACTIVE = user_status::ACTIVE;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
-//                $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
+                $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
                 $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;
                 //$UNFOLLOW = user_status::UNFOLLOW;
                 $sql = ""
@@ -38,7 +38,7 @@ namespace dumbu\cls {
                         . "WHERE users.role_id = $CLIENT "
                         . "     AND (users.status_id = $ACTIVE OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
-//                        . "          users.status_id = $BLOCKED_BY_INSTA OR "
+                        . "          users.status_id = $BLOCKED_BY_INSTA OR "
                         . "          users.status_id = $BLOCKED_BY_TIME);";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
