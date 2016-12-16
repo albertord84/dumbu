@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
+//    public function index() {
+//        //var_dump($this->is_insta_user('josergm86', 'josergm'));
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+//        $this->Robot = new \dumbu\cls\Robot();
+//        $login_data = $this->Robot->bot_login('albertoreyesd1984', 'albertord');
+//        var_dump($login_data );
+//    }
+    
     public function index() {
         //$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel (black_friday)', '', true);
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
@@ -734,7 +742,10 @@ class Welcome extends CI_Controller {
             $datas = $this->input->post();
             if ($this->validate_post_credit_card_datas($datas)) {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                $datas['pay_day'] = $client_data['pay_day'];
+                if($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT)
+                    $datas['pay_day'] = time();
+                else
+                    $datas['pay_day'] = $client_data['pay_day'];
                 $datas['amount_in_cents'] = dumbu_system_config::PAYMENT_VALUE;
                 try {
                     $this->user_model->update_user($this->session->userdata('id'), array(
@@ -745,6 +756,7 @@ class Welcome extends CI_Controller {
                         'credit_card_name' => $datas['client_credit_card_name'],
                         'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
                         'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
+                        'pay_day' => $datas['pay_day']
                     ));
                 } catch (Exception $exc) {
                     $result['success'] = false;
@@ -761,11 +773,19 @@ class Welcome extends CI_Controller {
                             $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
                             $response_delete_early_payment = '';
                             if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                $datas['status_id'] = user_status::PENDING; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
+                                $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
                             } else
-                                $datas['status_id'] = $this->session->userdata('status_id');
+                                $datas['status_id'] = $this->session->userdata('status_id');                            
+                            if($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT ){
+                                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                            
+                                $N = count($active_profiles);
+                                for ($i = 0; $i < $N; $i++) {
+                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                                }
+                            }
                             $this->user_model->update_user($this->session->userdata('id'), array(
                                 'status_id' => $datas['status_id']));
+                            $this->session->set_userdata('status_id',$datas['status_id']);
                         } catch (Exception $exc) {
                             $this->user_model->update_user($datas['pk'], array(
                                 'status_id' => $this->session->userdata('status_id'))); //the previous
@@ -777,7 +797,7 @@ class Welcome extends CI_Controller {
                         } finally {
                             $result['success'] = true;
                             $result['resource'] = 'client';
-                            $result['message'] = 'Dados bancários confirmados corretamenteeeee';
+                            $result['message'] = 'Dados bancários confirmados corretamente';
                             $result['response_delete_early_payment'] = $response_delete_early_payment;
                         }
                     } else {

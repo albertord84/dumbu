@@ -10,42 +10,24 @@ class Admin extends CI_Controller {
         $datas['pass']=urldecode($datas1['pass']);
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
-        $this->load->model('class/user_role');
-        $query='SELECT * FROM users'.
+        $this->load->model('class/user_role');      
+         $query='SELECT * FROM users'.
                 ' WHERE login="'.$datas['login'].'" AND pass="'.$datas['pass'].
                 '" AND role_id='.user_role::ADMIN.' AND status_id='.user_status::ACTIVE;
         $user= $this->user_model->execute_sql_query($query);
         
-        if($this->user_model->set_sesion($user[0]['id'], $this->session, '')){            
+        if($this->user_model->set_sesion($user[0]['id'], $this->session, '')){
             //TODO: INNER JOIN
-            $query='SELECT users.id, users.name, users.login, users.pass, users.email, users.status_id, clients.pay_day, clients.credit_card_number, clients.credit_card_name, clients.order_key, clients.insta_followers_ini, clients.insta_following'.
-                    ' FROM users,clients '.
-                    'WHERE users.id=clients.user_id';
-            $result['clients']= $this->user_model->execute_sql_query($query);
             
-            $data['content_header'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
-            $data['content'] = $this->load->view('responsive_views/admin/admin_body_painel',$result, true);
-            $data['content_footer'] = $this->load->view('responsive_views/admin/admin_footer_painel', '', true);
+            $sql='';
             
-            $this->load->view('layout_admin', $data);
-        } else {
-           // header('Location: '. base_url().'index.php/welcome/');
-        }  
+            
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel','',true);
+            $data['section3'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
+            
+            $this->load->view('view_admin', $data);
+        } 
     }
     
-    public function welcome(){
-        $this->load->model('class/user_role');
-        if ($this->session->userdata('role_id')==user_role::ADMIN){
-            $data['content_header'] = $this->load->view('my_views/admin_header','', true);
-            $data['content'] = $this->load->view('my_views/init_painel', '', true);        
-            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-            $this->load->view('layout_admin', $data);
-        } else{
-            $this->display_access_error();
-        }
-    }
-    
-    public function display_access_error(){
-        header('Location: '. base_url().'index.php/welcome/');
-    }    
 }
