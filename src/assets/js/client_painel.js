@@ -75,6 +75,9 @@
     $("#img_ref_prof4").click(function(){
         delete_profile_click($("#name_ref_prof4"));
     });
+    $("#img_ref_prof5").click(function(){
+        delete_profile_click($("#name_ref_prof4"));
+    });
    
     function delete_profile_click(element){
        if(confirm('Deseja elimiar o perfil de referência '+element.text())){
