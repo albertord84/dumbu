@@ -256,8 +256,8 @@ namespace dumbu\cls {
                     break;
 
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
-                    $result = $DB->delete_daily_work($ref_prof_id);
-                    //$DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $result = $DB->delete_daily_work_client($client_id);
+                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //var_dump($result);
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
