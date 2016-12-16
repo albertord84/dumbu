@@ -665,7 +665,8 @@ namespace dumbu\cls {
             $value = NULL;
             global $cookies;
             foreach ($cookies as $index => $cookie) {
-                if (strpos($key, $cookie[1]) !== NULL) {
+                $pos = strpos($cookie[1], $key);
+                if ($pos !== FALSE && $pos === 0) {
                     $value = explode("=", $cookie[1]);
                     $value = $value[1];
                 }

@@ -1,4 +1,4 @@
-﻿$(document).ready(function(){ 
+$(document).ready(function(){ 
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof0')},
         1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof1')},
@@ -76,7 +76,7 @@
         delete_profile_click($("#name_ref_prof4"));
     });
     $("#img_ref_prof5").click(function(){
-        delete_profile_click($("#name_ref_prof4"));
+        delete_profile_click($("#name_ref_prof5"));
     });
    
     function delete_profile_click(element){
