@@ -91,8 +91,24 @@ class Payment extends CI_Controller {
                 $diff_days = $diff_info->days;
 //                $diff_days = ($diff_info->m * 30) + $diff_info->days;
                 // TODO: check whend not pay and block user
-                if ($now > $pay_day)
+                if ($now > $pay_day) {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
+                    // TODO: limit email by days diff
+                    if ($diff_days > 0 /* && $diff_days < 5 */) {
+                        print "\n<br>Email sent to " . $client['email'] . "<br>\n";
+                        $this->send_payment_email($client);
+                        // TODO: limit email by days diff
+                        if ($diff_days > 5 /* && $diff_days < 5 */) {
+                            //Block client by paiment
+                            $this->load->model('class/user_status');
+                            $this->load->model('class/user_model');
+                            $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                            $this->send_payment_email($client);
+                            print "This client was blocked by payment just now: " . $client['user_id'];
+                            // TODO: Put 31 in system_config    
+                        }
+                    }
+                }
             }
             print "\n<br> Diff days: $diff_days";
             // TODO: Put 34 in system_config
