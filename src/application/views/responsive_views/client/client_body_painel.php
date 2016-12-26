@@ -12,7 +12,7 @@
     
     <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js'?>"></script>
 <!---------------------------------------------------------------------------------------->
-   <br>
+    <br>
     <div class="row">
         <?php
             switch ($status['status_id']) {
@@ -110,6 +110,27 @@
             }
         ?>
     </div>
+    
+    <div id="reference_profile_status_container" class="row" style="visibility:hidden;display:none">        
+        <div id="reference_profile_status_message" class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+            <div class="center">
+                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">PERFIS DE REFERÊNCIA COM PROBLEMA. CONSIDERE TROCAR!!!</b>
+                <hr><BR>
+            </div>
+            
+            <div style="text-align:left">
+                <ul id="reference_profile_status_list">
+
+                </ul>
+            </div>
+            <div class="center">
+                <button id="btn_RP_status" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                    ACEITAR                    
+                </button>
+            </div>            
+        </div>
+    </div>
+    
     
 <!---------------------------------------------------------------------------------------->
     <br>

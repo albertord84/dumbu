@@ -44,7 +44,7 @@ class Welcome extends CI_Controller {
             $sql = "SELECT count(*) as followeds FROM followed INNER JOIN reference_profile ON reference_profile.id = followed.reference_id INNER JOIN clients ON clients.user_id = reference_profile.client_id WHERE (clients.user_id = " . $this->session->userdata('id') . ")";
             //$sql="SELECT * FROM reference_profile WHERE client_id='".$this->session->userdata('id')."'";
             $total_amount_followers_today = $this->user_model->execute_sql_query($sql);
-            $followeds = (string)$total_amount_followers_today[0]["followeds"];            
+            $followeds = (string)$total_amount_followers_today[0]["followeds"];
             
             $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
             $datas1['my_actual_followings'] = $my_profile_datas->following;
@@ -66,7 +66,6 @@ class Welcome extends CI_Controller {
                         $this->user_model->update_user($this->session->userdata('id'), array(
                             'status_id' => user_status::ACTIVE));
                         //2. actualizar la cookies
-
                         if ($insta_login['insta_login_response']) {
                             $this->client_model->update_client($this->session->userdata('id'), array(
                                 'cookies' => json_encode($insta_login['insta_login_response'])));
@@ -649,7 +648,7 @@ class Welcome extends CI_Controller {
                         $result['success'] = false;
                         $result['exception'] = $exc->getTraceAsString();
                         $result['message'] = 'Error actualizando en base de datos';
-                    } finally {
+                    } finally {                        
                         //passo 3: login con instagram para saber el estado
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
@@ -692,7 +691,12 @@ class Welcome extends CI_Controller {
                             $result['return_link'] = 'client';
                             $this->user_model->set_sesion($datas['pk'], $this->session);
                         }
-                         $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                        //Email com compra satisfactoria a atendimento y al cliente
+                        $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                        if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
+                            $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
+                        else
+                            $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
                         $result['success'] = true;
                         $result['message'] = 'Usuário cadastrado com sucesso';
                     }
@@ -957,8 +961,19 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
         $this->Gmail = new \dumbu\cls\Gmail();
-        $datas = $this->input->post();
+        //$datas = $this->input->post();
         $result = $this->Gmail->send_new_client_payment_done($username, $useremail);
+        if ($result['success'])
+            return TRUE;
+        return false;
+    }
+    
+    public function email_success_buy_to_client($useremail, $username, $userlogin, $userpass) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
+        $this->Gmail = new \dumbu\cls\Gmail();
+        $Gmail->send_client_payment_success($useremail, $username, $userlogin, $userpass);
         if ($result['success'])
             return TRUE;
         return false;
@@ -1119,20 +1134,23 @@ class Welcome extends CI_Controller {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $id_profile = $client_active_profiles[$i]['id'];
                     $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile, $id_profile);
-                    $array_profiles[$i]['login_profile'] = $name_profile;
-                    $array_profiles[$i]['follows_from_profile'] = $datas_of_profile->follows;
-                    if (!$datas_of_profile) {
+                    $array_profiles[$i]['login_profile']=$name_profile;
+                    $array_profiles[$i]['follows_from_profile']=$datas_of_profile->follows;
+                    if(!$datas_of_profile){ //perfil existia pero fue eliminado de IG
                         $array_profiles[$i]['status_profile'] = 'deleted';
                         $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_deleted.jpg';
+                    } else 
+                    if($client_active_profiles[$i]['end_date']){ //perfil
+                        $array_profiles[$i]['status_profile'] = 'ended';
+                        $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
+                    } else
+                    if ($datas_of_profile->is_private) { //perfil paso a ser privado
+                        $array_profiles[$i]['status_profile'] = 'privated';
+                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_privated.jpg';
                     } else {
-                        if ($datas_of_profile->is_private) {
-                            $array_profiles[$i]['status_profile'] = 'privated';
-                            $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_privated.jpg';
-                        } else {
-                            $array_profiles[$i]['status_profile'] = 'active';
-                            $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
-                        }
-                    }
+                        $array_profiles[$i]['status_profile'] = 'active';
+                        $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
+                    }                    
                 }
                 $response['array_profiles'] = $array_profiles;
             } else {

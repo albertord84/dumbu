@@ -7,7 +7,7 @@ require_once '../class/Payment.php';
 require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 
-echo "Worker Inited...!<br>\n";
+//echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -34,7 +34,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //var_dump($Ref_profile_follows);
 
 
-$Client = new dumbu\cls\Client();
+//$Client = new dumbu\cls\Client();
 
 //$Client->create_daily_work(234);
 
@@ -43,28 +43,33 @@ $Client = new dumbu\cls\Client();
 
 
 // MUNDIPAGG
-//$Payment = new dumbu\cls\Payment();
-//
-//$payment_data['credit_card_number'] = '5067311984444220';
-//$payment_data['credit_card_name'] = 'TATIANA ZEFIRA GARCIA';
-//$payment_data['credit_card_exp_month'] = '02';
-//$payment_data['credit_card_exp_year'] = '2019';
-//$payment_data['credit_card_cvc'] = '038';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = '1482247880';
-//        
-//var_dump($Payment->create_recurrency_payment($payment_data));
+$Payment = new dumbu\cls\Payment();
+
+$today=time();
+var_dump($today);
+var_dump('---------------------------------------------');
+
+$payment_data['credit_card_number'] = '5224460467611039';
+$payment_data['credit_card_name'] = 'ROSILENE SANTOS DE SOUZA';
+$payment_data['credit_card_exp_month'] = '09';
+$payment_data['credit_card_exp_year'] = '2023';
+$payment_data['credit_card_cvc'] = '543';
+$payment_data['amount_in_cents'] = 9990;
+$payment_data['pay_day'] = $today;
+//$payment_data['pay_day'] = '1483058284';
+        
+var_dump($Payment->create_recurrency_payment($payment_data));
 
 //----------------------------------------------------------------
 
 // GMAIL
  
-$Gmail = new dumbu\cls\Gmail();
+//$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-var_dump($result);
+//var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
  	  		 	
