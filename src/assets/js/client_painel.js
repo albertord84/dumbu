@@ -5,7 +5,7 @@ $(document).ready(function(){
         2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof2')},
         3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof3')},
         4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof4')},
-        5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof5')},
+        5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof5')},
         /*6:{'ptr_img_obj':$('#img_ref_prof6'),'ptr_p_obj':$('#name_ref_prof6'),  'ptr_label_obj':$('#cnt_follows_prof6'),     'ptr_panel_obj':$('#reference_profile6'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof6')},
         7:{'ptr_img_obj':$('#img_ref_prof7'),'ptr_p_obj':$('#name_ref_prof7'),  'ptr_label_obj':$('#cnt_follows_prof7'),     'ptr_panel_obj':$('#reference_profile7'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof7')},
         8:{'ptr_img_obj':$('#img_ref_prof8'),'ptr_p_obj':$('#name_ref_prof8'),  'ptr_label_obj':$('#cnt_follows_prof8'),     'ptr_panel_obj':$('#reference_profile8'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#img_ref_prof8')},
@@ -155,7 +155,7 @@ $(document).ready(function(){
             if(validate_element('#userLogin','^[a-zA-Z0-9\._]{1,300}$')){
                 var l = Ladda.create(this);  l.start(); l.start();
                 $.ajax({
-                    url : base_url+'index.php/welcome/user_do_login',      
+                    url : base_url+'index.php/welcome/user_do_login',
                     data : {
                         'user_login':$('#userLogin').val(),
                         'user_pass': $('#userPassword').val()
@@ -200,20 +200,40 @@ $(document).ready(function(){
             alert('Alcançou a quantidade maxima permitida');        
     });
     
+    $("#btn_RP_status").click(function(){
+        $('#reference_profile_status_container').css({"visibility":"hidden","display":"none"})
+    });
+    
     
      
    
     function display_reference_profiles(){
+        var reference_profiles_status=false;
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
             icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);
-            icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');             
-            if(icons_profiles[i]['status_profile']==='privated'||icons_profiles[i]['status_profile']==='deleted')
+            icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');                         
+            if(icons_profiles[i]['status_profile']==='ended'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-            else
+                $('#reference_profile_status_list').append('<li>O sistema já siguiu todos os seguidores do perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
+                reference_profiles_status=true;
+            } else
+            if(icons_profiles[i]['status_profile']==='privated'){
+                icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
+                $('#reference_profile_status_list').append('<li>O perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b> passou a ser privado</li>');
+                reference_profiles_status=true;
+            } else
+            if(icons_profiles[i]['status_profile']==='deleted'){
+                icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
+                $('#reference_profile_status_list').append('<li>O perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b> nã existe mais no Instragram</li>');
+                reference_profiles_status=true;
+            }else
                 icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
             icons_profiles[i]['ptr_panel_obj'].css({"visibility":"visible","display":"block"});
+        }
+        if(reference_profiles_status){
+            $('#reference_profile_status_container').css({"visibility":"visible","display":"block"})
         }
         if(num_profiles){
             $('#container_present_profiles').css({"visibility":"visible","display":"block"})
