@@ -60,11 +60,17 @@ $Client = new dumbu\cls\Client();
 // GMAIL
  
 $Gmail = new dumbu\cls\Gmail();
+$result = $Gmail->send_client_payment_success("pedro@seiva.pro", "Pedro", "pedropetti", "testtest");
+var_dump($result);
+$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 2);
+var_dump($result);
+$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 5);
+var_dump($result);
+//        ("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
  	  		 	

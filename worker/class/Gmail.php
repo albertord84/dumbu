@@ -139,7 +139,7 @@ namespace dumbu\cls {
             return $result;
         }
 
-        public function send_client_payment_error($useremail, $username, $instaname, $instapass) {
+        public function send_client_payment_error($useremail, $username, $instaname, $instapass, $diff_days) {
             //Set an alternative reply-to address
 //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
 //Set who the message is to be sent to
@@ -159,10 +159,49 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass&diff_days=$diff_days"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
             $this->mail->AltBody = 'DUMBU Payment Problem';
+
+//Attach an image file
+//$mail->addAttachment('images/phpmailer_mini.png');
+//send the message, check for errors
+            if (!$this->mail->send()) {
+                $result['success'] = false;
+                $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
+            } else {
+                $result['success'] = true;
+                $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
+            }
+            $this->mail->smtpClose();
+            return $result;
+        }
+
+        public function send_client_payment_success($useremail, $username, $instaname, $instapass) {
+            //Set an alternative reply-to address
+//$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
+//Set who the message is to be sent to
+            $this->mail->clearAddresses();
+            $this->mail->addAddress($useremail, $username);
+            $this->mail->clearCCs();
+//            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+
+//Set the subject line
+            $this->mail->Subject = 'DUMBU Payment Success';
+
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+            $username = urlencode($username);
+            $instaname = urlencode($instaname);
+            $instapass = urlencode($instapass);
+//            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
+            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_success.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+
+//Replace the plain text body with one created manually
+            $this->mail->AltBody = 'DUMBU Payment Success';
 
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');

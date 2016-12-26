@@ -30,6 +30,7 @@ namespace dumbu\cls {
 //        CONST SYSTEM_USER_PASS = 'Sorvete69@';
         
         CONST PROMOTION_N_FREE_DAYS= 8;    // N days free promotion
+        CONST DAYS_TO_BLOCK_CLIENT= 4;    // Days to wait before block client
 //        CONST PROMOTION_N_FREE_DAYS= 30;    // N days BLACK FRIDAY
     
         CONST PAYMENT_VALUE=9990; //quantity to payment in cents
