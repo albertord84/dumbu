@@ -64,7 +64,7 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-//var_dump($result);
+var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
  	  		 	
@@ -84,8 +84,8 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //$result = $Robot->bot_login("dona_fina", "aquarell2016");
 //var_dump($result);
-$result = $Robot->bot_login("abrfuncional", "treinoabr");
-var_dump($result);
+//$result = $Robot->bot_login("abrfuncional", "treinoabr");
+//var_dump($result);
 //$result = $Robot->bot_login("jeff_need", "24549088");
 //var_dump($result);
 //$result = $Robot->bot_login("baladauberlandia", "calypso");

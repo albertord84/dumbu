@@ -108,6 +108,7 @@ namespace dumbu\cls {
                         }
                     } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
+                        $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 } else {
 // TODO: do something in Client autentication error
@@ -128,10 +129,10 @@ namespace dumbu\cls {
                     $status_date->setTimestamp($Client->status_date? $Client->status_date : 0);
                     $diff_info = $status_date->diff($now);
                     var_dump($diff_info->days);
-                    if ($diff_info->days <= 3) {
+//                    if ($diff_info->days <= 3) {
                         // TODO, UNCOMMENT
                         $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
-                    }
+//                    }
                 }
             }
 //            die("Loged all Clients");
