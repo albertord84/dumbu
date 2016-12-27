@@ -49,11 +49,11 @@ $today=time();
 var_dump($today);
 var_dump('---------------------------------------------');
 
-$payment_data['credit_card_number'] = '5224460467611039';
-$payment_data['credit_card_name'] = 'ROSILENE SANTOS DE SOUZA';
-$payment_data['credit_card_exp_month'] = '09';
-$payment_data['credit_card_exp_year'] = '2023';
-$payment_data['credit_card_cvc'] = '543';
+$payment_data['credit_card_number'] = '4320328325545119';
+$payment_data['credit_card_name'] = 'IZABELLA C S SILVA';
+$payment_data['credit_card_exp_month'] = '02';
+$payment_data['credit_card_exp_year'] = '2021';
+$payment_data['credit_card_cvc'] = '214';
 $payment_data['amount_in_cents'] = 9990;
 $payment_data['pay_day'] = $today;
 //$payment_data['pay_day'] = '1483058284';

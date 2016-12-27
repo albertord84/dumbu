@@ -648,7 +648,7 @@ class Welcome extends CI_Controller {
                         $result['success'] = false;
                         $result['exception'] = $exc->getTraceAsString();
                         $result['message'] = 'Error actualizando en base de datos';
-                    } finally {                        
+                    } finally {
                         //passo 3: login con instagram para saber el estado
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
