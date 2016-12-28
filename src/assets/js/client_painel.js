@@ -204,15 +204,6 @@ $(document).ready(function(){
         $('#reference_profile_status_container').css({"visibility":"hidden","display":"none"})
     });
     
-   /* function str_replace_truncate(str,pos,end){        
-        n=end.length;
-        m=str.length;
-        if(m>12){
-            for(i=pos;i<n && i<m;i++){
-                
-            }
-        }                  
-    }*/
    
     function display_reference_profiles(){
         var reference_profiles_status=false;

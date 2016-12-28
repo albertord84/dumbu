@@ -41,24 +41,25 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 
+var_dump(date('d-m-Y',1482951226));
 
 // MUNDIPAGG
-$Payment = new dumbu\cls\Payment();
-
-$today=time();
-var_dump($today);
-var_dump('---------------------------------------------');
-
-$payment_data['credit_card_number'] = '4320328325545119';
-$payment_data['credit_card_name'] = 'IZABELLA C S SILVA';
-$payment_data['credit_card_exp_month'] = '02';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '214';
-$payment_data['amount_in_cents'] = 9990;
-$payment_data['pay_day'] = $today;
-//$payment_data['pay_day'] = '1483058284';
-        
-var_dump($Payment->create_recurrency_payment($payment_data));
+//$Payment = new dumbu\cls\Payment();
+//
+//$today=time();
+//var_dump($today);
+//var_dump('---------------------------------------------');
+//
+//$payment_data['credit_card_number'] = '4320328325545119';
+//$payment_data['credit_card_name'] = 'IZABELLA C S SILVA';
+//$payment_data['credit_card_exp_month'] = '02';
+//$payment_data['credit_card_exp_year'] = '2021';
+//$payment_data['credit_card_cvc'] = '214';
+//$payment_data['amount_in_cents'] = 9990;
+//$payment_data['pay_day'] = $today;
+////$payment_data['pay_day'] = '1483058284';
+//        
+//var_dump($Payment->create_recurrency_payment($payment_data));
 
 //----------------------------------------------------------------
 
