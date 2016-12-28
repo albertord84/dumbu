@@ -98,7 +98,7 @@ class Payment extends CI_Controller {
                     if ($diff_days > 0 /* && $diff_days < 5 */) {
                         print "\n<br>Email sent to " . $client['email'] . "<br>\n";
                         $this->load->model('class/dumbu_system_config');
-                        $this->send_payment_email($client, $diff_days);
+                        $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
                         // TODO: limit email by days diff
                         if ($diff_days > dumbu_system_config::DAYS_TO_BLOCK_CLIENT /* && $diff_days < 5 */) {
                             //Block client by paiment
