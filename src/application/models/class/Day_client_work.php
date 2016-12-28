@@ -58,6 +58,8 @@ namespace dumbu\cls {
                 array_push($this->Followeds_to_unfollow, $To_Unfollow);
             }
         }
+        
+        
 // end of member function is_work_done
 //
 //        function __set($name, $value) {

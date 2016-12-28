@@ -244,9 +244,21 @@
         public function get_client_active_profiles($user_id){
             try {    
                 $this->db->select('*');
-                $this->db->from('reference_profile');        
+                $this->db->from('reference_profile');
                 $this->db->where('client_id', $user_id);
                 $this->db->where('deleted', '0');
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function get_client_canceled_profiles($user_id){
+            try {    
+                $this->db->select('*');
+                $this->db->from('reference_profile');
+                $this->db->where('client_id', $user_id);
+                $this->db->where('deleted', '1');
                 return $this->db->get()->result_array();
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();

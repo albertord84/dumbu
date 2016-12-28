@@ -14,8 +14,8 @@
         <link rel="stylesheet" href="<?php echo base_url().'assets/labda/ladda-themeless.min.css'?>">
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <!--<script type="text/javascript" src="<?php //echo base_url().'assets/js/jquery.js' ?>"></script>-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'?>"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 
         <script src="<?php echo base_url().'assets/bootstrap/js/bootstrap.min.js'?>"></script>        
         

@@ -1,56 +1,29 @@
 <?php
 
-//namespace dumbu\cls {
     require_once 'User_model.php';
-
-    /**
-     * class Admin
-     * 
-     */
-    class Admin_model {
-        /** Aggregations: */
-        /** Compositions: */
-        /*         * * Attributes: ** */
-
-        /**
-         * 
-         *
-         * @return Admin
-         * @access public
-         */
+    class Admin_model extends User_model {
+        
         public function add_admin() {
             
         }
 
-// end of member function add_admin
-
-        /**
-         * 
-         *
-         * @return bool
-         * @access public
-         */
         public function delete_admin() {
             
         }
-
-// end of member function delete_admin
-
-        /**
-         * 
-         *
-         * @return Attendent
-         * @access public
-         */
+        
         public function update_admin() {
             
         }
-
- // end of generic setter an getter definition
         
+        public function view_clients_by_filter($form_filter) {
+            $this->db->select('*');
+            $this->db->from('clients');
+            $this->db->join('users', 'clients.user_id = users.id');
+            if($form_filter['client_status']!=0)
+                $this->db->where('status_id', $form_filter['client_status']);
+            return $this->db->get()->result_array();
+        }
+
+   
     }
-
-    // end of Admin
-//}
-
 ?>

@@ -692,8 +692,8 @@ class Welcome extends CI_Controller {
                             $this->user_model->set_sesion($datas['pk'], $this->session);
                         }
                         //Email com compra satisfactoria a atendimento y al cliente
-                        $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
-                        if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
+                        // no mas ----->$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                        if($data_insta['status'] === 'ok' && $data_insta['authenticated'])
                             $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
                         else
                             $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
@@ -720,7 +720,7 @@ class Welcome extends CI_Controller {
         $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
         $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
         $payment_data['pay_day'] = $datas['pay_day'];
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        require_once $_SERVER['DOCUMENT_ROOT'].'/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_recurrency_payment($payment_data);
@@ -776,14 +776,14 @@ class Welcome extends CI_Controller {
                                 'order_key' => $resp->getData()->OrderResult->OrderKey));
                             $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
                             $response_delete_early_payment = '';
-                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
+                            if ($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT) {
                                 $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
                             } else
                                 $datas['status_id'] = $this->session->userdata('status_id');                            
                             if($this->session->userdata('status_id')==user_status::BLOCKED_BY_PAYMENT ){
                                 $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                            
                                 $N = count($active_profiles);
-                                for ($i = 0; $i < $N; $i++) {
+                                for($i = 0; $i < $N; $i++){
                                     $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
                                 }
                             }
@@ -961,8 +961,7 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
         $this->Gmail = new \dumbu\cls\Gmail();
-        //$datas = $this->input->post();
-        $result = $this->Gmail->send_new_client_payment_done($username, $useremail);
+        $result=$this->Gmail->send_new_client_payment_done($username, $useremail);
         if ($result['success'])
             return TRUE;
         return false;
@@ -972,11 +971,8 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
-        $this->Gmail = new \dumbu\cls\Gmail();
-        $Gmail->send_client_payment_success($useremail, $username, $userlogin, $userpass);
-        if ($result['success'])
-            return TRUE;
-        return false;
+        $this->Gmail2 = new \dumbu\cls\Gmail();
+        $result=$this->Gmail2->send_client_payment_success($useremail, $username, $userlogin, $userpass);        
     }
 
     //auxiliar function
