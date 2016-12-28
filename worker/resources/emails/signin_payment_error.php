@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>DUMBU Payment Problem</title>
+        <title>DUMBU Sign in Problem</title>
     </head>
     <body>
         <div style="width: 640px; font-family: Arial, Helvetica, sans-serif; font-size: 11px;">
@@ -16,8 +16,7 @@
             <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
             <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
             <br>
-            <br>
-            <p style="color: gray">Remember: you must have same username and password for both, instagram and our <a href="http://www.dumbu.pro/dumbu/src/">system</a>!</p>
+            <p>Remember: you must have same username and password for both, instagram and our <a href="http://www.dumbu.pro/dumbu/src/">system</a>!</p>
             <br>
             <p>Thanks for using our services,</p>
             <p>DUMBU SYSTEM</p>

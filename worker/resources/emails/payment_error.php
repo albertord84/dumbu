@@ -27,7 +27,7 @@
             }
             ?>
             <br>
-            <p style="color: gray">Remember: you must have same username and password for both, instagram and our <a href="http://www.dumbu.pro/dumbu/src/">system</a>!</p>
+            <p>Remember: you must have same username and password for both, instagram and our <a href="http://www.dumbu.pro/dumbu/src/">system</a>!</p>
             <br>
             <p>Thanks for using our services,</p>
             <p>DUMBU SYSTEM</p>
