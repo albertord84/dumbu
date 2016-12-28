@@ -7,12 +7,12 @@ namespace dumbu\cls {
         const DIALY_REQUESTS_BY_CLIENT = 480; // Change to 480 in production mode
         const REQUESTS_AT_SAME_TIME = 10;     // Reference Profile Followers amoun by request. Change to 10  in production mode   
         const DELAY_BETWEEN_REQUESTS = 0;
-        const INSTA_MAX_FOLLOWING =7300;    
+        const INSTA_MAX_FOLLOWING =7500;    
         
         const MIN_NEXT_ATTEND_TIME = 10; //1000 * 60; //5 * 1000 * 60; // 5 min
         const REFERENCE_PROFILE_AMOUNT = 6; // By Client
         const UNFOLLOW_ELAPSED_TIME_LIMIT = 48; // 48; // In hours
-        const MAX_GET_FOLLOWERS_REQUESTS = 15; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
+        const MAX_GET_FOLLOWERS_REQUESTS = 7; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
         const MAX_CLIENT_FAUTL_TRIES = 1; // Quantity max of failures with this client
         CONST MIN_MARGIN_TO_INIT = 1000;  //margen inicial requerido para trabajar con un cliente        
         
