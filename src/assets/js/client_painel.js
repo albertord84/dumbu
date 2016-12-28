@@ -204,14 +204,21 @@ $(document).ready(function(){
         $('#reference_profile_status_container').css({"visibility":"hidden","display":"none"})
     });
     
-    
-     
+   /* function str_replace_truncate(str,pos,end){        
+        n=end.length;
+        m=str.length;
+        if(m>12){
+            for(i=pos;i<n && i<m;i++){
+                
+            }
+        }                  
+    }*/
    
     function display_reference_profiles(){
         var reference_profiles_status=false;
         for(i=0;i<num_profiles;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
-            icons_profiles[i]['ptr_p_obj'].text(icons_profiles[i]['login_profile']);
+            icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']).replace(/(^.{9}).*$/,'$1...'));            
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);
             icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');                         
             if(icons_profiles[i]['status_profile']==='ended'){

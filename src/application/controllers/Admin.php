@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
-   public function index() {
+    public function index() {
         $datas1=$this->input->get();
         $datas['login']=urldecode($datas1['login']);
         $datas['pass']=urldecode($datas1['pass']);
@@ -17,35 +17,90 @@ class Admin extends CI_Controller {
         $user= $this->user_model->execute_sql_query($query);
         
         if($this->user_model->set_sesion($user[0]['id'], $this->session, '')){            
-            //TODO: INNER JOIN
-            $query='SELECT users.id, users.name, users.login, users.pass, users.email, users.status_id, clients.pay_day, clients.credit_card_number, clients.credit_card_name, clients.order_key, clients.insta_followers_ini, clients.insta_following'.
-                    ' FROM users,clients '.
-                    'WHERE users.id=clients.user_id';
-            $result['clients']= $this->user_model->execute_sql_query($query);
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel','',true);
+            $data['section3'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             
-            $data['content_header'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
-            $data['content'] = $this->load->view('responsive_views/admin/admin_body_painel',$result, true);
-            $data['content_footer'] = $this->load->view('responsive_views/admin/admin_footer_painel', '', true);
-            
-            $this->load->view('layout_admin', $data);
-        } else {
-           // header('Location: '. base_url().'index.php/welcome/');
-        }  
-    }
-    
-    public function welcome(){
-        $this->load->model('class/user_role');
-        if ($this->session->userdata('role_id')==user_role::ADMIN){
-            $data['content_header'] = $this->load->view('my_views/admin_header','', true);
-            $data['content'] = $this->load->view('my_views/init_painel', '', true);        
-            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-            $this->load->view('layout_admin', $data);
-        } else{
-            $this->display_access_error();
+            $this->load->view('view_admin', $data);
         }
     }
     
-    public function display_access_error(){
-        header('Location: '. base_url().'index.php/welcome/');
-    }    
+    public function list_filter_view() {
+        if ($this->session->userdata('id')) {
+            $this->load->model('class/admin_model');
+            $form_filter=$this->input->get();
+            $result=$this->admin_model->view_clients_by_filter($form_filter);
+            $datas['result']=$result;
+            $datas['form_filter']=$form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel',$datas,true);
+            $data['section3'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+    }
+    
+    public function desactive_client() {
+        if ($this->session->userdata('id')) {
+            $this->load->model('class/user_model');
+            $this->load->model('class/user_status');
+            $id=$this->input->post()['id'];
+            try {
+                $this->user_model->update_user($id, array(
+                    'status_id' => user_status::DELETED));
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+                $result['success']=false;
+                $result['message']="Erro no banco de dados. Contate o grupo de desenvolvimento!";
+            } finally {
+                $result['success']=true;
+                $result['message']="Cliente desativado com sucesso!";
+            }
+        }
+        echo json_encode($result);
+    }
+    
+    public function recorrency_cancel(){
+        if ($this->session->userdata('id')) {
+            $this->load->model('class/client_model');
+            $id=$this->input->post()['id'];
+            $client=$this->client_model->get_client_by_id($id)[0];            
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+            $Payment = new \dumbu\cls\Payment();
+            $response=$Payment->delete_payment($client['order_key']);
+            return $response;
+        }
+    }
+    
+    public function reference_profile_view(){
+        if ($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            $id=$this->input->get()['id'];
+            $active_profiles=$this->client_model->get_client_active_profiles($id);
+            $canceled_profiles=$this->client_model->get_client_canceled_profiles($id);            
+            $datas['active_profiles']=$active_profiles;
+            $datas['canceled_profiles']=$canceled_profiles;
+            $datas['my_daily_work']=$this->get_daily_work($active_profiles);
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile',$datas,true);
+            $data['section3'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+    }
+    
+    public function get_daily_work($active_profiles){        
+        $this->load->model('class/client_model');
+        $n=count($active_profiles);
+        $my_daily_work=array();
+        for($i=0;$i<$n;$i++){
+            $work=$this->client_model->get_daily_work_to_profile($active_profiles[$i]['id'])[0];
+            $tmp=array('profile'=>$active_profiles[$i]['insta_name'],
+                       'id'=>$active_profiles[$i]['id'],
+                       'to_follow'=>$work['to_follow'],
+                       'to_unfollow'=>$work['to_unfollow'],
+                       'end_date'=>$active_profiles[$i]['end_date']
+                    );
+            $my_daily_work[$i]=$tmp;
+        }
+        return $my_daily_work;
+    }
 }
