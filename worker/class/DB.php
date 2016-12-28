@@ -284,8 +284,8 @@ namespace dumbu\cls {
 
         public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
             try {
-                if ($follows == 0)
-                    $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
+//                if ($follows == 0)
+//                    $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
                 $sql = ""
                         . "UPDATE daily_work "
                         . "SET daily_work.to_follow   = (daily_work.to_follow   - $follows), "
