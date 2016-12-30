@@ -19,7 +19,7 @@
             <?php
             require_once '../../class/system_config.php';
             $diff_days = $_GET["diff_days"];
-            if ($diff_days > dumbu\cls\system_config::DAYS_TO_BLOCK_CLIENT) {
+            if ($diff_days <= 0) {
                 echo "<p> Your account was blocked by payment! </p>";
             }
             else {
