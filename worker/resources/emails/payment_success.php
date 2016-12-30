@@ -12,7 +12,7 @@
               </div>-->
             <p>Dear user <strong><?php echo $_GET["username"]; ?></strong>,</p>
             <p>We have been verified your account, please insert some nice reference profiles at our
-                <a href="http://www.dumbu.pro/dumbu/src/">system</a> to star won followers quickly! :) </p>
+                <a href="http://www.dumbu.pro/dumbu/src/">system</a> to start win followers quickly! :) </p>
             <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
             <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
             <br>

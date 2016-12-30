@@ -12,7 +12,7 @@
   </div>-->
   <p>Dear user <strong><?php echo $_GET["username"]; ?></strong>,</p>
   <p>We have been detected you don't have reference profiles into your account. Without it we can't act over your account to you won followers... 
-      Please go to our <a href="http://www.dumbu.pro/dumbu/src/">system</a> and insert some nice reference profiles to start won followers quickly.</p>
+      Please go to our <a href="http://www.dumbu.pro/dumbu/src/">system</a> and insert some nice reference profiles to start win followers quickly.</p>
   <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
   <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
   <br>
