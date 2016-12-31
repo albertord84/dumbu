@@ -60,26 +60,46 @@ $(document).ready(function(){
         $("#message_status3").text('INMEDIATEMENTE DE TERMINAR COMEÇARÁ A RECEBER O SERVIÇO');            
     });
     
-    $("#img_ref_prof0").click(function(){
-        delete_profile_click($("#name_ref_prof0"));
+    $("#img_ref_prof0").click(function(){  
+        //delete_profile_click($("#name_ref_prof0"));        
+        delete_profile_click(icons_profiles[0]['login_profile']);        
     });
     $("#img_ref_prof1").click(function(){
-        delete_profile_click($("#name_ref_prof1"));
+        delete_profile_click(icons_profiles[1]['login_profile']);
     });
     $("#img_ref_prof2").click(function(){
-        delete_profile_click($("#name_ref_prof2"));
+        delete_profile_click(icons_profiles[2]['login_profile']);
     });
     $("#img_ref_prof3").click(function(){
-        delete_profile_click($("#name_ref_prof3"));
+        delete_profile_click(icons_profiles[3]['login_profile']);
     });
     $("#img_ref_prof4").click(function(){
-        delete_profile_click($("#name_ref_prof4"));
+        delete_profile_click(icons_profiles[4]['login_profile']);
     });
     $("#img_ref_prof5").click(function(){
-        delete_profile_click($("#name_ref_prof5"));
+        delete_profile_click(icons_profiles[5]['login_profile']);
     });
    
     function delete_profile_click(element){
+       if(confirm('Deseja elimiar o perfil de referência '+element)){
+            $.ajax({
+                url : base_url+'index.php/welcome/client_desactive_profiles',
+                data : {'profile':element},
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    if(response['success']){
+                        delete_icons_profiles(element);
+                    } else
+                        alert(response['message']);
+                },
+                error : function(xhr, status) {
+                    alert('Não foi possível conectar com o Instagram');
+                }
+            });
+        }
+   }
+    /*function delete_profile_click(element){
        if(confirm('Deseja elimiar o perfil de referência '+element.text())){
             $.ajax({
                 url : base_url+'index.php/welcome/client_desactive_profiles',
@@ -97,7 +117,7 @@ $(document).ready(function(){
                 }
             });
         }
-   }
+   }*/
     
     $("#btn_insert_profile").click(function(){
         if(validate_element('#login_profile','^[a-zA-Z0-9\._]{1,300}$')){                
@@ -204,20 +224,13 @@ $(document).ready(function(){
         $('#reference_profile_status_container').css({"visibility":"hidden","display":"none"})
     });
     
-   /* function str_replace_truncate(str,pos,end){        
-        n=end.length;
-        m=str.length;
-        if(m>12){
-            for(i=pos;i<n && i<m;i++){
-                
-            }
-        }                  
-    }*/
    
     function display_reference_profiles(){
         var reference_profiles_status=false;
         for(i=0;i<num_profiles;i++){
-            icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);
+            icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);            
+            icons_profiles[i]['ptr_img_obj'].prop('title', 'Click para eliminar '+icons_profiles[i]['login_profile']);
+            icons_profiles[i]['ptr_p_obj'].prop('title', 'Ver '+icons_profiles[i]['login_profile']+' no Instagram');
             icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']).replace(/(^.{9}).*$/,'$1...'));            
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);
             icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');                         

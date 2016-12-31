@@ -26,6 +26,7 @@ $(document).ready(function(){
                                 set_global_var('insta_profile_datas',jQuery.parseJSON(response['datas']));
                                 set_global_var('pk',response['pk']);
                                 set_global_var('datas',response['datas']);
+                                set_global_var('early_client_canceled',response['early_client_canceled']);
                                 set_global_var('login',$('#signin_clientLogin').val());
                                 set_global_var('pass',$('#signin_clientPassword').val());
                                 set_global_var('email',$('#client_email').val());
@@ -94,7 +95,7 @@ $(document).ready(function(){
             if(name &&  number && cvv && month && year){
                 $.ajax({
                     url : base_url+'index.php/welcome/check_client_data_bank',
-                    data : {
+                    data :{
                         'user_login':login,
                         'user_pass':pass,
                         'user_email':email,
@@ -104,6 +105,7 @@ $(document).ready(function(){
                         'client_credit_card_validate_month':$('#client_credit_card_validate_month').val(),
                         'client_credit_card_validate_year':$('#client_credit_card_validate_year').val(),
                         'need_delete':need_delete,
+                        'early_client_canceled':early_client_canceled,
                         'pk':pk,
                         'datas':datas
                     },
@@ -276,6 +278,9 @@ $(document).ready(function(){
             case 'pk':
                 pk=value;
                 break;
+            case 'early_client_canceled':
+                early_client_canceled=value;
+                break;
             case 'need_delete':
                 need_delete=value;
                 break;
@@ -302,6 +307,6 @@ $(document).ready(function(){
     
     
     
-    var pk, datas, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
+    var pk, datas, early_client_canceled, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
     
  }); 

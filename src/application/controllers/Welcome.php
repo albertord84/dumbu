@@ -552,9 +552,14 @@ class Welcome extends CI_Controller {
                     'AND clients.user_id=users.id';
             $client = $this->user_model->execute_sql_query($query);
             $N = count($client);
-            $real_status = 0; //No existe, eliminado o inactivo
+            $real_status = -1; //No existe
             $index = 0;
             for ($i = 0; $i < $N; $i++) {
+                if ($client[$i]['status_id'] == user_status::DELETED || $client[$i]['status_id'] == user_status::INACTIVE) {
+                    $real_status = 0; //cancelado o inactivo
+                    $index = $i;
+                    //break;
+                } else
                 if ($client[$i]['status_id'] == user_status::BEGINNER) {
                     $real_status = 1; //Beginner
                     $index = $i;
@@ -565,12 +570,16 @@ class Welcome extends CI_Controller {
                     break;
                 }
             }
-            if ($real_status == 0) {
+            if ($real_status == -1 || $real_status == 0) {
                 $datas['role_id'] = user_role::CLIENT;
                 $datas['status_id'] = user_status::BEGINNER;
                 $datas['HTTP_SERVER_VARS'] = json_encode($_SERVER);
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
+                if($real_status == 0)
+                    $response['early_client_canceled'] = true;
+                else
+                    $response['early_client_canceled'] = false;
                 $response['datas'] = json_encode($data_insta);
                 $response['success'] = true;
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
@@ -586,6 +595,7 @@ class Welcome extends CI_Controller {
                         'insta_following' => $data_insta->following,
                         'HTTP_SERVER_VARS' => json_encode($_SERVER)));
                     $response['datas'] = json_encode($data_insta);
+                    $response['early_client_canceled'] = false;
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
                 } else {
@@ -618,8 +628,11 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         if ($this->validate_post_credit_card_datas($datas)) {
             $this->load->model('class/dumbu_system_config');
-            $day_plus = strtotime("+" . dumbu_system_config::PROMOTION_N_FREE_DAYS . " days", time());
-            $datas['pay_day'] = $day_plus;
+            if(!$datas['early_client_canceled']){
+                $day_plus = strtotime("+" . dumbu_system_config::PROMOTION_N_FREE_DAYS . " days", time());
+                $datas['pay_day'] = $day_plus;
+            } else
+                $datas['pay_day'] = time();
             $datas['amount_in_cents'] = dumbu_system_config::PAYMENT_VALUE;
             try {
                 $this->client_model->update_client($datas['pk'], array(
@@ -634,7 +647,7 @@ class Welcome extends CI_Controller {
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
             } finally {
-                //if (true) {
+                //if(true){
                     $resp = $this->check_mundipagg_credit_card($datas);
                     if (is_object($resp) && $resp->isSuccess()) {
                     try {
