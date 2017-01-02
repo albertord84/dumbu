@@ -263,7 +263,7 @@ namespace dumbu\cls {
                                 print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s') . "<br>";
                                 print "\$last_access = " . $daily_work->last_access . "<br>";
                                 print "\$elapsed_time = " . $elapsed_time . " min (" . intval(time() - intval($daily_work->last_access)) . " tics) <br>";
-                                print "\$To_Wait = " . intval($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time * 60) . " secs <br>";
+                                print "\$To_Wait = " . intval(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60) . " secs <br>";
                                 sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
                                 $now = \DateTime::createFromFormat('U', time());
                                 print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "<br>";
