@@ -44,6 +44,15 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 var_dump(date('d-m-Y',1482951226));
 
 // MUNDIPAGG
+$Payment = new dumbu\cls\Payment();
+$response=$Payment->delete_payment('0b0759c7-2c28-4c3c-aee9-07d1aae581a9');
+$a=json_decode($response);
+var_dump($a->success);
+//
+//
+//
+//
+// MUNDIPAGG
 //$Payment = new dumbu\cls\Payment();
 //
 //$today=time();

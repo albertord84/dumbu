@@ -176,6 +176,7 @@ $(document).ready(function(){
                 var l = Ladda.create(this);  l.start(); l.start();
                 $.ajax({
                     url : base_url+'index.php/welcome/user_do_login',
+                    //url : base_url+'index.php/welcome/client',
                     data : {
                         'user_login':$('#userLogin').val(),
                         'user_pass': $('#userPassword').val()
@@ -189,14 +190,12 @@ $(document).ready(function(){
                                 $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
                             } 
                         } else{
-                                $('#container_login_message').text(response['message']);
-                                $('#container_login_message').css('visibility','visible');
-                                $('#container_login_message').css('color','red');                              
+                                alert('Senha incorreta');           
                             }
                         l.stop();
                     },                
                     error : function(xhr, status) {
-                        alert('internal error');    
+                        alert('Erro encontrado. Informe para o atendimento seu caso. ');    
                         l.stop();
                     }
                 });   

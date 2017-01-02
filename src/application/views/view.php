@@ -35,6 +35,7 @@
     <div class="container shadow">
         <!--SECTION 1-->
             <div class="row body-section-2 center" style="background-image:url('<?php echo base_url()."assets/img/black-friday/BG.png"; ?>'); background-repeat:no-repeat; background-size:cover;">
+            <!--<div class="row body-section-2 center" >-->
                 <?php echo $section1;?> 
             </div>
 

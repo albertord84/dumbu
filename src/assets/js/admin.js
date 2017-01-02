@@ -1,12 +1,23 @@
 $(document).ready(function(){
     $("#execute_query").click(function(){
-        var params;
-        params='client_status='+$("#client_status").val();
-        params=params+'&signin_initial_date='+$("#signin_initial_date").val();
-        params=params+'&signin_final_date='+$("#signin_final_date").val();
-        params=params+'&credit_card_xpeiration_year='+$("#credit_card_xpeiration_year").val();
-        params=params+'&pay_day='+$("#pay_day").val();
-        $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
+        if($("#client_status").val()<=0 && $("#signin_initial_date").val()==='' &&
+           $("#signin_final_date").val()==='' && $("#credit_card_expiration_year").val()==='--SELECT--' &&
+           $("#pay_day").val()=='--SELECT--' && $("#profile_client").val()==='' &&
+           $("#email_client").val()==='' && $("#order_key_client").val()==='')
+            alert('Deve selecionar pelo menos um critério para filtrar a informação');
+        else{
+            var params;
+            params='client_status='+$("#client_status").val();
+            params=params+'&signin_initial_date='+$("#signin_initial_date").val();
+            params=params+'&signin_final_date='+$("#signin_final_date").val();
+            params=params+'&credit_card_expiration_year='+$("#credit_card_expiration_year").val();
+            params=params+'&pay_day='+$("#pay_day").val();
+            params=params+'&profile_client='+$("#profile_client").val();
+            params=params+'&email_client='+$("#email_client").val();
+            params=params+'&order_key_client='+$("#order_key_client").val();
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
+        }
+        
     });
 
     /*$("#client_status").change(function(){
@@ -28,12 +39,12 @@ $(document).ready(function(){
                 success : function(response){
                     if(response['success']){
                         alert(response['message']);
-                        $(name_row).css({"visibility":"hidden","display":"none"});
+                        $(e.currentTarget).attr({"disabled":"true"});
                     } else
                         alert(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert('Não foi possível realizar a operação de desactivação!');
+                    alert('Não foi possível realizar a operação de cancelamento!');
                 }
             });
             l.stop();
