@@ -259,7 +259,7 @@ namespace dumbu\cls {
 //                        $elapsed_time = $diff_info->i; // In minutes
                             $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
                             if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
-                                sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                                //sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
                             }
                             $this->do_follow_unfollow_work($daily_work);
                         } else {
