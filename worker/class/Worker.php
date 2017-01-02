@@ -255,7 +255,7 @@ namespace dumbu\cls {
 //                        $now = DateTime::createFromFormat('U', time());
 //                        $diff_info = $last_access->diff($now);
 //                        $elapsed_time = $diff_info->i; // In minutes
-                            $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
+                            $elapsed_time = (time() - intval($daily_work->last_access)) / 60.0 % 60.0; // minutes
                             if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
                                 $now = \DateTime::createFromFormat('U', time());
                                 $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
@@ -263,8 +263,8 @@ namespace dumbu\cls {
                                 print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s') . "<br>";
                                 print "\$last_access = " . $daily_work->last_access . "<br>";
                                 print "\$elapsed_time = " . $elapsed_time . " min (" . intval(time() - intval($daily_work->last_access)) . " tics) <br>";
-                                print "\$To_Wait = " . intval(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60) . " secs <br>";
-                                sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                                print "\$To_Wait = " . (($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60.0) . " secs <br>";
+                                sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60.0); // secounds
                                 $now = \DateTime::createFromFormat('U', time());
                                 print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "<br>";
                             }
