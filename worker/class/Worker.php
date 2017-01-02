@@ -258,14 +258,14 @@ namespace dumbu\cls {
                             $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
                             if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
                                 $now = \DateTime::createFromFormat('U', time());
-                                print "\n_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s');
-                                print "\n \$elapsed_time = " . $elapsed_time . " min (" . time() - intval($daily_work->last_access) . " tics) \n";
-                                print "\$GLOBALS = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME . "\n";
-                                print "\$last_access = " . $daily_work->last_access . "\n";
-                                print "\$To_Wait = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time * 60 . "secs \n";
+                                print "<br><br>_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s');
+                                print "<br> \$elapsed_time = " . $elapsed_time . " min (" . time() - intval($daily_work->last_access) . " tics) <br>";
+                                print "\$GLOBALS = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME . "<br>";
+                                print "\$last_access = " . $daily_work->last_access . "<br>";
+                                print "\$To_Wait = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time * 60 . "secs <br>";
                                 sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
                                 $now = \DateTime::createFromFormat('U', time());
-                                print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "\n";
+                                print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "<br>";
                             }
                             $this->do_follow_unfollow_work($daily_work);
                         } else {
