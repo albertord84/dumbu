@@ -258,7 +258,9 @@ namespace dumbu\cls {
                             $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
                             if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
                                 $now = \DateTime::createFromFormat('U', time());
+                                $last_access = DateTime::createFromFormat('U', $daily_work->last_access);
                                 print "<br><br>_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s');
+                                print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s');
                                 print "<br> \$elapsed_time = " . $elapsed_time . " min (" . time() - intval($daily_work->last_access) . " tics) <br>";
                                 print "\$GLOBALS = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME . "<br>";
                                 print "\$last_access = " . $daily_work->last_access . "<br>";
