@@ -115,23 +115,21 @@ namespace dumbu\cls {
                     // Send email to client and dumbu system
                     echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                     // Chague client status
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required'
-                            && $Client->status_id != user_status::VERIFY_ACCOUNT) {
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required' && $Client->status_id != user_status::VERIFY_ACCOUNT) {
                         $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
                     }
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated
-                            && $Client->status_id != user_status::BLOCKED_BY_INSTA) {
+                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated && $Client->status_id != user_status::BLOCKED_BY_INSTA) {
                         $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                     }
                     // Send email to client
                     $now = new \DateTime("now");
                     $status_date = new \DateTime();
-                    $status_date->setTimestamp($Client->status_date? $Client->status_date : 0);
+                    $status_date->setTimestamp($Client->status_date ? $Client->status_date : 0);
                     $diff_info = $status_date->diff($now);
                     var_dump($diff_info->days);
 //                    if ($diff_info->days <= 3) {
-                        // TODO, UNCOMMENT
-                        $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                    // TODO, UNCOMMENT
+                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
 //                    }
                 }
             }
@@ -259,7 +257,15 @@ namespace dumbu\cls {
 //                        $elapsed_time = $diff_info->i; // In minutes
                             $elapsed_time = (time() - intval($daily_work->last_access)) / 60 % 60; // minutes
                             if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
-                                //sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                                $now = DateTime::createFromFormat('U', time());
+                                print "_________ELAPSE TIME: $now";
+                                print "\n \$elapsed_time = " . $elapsed_time . " min (" . time() - intval($daily_work->last_access) . " tics) \n";
+                                print "\$GLOBALS = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME . "\n";
+                                print "\$last_access = " . $daily_work->last_access . "\n";
+                                print "\$To_Wait = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time * 60 . "secs \n";
+                                sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                                $now = DateTime::createFromFormat('U', time());
+                                print "_________ELAPSE TIME: $now";
                             }
                             $this->do_follow_unfollow_work($daily_work);
                         } else {
