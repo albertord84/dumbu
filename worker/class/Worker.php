@@ -260,11 +260,11 @@ namespace dumbu\cls {
                             if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME * 60) {
                                 $now = \DateTime::createFromFormat('U', time());
                                 $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
-                                print "<br>_________ELAPSE TIME: ";
+                                print "<br>_________ELAPSE TIME ($elapsed_time): ";
 //                                print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s') . "<br>";
 //                                print "\$last_access = " . $daily_work->last_access . "<br>";
 //                                print "\$elapsed_time = " . $elapsed_time . " min (" . intval(time() - intval($daily_work->last_access)) . " tics) <br>";
-                                print "\$To_Wait = " . $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time . " secs <br>";
+                                print "\$To_Wait = " . intval($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time) . " secs <br>";
                                 sleep($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time); // secounds
 //                                $now = \DateTime::createFromFormat('U', time());
 //                                print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "<br>";
