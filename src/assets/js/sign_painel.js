@@ -113,7 +113,7 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response) {
                         if(response['success']){
-                            alert("Sua compra foi realizada corretamente.");                                
+                            alert("Sua compra foi realizada corretamente. Espere ser redirecionado ...");                                
                             //set_global_var('flag',true);                            
                             $(location).attr('href',base_url+'index.php/welcome/client');                                                       
                         } else{

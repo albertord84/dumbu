@@ -46,7 +46,8 @@ class Admin extends CI_Controller {
             $id=$this->input->post()['id'];
             try {
                 $this->user_model->update_user($id, array(
-                    'status_id' => user_status::DELETED));
+                    'status_id' => user_status::DELETED,
+                    'end_date' => time()));
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
                 $result['success']=false;
@@ -63,11 +64,18 @@ class Admin extends CI_Controller {
         if ($this->session->userdata('id')) {
             $this->load->model('class/client_model');
             $id=$this->input->post()['id'];
-            $client=$this->client_model->get_client_by_id($id)[0];            
+            $client=$this->client_model->get_client_by_id($id)[0];  
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
             $Payment = new \dumbu\cls\Payment();
-            $response=$Payment->delete_payment($client['order_key']);
-            return $response;
+            $response=json_decode($Payment->delete_payment($client['order_key']));
+            if($response->success){
+                $result['success']=true;
+                $result['message']='Recorrência cancelada corretamente';
+            } else{
+                $result['success']=false;
+                $result['message']='A recorrência já tinha sido cancelada ou não existe. Verifique na Mundipagg';
+            }            
+            echo json_encode($result);
         }
     }
     
@@ -92,11 +100,21 @@ class Admin extends CI_Controller {
         $n=count($active_profiles);
         $my_daily_work=array();
         for($i=0;$i<$n;$i++){
-            $work=$this->client_model->get_daily_work_to_profile($active_profiles[$i]['id'])[0];
+            $work=$this->client_model->get_daily_work_to_profile($active_profiles[$i]['id']);            
+            if(count($work)){
+                $work=$work[0];
+            }
+            if(count($work)){
+                $to_follow=$work['to_follow'];
+                $to_unfollow=$work['to_unfollow'];
+            } else{
+                $to_follow='----';
+                $to_unfollow='----';
+            }            
             $tmp=array('profile'=>$active_profiles[$i]['insta_name'],
                        'id'=>$active_profiles[$i]['id'],
-                       'to_follow'=>$work['to_follow'],
-                       'to_unfollow'=>$work['to_unfollow'],
+                       'to_follow'=>$to_follow,
+                       'to_unfollow'=>$to_unfollow,
                        'end_date'=>$active_profiles[$i]['end_date']
                     );
             $my_daily_work[$i]=$tmp;

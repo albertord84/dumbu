@@ -87,6 +87,24 @@ $(document).ready(function(){
         function () { $(this).css({"border":"1px solid silver"});}, 
         function () { $(this).css({"border":"1px solid #28BB93"});}
      ); 
+    
+    $('#signin_btn_insta_login').css({"color":"white"});
+    
+    $('#botao-assinar').hover(
+        function () { 
+            $(this).attr("src",base_url+"assets/img/BOTAO ASSINAR AGORA-hover.png")
+            $(this).css({"cursor":"pointer"})
+        }, 
+        function () {$(this).attr("src",base_url+"assets/img/BOTAO ASSINAR AGORA.png")}
+     ); 
+     
+    $('#botao-assinar').mousedown(function(){
+        $("#botao-assinar").attr("src",base_url+"assets/img/BOTAO ASSINAR AGORA-mdown.png");
+    });
+    $('#botao-assinar').mouseup(function(){
+        $("#botao-assinar").attr("src",base_url+"assets/img/BOTAO ASSINAR AGORA.png");
+    });
+    
      
     $('#img_to_promotional_btn').mousedown(function(){
         $("#img_to_promotional_btn").attr("src",base_url+"assets/img/black-friday/assinar_agora_black_friday_mouse_down.png");

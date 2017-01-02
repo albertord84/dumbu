@@ -491,7 +491,7 @@
                                     
                 
                 <div id='important_warnings'>
-                    <div class="alert alert-default" style="background-color:#F4F4F4" role="alert"><ul id="success_warnings">'
+                    <div class="alert alert-default" style="background-color:#F4F4F4" role="alert"><ul id="success_warnings">
                         <li style="margin-bottom:0.7em;"> O Instagram só permite que você siga alredor de 7500 perfis. Precisamos que você siga máximo 6500 perfis para iniciar a ferramenta;
                         <li style="margin-bottom:0.7em;"> Nossa ferramenta é interligada ao Instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo Instagram;
                         <li style="margin-bottom:0.7em;"> Casso altere seu nome de usuário ou senha no Instagram, o seviço de Dumbu será desconetado temporáriamente. Somente precisa fazer login no Dumbu para atualizar as suas credenciais e continuar recevendo o serviço;
