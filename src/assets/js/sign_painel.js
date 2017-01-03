@@ -106,9 +106,9 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response) {
                         if(response['success']){
-                            alert("Sua compra foi realizada corretamente. Espere ser redirecionado ...");                                
+                            alert("Sua compra foi realizada corretamente. Você sera redirecionado ...");
                             //set_global_var('flag',true);                            
-                            $(location).attr('href',base_url+'index.php/welcome/client');                                                       
+                            $(location).attr('href',base_url+'index.php/welcome/client');
                         } else{
                             alert(response['message']);
                             set_global_var('flag',true);
