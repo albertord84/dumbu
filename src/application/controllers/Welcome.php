@@ -645,12 +645,12 @@ class Welcome extends CI_Controller {
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
             } finally {
-                if(true){
-                    //$resp = $this->check_mundipagg_credit_card($datas);
-                    //if (is_object($resp) && $resp->isSuccess()) {
+                //if(true){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if (is_object($resp) && $resp->isSuccess()) {
                     try {
-                        //$this->client_model->update_client($datas['pk'], array(
-                        //    'order_key' => $resp->getData()->OrderResult->OrderKey));
+                        $this->client_model->update_client($datas['pk'], array(
+                            'order_key' => $resp->getData()->OrderResult->OrderKey));
                     } catch (Exception $exc) {
                         $this->user_model->update_user($datas['pk'], array(
                             'status_id' => user_status::BEGINNER));
@@ -704,10 +704,10 @@ class Welcome extends CI_Controller {
                         }
                         //Email com compra satisfactoria a atendimento y al cliente
                         // no mas ----->$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
-                        //if($data_insta['status'] === 'ok' && $data_insta['authenticated'])
-                        //    $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
-                        //else
-                        //    $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
+                        if($data_insta['status'] === 'ok' && $data_insta['authenticated'])
+                            $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
+                        else
+                            $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
                         $result['success'] = true;
                         $result['message'] = 'Usuário cadastrado com sucesso';
                     }
