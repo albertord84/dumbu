@@ -544,7 +544,7 @@ class Welcome extends CI_Controller {
             $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $data_insta->pk . '"' .
                     'AND clients.user_id=users.id';
             $client = $this->user_model->execute_sql_query($query);
-            $N = count($client);
+             $N = count($client);
             $real_status = -1; //No existe
             $early_client_canceled=false;
             $index = 0;
@@ -626,7 +626,7 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         if ($this->validate_post_credit_card_datas($datas)) {
             $this->load->model('class/dumbu_system_config');
-            if($datas['early_client_canceled']==='false' || $datas['early_client_canceled']==='false'){
+            if($datas['early_client_canceled']==='false' || $datas['early_client_canceled']===false){
                 $day_plus = strtotime("+" .dumbu_system_config::PROMOTION_N_FREE_DAYS. " days", time());
                 $datas['pay_day'] = $day_plus;
             } else
