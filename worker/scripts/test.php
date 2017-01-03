@@ -39,15 +39,23 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Client->create_daily_work(234);
 
 
+
+var_dump(date('d-m-Y',time()));
+$a=strtotime("+" .'7'. " days", time());
+var_dump($a);
+var_dump(date('d-m-Y',1483449391));
+
+
+
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 
-var_dump(date('d-m-Y',1482951226));
+//var_dump(date('d-m-Y',1482951226));
 
 // MUNDIPAGG
-$Payment = new dumbu\cls\Payment();
-$response=$Payment->delete_payment('0b0759c7-2c28-4c3c-aee9-07d1aae581a9');
-$a=json_decode($response);
-var_dump($a->success);
+//$Payment = new dumbu\cls\Payment();
+//$response=$Payment->delete_payment('0b0759c7-2c28-4c3c-aee9-07d1aae581a9');
+//$a=json_decode($response);
+//var_dump($a->success);
 //
 //
 //

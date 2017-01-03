@@ -107,9 +107,6 @@ class Welcome extends CI_Controller {
 
             $data['head_section1'] = $this->load->view('responsive_views/client/client_header_painel', '', true);
             $data['body_section1'] = $this->load->view('responsive_views/client/client_body_painel', $datas1, true);
-
-            //$data['body_section2'] = $this->load->view('my_views/client_statistic_painel', '', true);  
-
             $data['body_section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
             $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             $this->load->view('view_client', $data);
@@ -136,7 +133,7 @@ class Welcome extends CI_Controller {
             $result['authenticated'] = true;
         } else {
             //Is an active Attendent?
-            $query = 'SELECT * FROM users' .
+            $query = 'SELECT * FROM users'.
                     ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
                     '" AND role_id=' . user_role::ATTENDET . ' AND status_id=' . user_status::ACTIVE;
             $user = $this->user_model->execute_sql_query($query);
@@ -547,12 +544,14 @@ class Welcome extends CI_Controller {
             $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $data_insta->pk . '"' .
                     'AND clients.user_id=users.id';
             $client = $this->user_model->execute_sql_query($query);
-            $N = count($client);
+             $N = count($client);
             $real_status = -1; //No existe
+            $early_client_canceled=false;
             $index = 0;
             for ($i = 0; $i < $N; $i++) {
                 if ($client[$i]['status_id'] == user_status::DELETED || $client[$i]['status_id'] == user_status::INACTIVE) {
                     $real_status = 0; //cancelado o inactivo
+                    $early_client_canceled=true;
                     $index = $i;
                     //break;
                 } else
@@ -572,7 +571,7 @@ class Welcome extends CI_Controller {
                 $datas['HTTP_SERVER_VARS'] = json_encode($_SERVER);
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
                 $response['pk'] = $id_user;
-                if($real_status == 0)
+                if($real_status == 0 || $early_client_canceled)
                     $response['early_client_canceled'] = true;
                 else
                     $response['early_client_canceled'] = false;
@@ -591,7 +590,10 @@ class Welcome extends CI_Controller {
                         'insta_following' => $data_insta->following,
                         'HTTP_SERVER_VARS' => json_encode($_SERVER)));
                     $response['datas'] = json_encode($data_insta);
-                    $response['early_client_canceled'] = false;
+                    if($early_client_canceled)
+                        $response['early_client_canceled'] = true;
+                    else
+                        $response['early_client_canceled'] = false;
                     $response['pk'] = $client[$index]['user_id'];
                     $response['success'] = true;
                 } else {
@@ -624,8 +626,8 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         if ($this->validate_post_credit_card_datas($datas)) {
             $this->load->model('class/dumbu_system_config');
-            if(!$datas['early_client_canceled']){
-                $day_plus = strtotime("+" . dumbu_system_config::PROMOTION_N_FREE_DAYS . " days", time());
+            if($datas['early_client_canceled']==='false' || $datas['early_client_canceled']===false){
+                $day_plus = strtotime("+" .dumbu_system_config::PROMOTION_N_FREE_DAYS. " days", time());
                 $datas['pay_day'] = $day_plus;
             } else
                 $datas['pay_day'] = time();
@@ -668,7 +670,7 @@ class Welcome extends CI_Controller {
                             $this->user_model->update_user($datas['pk'], array(
                                 'init_date' => time(),
                                 'status_id' => $datas['status_id']));
-                            if ($data_insta['insta_login_response']) {
+                            if($data_insta['insta_login_response']) {
                                 $this->client_model->update_client($datas['pk'], array(
                                     'cookies' => json_encode($data_insta['insta_login_response'])));
                             }

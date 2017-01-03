@@ -8,8 +8,7 @@ $(document).ready(function(){
     $("#signin_btn_insta_login").click(function(){
         if($('#signin_clientLogin').val()!='' && $('#signin_clientPassword').val()!='' && $('#client_email').val()!=''){
             if(validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")){
-                if(validate_element('#signin_clientLogin','^[a-zA-Z0-9\._]{1,300}$')){
-                    //$("#waiting_sign_in").css({"visibility":"visible","display":"block"});                   
+                if(validate_element('#signin_clientLogin','^[a-zA-Z0-9\._]{1,300}$')){                
                     var l = Ladda.create(this);  l.start(); l.start();
                     $.ajax({            
                         url : base_url+'index.php/welcome/check_user_for_sing_in',      
@@ -21,7 +20,6 @@ $(document).ready(function(){
                         type : 'POST',
                         dataType : 'json',
                         success : function(response) {
-                            //$("#waiting_sign_in").css({"visibility":"hidden","display":"none"});
                             if(response['success']){                         
                                 set_global_var('insta_profile_datas',jQuery.parseJSON(response['datas']));
                                 set_global_var('pk',response['pk']);
@@ -31,17 +29,14 @@ $(document).ready(function(){
                                 set_global_var('pass',$('#signin_clientPassword').val());
                                 set_global_var('email',$('#client_email').val());
                                 set_global_var('need_delete',response['need_delete']);
-                                if(need_delete<response['MIN_MARGIN_TO_INIT']){                        
-                                    /*TODO: mensaje de WARNING ou DECISAO*/
-                                    alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');
-                                
+                                if(need_delete<response['MIN_MARGIN_TO_INIT']){   
+                                    alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
                                 }
                                 active_by_steep(2);
                                 l.stop();
                             } else{
                                 if(response['cause']=='checkpoint_required'){
                                     alert(response['message']);
-                                    //$(location).attr('href',base_url+'index.php/welcome/verify_account?user_login='+$('#clientLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link']);
                                 }else{
                                     $('#container_sigin_message').text(response['message']);
                                     $('#container_sigin_message').css('visibility','visible');
@@ -52,7 +47,6 @@ $(document).ready(function(){
                             
                         },
                         error : function(xhr, status) {
-                            //alert('Não foi possível comprobar a autenticidade do usuario no Instagram...');                
                             $('#container_sigin_message').text('Não foi possível comprobar a autenticidade do usuario no Instagram.');
                             $('#container_sigin_message').css('visibility','visible');
                             $('#container_sigin_message').css('color','red');
@@ -63,7 +57,6 @@ $(document).ready(function(){
                     $('#container_sigin_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
                     $('#container_sigin_message').css('visibility','visible');
                     $('#container_sigin_message').css('color','red');
-                    //alert('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
                 }
             } else{
                 $('#container_sigin_message').text('Problemas na estrutura do email informado.');
@@ -113,16 +106,15 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response) {
                         if(response['success']){
-                            alert("Sua compra foi realizada corretamente. Espere ser redirecionado ...");                                
+                            alert("Sua compra foi realizada corretamente. Você sera redirecionado ...");
                             //set_global_var('flag',true);                            
-                            $(location).attr('href',base_url+'index.php/welcome/client');                                                       
+                            $(location).attr('href',base_url+'index.php/welcome/client');
                         } else{
                             alert(response['message']);
                             set_global_var('flag',true);
                             $('#btn_sing_in').attr('disabled',false);
                             $('#btn_sing_in').css('cursor', 'pointer');
                         }
-                        //$("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4.png");
                     },
                     error : function(xhr, status) {
                         set_global_var('flag',true);                                                
@@ -307,6 +299,6 @@ $(document).ready(function(){
     
     
     
-    var pk, datas, early_client_canceled, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
+    var pk, datas, early_client_canceled=false, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
     
  }); 
