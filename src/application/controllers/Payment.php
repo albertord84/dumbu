@@ -26,6 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: UNCOMENT
+//        $this->db->where('user_id', "");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
@@ -95,12 +96,12 @@ class Payment extends CI_Controller {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
                     // TODO: limit email by days diff
                     //$diff_days = 6;
-                    if ($diff_days > 0 /* && $diff_days < 5 */) {
+                    if ($diff_days >= 0 /* && $diff_days < 5 */) {
                         print "\n<br>Email sent to " . $client['email'] . "<br>\n";
                         $this->load->model('class/dumbu_system_config');
                         $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
                         // TODO: limit email by days diff
-                        if ($diff_days > dumbu_system_config::DAYS_TO_BLOCK_CLIENT /* && $diff_days < 5 */) {
+                        if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT /* && $diff_days < 5 */) {
                             //Block client by paiment
                             $this->load->model('class/user_status');
                             $this->load->model('class/user_model');

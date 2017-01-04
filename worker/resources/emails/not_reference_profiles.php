@@ -6,13 +6,13 @@
 </head>
 <body>
 <div style="width: 640px; font-family: Arial, Helvetica, sans-serif; font-size: 11px;">
-  <h1>DUMBU Client Login Error.</h1>
+  <h1>DUMBU Client Without Reference Profile.</h1>
 <!--  <div align="center">
     <a href="https://github.com/PHPMailer/PHPMailer/"><img src="images/phpmailer.png" height="90" width="340" alt="PHPMailer rocks"></a>
   </div>-->
   <p>Dear user <strong><?php echo $_GET["username"]; ?></strong>,</p>
   <p>We have been detected you don't have reference profiles into your account. Without it we can't act over your account to you won followers... 
-      Please go to our <a href="http://www.dumbu.pro/dumbu/src/">system</a> and insert some nice reference profiles to start won followers quickly.</p>
+      Please go to our <a href="http://www.dumbu.pro/dumbu/src/">system</a> and insert some nice reference profiles to start win followers quickly! :) </p>
   <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
   <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
   <br>

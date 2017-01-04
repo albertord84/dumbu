@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>DUMBU Payment Problem</title>
+        <title>DUMBU Payment Problem '$diff_days' day(s)!</title>
     </head>
     <body>
         <div style="width: 640px; font-family: Arial, Helvetica, sans-serif; font-size: 11px;">
@@ -19,7 +19,7 @@
             <?php
             require_once '../../class/system_config.php';
             $diff_days = $_GET["diff_days"];
-            if ($diff_days > dumbu\cls\system_config::DAYS_TO_BLOCK_CLIENT) {
+            if ($diff_days <= 0) {
                 echo "<p> Your account was blocked by payment! </p>";
             }
             else {
