@@ -40,10 +40,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 
-var_dump(date('d-m-Y',time()));
-$a=strtotime("+" .'7'. " days", time());
-var_dump($a);
-var_dump(date('d-m-Y',1483449391));
+var_dump(date('d-m-Y',1486247776));
 
 
 

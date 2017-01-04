@@ -29,7 +29,7 @@
         <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>        
                 
   </head>
-  <body>
+  <body id="my_body">
     <?php include_once("analyticstracking.php") ?>
     <?php include_once("remarketing.php")?>
     <div class="container shadow">

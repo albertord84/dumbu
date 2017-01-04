@@ -9,6 +9,17 @@
                 <div style="text-align:left">
                     <table class="table">
                         <?php 
+                            echo '<tr class="alert alert-success" style="color:blue">';
+                                    echo '<td>No.</td>';
+                                    echo '<td>Dumbu ID</td>';
+                                    echo '<td>Profile</td>';
+                                    echo '<td>A seguir</td>';
+                                    echo '<td>A deseguer</td>';
+                                    echo '<td>Data fim</td>';
+                                    echo '<td>Status</td>';
+                                    
+                            echo '</tr>';
+                                
                             $n=count($my_daily_work);
                             for($i=0;$i<$n;$i++){
                                 echo '<tr>';
