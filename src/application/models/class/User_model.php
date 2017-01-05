@@ -92,10 +92,21 @@ class User_model extends CI_Model {
      */
     public function set_sesion($id, $session, $datas=NULL) {
         try {
-            $this->db->select('*');
+            /*$this->db->select('*');
             $this->db->from('users');
             $this->db->where(array('id'=>$id));
+            $user_data = $this->db->get()->row_array();*/
+            
+            $this->db->select('*');
+            $this->db->from('clients');
+            $this->db->join('users', 'clients.user_id = users.id'); 
+            $this->db->where(array('id'=>$id));
             $user_data = $this->db->get()->row_array();
+            
+            $this->db->select('*');
+            $this->db->from('plane');
+            $this->db->where('id',(int)$user_data['plane_id']);
+            $plane_data = $this->db->get()->row_array();            
             if (count($user_data)){
                 $session->set_userdata('id',$user_data['id']);
                 $session->set_userdata('name',$user_data['name']);
@@ -103,9 +114,12 @@ class User_model extends CI_Model {
                 $session->set_userdata('pass',$user_data['pass']);
                 $session->set_userdata('email',$user_data['email']);
                 $session->set_userdata('role_id',$user_data['role_id']);
+                $session->set_userdata('plane_id',$user_data['plane_id']);
+                $session->set_userdata('to_follow',(int)$plane_data['to_follow']);
+                $session->set_userdata('normal_val',(int)$plane_data['normal_val']);
                 $session->set_userdata('status_id',$user_data['status_id']);
                 $session->set_userdata('init_date',$user_data['init_date']);
-                $session->set_userdata('languaje',$user_data['languaje']);                
+                $session->set_userdata('languaje',$user_data['languaje']);
                 $session->set_userdata('insta_datas',$datas);
                 return true;
             } else {

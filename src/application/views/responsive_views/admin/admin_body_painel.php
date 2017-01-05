@@ -159,8 +159,11 @@
                                     echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
                                     echo '<b>Status: </b><b style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
                                     echo '<b>Status date: </b>'.date('d-m-Y',$result[$i]['status_date']).'<br>';                                
-                                    echo '<b>Sign-in date: </b>'.date('d-m-Y',$result[$i]['init_date']).'<br>';
-                                    echo '<b>Sign-out date: </b>'.date('d-m-Y',$result[$i]['end_date']).'<br>';
+                                    echo '<b>Sign-in date: </b>'.date('d-m-Y',$result[$i]['init_date']).'<br>';                                    
+                                    if($result[$i]['end_date'])
+                                        echo '<b>Sign-out date: </b>'.date('d-m-Y',$result[$i]['end_date']).'<br>';
+                                    else
+                                        echo '<b>Sign-out date: </b>----<br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';

@@ -29,9 +29,9 @@ $(document).ready(function(){
                                 set_global_var('pass',$('#signin_clientPassword').val());
                                 set_global_var('email',$('#client_email').val());
                                 set_global_var('need_delete',response['need_delete']);
-                                if(need_delete<response['MIN_MARGIN_TO_INIT']){   
+                                /*if(need_delete<response['MIN_MARGIN_TO_INIT']){   
                                     alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
-                                }
+                                }*/
                                 active_by_steep(2);
                                 l.stop();
                             } else{
@@ -75,10 +75,10 @@ $(document).ready(function(){
     
     $("#btn_sing_in").click(function(){
         if(flag==true){
-            flag=false;            
+            flag=false;
             $('#btn_sing_in').attr('disabled',true);
-            $('#btn_sing_in').css('cursor', 'wait');
-            
+            $('#btn_sing_in').css('cursor', 'wait');            
+            $('#my_body').css('cursor', 'wait');
             var name=validate_element('#client_credit_card_name', "^[A-Z ]{4,50}$");
             //var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
             var number=validate_element('#client_credit_card_number',"^[0-9]{10,20}$");
@@ -99,6 +99,7 @@ $(document).ready(function(){
                         'client_credit_card_validate_year':$('#client_credit_card_validate_year').val(),
                         'need_delete':need_delete,
                         'early_client_canceled':early_client_canceled,
+                        'plane_type':plane,
                         'pk':pk,
                         'datas':datas
                     },
@@ -106,9 +107,9 @@ $(document).ready(function(){
                     dataType : 'json',
                     success : function(response) {
                         if(response['success']){
-                            alert("Sua compra foi realizada corretamente. Você sera redirecionado ...");
-                            //set_global_var('flag',true);                            
-                            $(location).attr('href',base_url+'index.php/welcome/client');
+                            //alert("Sua compra foi realizada corretamente. Você sera redirecionado ...");
+                            //$(location).attr('href',base_url+'index.php/welcome/client');
+                            $(location).attr('href',base_url+'index.php/welcome/purchase');
                         } else{
                             alert(response['message']);
                             set_global_var('flag',true);
@@ -133,6 +134,104 @@ $(document).ready(function(){
     });     
     
     
+    {
+        $('#radio_plane_4_90').attr('checked', false);
+        $('#radio_plane_9_90').attr('checked', false);
+        $('#radio_plane_29_90').attr('checked', true);
+        $('#radio_plane_99_90').attr('checked', false);
+        
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        
+        plane='4';
+    }
+    
+    
+    
+    $('#container_plane_4_90').click(function(){
+        $('#radio_plane_4_90').attr('checked', true);
+        $('#radio_plane_9_90').attr('checked', false);
+        $('#radio_plane_29_90').attr('checked', false);
+        $('#radio_plane_99_90').attr('checked', false);        
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
+        plane='2';
+    });
+    $('#container_plane_9_90').click(function(){
+        $('#radio_plane_4_90').attr('checked', false);
+        $('#radio_plane_9_90').attr('checked', true);
+        $('#radio_plane_29_90').attr('checked', false);
+        $('#radio_plane_99_90').attr('checked', false);        
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
+        plane='3';
+    });
+    $('#container_plane_29_90').click(function(){
+        $('#radio_plane_4_90').attr('checked', false);
+        $('#radio_plane_9_90').attr('checked', false);
+        $('#radio_plane_29_90').attr('checked', true);
+        $('#radio_plane_99_90').attr('checked', false);        
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
+        plane='4';
+    });
+    $('#container_plane_99_90').click(function(){
+        $('#radio_plane_4_90').attr('checked', false);
+        $('#radio_plane_9_90').attr('checked', false);
+        $('#radio_plane_29_90').attr('checked', false);
+        $('#radio_plane_99_90').attr('checked', true);        
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});        
+        plane='5';
+    });
+    
+    
+    $('#container_plane_4_90').hover(
+        function () { 
+                $("#container_plane_4_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_4_90").css('cursor', 'auto');
+            }
+     ); 
+    $('#container_plane_9_90').hover(
+        function () { 
+                $("#container_plane_9_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_9_90").css('cursor', 'auto');
+            }
+     ); 
+    $('#container_plane_29_90').hover(
+        function () { 
+                $("#container_plane_29_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_29_90").css('cursor', 'auto');
+            }
+     ); 
+    $('#container_plane_99_90').hover(
+        function () { 
+                $("#container_plane_99_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_99_90").css('cursor', 'auto');
+            }
+     ); 
+     
+     
+     
+     
     $('#img_btn_sing_in').hover(
         function () { 
                 $("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4_hover.png");
@@ -299,6 +398,6 @@ $(document).ready(function(){
     
     
     
-    var pk, datas, early_client_canceled=false, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
+    var plane, pk, datas, early_client_canceled=false, login, pass,email, insta_profile_datas, need_delete=0, flag=true, option_seven_days=true;
     
  }); 
