@@ -703,7 +703,7 @@ class Welcome extends CI_Controller {
                             $this->user_model->set_sesion($datas['pk'], $this->session);
                         }
                         //Email com compra satisfactoria a atendimento y al cliente
-                        // no mas ----->$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                        $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                         if($data_insta['status'] === 'ok' && $data_insta['authenticated'])
                             $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
                         else

@@ -35,6 +35,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
                         . "     AND (users.status_id = $ACTIVE OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "

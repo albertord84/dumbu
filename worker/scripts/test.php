@@ -40,10 +40,10 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 
-var_dump(date('d-m-Y',time()));
-$a=strtotime("+" .'7'. " days", time());
-var_dump($a);
-var_dump(date('d-m-Y',1483449391));
+//var_dump(date('d-m-Y',time()));
+//$a=strtotime("+" .'7'. " days", time());
+//var_dump($a);
+//var_dump(date('d-m-Y',1483449391));
 
 
 
@@ -61,22 +61,24 @@ var_dump(date('d-m-Y',1483449391));
 //
 //
 // MUNDIPAGG
-//$Payment = new dumbu\cls\Payment();
+$Payment = new dumbu\cls\Payment();
 //
 //$today=time();
 //var_dump($today);
 //var_dump('---------------------------------------------');
 //
-//$payment_data['credit_card_number'] = '4320328325545119';
-//$payment_data['credit_card_name'] = 'IZABELLA C S SILVA';
-//$payment_data['credit_card_exp_month'] = '02';
-//$payment_data['credit_card_exp_year'] = '2021';
-//$payment_data['credit_card_cvc'] = '214';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = $today;
-////$payment_data['pay_day'] = '1483058284';
+$payment_data['credit_card_number'] = '4203380131488010';
+$payment_data['credit_card_name'] = 'IZABELLA C S SILVA';
+$payment_data['credit_card_exp_month'] = '02';
+$payment_data['credit_card_exp_year'] = '2021';
+$payment_data['credit_card_cvc'] = '777';
+$payment_data['amount_in_cents'] = 990;
+$payment_data['pay_day'] = $today;
+$payment_data['pay_day'] = time();
 //        
-//var_dump($Payment->create_recurrency_payment($payment_data));
+//var_dump($Payment->create_recurrency_payment($payment_data, 1));
+$resul = $Payment->create_payment($payment_data);
+print_r($resul);
 
 //----------------------------------------------------------------
 

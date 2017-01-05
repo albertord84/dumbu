@@ -98,7 +98,9 @@ namespace dumbu\cls {
 // Distribute work between clients
                     $RPWC = $Client->rp_workable_count();
                     if ($RPWC > 0) {
-                        $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / $RPWC;
+                        $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+                        $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
+//                        $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / $RPWC;
                         // If User status = UNFOLLOW he do 0 follows
                         $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
                         $to_unfollow = $to_follow_unfollow;

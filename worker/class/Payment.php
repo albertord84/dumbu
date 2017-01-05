@@ -96,7 +96,93 @@ namespace dumbu\cls {
             }
         }
 
+        /**
+         * 
+         * @param type $payment_data
+         * @param type $recurrence
+         * @return string
+         */
+        public function create_payment($payment_data) {
+            try {
+// Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+// Define a chave da loja
+                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+
+                // Cria objeto requisição
+                $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
+
+                // Define dados da transação
+                $CreditCardBrand = Payment::detectCardType($payment_data['credit_card_number']);
+                print_r($CreditCardBrand);
+                $createSaleRequest->addCreditCardTransaction()
+                        ->setAmountInCents($payment_data['amount_in_cents'])
+                        ->setPaymentMethodCode(\Gateway\One\DataContract\Enum\PaymentMethodEnum::AUTO)
+                        ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_AND_CAPTURE)
+                        ->getCreditCard()
+                        ->setCreditCardBrand($CreditCardBrand)
+//                        ->setCreditCardBrand(\Gateway\One\DataContract\Enum\CreditCardBrandEnum::VISA)
+                        ->setCreditCardNumber($payment_data['credit_card_number'])
+                        ->setExpMonth($payment_data['credit_card_exp_month'])
+                        ->setExpYear($payment_data['credit_card_exp_year'])
+                        ->setHolderName($payment_data['credit_card_name'])
+                        ->setSecurityCode($payment_data['credit_card_cvc']);
+
+                //Define dados do pedido
+                $createSaleRequest->getOrder()
+                        ->setOrderReference('NumeroDopedido');
+
+                // Cria um objeto ApiClient
+                $apiClient = new \Gateway\ApiClient();
+
+                // Faz a chamada para criação
+                $response = $apiClient->createSale($createSaleRequest);
+
+                // Mapeia resposta
+                $httpStatusCode = $response->isSuccess() ? 201 : 401;
+            } catch (\Gateway\One\DataContract\Report\CreditCardError $error) {
+                $httpStatusCode = 400;
+                $response = array("message" => $error->getMessage());
+            } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                $httpStatusCode = $error->errorCollection->ErrorItemCollection[0]->ErrorCode;
+                $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
+            } catch (\Exception $ex) {
+                $httpStatusCode = 500;
+                $response = array("message" => "Ocorreu um erro inesperado.");
+            } finally {
+                // Devolve resposta
+//                http_response_code($httpStatusCode);
+//                header('Content-Type: application/json');
+                return $response;
+            }
+        }
+
         // end of member function add_payment
+
+        public static function detectCardType($num) {
+            $re = array(
+                "visa" => "/^4[0-9]{12}(?:[0-9]{3})?$/",
+                "mastercard" => "/^5[1-5][0-9]{14}$/",
+                "amex" => "/^3[47][0-9]{13}$/",
+                "discover" => "/^6(?:011|5[0-9]{2})[0-9]{12}$/",
+                "diners" => "/^3[068]\d{12}$/",
+            );
+
+            if (preg_match($re['visa'], $num)) {
+                return 'Visa';
+            } else if (preg_match($re['mastercard'], $num)) {
+                return 'Mastercard';
+            } else if (preg_match($re['amex'], $num)) {
+                return 'Amex';
+            } else if (preg_match($re['discover'], $num)) {
+                return 'Discover';
+            } else if (preg_match($re['diners'], $num)) {
+                return 'Diners';
+            } else {
+                return false;
+            }
+        }
 
         /**
          * 
@@ -126,7 +212,7 @@ namespace dumbu\cls {
                 $response = $client->cancel($request);
 
                 // Imprime resposta
-               // print "<pre>";
+                // print "<pre>";
                 return json_encode(array('success' => $response->isSuccess(), 'data' => $response->getData()), JSON_PRETTY_PRINT);
                 //print "</pre>";
             } catch (\Gateway\One\DataContract\Report\ApiError $error) {

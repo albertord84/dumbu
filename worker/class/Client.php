@@ -49,6 +49,12 @@ namespace dumbu\cls {
          * 
          * @access public
          */
+        public $plane_id;
+        
+        /**
+         * 
+         * @access public
+         */
         public $insta_id;
 
         /**
@@ -85,6 +91,12 @@ namespace dumbu\cls {
          * 
          * @access public
          */
+        public $to_follow;
+
+        /**
+         * 
+         * @access public
+         */
         public $reference_profiles = array();
 
         public function get_clients() {
@@ -108,12 +120,14 @@ namespace dumbu\cls {
                 $Client = new Client();
                 //print_r($client_data);
                 // Update Client Data
-                $Client->id = $client_data->id;
+                $Client->id = $client_data->user_id;
                 $Client->name = $client_data->name;
                 $Client->login = $client_data->login;
                 $Client->pass = $client_data->pass;
                 $Client->email = $client_data->email;
                 $Client->insta_id = $client_data->insta_id;
+                $Client->plane_id = $client_data->plane_id;
+                $Client->to_follow = $client_data->to_follow;
                 $Client->status_id = $client_data->status_id;
                 $Client->insta_following = $client_data->insta_following;
                 $Client->cookies = $client_data->cookies;
@@ -137,7 +151,9 @@ namespace dumbu\cls {
             $DB = new DB();
             $Client = $this->get_client($client_id);
             if (count($Client->reference_profiles) > 0) {
-                $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+                $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+                $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+//                $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
                 // If User status = UNFOLLOW he do 0 follows
                 $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
                 $to_unfollow = $to_follow_unfollow;

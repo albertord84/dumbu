@@ -157,7 +157,8 @@ namespace dumbu\cls {
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
+                            $null_picture = strpos($Profile->profile_pic_url, 'cdninstagram.com');
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $null_picture === NULL) { // If user not requested or follwed by Client
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
