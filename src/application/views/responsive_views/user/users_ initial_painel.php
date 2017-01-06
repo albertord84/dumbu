@@ -75,7 +75,7 @@
         <div class="col-md-4">
             <div class="center" style="padding: 5%; width:100%">   
                 <div style="border:1px solid silver; padding: 2%; margin-left:10%; margin-top:0%; width:70%">
-                    <img width="60%" src="<?php echo base_url().'assets/img/palno mesnal sem multa.png'?>"/>                    
+                    <img width="60%" src="<?php echo base_url().'assets/img/a partir de 4.png'?>"/>                    
                     <div class="center" style="margin-top: 5%">                            
                         <a href="#lnk_sign_in_now">
                             <img id="botao-assinar" style="width:85%;" src="<?php echo base_url().'assets/img/BOTAO ASSINAR AGORA.png'?>"/>

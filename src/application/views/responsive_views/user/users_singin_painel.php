@@ -1,11 +1,11 @@
 
-
     <br><br><p class="section-titles">ASSINAR</p><br>
+    <form>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-2">
             <div class="center" id="container_plane_4_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
-                <img class="img-btn" style="width:100%; padding-bottom:0%;" src="<?php echo base_url().'assets/img/4_90.png'?>"/>
+                <img style="width:100%; padding-bottom:0%;" src="<?php echo base_url().'assets/img/4_90.png'?>"/>
                 <div class="radio">
                     <label><input id="radio_plane_4_90" type="radio" name="optradio"></label>
                 </div>
@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-2">
             <div class="center" id="container_plane_9_90" style="margin:5%; ;padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
-                <img class="img-btn" style="width:100%; padding-bottom:10%;" src="<?php echo base_url().'assets/img/9_90.png'?>"/>
+                <img style="width:100%; padding-bottom:10%;" src="<?php echo base_url().'assets/img/9_90.png'?>"/>
                 <div class="radio">
                     <label><input id="radio_plane_9_90" type="radio" name="optradio"></label>
                 </div>
@@ -21,15 +21,15 @@
         </div>
         <div class="col-md-2">
             <div class="center" id="container_plane_29_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
-                <img class="img-btn" style="width:100%; padding-bottom:1%;" src="<?php echo base_url().'assets/img/29_90.png'?>"/>
+                <img style="width:100%; padding-bottom:1%;" src="<?php echo base_url().'assets/img/29_90.png'?>"/>
                 <div class="radio">
-                    <label><input id="radio_plane_29_90" type="radio" name="optradio"></label>
+                    <label><input id="radio_plane_29_90" type="radio" name="optradio" checked></label>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="center" id="container_plane_99_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
-                <img class="img-btn" style="width:100%; padding-bottom:10%;" src="<?php echo base_url().'assets/img/189_90.png'?>"/>
+                <img style="width:100%; padding-bottom:10%;" src="<?php echo base_url().'assets/img/189_90.png'?>"/>
                 <div class="radio">
                     <label><input id="radio_plane_99_90" type="radio" name="optradio"></label>
                 </div>
@@ -37,12 +37,12 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-    
+    </form>
     <div>
         <div class="row">
             <div id="login_panel" class="col-md-4" >   <!--col-xs-4 col-sm-4 filter-buttons-->
                 <hr>
-                <div id="container_login_panel" style="visibility:visible;display:block">
+                <div id="container_login_panel" style="margin-left:4%; margin-right:3%; visibility:visible;display:block">
                     <label>PASSO 1</label><br><br>
                     <div class="center">
                         <img class="img-btn" style="width:10%;margin:0%" src="<?php echo base_url().'assets/img/Camada 51.png'?>"/><br>
