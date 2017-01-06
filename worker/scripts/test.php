@@ -68,11 +68,11 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($today);
 //var_dump('---------------------------------------------');
 //
-$payment_data['credit_card_number'] = '3432117124735573';
-$payment_data['credit_card_name'] = 'RAISA C LIMA';
-$payment_data['credit_card_exp_month'] = '08';
-$payment_data['credit_card_exp_year'] = '2020';
-$payment_data['credit_card_cvc'] = '406';
+$payment_data['credit_card_number'] = '4444555566667777';
+$payment_data['credit_card_name'] = 'ASDF ASDF ';
+$payment_data['credit_card_exp_month'] = '05';
+$payment_data['credit_card_exp_year'] = '2017';
+$payment_data['credit_card_cvc'] = '777';
 $payment_data['amount_in_cents'] = 9990;
 //$payment_data['pay_day'] = '1483452900';
 $payment_data['pay_day'] = strtotime("+1 month", time());
