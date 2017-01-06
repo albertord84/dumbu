@@ -756,6 +756,7 @@ class Welcome extends CI_Controller {
                 $result['message'] = 'Error actualizando en base de datos';
                 //2. hacel el pagsmento segun el plano    
             } finally {
+                // TODO: Hacer clase Plane
                 if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5') {
                     $sql = 'SELECT * FROM plane WHERE id=' . $datas['plane_type'];
                     $plane_datas = $this->user_model->execute_sql_query($sql)[0];
