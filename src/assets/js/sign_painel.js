@@ -115,6 +115,7 @@ $(document).ready(function(){
                             set_global_var('flag',true);
                             $('#btn_sing_in').attr('disabled',false);
                             $('#btn_sing_in').css('cursor', 'pointer');
+                            $('#my_body').css('cursor', 'auto');
                         }
                     },
                     error : function(xhr, status) {

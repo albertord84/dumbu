@@ -820,7 +820,7 @@ class Welcome extends CI_Controller {
                 $result['message'] = 'Usuário cadastrado com sucesso';
             } else {
                 $result['success'] = false;
-                $result['message'] = 'Dados bancários incorretos';
+                $result['message'] = $response['message'];
             }
         } else {
             $result['success'] = false;
@@ -833,7 +833,10 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         //1. hacer un pagamento inicial con el valor inicial del plano
         $response = array();
-        $datas['amount_in_cents'] = $initial_value;
+        if ($datas['early_client_canceled'] === 'false' || $datas['early_client_canceled'] === false) 
+            $datas['amount_in_cents'] = $initial_value;
+        else
+            $datas['amount_in_cents'] = $recurrency_value;
         $datas['pay_day'] = time();
 
         $resp = $this->check_mundipagg_credit_card($datas, 1);
@@ -855,6 +858,7 @@ class Welcome extends CI_Controller {
             }
         } else {
             $response['flag_initial_payment'] = false;
+            $response['message'] = $resp["message"];
         }
         return $response;
     }
@@ -1059,7 +1063,7 @@ class Welcome extends CI_Controller {
                             'order_key' => $client_data['order_key']
                         ));
                         $result['success'] = false;
-                        $result['message'] = 'Dados bancários incorretos. Se o problema continua entre em contasto com o Atendimento';
+                        $result['message'] = $resp["message"];
                     }
                 }
             } else {
