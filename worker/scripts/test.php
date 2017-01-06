@@ -68,27 +68,28 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($today);
 //var_dump('---------------------------------------------');
 //
-//$payment_data['credit_card_number'] = '4532117124735573';
-//$payment_data['credit_card_name'] = 'RAISA C LIMA';
-//$payment_data['credit_card_exp_month'] = '08';
-//$payment_data['credit_card_exp_year'] = '2020';
-//$payment_data['credit_card_cvc'] = '406';
-//$payment_data['amount_in_cents'] = 9990;
-////$payment_data['pay_day'] = '1483452900';
-//$payment_data['pay_day'] = strtotime("+7 days", time());
+$payment_data['credit_card_number'] = '3432117124735573';
+$payment_data['credit_card_name'] = 'RAISA C LIMA';
+$payment_data['credit_card_exp_month'] = '08';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '406';
+$payment_data['amount_in_cents'] = 9990;
+//$payment_data['pay_day'] = '1483452900';
+$payment_data['pay_day'] = strtotime("+1 month", time());
 //var_dump(date('d-m-Y', $payment_data['pay_day']));
-////        
-//var_dump($Payment->create_recurrency_payment($payment_data, 0));
-//$resul = $Payment->create_payment($payment_data);
-//print_r($resul);
+//        
+$resul = $Payment->create_payment($payment_data);
+var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0);
+var_dump($resul);
 
 //----------------------------------------------------------------
 
 // GMAIL
  
-$Gmail = new dumbu\cls\Gmail();
-$result = $Gmail->send_client_payment_success("dumbu.system", "Alberto", "Alberto", "Alberto testtest");
-var_dump($result);
+//$Gmail = new dumbu\cls\Gmail();
+//$result = $Gmail->send_client_payment_success("dumbu.system", "Alberto", "Alberto", "Alberto testtest");
+//var_dump($result);
 //$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 2);
 //var_dump($result);
 //$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 5);

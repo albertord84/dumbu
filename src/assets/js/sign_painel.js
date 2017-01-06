@@ -139,62 +139,42 @@ $(document).ready(function(){
         $('#radio_plane_9_90').attr('checked', false);
         $('#radio_plane_29_90').attr('checked', true);
         $('#radio_plane_99_90').attr('checked', false);
-        
         $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
         $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        
         plane='4';
     }
     
-    
-    
-    $('#container_plane_4_90').click(function(){
-        $('#radio_plane_4_90').attr('checked', true);
-        $('#radio_plane_9_90').attr('checked', false);
-        $('#radio_plane_29_90').attr('checked', false);
-        $('#radio_plane_99_90').attr('checked', false);        
+    $('#radio_plane_4_90').click(function(){
         $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
         $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
         plane='2';
-    });
-    $('#container_plane_9_90').click(function(){
-        $('#radio_plane_4_90').attr('checked', false);
-        $('#radio_plane_9_90').attr('checked', true);
-        $('#radio_plane_29_90').attr('checked', false);
-        $('#radio_plane_99_90').attr('checked', false);        
+    });  
+    
+    $('#radio_plane_9_90').click(function(){
         $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
         $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
         plane='3';
-    });
-    $('#container_plane_29_90').click(function(){
-        $('#radio_plane_4_90').attr('checked', false);
-        $('#radio_plane_9_90').attr('checked', false);
-        $('#radio_plane_29_90').attr('checked', true);
-        $('#radio_plane_99_90').attr('checked', false);        
+    });    
+    $('#radio_plane_29_90').click(function(){
         $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
         $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
         plane='4';
     });
-    $('#container_plane_99_90').click(function(){
-        $('#radio_plane_4_90').attr('checked', false);
-        $('#radio_plane_9_90').attr('checked', false);
-        $('#radio_plane_29_90').attr('checked', false);
-        $('#radio_plane_99_90').attr('checked', true);        
+    $('#radio_plane_99_90').click(function(){
         $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
         $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});        
         plane='5';
     });
-    
     
     $('#container_plane_4_90').hover(
         function () { 
@@ -228,10 +208,6 @@ $(document).ready(function(){
                 $("#container_plane_99_90").css('cursor', 'auto');
             }
      ); 
-     
-     
-     
-     
     $('#img_btn_sing_in').hover(
         function () { 
                 $("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4_hover.png");
