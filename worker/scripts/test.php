@@ -68,26 +68,27 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($today);
 //var_dump('---------------------------------------------');
 //
-$payment_data['credit_card_number'] = '4203380131488010';
-$payment_data['credit_card_name'] = 'IZABELLA C S SILVA';
-$payment_data['credit_card_exp_month'] = '02';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '777';
-$payment_data['amount_in_cents'] = 990;
-$payment_data['pay_day'] = $today;
-$payment_data['pay_day'] = time();
-//        
-//var_dump($Payment->create_recurrency_payment($payment_data, 1));
-$resul = $Payment->create_payment($payment_data);
-print_r($resul);
+//$payment_data['credit_card_number'] = '4532117124735573';
+//$payment_data['credit_card_name'] = 'RAISA C LIMA';
+//$payment_data['credit_card_exp_month'] = '08';
+//$payment_data['credit_card_exp_year'] = '2020';
+//$payment_data['credit_card_cvc'] = '406';
+//$payment_data['amount_in_cents'] = 9990;
+////$payment_data['pay_day'] = '1483452900';
+//$payment_data['pay_day'] = strtotime("+7 days", time());
+//var_dump(date('d-m-Y', $payment_data['pay_day']));
+////        
+//var_dump($Payment->create_recurrency_payment($payment_data, 0));
+//$resul = $Payment->create_payment($payment_data);
+//print_r($resul);
 
 //----------------------------------------------------------------
 
 // GMAIL
  
-//$Gmail = new dumbu\cls\Gmail();
-//$result = $Gmail->send_client_payment_success("pedro@seiva.pro", "Pedro", "pedropetti", "testtest");
-//var_dump($result);
+$Gmail = new dumbu\cls\Gmail();
+$result = $Gmail->send_client_payment_success("dumbu.system", "Alberto", "Alberto", "Alberto testtest");
+var_dump($result);
 //$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 2);
 //var_dump($result);
 //$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 5);
@@ -103,7 +104,7 @@ print_r($resul);
 $Robot = new dumbu\cls\Robot();
  	  		 	
  	 	 	 	
-//$result = $Robot->bot_login("gugafitnes", "310878");
+//$result = $Robot->bot_login("maquinabike", "Igege+-2111");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));

@@ -97,7 +97,7 @@ class Payment extends CI_Controller {
                     // TODO: limit email by days diff
                     //$diff_days = 6;
                     if ($diff_days >= 0 /* && $diff_days < 5 */) {
-                        print "\n<br>Email sent to " . $client['email'] . "<br>\n";
+//                        print "\n<br>Email sent to " . $client['email'] . "<br>\n";
                         $this->load->model('class/dumbu_system_config');
                         $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
                         // TODO: limit email by days diff
@@ -154,7 +154,8 @@ class Payment extends CI_Controller {
             $clientname = $client['name'];
             print "<br>Email send to client: $clientname<br>";
         } else {
-            throw new Exception("Email not sent to: " . json_encode($client));
+            print "<br>Email NOT sent to: " . json_encode($client, JSON_PRETTY_PRINT);
+//            throw new Exception("Email not sent to: " . json_encode($client));
         }
     }
 

@@ -115,7 +115,7 @@ namespace dumbu\cls {
 
                 // Define dados da transação
                 $CreditCardBrand = Payment::detectCardType($payment_data['credit_card_number']);
-                print_r($CreditCardBrand);
+//                print_r($CreditCardBrand);
                 $createSaleRequest->addCreditCardTransaction()
                         ->setAmountInCents($payment_data['amount_in_cents'])
                         ->setPaymentMethodCode(\Gateway\One\DataContract\Enum\PaymentMethodEnum::AUTO)

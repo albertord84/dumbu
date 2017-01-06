@@ -23,6 +23,7 @@ namespace dumbu\cls {
 //        EMAIL to contact client
         CONST SYSTEM_EMAIL2 = 'atendimento@dumbu.pro';
         CONST SYSTEM_USER_LOGIN2 = 'atendimento@dumbu.pro';
+        CONST SYSTEM_USER_PASS2 = 'Sorvete69@';
         
         // New email 
 //        CONST SYSTEM_EMAIL = 'atendimento@dumbu.pro';

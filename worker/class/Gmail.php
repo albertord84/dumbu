@@ -52,13 +52,16 @@ namespace dumbu\cls {
 //            $this->mail->SMTPAuth = false; // atendimento
 
 //Username to use for SMTP authentication - use full email address for gmail
-            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN;
+//            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN;
+            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2;
 
 //Password to use for SMTP authentication
-            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS;
+//            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS;
+            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS2;
 
 //Set who the message is to be sent from
-            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL, 'DUMBU');
+//            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL, 'DUMBU');
+            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL2, 'DUMBU');
         }
 
         public function send_client_login_error($useremail, $username, $instaname, $instapass) {
@@ -150,7 +153,7 @@ namespace dumbu\cls {
             $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
-            $this->mail->Subject = 'DUMBU Payment Problem';
+            $this->mail->Subject = "DUMBU Payment Problem $diff_days day(s)";
 
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body

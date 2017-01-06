@@ -582,6 +582,7 @@ namespace dumbu\cls {
         }
 
         public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client = NULL) {
+            $pass = urlencode($pass);
             $postinfo = "username=$login&password=$pass";
 
             $headers = array();
