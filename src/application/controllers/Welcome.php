@@ -858,7 +858,7 @@ class Welcome extends CI_Controller {
             }
         } else {
             $response['flag_initial_payment'] = false;
-            $response['message'] = $resp;
+            $response['message'] = $resp["message"];
         }
         return $response;
     }
@@ -1063,7 +1063,7 @@ class Welcome extends CI_Controller {
                             'order_key' => $client_data['order_key']
                         ));
                         $result['success'] = false;
-                        $result['message'] = 'Dados bancários incorretos. Se o problema continua entre em contasto com o Atendimento';
+                        $result['message'] = $resp["message"];
                     }
                 }
             } else {
