@@ -858,7 +858,10 @@ class Welcome extends CI_Controller {
             }
         } else {
             $response['flag_initial_payment'] = false;
-            $response['message'] = $resp["message"];
+            if(is_array($resp))
+                $response['message'] = $resp["message"];
+            else
+                $response['message'] = 'Compra não sucedida. Problemas com o pagamento';
         }
         return $response;
     }
@@ -1062,8 +1065,13 @@ class Welcome extends CI_Controller {
                             'credit_card_exp_year' => $client_data['credit_card_exp_year'],
                             'order_key' => $client_data['order_key']
                         ));
-                        $result['success'] = false;
-                        $result['message'] = $resp["message"];
+                        $result['success'] = false;                        
+                        if(is_array($resp))
+                            $result['message'] = $resp["message"];
+                        else
+                            $result['message'] = 'Compra não sucedida. Problemas com o pagamento';
+                        
+                        
                     }
                 }
             } else {
