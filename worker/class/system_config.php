@@ -30,17 +30,17 @@ namespace dumbu\cls {
 //        CONST SYSTEM_USER_LOGIN = 'atendimento@dumbu.pro';
 //        CONST SYSTEM_USER_PASS = 'Sorvete69@';
         
-        CONST PROMOTION_N_FREE_DAYS= 8;    // N days free promotion
+        CONST PROMOTION_N_FREE_DAYS= 31;    // N days free promotion
         CONST DAYS_TO_BLOCK_CLIENT= 4;    // Days to wait before block client
 //        CONST PROMOTION_N_FREE_DAYS= 30;    // N days BLACK FRIDAY
     
         CONST PAYMENT_VALUE=9990; //quantity to payment in cents
 
-//        CONST MUNDIPAGG_BASE_URL = 'https://transactionv2.mundipaggone.com';  // PRODUCTION
-//        CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6';   // DUMBU Producition
+        CONST MUNDIPAGG_BASE_URL = 'https://transactionv2.mundipaggone.com';  // PRODUCTION
+        CONST SYSTEM_MERCHANT_KEY = 'BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6';   // DUMBU Producition
         
-        CONST MUNDIPAGG_BASE_URL = 'https://sandbox.mundipaggone.com';        // Sandbox
-        CONST SYSTEM_MERCHANT_KEY = 'b3ef5018-6653-4ce0-b515-51ac26ccdcb1';   // DUMBU sandbox
+//        CONST MUNDIPAGG_BASE_URL = 'https://sandbox.mundipaggone.com';        // Sandbox
+//        CONST SYSTEM_MERCHANT_KEY = 'b3ef5018-6653-4ce0-b515-51ac26ccdcb1';   // DUMBU sandbox
         
 //        CONST SYSTEM_MERCHANT_KEY = 'bcb45ac4-7edb-49df-98d1-69fd37f4e1d6';  // API Example
 

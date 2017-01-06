@@ -757,7 +757,7 @@ class Welcome extends CI_Controller {
                 //2. hacel el pagsmento segun el plano    
             } finally {
                 if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5') {
-                    $sql = 'SELECT * FROM Plane WHERE id=' . $datas['plane_type'];
+                    $sql = 'SELECT * FROM plane WHERE id=' . $datas['plane_type'];
                     $plane_datas = $this->user_model->execute_sql_query($sql)[0];
                     $response = $this->do_payment_by_plane($datas, $plane_datas['initial_val'], $plane_datas['normal_val']);
                 } else
@@ -809,7 +809,7 @@ class Welcome extends CI_Controller {
                     $this->user_model->set_sesion($datas['pk'], $this->session);
                 }
                 //Email com compra satisfactoria a atendimento y al cliente
-                $this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
                     $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
                 else
