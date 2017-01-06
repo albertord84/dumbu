@@ -178,7 +178,9 @@
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
                                     echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';
-                                    echo '<b>Order key: </b>'.$result[$i]['order_key'].'<br>';
+                                    echo '<b>Plane: </b> ('.$result[$i]['plane_id'].'):---> <br>'.$result[$i]['initial_val'].' --- '.$result[$i]['normal_val'];
+                                    echo '<b>Initial order key: </b>'.$result[$i]['initial_order_key'].'<br>';
+                                    echo '<b>Recurrency order key: </b>'.$result[$i]['order_key'].'<br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     if($result[$i]['order_key'])

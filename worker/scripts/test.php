@@ -68,7 +68,7 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($today);
 //var_dump('---------------------------------------------');
 //
-$payment_data['credit_card_number'] = '3432117124735573';
+$payment_data['credit_card_number'] = '4532117124735573';
 $payment_data['credit_card_name'] = 'RAISA C LIMA';
 $payment_data['credit_card_exp_month'] = '08';
 $payment_data['credit_card_exp_year'] = '2020';

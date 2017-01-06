@@ -18,7 +18,8 @@
         public function view_clients_by_filter($form_filter) {
             $this->db->select('*');
             $this->db->from('clients');
-            $this->db->join('users', 'clients.user_id = users.id');            
+            $this->db->join('users', 'clients.user_id = users.id');
+            $this->db->join('plane', 'clients.plane_id = plane.id');
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             else
