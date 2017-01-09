@@ -37,24 +37,17 @@
                 <?php echo $body_section1; ?> 
             </div>           
         
-        <!--SECTION 2-->
-        <!--<div class="row body-section-2 center">
-            <A name="lnk_how_function"></A>
-            <?php// echo $body_section2; ?>          
-        </div>-->
-        
-        <!--SECTION 3-->
-        <!--<div class="row client-body-section-3 center">
-            <A name="lnk_update"></A>
-            <?php// echo $body_section3; ?>
-        </div>-->
-        
         <!--SECTION 4-->
         <div class="row client-body-section-4">
             <A name="lnk_talkme"></A>
             <?php echo $body_section4; ?>
         </div>
 
+        <!--SECTION 5-->
+        <div class="row body-section-4 center">                           
+            <?php echo $body_section_cancel; ?>            
+        </div>
+        
         <!--SECTION 5-->
         <div class="row body-section-5 center">                           
             <?php echo $body_section5; ?>            
