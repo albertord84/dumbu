@@ -26,7 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: UNCOMENT
-//        $this->db->where('user_id', "49");
+//        $this->db->where('user_id', "40");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
@@ -69,11 +69,13 @@ class Payment extends CI_Controller {
             $LastSaledData = NULL;
             // Get last client payment
             foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
-                if ($SaleData->CapturedAmountInCents == NULL) {
-                    break;
+                $SaleDataDate = new DateTime($SaleData->DueDate);
+//                $LastSaleDataDate = new DateTime($LastSaledData->DueDate);
+                //$last_payed_date = DateTime($LastSaledData->DueDate);
+                if ($SaleData->CapturedAmountInCents != NULL && ($LastSaledData == NULL || $SaleDataDate > DateTime($LastSaledData->DueDate))) {
+                    $LastSaledData = $SaleData;
                 }
                 //var_dump($SaleData);
-                $LastSaledData = $SaleData;
             }
             $now = DateTime::createFromFormat('U', time());
             $this->load->model('class/user_status');
@@ -89,7 +91,7 @@ class Payment extends CI_Controller {
                 print "\n<br> Diff days: $diff_days";
                 // TODO: Put 34 in system_config
 //                $diff_days = 35;
-                $client['email'] = 'albertord84@gmail.com';
+//                $client['email'] = 'albertord84@gmail.com';
                 if ($diff_days > 34) { // Limit to bolck
                     //Block client by paiment
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));

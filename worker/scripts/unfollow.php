@@ -58,6 +58,10 @@ for ($i = 0; $i < 100 && $CN; $i++) {
                         break;
                 }
             }
+            else {
+                unset($clients_data[$ci]);
+                echo "<br>\n DELETED FROM UNFOLLOW: $client_data->login ($client_data->id) <br>\n";
+            }
         }
         else {
             print "NOT COOKIES!!!";
@@ -72,7 +76,7 @@ for ($i = 0; $i < 100 && $CN; $i++) {
 for ($ci = 0; $ci < $CN; $ci++) {
     $client_data = $clients_data[$ci];
     $Client = new dumbu\cls\Client();
-    if ($client_data->unfollows >= 500) { // TODO: Set to 900
+    if ($client_data->unfollows >= 700) { // TODO: Set to 900
         $Client->set_client_status($client_data->id, dumbu\cls\user_status::ACTIVE);
         echo "<br>\nNew Status ACTIVE: $client_data->login ($client_data->id) <br>\n";
     }
