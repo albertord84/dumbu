@@ -1100,7 +1100,7 @@ class Welcome extends CI_Controller {
                             //se hiso el primer pagamento bien, pero la recurrencia mal
                             $result['success'] = true;
                             $result['resource'] = 'client';
-                            $result['message'] = 'Actualização bem sucedida, mas deve atualizar novamente antes da data de pagamento ('.$payments_days['pay_now'].')';
+                            $result['message'] = 'Actualização bem sucedida, mas deve atualizar novamente até a data de pagamento ('.$payments_days['pay_now'].')';
                         }
                     } 
                 }

@@ -88,14 +88,15 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($resul);
 //----------------------------------------------------------------
 
-//$resul = $Payment->check_payment('249c4516-3dc9-4a79-b207-b54fd1b4bec8');
+//$result = $Payment->check_payment(NULL);
+$result = $Payment->delete_payment(NULL);
 //header('Content-Type: application/json');
-//print json_encode($resul->getData());
+//print_r($resul);
 
 //$resul = $Payment->retry_payment('f00745b8-f1c2-44d8-b7a6-8186e944d28b', '94a2204f-287b-4978-b7ed-26ad7ee1760d');
 //header('Content-Type: application/json');
 //print_r($resul->getData());
-print_r($resul);
+var_dump($result);
 
 // GMAIL
 //$Gmail = new dumbu\cls\Gmail();
