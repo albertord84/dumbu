@@ -17,7 +17,7 @@ $(document).ready(function(){
     
     $("#btn_verify_account").click(function(){
         if(!verify){
-            $("#btn_verify_account").text('CONFIRMO ATIVAÇÃ‚O');    
+            $("#btn_verify_account").text('CONFIRMO ATIVAÇÃO');    
             verify=true;
         } else{
             $("#lnk_verify_account").attr('target', '_self');
@@ -210,6 +210,14 @@ $(document).ready(function(){
             $('#container_login_message').css('color','red');
         }
     });
+    
+    $("#cancel_usser_account").click(function(){
+        var l = Ladda.create(this);  l.start();
+        if(confirm('Sugerimos entrar em contato com o nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?'))
+            //$(location).attr('href','https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1');
+            window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1','_blank');
+    });
+    
     
     $("#adding_profile").click(function(){
         if(num_profiles<MAX_NUM_PROFILES){

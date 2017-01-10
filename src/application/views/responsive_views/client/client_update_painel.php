@@ -1,4 +1,4 @@
-<script type="text/javascript">var upgradable_datas=<?php echo json_encode($upgradable_datas);?></script>
+
 <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js'?>"></script>
 
 

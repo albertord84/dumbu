@@ -13,15 +13,12 @@ echo date("Y-m-d h:i:sa");
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // Ref Prof
-
 //$RP = new \dumbu\cls\Reference_profile();
 //$RP->get_insta_ref_prof_data($ref_prof);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
 //var_dump($follows_count);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
 //var_dump($follows_count);
-
-
 //$Worker = new dumbu\cls\Worker();
 //$Robot = new dumbu\cls\Robot();
 //$DB = new \dumbu\cls\DB();
@@ -32,26 +29,15 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 ////$Worker->do_follow_unfollow_work($daily_work);
 //$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
 //var_dump($Ref_profile_follows);
-
-
 //$Client = new dumbu\cls\Client();
-
 //$Client->create_daily_work(234);
-
-
-
 //var_dump(date('d-m-Y',time()));
 //$a=strtotime("+" .'7'. " days", time());
 //var_dump($a);
 //var_dump(date('d-m-Y',1483449391));
 //var_dump(date('d-m-Y',1486247776));
-
-
-
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
-
 //var_dump(date('d-m-Y',1482951226));
-
 // MUNDIPAGG
 //$Payment = new dumbu\cls\Payment();
 //$response=$Payment->delete_payment('0b0759c7-2c28-4c3c-aee9-07d1aae581a9');
@@ -64,9 +50,27 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
 //
-//$today=time();
-//var_dump($today);
-//var_dump('---------------------------------------------');
+//var_dump(date('d-m-Y', $data));
+
+//$pd = strtotime('30-01-2017');
+//var_dump(date("d-m-Y", $pd));
+//
+//$pd = strtotime("+1 month", $pd);
+//var_dump(date("d-m-Y", $pd));
+//
+//
+//$pay_day = strtotime('01-01-2016');
+//
+//$d_today = date("j", $now);
+//$m_today = date("n", $now);
+//$y_today = date("Y", $now);
+//$d_pay_day = date("j", $pay_day);
+//$m_pay_day = date("n", $pay_day);
+//$y_pay_day = date("Y", $pay_day);
+//
+//$data = strtotime("+5 days", time());
+//var_dump($data);
+//var_dump(date('d-m-Y', $data));
 //
 //$payment_data['credit_card_number'] = '4444555566667777';
 //$payment_data['credit_card_name'] = 'ASDF ASDF ';
@@ -94,9 +98,9 @@ $Payment = new dumbu\cls\Payment();
 print_r($resul);
 
 // GMAIL
- 
 //$Gmail = new dumbu\cls\Gmail();
-//$result = $Gmail->send_client_payment_success("dumbu.system", "Alberto", "Alberto", "Alberto testtest");
+//$useremail, $username, $instaname, $instapass
+//$result = $Gmail->send_client_payment_success("linda@petbooking.com.br", "Pet Booking ????", "pet_booking", "petb12345");
 //var_dump($result);
 //$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 2);
 //var_dump($result);
@@ -140,18 +144,14 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //$result = $Robot->bot_login("pedropetti", "Pp106020946");
 //var_dump($result);
-
 //----------------------------------------------------------------
-
 // WORKER
-
 //$Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
 //$Worker->prepare_daily_work();
 //$Worker->do_work();
-
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

@@ -52,16 +52,17 @@
                         </div>';
                     break;
                 case 6:
-                     /*echo '
+                    echo '
                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
+                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">MANTENHA ATIVA SUA CONTA</b><BR>
                             <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS</b>  <BR>           
+                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">NÃO FOI POSSIVEL REALIZAR O PAGAMENTO NA DATA CORRESPONTE</b><BR>
                             <a id="lnk_update_data_bank" href="#lnk_update">
                                 <button id="btn_update_data_bank" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                     ATUALIZAR AGORA
                                 </button>
                             </a>
-                        </div>';*/
+                        </div>';
                     break;
                 case 7:
                     /*echo '

@@ -29,8 +29,7 @@ class Admin extends CI_Controller {
         if ($this->session->userdata('id')) {
             $this->load->model('class/admin_model');
             $form_filter=$this->input->get();
-            $result=$this->admin_model->view_clients_by_filter($form_filter);
-            $datas['result']=$result;
+            $datas['result']=$this->admin_model->view_clients_by_filter($form_filter);            
             $datas['form_filter']=$form_filter;
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel',$datas,true);

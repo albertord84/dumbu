@@ -3,14 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-//    public function index() {
-//        //var_dump($this->is_insta_user('josergm86', 'josergm'));
-//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-//        $this->Robot = new \dumbu\cls\Robot();
-//        $login_data = $this->Robot->bot_login('sandersongenuino', 'd20m20x');
-//        var_dump($login_data);
-//    }
-
+    public function index1(){
+        //var_dump(strtotime('7-1-2017')); //pay_day
+        var_dump(date('d-m-Y',1486335600)); //pay_day
+    }
+    
     public function index() {
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
         $data['section2'] = $this->load->view('responsive_views/user/users_howfunction_painel', '', true);
@@ -114,6 +111,7 @@ class Welcome extends CI_Controller {
             $data['head_section1'] = $this->load->view('responsive_views/client/client_header_painel', '', true);
             $data['body_section1'] = $this->load->view('responsive_views/client/client_body_painel', $datas1, true);
             $data['body_section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
+            $data['body_section_cancel'] = $this->load->view('responsive_views/client/client_cancel_painel', '', true);
             $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             $this->load->view('view_client', $data);
         } else {
@@ -754,7 +752,7 @@ class Welcome extends CI_Controller {
                 $result['success'] = false;
                 $result['exception'] = $exc->getTraceAsString();
                 $result['message'] = 'Error actualizando en base de datos';
-                //2. hacel el pagsmento segun el plano    
+            //2. hacel el pagsmento segun el plano    
             } finally {
                 // TODO: Hacer clase Plane
                 if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5') {
@@ -997,84 +995,119 @@ class Welcome extends CI_Controller {
             $datas = $this->input->post();
             if ($this->validate_post_credit_card_datas($datas)) {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT)
+                if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT){
                     $datas['pay_day'] = time();
-                else
-                    $datas['pay_day'] = $client_data['pay_day'];
-                $datas['amount_in_cents'] = $this->session->userdata('normal_val');
-                try {
-                    $this->user_model->update_user($this->session->userdata('id'), array(
-                        'email' => $datas['client_email']));
-                    $this->client_model->update_client($this->session->userdata('id'), array(
-                        'credit_card_number' => $datas['client_credit_card_number'],
-                        'credit_card_cvc' => $datas['client_credit_card_cvv'],
-                        'credit_card_name' => $datas['client_credit_card_name'],
-                        'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
-                        'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
-                        'pay_day' => $datas['pay_day']
-                    ));
-                } catch (Exception $exc) {
-                    $result['success'] = false;
-                    $result['exception'] = $exc->getTraceAsString();
-                    $result['message'] = 'Error actualizando en base de datos';
-                } finally {
-                    //if(true){                    
-                    $response_delete_early_payment = '';
-                    $resp = $this->check_mundipagg_credit_card($datas, 0);
-                    if (is_object($resp) && $resp->isSuccess()) {
-                        try {
-                            $this->client_model->update_client($this->session->userdata('id'), array(
-                                'order_key' => $resp->getData()->OrderResult->OrderKey));
-                            if ($client_data['order_key'])
-                                $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
-                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
-                            } else
-                                $datas['status_id'] = $this->session->userdata('status_id');
-                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                                $N = count($active_profiles);
-                                for ($i = 0; $i < $N; $i++) {
-                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, $this->session->userdata('to_follow'));
-                                    //$this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
+                    $datas['pay_now'] = false;
+                }
+                else{
+                    $payments_days =  $this->get_pay_day($client_data['pay_day']);
+                    $datas['pay_day'] = $payments_days['pay_day'];
+                }
+                if($payments_days['pay_day']!=null){ //dia de actualizacion diferente de dia de pagamento
+                    $datas['amount_in_cents'] = $this->session->userdata('normal_val');
+                    try {
+                        $this->user_model->update_user($this->session->userdata('id'), array(
+                            'email' => $datas['client_email']));
+                        $this->client_model->update_client($this->session->userdata('id'), array(
+                            'credit_card_number' => $datas['client_credit_card_number'],
+                            'credit_card_cvc' => $datas['client_credit_card_cvv'],
+                            'credit_card_name' => $datas['client_credit_card_name'],
+                            'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
+                            'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
+                            'pay_day' => $datas['pay_day']
+                        ));
+                    } catch (Exception $exc) {
+                        $result['success'] = false;
+                        $result['exception'] = $exc->getTraceAsString();
+                        $result['message'] = 'Error actualizando en base de datos';
+                    } finally {
+                        $flag_pay_now=false;
+                        $flag_pay_day=false;
+                        
+                        if($payments_days['pay_now']){ //si necesitara hacer un pagamento ahora
+                            $datas['pay_day'] = time();
+                            $resp_pay_now = $this->check_mundipagg_credit_card($datas, 1);
+                            if(is_object($resp_pay_now) && $resp_pay_now->isSuccess()){
+                                $this->client_model->update_client($this->session->userdata('id'), array(
+                                        'pending_order_key' => $resp_pay_now->getData()->OrderResult->OrderKey));
+                                $flag_pay_now=true;
+                            }
+                        }
+                        
+                        if(($payments_days['pay_now'] && $flag_pay_now) || !$payments_days['pay_now']){
+                            $response_delete_early_payment = '';
+                            $datas['pay_day'] = $payments_days['pay_day'];
+                            $resp_pay_day = $this->check_mundipagg_credit_card($datas, 0);
+                            if (is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
+                                $flag_pay_day=true;
+                                try {
+                                    $this->client_model->update_client($this->session->userdata('id'), array(
+                                        'pay_day' =>$datas['pay_day'],
+                                        'order_key' => $resp_pay_day->getData()->OrderResult->OrderKey));
+                                    if ($client_data['order_key'])
+                                        $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
+                                    if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
+                                        $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
+                                    } else
+                                        $datas['status_id'] = $this->session->userdata('status_id');
+                                    $this->user_model->update_user($this->session->userdata('id'), array(
+                                        'status_id' => $datas['status_id']));                                                                     
+                                    if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
+                                        $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                                        $N = count($active_profiles);
+                                        for ($i = 0; $i < $N; $i++) {
+                                            $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, $this->session->userdata('to_follow'));                                            
+                                        }
+                                    }
+                                    $this->session->set_userdata('status_id', $datas['status_id']);   
+                                } catch (Exception $exc) {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'status_id' => $this->session->userdata('status_id'))); //the previous
+                                    $this->client_model->update_client($datas['pk'], array(
+                                        'pay_day'=>$client_data['pay_day'], //the previous
+                                        'order_key' => $client_data['order_key'])); //the previous
+                                    $result['success'] = false;
+                                    $result['exception'] = $exc->getTraceAsString();
+                                    $result['message'] = 'Error actualizando en base de datos';
+                                } finally {
+                                    $result['success'] = true;
+                                    $result['resource'] = 'client';
+                                    $result['message'] = 'Dados bancários atualizados corretamente';
+                                    $result['response_delete_early_payment'] = $response_delete_early_payment;
                                 }
                             }
-                            $this->user_model->update_user($this->session->userdata('id'), array(
-                                'status_id' => $datas['status_id']));
-                            $this->session->set_userdata('status_id', $datas['status_id']);
-                        } catch (Exception $exc) {
-                            $this->user_model->update_user($datas['pk'], array(
-                                'status_id' => $this->session->userdata('status_id'))); //the previous
-                            $this->client_model->update_client($datas['pk'], array(
-                                'order_key' => $client_data['order_key'])); //the previous
+                        }
+                        
+                        if(($payments_days['pay_now'] && !$flag_pay_now) || (!$payments_days['pay_now'] && !$flag_pay_day)){
+                            //restablecer en la base de datos los datos anteriores
+                            $this->client_model->update_client($this->session->userdata('id'), array(
+                                'credit_card_number' => $client_data['credit_card_number'],
+                                'credit_card_cvc' => $client_data['credit_card_cvc'],
+                                'credit_card_name' => $client_data['credit_card_name'],
+                                'credit_card_exp_month' => $client_data['credit_card_exp_month'],
+                                'credit_card_exp_year' => $client_data['credit_card_exp_year'],
+                                'pay_day' => $client_data['pay_day'],
+                                'order_key' => $client_data['order_key']
+                            ));
                             $result['success'] = false;
-                            $result['exception'] = $exc->getTraceAsString();
-                            $result['message'] = 'Error actualizando en base de datos';
-                        } finally {
+                            $result['resource'] = 'client';                            
+                            if(!$flag_pay_now)
+                                 $result['message'] = $resp_pay_now["message"];   
+                            else
+                                $result['message'] = $resp_pay_day["message"];
+                        } else
+                        if( ($payments_days['pay_now'] && $flag_pay_now && !$flag_pay_day) ){
+                            //se hiso el primer pagamento bien, pero la recurrencia mal
                             $result['success'] = true;
                             $result['resource'] = 'client';
-                            $result['message'] = 'Dados bancários confirmados corretamente';
-                            $result['response_delete_early_payment'] = $response_delete_early_payment;
+                            $result['message'] = 'Actualização bem sucedida, mas deve atualizar novamente antes da data de pagamento ('.$payments_days['pay_now'].')';
                         }
-                    } else {
-                        //restablecer en la base de datos los datos anteriores
-                        $this->client_model->update_client($this->session->userdata('id'), array(
-                            'credit_card_number' => $client_data['credit_card_number'],
-                            'credit_card_cvc' => $client_data['credit_card_cvc'],
-                            'credit_card_name' => $client_data['credit_card_name'],
-                            'credit_card_exp_month' => $client_data['credit_card_exp_month'],
-                            'credit_card_exp_year' => $client_data['credit_card_exp_year'],
-                            'order_key' => $client_data['order_key']
-                        ));
-                        $result['success'] = false;                        
-                        if(is_array($resp))
-                            $result['message'] = $resp["message"];
-                        else
-                            $result['message'] = 'Compra não sucedida. Problemas com o pagamento';
-                        
-                        
-                    }
+                    } 
                 }
+                else{
+                    $result['success'] = false;
+                    $result['message'] = 'Você não pode atualizar seu cartão no dia do pagamento';
+                } 
             } else {
                 $result['success'] = false;
                 $result['message'] = 'Acesso não permitido';
@@ -1083,6 +1116,53 @@ class Welcome extends CI_Controller {
         }
     }
 
+    public function get_pay_day($pay_day) {
+        $this->load->model('class/user_status');
+        $now=time(); 
+        $datas['pay_now'] = false;
+        
+        //Testes  --------------------
+        /*$now=strtotime('3-2-2017');
+        var_dump(date('d-m-Y',$now));
+        $pay_day=strtotime('31-1-2017');
+        var_dump(date('d-m-Y',$pay_day));
+        $pendent=true;*/
+        //----------------------------
+        
+        $d_today=date("j",$now);
+        $m_today=date("n",$now);
+        $y_today=date("Y",$now);
+        $d_pay_day=date("j",$pay_day);
+        $m_pay_day=date("n",$pay_day);
+        $y_pay_day=date("Y",$pay_day);
+                        
+        if($d_today<$d_pay_day){
+            if($this->session->userdata('status_id')==(string)user_status::PENDING)
+                $datas['pay_now'] = true;
+            //1. mes anterior respecto a hoy
+            $previous_month=strtotime("-30 days",$now);
+            //var_dump(date('d-m-Y',$previous_month));
+            //2. dia de pagamento en el mes anterior al actual
+            $previous_payment_date=strtotime($d_pay_day.'-'.date("n",$previous_month).'-'.date("Y",$previous_month));
+            //var_dump(date('d-m-Y',$previous_payment_date));
+            //3. nuevo dia de pagamento para el mes actual
+            $datas['pay_day'] = strtotime("+30 days" , $previous_payment_date);
+            //var_dump(date('d-m-Y',$datas['pay_day']));
+        } else
+        if($d_today>$d_pay_day){
+            //0. si pendiente por pagamento, inidcar que se debe hacer pagamento
+            //if($this->session->userdata('status_id') == user_status::PENDING)                
+            if($this->session->userdata('status_id')==(string)user_status::PENDING)
+                $datas['pay_now'] = true;
+            $recorrency_date = strtotime($d_pay_day.'-'.$m_today.'-'.$y_today); //mes actual com el dia de pagamento
+            //var_dump(date('d-m-Y',$recorrency_date));
+            $datas['pay_day'] = strtotime("+30 days", $recorrency_date);//proximo mes
+            //var_dump(date('d-m-Y',$datas['pay_day']));
+        } else
+            $datas['pay_day']=false;
+        return $datas;
+    }
+    
     public function client_sing_up() { //a ser usada por administradores
         $this->load->model('class/user_role');
         if ($this->session->userdata('role_id') == user_role::ADMIN) {

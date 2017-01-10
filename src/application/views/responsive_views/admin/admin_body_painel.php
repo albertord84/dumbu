@@ -12,6 +12,7 @@
                             <option value="2">BLOCKED_BY_PAYMENT</option>
                             <option value="3">BLOCKED_BY_PASSWORD</option>
                             <option value="4">DELETED</option>
+                            <option value="6">PENDENT_BY_PAYMENT</option>
                             <option value="7">UNFOLLOW</option>
                             <option value="8">BEGINNER</option>
                             <option value="9">VERIFY_ACCOUNT</option>
@@ -129,7 +130,7 @@
                     case 3:    return 'BLOCKED_BY_PASSWORD';
                     case 4:    return 'DELETED';
                     case 5:    return 'INACTIVE';
-                    case 6:    return 'PENDING';
+                    case 6:    return 'PENDENT_BY_PAYMENT';
                     case 7:    return 'UNFOLLOW';
                     case 8:    return 'BEGINNER';
                     case 9:    return 'VERIFY_ACCOUNT';
@@ -177,8 +178,15 @@
                                     echo '<b>CC name: </b>'.$result[$i]['credit_card_name'].'<br>';
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
-                                    echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';
-                                    echo '<b>Order key: </b>'.$result[$i]['order_key'].'<br>';
+                                    echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';                                    
+                                    if($result[$i]['initial_val'])
+                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> '.$result[$i]['initial_val'].' | '.$result[$i]['normal_val'].'<br>';
+                                    else
+                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> *** | '.$result[$i]['normal_val'].'<br>';
+                                    
+                                    echo '<b>Initial order key: </b>'.$result[$i]['initial_order_key'].'<br>';
+                                    echo '<b>Recurrency order key: </b>'.$result[$i]['order_key'].'<br>';
+                                    echo '<b>Pending order key: </b>'.$result[$i]['pending_order_key'].'<br>';                                    
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     if($result[$i]['order_key'])
