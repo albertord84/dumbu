@@ -73,6 +73,13 @@ $(document).ready(function(){
         }
     });
     
+    $('#login_painel').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_dumbu_login").click();
+            return false;
+        }
+    }); 
+    
     $("#login").click(function(){
         $("#usersLoginForm").fadeIn();
         $("#usersLoginForm").css({"visibility":"visible","display":"block"});

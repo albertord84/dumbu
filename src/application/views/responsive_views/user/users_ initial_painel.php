@@ -2,7 +2,7 @@
     <div class="col-md-7"></div>
     <div class="col-md-5" style="margin-left:-1.2%">        
             <div class="row" >        
-                <nav class="navbar navbar-inverse navbar-right"  role="navigation">  <!--style="background-color:transparent;border-color:transparent;"-->
+                <nav class="navbar navbar-inverse navbar-right" id="login_painel" role="navigation">  <!--style="background-color:transparent;border-color:transparent;"-->
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle"  data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">  <!--style="background-color:transparent;"-->
                             <span class="sr-only">Toggle navigation</span>
