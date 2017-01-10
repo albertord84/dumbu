@@ -53,6 +53,13 @@ $(document).ready(function(){
         }
     }); 
     
+    $('#data_panel').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_send_update_datas").click();
+            return false;
+        }
+    });
+    
     function validate_element(element_selector,pattern){
         if(!$(element_selector).val().match(pattern)){
             $(element_selector).css("border", "1px solid red");
