@@ -26,7 +26,8 @@ $(document).ready(function(){
             verify=false;
         }        
     });
-        
+    
+           
     $(".image-reference-profile").hover(
         function(e){
             //alert($(e.target).attr('id'))

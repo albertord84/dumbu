@@ -135,6 +135,22 @@ $(document).ready(function(){
     });     
     
     
+    $('#container_login_panel').keypress(function (e) {
+        if (e.which == 13) {
+            $("#signin_btn_insta_login").click();
+            return false;
+        }
+    });
+    
+    $('#coniner_data_panel').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_sing_in").click();
+            return false;
+        }
+    });
+    
+    
+    
     {
         $('#radio_plane_4_90').attr('checked', false);
         $('#radio_plane_9_90').attr('checked', false);
