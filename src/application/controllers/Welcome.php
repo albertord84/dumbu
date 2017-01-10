@@ -996,8 +996,9 @@ class Welcome extends CI_Controller {
             if ($this->validate_post_credit_card_datas($datas)) {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
                 if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT){
-                    $datas['pay_day'] = time();
-                    $datas['pay_now'] = false;
+                    $payments_days['pay_day'] = time();
+                    $payments_days['pay_now'] = false;
+                    $datas['pay_day'] = $payments_days['pay_day'];
                 }
                 else{
                     $payments_days =  $this->get_pay_day($client_data['pay_day']);
@@ -1091,8 +1092,8 @@ class Welcome extends CI_Controller {
                             ));
                             $result['success'] = false;
                             $result['resource'] = 'client';                            
-                            if(!$flag_pay_now)
-                                 $result['message'] = $resp_pay_now["message"];   
+                            if($payments_days['pay_now'] && !$flag_pay_now)
+                                 $result['message'] = $resp_pay_now["message"];
                             else
                                 $result['message'] = $resp_pay_day["message"];
                         } else
@@ -1100,7 +1101,7 @@ class Welcome extends CI_Controller {
                             //se hiso el primer pagamento bien, pero la recurrencia mal
                             $result['success'] = true;
                             $result['resource'] = 'client';
-                            $result['message'] = 'Actualização bem sucedida, mas deve atualizar novamente antes da data de pagamento ('.$payments_days['pay_now'].')';
+                            $result['message'] = 'Actualização bem sucedida, mas deve atualizar novamente até da data de pagamento ('.$payments_days['pay_now'].')';
                         }
                     } 
                 }
@@ -1114,7 +1115,7 @@ class Welcome extends CI_Controller {
             }
             echo json_encode($result);
         }
-    }
+     }
 
     public function get_pay_day($pay_day) {
         $this->load->model('class/user_status');
