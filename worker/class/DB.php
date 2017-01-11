@@ -28,6 +28,7 @@ namespace dumbu\cls {
                 $this->connect();
                 $CLIENT = user_role::CLIENT;
                 $ACTIVE = user_status::ACTIVE;
+                $PENDING = user_status::PENDING;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
                 $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
                 $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;
@@ -38,6 +39,7 @@ namespace dumbu\cls {
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
                         . "     AND (users.status_id = $ACTIVE OR "
+                        . "          users.status_id = $PENDING OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
                         . "          users.status_id = $BLOCKED_BY_INSTA OR "
                         . "          users.status_id = $BLOCKED_BY_TIME);";

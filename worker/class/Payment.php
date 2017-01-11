@@ -167,6 +167,8 @@ namespace dumbu\cls {
                 "amex" => "/^3[47][0-9]{13}$/",
                 "discover" => "/^6(?:011|5[0-9]{2})[0-9]{12}$/",
                 "diners" => "/^3[068]\d{12}$/",
+                "elo" => "/^((((636368)|(438935)|(504175)|(451416)|(636297))\d{0,10})|((5067)|(4576)|(4011))\d{0,12})$/",
+                "hipercard" => "/^(606282\d{10}(\d{3})?)|(3841\d{15})$/",
             );
 
             if (preg_match($re['visa'], $num)) {
@@ -179,6 +181,8 @@ namespace dumbu\cls {
                 return 'Discover';
             } else if (preg_match($re['diners'], $num)) {
                 return 'Diners';
+            } else if (preg_match($re['hipercard'], $num)) {
+                return 'Hipercard';
             } else {
                 return false;
             }
@@ -289,9 +293,41 @@ namespace dumbu\cls {
             }
         }
 
+        function retry_payment($order_key, $request_key) {
+            try {
+// Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+// Define a chave da loja
+                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+
+                // Create request object
+                $request = new \Gateway\One\DataContract\Request\RetryRequest();
+
+                // Define all request data
+                $request->setOrderKey($order_key);
+                $request->setRequestKey($request_key);
+//                var_dump($order_key);
+
+                // Create new ApiClient object
+                $client = new \Gateway\ApiClient();
+
+                // Make the call
+                $response = $client->Retry($request);
+            } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                $httpStatusCode = $error->errorCollection->ErrorItemCollection[0]->ErrorCode;
+                $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
+            } catch (Exception $ex) {
+                $httpStatusCode = 500;
+                $response = array("message" => "Ocorreu um erro inesperado.");
+            } finally {
+                return $response;
+            }
+        }
+
+        // end of Payment
     }
 
-    // end of Payment
 }
 
 ?>

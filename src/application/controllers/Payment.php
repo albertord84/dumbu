@@ -26,7 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: UNCOMENT
-//        $this->db->where('user_id', "");
+//        $this->db->where('user_id', "49");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
@@ -76,6 +76,8 @@ class Payment extends CI_Controller {
                 $LastSaledData = $SaleData;
             }
             $now = DateTime::createFromFormat('U', time());
+            $this->load->model('class/user_status');
+            $this->load->model('class/user_model');
             if ($LastSaledData != NULL) { // if have payment
                 // Check difference between last payment and now
                 $last_saled_date = new DateTime($LastSaledData->DueDate);
@@ -84,6 +86,31 @@ class Payment extends CI_Controller {
                 // Diff in days
                 $diff_days = $diff_info->days;
 //                $diff_days = ($diff_info->m * 30) + $diff_info->days;
+                print "\n<br> Diff days: $diff_days";
+                // TODO: Put 34 in system_config
+//                $diff_days = 35;
+                $client['email'] = 'albertord84@gmail.com';
+                if ($diff_days > 34) { // Limit to bolck
+                    //Block client by paiment
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                    $this->send_payment_email($client, 0);
+                    print "This client was blocked by payment just now: " . $client['user_id'];
+                    // TODO: Put 31 in system_config    
+                } elseif ($diff_days > 31) { // Limit to advice
+                    // Send email to Client
+                    // TODO: Think about send email
+                    print "Diff in days bigger tham 31 days: $diff_days ";
+                    //$this->send_payment_email($client);
+                    $this->load->model('class/dumbu_system_config');
+                    $this->send_payment_email($client, 34 - $diff_days + 1);
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
+                } else {
+//                    print_r($client);
+                    if ($client['status_id'] == user_status::PENDING) {
+                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE));
+                    }
+                    return TRUE;
+                }
             } else { // if have not payment jet
                 print "\n<br> LastSaledData = NULL";
                 $pay_day = new DateTime();
@@ -94,6 +121,7 @@ class Payment extends CI_Controller {
                 // TODO: check whend not pay and block user
                 if ($now > $pay_day) {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
                     // TODO: limit email by days diff
                     //$diff_days = 6;
                     if ($diff_days >= 0 /* && $diff_days < 5 */) {
@@ -103,34 +131,14 @@ class Payment extends CI_Controller {
                         // TODO: limit email by days diff
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT /* && $diff_days < 5 */) {
                             //Block client by paiment
-                            $this->load->model('class/user_status');
-                            $this->load->model('class/user_model');
                             $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
-                            //$this->send_payment_email($client);
+                            ///////////////////////////////////////$this->send_payment_email($client);
                             print "This client was blocked by payment just now: " . $client['user_id'];
                             // TODO: Put 31 in system_config    
                         }
                     }
                 }
             }
-            print "\n<br> Diff days: $diff_days";
-//            // TODO: Put 34 in system_config
-//            //$diff_days = 35;
-//            if ($diff_days > 34) { // Limit to bolck
-//                //Block client by paiment
-//                $this->load->model('class/user_status');
-//                $this->load->model('class/user_model');
-//                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
-//                print "This client was blocked by payment just now: " . json_encode($client);
-//                // TODO: Put 31 in system_config    
-//            } elseif ($diff_days > 31) { // Limit to advice
-//                // Send email to Client
-//                // TODO: Think about send email
-//                print "Diff in days bigger tham 31 days: $diff_days ";
-//                $this->send_payment_email($client);
-//            } else {
-//                return TRUE;
-//            }
         } else {
             $bool = is_object($result);
             $str = is_object($result) && is_callable($result->getData()) ? json_encode($result->getData()) : "NULL";
@@ -143,7 +151,7 @@ class Payment extends CI_Controller {
 //        print "</pre>";
     }
 
-    public function send_payment_email($client, $diff_days) {
+    public function send_payment_email($client, $diff_days = 0) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();

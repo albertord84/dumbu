@@ -50,21 +50,17 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
 //
-//$today=time();
-//var_dump($today);
-//var_dump('---------------------------------------------');
-//
 //var_dump(date('d-m-Y', $data));
 
-$pd = strtotime('30-01-2017');
-var_dump(date("d-m-Y", $pd));
-
-$pd = strtotime("+1 month", $pd);
-var_dump(date("d-m-Y", $pd));
-
-
-$pay_day = strtotime('01-01-2016');
-
+//$pd = strtotime('30-01-2017');
+//var_dump(date("d-m-Y", $pd));
+//
+//$pd = strtotime("+1 month", $pd);
+//var_dump(date("d-m-Y", $pd));
+//
+//
+//$pay_day = strtotime('01-01-2016');
+//
 //$d_today = date("j", $now);
 //$m_today = date("n", $now);
 //$y_today = date("Y", $now);
@@ -75,22 +71,32 @@ $pay_day = strtotime('01-01-2016');
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-//$payment_data['credit_card_number'] = '4532117124735573';
-//$payment_data['credit_card_name'] = 'RAISA C LIMA';
-//$payment_data['credit_card_exp_month'] = '08';
-//$payment_data['credit_card_exp_year'] = '2020';
-//$payment_data['credit_card_cvc'] = '406';
+//
+//$payment_data['credit_card_number'] = '4444555566667777';
+//$payment_data['credit_card_name'] = 'ASDF ASDF ';
+//$payment_data['credit_card_exp_month'] = '05';
+//$payment_data['credit_card_exp_year'] = '2017';
+//$payment_data['credit_card_cvc'] = '777';
 //$payment_data['amount_in_cents'] = 9990;
 ////$payment_data['pay_day'] = '1483452900';
-//$payment_data['pay_day'] = strtotime("+7 days", time());
-// var_dump(payment_data['pay_day']);
+//$payment_data['pay_day'] = strtotime("+1 month", time());
 ////var_dump(date('d-m-Y', $payment_data['pay_day']));
 ////        
-////$resul = $Payment->create_payment($payment_data);
-////var_dump($resul);
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
 //----------------------------------------------------------------
+
+//$resul = $Payment->check_payment('249c4516-3dc9-4a79-b207-b54fd1b4bec8');
+//header('Content-Type: application/json');
+//print json_encode($resul->getData());
+
+//$resul = $Payment->retry_payment('f00745b8-f1c2-44d8-b7a6-8186e944d28b', '94a2204f-287b-4978-b7ed-26ad7ee1760d');
+//header('Content-Type: application/json');
+//print_r($resul->getData());
+print_r($resul);
+
 // GMAIL
 //$Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
