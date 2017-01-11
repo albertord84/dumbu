@@ -153,7 +153,7 @@
                                     echo '<br><br><br><br><b>'.($i+1).'</b>';
                                 echo '</td>';                                
                                 echo '<td style="width:240px; padding:5px">';
-                                    echo '<b>Dumbu ID: </b>'.$result[$i]['id'].'<br>';
+                                    echo '<b>Dumbu ID: </b>'.$result[$i]['user_id'].'<br>';
                                     echo '<b>Insta name: </b>'.$result[$i]['name'].'<br>';
                                     echo '<b>Profile: </b>'.$result[$i]['login'].'<br>';
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
@@ -190,17 +190,17 @@
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     if($result[$i]['order_key'])
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
                                     else
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
                                     if($result[$i]['status_id']==4||$result[$i]['status_id']==5){                                        
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';
                                     }                                        
                                     else    
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';                                    
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';                                    
                                     
-                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['id'].'" ><button style="width:160px" type="button" class="btn btn-success"> <span class="ladda-label">Perfis de referência</span></button></a><br><br>';
-                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['id'].'" ><button style="width:160px" type="button" class="btn btn-success" disabled="true"> <span class="ladda-label">Check login</span></button></a><br><br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" type="button" class="btn btn-success"> <span class="ladda-label">Perfis de referência</span></button></a><br><br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" type="button" class="btn btn-success" disabled="true"> <span class="ladda-label">Check login</span></button></a><br><br>';
                                 echo '</td>';
                             echo '</tr>';
                         }
