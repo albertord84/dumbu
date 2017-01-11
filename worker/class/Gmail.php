@@ -53,15 +53,18 @@ namespace dumbu\cls {
 
 //Username to use for SMTP authentication - use full email address for gmail
 //            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN;
-            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2;
+//            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2;
+            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN3;
 
 //Password to use for SMTP authentication
 //            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS;
-            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS2;
+//            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS2;
+            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS3;
 
 //Set who the message is to be sent from
 //            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL, 'DUMBU');
-            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL2, 'DUMBU');
+//            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL2, 'DUMBU');
+            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL3, 'DUMBU');
         }
 
         public function send_client_login_error($useremail, $username, $instaname, $instapass) {
@@ -73,6 +76,7 @@ namespace dumbu\cls {
             $this->mail->clearCCs();
 //            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
             $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
             $this->mail->Subject = 'DUMBU Client Login';
@@ -112,6 +116,7 @@ namespace dumbu\cls {
             $this->mail->clearCCs();
 //            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
             $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
             $this->mail->Subject = 'DUMBU Client Without Reference Profiles';
@@ -151,6 +156,7 @@ namespace dumbu\cls {
             $this->mail->clearCCs();
 //            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
             $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
             $this->mail->Subject = "DUMBU Payment Problem $diff_days day(s)";
@@ -190,6 +196,7 @@ namespace dumbu\cls {
             $this->mail->clearCCs();
             //            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
             $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
             //Set the subject line
             $this->mail->Subject = 'DUMBU Payment Success';
