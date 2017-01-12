@@ -1057,7 +1057,7 @@ class Welcome extends CI_Controller {
                                         $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                                         $N = count($active_profiles);
                                         for ($i = 0; $i < $N; $i++) {
-                                            $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, $this->session->userdata('to_follow'));                                            
+                                            $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
                                         }
                                     }
                                     $this->session->set_userdata('status_id', $datas['status_id']);   

@@ -37,8 +37,8 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response) {
                     if(response['success']){
-                        alert(response['message']); 
-                        $(location).attr('href',base_url+'index.php/welcome/client');                                                       
+                        alert(response['message']);
+                        $(location).attr('href',base_url+'index.php/welcome/client');
                     } else{
                         alert(response['message']);
                     }
@@ -47,7 +47,7 @@ $(document).ready(function(){
                 error : function(xhr, status) {
                     l.stop();
                 }
-            });            
+            });
         } else{
             alert('Erro nos dados fornecidos');
         }
