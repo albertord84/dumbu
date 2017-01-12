@@ -3,6 +3,7 @@
 namespace dumbu\cls {
 
     class system_config {
+        const LANGUAGE = 'PT';
 
         const DIALY_REQUESTS_BY_CLIENT = 480; // Change to 480 in production mode
         const REQUESTS_AT_SAME_TIME = 10;     // Reference Profile Followers amoun by request. Change to 10  in production mode   

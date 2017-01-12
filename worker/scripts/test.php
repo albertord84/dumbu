@@ -89,28 +89,27 @@ $Payment = new dumbu\cls\Payment();
 //----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
-$result = $Payment->delete_payment(NULL);
+//$result = $Payment->delete_payment(NULL);
 //header('Content-Type: application/json');
 //print_r($resul);
 
 //$resul = $Payment->retry_payment('f00745b8-f1c2-44d8-b7a6-8186e944d28b', '94a2204f-287b-4978-b7ed-26ad7ee1760d');
 //header('Content-Type: application/json');
 //print_r($resul->getData());
-var_dump($result);
+//var_dump($result);
 
 // GMAIL
-//$Gmail = new dumbu\cls\Gmail();
+$Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-//$result = $Gmail->send_client_payment_success("linda@petbooking.com.br", "Pet Booking ????", "pet_booking", "petb12345");
+//$result = $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result);
-//$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 2);
+//$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result);
-//$result = $Gmail->send_client_payment_error("pedro@seiva.pro", "Pedro", "pedropetti", "testtest", 5);
-//var_dump($result);
+//$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+//print_r($result);
 //        ("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
-//$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
@@ -147,12 +146,12 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //----------------------------------------------------------------
 // WORKER
-//$Worker = new dumbu\cls\Worker();
+$Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
 //$Worker->prepare_daily_work();
-//$Worker->do_work();
+$Worker->do_work();
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

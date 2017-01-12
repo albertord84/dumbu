@@ -120,10 +120,14 @@ namespace dumbu\cls {
         public function get_reference_profiles_follows($ref_prof_id) {
             try {
                 $this->connect();
+//                $result = mysqli_query($this->connection, ""
+//                        . "SELECT COUNT(*) as total FROM followed "
+//                        . "WHERE "
+//                        . "  followed.reference_id = $ref_prof_id;"
+//                );
                 $result = mysqli_query($this->connection, ""
-                        . "SELECT COUNT(*) as total FROM followed "
-                        . "WHERE "
-                        . "  followed.reference_id = $ref_prof_id;"
+                        . "SELECT follows as total FROM reference_profile "
+                        . "WHERE  id = $ref_prof_id; "
                 );
                 $data = \mysqli_fetch_assoc($result);
                 return $data['total'];
@@ -212,6 +216,12 @@ namespace dumbu\cls {
                     }
                 }
 
+                // TODO: UNCOMMENT
+//                $sql = ""
+//                        . "DELETE FROM followed "
+//                        . "WHERE id = $unfollowed->id; ";
+//                $result = mysqli_query($this->connection, $sql);
+
                 return TRUE;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -233,6 +243,13 @@ namespace dumbu\cls {
 
                     $result = mysqli_query($this->connection, $sql);
                 }
+
+                $f_count = count($Ref_profile_follows);
+                $sql = ""
+                        . "UPDATE reference_profile "
+                        . "	SET reference_profile.follows = reference_profile.follows + $f_count "
+                        . "WHERE reference_profile.id = $daily_work->reference_id; ";
+                $result = mysqli_query($this->connection, $sql);
 
                 return TRUE;
             } catch (\Exception $exc) {

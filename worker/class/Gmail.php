@@ -79,7 +79,7 @@ namespace dumbu\cls {
             $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
-            $this->mail->Subject = 'DUMBU Client Login';
+            $this->mail->Subject = 'DUMBU Problemas no seu login';
 
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
@@ -88,10 +88,11 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            $lang = $GLOBALS['sistem_config']::LANGUAGE;
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
-            $this->mail->AltBody = 'DUMBU Client Login';
+            $this->mail->AltBody = 'DUMBU Problemas no seu login';
 
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');
@@ -119,7 +120,7 @@ namespace dumbu\cls {
             $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
-            $this->mail->Subject = 'DUMBU Client Without Reference Profiles';
+            $this->mail->Subject = 'DUMBU Cliente sem perfis de referencia';
 
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
@@ -128,10 +129,11 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/not_reference_profiles.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            $lang = $GLOBALS['sistem_config']::LANGUAGE;
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/not_reference_profiles.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
-            $this->mail->AltBody = 'DUMBU Client Login';
+            $this->mail->AltBody = 'DUMBU Cliente sem perfis de referência';
 
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');
@@ -147,7 +149,7 @@ namespace dumbu\cls {
             return $result;
         }
 
-        public function send_client_payment_error($useremail, $username, $instaname, $instapass, $diff_days) {
+        public function send_client_payment_error($useremail, $username, $instaname, $instapass, $diff_days = 0) {
             //Set an alternative reply-to address
 //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
 //Set who the message is to be sent to
@@ -159,7 +161,7 @@ namespace dumbu\cls {
             $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
 
 //Set the subject line
-            $this->mail->Subject = "DUMBU Payment Problem $diff_days day(s)";
+            $this->mail->Subject = "DUMBU Problemas de pagamento $diff_days dia(s)";
 
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
@@ -168,10 +170,11 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass&diff_days=$diff_days"), dirname(__FILE__));
+            $lang = $GLOBALS['sistem_config']::LANGUAGE;
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass&diff_days=$diff_days"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
-            $this->mail->AltBody = 'DUMBU Payment Problem';
+            $this->mail->AltBody = 'DUMBU Problemas de pagamento';
 
 //Attach an image file
 //$mail->addAttachment('images/phpmailer_mini.png');
