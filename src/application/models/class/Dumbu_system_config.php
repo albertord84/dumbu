@@ -13,12 +13,13 @@ class dumbu_system_config {
     const MAX_GET_FOLLOWERS_REQUESTS = 10; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
     const MAX_CLIENT_FAUTL_TRIES = 2; // Quantity max of failures with this client
     CONST MIN_MARGIN_TO_INIT = 1000;  //margen inicial requerido para trabajar con un cliente
+    CONST CURRENCY = 'R$';  //Money type
         
     CONST SYSTEM_EMAIL = 'dumbu.system@gmail.com';
     CONST SYSTEM_USER_LOGIN = 'dumbu.system';
     CONST SYSTEM_USER_PASS = 'sorvete69@';
     
-    CONST PROMOTION_N_FREE_DAYS= 8;    // N days free promotion
+    CONST PROMOTION_N_FREE_DAYS= 2;    // N days free promotion
     CONST DAYS_TO_BLOCK_CLIENT= 4;    // Days to wait before block client
     CONST PROMOTION_PERCENTAGEM_DISCOUNT_BY_ONE_MONTH= 8;    // promotion of percentegem discount by one month
 

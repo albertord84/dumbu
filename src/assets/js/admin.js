@@ -3,7 +3,7 @@ $(document).ready(function(){
         if($("#client_status").val()<=0 && $("#signin_initial_date").val()==='' &&
            $("#signin_final_date").val()==='' && $("#credit_card_expiration_year").val()==='--SELECT--' &&
            $("#pay_day").val()=='--SELECT--' && $("#profile_client").val()==='' &&
-           $("#email_client").val()==='' && $("#order_key_client").val()==='')
+           $("#email_client").val()==='' && $("#order_key_client").val()==='' && $("#ds_user_id").val()==='') 
             alert('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -15,6 +15,7 @@ $(document).ready(function(){
             params=params+'&profile_client='+$("#profile_client").val();
             params=params+'&email_client='+$("#email_client").val();
             params=params+'&order_key_client='+$("#order_key_client").val();
+            params=params+'&ds_user_id='+$("#ds_user_id").val();
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
         

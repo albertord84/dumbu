@@ -140,6 +140,13 @@ class User_model extends CI_Model {
         $a = $this->db->get()->row_array();
         return $a;
     }
+    
+    public function get_signin_date($id) {
+        $this->db->select('init_date');
+        $this->db->from('users');
+        $this->db->where('id', $id);
+        return $this->db->get()->row_array()['init_date'];        
+    }
 
     public function get_user_by_id($user_id) {
         try {

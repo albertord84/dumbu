@@ -225,6 +225,8 @@ $(document).ready(function(){
                 $("#container_plane_99_90").css('cursor', 'auto');
             }
      ); 
+     
+     
     $('#img_btn_sing_in').hover(
         function () { 
                 $("#img_btn_sing_in").attr("src",base_url+"assets/img/assinar4_hover.png");

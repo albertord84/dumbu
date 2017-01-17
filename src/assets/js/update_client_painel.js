@@ -19,8 +19,7 @@ $(document).ready(function(){
         var number=validate_element('#client_credit_card_number',"^[0-9]{10,20}$");
         var cvv=validate_element('#client_credit_card_cvv',"^[0-9 ]{3,5}$");
         var month=validate_month('#client_credit_card_validate_month',"^[0-10-9]{2,2}$");
-        var year=validate_year('#client_credit_card_validate_year',"^[2-20-01-20-9]{4,4}$");
-        
+        var year=validate_year('#client_credit_card_validate_year',"^[2-20-01-20-9]{4,4}$");        
         if(name && email && number && cvv && month && year){
             var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({
@@ -31,7 +30,8 @@ $(document).ready(function(){
                     'client_credit_card_cvv':$('#client_credit_card_cvv').val(),
                     'client_credit_card_name':$('#client_credit_card_name').val(),
                     'client_credit_card_validate_month':$('#client_credit_card_validate_month').val(),
-                    'client_credit_card_validate_year':$('#client_credit_card_validate_year').val()
+                    'client_credit_card_validate_year':$('#client_credit_card_validate_year').val(),
+                    'client_update_plane':$('#client_update_plane').val()
                 },
                 type : 'POST',
                 dataType : 'json',

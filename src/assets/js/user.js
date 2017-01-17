@@ -73,12 +73,18 @@ $(document).ready(function(){
         }
     });
     
+       
     $('#login_painel').keypress(function (e) {
         if (e.which == 13) {
             $("#btn_dumbu_login").click();
             return false;
         }
     }); 
+    
+    $("#help").click(function(){
+        url=base_url+"index.php/welcome/help";
+        window.open(url, '_blank');
+    });
     
     $("#login").click(function(){
         $("#usersLoginForm").fadeIn();

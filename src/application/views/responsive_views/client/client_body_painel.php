@@ -1,6 +1,7 @@
 ﻿<!---------------------------------------------------------------------------------------->
     <?php
     echo '<script type="text/javascript">';
+        echo 'var plane_id='.$plane_id.';';
         if(isset($profiles))
             echo 'var profiles='.json_encode($profiles).';';
         else
@@ -407,7 +408,8 @@
             </div>
             <div class="alert" role="alert" style="text-align:justify">
                 <b>Dica:</b> Lembre-se que para garantir um bom desempenho da ferramenta você deve
-                adicionar perfis de referência que combine com o seu perfil.
+                adicionar perfis de referência que combine com o seu perfil. 
+                Consulte nossa <a href="<?php echo base_url().'index.php/welcome/help'?>" target="_blank">Ajuda</a>!
             </div>
             <br><br>        
         </div> 
@@ -439,7 +441,7 @@
 
     <div class="row">             
         <div id="data_panel" class="col-xs-12" style="width:80%; margin-left:10%; border-radius: 5px; border:1px solid silver; padding: 2%;">           
-            <div class=" form-group" style="width:100%">
+            <div class=" form-group" style="width:100%">                          
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 filter-buttons">
                         <input id="client_credit_card_name" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Meu nome no cartão" required style="text-transform:uppercase;">                 
@@ -471,7 +473,29 @@
                         </select>
                     </div>
                 </div>            
-            </div>            
+            </div>
+            <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="row form-group">
+                            <div class="col-xs-4" style="margin-top:2%;text-align:left">
+                                <b>Mudar plano:</b>
+                            </div>
+                            <div class="col-xs-8">
+                                <select id="client_update_plane" class="form-control">                                    
+                                    <?php
+                                        for($i=0;$i<count($all_planes);$i++){
+                                            if( $i+2==$plane_id )
+                                                echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'" title="(Plano atual)" selected="true"><b>'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0 (Plano atual)</b></option>';
+                                            else
+                                                echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'">'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0</option>';
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
             <div class="row center">
                 <button id="btn_send_update_datas" type="button" style="margin-left:4%; width:30%" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                     <span class="ladda-label">Atualizar</span>
@@ -505,3 +529,96 @@
 </div>
     
 <br><br>
+
+
+<!---------------------------------------------------------------------------------------->
+<!--
+<br><br><p class="section-titles center">ATUALIZAR PLANO</p><br>
+<form style="margin-bottom:4%">
+    <div class="row">
+    <?php
+        /*    if ($plane_id!=1) {
+                echo '<div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_4_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:0%;" src="'.base_url().'assets/img/4_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_4_90" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_9_90" style="margin:5%; ;padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:10%;" src="'.base_url().'assets/img/9_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_9_90" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_29_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:1%;" src="'.base_url().'assets/img/29_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_29_90" type="radio" name="optradio" checked></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_99_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:10%;" src="'.base_url().'assets/img/189_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_99_90" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>';
+            } else{
+                echo '<div class="col-md-1"></div>
+
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_7_9990" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:0%;" src="'.base_url().'assets/img/4_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_7_9990" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_4_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:0%;" src="'.base_url().'assets/img/4_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_4_90" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_9_90" style="margin:5%; ;padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:10%;" src="'.base_url().'assets/img/9_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_9_90" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_29_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:1%;" src="'.base_url().'assets/img/29_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_29_90" type="radio" name="optradio" checked></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center" id="container_plane_99_90" style="margin:5%; padding-top:12%;  padding-left: 5%; padding-right:5%; border:1px solid silver; box-shadow: 10px 10px 5px #888888;">
+                        <img style="width:100%; padding-bottom:10%;" src="'.base_url().'assets/img/189_90.png"/>
+                        <div class="radio">
+                            <label><input id="radio_plane_99_90" type="radio" name="optradio"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>';
+            }*/
+    ?>
+    </div>
+    </form>
+-->

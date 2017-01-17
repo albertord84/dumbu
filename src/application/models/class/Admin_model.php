@@ -29,6 +29,9 @@
             if($form_filter['order_key_client']!='')
                 $this->db->where('order_key', $form_filter['order_key_client']);
             else
+            if($form_filter['ds_user_id']!='')
+                $this->db->where('insta_id', $form_filter['ds_user_id']);
+            else
             if($form_filter['client_status']>-1)
                 $this->db->where('status_id', $form_filter['client_status']);            
             return $this->db->get()->result_array();
