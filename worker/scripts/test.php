@@ -10,7 +10,20 @@ require_once '../class/Reference_profile.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
 
+
+$datas=$_GET;
+$datas=$this->input->get();
+$utm_source= isset($datas['utm_source']) ? urldecode($datas['utm_source']) : NULL;
+print_r($utm_source);
+
+
+
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+//print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
+//print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
+//print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
+
+//dumbu\cls\system_config():: 
 
 // Ref Prof
 //$RP = new \dumbu\cls\Reference_profile();
@@ -101,8 +114,8 @@ $Payment = new dumbu\cls\Payment();
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-//$result = $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
-//var_dump($result);
+$result = $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result);
 //$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
@@ -151,7 +164,7 @@ $Worker = new dumbu\cls\Worker();
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
 //$Worker->prepare_daily_work();
-$Worker->do_work();
+//$Worker->do_work();
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

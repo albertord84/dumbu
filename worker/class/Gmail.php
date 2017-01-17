@@ -52,19 +52,22 @@ namespace dumbu\cls {
 //            $this->mail->SMTPAuth = false; // atendimento
 
 //Username to use for SMTP authentication - use full email address for gmail
-//            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN;
-//            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2;
-            $this->mail->Username = $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN3;
+//            $this->mail->Username = $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN;
+//            $this->mail->Username = $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN;
+//            $this->mail->Username = $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN3;
+            $this->mail->Username = $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN;
 
 //Password to use for SMTP authentication
-//            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS;
-//            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS2;
-            $this->mail->Password = $GLOBALS['sistem_config']::SYSTEM_USER_PASS3;
+//            $this->mail->Password = $GLOBALS['sistem_config']->SYSTEM_USER_PASS;
+//            $this->mail->Password = $GLOBALS['sistem_config']->SYSTEM_USER_PASS2;
+//            $this->mail->Password = $GLOBALS['sistem_config']->SYSTEM_USER_PASS3;
+            $this->mail->Password = $GLOBALS['sistem_config']->SYSTEM_USER_PASS;
 
 //Set who the message is to be sent from
-//            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL, 'DUMBU');
-//            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL2, 'DUMBU');
-            $this->mail->setFrom($GLOBALS['sistem_config']::SYSTEM_EMAIL3, 'DUMBU');
+//            $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL, 'DUMBU');
+//            $this->mail->setFrom($GLOBALS['sistem_config']->ATENDENT_EMAIL, 'DUMBU');
+//            $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL3, 'DUMBU');
+            $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL, 'DUMBU');
         }
 
         public function send_client_login_error($useremail, $username, $instaname, $instapass) {
@@ -74,9 +77,9 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail, $username);
             $this->mail->clearCCs();
-//            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
-            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+//            $this->mail->addCC($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
 
 //Set the subject line
             $this->mail->Subject = 'DUMBU Problemas no seu login';
@@ -88,7 +91,7 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $lang = $GLOBALS['sistem_config']::LANGUAGE;
+            $lang = $GLOBALS['sistem_config']->LANGUAGE;
             $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
@@ -115,9 +118,9 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail, $username);
             $this->mail->clearCCs();
-//            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
-            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+//            $this->mail->addCC($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
 
 //Set the subject line
             $this->mail->Subject = 'DUMBU Cliente sem perfis de referencia';
@@ -129,7 +132,7 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $lang = $GLOBALS['sistem_config']::LANGUAGE;
+            $lang = $GLOBALS['sistem_config']->LANGUAGE;
             $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/not_reference_profiles.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
@@ -156,9 +159,9 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail, $username);
             $this->mail->clearCCs();
-//            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
-            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+//            $this->mail->addCC($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
 
 //Set the subject line
             $this->mail->Subject = "DUMBU Problemas de pagamento $diff_days dia(s)";
@@ -170,7 +173,7 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
 //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $lang = $GLOBALS['sistem_config']::LANGUAGE;
+            $lang = $GLOBALS['sistem_config']->LANGUAGE;
             $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/payment_error.php?username=$username&instaname=$instaname&instapass=$instapass&diff_days=$diff_days"), dirname(__FILE__));
 
 //Replace the plain text body with one created manually
@@ -197,9 +200,9 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail, $username);
             $this->mail->clearCCs();
-            //            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
-            $this->mail->addReplyTo($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            //            $this->mail->addCC($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
 
             //Set the subject line
             $this->mail->Subject = 'DUMBU Payment Success';
@@ -211,7 +214,8 @@ namespace dumbu\cls {
             $instapass = urlencode($instapass);
             //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/payment_success.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            $lang = $GLOBALS['sistem_config']->LANGUAGE;
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/payment_success.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
             $this->mail->AltBody = 'DUMBU Payment Success';
@@ -235,8 +239,8 @@ namespace dumbu\cls {
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
             //Set who the message is to be sent to
             $this->mail->clearAddresses();
-            //            $this->mail->addAddress($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+            //            $this->mail->addAddress($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
             $this->mail->clearReplyTos();
             $this->mail->addReplyTo($useremail, $username);
 
@@ -284,8 +288,8 @@ namespace dumbu\cls {
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
             //Set who the message is to be sent to
             $this->mail->clearAddresses();
-//            $this->mail->addAddress($GLOBALS['sistem_config']::SYSTEM_EMAIL, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN);
-            $this->mail->addCC($GLOBALS['sistem_config']::SYSTEM_EMAIL2, $GLOBALS['sistem_config']::SYSTEM_USER_LOGIN2);
+//            $this->mail->addAddress($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
             $this->mail->clearReplyTos();
             $this->mail->addReplyTo($useremail, $username);
 

@@ -153,7 +153,7 @@ namespace dumbu\cls {
             if (count($Client->reference_profiles) > 0) {
                 $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                 $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
-//                $to_follow_unfollow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
+//                $to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
                 // If User status = UNFOLLOW he do 0 follows
                 $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
                 $to_unfollow = $to_follow_unfollow;
