@@ -109,7 +109,10 @@ class User_model extends CI_Model {
                     $this->db->join('plane', 'plane.id = clients.plane_id');
                     $this->db->where(array('user_id' => "$id"));
                     $client_data = $this->db->get()->row_array();
-                    $session->set_userdata('plane_id', $client_data['plane_id']);
+                    if($client_data['plane_id']==1)
+                        $session->set_userdata('plane_id', 4);
+                    else
+                        $session->set_userdata('plane_id', $client_data['plane_id']);
                     $session->set_userdata('to_follow', (int) $client_data['to_follow']);
                     $session->set_userdata('normal_val', (int) $client_data['normal_val']);
                 }
