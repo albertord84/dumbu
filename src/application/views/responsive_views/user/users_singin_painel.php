@@ -1,5 +1,16 @@
 
-    <br><br><p class="section-titles">ASSINAR</p><br>
+    <br><br><p class="section-titles">ASSINAR</p>
+    <p class="center">Plano mensal sem multa de recisão</p>
+    <div class="row" style="margin-bottom:3%">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div style="background-color:#2CC38F;margin-left:12%;margin-right:12%; margin-top:2%; margin-bottom:2%; padding:1%;border-radius:15px">
+                <b style="color:white;font-size:1.3em">Assine e ganhe 2 dias de teste grátis!</b>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    
     <form>
     <div class="row">
         <div class="col-md-2"></div>

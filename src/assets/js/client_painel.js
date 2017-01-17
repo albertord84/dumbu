@@ -100,25 +100,13 @@ $(document).ready(function(){
             });
         }
    }
-    /*function delete_profile_click(element){
-       if(confirm('Deseja elimiar o perfil de referência '+element.text())){
-            $.ajax({
-                url : base_url+'index.php/welcome/client_desactive_profiles',
-                data : {'profile':element.text()},
-                type : 'POST',
-                dataType : 'json',
-                success : function(response){
-                    if(response['success']){
-                        delete_icons_profiles(element.text());                                      
-                    } else
-                        alert(response['message']);
-                },
-                error : function(xhr, status) {
-                    alert('Não foi possível conectar com o Instagram');
-                }
-            });
+   
+   $('#insert_profile_form').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_insert_profile").click();
+            return false;
         }
-   }*/
+    });
     
     $("#btn_insert_profile").click(function(){
         if(validate_element('#login_profile','^[a-zA-Z0-9\._]{1,300}$')){                
@@ -213,9 +201,8 @@ $(document).ready(function(){
     });
     
     $("#cancel_usser_account").click(function(){
-        var l = Ladda.create(this);  l.start();
-        if(confirm('Sugerimos entrar em contato com o nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?'))
-            //$(location).attr('href','https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1');
+        //var l = Ladda.create(this);  l.start();
+        if(confirm('Sugerimos entrar em contato com nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?'))            
             window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1','_blank');
     });
     
@@ -343,7 +330,151 @@ $(document).ready(function(){
             $(element_selector).css("border", "1px solid gray");
             return true;
         }
+    }    
+    
+    function change_plane(new_plane_id){        
+        if(new_plane_id > plane_id)
+            confirm_msg = 'Ao mudar para um plano maior, vc deve pagar a diferença. Confirma mudar de plano?';
+        else
+            confirm_msg = 'Confirma mudar de plano?';        
+        if(confirm(confirm_msg)){
+            $.ajax({
+                url : base_url+'index.php/welcome/change_plane',
+                data : {
+                    'plane_id':plane_id,
+                    'new_plane_id':new_plane_id
+                },
+                type : 'POST',
+                dataType : 'json',
+                async: false,
+                success : function(response) {
+                    if(response['success']==true){
+                        alert(response['success']);
+                        $(location).attr('href',base_url+'index.php/welcome/client');
+                    } else{
+                        alert('Não foi possível trocar de plano, Entre en contaco com o Atendimento');
+                    }
+                    l.stop();
+                },
+                error : function(xhr, status) {
+                    alert('Erro enviando sua solicitação. Reporte o caso para nosso Atendimento');
+                    l.stop();
+                }
+            });
+        }
     }
+    
+    function actual_plane(){
+        switch(plane_id){
+            case 1:
+                $('#radio_plane_7_9990').attr('checked', true);
+                $('#container_plane_7_9990').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+                $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                break;
+            case 2:
+                $('#radio_plane_4_90').attr('checked', true);
+                $('#container_plane_7_9990').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+                $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                break;
+            case 3:
+                $('#radio_plane_9_90').attr('checked', true);
+                $('#container_plane_7_9990').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+                $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                break;
+            case 4:
+                $('#radio_plane_29_90').attr('checked', true);
+                $('#container_plane_7_9990').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+                $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                break;
+            case 5:
+                $('#radio_plane_99_90').attr('checked', true);
+                $('#container_plane_7_9990').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+                $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+                break;
+        }
+    } actual_plane();
+    
+    $('#radio_plane_4_90').click(function(){
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
+        new_plane_id='2';
+        change_plane(new_plane_id);
+    });  
+    
+    $('#radio_plane_9_90').click(function(){
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
+        new_plane_id='3';
+        change_plane(new_plane_id);
+    });    
+    $('#radio_plane_29_90').click(function(){
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});        
+        new_plane_id='4';
+        change_plane(new_plane_id);
+    });
+    $('#radio_plane_99_90').click(function(){
+        $('#container_plane_4_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_9_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_29_90').css({'border':'1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $('#container_plane_99_90').css({'border':'1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});        
+        new_plane_id='5';
+        change_plane(new_plane_id);
+    });
+    
+    $('#container_plane_4_90').hover(
+        function () { 
+                $("#container_plane_4_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_4_90").css('cursor', 'auto');
+            }
+     ); 
+    $('#container_plane_9_90').hover(
+        function () { 
+                $("#container_plane_9_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_9_90").css('cursor', 'auto');
+            }
+     ); 
+    $('#container_plane_29_90').hover(
+        function () { 
+                $("#container_plane_29_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_29_90").css('cursor', 'auto');
+            }
+     ); 
+    $('#container_plane_99_90').hover(
+        function () { 
+                $("#container_plane_99_90").css('cursor', 'pointer');
+            }, 
+        function () { 
+                $("#container_plane_99_90").css('cursor', 'auto');
+            }
+     ); 
     
     
     init_icons_profiles(profiles); 

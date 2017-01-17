@@ -86,7 +86,13 @@
                 <div class="col-md-2">
                     <div class="center filters">
                         <b>Order Key</b>
-                        <input id="order_key_client" type="email" class="form-control" placeholder="Order Key">
+                        <input id="order_key_client"  class="form-control" placeholder="Order Key">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Insta ID</b>
+                        <input id="ds_user_id" class="form-control" placeholder="ds_user_id">
                     </div>
                 </div>
             </div>

@@ -1,6 +1,12 @@
+<br>
+<div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+        <button id="help" type="button" class="btn btn-success"  style="width: 70%;margin-left: 15%">Ajuda</button>
+    </div>
+</div>
 
-    
-<br><br><p class="section-titles">COMO FUNCIONA</p>
+<p class="section-titles">COMO FUNCIONA</p>
     
 <div class="row" style="margin-top:3%">
     <div class="col-md-8">

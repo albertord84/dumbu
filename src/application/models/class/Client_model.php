@@ -101,6 +101,7 @@
             $data_client['insta_followers_ini']=$data_insta->follower_count;            //desde instagram
             $data_client['insta_following']=$data_insta->following;                     //desde instagram
             $data_client['HTTP_SERVER_VARS']=$datas['HTTP_SERVER_VARS'];                //desde instagram navegador y servidor
+            $data_client['utm_source']=$datas['utm_source'];                //desde instagram navegador y servidor
             $this->db->insert('clients',$data_client);
             return $id_user_table;
         }        
@@ -126,9 +127,30 @@
         }        
 
         public function delete_work_of_profile($reference_id){
-                $this->db->where('reference_id', $reference_id);
-                $this->db->delete('daily_work'); 
-            }
+            $this->db->where('reference_id', $reference_id);
+            $this->db->delete('daily_work'); 
+        }
+        
+        public function get_all_planes(){
+            $this->db->select('*');
+            $this->db->from('plane');
+            $this->db->where('id >=','2');
+            return $this->db->get()->result_array();
+        }
+        
+        public function get_normal_pay_value($id_value){
+            $this->db->select('normal_val');
+            $this->db->from('plane');
+            $this->db->where('id',$id_value);
+            return $this->db->get()->row_array()['normal_val'];
+        }
+        
+        public function get_promotional_pay_value($id_value){
+            $this->db->select('initial_val');
+            $this->db->from('plane');
+            $this->db->where('id',$id_value);
+            return $this->db->get()->row_array()['initial_val'];
+        }
 
         public function update_client($id,$datas){
             try {
@@ -188,7 +210,7 @@
                 echo $exc->getTraceAsString();
                 return 0;
             }
-        }  
+        }
         
         public function insert_profile_in_daily_work($reference_id, $insta_datas, $N, $active_profiles, $DIALY_REQUESTS_BY_CLIENT){
             $total_to_follow=0;
@@ -201,12 +223,12 @@
             if(!$total_to_follow)
                 $total_to_follow=$DIALY_REQUESTS_BY_CLIENT;
             $cnt_to_follow=floor($total_to_follow/($N+1));
-            try {                
+            try {
                 $this->db->insert('daily_work',array(
                     'reference_id'=>$reference_id,
                     'to_follow'=>$cnt_to_follow,
-                    'to_unfollow'=>0,
-                    'cookies'=>  json_encode( $insta_datas)
+                    'to_unfollow'=>$cnt_to_follow,
+                    'cookies'=>  json_encode($insta_datas)
                 ));
                 for($i=0;$i<$N;$i++){
                     $flag=1;
