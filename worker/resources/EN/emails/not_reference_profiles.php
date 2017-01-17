@@ -14,7 +14,7 @@
   <p>We have been detected you don't have reference profiles into your account. Without it we can't act over your account to you won followers... 
       Please go to our <a href="https://www.dumbu.pro/dumbu/src/">system</a> and insert some nice reference profiles to start win followers quickly! :) </p>
   <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
-  <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
+  <p>Use your instagram password to login in our system.</p>
   <br>
   <p>Remember: you must have same username and password for both, instagram and our <a href="https://www.dumbu.pro/dumbu/src/">system</a>! 
   You just need do login in DUMBU with a valid instagram username and password.!</p>

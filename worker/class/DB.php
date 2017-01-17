@@ -120,10 +120,14 @@ namespace dumbu\cls {
         public function get_reference_profiles_follows($ref_prof_id) {
             try {
                 $this->connect();
+//                $result = mysqli_query($this->connection, ""
+//                        . "SELECT COUNT(*) as total FROM followed "
+//                        . "WHERE "
+//                        . "  followed.reference_id = $ref_prof_id;"
+//                );
                 $result = mysqli_query($this->connection, ""
-                        . "SELECT COUNT(*) as total FROM followed "
-                        . "WHERE "
-                        . "  followed.reference_id = $ref_prof_id;"
+                        . "SELECT follows as total FROM reference_profile "
+                        . "WHERE  id = $ref_prof_id; "
                 );
                 $data = \mysqli_fetch_assoc($result);
                 return $data['total'];
@@ -133,7 +137,7 @@ namespace dumbu\cls {
         }
 
         public function get_follow_work() {
-            //$Elapsed_time_limit = $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME;
+            //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
             try {
                 // Get daily work
                 $sql = ""
@@ -181,8 +185,8 @@ namespace dumbu\cls {
             try {
                 // Get profiles to unfollow today for this Client... 
                 // (i.e the last followed)
-                $Limit = $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME;
-                $Elapsed_time_limit = $GLOBALS['sistem_config']::UNFOLLOW_ELAPSED_TIME_LIMIT;
+                $Limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
+                $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
                 $this->connect();
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM followed "
@@ -212,6 +216,12 @@ namespace dumbu\cls {
                     }
                 }
 
+                // TODO: UNCOMMENT
+//                $sql = ""
+//                        . "DELETE FROM followed "
+//                        . "WHERE id = $unfollowed->id; ";
+//                $result = mysqli_query($this->connection, $sql);
+
                 return TRUE;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -233,6 +243,13 @@ namespace dumbu\cls {
 
                     $result = mysqli_query($this->connection, $sql);
                 }
+
+                $f_count = count($Ref_profile_follows);
+                $sql = ""
+                        . "UPDATE reference_profile "
+                        . "	SET reference_profile.follows = reference_profile.follows + $f_count "
+                        . "WHERE reference_profile.id = $daily_work->reference_id; ";
+                $result = mysqli_query($this->connection, $sql);
 
                 return TRUE;
             } catch (\Exception $exc) {
@@ -364,7 +381,18 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-
+        
+        public function get_system_config_vars() {
+            try {
+                $this->connect();
+                $sql = "SELECT * FROM dumbu_system_config;";
+                $result = mysqli_query($this->connection, $sql);
+//                return $result ? $result->fetch_object() : NULL;
+                return $result ? $result : NULL;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
     }
 
 }

@@ -103,7 +103,7 @@ namespace dumbu\cls {
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
             $error = FALSE;
-            for ($i = 0; $i < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
+            for ($i = 0; $i < $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 $error = FALSE;
                 // Next profile to unfollow, not yet unfollwed
                 $Profile = array_shift($Followeds_to_unfollow);
@@ -143,9 +143,9 @@ namespace dumbu\cls {
             if (!$error && $daily_work->to_follow > 0) { // If has to follow
                 $get_followers_count = 0;
                 $error = FALSE;
-                while (!$error && $follows < $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']::MAX_GET_FOLLOWERS_REQUESTS) {
+                while (!$error && $follows < $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']->MAX_GET_FOLLOWERS_REQUESTS) {
                     // Get next insta followers of Ref_profile
-                    $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME));
+                    $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME));
                     $json_response = $this->get_insta_followers(
                             $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                     );
@@ -166,7 +166,7 @@ namespace dumbu\cls {
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
                                     $follows++;
-                                    if ($follows >= $GLOBALS['sistem_config']::REQUESTS_AT_SAME_TIME)
+                                    if ($follows >= $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME)
                                         break;
                                 } else {
                                     $error = $this->process_follow_error($json_response2);
@@ -176,7 +176,7 @@ namespace dumbu\cls {
                                 }
                                 //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
                                 // Sleep up to proper delay between request
-                                sleep($GLOBALS['sistem_config']::DELAY_BETWEEN_REQUESTS);
+                                sleep($GLOBALS['sistem_config']->DELAY_BETWEEN_REQUESTS);
                             }
                         }
                         // Update cursor

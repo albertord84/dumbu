@@ -547,8 +547,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
         $datas = $this->input->post();
-        $datas_get = $this->input->get();
-        $datas['utm_source'] = isset($datas_get['utm_source']) ? urldecode($datas_get['utm_source']) : "NULL";
+        //$datas['utm_source'] = isset($datas_get['utm_source']) ? urldecode($datas_get['utm_source']) : "NULL";
         $data_insta = $this->check_insta_profile($datas['client_login']);
         if ($data_insta) {
             if (!$data_insta->following)

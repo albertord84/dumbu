@@ -14,10 +14,10 @@
             <p>We have been problems processing you payment, please verify your credit card info at our
                 <a href="https://www.dumbu.pro/dumbu/src/">system</a>.</p>
             <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
-            <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
+            <p>Use your instagram password to login in our system.</p>
             <br>
             <?php
-            require_once '../../class/system_config.php';
+            require_once '../../../class/system_config.php';
             $diff_days = $_GET["diff_days"];
             if ($diff_days <= 0) {
                 echo "<p> Your account was blocked by payment! </p>";

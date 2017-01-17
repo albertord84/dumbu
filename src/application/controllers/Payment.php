@@ -28,14 +28,16 @@ class Payment extends CI_Controller {
         // TODO: UNCOMENT
 //        $this->db->where('user_id', "40");
         $this->db->where('role_id', user_role::CLIENT);
-        $this->db->where('status_id <>', user_status::DELETED);
-        $this->db->where('status_id <>', user_status::BEGINNER);
-        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
-//        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
-//        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
-//        $this->db->where('status_id', user_status::UNFOLLOW);
-//        $this->db->where('status_id', user_status::BLOCKED_BY_PAYMENT);
-//        $this->db->where('status_id', user_status::BLOCKED_BY_TIME);
+//        $this->db->where('status_id <>', user_status::DELETED);
+//        $this->db->where('status_id <>', user_status::BEGINNER);
+//        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
+        $this->db->where('status_id', user_status::ACTIVE);
+        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
+        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
+        $this->db->where('status_id', user_status::UNFOLLOW);
+        $this->db->where('status_id', user_status::BLOCKED_BY_TIME);
+        $this->db->where('status_id', user_status::INACTIVE);
+        $this->db->where('status_id', user_status::PENDING);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
