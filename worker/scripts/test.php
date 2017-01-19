@@ -60,10 +60,10 @@ $Payment = new dumbu\cls\Payment();
 //$pd = strtotime('30-01-2017');
 //var_dump(date("d-m-Y", $pd));
 //
-$pd = strtotime("-3 days", 1487487807);
-$pd = strtotime("-1 month", $pd);
-var_dump($pd);
-var_dump(date("d-m-Y", $pd));
+//$pd = strtotime("-3 days", 1487487807);
+//$pd = strtotime("-1 month", $pd);
+//var_dump($pd);
+//var_dump(date("d-m-Y", $pd));
 //
 //
 //$pay_day = strtotime('01-01-2016');
@@ -108,8 +108,8 @@ var_dump(date("d-m-Y", $pd));
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
-//var_dump($result);
+$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result);
 //$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
