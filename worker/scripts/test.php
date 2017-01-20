@@ -54,46 +54,25 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
-//
-//var_dump(date('d-m-Y', $data));
 
-//$pd = strtotime('30-01-2017');
-//var_dump(date("d-m-Y", $pd));
+
+$pay_day = strtotime('11-02-2017');
+//var_dump($pay_day);
 //
-$pd = strtotime("-3 days", 1487487807);
-$pd = strtotime("-1 month", $pd);
-var_dump($pd);
-var_dump(date("d-m-Y", $pd));
-//
-//
-//$pay_day = strtotime('01-01-2016');
-//
-//$d_today = date("j", $now);
-//$m_today = date("n", $now);
-//$y_today = date("Y", $now);
-//$d_pay_day = date("j", $pay_day);
-//$m_pay_day = date("n", $pay_day);
-//$y_pay_day = date("Y", $pay_day);
-//
-//$data = strtotime("+5 days", time());
-//var_dump($data);
-//var_dump(date('d-m-Y', $data));
-//
-//$payment_data['credit_card_number'] = '4444555566667777';
-//$payment_data['credit_card_name'] = 'ASDF ASDF ';
-//$payment_data['credit_card_exp_month'] = '05';
-//$payment_data['credit_card_exp_year'] = '2017';
-//$payment_data['credit_card_cvc'] = '777';
+////
+//$payment_data['credit_card_number'] = '4096031420120018';
+//$payment_data['credit_card_name'] = 'VELDO ARAUJO SANTANA';
+//$payment_data['credit_card_exp_month'] = '08';
+//$payment_data['credit_card_exp_year'] = '2021';
+//$payment_data['credit_card_cvc'] = '626';
 //$payment_data['amount_in_cents'] = 9990;
-////$payment_data['pay_day'] = '1483452900';
-//$payment_data['pay_day'] = strtotime("+1 month", time());
-////var_dump(date('d-m-Y', $payment_data['pay_day']));
-////        
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
+//$payment_data['pay_day'] = $pay_day;
+////   
+//////$resul = $Payment->create_payment($payment_data);
+//////var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
-//----------------------------------------------------------------
+////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);

@@ -4,8 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index1() {
-        //var_dump(strtotime('7-1-2017')); //pay_day
-        var_dump(date('d-m-Y', 1486335600)); //pay_day
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();
+        $login_data = $this->Robot->bot_login('ffonsecassa', 'cff100303');
+        var_dump($login_data);
+//     
+        
     }
 
     public function index() {
@@ -43,7 +47,8 @@ class Welcome extends CI_Controller {
             $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "'";
             $total_amount_reference_profile_today = $this->user_model->execute_sql_query($sql);
 
-            $sql = "SELECT count(*) as followeds FROM followed INNER JOIN reference_profile ON reference_profile.id = followed.reference_id INNER JOIN clients ON clients.user_id = reference_profile.client_id WHERE (clients.user_id = " . $this->session->userdata('id') . ")";
+//            $sql = "SELECT count(*) as followeds FROM followed INNER JOIN reference_profile ON reference_profile.id = followed.reference_id INNER JOIN clients ON clients.user_id = reference_profile.client_id WHERE (clients.user_id = " . $this->session->userdata('id') . ")";
+            $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id');
             //$sql="SELECT * FROM reference_profile WHERE client_id='".$this->session->userdata('id')."'";
             $total_amount_followers_today = $this->user_model->execute_sql_query($sql);
             $followeds = (string) $total_amount_followers_today[0]["followeds"];
@@ -398,8 +403,8 @@ class Welcome extends CI_Controller {
                         $result['authenticated'] = false;
                     }
                 } else
-                if ($data_insta['status'] === 'fail' && $data_insta['message'] == '') {
-                    if (isset($data_insta['phone_verification_settings'])) {
+                if ($data_insta['status'] === 'fail' && ($data_insta['message'] == '' || $data_insta['message'] == 'phone_verification_settings')) {
+                    if (isset($data_insta['obfuscated_phone_number'])) {
                         $data_profile = $this->check_insta_profile($datas['user_login']);
                         $query = 'SELECT * FROM users,clients' .
                                 ' WHERE clients.insta_id="' . $data_profile->pk . '" AND clients.user_id=users.id';
@@ -531,10 +536,11 @@ class Welcome extends CI_Controller {
                         }
                     }
                 } else {
-                    $result['message'] = 'Se o problema no ligin continua, por favor entre em contato com o Atendimento';
+                    $result['message'] = 'Se o problema no login continua, por favor entre em contato com o Atendimento';
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
-                }
+                } 
+                    
             }
         }
         echo json_encode($result);
@@ -701,7 +707,14 @@ class Welcome extends CI_Controller {
                     $result['verify_link'] = '';
                     $result['return_link'] = 'client';
                     $this->user_model->set_sesion($datas['pk'], $this->session);
+                } else{
+                    $this->user_model->update_user($datas['pk'], array(
+                        'init_date' => time(),
+                        'status_id' => user_status::BLOCKED_BY_INSTA));
+                    $this->user_model->set_sesion($datas['pk'], $this->session);
                 }
+                
+                
                 //Email com compra satisfactoria a atendimento y al cliente
                 //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
@@ -1284,7 +1297,11 @@ class Welcome extends CI_Controller {
                     $data_insta['message'] = 'unknow_message';
                     $data_insta['unknow_message'] = $login_data->json_response->message;
                 }
+            } else
+            if (isset($login_data->json_response->status) && $login_data->json_response->status === "") {
+                
             }
+            
         }
         return $data_insta;
     }

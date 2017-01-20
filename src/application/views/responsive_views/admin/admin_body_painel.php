@@ -120,8 +120,6 @@
                         <td style="max-width:240px; padding:5px"><b>Dados de Instagaram</b></td>
                         <td style="max-width:240px; padding:5px"><b>Dados bancários</b></td>
                         <td style="max-width:240px; padding:5px"><b>Operações</b></td>
-                        <!--<td class="center"><b>Perfis ativos</b></td>
-                        <td class="center"><b>Perfis eliminados</b></td>-->
                     </tr>
                 </table>
             </div>
