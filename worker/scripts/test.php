@@ -57,21 +57,22 @@ $Payment = new dumbu\cls\Payment();
 
 
 $pay_day = strtotime('11-02-2017');
+$pay_day = time();
 //var_dump($pay_day);
 //
 ////
-//$payment_data['credit_card_number'] = '4096031420120018';
-//$payment_data['credit_card_name'] = 'VELDO ARAUJO SANTANA';
-//$payment_data['credit_card_exp_month'] = '08';
-//$payment_data['credit_card_exp_year'] = '2021';
-//$payment_data['credit_card_cvc'] = '626';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = $pay_day;
-////   
-//////$resul = $Payment->create_payment($payment_data);
-//////var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0);
-//var_dump($resul);
+$payment_data['credit_card_number'] = '5464522518570770';
+$payment_data['credit_card_name'] = 'ANTONIO CARLOS SILVA';
+$payment_data['credit_card_exp_month'] = '12';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '167';
+$payment_data['amount_in_cents'] = 9990;
+$payment_data['pay_day'] = $pay_day;
+//   
+////$resul = $Payment->create_payment($payment_data);
+////var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0);
+var_dump($resul);
 ////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
