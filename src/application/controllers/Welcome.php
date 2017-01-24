@@ -8,8 +8,6 @@ class Welcome extends CI_Controller {
         $this->Robot = new \dumbu\cls\Robot();
         $login_data = $this->Robot->bot_login('ffonsecassa', 'cff100303');
         var_dump($login_data);
-//     
-        
     }
 
     public function index() {
