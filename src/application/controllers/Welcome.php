@@ -11,12 +11,12 @@ class Welcome extends CI_Controller {
     }
 
     public function index() {
-        $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
+        /*$data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
         $data['section2'] = $this->load->view('responsive_views/user/users_howfunction_painel', '', true);
         $data['section3'] = $this->load->view('responsive_views/user/users_singin_painel', '', true);
         $data['section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
-        $data['section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
-        $this->load->view('view', $data);
+        $data['section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);*/
+        $this->load->view('user_view');
     }
 
     public function purchase() {
@@ -776,6 +776,24 @@ class Welcome extends CI_Controller {
     }
 
     public function check_mundipagg_credit_card($datas, $cnt) {
+        $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
+        $payment_data['credit_card_exp_year'] = $datas['client_credit_card_validate_year'];
+        $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
+        $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
+        $payment_data['pay_day'] = $datas['pay_day'];
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        $Payment = new \dumbu\cls\Payment();
+        /* if ($cnt === 1) {
+          $response = $Payment->create_payment($payment_data);
+          } else { */
+        $response = $Payment->create_recurrency_payment($payment_data, $cnt);
+        //}
+        return $response;
+    }
+
+    public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
         $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
         $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];

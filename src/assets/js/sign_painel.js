@@ -1,16 +1,12 @@
 $(document).ready(function () {
 
     active_by_steep(1);
-
-    $('#palno_mensal').prop('disabled', true);
-
-// Read a page's GET URL variables and return them as an associative array.
-    function getUrlVars()
-    {
+    
+    //Read a page's GET URL variables and return them as an associative array.
+    function getUrlVars(){
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for (var i = 0; i < hashes.length; i++)
-        {
+        for (var i = 0; i < hashes.length; i++){
             hash = hashes[i].split('=');
             vars.push(hash[0]);
             vars[hash[0]] = hash[1];
@@ -88,7 +84,6 @@ $(document).ready(function () {
         }
     });
 
-
     $("#btn_sing_in").click(function () {
         if (flag == true) {
             flag = false;
@@ -149,7 +144,6 @@ $(document).ready(function () {
         }
     });
 
-
     $('#container_login_panel').keypress(function (e) {
         if (e.which == 13) {
             $("#signin_btn_insta_login").click();
@@ -164,82 +158,39 @@ $(document).ready(function () {
         }
     });
 
-
-
-    {
-        $('#radio_plane_4_90').attr('checked', false);
-        $('#radio_plane_9_90').attr('checked', false);
-        $('#radio_plane_29_90').attr('checked', true);
-        $('#radio_plane_99_90').attr('checked', false);
-        $('#container_plane_4_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_9_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_29_90').css({'border': '1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
-        $('#container_plane_99_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        plane = '4';
-    }
-
     $('#radio_plane_4_90').click(function () {
-        $('#container_plane_4_90').css({'border': '1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
-        $('#container_plane_9_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_29_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_99_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $("#container_plane_4_90").addClass( "active" );
+        $("#container_plane_9_90").removeClass( "active" );
+        $("#container_plane_29_90").removeClass( "active" );
+        $("#container_plane_99_90").removeClass( "active" );
         plane = '2';
     });
-
     $('#radio_plane_9_90').click(function () {
-        $('#container_plane_4_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_9_90').css({'border': '1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
-        $('#container_plane_29_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_99_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $("#container_plane_4_90").removeClass( "active" );
+        $("#container_plane_9_90").addClass( "active" );
+        $("#container_plane_29_90").removeClass( "active" );
+        $("#container_plane_99_90").removeClass( "active" );
         plane = '3';
     });
     $('#radio_plane_29_90').click(function () {
-        $('#container_plane_4_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_9_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_29_90').css({'border': '1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
-        $('#container_plane_99_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
+        $("#container_plane_4_90").removeClass( "active" );
+        $("#container_plane_9_90").removeClass( "active" );
+        $("#container_plane_29_90").addClass( "active" );
+        $("#container_plane_99_90").removeClass( "active" );
         plane = '4';
     });
-    $('#radio_plane_99_90').click(function () {
-        $('#container_plane_4_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_9_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_29_90').css({'border': '1px solid silver', 'box-shadow': '5px 5px 2px #888888'});
-        $('#container_plane_99_90').css({'border': '1px solid silver', 'box-shadow': '10px 10px 5px #ACC2BC'});
+    $('#container_plane_99_90').click(function () {
+        $("#container_plane_4_90").removeClass( "active" );
+        $("#container_plane_9_90").removeClass( "active" );
+        $("#container_plane_29_90").removeClass( "active" );
+        $("#container_plane_99_90").addClass( "active" );
         plane = '5';
     });
-
-    $('#container_plane_4_90').hover(
-            function () {
-                $("#container_plane_4_90").css('cursor', 'pointer');
-            },
-            function () {
-                $("#container_plane_4_90").css('cursor', 'auto');
-            }
-    );
-    $('#container_plane_9_90').hover(
-            function () {
-                $("#container_plane_9_90").css('cursor', 'pointer');
-            },
-            function () {
-                $("#container_plane_9_90").css('cursor', 'auto');
-            }
-    );
-    $('#container_plane_29_90').hover(
-            function () {
-                $("#container_plane_29_90").css('cursor', 'pointer');
-            },
-            function () {
-                $("#container_plane_29_90").css('cursor', 'auto');
-            }
-    );
-    $('#container_plane_99_90').hover(
-            function () {
-                $("#container_plane_99_90").css('cursor', 'pointer');
-            },
-            function () {
-                $("#container_plane_99_90").css('cursor', 'auto');
-            }
-    );
+    
+    $('#container_plane_4_90').hover(function () {$("#container_plane_4_90").css('cursor', 'pointer');},function () {$("#container_plane_4_90").css('cursor', 'auto');});
+    $('#container_plane_9_90').hover(function () {$("#container_plane_9_90").css('cursor', 'pointer');},function () {$("#container_plane_9_90").css('cursor', 'auto');});
+    $('#container_plane_29_90').hover(function () {$("#container_plane_29_90").css('cursor', 'pointer');},function () {$("#container_plane_29_90").css('cursor', 'auto');});
+    $('#container_plane_99_90').hover(function () {$("#container_plane_99_90").css('cursor', 'pointer');},function () {$("#container_plane_99_90").css('cursor', 'auto');});
 
 
     $('#img_btn_sing_in').hover(
@@ -251,58 +202,37 @@ $(document).ready(function () {
             }
     );
 
-    $('#btn_seven_days').click(function () {
-        if (!option_seven_days) {
-            option_seven_days = true;
-            $("#img_seven_days").attr("src", base_url + "assets/img/siete-dias-verde.png");
-            $("#img_singin_now").attr("src", base_url + "assets/img/plano-mensual-gris.png");
-        }
-    });
-
-    $('#btn_singin_now').click(function () {
-        if (option_seven_days) {
-            option_seven_days = false;
-            $("#img_seven_days").attr("src", base_url + "assets/img/siete-dias-gris.png");
-            $("#img_singin_now").attr("src", base_url + "assets/img/plano mensual-verde.png");
-        }
-    });
+   $('#coniner_data_panel').css({ 'height': $('#coniner_data_panel').css({ 'height'});
 
     function active_by_steep(steep) {
         switch (steep) {
             case 1:
-                $('#login_sign_in').css('visibility', 'visible');
-                $('#indication_login_btn').css('visibility', 'visible');
-
                 $('#container_login_panel *').prop('disabled', false);
-                $('#container_login_panel *').css('color', '#000000');
-
                 $('#container_login_panel').css('visibility', 'visible');
                 $('#container_login_panel').css('display', 'block');
+                
                 $('#signin_profile').css('visibility', 'hidden');
                 $('#signin_profile').css('display', 'none');
 
-
                 $('#coniner_data_panel *').prop('disabled', true);
-                $('#coniner_data_panel *').css('color', '#7F7F7F');
-                $('#container_sing_in_panel *').prop('disabled', true);
-                $('#container_sing_in_panel *').css('color', '#7F7F7F');
-
-                $('#container_sing_in_panel').height($('#coniner_data_panel').height());
                 $('#coniner_data_panel').css('background-color', '#F5F5F5');
+                $('#container_sing_in_panel *').prop('disabled', true);
                 $('#container_sing_in_panel').css('background-color', '#F5F5F5');
 
                 $("#btn_sing_in").hover(function () {
                     $('#btn_sing_in').css('cursor', 'not-allowed');
                 }, function () { });
-                $("#coniner_data_panel").hover(function () {
-                    $('#coniner_data_panel').css('cursor', 'not-allowed');
+                
+                $("#coniner_data_panel *").hover(function () {
+                    $('#coniner_data_panel *').css('cursor', 'not-allowed');
                 }, function () { });
-                $("#container_sing_in_panel").hover(function () {
-                    $('#container_sing_in_panel').css('cursor', 'not-allowed');
+                
+                $("#container_sing_in_panel *lnk_use_term").hover(function () {
+                    $('#container_sing_in_panel *').css('cursor', 'not-allowed');
                 }, function () { });
                 break;
+                
             case 2:
-
                 $('#indication_login_btn').css('visibility', 'hidden');
                 $('#login_sign_in').css('visibility', 'hidden');
                 $('#container_sigin_message').css('visibility', 'hidden');
@@ -351,6 +281,8 @@ $(document).ready(function () {
         $("#loginform").css({"visibility": "hidden", "display": "none"});
     });
 
+
+
     $("#lnk_use_term").click(function () {
         url = base_url + "assets/others/TERMOS DE USO DUMBU.pdf";
         window.open(url, '_blank');
@@ -376,6 +308,7 @@ $(document).ready(function () {
             return true;
         }
     }
+    
     function validate_year(element_selector, pattern) {
         if (!$(element_selector).val().match(pattern) || Number($(element_selector).val()) < 2017) {
             $(element_selector).css("border", "1px solid red");
@@ -421,5 +354,5 @@ $(document).ready(function () {
 
 
     var plane, pk, datas, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
-
+    plane = '4';
 }); 
