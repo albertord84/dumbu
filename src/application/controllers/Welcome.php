@@ -11,6 +11,8 @@ class Welcome extends CI_Controller {
     }
 
     public function index() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $data['section1'] = $this->load->view('responsive_views/user/users_ initial_painel', '', true);
         $data['section2'] = $this->load->view('responsive_views/user/users_howfunction_painel', '', true);
         $data['section3'] = $this->load->view('responsive_views/user/users_singin_painel', '', true);
