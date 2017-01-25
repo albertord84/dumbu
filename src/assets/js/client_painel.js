@@ -45,6 +45,7 @@ $(document).ready(function(){
             $('#my_img').css('cursor', 'default');
         }
     );
+    
     $(".red_number").hover(
         function(){
             $('.red_number').css('cursor', 'pointer');

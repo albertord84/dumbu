@@ -86,6 +86,17 @@ $(document).ready(function(){
         window.open(url, '_blank');
     });
     
+    
+    $("#help").hover(
+        function(){
+            $('#help').css('cursor', 'pointer');
+        },
+        function(){
+            $('#help').css('cursor', 'default');
+        }
+    );
+    
+    
     $("#login").click(function(){
         $("#usersLoginForm").fadeIn();
         $("#usersLoginForm").css({"visibility":"visible","display":"block"});

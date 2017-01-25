@@ -4,9 +4,8 @@ $(document).ready(function () {
 
     $('#palno_mensal').prop('disabled', true);
 
-// Read a page's GET URL variables and return them as an associative array.
-    function getUrlVars()
-    {
+    // Read a page's GET URL variables and return them as an associative array.
+    function getUrlVars(){
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
         for (var i = 0; i < hashes.length; i++)

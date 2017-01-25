@@ -1,12 +1,5 @@
-<br>
-<div class="row">
-    <div class="col-md-9"></div>
-    <div class="col-md-3">
-        <button id="help" type="button" class="btn btn-success"  style="width: 70%;margin-left: 15%">Ajuda</button>
-    </div>
-</div>
 
-<p class="section-titles">COMO FUNCIONA</p>
+<p class="section-titles" style="margin-top:2%">COMO FUNCIONA</p>
     
 <div class="row" style="margin-top:3%">
     <div class="col-md-8">
@@ -19,6 +12,14 @@
         <div class="center" style="margin-top:3%">
             <img id="image_init" width="60%"  style="margin:2%" src="<?php echo base_url().'assets/img/_5 mil seguidores é a média de ganho para perfis que postam dia.png'?>" />
         </div>
+        <a id="help" style="color:green">
+            <div class="center" style="margin-top:5%">
+                <img width="10%" src="<?php echo base_url().'assets/img/help.png'?>"/>
+            </div>
+            <div class="center" style="margin-top:2%;margin-bottom:2%">
+                Veja as dicas para melhorar o desempenho
+            </div>
+        </a>
     </div>
 </div>
     

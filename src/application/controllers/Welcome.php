@@ -4,8 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
     public function index1() {
-        //var_dump(strtotime('7-1-2017')); //pay_day
-        var_dump(date('d-m-Y', 1486335600)); //pay_day
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();
+        $login_data = $this->Robot->bot_login('ffonsecassa', 'cff100303');
+        var_dump($login_data);
     }
 
     public function index() {
@@ -21,6 +23,29 @@ class Welcome extends CI_Controller {
         $data['section1'] = $this->load->view('responsive_views/purchase/purchase_ initial_painel', '', true);
         $data['section2'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
         $this->load->view('view_purchase', $data);
+    }
+
+    public function scielo_view() {
+        $this->load->view('scielo');
+    }
+
+    public function scielo() {
+        $datas = $this->input->post();
+        $datas['amount_in_cents'] = 100;
+        $resp = $this->check_mundipagg_credit_card($datas);
+        if (is_object($resp) && $resp->isSuccess()) {
+            $order_key = $resp->getData()->OrderResult->OrderKey;
+            $response['success'] = true;
+            $response['message'] = "Compra relizada com sucesso! Chave da compra na mundipagg: $order_key";
+        } else if (is_object($resp)) {
+            $response['success'] = false;
+            $response['message'] = "Compra recusada! Chave da compra na mundipagg: $order_key";
+        }
+        else {
+            $response['success'] = false;
+            $response['message'] = "Compra recusada!";
+        }
+        echo json_encode($response);
     }
 
     public function client() {
@@ -43,7 +68,8 @@ class Welcome extends CI_Controller {
             $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "'";
             $total_amount_reference_profile_today = $this->user_model->execute_sql_query($sql);
 
-            $sql = "SELECT count(*) as followeds FROM followed INNER JOIN reference_profile ON reference_profile.id = followed.reference_id INNER JOIN clients ON clients.user_id = reference_profile.client_id WHERE (clients.user_id = " . $this->session->userdata('id') . ")";
+//            $sql = "SELECT count(*) as followeds FROM followed INNER JOIN reference_profile ON reference_profile.id = followed.reference_id INNER JOIN clients ON clients.user_id = reference_profile.client_id WHERE (clients.user_id = " . $this->session->userdata('id') . ")";
+            $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id');
             //$sql="SELECT * FROM reference_profile WHERE client_id='".$this->session->userdata('id')."'";
             $total_amount_followers_today = $this->user_model->execute_sql_query($sql);
             $followeds = (string) $total_amount_followers_today[0]["followeds"];
@@ -398,8 +424,8 @@ class Welcome extends CI_Controller {
                         $result['authenticated'] = false;
                     }
                 } else
-                if ($data_insta['status'] === 'fail' && $data_insta['message'] == '') {
-                    if (isset($data_insta['phone_verification_settings'])) {
+                if ($data_insta['status'] === 'fail' && ($data_insta['message'] == '' || $data_insta['message'] == 'phone_verification_settings')) {
+                    if (isset($data_insta['obfuscated_phone_number'])) {
                         $data_profile = $this->check_insta_profile($datas['user_login']);
                         $query = 'SELECT * FROM users,clients' .
                                 ' WHERE clients.insta_id="' . $data_profile->pk . '" AND clients.user_id=users.id';
@@ -531,7 +557,7 @@ class Welcome extends CI_Controller {
                         }
                     }
                 } else {
-                    $result['message'] = 'Se o problema no ligin continua, por favor entre em contato com o Atendimento';
+                    $result['message'] = 'Se o problema no login continua, por favor entre em contato com o Atendimento';
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 }
@@ -701,7 +727,14 @@ class Welcome extends CI_Controller {
                     $result['verify_link'] = '';
                     $result['return_link'] = 'client';
                     $this->user_model->set_sesion($datas['pk'], $this->session);
+                } else {
+                    $this->user_model->update_user($datas['pk'], array(
+                        'init_date' => time(),
+                        'status_id' => user_status::BLOCKED_BY_INSTA));
+                    $this->user_model->set_sesion($datas['pk'], $this->session);
                 }
+
+
                 //Email com compra satisfactoria a atendimento y al cliente
                 //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
@@ -737,7 +770,7 @@ class Welcome extends CI_Controller {
         $datas['pay_day'] = time();
         $datas['pay_day'] = strtotime("+" . dumbu_system_config::PROMOTION_N_FREE_DAYS . " days", $datas['pay_day']);
 
-        $resp = $this->check_mundipagg_credit_card($datas, 1);
+        $resp = $this->check_recurrency_mundipagg_credit_card($datas, 1);
         if (is_object($resp) && $resp->isSuccess()) {
             $this->client_model->update_client($datas['pk'], array(
                 'initial_order_key' => $resp->getData()->OrderResult->OrderKey));
@@ -745,7 +778,7 @@ class Welcome extends CI_Controller {
             //2. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
             $datas['pay_day'] = strtotime("+1 month", $datas['pay_day']);
-            $resp = $this->check_mundipagg_credit_card($datas, 0);
+            $resp = $this->check_recurrency_mundipagg_credit_card($datas, 0);
             if (is_object($resp) && $resp->isSuccess()) {
                 $this->client_model->update_client($datas['pk'], array(
                     'order_key' => $resp->getData()->OrderResult->OrderKey,
@@ -764,7 +797,21 @@ class Welcome extends CI_Controller {
         return $response;
     }
 
-    public function check_mundipagg_credit_card($datas, $cnt) {
+    public function check_mundipagg_credit_card($datas) {
+        $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
+        $payment_data['credit_card_exp_year'] = $datas['client_credit_card_validate_year'];
+        $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
+        $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
+        $payment_data['pay_day'] = time();
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_payment($payment_data);
+        return $response;
+    }
+
+    public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
         $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
         $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
@@ -774,9 +821,6 @@ class Welcome extends CI_Controller {
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
-        /* if ($cnt === 1) {
-          $response = $Payment->create_payment($payment_data);
-          } else { */
         $response = $Payment->create_recurrency_payment($payment_data, $cnt);
         //}
         return $response;
@@ -824,7 +868,7 @@ class Welcome extends CI_Controller {
                 } finally {
                     //if(true){                    
                     $response_delete_early_payment = '';
-                    $resp = $this->check_mundipagg_credit_card($datas, 0);
+                    $resp = $this->check_recurrency_mundipagg_credit_card($datas, 0);
                     if (is_object($resp) && $resp->isSuccess()) {
                         try {
                             $this->client_model->update_client($this->session->userdata('id'), array(
@@ -948,7 +992,7 @@ class Welcome extends CI_Controller {
                         if ($payments_days['pay_now']) { //si necesitara hacer un pagamento ahora
                             $datas['pay_day'] = time();
                             $datas['amount_in_cents'] = $pay_values['initial_value'];
-                            $resp_pay_now = $this->check_mundipagg_credit_card($datas, 1);
+                            $resp_pay_now = $this->check_mundipagg_credit_card($datas);
                             if (is_object($resp_pay_now) && $resp_pay_now->isSuccess()) {
                                 $this->client_model->update_client($this->session->userdata('id'), array(
                                     'pending_order_key' => $resp_pay_now->getData()->OrderResult->OrderKey));
@@ -960,7 +1004,7 @@ class Welcome extends CI_Controller {
                             $response_delete_early_payment = '';
                             $datas['pay_day'] = $payments_days['pay_day'];
                             $datas['amount_in_cents'] = $pay_values['normal_value'];
-                            $resp_pay_day = $this->check_mundipagg_credit_card($datas, 0);
+                            $resp_pay_day = $this->check_recurrency_mundipagg_credit_card($datas, 0);
                             if (is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
                                 $flag_pay_day = true;
                                 try {
@@ -1284,6 +1328,9 @@ class Welcome extends CI_Controller {
                     $data_insta['message'] = 'unknow_message';
                     $data_insta['unknow_message'] = $login_data->json_response->message;
                 }
+            } else
+            if (isset($login_data->json_response->status) && $login_data->json_response->status === "") {
+                
             }
         }
         return $data_insta;
