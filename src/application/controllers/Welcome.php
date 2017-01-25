@@ -655,6 +655,8 @@ class Welcome extends CI_Controller {
     }
 
     public function check_client_data_bank() {  //new_check_client_data_bank       
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
