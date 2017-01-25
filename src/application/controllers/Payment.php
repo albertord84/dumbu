@@ -26,7 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: COMENT
-//        $this->db->where('id', "2196");
+//        $this->db->where('id', "79");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
@@ -102,7 +102,7 @@ class Payment extends CI_Controller {
                     //Block client by paiment
                     if ($client['status_id'] != user_status::BLOCKED_BY_PAYMENT) {
                         $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
-//                        $this->send_payment_email($client, 0);
+                        $this->send_payment_email($client, 0);
                         print "This client was blocked by payment just now: " . $client['user_id'];
                         // TODO: Put 31 in system_config    
                     }
@@ -111,7 +111,7 @@ class Payment extends CI_Controller {
                     // TODO: Think about send email
                     print "Diff in days bigger tham 31 days: $diff_days ";
                     $this->load->model('class/dumbu_system_config');
-//                    $this->send_payment_email($client, 34 - $diff_days + 1);
+                    $this->send_payment_email($client, 34 - $diff_days + 1);
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
                 } else {
 //                    print_r($client);
@@ -136,7 +136,7 @@ class Payment extends CI_Controller {
                     if ($diff_days >= 0) {
 //                        print "\n<br>Email sent to " . $client['email'] . "<br>\n";
                         $this->load->model('class/dumbu_system_config');
-//                        $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
+                        $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
                         // TODO: limit email by days diff
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
                             //Block client by paiment
