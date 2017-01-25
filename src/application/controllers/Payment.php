@@ -25,19 +25,21 @@ class Payment extends CI_Controller {
         $this->db->select('*');
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
-        // TODO: UNCOMENT
-//        $this->db->where('user_id', "40");
+        // TODO: COMENT
+//        $this->db->where('id', "2196");
         $this->db->where('role_id', user_role::CLIENT);
-//        $this->db->where('status_id <>', user_status::DELETED);
-//        $this->db->where('status_id <>', user_status::BEGINNER);
-//        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
-        $this->db->where('status_id', user_status::ACTIVE);
-        $this->db->where('status_id', user_status::BLOCKED_BY_INSTA);
-        $this->db->where('status_id', user_status::VERIFY_ACCOUNT);
-        $this->db->where('status_id', user_status::UNFOLLOW);
-        $this->db->where('status_id', user_status::BLOCKED_BY_TIME);
-        $this->db->where('status_id', user_status::INACTIVE);
-        $this->db->where('status_id', user_status::PENDING);
+        $this->db->where('status_id <>', user_status::DELETED);
+        $this->db->where('status_id <>', user_status::BEGINNER);
+        $this->db->where('status_id <>', user_status::DONT_DISTURB);
+        // TODO: COMMENT MAYBE
+//        $this->db->or_where('status_id', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
+//        $this->db->or_where('status_id', user_status::ACTIVE);
+//        $this->db->or_where('status_id', user_status::BLOCKED_BY_INSTA);
+//        $this->db->or_where('status_id', user_status::VERIFY_ACCOUNT);
+//        $this->db->or_where('status_id', user_status::UNFOLLOW);
+//        $this->db->or_where('status_id', user_status::BLOCKED_BY_TIME);
+//        $this->db->or_where('status_id', user_status::INACTIVE);
+//        $this->db->or_where('status_id', user_status::PENDING);
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
@@ -61,6 +63,8 @@ class Payment extends CI_Controller {
 
     public function check_client_payment($client) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         $result = $Payment->check_payment($client['order_key']);
@@ -74,7 +78,7 @@ class Payment extends CI_Controller {
                 $SaleDataDate = new DateTime($SaleData->DueDate);
 //                $LastSaleDataDate = new DateTime($LastSaledData->DueDate);
                 //$last_payed_date = DateTime($LastSaledData->DueDate);
-                if ($SaleData->CapturedAmountInCents != NULL && ($LastSaledData == NULL || $SaleDataDate > DateTime($LastSaledData->DueDate))) {
+                if ($SaleData->CapturedAmountInCents != NULL && ($LastSaledData == NULL || $SaleDataDate > new DateTime($LastSaledData->DueDate))) {
                     $LastSaledData = $SaleData;
                 }
                 //var_dump($SaleData);
@@ -96,21 +100,22 @@ class Payment extends CI_Controller {
 //                $client['email'] = 'albertord84@gmail.com';
                 if ($diff_days > 34) { // Limit to bolck
                     //Block client by paiment
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
-                    $this->send_payment_email($client, 0);
-                    print "This client was blocked by payment just now: " . $client['user_id'];
-                    // TODO: Put 31 in system_config    
+                    if ($client['status_id'] != user_status::BLOCKED_BY_PAYMENT) {
+                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                        $this->send_payment_email($client, 0);
+                        print "This client was blocked by payment just now: " . $client['user_id'];
+                        // TODO: Put 31 in system_config    
+                    }
                 } elseif ($diff_days > 31) { // Limit to advice
                     // Send email to Client
                     // TODO: Think about send email
                     print "Diff in days bigger tham 31 days: $diff_days ";
-                    //$this->send_payment_email($client);
                     $this->load->model('class/dumbu_system_config');
                     $this->send_payment_email($client, 34 - $diff_days + 1);
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
                 } else {
 //                    print_r($client);
-                    if ($client['status_id'] == user_status::PENDING) {
+                    if ($client['status_id'] == user_status::PENDING || $client['status_id'] == user_status::BLOCKED_BY_PAYMENT) {
                         $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE));
                     }
                     return TRUE;
@@ -128,12 +133,12 @@ class Payment extends CI_Controller {
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
                     // TODO: limit email by days diff
                     //$diff_days = 6;
-                    if ($diff_days >= 0 /* && $diff_days < 5 */) {
+                    if ($diff_days >= 0 && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) {
 //                        print "\n<br>Email sent to " . $client['email'] . "<br>\n";
                         $this->load->model('class/dumbu_system_config');
                         $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
                         // TODO: limit email by days diff
-                        if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT /* && $diff_days < 5 */) {
+                        if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
                             //Block client by paiment
                             $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
                             ///////////////////////////////////////$this->send_payment_email($client);

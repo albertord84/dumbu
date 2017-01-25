@@ -8,7 +8,7 @@ require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 
 //echo "Worker Inited...!<br>\n";
-echo date("Y-m-d h:i:sa");
+echo date("Y-m-d h:i:sa") . "<br>\n";
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
@@ -100,19 +100,36 @@ $Payment = new dumbu\cls\Payment();
 //header('Content-Type: application/json');
 //print_r($resul);
 
-//$resul = $Payment->retry_payment('f00745b8-f1c2-44d8-b7a6-8186e944d28b', '94a2204f-287b-4978-b7ed-26ad7ee1760d');
-//header('Content-Type: application/json');
-//print_r($resul->getData());
+//$order_key = "4942e0ac-fb5b-41fa-87a8-cb1f80d81d32";
+//$transaction_key = "79c28bd0-d0c8-47aa-be07-67d81202ed6dd";
+//$result = $Payment->retry_payment_recurrency($order_key, $transaction_key);
 //var_dump($result);
+//header('Content-Type: application/json');
+////print_r($result->getData());
+//print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+//var_dump($result->isSuccess());
+
+$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
+print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
 
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
-var_dump($result);
-//$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+
+
+
+//'9792', 'Receitas light', 'ebook_detox', 'soeusei123', 'martins.ago@gmail.com', NULL, '2', '1', '1485068923', '', '1484955722', NULL
+
+
+
+
+//$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-//$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+//var_dump($result);
+//$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+//var_dump($result)
+//$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", Raphael PH & Pedrinho Lima"albertord84", "albertord");
 //print_r($result);
 //        ("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail = new dumbu\cls\Gmail();
@@ -124,7 +141,7 @@ var_dump($result);
 $Robot = new dumbu\cls\Robot();
 
 
-//$result = $Robot->bot_login("maquinabike", "Igege+-2111");
+//$result = $Robot->bot_login("nivaldocelso", "nivaldo572812");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
