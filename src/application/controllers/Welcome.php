@@ -32,6 +32,8 @@ class Welcome extends CI_Controller {
     }
 
     public function scielo() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $datas = $this->input->post();
         $datas['amount_in_cents'] = 100;
         $resp = $this->check_mundipagg_credit_card($datas);
