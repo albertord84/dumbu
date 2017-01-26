@@ -8,7 +8,7 @@ require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 
 //echo "Worker Inited...!<br>\n";
-echo date("Y-m-d h:i:sa");
+echo date("Y-m-d h:i:sa") . "<br>\n";
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
@@ -55,23 +55,44 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
 
+//$pd = strtotime('30-01-2017');
+//var_dump(date("d-m-Y", $pd));
+//
+//$pd = strtotime("-3 days", 1487487807);
+//$pd = strtotime("-1 month", $pd);
+//var_dump($pd);
+//var_dump(date("d-m-Y", $pd));
+//
+//
+//$pay_day = strtotime('01-01-2016');
+//
+//$d_today = date("j", $now);
+//$m_today = date("n", $now);
+//$y_today = date("Y", $now);
+//$d_pay_day = date("j", $pay_day);
+//$m_pay_day = date("n", $pay_day);
+//$y_pay_day = date("Y", $pay_day);
+//
+//$data = strtotime("+5 days", time());
+//var_dump($data);
+//var_dump(date('d-m-Y', $data));
 
 $pay_day = strtotime('11-02-2017');
 $pay_day = time();
 //var_dump($pay_day);
 //
 ////
-$payment_data['credit_card_number'] = '5464522518570770';
-$payment_data['credit_card_name'] = 'ANTONIO CARLOS SILVA';
-$payment_data['credit_card_exp_month'] = '12';
-$payment_data['credit_card_exp_year'] = '2020';
-$payment_data['credit_card_cvc'] = '167';
-$payment_data['amount_in_cents'] = 9990;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '5464522518570770';
+//$payment_data['credit_card_name'] = 'ANTONIO CARLOS SILVA';
+//$payment_data['credit_card_exp_month'] = '12';
+//$payment_data['credit_card_exp_year'] = '2020';
+//$payment_data['credit_card_cvc'] = '167';
+//$payment_data['amount_in_cents'] = 9990;
+//$payment_data['pay_day'] = $pay_day;
 //   
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0);
 var_dump($resul);
 ////----------------------------------------------------------------
 
@@ -80,19 +101,36 @@ var_dump($resul);
 //header('Content-Type: application/json');
 //print_r($resul);
 
-//$resul = $Payment->retry_payment('f00745b8-f1c2-44d8-b7a6-8186e944d28b', '94a2204f-287b-4978-b7ed-26ad7ee1760d');
-//header('Content-Type: application/json');
-//print_r($resul->getData());
+//$order_key = "4942e0ac-fb5b-41fa-87a8-cb1f80d81d32";
+//$transaction_key = "79c28bd0-d0c8-47aa-be07-67d81202ed6dd";
+//$result = $Payment->retry_payment_recurrency($order_key, $transaction_key);
 //var_dump($result);
+//header('Content-Type: application/json');
+////print_r($result->getData());
+//print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+//var_dump($result->isSuccess());
+
+$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
+print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
 
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
+
+
+
+//'9792', 'Receitas light', 'ebook_detox', 'soeusei123', 'martins.ago@gmail.com', NULL, '2', '1', '1485068923', '', '1484955722', NULL
+
+
+
+
+//$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
+//var_dump($result);
 //$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
-//var_dump($result);
-//$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+//var_dump($result)
+//$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", Raphael PH & Pedrinho Lima"albertord84", "albertord");
 //print_r($result);
 //        ("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail = new dumbu\cls\Gmail();
@@ -104,7 +142,7 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
 
 
-//$result = $Robot->bot_login("maquinabike", "Igege+-2111");
+//$result = $Robot->bot_login("nivaldocelso", "nivaldo572812");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));

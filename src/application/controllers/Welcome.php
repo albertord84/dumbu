@@ -21,6 +21,8 @@ class Welcome extends CI_Controller {
     }
 
     public function scielo() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $datas = $this->input->post();
         $datas['amount_in_cents'] = 100;
         $resp = $this->check_mundipagg_credit_card($datas);
@@ -29,10 +31,10 @@ class Welcome extends CI_Controller {
             $response['success'] = true;
             $response['message'] = "Compra relizada com sucesso! Chave da compra na mundipagg: $order_key";
         } else if (is_object($resp)) {
+            $order_key = $resp->getData()->OrderResult->OrderKey;
             $response['success'] = false;
             $response['message'] = "Compra recusada! Chave da compra na mundipagg: $order_key";
-        }
-        else {
+        } else {
             $response['success'] = false;
             $response['message'] = "Compra recusada!";
         }
@@ -644,6 +646,8 @@ class Welcome extends CI_Controller {
     }
 
     public function check_client_data_bank() {  //new_check_client_data_bank       
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
@@ -918,6 +922,8 @@ class Welcome extends CI_Controller {
     }
 
     public function update_client_datas() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         if ($this->session->userdata('id')) {
             //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
             //---despues de verificar datos bancarios correctos, pasar as user_status::UNFOLLOW o a ACTIVE
@@ -1051,9 +1057,9 @@ class Welcome extends CI_Controller {
                             $result['success'] = false;
                             $result['resource'] = 'client';
                             if ($payments_days['pay_now'] && !$flag_pay_now)
-                                $result['message'] = $resp_pay_now["message"];
+                                $result['message'] = is_array($resp_pay_now)? $resp_pay_now["message"] : "Error inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.";
                             else
-                                $result['message'] = $resp_pay_day["message"];
+                                $result['message'] = is_array($resp_pay_day)? $resp_pay_day["message"] : "Error inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.";
                         } else
                         if (($payments_days['pay_now'] && $flag_pay_now && !$flag_pay_day)) {
                             //se hiso el primer pagamento bien, pero la recurrencia mal

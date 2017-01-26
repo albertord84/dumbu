@@ -205,7 +205,7 @@ namespace dumbu\cls {
             $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
 
             //Set the subject line
-            $this->mail->Subject = 'DUMBU Payment Success';
+            $this->mail->Subject = 'DUMBU Assinatura aprovada com sucesso!';
 
             //Read an HTML message body from an external file, convert referenced images to embedded,
             //convert HTML into a basic plain-text alternative body
