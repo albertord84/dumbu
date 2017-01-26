@@ -269,8 +269,6 @@ $(document).ready(function () {
         $("#loginform").css({"visibility": "hidden", "display": "none"});
     });
 
-
-
     $("#lnk_use_term").click(function () {
         url = base_url + "assets/others/TERMOS DE USO DUMBU.pdf";
         window.open(url, '_blank');

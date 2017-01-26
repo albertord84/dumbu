@@ -13,9 +13,7 @@ class Welcome extends CI_Controller {
     }
 
     public function purchase() {
-        $data['section1'] = $this->load->view('responsive_views/purchase/purchase_ initial_painel', '', true);
-        $data['section2'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
-        $this->load->view('view_purchase', $data);
+        $this->load->view('view_purchase');
     }
 
     public function scielo_view() {
