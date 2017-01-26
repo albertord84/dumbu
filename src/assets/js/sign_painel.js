@@ -2,7 +2,6 @@ $(document).ready(function () {
 
     active_by_steep(1);
     
-    //Read a page's GET URL variables and return them as an associative array.
     function getUrlVars(){
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -14,7 +13,7 @@ $(document).ready(function () {
         return vars;
     }
 
-    $("#signin_btn_insta_login").click(function () {
+    $("#signin_btn_insta_login").click(function () {        
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {
@@ -41,9 +40,9 @@ $(document).ready(function () {
                                 set_global_var('pass', $('#signin_clientPassword').val());
                                 set_global_var('email', $('#client_email').val());
                                 set_global_var('need_delete', response['need_delete']);
-                                /*if(need_delete<response['MIN_MARGIN_TO_INIT']){   
-                                 alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
-                                 }*/
+                                //if(need_delete<response['MIN_MARGIN_TO_INIT']){   
+                                 //alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
+                                // }
                                 active_by_steep(2);
                                 l.stop();
                             } else {
@@ -59,39 +58,41 @@ $(document).ready(function () {
 
                         },
                         error: function (xhr, status) {
-                            $('#container_sigin_message').text('Não foi possível comprobar a autenticidade do usuario no Instagram.');
+                            $('#container_sigin_message').text('Não foi possível comprobar a autenticidade do usuario no Instagram!');
                             $('#container_sigin_message').css('visibility', 'visible');
                             $('#container_sigin_message').css('color', 'red');
                             l.stop();
                         }
                     });
                 } else {
-                    $('#container_sigin_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
+                    $('#container_sigin_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos!');
                     $('#container_sigin_message').css('visibility', 'visible');
                     $('#container_sigin_message').css('color', 'red');
                 }
             } else {
-                $('#container_sigin_message').text('Problemas na estrutura do email informado.');
+                $('#container_sigin_message').text('Problemas na estrutura do email informado!');
                 $('#container_sigin_message').css('visibility', 'visible');
                 $('#container_sigin_message').css('color', 'red');
                 //alert('O email informado não é correto');
             }
         } else {
-            $('#container_sigin_message').text('Deve preencher todos os dados corretamente.');
+            $('#container_sigin_message').text('Deve preencher todos os dados corretamente!');
             $('#container_sigin_message').css('visibility', 'visible');
             $('#container_sigin_message').css('color', 'red');
             //alert('Formulario incompleto');
         }
     });
-
+    
     $("#btn_sing_in").click(function () {
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);
             $('#btn_sing_in').css('cursor', 'wait');
             $('#my_body').css('cursor', 'wait');
+            var l = Ladda.create(this);
+            l.start();
+            l.start();
             var name = validate_element('#client_credit_card_name', "^[A-Z ]{4,50}$");
-            //var email=validate_element('#client_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");        
             var number = validate_element('#client_credit_card_number', "^[0-9]{10,20}$");
             var cvv = validate_element('#client_credit_card_cvv', "^[0-9 ]{3,5}$");
             var month = validate_month('#client_credit_card_validate_month', "^[0-10-9]{2,2}$");
@@ -127,6 +128,7 @@ $(document).ready(function () {
                             $('#btn_sing_in').attr('disabled', false);
                             $('#btn_sing_in').css('cursor', 'pointer');
                             $('#my_body').css('cursor', 'auto');
+                            l.stop();
                         }
                     },
                     error: function (xhr, status) {
@@ -138,6 +140,8 @@ $(document).ready(function () {
                 set_global_var('flag', true);
                 $('#btn_sing_in').attr('disabled', false);
                 $('#btn_sing_in').css('cursor', 'pointer');
+                $('#my_body').css('cursor', 'auto');
+                l.stop();
             }
         } else {
             console.log('paymet working');
@@ -193,26 +197,17 @@ $(document).ready(function () {
     $('#container_plane_99_90').hover(function () {$("#container_plane_99_90").css('cursor', 'pointer');},function () {$("#container_plane_99_90").css('cursor', 'auto');});
 
 
-    $('#img_btn_sing_in').hover(
-            function () {
-                $("#img_btn_sing_in").attr("src", base_url + "assets/img/assinar4_hover.png");
-            },
-            function () {
-                $("#img_btn_sing_in").attr("src", base_url + "assets/img/assinar4.png");
-            }
-    );
 
-   $('#coniner_data_panel').css({ 'height': $('#coniner_data_panel').css({ 'height'});
+    $('#coniner_data_panel').css({'height': ''+$('#container_sing_in_panel').height()});
 
     function active_by_steep(steep) {
         switch (steep) {
-            case 1:
-                $('#container_login_panel *').prop('disabled', false);
+            case 1:               
                 $('#container_login_panel').css('visibility', 'visible');
                 $('#container_login_panel').css('display', 'block');
                 
-                $('#signin_profile').css('visibility', 'hidden');
-                $('#signin_profile').css('display', 'none');
+                $('#signin_profile').css({'visibility':'hidden','display':'none'});
+                
 
                 $('#coniner_data_panel *').prop('disabled', true);
                 $('#coniner_data_panel').css('background-color', '#F5F5F5');
@@ -227,13 +222,13 @@ $(document).ready(function () {
                     $('#coniner_data_panel *').css('cursor', 'not-allowed');
                 }, function () { });
                 
-                $("#container_sing_in_panel *lnk_use_term").hover(function () {
+                $("#container_sing_in_panel *").hover(function () {
                     $('#container_sing_in_panel *').css('cursor', 'not-allowed');
-                }, function () { });
+                }, function () { });                
+                
                 break;
                 
-            case 2:
-                $('#indication_login_btn').css('visibility', 'hidden');
+            case 2:                
                 $('#login_sign_in').css('visibility', 'hidden');
                 $('#container_sigin_message').css('visibility', 'hidden');
 
@@ -259,11 +254,11 @@ $(document).ready(function () {
                 $("#btn_sing_in").hover(function () {
                     $('#btn_sing_in').css('cursor', 'pointer');
                 }, function () { });
-                $("#coniner_data_panel").hover(function () {
-                    $('#coniner_data_panel').css('cursor', 'auto');
+                $("#coniner_data_panel *").hover(function () {
+                    $('#coniner_data_panel *').css('cursor', 'auto');
                 }, function () { });
-                $("#container_sing_in_panel").hover(function () {
-                    $('#container_sing_in_panel').css('cursor', 'auto');
+                $("#container_sing_in_panel *").hover(function () {
+                    $('#container_sing_in_panel *').css('cursor', 'auto');
                 }, function () { });
 
 

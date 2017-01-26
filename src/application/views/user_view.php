@@ -15,10 +15,16 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
+                
+                
 
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
 		<script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>
+                
+                <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
+                <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
+                <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
@@ -79,7 +85,8 @@
 										<div class="form-group">
 											<input type="submit" name="" value="ENTRAR" id="btn_dumbu_login1" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff" />
 										</div>
-										<div id="container_login_message1" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
+										<div id=",
+                                                                                     " class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
 										</div>
 									</form>
 								</li>
@@ -274,8 +281,9 @@
                 
 		<section id="passos" class="fleft100 m-t30">
 			<div class="container cl-black">
-                                <div id="container_login_panel" class="col-md-4 col-sm-4 col-xs-12 passo">
-					<h5 class="no-mg text-center"><b>PASSO 1</b></h5>
+                                <div  class="col-md-4 col-sm-4 col-xs-12 passo">
+                                    <div id="container_login_panel" style="visibility:hidden;display:none">
+                                        <h5 class="no-mg text-center"><b>PASSO 1</b></h5>
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/ig.png" class="wauto" alt="">
 						<span class="fleft100 m-b5">Conta de Instagram</span>
@@ -290,8 +298,25 @@
 						<fieldset>
 							<input id = "signin_clientPassword" type="password" placeholder="Senha Instagram" required>
 						</fieldset>
-						<div class="text-center"><button id="container_sigin_message" class="btn-primary m-t20">CONFERIR</button></div>
+                                                <div class="text-center">
+                                                    <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                        <span class="ladda-label"><div style="color:white; font-weight:bold">CONFERIR</div></span>
+                                                    </button>
+                                                </div>
+                                                <div id="container_sigin_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                                </div>
 					</div>
+                                    </div>
+                                    <div id="signin_profile"  style="text-align:center; visibility:visible;display:block">
+                                        <h5 class="no-mg text-center"><b>PASSO 1</b></h5>
+                                        <br><p style="font-family:sans-serif; font-size:1em; color: green">Perfil conferido!<br><br></p>                    
+                                        <div id="reference_profile">
+                                            <img id="img_ref_prof" class="img-circle image-reference-profile" style="width:20%" src=""><br>
+                                            <b id="name_ref_prof" style="font-family:sans-serif; font-size:1em;"></b><br>
+                                            <div id="ref_prof_followers" style="font-family:sans-serif; font-size:1em;"></div>
+                                            <div id="ref_prof_following" style="font-family:sans-serif; font-size:1em;"></div>
+                                        </div>
+                                    </div>
 				</div>
                             
                                 <div id="coniner_data_panel" class="col-md-4 col-sm-4 col-xs-12 passo">
@@ -302,7 +327,7 @@
 					</div>
 					<div class="pay fleft100 input-form">
 						<fieldset>
-							<input id="client_credit_card_name" type="text" placeholder="Nome no cartão"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+							<input id="client_credit_card_name" type="text" placeholder="Meu nome no cartão"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
 						</fieldset>
 						<div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                                                     <fieldset>
@@ -333,13 +358,21 @@
 							<fieldset>
 								<div class="select">
                                                                     <select id="client_credit_card_validate_year" name="local" class="btn-primeiro sel" id="local">
-                                                                        <option value="">2017</option>
+                                                                        <option>2017</option><option>2018</option>
+                                                                        <option>2019</option><option>2020</option><option>2021</option>
+                                                                        <option>2022</option><option>2023</option><option>2024</option>
+                                                                        <option>2025</option><option>2026</option><option>2027</option>
+                                                                        <option>2028</option><option>2029</option><option>2030</option>
+                                                                        <option>2031</option><option>2032</option><option>2033</option>
+                                                                        <option>2034</option><option>2035</option><option>2036</option>
+                                                                        <option>2037</option><option>2038</option><option>2039</option>
 								    </select>
 								</div>
 							</fieldset>
 						</div>
 					</div>
 				</div>
+                            
                                 <div id="container_sing_in_panel" class="col-md-4 col-sm-4 col-xs-12 passo text-center">
 					<h5 class="no-mg text-center"><b>PASSO 3</b></h5>
 					<div class="text-center fleft100 m-t20">
@@ -347,9 +380,31 @@
 						<span class="fleft100">Assine e configure sua conta</span>
 					</div>
 
-					<div class="text-center"><button class="btn-primary btn-green m-t20">ASSINAR AGORA</button></div>
-
-                                        <br><br>Ao assinar já estou aceitando os <a href="<?php echo base_url().'assets/others/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue">termos de uso</a>
+					<div class="text-center">
+                                            <button id="btn_sing_in" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
+                                                <span class="ladda-label"><div style="color:white; font-weight:bold">ASSINAR AGORA</div></span>
+                                            </button>                                            
+                                        </div>
+                                        
+                                        <!--
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Atenção</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>A operação pode demorar alguns segundos. Aguarde, por favor...</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>-->
+                                        <br><br>Ao assinar 
+                                        já estou aceitando os <a id="use_term" href="<?php echo base_url().'assets/others/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue">termos de uso</a>
                                         <br><br><img src="assets/images/seguro.png" class="wauto" alt="">
 				</div>
 			</div>
