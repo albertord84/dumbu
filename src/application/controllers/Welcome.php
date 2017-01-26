@@ -958,9 +958,8 @@ class Welcome extends CI_Controller {
                     } finally {
                         $flag_pay_now = false;
                         $flag_pay_day = false;
-
                         //Determinar valor inicial del pagamento
-                        if ($datas['client_update_plane'] == 1)
+                        if($datas['client_update_plane'] == 1)
                             $datas['client_update_plane'] = 4;
                         if ($datas['client_update_plane'] > $this->session->userdata('plane_id')) {
                             $promotional_time_range = $this->user_model->get_signin_date($this->session->userdata('id'));
@@ -1089,6 +1088,9 @@ class Welcome extends CI_Controller {
         $m_pay_day = date("n", $pay_day);
         $y_pay_day = date("Y", $pay_day);
 
+        if($now<$pay_day){
+            $datas['pay_day'] = $pay_day;
+        }else
         if ($d_today < $d_pay_day) {
             if ($this->session->userdata('status_id') == (string) user_status::PENDING)
                 $datas['pay_now'] = true;
