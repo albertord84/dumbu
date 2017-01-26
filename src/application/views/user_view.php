@@ -29,6 +29,7 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,21 +43,21 @@
                 <?php include_once("remarketing.php")?>
             
 		<div class="windows8">
-		 <div class="wBall" id="wBall_1">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_2">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_3">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_4">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_5">
-		  <div class="wInnerBall"></div>
-		 </div>
+                    <div class="wBall" id="wBall_1">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_2">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_3">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_4">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_5">
+                     <div class="wInnerBall"></div>
+                    </div>
 		</div>
             <header class="bk-black">
 			<div class="container">
@@ -69,6 +70,7 @@
 							<a href="#">ENTRAR</a>
 							<ul class="dl-submenu">
 								<li>
+                                                                    <div id="login_container1">
 									<form id="usersLoginForm" action="#" method="#" class="form" role="form" accept-charset="UTF-8">
 										<div class="form-group center" style="font-family:sans-serif; font-size:0.9em">
 										EXCLUSIVO PARA USUÁRIOS
@@ -83,12 +85,16 @@
 											<input id="userPassword1" type="password" class="form-control" placeholder="Senha" required="">
 										</div>
 										<div class="form-group">
-											<input type="submit" name="" value="ENTRAR" id="btn_dumbu_login1" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff" />
-										</div>
-										<div id=",
-                                                                                     " class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
+                                                                                    <button type="button" name="" value="ENTRAR" id="btn_dumbu_login1" style="white-space: normal;" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff" ><span class="ladda-label"></span></button>
+										</div>                                                                                
+                                                                                <!--<button id="btn_dumbu_login1" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                                        <span class="ladda-label">Entrar</span>
+                                                                                </button>-->
+                                                                                
+										<div id="container_login_message1" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
 										</div>
 									</form>
+                                                                    </div>
 								</li>
 							</ul>
 						</li>
@@ -110,6 +116,7 @@
 								<li>
 									<div class="row">
 										<div class="col-md-12">
+                                                                                    <div id="login_container2">
 											<form id="usersLoginForm" action="#" method="#" class="form" role="form" accept-charset="UTF-8">
 												<div class="form-group center" style="font-family:sans-serif; font-size:0.9em">
 												EXCLUSIVO PARA USUÁRIOS
@@ -131,6 +138,7 @@
 												<div id="container_login_message2" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
 												</div>
 											</form>
+                                                                                    </div>
 										</div>
 									</div>
 								</li>
@@ -277,8 +285,7 @@
 				</div>
 			</div>
 		</section>
-                
-                
+                                
 		<section id="passos" class="fleft100 m-t30">
 			<div class="container cl-black">
                                 <div  class="col-md-4 col-sm-4 col-xs-12 passo">
@@ -417,24 +424,28 @@
 				<div class="col-md-6 col-sm-6 col-xs-12 no-pd">
 					<div class="col-md-6 col-sm-6 col-xs-12 pd-r15">
 						<fieldset>
-							<input type="text" placeholder="Nome">
+							<input id="visitor_name" type="text" placeholder="Nome">
 						</fieldset>
 						<fieldset>
-							<input type="text" placeholder="E-mail">
+							<input id="visitor_email" type="text" placeholder="E-mail">
 						</fieldset>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 pd-l15">
 						<fieldset>
-							<input type="text" placeholder="Empresa">
+							<input id="visitor_company" type="text" placeholder="Empresa">
 						</fieldset>
 						<fieldset>
-							<input type="text" placeholder="Telefone">
+							<input id="visitor_phone" type="text" placeholder="Telefone">
 						</fieldset>
 					</div>
 					<div class="col-md-12 col-sm-12 col-xs-12 no-pd">
-						<textarea name="" placeholder="Mensagem" id=""  rows="8"></textarea>
+						<textarea id="visitor_message" name="" placeholder="Mensagem" id=""  rows="8"></textarea>
 
-						<div class="text-center"><button class="btn-primary btn-475f66 m-t20">ENVIAR MENSAGEM</button></div>
+						<div class="text-center">
+                                                    <button id="btn_send_message" class="btn-primary btn-475f66 m-t20 ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                                        ENVIAR MENSAGEM
+                                                    </button>
+                                                </div>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12"><br></div>

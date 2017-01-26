@@ -1,25 +1,20 @@
 $(document).ready(function(){   
     $("#btn_dumbu_login1").click(function() {        
-        do_login('#userLogin1','#userPassword1', '#container_login_message1');
+        do_login('#userLogin1','#userPassword1', '#container_login_message1',this);
     });
     
     $("#btn_dumbu_login2").click(function() {        
-        do_login('#userLogin2','#userPassword2', '#container_login_message2');
-    });
-    
-    $('#google_conversion_frame').on("load", function() {
-        alert(1);
+        do_login('#userLogin2','#userPassword2', '#container_login_message2',this);
     });
     
     $('#google_conversion_frame').ready(function(){        
         $('#google_conversion_frame').css({"float": "none","display":"none"});
     } );
         
-    function do_login(fieldLogin,fieldPass, fieldErrorMessage){
-        if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){            
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
+        if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
             if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
-                //$("#waiting").css({"visibility":"visible","display":"block"});
-                var l = Ladda.create(this);  l.start(); l.start();
+                var l = Ladda.create(object);  l.start();
                 $.ajax({
                     url : base_url+'index.php/welcome/user_do_login',      
                     data : {
@@ -89,12 +84,20 @@ $(document).ready(function(){
         }
     }
     
-    $('#login_painel').keypress(function (e) {
+     $('#login_container1').keypress(function (e) {
         if (e.which == 13) {
-            $("#btn_dumbu_login").click();
+            $("#btn_dumbu_login1").click();
             return false;
         }
-    }); 
+    });
+    
+    $('#login_container2').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_dumbu_login2").click();
+            return false;
+        }
+    });
+    
     
     $("#help").click(function(){
         url=base_url+"index.php/welcome/help";

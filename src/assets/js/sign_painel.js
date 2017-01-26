@@ -155,13 +155,6 @@ $(document).ready(function () {
         }
     });
 
-    $('#coniner_data_panel').keypress(function (e) {
-        if (e.which == 13) {
-            $("#btn_sing_in").click();
-            return false;
-        }
-    });
-
     $('#radio_plane_4_90').click(function () {
         $("#container_plane_4_90").addClass( "active" );
         $("#container_plane_9_90").removeClass( "active" );
