@@ -42,10 +42,10 @@ namespace dumbu\cls {
         public function create_recurrency_payment($payment_data, $recurrence = 0) {
             try {
 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
-//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 // Define a chave da loja
-                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
                 // Cria objeto requisição
                 $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
@@ -105,10 +105,10 @@ namespace dumbu\cls {
         public function create_payment($payment_data) {
             try {
 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
-//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 // Define a chave da loja
-                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
                 // Cria objeto requisição
                 $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
@@ -197,10 +197,10 @@ namespace dumbu\cls {
         public function delete_payment($order_key) {
             try {
 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
-//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 // Define a chave da loja
-                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
                 // Cria objeto requisição
                 $request = new \Gateway\One\DataContract\Request\CancelRequest();
@@ -264,10 +264,10 @@ namespace dumbu\cls {
         function queryOrder($order_key) {
             try {
 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
-//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 // Define a chave da loja
-                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
 //Cria um objeto ApiClient
                 $client = new \Gateway\ApiClient();
@@ -296,10 +296,10 @@ namespace dumbu\cls {
         function retry_payment($order_key, $request_key) {
             try {
 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
-//    \Gateway\ApiClient::setBaseUrl(system_config::MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 // Define a chave da loja
-                \Gateway\ApiClient::setMerchantKey(system_config::SYSTEM_MERCHANT_KEY);
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
                 // Create request object
                 $request = new \Gateway\One\DataContract\Request\RetryRequest();
@@ -308,6 +308,46 @@ namespace dumbu\cls {
                 $request->setOrderKey($order_key);
                 $request->setRequestKey($request_key);
 //                var_dump($order_key);
+                // Create new ApiClient object
+                $client = new \Gateway\ApiClient();
+
+                // Make the call
+                $response = $client->Retry($request);
+            } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                $httpStatusCode = $error->errorCollection->ErrorItemCollection[0]->ErrorCode;
+                $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
+            } catch (Exception $ex) {
+                $httpStatusCode = 500;
+                $response = array("message" => "Ocorreu um erro inesperado.");
+            } finally {
+                return $response;
+            }
+        }
+
+        function retry_payment_recurrency($order_key, $transaction_key, $cvc = NULL) {
+            try {
+// Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+// Define a chave da loja
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
+
+                // Create request object
+                $request = new \Gateway\One\DataContract\Request\RetryRequest();
+
+                // Create request object
+                $request = new \Gateway\One\DataContract\Request\RetryRequest();
+
+                // Define all request data
+                $request->setOrderKey($order_key);
+                $creditCardTransaction = new \Gateway\One\DataContract\Request\RetryRequestData\RetrySaleCreditCardTransaction();
+                if ($cvc) {
+                    $creditCardTransaction->setSecurityCode($cvc);
+                }
+                $creditCardTransaction->setTransactionKey($transaction_key);
+                print_r($creditCardTransaction->getData());
+
+                $request->addRetrySaleCreditCardTransactionCollection($creditCardTransaction);
 
                 // Create new ApiClient object
                 $client = new \Gateway\ApiClient();
@@ -315,6 +355,7 @@ namespace dumbu\cls {
                 // Make the call
                 $response = $client->Retry($request);
             } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                var_dump($error);
                 $httpStatusCode = $error->errorCollection->ErrorItemCollection[0]->ErrorCode;
                 $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
             } catch (Exception $ex) {
