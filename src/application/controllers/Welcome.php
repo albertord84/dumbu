@@ -38,6 +38,7 @@ class Welcome extends CI_Controller {
             $response['success'] = true;
             $response['message'] = "Compra relizada com sucesso! Chave da compra na mundipagg: $order_key";
         } else if (is_object($resp)) {
+            $order_key = $resp->getData()->OrderResult->OrderKey;
             $response['success'] = false;
             $response['message'] = "Compra recusada! Chave da compra na mundipagg: $order_key";
         }
