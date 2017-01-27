@@ -27,6 +27,7 @@ $(document).ready(function () {
                     } else {
                         alert(response['message']);
                     }
+                    $('#formulario')[0].reset();
                 },                
             });
         }else{
