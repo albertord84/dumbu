@@ -13,7 +13,7 @@ class Welcome extends CI_Controller {
     }
 
     public function purchase() {
-        $this->load->view('view_purchase');
+        $this->load->view('purchase_view');
     }
 
     public function scielo_view() {
