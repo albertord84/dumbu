@@ -6,7 +6,7 @@ $(document).ready(function(){
         2:{'ptr_img_obj':$('#img_ref_prof2'),'ptr_p_obj':$('#name_ref_prof2'),  'ptr_label_obj':$('#cnt_follows_prof2'),     'ptr_panel_obj':$('#reference_profile2'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof2')}        
     };
         
-    var num_profiles=0, MAX_NUM_PROFILES=3;    
+    var num_profiles=0, MAX_NUM_PROFILES=3;
     var verify=false, flag=false;
     
     $('#btn_add_new_profile').mousedown(function(){

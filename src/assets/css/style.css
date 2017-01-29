@@ -521,14 +521,14 @@ li{
 	position: relative;
 }
 
-.pf-painel div:after{
+/*.pf-painel div:after{
 	content: '';
 	background: url('../images/ex.png') no-repeat center;
 	width: 20px;
 	height: 20px;
 	float: left;
 	position: absolute;
-}
+}*/
 
 .pf-painel img{
     margin-right: -14px;

@@ -13,12 +13,11 @@ class Welcome extends CI_Controller {
     }
 
     public function purchase() {
-        //if ($this->session->userdata('id')) {
-            $this->session->set_userdata('id','9801');
+        if ($this->session->userdata('id')) {            
             $datas['user_id']=$this->session->userdata('id');   
             $datas['profiles'] = $this->create_profiles_datas_to_display();
             $this->load->view('purchase_view',$datas);
-        //}
+        }
     }
 
     public function scielo_view() {
@@ -74,7 +73,7 @@ class Welcome extends CI_Controller {
 
             $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
             $datas1['my_actual_followings'] = $my_profile_datas->following;
-            $datas1['my_sigin_date'] = date('d-m-Y', $this->session->userdata('init_date'));
+            $datas1['my_sigin_date'] = $this->session->userdata('init_date');
             date_default_timezone_set('Etc/UTC');
             $datas1['today'] = date('d-m-Y', time());
             $datas1['my_initial_followers'] = $init_client_datas[0]['insta_followers_ini'];
@@ -139,7 +138,7 @@ class Welcome extends CI_Controller {
             $data['body_section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
             $data['body_section_cancel'] = $this->load->view('responsive_views/client/client_cancel_painel', '', true);
             $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
-            $this->load->view('view_client', $data);
+            $this->load->view('client_view', $data);
         } else {
             $this->display_access_error();
         }
@@ -1257,7 +1256,7 @@ class Welcome extends CI_Controller {
     public function log_out() {
         $data['user_active'] = false;
         $this->session->sess_destroy();
-        header('Location: ' . base_url() . 'index.php/welcome/');
+        header('Location: ' . base_url() . 'index.php');
     }
 
     public function create_profiles_datas_to_display() {

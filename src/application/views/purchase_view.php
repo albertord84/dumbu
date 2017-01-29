@@ -60,7 +60,7 @@
 						</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#"><img src="<?php echo base_url().'assets/images/user.png';?>" class="wauto us" alt=""> SAIR</a></li>
+						<li><a href="<?php echo base_url().'assets/images/user.png';?>"><img src="<?php echo base_url().'assets/images/user.png';?>" class="wauto us" alt=""> SAIR</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -135,8 +135,7 @@
                                                                       <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
                                                                   </div>
                                                               </div>
-                                                          </div>
-                                                        
+                                                          </div>                                                        
                                                     </div>                                                    
 
                                                     <div class="text-center">
