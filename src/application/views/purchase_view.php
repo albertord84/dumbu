@@ -27,9 +27,10 @@
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
+                <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
+                <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
                 
-		
 	</head>
 	<body>
 		<div class="windows8">
@@ -83,40 +84,64 @@
 						<span class="fleft100 m-tb30">PASSO 4</span>
 						<span class="fleft100 m-b10"><b>Adicione 3 perfis de referência abaixo:</b> <small class="fleft100 cl-red m-b10">*Obrigatório</small></span>
 						
-                                                <form>                                                    
+                                                                                                   
                                                     <ul class="add-perfil">
-                                                            <li><img src="<?php echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""><small class="fleft100">perfilderef1</small></li>
-                                                            <li><img src="<?php echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""><small class="fleft100">perfilderef2</small></li>
-                                                            <li><img src="<?php echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""><small class="fleft100">perfilderef3</small></li>
+                                                            <li>
+                                                                <div id="reference_profile0" class="container-reference-profile">                                                                    
+                                                                    <img id="img_ref_prof0" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
+                                                                    <br>
+                                                                    <a id="lnk_ref_prof0" target="_blank" href="#">
+                                                                        <small id="name_ref_prof0" title="Ver no Instagram" style="color:black" class="fleft100"></small>
+                                                                    </a>
+                                                                </div>                                                                
+                                                            </li>
+                                                            
+                                                            <li>
+                                                                <div id="reference_profile1" class="container-reference-profile">                                                                    
+                                                                    <img id="img_ref_prof1" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
+                                                                    <br>
+                                                                    <a id="lnk_ref_prof1" target="_blank" href="#">
+                                                                        <small id="name_ref_prof1" title="Ver no Instagram" style="color:black" class="fleft100"></small>
+                                                                    </a>
+                                                                </div>                                                                
+                                                            </li>
+                                                            
+                                                            <li>
+                                                                <div id="reference_profile2" class="container-reference-profile">                                                                    
+                                                                    <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>">
+                                                                    <br>
+                                                                    <a id="lnk_ref_prof2" target="_blank" href="#">
+                                                                        <small id="name_ref_prof2" title="Ver no Instagram" style="color:black" class="fleft100"></small>
+                                                                    </a>
+                                                                </div>                                                                
+                                                            </li>
                                                             <li class="add"><img id="btn_add_new_profile" src="<?php echo base_url().'assets/images/+.png';?>" class="wauto" alt="" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"><span></span></li>
                                                     </ul>
-                                                </form>
-                                                
-                                                <!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                                                    Launch demo modal
-                                                </button>-->
+                                               
+                                                    <!-- Modal -->                                                    
+                                                    <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                      <h4 class="modal-title" id="myModalLabel">Perfil de referência</h4>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                      <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                                                      <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                                                  </div>
+                                                                  <div class="modal-footer">
+                                                                      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                        
+                                                    </div>                                                    
 
-                                                  <!-- Modal -->
-                                                  <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                                    <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">
-                                                      <div class="modal-content">
-                                                        <div class="modal-header">
-                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                          <h4 class="modal-title" id="myModalLabel">Perfil de referência</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
-                                                            <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                          <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                                          <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
-                                                        </div>
-                                                      </div>
+                                                    <div class="text-center">
+                                                        <button id="continuar_purchase" class="btn-primary btn-green m-t20">CONTINUAR</button>
                                                     </div>
-                                                  </div>
-
-						<div class="text-center"><button class="btn-primary btn-green m-t20">CONTINUAR</button></div>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12"><br></div>

@@ -4,8 +4,8 @@ class Welcome extends CI_Controller {
     public function index1() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
-        $login_data = $this->Robot->bot_login('ffonsecassa', 'cff100303');
-        var_dump($login_data);
+        $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile, $id_profile);
+        var_dump($datas_of_profile);
     }
 
     public function index() {        
@@ -13,7 +13,12 @@ class Welcome extends CI_Controller {
     }
 
     public function purchase() {
-        $this->load->view('purchase_view');
+        //if ($this->session->userdata('id')) {
+            $this->session->set_userdata('id','9801');
+            $datas['user_id']=$this->session->userdata('id');   
+            $datas['profiles'] = $this->create_profiles_datas_to_display();
+            $this->load->view('purchase_view',$datas);
+        //}
     }
 
     public function scielo_view() {
@@ -827,100 +832,7 @@ class Welcome extends CI_Controller {
         $response = $Payment->delete_payment($order_key);
         return $response;
     }
-
-    public function old_update_client_datas() {
-        if ($this->session->userdata('id')) {
-            //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
-            //---despues de verificar datos bancarios correctos, pasar as user_status::UNFOLLOW o a ACTIVE
-            $this->load->model('class/client_model');
-            $this->load->model('class/user_model');
-            $this->load->model('class/user_status');
-            $this->load->model('class/dumbu_system_config');
-            $this->load->model('class/credit_card_status');
-            $datas = $this->input->post();
-            if ($this->validate_post_credit_card_datas($datas)) {
-                $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT)
-                    $datas['pay_day'] = time();
-                else
-                    $datas['pay_day'] = $client_data['pay_day'];
-                $datas['amount_in_cents'] = dumbu_system_config::PAYMENT_VALUE;
-                try {
-                    $this->user_model->update_user($this->session->userdata('id'), array(
-                        'email' => $datas['client_email']));
-                    $this->client_model->update_client($this->session->userdata('id'), array(
-                        'credit_card_number' => $datas['client_credit_card_number'],
-                        'credit_card_cvc' => $datas['client_credit_card_cvv'],
-                        'credit_card_name' => $datas['client_credit_card_name'],
-                        'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
-                        'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
-                        'pay_day' => $datas['pay_day']
-                    ));
-                } catch (Exception $exc) {
-                    $result['success'] = false;
-                    $result['exception'] = $exc->getTraceAsString();
-                    $result['message'] = 'Error actualizando en base de datos';
-                } finally {
-                    //if(true){                    
-                    $response_delete_early_payment = '';
-                    $resp = $this->check_recurrency_mundipagg_credit_card($datas, 0);
-                    if (is_object($resp) && $resp->isSuccess()) {
-                        try {
-                            $this->client_model->update_client($this->session->userdata('id'), array(
-                                'order_key' => $resp->getData()->OrderResult->OrderKey));
-                            if ($client_data['order_key'])
-                                $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
-                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
-                            } else
-                                $datas['status_id'] = $this->session->userdata('status_id');
-                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                                $N = count($active_profiles);
-                                for ($i = 0; $i < $N; $i++) {
-                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, $this->session->userdata('to_follow'));
-                                    //$this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_login_response'), $i, $active_profiles, dumbu_system_config::DIALY_REQUESTS_BY_CLIENT);
-                                }
-                            }
-                            $this->user_model->update_user($this->session->userdata('id'), array(
-                                'status_id' => $datas['status_id']));
-                            $this->session->set_userdata('status_id', $datas['status_id']);
-                        } catch (Exception $exc) {
-                            $this->user_model->update_user($datas['pk'], array(
-                                'status_id' => $this->session->userdata('status_id'))); //the previous
-                            $this->client_model->update_client($datas['pk'], array(
-                                'order_key' => $client_data['order_key'])); //the previous
-                            $result['success'] = false;
-                            $result['exception'] = $exc->getTraceAsString();
-                            $result['message'] = 'Error actualizando en base de datos';
-                        } finally {
-                            $result['success'] = true;
-                            $result['resource'] = 'client';
-                            $result['message'] = 'Dados bancários confirmados corretamente';
-                            $result['response_delete_early_payment'] = $response_delete_early_payment;
-                        }
-                    } else {
-                        //restablecer en la base de datos los datos anteriores
-                        $this->client_model->update_client($this->session->userdata('id'), array(
-                            'credit_card_number' => $client_data['credit_card_number'],
-                            'credit_card_cvc' => $client_data['credit_card_cvc'],
-                            'credit_card_name' => $client_data['credit_card_name'],
-                            'credit_card_exp_month' => $client_data['credit_card_exp_month'],
-                            'credit_card_exp_year' => $client_data['credit_card_exp_year'],
-                            'order_key' => $client_data['order_key']
-                        ));
-                        $result['success'] = false;
-                        $result['message'] = 'Dados bancários incorretos. Se o problema continua entre em contasto com o Atendimento';
-                    }
-                }
-            } else {
-                $result['success'] = false;
-                $result['message'] = 'Acesso não permitido';
-            }
-            echo json_encode($result);
-        }
-    }
-
+    
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1122,27 +1034,10 @@ class Welcome extends CI_Controller {
         return $datas;
     }
 
-    public function client_sing_up() { //a ser usada por administradores
-        $this->load->model('class/user_role');
-        if ($this->session->userdata('role_id') == user_role::ADMIN) {
-            //1. almacenar la causa por la que el cliente esta cerrando su cuenta
-            $cause = $this->input->post();
-            //2. cambiar el estado del cliente a INACTIVO
-            $this->load->model('class/client_model');
-            $this->load->model('class/user_status');
-            if ($this->client_model->sign_up($GLOBALS['User']->login, $GLOBALS['User']->pass, user_status::INACTIVE)) {
-                //3. Enviar email con mensaje de cuenta desactivada
-                $result['success'] = true;
-                $result['message'] = 'Conta desativada com sucesso';
-            } else {
-                $result['success'] = false;
-                $result['message'] = 'Sua solicitação não pode ser processada no momento. Tente novamente.';
-            }
-        }
-    }
-
-    //functions for reference profiles
+    
+//functions for reference profiles
     public function client_insert_profile() {
+        $id=$this->session->userdata('id');
         if ($this->session->userdata('id')) {
             $this->load->model('class/dumbu_system_config');
             $this->load->model('class/client_model');

@@ -9,24 +9,20 @@ $(document).ready(function(){
     var num_profiles=0, MAX_NUM_PROFILES=3;    
     var verify=false, flag=false;
     
-    $("#btn_add_new_profile").hover(
-        function(){
-            $('#btn_add_new_profile').css('cursor', 'pointer');
-        },
-        function(){
-            $('#btn_add_new_profile').css('cursor', 'default');
-        }
-    );
-    
     $('#btn_add_new_profile').mousedown(function(){
         $("#btn_add_new_profile").attr("src",base_url+"assets/images/+down.png");
     });
+    
     $('#btn_add_new_profile').mouseup(function(){
         $("#btn_add_new_profile").attr("src",base_url+"assets/images/+.png");
     });
+    
     $("#btn_add_new_profile").click(function(){
         if(num_profiles<MAX_NUM_PROFILES){
-            
+            $('#login_profile').val('');
+            $('#reference_profile_message').text('Não foi possível conectar com o Instagram');
+            $('#reference_profile_message').css({'visibility':'hidden','display':'none'});
+            $('#login_profile').css('border-color','gray');
             $("#MyModal").modal('show').css(
                 {
                     'margin-top': function () {
@@ -57,92 +53,41 @@ $(document).ready(function(){
                                 $("#insert_profile_form").fadeOut();
                                 $("#insert_profile_form").css({"visibility":"hidden","display":"none"});                            
                                 $('#reference_profile_message').text('');
-                                $('#reference_profile_message').css('visibility','hidden');
+                                $('#reference_profile_message').css({'visibility':'hidden','display':'none'});
+                                if(num_profiles==MAX_NUM_PROFILES){
+                                    $('#btn_modal_close').click();
+                                    alert('Otimo! Agora pode continuar e entrar no painel do cliente.');                                    
+                                }                                    
                             } else{
                                 $('#reference_profile_message').text(response['message']);
-                                $('#reference_profile_message').css('visibility','visible');
-                                $('#reference_profile_message').css('color','red')
+                                $('#reference_profile_message').css({'visibility':'visible','display':'block'});
+                                $('#reference_profile_message').css('color','red');
                                 //alert(response['message']);                        
                             }
-                            $("#waiting_inser_profile").css({"visibility":"hidden","display":"none"});
                             l.stop();
                         },
                         error : function(xhr, status) {
                             $('#reference_profile_message').text('Não foi possível conectar com o Instagram');
-                            $('#reference_profile_message').css('visibility','visible');
+                            $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                             $('#reference_profile_message').css('color','red');
-                            //alert('Não foi possível conectar com o Instagram');
                             l.stop();
                         }
                     });               
                 }
             } else{
                 $('#reference_profile_message').text('Alcançou a quantidade maxima.');
-                $('#reference_profile_message').css('visibility','visible');
+                $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                 $('#reference_profile_message').css('color','red');
                 //alert('Alcançou a quantidade maxima permitida');
             }
         } else{
             $('#reference_profile_message').text('* O nome do perfil só pode conter letras, nÃºmeros, sublinhados e pontos.');
-            $('#reference_profile_message').css('visibility','visible');
+            $('#reference_profile_message').css({'visibility':'visible','display':'block'});
             $('#reference_profile_message').css('color','red');
             //alert('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
         }        
     });
-    
-    
-    //modal_container_add_reference_rpofile
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    {/*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-           
-    $(".image-reference-profile").hover(
-        function(e){
-            //alert($(e.target).attr('id'))
-            $('.image-reference-profile').css('cursor', 'pointer');
-        },
-        function(){
-            $('.image-reference-profile').css('cursor', 'default');
-        }
-    );
-    
-    $("#img_ref_prof0").click(function(){
-        delete_profile_click(icons_profiles[0]['login_profile']);
-    });
-    $("#img_ref_prof1").click(function(){
-        delete_profile_click(icons_profiles[1]['login_profile']);
-    });
-    $("#img_ref_prof2").click(function(){
-        delete_profile_click(icons_profiles[2]['login_profile']);
-    });
-    
+        
     function delete_profile_click(element){
        if(confirm('Deseja elimiar o perfil de referência '+element)){
             $.ajax({
@@ -162,30 +107,40 @@ $(document).ready(function(){
             });
         }
    }
-   
-    $('#insert_profile_form').keypress(function (e) {
-        if (e.which == 13) {
-            $("#btn_insert_profile").click();
-            return false;
+    
+    function init_icons_profiles(datas){
+        response=jQuery.parseJSON(datas);
+        prof=response['array_profiles'];
+        num_profiles=response['N'];
+        for(i=0;i<num_profiles;i++){
+            icons_profiles[i]['img_profile']=prof[i]['img_profile'];
+            icons_profiles[i]['follows_from_profile']=prof[i]['follows_from_profile'];
+            icons_profiles[i]['login_profile']=prof[i]['login_profile'];
+            icons_profiles[i]['status_profile']=prof[i]['status_profile'];                        
         }
-    });
-            
+        for(j=i;j<MAX_NUM_PROFILES;j++){
+            icons_profiles[j]['img_profile']=base_url+'assets/images/avatar.png';
+            icons_profiles[j]['follows_from_profile']='0';
+            icons_profiles[j]['login_profile']='perfilderef'+(j+1);
+            icons_profiles[j]['status_profile']='0';                        
+        }
+        display_reference_profiles();
+    }
     
-    
-    $("#btn_RP_status").click(function(){
-        $('#reference_profile_status_container').css({"visibility":"hidden","display":"none"})
-    });
-    */}
-   
     function display_reference_profiles(){
         var reference_profiles_status=false;
-        for(i=0;i<num_profiles;i++){
+        for(i=0;i<MAX_NUM_PROFILES;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);            
             icons_profiles[i]['ptr_img_obj'].prop('title', 'Click para eliminar '+icons_profiles[i]['login_profile']);
             icons_profiles[i]['ptr_p_obj'].prop('title', 'Ver '+icons_profiles[i]['login_profile']+' no Instagram');
-            icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']).replace(/(^.{9}).*$/,'$1...'));            
-            icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);
+            icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);  
+            $avatar=(icons_profiles[i]['login_profile']).match("avatar.png");
+            if($avatar)
+                icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']).replace(/(^.{9}).*$/,'$1...'));
+            else
+                icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']));
             icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');                         
+            
             if(icons_profiles[i]['status_profile']==='ended'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
                 $('#reference_profile_status_list').append('<li>O sistema já siguiu todos os seguidores do perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
@@ -239,23 +194,22 @@ $(document).ready(function(){
             if(icons_profiles[i]['login_profile']===name_profile)
                 break;
         }
-        for(j=i;j<num_profiles;j++){
-            if(j+1<num_profiles){
-                icons_profiles[j]['img_profile']=icons_profiles[j+1]['img_profile'];
-                icons_profiles[j]['login_profile']=icons_profiles[j+1]['login_profile'];
-                icons_profiles[j]['follows_from_profile']=icons_profiles[j+1]['follows_from_profile'];
-                icons_profiles[j]['status_profile']=icons_profiles[j+1]['status_profile'];
-                icons_profiles[j]['ptr_lnk_ref_prof'].attr("href",icons_profiles[j+1]['ptr_lnk_ref_prof'].attr("href"));             
-            }
-        }
-        j=j-1;
-        icons_profiles[j]['img_profile']='';
-        icons_profiles[j]['login_profile']='';
+        for(j=i;j<MAX_NUM_PROFILES-1;j++){
+            icons_profiles[j]['img_profile']=icons_profiles[j+1]['img_profile'];
+            if((icons_profiles[j+1]['login_profile']).match("perfilderef"))
+                icons_profiles[j]['login_profile']='perfilderef'+(j+1);
+            else
+                icons_profiles[j]['login_profile']=icons_profiles[j+1]['login_profile'];            
+            icons_profiles[j]['follows_from_profile']=icons_profiles[j+1]['follows_from_profile'];
+            icons_profiles[j]['status_profile']=icons_profiles[j+1]['status_profile'];
+            icons_profiles[j]['ptr_lnk_ref_prof'].attr("href",icons_profiles[j+1]['ptr_lnk_ref_prof'].attr("href"));                        
+        }        
+        icons_profiles[j]['img_profile']=base_url+'assets/images/avatar.png';
+        icons_profiles[j]['login_profile']='perfilderef'+(j+1);
         icons_profiles[j]['follows_from_profile']='';
         icons_profiles[j]['ptr_lnk_ref_prof'].attr("href","");
-        num_profiles=num_profiles-1; 
+        num_profiles=num_profiles-1;
         display_reference_profiles();
-        icons_profiles[j]['ptr_panel_obj'].css({"visibility":"hidden","display":"none"});
         
         if(num_profiles){
             $('#container_present_profiles').css({"visibility":"visible","display":"block"})
@@ -274,7 +228,87 @@ $(document).ready(function(){
             $(element_selector).css("border", "1px solid gray");
             return true;
         }
-    }        
+    }
+    
+    $('#modal_container_add_reference_rpofile').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_insert_profile").click();
+            return false;
+        }
+    });
+    
+    $("#img_ref_prof0").click(function(){
+        if(!(icons_profiles[0]['login_profile']).match("perfilderef"))
+            delete_profile_click(icons_profiles[0]['login_profile']);
+    });
+    
+    $("#img_ref_prof1").click(function(){
+        if(!(icons_profiles[1]['login_profile']).match("perfilderef")) 
+            delete_profile_click(icons_profiles[1]['login_profile']);
+    });
+    
+    $("#img_ref_prof2").click(function(){
+        if(!(icons_profiles[2]['login_profile']).match("perfilderef"))
+            delete_profile_click(icons_profiles[2]['login_profile']);
+    });
+    
+    $("#continuar_purchase").click(function(){
+        if(num_profiles==0)
+            alert('Deve adicionar pelo menos um Perfil de Referência para continuar.');
+        else
+            $(location).attr('href',base_url+'index.php/welcome/client'); 
+    });
+    
+    $("#btn_add_new_profile").hover(
+        function(){
+            $('#btn_add_new_profile').css('cursor', 'pointer');
+        },
+        function(){
+            $('#btn_add_new_profile').css('cursor', 'default');
+        }
+    );
+    
+    $("#img_ref_prof0").hover(
+        function(){
+            str=$('#img_ref_prof0').attr('src');
+            expr= "avatar.png";
+            if(!str.match(expr)){
+                $('#img_ref_prof0').css('cursor', 'pointer');
+            }
+        },
+        function(){
+            $('#img_ref_prof0').css('cursor', 'default');
+        }
+    );
+    
+    $("#img_ref_prof1").hover(
+        function(){
+            str=$('#img_ref_prof1').attr('src');
+            expr= "avatar.png";
+            if(!str.match(expr)){
+                $('#img_ref_prof1').css('cursor', 'pointer');
+            }
+        },
+        function(){
+            $('#img_ref_prof1').css('cursor', 'default');
+        }
+    );
+    
+    $("#img_ref_prof2").hover(
+        function(){
+            str=$('#img_ref_prof2').attr('src');
+            expr= "avatar.png";
+            if(!str.match(expr)){
+                $('#img_ref_prof2').css('cursor', 'pointer');
+            }
+        },
+        function(){
+            $('#img_ref_prof2').css('cursor', 'default');
+        }
+    );
+    
+    init_icons_profiles(profiles); 
+    
  }); 
  
  

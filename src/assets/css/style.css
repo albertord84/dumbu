@@ -647,6 +647,13 @@ footer span{
 	font-size: 13px;
 	margin: 15px 0 20px;
 }
+
+
+.img_profile{border:1px solid gray; border-radius:100px;}
+.my_img_profile{border:1px solid gray; width:80%; max-width:160px;  border-radius:100px;}
+
+
+
 @media screen and (max-width: 1000px){
 	.dl-menuwrapper{ display: block;}
 	.menu-principal{display: none;}
