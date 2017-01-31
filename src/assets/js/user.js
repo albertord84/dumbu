@@ -1,14 +1,25 @@
-$(document).ready(function(){       
-    $("#btn_dumbu_login").click(function() {
-        if($('#userLogin').val()!='' && $('#userPassword').val()!==''){            
-            if(validate_element('#userLogin','^[a-zA-Z0-9\._]{1,300}$')){
-                //$("#waiting").css({"visibility":"visible","display":"block"});
-                var l = Ladda.create(this);  l.start(); l.start();
+$(document).ready(function(){   
+    $("#btn_dumbu_login1").click(function() {        
+        do_login('#userLogin1','#userPassword1', '#container_login_message1',this);
+    });
+    
+    $("#btn_dumbu_login2").click(function() {        
+        do_login('#userLogin2','#userPassword2', '#container_login_message2',this);
+    });
+    
+    $('#google_conversion_frame').ready(function(){        
+        $('#google_conversion_frame').css({"float": "none","display":"none"});
+    } );
+        
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
+        if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
+            if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
+                var l = Ladda.create(object);  l.start();
                 $.ajax({
                     url : base_url+'index.php/welcome/user_do_login',      
                     data : {
-                        'user_login':$('#userLogin').val(),
-                        'user_pass': $('#userPassword').val()
+                        'user_login':$(fieldLogin).val(),
+                        'user_pass': $(fieldPass).val()
                     },
                     type : 'POST',
                     dataType : 'json',
@@ -26,32 +37,32 @@ $(document).ready(function(){
                                 $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
                             } 
                             if(response['cause']=='checkpoint_required') {
-                                var cad=base_url+'index.php/welcome/client?'+'checkpoint_required='+$('#userLogin').val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];                                
+                                var cad=base_url+'index.php/welcome/client?'+'checkpoint_required='+$(fieldLogin).val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];                                
                                 $(location).attr('href',cad);                            
                             }    
                         } else{                            
                             if(response['cause']=='phone_verification_settings') {
-                                $('#container_login_message').text(response['message']);
-                                $('#container_login_message').css('visibility','visible');
-                                $('#container_login_message').css('color','red');
+                                $(fieldErrorMessage).text(response['message']);
+                                $(fieldErrorMessage).css('visibility','visible');
+                                $(fieldErrorMessage).css('color','red');
                                 l.stop();
                             } else
                                 if(response['cause']=='empty_message'){
-                                    $('#container_login_message').text(response['message']);
-                                    $('#container_login_message').css('visibility','visible');
-                                    $('#container_login_message').css('color','red');
+                                    $(fieldErrorMessage).text(response['message']);
+                                    $(fieldErrorMessage).css('visibility','visible');
+                                    $(fieldErrorMessage).css('color','red');
                                     l.stop();
                                 } else 
                                     if(response['cause']=='unknow_message'){
-                                        $('#container_login_message').text(response['message']);
-                                        $('#container_login_message').css('visibility','visible');
-                                        $('#container_login_message').css('color','red');
+                                        $(fieldErrorMessage).text(response['message']);
+                                        $(fieldErrorMessage).css('visibility','visible');
+                                        $(fieldErrorMessage).css('color','red');
                                         l.stop();
                                     }
                                     else{
-                                        $('#container_login_message').text(response['message']);
-                                        $('#container_login_message').css('visibility','visible');
-                                        $('#container_login_message').css('color','red');
+                                        $(fieldErrorMessage).text(response['message']);
+                                        $(fieldErrorMessage).css('visibility','visible');
+                                        $(fieldErrorMessage).css('color','red');
                                         l.stop();   
                                     }                                
                         }
@@ -62,24 +73,31 @@ $(document).ready(function(){
                     }
                 });   
             } else{
-                $('#container_login_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
-                $('#container_login_message').css('visibility','visible');
-                $('#container_login_message').css('color','red');
+                $(fieldErrorMessage).text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
+                $(fieldErrorMessage).css('visibility','visible');
+                $(fieldErrorMessage).css('color','red');
             }       
         } else{
-            $('#container_login_message').text('Deve preencher todos os dados corretamente.');
-            $('#container_login_message').css('visibility','visible');
-            $('#container_login_message').css('color','red');
+            $(fieldErrorMessage).text('Deve preencher todos os dados corretamente.');
+            $(fieldErrorMessage).css('visibility','visible');
+            $(fieldErrorMessage).css('color','red');
+        }
+    }
+    
+     $('#login_container1').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_dumbu_login1").click();
+            return false;
         }
     });
     
-       
-    $('#login_painel').keypress(function (e) {
+    $('#login_container2').keypress(function (e) {
         if (e.which == 13) {
-            $("#btn_dumbu_login").click();
+            $("#btn_dumbu_login2").click();
             return false;
         }
-    }); 
+    });
+    
     
     $("#help").click(function(){
         url=base_url+"index.php/welcome/help";
@@ -159,6 +177,5 @@ $(document).ready(function(){
             $(element_selector).css("border", "1px solid gray");
             return true;
         }
-    }
-    
+    }    
  }); 

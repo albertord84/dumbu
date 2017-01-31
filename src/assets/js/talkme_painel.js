@@ -5,7 +5,6 @@ $(document).ready(function(){
         email=validate_element('#visitor_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");
         message=validate_empty('#visitor_message');
         if(name && email && message){
-            //$("#waiting1").css({"visibility":"visible","display":"block"});
             var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({
                 url : base_url+'index.php/welcome/message',
@@ -18,12 +17,8 @@ $(document).ready(function(){
                 type : 'POST',
                 dataType : 'json',
                 success : function(response){
-                    $("#waiting1").css({"visibility":"hidden","display":"none"});
                     if(response['success']){                        
-                        alert(response['message']);
-                        $('#talkme_frm').each (function(){
-                            this.reset();
-                        });                        
+                        alert(response['message']);                        
                     } else
                         alert(response['message']);    
                     l.stop();
@@ -44,7 +39,7 @@ $(document).ready(function(){
             return false;
         }
     });
-    
+        
     function validate_element(element_selector,pattern){
         if(!$(element_selector).val().match(pattern)){
             $(element_selector).css("border", "1px solid red");
