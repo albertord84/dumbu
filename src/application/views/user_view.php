@@ -403,8 +403,7 @@
                                                 </div>
                                             </div>
                                         </div>-->
-                                        <br><br>Ao assinar 
-                                        já estou aceitando os <a id="use_term" href="<?php echo base_url().'assets/others/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue">termos de uso</a>
+                                        <br><br>Ao assinar já estou aceitando os <a id="use_term" href="<?php echo base_url().'assets/others/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue">termos de uso</a>
                                         <br><br><img src="assets/images/seguro.png" class="wauto" alt="">
 				</div>
 			</div>
@@ -414,7 +413,7 @@
 			<div class="container">
 				<h3 class="titulo fleft100 text-center m-tb30">FALE CONOSCO</h3>
 				<div class="col-md-3 col-sm-3 col-xs-12"><br></div>
-				<div class="col-md-6 col-sm-6 col-xs-12 no-pd">
+                                <div id="talkme_frm" class="col-md-6 col-sm-6 col-xs-12 no-pd">
 					<div class="col-md-6 col-sm-6 col-xs-12 pd-r15">
 						<fieldset>
 							<input id="visitor_name" type="text" placeholder="Nome">

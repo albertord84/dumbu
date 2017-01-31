@@ -27,6 +27,7 @@
             <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
             <script type="text/javascript" src="<?php echo base_url().'assets/js/client_painel.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
+            <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js';?>"></script>
     </head>
     <body>
             <div class="windows8">
@@ -308,220 +309,453 @@
                         <div class="num fleft100"><b>Dica:</b> Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa <a href="<?php echo base_url().'index.php/welcome/help'?>" style="color:green" target="_blank">Ajuda!</a></div>
                     </div>
                     <!-- Modal -->
-                            <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
-                                      <div class="modal-content">
-                                          <div class="modal-header">
-                                              <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                              <h4 class="modal-title" id="myModalLabel">Perfil de referência</h4>
-                                          </div>
-                                          <div class="modal-body">
-                                              <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
-                                              <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
-                                          </div>
-                                          <div class="modal-footer">
-                                              <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                              <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
-                                          </div>
-                                      </div>
-                                  </div>                                                        
-                            </div> 
+                    <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title" id="myModalLabel">Perfil de referência</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                      <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
+                                  </div>
+                              </div>
+                          </div>                                                        
+                    </div> 
 
+                    
+                    
+                    
                     <div class="pf fleft100 text-center m-t45">
                         <img src="<?php echo base_url().'assets/images/perf.png';?>" class="wauto" alt="">
                         <h4 class="fleft100"><b>PERFOMANCE</b></h4>
                     </div>
-
+                    
+                    <!--
                     <div class="col-md-6 col-sm-6 col-xs-12 m-t20">
-                        <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
-                            <h3 class="fleft100 m-t10"><b>INÍCIO <?php echo date("j", $my_sigin_date).'/'.date("n", $my_sigin_date);?></b></h3>
-                            <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_initial_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
-                        </div>
-
-                        <div class="col-md-1 col-sm-1 col-xs-12"><br></div>
-
-                        <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco cl-blue">
-                            <h3 class="fleft100 m-t10"><b>AGORA</b></h3>
-                            <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_actual_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_actual_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
-                        </div>
-                        
-                       
-                        <div class="col-md-4 col-sm-4 col-xs-12 cl-blue m-t30 no-pd center-mobile">
-                            <b class="cl-black">Ganho hoje</b>
-                            <h1 class="no-mg fleft100 fsize60"><b>256</b></h1>
-                        </div>
-
-                        <div class="col-md-8 col-sm-8 col-xs-12 cl-green m-t30 no-pd center-mobile">
-                            <b class="cl-black fleft100 m-b10">Conversão</b>
-                            <div class="cv fleft">56%</div>
-                            <img src="<?php echo base_url().'assets/images/s-top.png';?>" class="wauto fleft st" alt="">
-                        </div>
-
-                        <div class="fleft100 m-t45">
-                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
-                                <b class="cl-black">Ganho semanal</b>
-                                <h1 class="no-mg fleft100"><b>892</b></h1>
+                            <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
+                                <h3 class="fleft100 m-t10"><b>INÍCIO <?php //echo date("j", $my_sigin_date).'/'.date("n", $my_sigin_date);?></b></h3>
+                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php //echo $my_initial_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php //echo $my_initial_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
-                                <b class="cl-black">Ganho Mensal</b>
-                                <h1 class="no-mg fleft100"><b>37822</b></h1>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12"><br></div>
+
+                            <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco cl-blue">
+                                <h3 class="fleft100 m-t10"><b>AGORA</b></h3>
+                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php //echo $my_actual_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php //echo $my_actual_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
-                                <b class="cl-black">Ganho desde o início</b>
-                                <h1 class="no-mg fleft100"><b>10.522</b></h1>
+
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 cl-blue m-t30 no-pd center-mobile">
+                                <b class="cl-black">Ganho hoje</b>
+                                <h1 class="no-mg fleft100 fsize60"><b>256</b></h1>
                             </div>
-                        </div>
 
-                        <div class="col-md-12 col-sm-12 col-xs-12 no-pd m-t30 center-mobile m-b10">
-                            <b class="cl-black">Seguidas até hoje</b>
-                            <h1 class="no-mg fleft100"><b>37005</b></h1>
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-md-6 col-sm-6 col-xs-12 m-t20">
-                        <div class="col-md-6 col-sm-6 col-xs-12 pd-r5">
-                            <div class='input-group date'>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                                <input type='text' class="form-control" id='datetimepicker1' placeholder="Selecione o período" />		                    
+                            <div class="col-md-8 col-sm-8 col-xs-12 cl-green m-t30 no-pd center-mobile">
+                                <b class="cl-black fleft100 m-b10">Conversão</b>
+                                <div class="cv fleft">56%</div>
+                                <img src="<?php  //echo base_url().'assets/images/s-top.png';?>" class="wauto fleft st" alt="">
                             </div>
-                        </div>
 
-                        <div class="col-md-6 col-sm-6 col-xs-12 pd-l5">
-                            <div class='input-group date'>
-                                <input type='text' class="form-control" id='datetimepicker2' placeholder="Selecione o período" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <b class="cl-black m-t20 fleft100">Gráfico de desempenho</b>
-                        <div class="grafico fleft100 m-tb20">
-                            <img src="<?php echo base_url().'assets/images/grafico.jpg';?>" alt="">
-                        </div>
-                        <span class="fleft100"><b style="color:#2f61c5;">▬Seguidores ganhos</b> <b style="color:#ea4018;">▬Seguidores iniciais</b></span>
-
-                        <b class="cl-black fleft100 m-t30 center-mobile">Melhores Perfis de referência:</b>
-                        <div class="fleft100 pf-melhor pf-painel m-t30">
-                            <ul class="add-perfil text-center">
-                                <li><a href=""><span>1º</span><img src="<?php echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>
-                                <li><a href=""><span>2º</span><img src="<?php echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>
-                                <li><a href=""><span>3º</span><img src="<?php echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>							
-                            </ul>
-                        </div>
-                    </div>
-
-                            <div class="fleft100">
-                                <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t30">
-                                    <div class="fleft100 bk-cinza">
-                                        <img src="<?php echo base_url().'assets/images/direct.png';?>" class="wauto" alt="">
-                                        <h2 class="no-mg"><b>DIRECT</b></h2>
-                                        <div class="breve">EM BREVE</div>
-                                    </div>
+                            <div class="fleft100 m-t45">
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
+                                    <b class="cl-black">Ganho semanal</b>
+                                    <h1 class="no-mg fleft100"><b>892</b></h1>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-l15 m-t30">
-                                    <div class="fleft100 bk-cinza">
-                                        <img src="<?php echo base_url().'assets/images/viu.png';?>" class="wauto" alt="">
-                                        <h2 class="no-mg"><b>QUEM VIU SEU PERFIL</b></h2>
-                                        <div class="breve">EM BREVE</div>
-                                    </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
+                                    <b class="cl-black">Ganho Mensal</b>
+                                    <h1 class="no-mg fleft100"><b>37822</b></h1>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
+                                    <b class="cl-black">Ganho desde o início</b>
+                                    <h1 class="no-mg fleft100"><b>10.522</b></h1>
                                 </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
-                                <div class="fleft100 bk-cinza local">
-                                    <img src="<?php echo base_url().'assets/images/local.png';?>" class="wauto" alt="">
-                                    <h2 class="no-mg"><b>GEOLOCALIZAÇÃO</b></h2>
-                                    <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular">EM BREVE</a></div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 no-pd m-t30 center-mobile m-b10">
+                                <b class="cl-black">Seguidas até hoje</b>
+                                <h1 class="no-mg fleft100"><b>37005</b></h1>
+                            </div>  
+                    </div>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                                        <div class="modal-dialog modal-lg ligar" role="document">
-                                            <div class="modal-content text-center pd-20">
-                                                <h4 class="m-tb30 cl-green"><b>MUITAS NOVIDADES!</b></h4>
-                                                <p class="">EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.</p>
-                                                <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20">QUERO PARTICIPAR</button></div>
-                                            </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 m-t20">
+                            <div class="col-md-6 col-sm-6 col-xs-12 pd-r5">
+                                <div class='input-group date'>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    <input type='text' class="form-control" id='datetimepicker1' placeholder="Selecione o período" />		                    
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 pd-l5">
+                                <div class='input-group date'>
+                                    <input type='text' class="form-control" id='datetimepicker2' placeholder="Selecione o período" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <b class="cl-black m-t20 fleft100">Gráfico de desempenho</b>
+                            <div class="grafico fleft100 m-tb20">
+                                <img src="<?php //echo base_url().'assets/images/grafico.jpg';?>" alt="">
+                            </div>
+                            <span class="fleft100"><b style="color:#2f61c5;">▬Seguidores ganhos</b> <b style="color:#ea4018;">▬Seguidores iniciais</b></span>
+
+                            <b class="cl-black fleft100 m-t30 center-mobile">Melhores Perfis de referência:</b>
+                            <div class="fleft100 pf-melhor pf-painel m-t30">
+                                <ul class="add-perfil text-center">
+                                    <li><a href=""><span>1º</span><img src="<?php //echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>
+                                    <li><a href=""><span>2º</span><img src="<?php //echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>
+                                    <li><a href=""><span>3º</span><img src="<?php //echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>							
+                                </ul>
+                            </div>
+                    </div>
+                    
+                    <div class="fleft100">
+                            <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t30">
+                                <div class="fleft100 bk-cinza">
+                                    <img src="<?php //echo base_url().'assets/images/direct.png';?>" class="wauto" alt="">
+                                    <h2 class="no-mg"><b>DIRECT</b></h2>
+                                    <div class="breve">EM BREVE</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-l15 m-t30">
+                                <div class="fleft100 bk-cinza">
+                                    <img src="<?php //echo base_url().'assets/images/viu.png';?>" class="wauto" alt="">
+                                    <h2 class="no-mg"><b>QUEM VIU SEU PERFIL</b></h2>
+                                    <div class="breve">EM BREVE</div>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
+                            <div class="fleft100 bk-cinza local">
+                                <img src="<?php //echo base_url().'assets/images/local.png';?>" class="wauto" alt="">
+                                <h2 class="no-mg"><b>GEOLOCALIZAÇÃO</b></h2>
+                                <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular">EM BREVE</a></div>
+
+                                <!-- Modal --><!--
+                                <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                    <div class="modal-dialog modal-lg ligar" role="document">
+                                        <div class="modal-content text-center pd-20">
+                                            <h4 class="m-tb30 cl-green"><b>MUITAS NOVIDADES!</b></h4>
+                                            <p class="">EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.</p>
+                                            <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20">QUERO PARTICIPAR</button></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                    </div>
+                    
+                    
+                    <div class="fleft100">
+                        <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t30">
+                            <div class="fleft100 bk-cinza">
+                                <img src="<?php //echo base_url().'assets/images/direct.png';?>" class="wauto" alt="">
+                                <h2 class="no-mg"><b>DIRECT</b></h2>
+                                <div class="breve">EM BREVE</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-l15 m-t30">
+                            <div class="fleft100 bk-cinza">
+                                <img src="<?php //echo base_url().'assets/images/viu.png';?>" class="wauto" alt="">
+                                <h2 class="no-mg"><b>QUEM VIU SEU PERFIL</b></h2>
+                                <div class="breve">EM BREVE</div>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
-                            <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
-                                <div class="text-center fleft100 m-t20">
-                                    <img src="<?php echo base_url().'assets/images/pay.png';?>" class="wauto" alt="">
-                                    <h4 class="fleft100 m-t20"><b>DADOS DE PAGAMENTO</b></h4>
-                                </div>
-                                <div class="pay fleft100 input-form">
-                                    <fieldset>
-                                        <input type="text" placeholder="Nome no cartão">
-                                    </fieldset>
-                                    <fieldset>
-                                        <input type="text" placeholder="E-mail">
-                                    </fieldset>
-                                    <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
-                                        <fieldset>
-                                            <input type="text" placeholder="Número do cartão">
-                                        </fieldset>
+                    <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
+                        <div class="fleft100 bk-cinza local">
+                            <img src="<?php //echo base_url().'assets/images/local.png';?>" class="wauto" alt="">
+                            <h2 class="no-mg"><b>GEOLOCALIZAÇÃO</b></h2>
+                            <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular">EM BREVE</a></div>
+
+                            <!-- Modal --><!--
+                            <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                <div class="modal-dialog modal-lg ligar" role="document">
+                                    <div class="modal-content text-center pd-20">
+                                        <h4 class="m-tb30 cl-green"><b>MUITAS NOVIDADES!</b></h4>
+                                        <p class="">EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.</p>
+                                        <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20">QUERO PARTICIPAR</button></div>
                                     </div>
-                                    <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
-                                        <fieldset>
-                                            <input type="text" placeholder="CVV">
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
-                                        <span class="val">Validade</span>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-12 pd-r15">
-                                        <fieldset>
-                                            <div class="select">
-                                                <select name="local" class="btn-primeiro sel" id="local">
-                                                    <option value="">01</option>
-                                                </select>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
-                                        <fieldset>
-                                            <div class="select">
-                                                <select name="local" class="btn-primeiro sel" id="local">
-                                                    <option value="">2017</option>
-                                                </select>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <input type="submit" class="enviar i-block" value="ENVIAR">
                                 </div>
                             </div>
-                            <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
-                                <div class="text-center fleft100 m-t20">
-                                    <img src="<?php echo base_url().'assets/images/mail.png';?>" class="wauto" alt="">
-                                    <h4 class="fleft100 m-t20"><b>FALE CONOSCO</b></h4>
+                        </div>
+                    </div>
+                    -->
+                    
+                    
+                    
+                    
+                    
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
+                                <h3 class="fleft100 m-t10"><b>INÍCIO <?php echo date("j", $my_sigin_date).'/'.date("n", $my_sigin_date);?></b></h3>
+                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_initial_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12"><br></div>
+
+                            <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco cl-blue">
+                                <h3 class="fleft100 m-t10"><b>AGORA</b></h3>
+                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_actual_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_actual_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
+                            </div>
+
+                            <!--
+                            <div class="col-md-4 col-sm-4 col-xs-12 cl-blue m-t30 no-pd center-mobile">
+                                <b class="cl-black">Ganho hoje</b>
+                                <h1 class="no-mg fleft100 fsize60"><b>256</b></h1>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8 col-xs-12 cl-green m-t30 no-pd center-mobile">
+                                <b class="cl-black fleft100 m-b10">Conversão</b>
+                                <div class="cv fleft">56%</div>
+                                <img src="<?php  //echo base_url().'assets/images/s-top.png';?>" class="wauto fleft st" alt="">
+                            </div>
+
+                            <div class="fleft100 m-t45">
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
+                                    <b class="cl-black">Ganho semanal</b>
+                                    <h1 class="no-mg fleft100"><b>892</b></h1>
                                 </div>
-                                <div class="pay fleft100 input-form">
-                                    <fieldset>
-                                        <input type="text" placeholder="Nome">
-                                    </fieldset>
-                                    <fieldset>
-                                        <input type="text" placeholder="E-mail">
-                                    </fieldset>
-                                    <fieldset>
-                                        <input type="text" placeholder="Telefone">
-                                    </fieldset>
-                                    <fieldset>
-                                        <textarea name="" id="" cols="30" rows="5" placeholder="Mensagem"></textarea>
-                                    </fieldset>
-                                    <input type="submit" class="enviar i-block" value="ENVIAR">
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
+                                    <b class="cl-black">Ganho Mensal</b>
+                                    <h1 class="no-mg fleft100"><b>37822</b></h1>
                                 </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd center-mobile m-b10">
+                                    <b class="cl-black">Ganho desde o início</b>
+                                    <h1 class="no-mg fleft100"><b>10.522</b></h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 no-pd m-t30 center-mobile m-b10">
+                                <b class="cl-black">Seguidas até hoje</b>
+                                <h1 class="no-mg fleft100"><b>37005</b></h1>
+                            </div> 
+                            -->
+                    </div>
+                    
+                    <!--
+                    <div class="col-md-6 col-sm-6 col-xs-12 m-t20">
+                            <div class="col-md-6 col-sm-6 col-xs-12 pd-r5">
+                                <div class='input-group date'>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    <input type='text' class="form-control" id='datetimepicker1' placeholder="Selecione o período" />		                    
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 pd-l5">
+                                <div class='input-group date'>
+                                    <input type='text' class="form-control" id='datetimepicker2' placeholder="Selecione o período" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <b class="cl-black m-t20 fleft100">Gráfico de desempenho</b>
+                            <div class="grafico fleft100 m-tb20">
+                                <img src="<?php //echo base_url().'assets/images/grafico.jpg';?>" alt="">
+                            </div>
+                            <span class="fleft100"><b style="color:#2f61c5;">▬Seguidores ganhos</b> <b style="color:#ea4018;">▬Seguidores iniciais</b></span>
+
+                            <b class="cl-black fleft100 m-t30 center-mobile">Melhores Perfis de referência:</b>
+                            <div class="fleft100 pf-melhor pf-painel m-t30">
+                                <ul class="add-perfil text-center">
+                                    <li><a href=""><span>1º</span><img src="<?php //echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>
+                                    <li><a href=""><span>2º</span><img src="<?php //echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>
+                                    <li><a href=""><span>3º</span><img src="<?php //echo base_url().'assets/images/avatar.png';?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>							
+                                </ul>
                             </div>
                     </div>
+                    -->
+                    
+                    
+                    
+                    
+                    <div class="fleft100">
+                        <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t30">
+                            <div class="fleft100 bk-cinza">
+                                <img src="<?php echo base_url().'assets/images/direct.png';?>" class="wauto" alt="">
+                                <h2 class="no-mg"><b>DIRECT</b></h2>
+                                <div class="breve">EM BREVE</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-l15 m-t30">
+                            <div class="fleft100 bk-cinza">
+                                <img src="<?php echo base_url().'assets/images/viu.png';?>" class="wauto" alt="">
+                                <h2 class="no-mg"><b>QUEM VIU SEU PERFIL</b></h2>
+                                <div class="breve">EM BREVE</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
+                        <div class="fleft100 bk-cinza local">
+                            <img src="<?php echo base_url().'assets/images/local.png';?>" class="wauto" alt="">
+                            <h2 class="no-mg"><b>GEOLOCALIZAÇÃO</b></h2>
+                            <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular">EM BREVE</a></div>
+
+                            <!-- Modal -->
+                            <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                <div class="modal-dialog modal-lg ligar" role="document">
+                                    <div class="modal-content text-center pd-20">
+                                        <h4 class="m-tb30 cl-green"><b>MUITAS NOVIDADES!</b></h4>
+                                        <p class="">EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.</p>
+                                        <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20">QUERO PARTICIPAR</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
+                    <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
+                        <div class="text-center fleft100 m-t20">
+                            <img src="<?php echo base_url().'assets/images/pay.png';?>" class="wauto" alt="">
+                            <h4 class="fleft100 m-t20"><b>DADOS DE PAGAMENTO</b></h4>
+                        </div>
+                        <div class="pay fleft100 input-form">
+                                <fieldset>
+                                    <input id="client_credit_card_name" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Meu nome no cartão" required style="text-transform:uppercase;">
+                                </fieldset>
+                            
+                                <fieldset>
+                                    <input type="text" placeholder="E-mail"  id="client_email" type="email" class="form-control" required>
+                                </fieldset>
+                            
+                                <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
+                                    <fieldset>
+                                        <input id="client_credit_card_number" type="text" class="form-control" placeholder="Número no cartão" data-mask="0000 0000 0000 0000" maxlength="20" required>
+                                    </fieldset>
+                                </div>
+                            
+                                <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
+                                    <fieldset>
+                                        <input id="client_credit_card_cvv" type="text" class="form-control" placeholder="CVV" maxlength="5" required>
+                                    </fieldset>
+                                </div>
+                            
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                    <span class="val">Validade</span>
+                                </div>
+                            
+                                <div class="col-md-4 col-sm-4 col-xs-12 pd-r15">
+                                    <fieldset>
+                                        <div class="select"> 
+                                            <select name="local" id="client_credit_card_validate_month" class="btn-primeiro sel"> 
+                                                <option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                    <fieldset>
+                                        <div class="select">
+                                            <select name="local" id="client_credit_card_validate_year" class="btn-primeiro sel">
+                                                <option>2017</option><option>2018</option><option>2019</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option><option>2037</option><option>2038</option><option>2039</option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                
+                                <div class="col-md-4 col-sm-4 col-xs-12 pd-r15  m-t10">
+                                    <span class="val">Mudar plano:</span>
+                                </div>
+
+                                <div class="col-md-8 col-sm-8 col-xs-12 pd-r15  m-t10">
+                                    <fieldset>
+                                        <div class="select"> 
+                                            <select name="local" id="client_update_plane" class="btn-primeiro sel"> 
+                                                <?php
+                                                    for($i=0;$i<count($all_planes);$i++){
+                                                        if( $i+2==$plane_id )
+                                                            echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'" title="(Plano atual)" selected="true"><b>'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0 (Plano atual)</b></option>';
+                                                        else
+                                                            echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'">'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0</option>';
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="text-center">
+                                    <button id = "btn_send_update_datas" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                        <span class="ladda-label"><div style="color:white; font-weight:bold">CONFERIR</div></span>
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
+                        <div class="text-center fleft100 m-t20">
+                            <img src="<?php echo base_url().'assets/images/mail.png';?>" class="wauto" alt="">
+                            <h4 class="fleft100 m-t20"><b>FALE CONOSCO</b></h4>
+                        </div>
+                        <div class="pay fleft100 input-form" id="talkme_frm">
+                            <fieldset>
+                                <input id="visitor_name" type="text" placeholder="Nome">
+                            </fieldset>
+                            <fieldset>
+                                <input id="visitor_email" type="text" placeholder="E-mail">
+                            </fieldset>
+                            <fieldset>
+                                <input id="visitor_company" type="text" placeholder="Empresa">
+                            </fieldset>
+                            <fieldset>
+                                <input id="visitor_phone" type="text" placeholder="Telefone">
+                            </fieldset>
+                            <fieldset>
+                                <textarea name="" id="visitor_message" cols="30" rows="5" placeholder="Mensagem"></textarea>
+                            </fieldset>
+                            <div class="text-center">
+                                <button id="btn_send_message" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold">CONFERIR</div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
+        
+            <div class="m-t10">
+                <div>
+                    <p class=text-center>CANCELAMENTO DA ASSINATURA</p> 
+                </div>
+
+                <div class="text-center" >
+                    <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                        <button id="cancel_usser_account" class="btn btn-default ladda-button"  type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label">Cancelar conta</span>
+                        </button>
+                    </div>
+                </div>
+             </div>
 
             <div class="h150 fleft100"></div>
             <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2016 - TODOS OS DIREITOS RESERVADOS</span></div></footer>
