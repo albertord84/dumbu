@@ -76,7 +76,7 @@ namespace dumbu\cls {
             } else {
                 $error = -1;
                 var_dump($response);
-                print 'Not error found!';
+                print 'Not error code found!';
             }
             return $error;
         }

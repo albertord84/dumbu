@@ -19,8 +19,10 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // Ref Prof
 //$RP = new \dumbu\cls\Reference_profile();
-//$RP->get_insta_ref_prof_data($ref_prof);
-//$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
+//$ref_prof = "santatemakeria";
+//$response = $RP->get_insta_ref_prof_data($ref_prof);
+//var_dump($response);
+//$follows_count = \dumbu\cls\Reference_profile::static_get_follows(2);
 //var_dump($follows_count);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
 //var_dump($follows_count);
@@ -77,8 +79,8 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 
-$pay_day = strtotime('11-02-2017');
-$pay_day = time();
+//$pay_day = strtotime('11-02-2017');
+//$pay_day = time();
 //var_dump($pay_day);
 //
 ////
@@ -93,7 +95,7 @@ $pay_day = time();
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
-var_dump($resul);
+//var_dump($resul);
 ////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
@@ -110,8 +112,8 @@ var_dump($resul);
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
 //var_dump($result->isSuccess());
 
-$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
-print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+//$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
+//print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
 
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();

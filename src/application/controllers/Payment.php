@@ -26,7 +26,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: COMENT
-//        $this->db->where('id', "79");
+//        $this->db->where('id', "1");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
@@ -61,12 +61,31 @@ class Payment extends CI_Controller {
         echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
     }
 
+    public function check_client_initial_payment($initial_order_key) {
+        $Payment = new \dumbu\cls\Payment();
+        $result = $Payment->check_payment($initial_order_key);
+        if (is_object($result) && $result->isSuccess()) {
+            $data = $result->getData();
+            //var_dump($data);
+            $SaleDataCollection = $data->SaleDataCollection[0];
+            // Get last client payment
+            $SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
+            $SaleDataDate = new DateTime($SaleData->DueDate);
+            if ($SaleData->CapturedAmountInCents != NULL || new DateTime("now") < $SaleDataDate) {
+                return TRUE;
+            }
+            //var_dump($SaleData);
+        }
+        return FALSE;
+    }
+
     public function check_client_payment($client) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
+        $IOK_ok = $client['initial_order_key'] ? $this->check_client_initial_payment($client['initial_order_key']) : TRUE;
         $result = $Payment->check_payment($client['order_key']);
         if (is_object($result) && $result->isSuccess()) {
             $data = $result->getData();
@@ -124,6 +143,8 @@ class Payment extends CI_Controller {
                 print "\n<br> LastSaledData = NULL";
                 $pay_day = new DateTime();
                 $pay_day->setTimestamp($client['pay_day']);
+                $init_date_2d = new DateTime();
+                $init_date_2d->setTimestamp(strtotime("+2 days", $client['init_date']));
                 $diff_info = $pay_day->diff($now);
                 $diff_days = $diff_info->days;
 //                $diff_days = ($diff_info->m * 30) + $diff_info->days;
@@ -146,6 +167,12 @@ class Payment extends CI_Controller {
                             // TODO: Put 31 in system_config    
                         }
                     }
+                } else if ($now > $init_date_2d && $IOK_ok === FALSE) { // Si está en fecha de promocion pero no pagó initial order key
+                    //Block client by paiment
+                    $this->send_payment_email($client, 0);
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                    ///////////////////////////////////////$this->send_payment_email($client);
+                    print "This client was blocked by payment just now: " . $client['user_id'];
                 }
             }
         } else {
@@ -165,7 +192,7 @@ class Payment extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
         $this->Gmail = new \dumbu\cls\Gmail();
-        $datas = $this->input->post();
+        //$datas = $this->input->post();
         $result = $this->Gmail->send_client_payment_error($client['email'], $client['name'], $client['login'], $client['pass'], $diff_days);
         if ($result['success']) {
             $clientname = $client['name'];
