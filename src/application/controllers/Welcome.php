@@ -770,24 +770,34 @@ class Welcome extends CI_Controller {
         $datas['pay_day'] = strtotime("+" . dumbu_system_config::PROMOTION_N_FREE_DAYS . " days", $datas['pay_day']);
 
         $resp = $this->check_recurrency_mundipagg_credit_card($datas, 1);
-        if (is_object($resp) && $resp->isSuccess()) {
-            $this->client_model->update_client($datas['pk'], array(
-                'initial_order_key' => $resp->getData()->OrderResult->OrderKey));
-            $response['flag_initial_payment'] = true;
-            //2. recurrencia para un mes mas alante
-            $datas['amount_in_cents'] = $recurrency_value;
-            $datas['pay_day'] = strtotime("+1 month", $datas['pay_day']);
-            $resp = $this->check_recurrency_mundipagg_credit_card($datas, 0);
-            if (is_object($resp) && $resp->isSuccess()) {
+        if (is_object($resp)) {
+            if($resp->isSuccess()){
                 $this->client_model->update_client($datas['pk'], array(
-                    'order_key' => $resp->getData()->OrderResult->OrderKey,
-                    'pay_day' => $datas['pay_day']));
-                $response['flag_recurrency_payment'] = true;
-            } else {
-                $response['flag_recurrency_payment'] = false;
+                    'initial_order_key' => $resp->getData()->OrderResult->OrderKey));
+                $response['flag_initial_payment'] = true;
+                //2. recurrencia para un mes mas alante
+                $datas['amount_in_cents'] = $recurrency_value;
+                $datas['pay_day'] = strtotime("+1 month", $datas['pay_day']);
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas, 0);
+                if (is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                }
+            } else{
+                $response['flag_initial_payment'] = false;
+                if(isset($resp->getData()->OrderResult->OrderKey)){
+                    $this->client_model->update_client($datas['pk'], array(
+                        'initial_order_key' => $resp->getData()->OrderResult->OrderKey));                    
+                }
+                $response['message'] = 'Compra não sucedida. Problemas com o pagamento';
+                    
             }
         } else {
-            $response['flag_initial_payment'] = false;
+            $response['flag_initial_payment'] = false;            
             if (is_array($resp))
                 $response['message'] = $resp["message"];
             else

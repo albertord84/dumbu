@@ -18,10 +18,7 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response){
                     if(response['success']){                        
-                        alert(response['message']);
-                        $('#talkme_frm').each (function(){
-                            this.reset();
-                        });
+                        alert(response['message']);                        
                     } else
                         alert(response['message']);    
                     l.stop();
