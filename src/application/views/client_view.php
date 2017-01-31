@@ -735,7 +735,7 @@
                             </fieldset>
                             <div class="text-center">
                                 <button id="btn_send_message" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold">CONFERIR</div></span>
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold">ENVIAR</div></span>
                                 </button>
                             </div>
                         </div>
