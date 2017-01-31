@@ -102,7 +102,7 @@ namespace dumbu\cls {
                         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
 //                        $to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
                         // If User status = UNFOLLOW he do 0 follows
-                        $to_follow = $Client->status_id != user_status::UNFOLLOW ? $to_follow_unfollow : 0;
+                        $to_follow = $Client->status_id != user_status::DUMBU_UNFOLLOW ? $to_follow_unfollow : 0;
                         $to_unfollow = $to_follow_unfollow;
                         foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);

@@ -7,6 +7,7 @@ As tags de remarketing não podem ser associadas a informações pessoais de ide
     var google_conversion_id = 867479118;
     var google_custom_params = window.google_tag_params;
     var google_remarketing_only = true;
+    var google_conversion_format = 3; 
     /* ]]> */
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
