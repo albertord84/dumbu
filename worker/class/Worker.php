@@ -106,7 +106,7 @@ namespace dumbu\cls {
                         $to_unfollow = $to_follow_unfollow;
                         foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
-                            if ($ref_prof->end_date != NULL) {
+                            if ($ref_prof->end_date == NULL) {
                                 $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
                             }
                         }
@@ -133,7 +133,7 @@ namespace dumbu\cls {
                     var_dump($diff_info->days);
 //                    if ($diff_info->days <= 3) {
                     // TODO, UNCOMMENT
-                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+//                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
 //                    }
                 }
             }

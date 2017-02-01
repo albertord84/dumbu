@@ -144,7 +144,7 @@ $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
 
 
-//$result = $Robot->bot_login("nivaldocelso", "nivaldo572812");
+//$result = $Robot->bot_login("dignabenigna", "Roxgirl0");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
@@ -177,7 +177,7 @@ $Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
-//$Worker->prepare_daily_work();
+$Worker->prepare_daily_work();
 //$Worker->do_work();
 //----------------------------------------------------------------
 
