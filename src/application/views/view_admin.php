@@ -3,7 +3,12 @@
   <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct">
+        <meta name="keywords" content="ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas">
+        <meta name="revisit-after" content="7 days">
+        <meta name="robots" content="index,follow">
+        <meta name="distribution" content="global">
         <title>DUMBU</title>
         
         <link rel="shortcut icon" href="<?php echo base_url().'assets/img/icon.png'?>">    

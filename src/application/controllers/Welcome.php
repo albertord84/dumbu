@@ -2,10 +2,7 @@
 class Welcome extends CI_Controller {
 
     public function index1() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-        $this->Robot = new \dumbu\cls\Robot();
-        $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile, $id_profile);
-        var_dump($datas_of_profile);
+        
     }
 
     public function index() {        
