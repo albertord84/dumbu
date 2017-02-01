@@ -4,6 +4,11 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="description" content="Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct">
+            <meta name="keywords" content="ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas">
+            <meta name="revisit-after" content="7 days">
+            <meta name="robots" content="index,follow">
+            <meta name="distribution" content="global">
             <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
             <title>DUMBU</title>
             <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png'?>"> 
@@ -30,6 +35,8 @@
             <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js';?>"></script>
     </head>
     <body>
+            <?php include_once("analyticstracking.php") ?>
+            <?php include_once("remarketing.php")?>
             <div class="windows8">
              <div class="wBall" id="wBall_1">
               <div class="wInnerBall"></div>
