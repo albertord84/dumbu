@@ -150,7 +150,7 @@ $(document).ready(function () {
             console.log('paymet working');
         }
     });
-
+    
     $('#container_login_panel').keypress(function (e) {
         if (e.which == 13) {
             $("#signin_btn_insta_login").click();
@@ -247,9 +247,9 @@ $(document).ready(function () {
                 $('#coniner_data_panel').css('background-color', 'transparent');
                 $('#container_sing_in_panel').css('background-color', 'transparent');
 
-                $("#btn_sing_in").hover(function () {
-                    $('#btn_sing_in').css('cursor', 'pointer');
-                }, function () { });
+                
+                $('#btn_sing_in').css('cursor', 'default');
+                
                 $("#coniner_data_panel *").hover(function () {
                     $('#coniner_data_panel *').css('cursor', 'auto');
                 }, function () { });

@@ -660,11 +660,11 @@
                                     </fieldset>
                                 </div>
                             
-                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
                                     <span class="val">Validade</span>
                                 </div>
                             
-                                <div class="col-md-4 col-sm-4 col-xs-12 pd-r15">
+                                <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
                                     <fieldset>
                                         <div class="select"> 
                                             <select name="local" id="client_credit_card_validate_month" class="btn-primeiro sel"> 
@@ -673,7 +673,7 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
                                     <fieldset>
                                         <div class="select">
                                             <select name="local" id="client_credit_card_validate_year" class="btn-primeiro sel">

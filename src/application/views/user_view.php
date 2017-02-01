@@ -145,7 +145,7 @@
 		<section id="destaque" class="fleft100 bk-black cl-fff">
 			<div class="container">
 				<div class="fleft100 m-tb60">
-					<h1 class="fleft100 text-center">Ganhe em média 5 mil* seguidores reais por mês.</h1>
+					<h1 class="fleft100 text-center">AUMENTE O NÚMERO DE SEGUIDORES NO SEU INSTAGRAM</h1>
 					<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
@@ -225,54 +225,49 @@
 				<h3 class="titulo fleft100 text-center m-tb30">ASSINAR <small class="fleft100">Plano mensal sem multa de rescisão.</small></h3>
 				<div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_4_90" class="plano text-center fleft100">
+                                                <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro01.png'?>"/>
+                                                <p style="font-size:0.7em">VELOCIDADE</p>
+                                                <b style="font-size:1.5em">BAIXA</b>
+                                                <hr>
 						<h2>R$<b>4,90</b> <small>/1º mês</small></h2>
 						<span>Depois R$<b>29,90</b></span>
-						<hr>
-						<p>
-							<b>RESULTADO:</b> <br>
-							Em média <b>750</b> <br>
-							seguidores ao mês
-						</p>
+                                                <br>
                                                 <input id="radio_plane_4_90" type="radio" name="plano">
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_9_90" class="plano text-center fleft100">
+						<img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro02.png'?>"/>
+                                                <p style="font-size:0.7em">VELOCIDADE</p>
+                                                <b style="font-size:1.5em">MODERADA</b>
+                                                <hr>
 						<h2>R$<b>9,90</b> <small>/1º mês</small></h2>
 						<span>Depois R$<b>49,90</b></span>
-						<hr>
-						<p>
-							<b>RESULTADO:</b> <br>
-							Em média <b>1.500</b> <br>
-							seguidores ao mês
-						</p>
+                                                <br>
                                                 <input id="radio_plane_9_90" type="radio" name="plano">
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_29_90" class="plano active text-center fleft100">
-						<h2>R$<b>29,90</b> <small>/1º mês</small></h2>
+                                                <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro03.png'?>"/>
+                                                <p style="font-size:0.7em">VELOCIDADE</p>
+                                                <b style="font-size:1.5em">RÁPIDA</b>
+                                                <h2>R$<b>29,90</b> <small>/1º mês</small></h2>
 						<span>Depois R$<b>99,90</b></span>
 						<div class="rc">RECOMENDADO</div>
-						<hr>
-						<p>
-							<b>RESULTADO:</b> <br>
-							Em média <b>3.000</b> <br>
-							seguidores ao mês
-						</p>
-                                                <input id="radio_plane_29_90" type="radio" name="plano">
+                                                <br>
+                                                <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
                                         <div id="container_plane_99_90" class="plano text-center fleft100">
+                                                <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro04.png'?>"/>
+                                                <p style="font-size:0.7em">VELOCIDADE</p>
+                                                <b style="font-size:1.5em">TURBO!</b>
+                                                <hr>
 						<h2>R$<b>99,90</b> <small>/1º mês</small></h2>
 						<span>Depois R$<b>189,90</b></span>
-						<hr>
-						<p>
-							<b>RESULTADO:</b> <br>
-							Em média <b>5.000</b> <br>
-							seguidores ao mês
-						</p>
+                                                <br>
                                                 <input id="radio_plane_99_90" type="radio" name="plano">
 					</div>
 				</div>
@@ -281,7 +276,7 @@
                                 
 		<section id="passos" class="fleft100 m-t30">
 			<div class="container cl-black">
-                                <div  class="col-md-4 col-sm-4 col-xs-12 passo">
+                                <div  class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                     <div id="container_login_panel" style="visibility:hidden;display:none">
                                         <h5 class="no-mg text-center"><b>PASSO 1</b></h5>
 					<div class="text-center fleft100 m-t20">
@@ -319,7 +314,7 @@
                                     </div>
 				</div>
                             
-                                <div id="coniner_data_panel" class="col-md-4 col-sm-4 col-xs-12 passo">
+                                <div id="coniner_data_panel" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
 					<h5 class="no-mg text-center"><b>PASSO 2</b></h5>
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/pay.png" class="wauto" alt="">
@@ -342,7 +337,7 @@
 						<div class="col-md-4 col-sm-4 col-xs-12 no-pd">
 							<span class="val">Validade</span>
 						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12 pd-r15">
+						<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
 							<fieldset>
 								<div class="select">
                                                                     <select id="client_credit_card_validate_month" name="local" class="btn-primeiro sel" id="local">
@@ -354,7 +349,7 @@
 								</div>
 							</fieldset>
 						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+						<div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
 							<fieldset>
 								<div class="select">
                                                                     <select id="client_credit_card_validate_year" name="local" class="btn-primeiro sel" id="local">
@@ -373,7 +368,7 @@
 					</div>
 				</div>
                             
-                                <div id="container_sing_in_panel" class="col-md-4 col-sm-4 col-xs-12 passo text-center">
+                                <div id="container_sing_in_panel" class="col-md-4 col-sm-4 col-xs-12 passo text-center m-t40">
 					<h5 class="no-mg text-center"><b>PASSO 3</b></h5>
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/ass.png" class="wauto" alt="">
