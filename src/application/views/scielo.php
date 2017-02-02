@@ -24,7 +24,8 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
         <script type="text/javascript" src="<?php echo base_url().'assets/js/scielo.js'?>"></script>
-                
+        
+        <?php include_once("pixel_facebook.php")?>
   </head>
   <body id="my_body">
     <div class="container">

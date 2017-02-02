@@ -36,10 +36,12 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
+                
+                <?php include_once("pixel_facebook.php")?>
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php") ?>
-                <?php include_once("remarketing.php")?>
+                <?php include_once("remarketing.php")?>                
             
 		<div class="windows8">
                     <div class="wBall" id="wBall_1">

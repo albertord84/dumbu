@@ -29,6 +29,7 @@ $(document).ready(function(){
        
     $(".delete-recurence").click(function(e){
        id=$(e.currentTarget).attr('id');
+       alert(id);
         name_row='#row-client-'+id;        
         if(confirm('Confirma o cancelamento da recorrência?')){
             var l = Ladda.create(this);  l.start();

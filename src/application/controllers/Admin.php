@@ -60,6 +60,8 @@ class Admin extends CI_Controller {
     }
     
     public function recorrency_cancel(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         if ($this->session->userdata('id')) {
             $this->load->model('class/client_model');
             $id=$this->input->post()['id'];

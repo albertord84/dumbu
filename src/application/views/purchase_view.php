@@ -37,6 +37,7 @@
                 <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
                 
+                <?php include_once("pixel_facebook.php")?>                
 	</head>
 	<body>
 		<?php include_once("analyticstracking.php") ?>

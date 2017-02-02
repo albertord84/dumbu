@@ -33,6 +33,8 @@
             <script type="text/javascript" src="<?php echo base_url().'assets/js/client_painel.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js';?>"></script>
+            
+            <?php include_once("pixel_facebook.php")?>
     </head>
     <body>
             <?php include_once("analyticstracking.php") ?>
