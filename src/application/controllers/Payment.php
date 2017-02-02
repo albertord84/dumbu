@@ -14,6 +14,8 @@ class Payment extends CI_Controller {
     }
 
     public function check_payment() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         echo "Check Payment Inited...!<br>\n";
         echo date("Y-m-d h:i:sa");
 
@@ -45,13 +47,19 @@ class Payment extends CI_Controller {
         foreach ($clients as $client) {
             $clientname = $client['name'];
             $clientid = $client['user_id'];
+            $promotional_days = $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS;
+            $init_date_2d = new DateTime();
+            $init_date_2d = $init_date_2d->setTimestamp(strtotime("+$promotional_days days", $client['init_date']));
+            $testing = new DateTime("now") < $init_date_2d;
             if ($client['order_key'] != NULL) {
-                $checked = $this->check_client_payment($client);
-                if ($checked) {
-                    //var_dump($client);
-                    print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
-                } else {
-                    print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
+                if (!$testing) { // Not in promotial days
+                    $checked = $this->check_client_payment($client);
+                    if ($checked) {
+                        //var_dump($client);
+                        print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
+                    } else {
+                        print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
+                    }
                 }
             } else {
                 print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
@@ -68,13 +76,15 @@ class Payment extends CI_Controller {
             $data = $result->getData();
             //var_dump($data);
             $SaleDataCollection = $data->SaleDataCollection[0];
-            // Get last client payment
-            $SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
-            $SaleDataDate = new DateTime($SaleData->DueDate);
-            if ($SaleData->CapturedAmountInCents != NULL || new DateTime("now") < $SaleDataDate) {
-                return TRUE;
+            foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                // Get last client payment
+                //$SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
+                $SaleDataDate = new DateTime($SaleData->DueDate);
+                if ($SaleData->CapturedAmountInCents != NULL) {
+                    return TRUE;
+                }
+                //var_dump($SaleData);
             }
-            //var_dump($SaleData);
         }
         return FALSE;
     }
@@ -143,8 +153,6 @@ class Payment extends CI_Controller {
                 print "\n<br> LastSaledData = NULL";
                 $pay_day = new DateTime();
                 $pay_day->setTimestamp($client['pay_day']);
-                $init_date_2d = new DateTime();
-                $init_date_2d->setTimestamp(strtotime("+2 days", $client['init_date']));
                 $diff_info = $pay_day->diff($now);
                 $diff_days = $diff_info->days;
 //                $diff_days = ($diff_info->m * 30) + $diff_info->days;
@@ -167,10 +175,10 @@ class Payment extends CI_Controller {
                             // TODO: Put 31 in system_config    
                         }
                     }
-                } else if ($now > $init_date_2d && $IOK_ok === FALSE) { // Si está en fecha de promocion pero no pagó initial order key
+                } else if ($IOK_ok === FALSE) { // Si está en fecha de promocion pero no pagó initial order key
                     //Block client by paiment
-                    $this->send_payment_email($client, 0);
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                    $this->send_payment_email($client, 0);
                     ///////////////////////////////////////$this->send_payment_email($client);
                     print "This client was blocked by payment just now: " . $client['user_id'];
                 }
