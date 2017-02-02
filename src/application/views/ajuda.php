@@ -8,7 +8,7 @@
         <title>DUMBU</title>
         <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png'?>"> 
        
-                
+        <?php include_once("pixel_facebook.php")?>                
   </head>
   <body id="my_body">
     <?php include_once("analyticstracking.php") ?>
