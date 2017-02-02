@@ -112,7 +112,7 @@ namespace dumbu\cls {
                         }
                     } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
-                        $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+//                        $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 } else {
 // TODO: do something in Client autentication error

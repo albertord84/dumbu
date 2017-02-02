@@ -12,7 +12,10 @@
               </div>-->
             <p>Olá, <strong><?php echo $_GET["username"]; ?></strong>,</p>
 
-            <p>Tivemos problemas com seu login, você alterou sua senha do Instagram? </p>
+            <p>Tivemos problemas com seu login! Caso você tenha trocado a sua senha do instagram siga as instruções no email. 
+                Caso esteja todo certo não se preocupe por este email, as vezes o instagram pode gerar problemas para conectar alguma conta, 
+                por isso mesmo esteja todo certo recomendamos fazer login no nosso sistema para eliminar as dúvidas.
+            </p>
             <p>Lembre-se: você deve ter mesmo nome de usuário e senha para ambos, Instagram e nosso <a href="https://www.dumbu.pro/dumbu/src/">sistema</a>.
             <p>Você só precisa fazer o login no Dumbu com um nome de usuário e senha válidos e iguais ao seu Instagram.!</p>
             <p>Por favor, verifique suas credenciais de login no instagram e nosso <a href="https://www.dumbu.pro/dumbu/src/">sistema</a> 
