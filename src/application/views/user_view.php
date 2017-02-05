@@ -153,15 +153,15 @@
 		<section id="destaque" class="fleft100 bk-black cl-fff">
 			<div class="container">
 				<div class="fleft100 m-tb60">
-					<h1 class="fleft100 text-center">AUMENTE O NÚMERO DE SEGUIDORES NO SEU INSTAGRAM</h1>
-					<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>
+					<h1 class="fleft100 text-center">Aumente o número de seguidores no seu Instagram</h1>
+					<!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
 					<h4 class="fleft100"><b>PASSO A PASSO</b></h4>
 					<ul class="fleft100 passos">
 						<li><span>1</span><p>Escolha os Perfis de referência que deseja captar seus seguidores</p></li>
 						<li><span>2</span><p>A ferramenta seguirá automaticamente os seguidores dos Perfis de referência</p></li>
-						<li class="active"><span>3</span><p>Uma parte desses seguidores seguirá você de volta por se identificar com seu conteúdo</p></li>
+						<li class="active"><span>3</span><p>Alguns desses seguidores poderão seguir você de volta por se identificar com seu conteúdo</p></li>
 						<li><span>4</span><p>Entre 24h e 48h a ferramenta deixará de seguir esses perfis automáticamente</p></li>
 					</ul>
 				</div>

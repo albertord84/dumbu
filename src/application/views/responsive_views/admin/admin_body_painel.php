@@ -1,6 +1,6 @@
 <br><br>
 <form action="<?php echo base_url().'index.php/admin/list_filter_view'?>" method="post">            
-            <div class="row">
+            <div id="admin_form" class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
                     <div class="center filters">
