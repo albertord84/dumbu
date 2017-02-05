@@ -118,14 +118,6 @@ var_dump($resul);
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-
-
-
-//'9792', 'Receitas light', 'ebook_detox', 'soeusei123', 'martins.ago@gmail.com', NULL, '2', '1', '1485068923', '', '1484955722', NULL
-
-
-
-
 //$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
 //$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
@@ -137,9 +129,9 @@ $Gmail = new dumbu\cls\Gmail();
 //        ("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
-//$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
+//$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-//var_dump($result);
+var_dump($result);
 
 //$Robot = new dumbu\cls\Robot();
 

@@ -4,6 +4,7 @@
 
 namespace dumbu\cls {
     require_once 'User.php';
+    require_once 'Robot.php';
     require_once 'DB.php';
 
     /**
@@ -50,7 +51,7 @@ namespace dumbu\cls {
          * @access public
          */
         public $plane_id;
-        
+
         /**
          * 
          * @access public
@@ -192,12 +193,24 @@ namespace dumbu\cls {
 
         /**
          * 
-         *
-         * @return bool
-         * @access public
+         * @param type Client ans Users tables data for a client.
          */
-        public function sign_in() {
-            echo("Do Client sign_in!!! <br>\n");
+        public function sign_in($Client) {
+            $login_data = (new Robot)->bot_login($Client->login, $Client->pass, $Client);
+            if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
+                $this->set_client_cookies($Client->id, json_encode($login_data));
+                echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login <br>\n<br>\n";
+            } else {
+                echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
+                // Chague client status
+                if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required' && $Client->status_id != user_status::VERIFY_ACCOUNT) {
+                    $this->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+                }
+                if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated && $Client->status_id != user_status::BLOCKED_BY_INSTA) {
+                    $this->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+                }
+                $this->set_client_cookies($Client->id, NULL);
+            }
         }
 
 // end of member function sign_in
@@ -212,7 +225,23 @@ namespace dumbu\cls {
             
         }
 
-        public function set_client_status($client_id, $status_id) {
+        public function set_client_cookies($client_id = NULL, $cookies = NULL) {
+            try {
+                $client_id = $client_id ? $client_id : $this->id;
+                $cookies = $cookies ? $cookies : $this->cookies;
+                $DB = new \dumbu\cls\DB();
+                $result = $DB->set_client_cookies($client_id, $cookies);
+                if ($result) {
+                    print "Client $client_id cookies changed!!!";
+                } else {
+                    print "FAIL CHANGING Client $client_id cookies!!!";
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function set_client_status($client_id = NULL, $status_id = NULL) {
             try {
                 $client_id = $client_id ? $client_id : $this->id;
                 $status_id = $status_id ? $status_id : $this->status_id;
@@ -247,11 +276,11 @@ namespace dumbu\cls {
                     // Update Ref Prof Data if not privated
                     // TODO: Chechk if privated RP
 //                    if ($Ref_Prof->is_private($prof_data->insta_name) === FALSE) {
-                        $Ref_Prof->id = $prof_data->id;
-                        $Ref_Prof->insta_id = $prof_data->insta_id;
-                        $Ref_Prof->insta_name = $prof_data->insta_name;
-                        $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
-                        array_push($this->reference_profiles, $Ref_Prof);
+                    $Ref_Prof->id = $prof_data->id;
+                    $Ref_Prof->insta_id = $prof_data->insta_id;
+                    $Ref_Prof->insta_name = $prof_data->insta_name;
+                    $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
+                    array_push($this->reference_profiles, $Ref_Prof);
 //                    }
                 }
             } catch (Exception $exc) {

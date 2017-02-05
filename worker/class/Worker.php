@@ -88,10 +88,11 @@ namespace dumbu\cls {
             $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
 //                var_dump($Client);
-// Log user with webdriver in istagram to get needed session data
-                $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client);
+// Log user with curl in istagram to get needed session data
+//                $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client);
 //                var_dump($Client);
-                if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
+//                if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
+                if ($Client->cookies) {
 //                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
@@ -116,15 +117,7 @@ namespace dumbu\cls {
                     }
                 } else {
 // TODO: do something in Client autentication error
-                    // Send email to client and dumbu system
-                    echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
-                    // Chague client status
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'fail' && $login_data->json_response->message == 'checkpoint_required' && $Client->status_id != user_status::VERIFY_ACCOUNT) {
-                        $Client->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
-                    }
-                    if (isset($login_data->json_response) && $login_data->json_response->status == 'ok' && !$login_data->json_response->authenticated && $Client->status_id != user_status::BLOCKED_BY_INSTA) {
-                        $Client->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
-                    }
+                    $Client->sign_in($Client);    
                     // Send email to client
                     $now = new \DateTime("now");
                     $status_date = new \DateTime();
@@ -133,7 +126,7 @@ namespace dumbu\cls {
                     var_dump($diff_info->days);
 //                    if ($diff_info->days <= 3) {
                     // TODO, UNCOMMENT
-                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+                    //$this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
 //                    }
                 }
             }

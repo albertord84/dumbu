@@ -102,6 +102,25 @@ namespace dumbu\cls {
             }
         }
 
+        public function set_client_cookies($client_id, $cookies) {
+            try {
+                $this->connect();
+                $sql = "UPDATE clients "
+                        . "SET "
+                        . "      clients.cookies   = '$cookies' "
+                        . "WHERE clients.user_id = $client_id; ";
+
+                $result = mysqli_query($this->connection, $sql);
+                if ($result)
+                    print "<br>Update client_cookies! <br>";
+                else
+                    print "<br>NOT UPDATED client_cookies!!!<br> $sql <br>";
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function get_reference_profiles_data($client_id) {
             try {
                 $this->connect();
