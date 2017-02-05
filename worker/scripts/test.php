@@ -36,14 +36,14 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 ////$Worker->do_follow_unfollow_work($daily_work);
 //$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
 //var_dump($Ref_profile_follows);
-//$Client = new dumbu\cls\Client();
+$Client = new dumbu\cls\Client();
 //$Client->create_daily_work(234);
 //var_dump(date('d-m-Y',time()));
 //$a=strtotime("+" .'7'. " days", time());
 //var_dump($a);
 //var_dump(date('d-m-Y',1483449391));
 //var_dump(date('d-m-Y',1486247776));
-//$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
+$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 //var_dump(date('d-m-Y',1482951226));
 // MUNDIPAGG
 //$Payment = new dumbu\cls\Payment();
@@ -79,23 +79,23 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 
-$pay_day = strtotime('04-03-2017');
+//$pay_day = strtotime('04-03-2017');
 //$pay_day = time();
-var_dump($pay_day);
+//var_dump($pay_day);
 //
-////
-$payment_data['credit_card_number'] = '5140861330403010';
-$payment_data['credit_card_name'] = 'RONY PADILHA';
-$payment_data['credit_card_exp_month'] = '12';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '096';
-$payment_data['amount_in_cents'] = 9990;
-$payment_data['pay_day'] = $pay_day;
+//////
+//$payment_data['credit_card_number'] = '5140861330403010';
+//$payment_data['credit_card_name'] = 'RONY PADILHA';
+//$payment_data['credit_card_exp_month'] = '12';
+//$payment_data['credit_card_exp_year'] = '2021';
+//$payment_data['credit_card_cvc'] = '096';
+//$payment_data['amount_in_cents'] = 9990;
+//$payment_data['pay_day'] = $pay_day;
 
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0);
-var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0);
+//var_dump($resul);
 ////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
@@ -131,7 +131,7 @@ $Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-var_dump($result);
+//var_dump($result);
 
 //$Robot = new dumbu\cls\Robot();
 
