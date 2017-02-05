@@ -21,7 +21,6 @@ class user_status {
                 return true;
             }
         }
-
         return false;
     }
 
