@@ -1,21 +1,19 @@
 <?php
 class Welcome extends CI_Controller {
 
-    public function index2() {
-        $this->Translation->T('COMO FUNCIONA');
-    }
-    
-    public function index1() {
-        $this->update_client_by_retry_payment(6114);
-    }
-
     public function index() {        
         $this->load->view('user_view');
     }
 
+    public function T($token,$array_params){ 
+        $this->load->model('class/translation_model');
+        $text = $this->translation_model->get_text_by_token($token);  
+        return $text;
+    }
+
     public function purchase() {
-        if ($this->session->userdata('id')) {            
-            $datas['user_id']=$this->session->userdata('id');   
+        if ($this->session->userdata('id')) {
+            $datas['user_id']=$this->session->userdata('id');
             $datas['profiles'] = $this->create_profiles_datas_to_display();
             $this->load->view('purchase_view',$datas);
         }
@@ -822,11 +820,11 @@ class Welcome extends CI_Controller {
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
-        $payment_data['credit_card_number'] = $datas['credit_card_number'];
-        $payment_data['credit_card_name'] = $datas['credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
-        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
-        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
+        $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
+        $payment_data['credit_card_exp_year'] = $datas['client_credit_card_validate_year'];
+        $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
         $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';

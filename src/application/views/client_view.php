@@ -4,8 +4,9 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta name="description" content="Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct">
-            <meta name="keywords" content="ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas">
+            <?php  $CI =& get_instance();?>
+            <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
+            <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
             <meta name="revisit-after" content="7 days">
             <meta name="robots" content="index,follow">
             <meta name="distribution" content="global">
@@ -66,7 +67,7 @@
                                             </a>
                                     </div>
                                     <ul class="nav navbar-nav navbar-right">
-                                            <li><a href="<?php echo base_url().'index.php/welcome/log_out'?>"><img src="<?php echo base_url().'assets/images/user.png';?>" class="wauto us" alt=""> SAIR</a></li>
+                                            <li><a href="<?php echo base_url().'index.php/welcome/log_out'?>"><img src="<?php echo base_url().'assets/images/user.png';?>" class="wauto us" alt=""><?php echo $CI->T("SAIR",array());?></a></li>
                                     </ul>
                             </nav>
                     </div>
@@ -96,19 +97,19 @@
                                 case 3:
                                     echo '
                                         <div id="activate_account" class="center" style="margin-left:25%; width:50%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
-                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">INFORME NOVAMENTE LOGIN E SENHA DE INSTAGRAM</b>             
+                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("SAIR",array()).'</b><BR>
+                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("INFORME NOVAMENTE LOGIN E SENHA DE INSTAGRAM",array()).'</b>             
                                             <br><br>
                                             <form id="usersLoginForm"  action="#" method="#"  class="form" role="form" style="margin-left:25%;margin-right:25%;"  accept-charset="UTF-8" >                                
                                                 <div class="form-group">                                                                
                                                      <input id="userLogin" type="text" class="form-control" value="'.$my_login_profile.'" disabled="true">
                                                 </div>
                                                 <div class="form-group">                                                                
-                                                    <input id="userPassword" type="password" class="form-control" placeholder="Senha" required>
+                                                    <input id="userPassword" type="password" class="form-control" placeholder="'.$CI->T("Senha",array()).'" required>
                                                 </div>                                                             
                                                 <div class="form-group">
                                                     <button id="activate_account_by_status_3" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                        <span class="ladda-label">ACTIVAR AGORA</span>
+                                                        <span class="ladda-label">'.$CI->T("ACTIVAR AGORA",array()).'</span>
                                                     </button>
                                                 </div>
                                                 <div id="container_login_message" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
@@ -119,11 +120,11 @@
                                 case 2:
                                     echo '
                                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">HABILITE SUA CONTA</b><BR>
-                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS</b>  <BR>           
+                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("HABILITE SUA CONTA",array()).'</b><BR>
+                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS",array()).'</b>  <BR>           
                                             <a id="lnk_update_data_bank" href="#lnk_update">
                                                 <button id="btn_update_data_bank" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                                    ATUALIZAR AGORA
+                                                    '.$CI->T("ATUALIZAR AGORA",array()).'
                                                 </button>
                                             </a>
                                         </div>';
@@ -131,12 +132,12 @@
                                 case 6:
                                     echo '
                                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">MANTENHA ATIVA SUA CONTA</b><BR>
-                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS</b>  <BR>           
-                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">NÃO FOI POSSIVEL REALIZAR O PAGAMENTO NA DATA CORRESPONTE</b><BR>
+                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("MANTENHA ATIVA SUA CONTA",array()).'</b><BR>
+                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("PRECISAMOS QUE VOCÊ ATUALIZE SEUS DADOS BANCÁRIOS",array()).'</b>  <BR>           
+                                            <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("NÃO FOI POSSIVEL REALIZAR O PAGAMENTO NA DATA CORRESPONTE",array()).'</b><BR>
                                             <a id="lnk_update_data_bank" href="#lnk_update">
                                                 <button id="btn_update_data_bank" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                                    ATUALIZAR AGORA
+                                                    '.$CI->T("ATUALIZAR AGORA",array()).'
                                                 </button>
                                             </a>
                                         </div>';
@@ -144,8 +145,8 @@
                                 case 7:                                        
                                     echo '
                                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b>
-                                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;"><BR>PRECISAMOS QUE VOCÊ SIGA MÁXIMO 6500 PERFIS NO INSTAGRAM PARA INICIAR A FERRAMENTA NO SEU PERFIL</b>  <BR>           
+                                            <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("ATUALIZAR AGORA",array()).'</b>
+                                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;"><BR>'.$CI->T("PRECISAMOS QUE VOCÊ SIGA MÁXIMO 6500 PERFIS NO INSTAGRAM PARA INICIAR A FERRAMENTA NO SEU PERFIL",array()).'</b><BR>
                                         </div>'; 
                                     break;
                                 case 9:
@@ -153,27 +154,27 @@
                                         if($verify_account_datas['verify_account_url']!="")
                                             echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
-                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>             
+                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("ATIVE SUA CONTA",array()).'</b><BR>
+                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA",array()).'</b>             
                                                 <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="'.$verify_account_datas['verify_account_url'].'">
                                                     <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                                        ACTIVAR AGORA
+                                                        '.$CI->T("ACTIVAR AGORA",array()).'
                                                     </button>
                                                 </a>
                                             </div>';
                                         else
                                             echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b><BR>
-                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA</b>                                             
+                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("ATIVE SUA CONTA",array()).'</b><BR>
+                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA",array()).'</b>                                             
                                             </div>';
                                     }
                                     break;
                                 case 10:
                                     echo '
                                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">SUA CONTA ESTA TEMPORÁRIAMENTE LIMITADA NO DUMBU DEVIDO A RESTRIÇÕES DE TEMPO COM O INSTRAGRAM</b>  <BR>           
-                                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">EM POUCO TEMPO SERÁ RESTABELECIDO O SERVIÇO PARA VOCÊ </b><BR>           
+                                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("SUA CONTA ESTA TEMPORÁRIAMENTE LIMITADA NO DUMBU DEVIDO A RESTRIÇÕES DE TEMPO COM O INSTRAGRAM",array()).'</b>  <BR>           
+                                            <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;">'.$CI->T("EM POUCO TEMPO SERÁ RESTABELECIDO O SERVIÇO PARA VOCÊ",array()).'</b><BR>           
                                         </div>'; 
                                     break;
                             }
@@ -183,7 +184,7 @@
                     <div id="reference_profile_status_container" class="row" style="visibility:hidden;display:none">        
                         <div id="reference_profile_status_message" class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                             <div class="center">
-                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">PERFIS DE REFERÊNCIA COM PROBLEMA. CONSIDERE TROCAR!!!</b>
+                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;"><?php echo $CI->T("PERFIS DE REFERÊNCIA COM PROBLEMA. CONSIDERE TROCAR",array());?></b>
                                 <hr><BR>
                             </div>
 
@@ -194,7 +195,7 @@
                             </div>
                             <div class="center">
                                 <button id="btn_RP_status" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                    ACEITAR                    
+                                    <?php echo $CI->T("ACEITAR",array());?>
                                 </button>
                             </div>            
                         </div>
@@ -204,21 +205,21 @@
                     <!-- Single button -->
                     <div class="btn-group fleft100 m-tb20">
                         <button type="button" class="btn btn-drop fleft100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <b>AVISOS IMPORTANTES</b> <img src="<?php echo base_url().'assets/images/seta.png';?>" alt="" class="wauto fright">
+                            <b><?php echo $CI->T("AVISOS IMPORTANTES",array());?></b> <img src="<?php echo base_url().'assets/images/seta.png';?>" alt="" class="wauto fright">
                         </button>
                         <ul class="dropdown-menu drop-lista bk-cinza fleft100">
-                            <li>O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;</li>
-                            <li>Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;</li>
-                            <li>Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;</li>
-                            <li>Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;</li>
-                            <li>Nunca escolha perfis privados ou com poucos seguidores.</li>
+                            <li><?php echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;",array());?></li>
+                            <li><?php echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;",array());?></li>
+                            <li><?php echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;",array());?></li>
+                            <li><?php echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;",array());?></li>
+                            <li><?php echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.",array());?></li>
                         </ul>
                     </div>
 
                     <div class="text-center fleft100">
                         <img src="<?php echo base_url().'assets/images/perfis.png';?>" class="wauto m-t20" alt="">
-                        <h4 class="fleft100 m-t20"><b>PERFIS DE PREFERÊNCIA</b></h4>
-                        <p class="m-t10 fleft100">O Dumbu seguirá os usuários que seguem os perfis de referência que você escolher, uma parte <br>desses usuários o seguirão de volta e após um determinado tempo deixaremos de <br>seguir esses usuários. Adicione seus perfis de referência aqui:</p>
+                        <h4 class="fleft100 m-t20"><b><?php echo $CI->T("PERFIS DE PREFERÊNCIA",array());?></b></h4>
+                        <p class="m-t10 fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que seguem os perfis de referência que você escolher, uma parte <br>desses usuários o seguirão de volta e após um determinado tempo deixaremos de <br>seguir esses usuários. Adicione seus perfis de referência aqui:",array());?></p>
                     </div>
 
                     <div class="col-md-2 col-sm-2 col-xs-12 text-center m-t30">
@@ -228,9 +229,9 @@
                         <span class="fleft100 cl-green">
                             <?php
                                 if($status['status_id']==1 ||$status['status_id']==6 || $status['status_id']==10)
-                                    echo '<b id="status_text" style="font-family:sans-serif">'.$status["status_name"].'</b>';
+                                    echo '<b id="status_text" style="font-family:sans-serif">'.$CI->T($status["status_name"],array()).'</b>';
                                 else                   
-                                    echo '<b id="status_text" ">'.$status["status_name"].'</b>';                    
+                                    echo '<b id="status_text" ">'.$CI->T($status["status_name"],array()).'</b>';                    
                             ?>
                         </span>
                     </div>
@@ -238,9 +239,9 @@
                     <div class="col-md-10 col-sm-10 col-xs-12 m-t30">
                         <div class="num">
                             <img src="<?php echo base_url().'assets/images/bol-g.png';?>" class="wauto" alt="">
-                                <?php echo 'Número de perfis já seguidos '.$total_amount_followers_today;?>
+                                <?php echo $CI->T('Número de perfis já seguidos ',array()).$total_amount_followers_today;?>
                             <span class="fright">
-                                <?php echo $total_amount_reference_profile_today.' Perfis de referência utilizados até hoje';?>
+                                <?php echo $total_amount_reference_profile_today.' '.$CI->T('Perfis de referência utilizados até hoje',array());?>
                             </span></div>
                         <div class="fleft100 bk-cinza pf-painel">
                             <ul class="add-perfil text-center">
@@ -250,9 +251,9 @@
                                         <img id="img_ref_prof0" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof0" target="_blank" href="#">
-                                            <small id="name_ref_prof0" title="Ver no Instagram" style="color:black" class="fleft100 m-t10"></small>
+                                            <small id="name_ref_prof0" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
-                                        <b id="cnt_follows_prof0" title='Seguidos por mim para este perfil' class="cl-green fleft100 red_number">520</b>
+                                        <b id="cnt_follows_prof0" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
                                 </li>
                                 
@@ -261,9 +262,9 @@
                                         <img id="img_ref_prof1" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof1" target="_blank" href="#">
-                                            <small id="name_ref_prof1" title="Ver no Instagram" style="color:black" class="fleft100 m-t10"></small>
+                                            <small id="name_ref_prof1" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
-                                        <b id="cnt_follows_prof1" title='Seguidos por mim para este perfil' class="cl-green fleft100 red_number">520</b>
+                                        <b id="cnt_follows_prof1" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
                                 </li>
                                 
@@ -272,9 +273,8 @@
                                         <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof2" target="_blank" href="#">
-                                            <small id="name_ref_prof2" title="Ver no Instagram" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
-                                        <b id="cnt_follows_prof2" title='Seguidos por mim para este perfil' class="cl-green fleft100 red_number">520</b>
+                                        <b id="cnt_follows_prof2" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
                                 </li>
                                 
@@ -283,9 +283,9 @@
                                         <img id="img_ref_prof3" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof3" target="_blank" href="#">
-                                            <small id="name_ref_prof3" title="Ver no Instagram" style="color:black" class="fleft100 m-t10"></small>
+                                            <small id="name_ref_prof3" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
-                                        <b id="cnt_follows_prof3" title='Seguidos por mim para este perfil' class="cl-green fleft100 red_number">520</b>
+                                        <b id="cnt_follows_prof3" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
                                 </li>
                                 
@@ -294,9 +294,9 @@
                                         <img id="img_ref_prof4" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof4" target="_blank" href="#">
-                                            <small id="name_ref_prof4" title="Ver no Instagram" style="color:black" class="fleft100 m-t10"></small>
+                                            <small id="name_ref_prof4" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
-                                        <b id="cnt_follows_prof4" title='Seguidos por mim para este perfil' class="cl-green fleft100 red_number">520</b>
+                                        <b id="cnt_follows_prof4" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
                                 </li>
                                 
@@ -305,17 +305,17 @@
                                         <img id="img_ref_prof5" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof5" target="_blank" href="#">
-                                            <small id="name_ref_prof5" title="Ver no Instagram" style="color:black" class="fleft100 m-t10"></small>
+                                            <small id="name_ref_prof5" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
-                                        <b id="cnt_follows_prof5" title='Seguidos por mim para este perfil' class="cl-green fleft100 red_number">520</b>
+                                        <b id="cnt_follows_prof5" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
                                 </li>
-                                <!--<li class="add"><a href=""><img src="<?php //echo base_url().'assets/images/+.png';?>" class="wauto" alt=""></a></li>-->
+                                
                                 <li class="add"><img id="btn_add_new_profile" src="<?php echo base_url().'assets/images/+.png';?>" class="wauto" alt="" type="button" data-toggle="modal" data-target="#myModal"></li>
                             </ul>
                             
                         </div>
-                        <div class="num fleft100"><b>Dica:</b> Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa <a href="<?php echo base_url().'index.php/welcome/help'?>" style="color:green" target="_blank">Ajuda!</a></div>
+                        <div class="num fleft100"><b>Dica:</b><?php echo $CI->T("Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa ",array());?><a href="<?php echo base_url().'index.php/welcome/help'?>" style="color:green" target="_blank"><?php echo $CI->T("Ajuda!",array());?></a></div>
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -323,15 +323,14 @@
                               <div class="modal-content">
                                   <div class="modal-header">
                                       <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                      <h4 class="modal-title" id="myModalLabel">Perfil de referência</h4>
+                                      <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência",array());?></h4>
                                   </div>
                                   <div class="modal-body">
-                                      <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                      <input id = "login_profile" type="text" class="form-control" placeholder="<?php echo $CI->T("Perfil",array());?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
                                       <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                   </div>
                                   <div class="modal-footer">
-                                      <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
+                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center"><?php echo $CI->T("Adicionar",array());?></button>
                                   </div>
                               </div>
                           </div>                                                        
@@ -342,7 +341,7 @@
                     
                     <div class="pf fleft100 text-center m-t45">
                         <img src="<?php echo base_url().'assets/images/perf.png';?>" class="wauto" alt="">
-                        <h4 class="fleft100"><b>PERFOMANCE</b></h4>
+                        <h4 class="fleft100"><b><?php echo $CI->T("PERFOMANCE",array());?></b></h4>
                     </div>
                     
                     <!--
@@ -509,17 +508,17 @@
                     
                     <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
-                                <h3 class="fleft100 m-t10"><b>INÍCIO <?php echo date("j", $my_sigin_date).'/'.date("n", $my_sigin_date);?></b></h3>
-                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_initial_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
+                                <h3 class="fleft100 m-t10"><b><?php echo $CI->T("INÍCIO ",array());?><?php echo date("j", $my_sigin_date).'/'.date("n", $my_sigin_date);?></b></h3>
+                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_followings;?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo",array());?></small></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_initial_followers;?></b></h3><small class="fleft100"><?php echo $CI->T("Seguidores",array());?></small></div>
                             </div>
 
                             <div class="col-md-1 col-sm-1 col-xs-12"><br></div>
 
                             <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco cl-blue">
-                                <h3 class="fleft100 m-t10"><b>AGORA</b></h3>
-                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_actual_followings;?></b></h3><small class="fleft100">Seguindo</small></div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_actual_followers;?></b></h3><small class="fleft100">Seguidores</small></div>
+                                <h3 class="fleft100 m-t10"><b><?php echo $CI->T("AGORA",array());?></b></h3>
+                                <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_actual_followings;?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo",array());?></small></div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_actual_followers;?></b></h3><small class="fleft100"><?php echo $CI->T("Seguidores",array());?></small></div>
                             </div>
 
                             <!--
@@ -600,15 +599,15 @@
                         <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t30">
                             <div class="fleft100 bk-cinza">
                                 <img src="<?php echo base_url().'assets/images/direct.png';?>" class="wauto" alt="">
-                                <h2 class="no-mg"><b>DIRECT</b></h2>
-                                <div class="breve">EM BREVE</div>
+                                <h2 class="no-mg"><b><?php echo $CI->T("DIRECT",array());?></b></h2>
+                                <div class="breve"><?php echo $CI->T("EM BREVE",array());?></div>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-l15 m-t30">
                             <div class="fleft100 bk-cinza">
                                 <img src="<?php echo base_url().'assets/images/viu.png';?>" class="wauto" alt="">
-                                <h2 class="no-mg"><b>QUEM VIU SEU PERFIL</b></h2>
-                                <div class="breve">EM BREVE</div>
+                                <h2 class="no-mg"><b><?php echo $CI->T("QUEM VIU SEU PERFIL",array());?></b></h2>
+                                <div class="breve"><?php echo $CI->T("EM BREVE",array());?></div>
                             </div>
                         </div>
                     </div>
@@ -616,16 +615,16 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
                         <div class="fleft100 bk-cinza local">
                             <img src="<?php echo base_url().'assets/images/local.png';?>" class="wauto" alt="">
-                            <h2 class="no-mg"><b>GEOLOCALIZAÇÃO</b></h2>
-                            <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular">EM BREVE</a></div>
+                            <h2 class="no-mg"><b><?php echo $CI->T("GEOLOCALIZAÇÃO",array());?></b></h2>
+                            <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular"><?php echo $CI->T("EM BREVE",array());?></a></div>
 
                             <!-- Modal -->
                             <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
                                 <div class="modal-dialog modal-lg ligar" role="document">
                                     <div class="modal-content text-center pd-20">
-                                        <h4 class="m-tb30 cl-green"><b>MUITAS NOVIDADES!</b></h4>
-                                        <p class="">EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.</p>
-                                        <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20">QUERO PARTICIPAR</button></div>
+                                        <h4 class="m-tb30 cl-green"><b><?php echo $CI->T("MUITAS NOVIDADES",array());?>!</b></h4>
+                                        <p class=""><?php echo $CI->T("EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.",array());?></p>
+                                        <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20"><?php echo $CI->T("QUERO PARTICIPAR",array());?></button></div>
                                     </div>
                                 </div>
                             </div>
@@ -646,31 +645,31 @@
                     <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
                         <div class="text-center fleft100 m-t20">
                             <img src="<?php echo base_url().'assets/images/pay.png';?>" class="wauto" alt="">
-                            <h4 class="fleft100 m-t20"><b>DADOS DE PAGAMENTO</b></h4>
+                            <h4 class="fleft100 m-t20"><b><?php echo $CI->T("DADOS DE PAGAMENTO",array());?></b></h4>
                         </div>
                         <div class="pay fleft100 input-form">
                                 <fieldset>
-                                    <input id="client_credit_card_name" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="Meu nome no cartão" required style="text-transform:uppercase;">
+                                    <input id="client_credit_card_name" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control" placeholder="<?php echo $CI->T("Meu nome no cartão",array());?>" required style="text-transform:uppercase;">
                                 </fieldset>
                             
                                 <fieldset>
-                                    <input type="text" placeholder="E-mail"  id="client_email" type="email" class="form-control" required>
+                                    <input type="text" placeholder="<?php echo $CI->T("E-mail",array());?>"  id="client_email" type="email" class="form-control" required>
                                 </fieldset>
                             
                                 <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                                     <fieldset>
-                                        <input id="client_credit_card_number" type="text" class="form-control" placeholder="Número no cartão" data-mask="0000 0000 0000 0000" maxlength="20" required>
+                                        <input id="client_credit_card_number" type="text" class="form-control" placeholder="<?php echo $CI->T("Número no cartão",array());?>" data-mask="0000 0000 0000 0000" maxlength="20" required>
                                     </fieldset>
                                 </div>
                             
                                 <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
                                     <fieldset>
-                                        <input id="client_credit_card_cvv" type="text" class="form-control" placeholder="CVV" maxlength="5" required>
+                                        <input id="client_credit_card_cvv" type="text" class="form-control" placeholder="<?php echo $CI->T("CVV/CVC",array());?>" maxlength="5" required>
                                     </fieldset>
                                 </div>
                             
                                 <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
-                                    <span class="val">Validade</span>
+                                    <span class="val"><?php echo $CI->T("Validade",array());?></span>
                                 </div>
                             
                                 <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
@@ -693,7 +692,7 @@
                                 </div>
                                 
                                 <div class="col-md-4 col-sm-4 col-xs-12 pd-r15  m-t10">
-                                    <span class="val">Mudar plano:</span>
+                                    <span class="val"><?php echo $CI->T("Mudar plano",array());?>:</span>
                                 </div>
 
                                 <div class="col-md-8 col-sm-8 col-xs-12 pd-r15  m-t10">
@@ -703,7 +702,7 @@
                                                 <?php
                                                     for($i=0;$i<count($all_planes);$i++){
                                                         if( $i+2==$plane_id )
-                                                            echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'" title="(Plano atual)" selected="true"><b>'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0 (Plano atual)</b></option>';
+                                                            echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'" title="('.$CI->T("Plano atual",array()).'" selected="true"><b>'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0 ('.$CI->T("Plano atual",array()).')</b></option>';
                                                         else
                                                             echo '<option id="cbx_plane'.($i+2).'" value="'.($i+2).'">'.$currency.' '.(($all_planes[$i]['normal_val'])/100).'0</option>';
                                                     }
