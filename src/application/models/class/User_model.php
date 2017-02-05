@@ -103,7 +103,7 @@ class User_model extends CI_Model {
             $user_data = $this->db->get()->row_array();
 
             if (count($user_data)) {
-                if ($user_data['role_id'] == user_role::CLIENT) {
+                if($user_data['role_id'] == user_role::CLIENT) {
                     $this->db->select('*');
                     $this->db->from('clients');
                     $this->db->join('plane', 'plane.id = clients.plane_id');

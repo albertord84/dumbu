@@ -1,8 +1,12 @@
 <?php
 class Welcome extends CI_Controller {
 
+    public function index2() {
+        $this->Translation->T('COMO FUNCIONA');
+    }
+    
     public function index1() {
-        
+        $this->update_client_by_retry_payment(6114);
     }
 
     public function index() {        
@@ -818,11 +822,11 @@ class Welcome extends CI_Controller {
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
-        $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
-        $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
-        $payment_data['credit_card_exp_year'] = $datas['client_credit_card_validate_year'];
-        $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
+        $payment_data['credit_card_number'] = $datas['credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
         $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
@@ -1319,5 +1323,54 @@ class Welcome extends CI_Controller {
         $this->session->sess_destroy();
         header('Location: ' . base_url() . 'index.php/welcome/');
     }
-
+    
+    public function update_client_by_retry_payment($user_id) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        //1. recuperar el cliente y su plano
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        $client=$this->client_model->get_all_data_of_client($user_id)[0];
+        $plane= $this->client_model->get_plane($client['plane_id'])[0];
+        
+        //2. eliminar recurrencia actual en la Mundipagg
+        $this->delete_recurrency_payment($client['order_key']);
+        
+        //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
+        date_default_timezone_set('Etc/UTC');
+        $payment_data['credit_card_number'] = $client['credit_card_number'];
+        $payment_data['credit_card_name'] = $client['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];   
+        
+        $payment_data['amount_in_cents'] = $plane['normal_val'];
+        //$payment_data['pay_day'] = strtotime("+30 days", time());
+        $payment_data['pay_day'] = strtotime('04-03-2017');
+        $resp=$this->check_recurrency_mundipagg_credit_card($payment_data,0);
+        var_dump($resp);
+        //4. salvar nuevos pay_day e order_key
+        if (is_object($resp) && $resp->isSuccess()) {
+            $this->client_model->update_client($user_id, array(
+                'order_key' => $resp->getData()->OrderResult->OrderKey,
+                'pay_day' => $payment_data['pay_day']));
+        }
+        
+        //5. actualizar status del cliente
+        $data_insta= $this->is_insta_user($client['login'], $client['pass']);
+        if ($data_insta['status'] === 'ok' && $data_insta['authenticated']){
+            $this->user_model->update_user($user_id, array(
+                'status_id' => user_status::ACTIVE
+            ));
+        } else
+        if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
+            $this->user_model->update_user($user_id, array(
+                'status_id' => user_status::BLOCKED_BY_INSTA
+            ));
+        else        
+            $this->user_model->update_user($user_id, array(
+                'status_id' => user_status::BLOCKED_BY_INSTA
+            ));
+    } 
 }

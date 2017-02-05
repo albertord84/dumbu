@@ -79,23 +79,23 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 
-//$pay_day = strtotime('11-02-2017');
+$pay_day = strtotime('04-03-2017');
 //$pay_day = time();
-//var_dump($pay_day);
+var_dump($pay_day);
 //
 ////
-//$payment_data['credit_card_number'] = '5464522518570770';
-//$payment_data['credit_card_name'] = 'ANTONIO CARLOS SILVA';
-//$payment_data['credit_card_exp_month'] = '12';
-//$payment_data['credit_card_exp_year'] = '2020';
-//$payment_data['credit_card_cvc'] = '167';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = $pay_day;
-//   
+$payment_data['credit_card_number'] = '5140861330403010';
+$payment_data['credit_card_name'] = 'RONY PADILHA';
+$payment_data['credit_card_exp_month'] = '12';
+$payment_data['credit_card_exp_year'] = '2021';
+$payment_data['credit_card_cvc'] = '096';
+$payment_data['amount_in_cents'] = 9990;
+$payment_data['pay_day'] = $pay_day;
+
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0);
-//var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0);
+var_dump($resul);
 ////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
@@ -133,7 +133,7 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 var_dump($result);
 
-$Robot = new dumbu\cls\Robot();
+//$Robot = new dumbu\cls\Robot();
 
 
 //$result = $Robot->bot_login("dignabenigna", "Roxgirl0");
@@ -165,11 +165,11 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //----------------------------------------------------------------
 // WORKER
-$Worker = new dumbu\cls\Worker();
+//$Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
-$Worker->prepare_daily_work();
+//$Worker->prepare_daily_work();
 //$Worker->do_work();
 //----------------------------------------------------------------
 

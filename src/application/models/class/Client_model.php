@@ -198,6 +198,29 @@
             }
         }
         
+        public function get_all_data_of_client($user_id) {
+            try {    
+                $this->db->select('*');
+                $this->db->from('clients'); 
+                $this->db->join('users', 'users.id = clients.user_id');
+                $this->db->where('users.id', $user_id);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function get_plane($plane_id) {
+            try {    
+                $this->db->select('*');
+                $this->db->from('plane');
+                $this->db->where('id', $plane_id);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
         public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
             try {
                 $data['client_id']=$clien_id;        

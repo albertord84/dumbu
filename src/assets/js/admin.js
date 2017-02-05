@@ -83,8 +83,11 @@ $(document).ready(function(){
        alert(id);
     });
     
-    
-    
-    
+    $('#admin_form').keypress(function (e) {
+        if (e.which == 13) {
+            $("#execute_query").click();
+            return false;
+        }
+    });
     
 }); 
