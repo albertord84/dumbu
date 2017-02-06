@@ -4,12 +4,12 @@ namespace dumbu\cls {
 
     class DB {
 
-        const host = 'localhost';
-        const port = '3128';
-        const db = 'dumbudb';
-        const user = 'root';
-        const pass = 'csduo2004mysql';
-
+        protected $host = 'localhost';
+        protected $db = 'dumbudb';
+        //protected $port = '3128';
+        protected $user = 'root';
+        protected $pass = 'csduo2004mysql';
+        
         private $connection = NULL;
 
         public function __construct() {
@@ -19,7 +19,13 @@ namespace dumbu\cls {
         public function connect() {
             if (!$this->connection) {
                 // Connect to DB
-                $this->connection = mysqli_connect($this::host, $this::user, $this::pass, $this::db) or die("Cannot connect to database.");
+                $config = parse_ini_file(dirname(__FILE__) . "/../../../CONFIG.INI", true);
+                $this->host = $config["database"]["host"];
+                $this->db = $config["database"]["db"];
+                //$this->port = $GLOBALS['sistem_config']->DB_PORT;
+                $this->user = $config["database"]["user"];
+                $this->pass = $config["database"]["pass"];
+                $this->connection = mysqli_connect($this->host, $this->user, $this->pass, $this->db) or die("Cannot connect to database.");
             }
         }
 
@@ -400,7 +406,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-        
+
         public function get_system_config_vars() {
             try {
                 $this->connect();
@@ -412,6 +418,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
     }
 
 }
