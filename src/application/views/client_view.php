@@ -273,6 +273,7 @@
                                         <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                         <br>
                                         <a id="lnk_ref_prof2" target="_blank" href="#">
+                                            <small id="name_ref_prof2" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100 m-t10"></small>
                                         </a>
                                         <b id="cnt_follows_prof2" title='<?php echo $CI->T("Seguidos por mim para este perfil",array());?>' class="cl-green fleft100 red_number">520</b>
                                     </div>
