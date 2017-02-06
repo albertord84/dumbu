@@ -79,23 +79,23 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 
-//$pay_day = strtotime('04-03-2017');
+$pay_day = strtotime('03-03-2017');
 //$pay_day = time();
-//var_dump($pay_day);
+var_dump($pay_day);
 //
 //////
-//$payment_data['credit_card_number'] = '5140861330403010';
-//$payment_data['credit_card_name'] = 'RONY PADILHA';
-//$payment_data['credit_card_exp_month'] = '12';
-//$payment_data['credit_card_exp_year'] = '2021';
-//$payment_data['credit_card_cvc'] = '096';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = $pay_day;
+$payment_data['credit_card_number'] = '4593140297833237';
+$payment_data['credit_card_name'] = 'SIMONE R MAURICIO';
+$payment_data['credit_card_exp_month'] = '03';
+$payment_data['credit_card_exp_year'] = '2023';
+$payment_data['credit_card_cvc'] = '787';
+$payment_data['amount_in_cents'] = 9990;
+$payment_data['pay_day'] = $pay_day;
 
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0);
-//var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0);
+var_dump($resul);
 ////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
