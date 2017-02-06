@@ -632,14 +632,6 @@
                     </div>
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
 
                     <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
                     <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
@@ -713,7 +705,7 @@
                                 </div>
                                 <div class="text-center">
                                     <button id = "btn_send_update_datas" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                        <span class="ladda-label"><div style="color:white; font-weight:bold">CONFERIR</div></span>
+                                        <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></span>
                                     </button>
                                 </div>
                         </div>
@@ -723,27 +715,27 @@
                     <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
                         <div class="text-center fleft100 m-t20">
                             <img src="<?php echo base_url().'assets/images/mail.png';?>" class="wauto" alt="">
-                            <h4 class="fleft100 m-t20"><b>FALE CONOSCO</b></h4>
+                            <h4 class="fleft100 m-t20"><b><?php echo $CI->T("FALE CONOSCO",array());?></b></h4>
                         </div>
                         <div class="pay fleft100 input-form" id="talkme_frm">
                             <fieldset>
-                                <input id="visitor_name" type="text" placeholder="Nome">
+                                <input id="visitor_name" type="text" placeholder="<?php echo $CI->T("Nome",array());?>">
                             </fieldset>
                             <fieldset>
-                                <input id="visitor_email" type="text" placeholder="E-mail">
+                                <input id="visitor_email" type="text" placeholder="<?php echo $CI->T("E-mail",array());?>">
                             </fieldset>
                             <fieldset>
-                                <input id="visitor_company" type="text" placeholder="Empresa">
+                                <input id="visitor_company" type="text" placeholder="<?php echo $CI->T("Empresa",array());?>">
                             </fieldset>
                             <fieldset>
-                                <input id="visitor_phone" type="text" placeholder="Telefone">
+                                <input id="visitor_phone" type="text" placeholder="<?php echo $CI->T("Telefone",array());?>">
                             </fieldset>
                             <fieldset>
-                                <textarea name="" id="visitor_message" cols="30" rows="5" placeholder="Mensagem"></textarea>
+                                <textarea name="" id="visitor_message" cols="30" rows="5" placeholder="<?php echo $CI->T("Mensagem",array());?>"></textarea>
                             </fieldset>
                             <div class="text-center">
                                 <button id="btn_send_message" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold">ENVIAR</div></span>
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ENVIAR",array());?></div></span>
                                 </button>
                             </div>
                         </div>
@@ -753,20 +745,20 @@
         
             <div class="m-t10">
                 <div>
-                    <p class=text-center>CANCELAMENTO DA ASSINATURA</p> 
+                    <p class=text-center><?php echo $CI->T("CANCELAMENTO DA ASSINATURA",array());?></p> 
                 </div>
 
                 <div class="text-center" >
                     <div class="row" style="margin-top: 2%; margin-bottom: 2%">
                         <button id="cancel_usser_account" class="btn btn-default ladda-button"  type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                            <span class="ladda-label">Cancelar conta</span>
+                            <span class="ladda-label"><?php echo $CI->T("Cancelar conta",array());?></span>
                         </button>
                     </div>
                 </div>
              </div>
 
             <div class="h150 fleft100"></div>
-            <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2016 - TODOS OS DIREITOS RESERVADOS</span></div></footer>
+            <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS",array());?></span></div></footer>
 
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
