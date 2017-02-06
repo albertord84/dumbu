@@ -35,6 +35,7 @@ $(document).ready(function(){
         } else
             alert('Alcançou a quantidade maxima permitida');        
     });
+        
     
     $("#btn_insert_profile").click(function(){
         if(validate_element('#login_profile','^[a-zA-Z0-9\._]{1,300}$')){                
@@ -255,8 +256,11 @@ $(document).ready(function(){
     $("#continuar_purchase").click(function(){
         if(num_profiles==0)
             alert('Deve adicionar pelo menos um Perfil de Referência para continuar.');
-        else
+        else{
+            var l = Ladda.create(this);  l.start();
             $(location).attr('href',base_url+'index.php/welcome/client'); 
+            l.stop();
+        }
     });
     
     $("#btn_add_new_profile").hover(

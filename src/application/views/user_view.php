@@ -230,8 +230,17 @@
 		<section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
-				<h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR",array());?><small class="fleft100">Plano mensal sem multa de rescisão.</small></h3>
-				<div class="col-md-3 col-sm-3 col-xs-12">
+				<h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR",array());?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão",array());?>.</small></h3>
+				
+                                <h4 class="titulo fleft100 text-center m-tb30">
+                                     <div style="background-color:#2CC38F;margin-left:12%;margin-right:12%;margin-bottom:3%; padding:1%;border-radius:15px">
+                                        <b style="color:white;font-size:1.3em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis",array());?>!</b>
+                                    </div>
+                                </h4>
+				
+                                
+                                
+                                <div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_4_90" class="plano text-center fleft100">
                                                 <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro01.png'?>"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>

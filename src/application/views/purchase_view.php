@@ -4,8 +4,9 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-                <meta name="description" content="Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct">
-                <meta name="keywords" content="ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas">
+                <?php  $CI =& get_instance();?>
+                <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
+                <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
@@ -81,17 +82,17 @@
 				<div class="col-md-6 col-sm-6 col-xs-12 no-pd">	
 					<div class="text-center fleft100 m-t45">
                                             <img src="<?php echo base_url().'assets/images/sim.png';?>" class="wauto" alt="">
-						<h2 class="cl-green"><b>Assinatura aprovada <br>com sucesso!</b></h2>
+						<h2 class="cl-green"><b><?php echo $CI->T("Assinatura aprovada ",array());?><br><?php echo $CI->T("com sucesso",array());?>!</b></h2>
 					</div>				
 					<div class="fleft100 text-center pd-20 bk-cinza m-t30">
 						<p>
-							<b>Sua compra foi autorizada com sucesso!</b>
+							<b><?php echo $CI->T("Sua compra foi autorizada com sucesso",array());?>!</b>
 							<br><br>
-							Agora você precisa  escolher seus perfis de referência. 
-							Eles serão usados para captar os seguidores que deseja.  Perfis de referênci são todos os perfis que tem algo a ver com a sua conta, como um concorrente ou perfil similar, por exemplo.
+							<?php echo $CI->T("Agora você precisa  escolher seus perfis de referência.",array());?> 
+							<?php echo $CI->T("Eles serão usados para captar os seguidores que deseja.  Perfis de referênci são todos os perfis que tem algo a ver com a sua conta, como um concorrente ou perfil similar, por exemplo.",array());?> 
 						</p>
-						<span class="fleft100 m-tb30">PASSO 4</span>
-						<span class="fleft100 m-b10"><b>Adicione 3 perfis de referência abaixo:</b> <small class="fleft100 cl-red m-b10">*Obrigatório</small></span>
+						<span class="fleft100 m-tb30"><?php echo $CI->T("PASSO 4",array());?></span>
+						<span class="fleft100 m-b10"><b><?php echo $CI->T("Adicione 3 perfis de referência abaixo",array());?>Adicione 3 perfis de referência abaixo:</b> <small class="fleft100 cl-red m-b10">*Obrigatório</small></span>
 						
                                                                                                    
                                                     <ul class="add-perfil">
@@ -100,7 +101,7 @@
                                                                     <img id="img_ref_prof0" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                                                     <br>
                                                                     <a id="lnk_ref_prof0" target="_blank" href="#">
-                                                                        <small id="name_ref_prof0" title="Ver no Instagram" style="color:black" class="fleft100"></small>
+                                                                        <small id="name_ref_prof0" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100"></small>
                                                                     </a>
                                                                 </div>                                                                
                                                             </li>
@@ -110,7 +111,7 @@
                                                                     <img id="img_ref_prof1" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                                                     <br>
                                                                     <a id="lnk_ref_prof1" target="_blank" href="#">
-                                                                        <small id="name_ref_prof1" title="Ver no Instagram" style="color:black" class="fleft100"></small>
+                                                                        <small id="name_ref_prof1" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100"></small>
                                                                     </a>
                                                                 </div>                                                                
                                                             </li>
@@ -120,7 +121,7 @@
                                                                     <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>">
                                                                     <br>
                                                                     <a id="lnk_ref_prof2" target="_blank" href="#">
-                                                                        <small id="name_ref_prof2" title="Ver no Instagram" style="color:black" class="fleft100"></small>
+                                                                        <small id="name_ref_prof2" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100"></small>
                                                                     </a>
                                                                 </div>                                                                
                                                             </li>
@@ -133,7 +134,7 @@
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
                                                                       <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                                      <h4 class="modal-title" id="myModalLabel">Perfil de referência</h4>
+                                                                      <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência",array());?></h4>
                                                                   </div>
                                                                   <div class="modal-body">
                                                                       <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
@@ -141,14 +142,18 @@
                                                                   </div>
                                                                   <div class="modal-footer">
                                                                       <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center">Adicionar</button>
+                                                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar",array());?></div></span>
+                                                                      </button>
                                                                   </div>
                                                               </div>
                                                           </div>                                                        
                                                     </div>                                                    
 
                                                     <div class="text-center">
-                                                        <button id="continuar_purchase" class="btn-primary btn-green m-t20">CONTINUAR</button>
+                                                        <button id="continuar_purchase" class="btn-primary btn-green m-t20 ladda-button">
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONTINUAR",array());?></div></span>
+                                                        </button>
                                                     </div>
 					</div>
 				</div>
@@ -159,7 +164,7 @@
 		</section>
 				
 
-		<footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2016 - TODOS OS DIREITOS RESERVADOS</span></div></footer>
+		<footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS",array());?></span></div></footer>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

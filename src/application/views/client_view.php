@@ -145,7 +145,7 @@
                                 case 7:                                        
                                     echo '
                                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("ATUALIZAR AGORA",array()).'</b>
+                                            <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">'.$CI->T("ATENÇÂO",array()).'</b>
                                             <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;"><BR>'.$CI->T("PRECISAMOS QUE VOCÊ SIGA MÁXIMO 6500 PERFIS NO INSTAGRAM PARA INICIAR A FERRAMENTA NO SEU PERFIL",array()).'</b><BR>
                                         </div>'; 
                                     break;
@@ -331,7 +331,9 @@
                                       <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                   </div>
                                   <div class="modal-footer">
-                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center"><?php echo $CI->T("Adicionar",array());?></button>
+                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                          <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar",array());?></div></span>
+                                      </button>
                                   </div>
                               </div>
                           </div>                                                        
@@ -633,7 +635,7 @@
                     </div>
                     
                     
-
+                    <a name="lnk_update_data_bank"></a>
                     <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
                     <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
                         <div class="text-center fleft100 m-t20">
