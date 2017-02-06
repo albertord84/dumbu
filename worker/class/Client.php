@@ -194,12 +194,14 @@ namespace dumbu\cls {
         /**
          * 
          * @param type Client ans Users tables data for a client.
+         * @return logindata or NULL
          */
         public function sign_in($Client) {
             $login_data = (new Robot)->bot_login($Client->login, $Client->pass, $Client);
             if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
                 $this->set_client_cookies($Client->id, json_encode($login_data));
                 echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login <br>\n<br>\n";
+                return $login_data;
             } else {
                 echo "<br>\n NOT Autenticated Client!!!: $Client->login <br>\n<br>\n";
                 // Chague client status
@@ -210,6 +212,7 @@ namespace dumbu\cls {
                     $this->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
                 }
                 $this->set_client_cookies($Client->id, NULL);
+                return NULL;
             }
         }
 

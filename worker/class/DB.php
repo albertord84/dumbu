@@ -111,10 +111,10 @@ namespace dumbu\cls {
         public function set_client_cookies($client_id, $cookies) {
             try {
                 $this->connect();
-                $sql = "UPDATE clients "
-                        . "SET "
-                        . "      clients.cookies   = '$cookies' "
-                        . "WHERE clients.user_id = $client_id; ";
+                $sql  = "UPDATE clients "
+                        . "SET ";
+                $sql .= $cookies? " clients.cookies   = '$cookies' " : " clients.cookies   = NULL ";
+                $sql .= "WHERE clients.user_id = $client_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
                 if ($result)
