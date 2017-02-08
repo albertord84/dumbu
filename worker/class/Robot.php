@@ -231,6 +231,7 @@ namespace dumbu\cls {
                     $result = $DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    $DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;
 
@@ -245,6 +246,7 @@ namespace dumbu\cls {
                     $result = $DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
+                    $DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
 
@@ -624,6 +626,7 @@ namespace dumbu\cls {
             $cookies = array();
 //            var_dump($cookies);
             $html = curl_exec($ch);
+            print_r($html, TRUE);
             $info = curl_getinfo($ch);
             //var_dump($html);
 

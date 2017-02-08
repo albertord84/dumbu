@@ -87,11 +87,13 @@ namespace dumbu\cls {
             $DB = new DB();
             $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
-//                var_dump($Client);
-// Log user with curl in istagram to get needed session data
-//                $login_data = $this->Robot->bot_login($Client->login, $Client->pass, $Client);
-//                var_dump($Client);
-//                if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
+                if (!$Client->cookies) {
+                    // Log user with curl in istagram to get needed session data
+                    $login_data = $Client->sign_in($Client);
+                    if ($login_data !== NULL) {
+                        $Client->cookies = json_encode($login_data);
+                    }
+                }
                 if ($Client->cookies) {
 //                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
@@ -108,7 +110,7 @@ namespace dumbu\cls {
                         foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
                             if ($Ref_Prof->end_date == NULL) {
-                                $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($Client->cookies));
+                                $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
                             }
                         }
                     } else {
@@ -117,7 +119,6 @@ namespace dumbu\cls {
                     }
                 } else {
 // TODO: do something in Client autentication error
-                    $Client->sign_in($Client);    
                     // Send email to client
                     $now = new \DateTime("now");
                     $status_date = new \DateTime();
@@ -296,5 +297,4 @@ namespace dumbu\cls {
         }
 
     }
-
 }

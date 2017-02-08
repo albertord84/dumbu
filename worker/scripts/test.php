@@ -43,7 +43,7 @@ $Client = new dumbu\cls\Client();
 //var_dump($a);
 //var_dump(date('d-m-Y',1483449391));
 //var_dump(date('d-m-Y',1486247776));
-$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
+//$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 //var_dump(date('d-m-Y',1482951226));
 // MUNDIPAGG
 //$Payment = new dumbu\cls\Payment();
@@ -79,23 +79,23 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 
-$pay_day = strtotime('03-03-2017');
+//$pay_day = strtotime('03-03-2017');
 //$pay_day = time();
-var_dump($pay_day);
+//var_dump($pay_day);
 //
 //////
-$payment_data['credit_card_number'] = '4593140297833237';
-$payment_data['credit_card_name'] = 'SIMONE R MAURICIO';
-$payment_data['credit_card_exp_month'] = '03';
-$payment_data['credit_card_exp_year'] = '2023';
-$payment_data['credit_card_cvc'] = '787';
-$payment_data['amount_in_cents'] = 9990;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '4593140297833237';
+//$payment_data['credit_card_name'] = 'SIMONE R MAURICIO';
+//$payment_data['credit_card_exp_month'] = '03';
+//$payment_data['credit_card_exp_year'] = '2023';
+//$payment_data['credit_card_cvc'] = '787';
+//$payment_data['amount_in_cents'] = 9990;
+//$payment_data['pay_day'] = $pay_day;
 
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0);
-var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0);
+//var_dump($resul);
 ////----------------------------------------------------------------
 
 //$result = $Payment->check_payment(NULL);
@@ -133,10 +133,10 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 
-//$Robot = new dumbu\cls\Robot();
+$Robot = new dumbu\cls\Robot();
 
 
-//$result = $Robot->bot_login("dignabenigna", "Roxgirl0");
+//$result = $Robot->bot_login("michelnapo", "ancdse102030");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
@@ -164,8 +164,9 @@ $Gmail = new dumbu\cls\Gmail();
 //$result = $Robot->bot_login("pedropetti", "Pp106020946");
 //var_dump($result);
 //----------------------------------------------------------------
+//
 // WORKER
-//$Worker = new dumbu\cls\Worker();
+$Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
