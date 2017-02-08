@@ -33,6 +33,8 @@
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
+                <script type="text/javascript">var language = '<?php echo $language;?>';</script> 
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
                 <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
                 <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
@@ -92,7 +94,7 @@
 							<?php echo $CI->T("Eles serão usados para captar os seguidores que deseja.  Perfis de referênci são todos os perfis que tem algo a ver com a sua conta, como um concorrente ou perfil similar, por exemplo.",array());?> 
 						</p>
 						<span class="fleft100 m-tb30"><?php echo $CI->T("PASSO 4",array());?></span>
-						<span class="fleft100 m-b10"><b><?php echo $CI->T("Adicione 3 perfis de referência abaixo",array());?>Adicione 3 perfis de referência abaixo:</b> <small class="fleft100 cl-red m-b10">*Obrigatório</small></span>
+						<span class="fleft100 m-b10"><b><?php echo $CI->T("Adicione 3 perfis de referência abaixo",array());?>:</b> <small class="fleft100 cl-red m-b10">*<?php echo $CI->T("Obrigatório",array());?></small></span>
 						
                                                                                                    
                                                     <ul class="add-perfil">
@@ -151,7 +153,7 @@
                                                     </div>                                                    
 
                                                     <div class="text-center">
-                                                        <button id="continuar_purchase" class="btn-primary btn-green m-t20 ladda-button">
+                                                        <button id="continuar_purchase" class="btn-primary btn-green m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                                             <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONTINUAR",array());?></div></span>
                                                         </button>
                                                     </div>
@@ -167,7 +169,7 @@
 		<footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS",array());?></span></div></footer>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="<?php echo base_url().'assets/bootstrap/js/bootstrap.min.js';?>"></script>
 		<script src="<?php echo base_url().'assets/js/jquery.dlmenu.js';?>"></script>

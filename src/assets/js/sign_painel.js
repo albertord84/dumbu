@@ -61,25 +61,25 @@ $(document).ready(function () {
 
                         },
                         error: function (xhr, status) {
-                            $('#container_sigin_message').text('Não foi possível comprobar a autenticidade do usuario no Instagram!');
+                            $('#container_sigin_message').text(T('Não foi possível comprobar a autenticidade do usuario no Instagram!'));
                             $('#container_sigin_message').css('visibility', 'visible');
                             $('#container_sigin_message').css('color', 'red');
                             l.stop();
                         }
                     });
                 } else {
-                    $('#container_sigin_message').text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos!');
+                    $('#container_sigin_message').text(T('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos!'));
                     $('#container_sigin_message').css('visibility', 'visible');
                     $('#container_sigin_message').css('color', 'red');
                 }
             } else {
-                $('#container_sigin_message').text('Problemas na estrutura do email informado!');
+                $('#container_sigin_message').text(T('Problemas na estrutura do email informado!'));
                 $('#container_sigin_message').css('visibility', 'visible');
                 $('#container_sigin_message').css('color', 'red');
                 //alert('O email informado não é correto');
             }
         } else {
-            $('#container_sigin_message').text('Deve preencher todos os dados corretamente!');
+            $('#container_sigin_message').text(T('Deve preencher todos os dados corretamente!'));
             $('#container_sigin_message').css('visibility', 'visible');
             $('#container_sigin_message').css('color', 'red');
             //alert('Formulario incompleto');
@@ -201,63 +201,45 @@ $(document).ready(function () {
             case 1:               
                 $('#container_login_panel').css('visibility', 'visible');
                 $('#container_login_panel').css('display', 'block');
-                
-                $('#signin_profile').css({'visibility':'hidden','display':'none'});
-                
-
+                $('#signin_profile').css({'visibility':'hidden','display':'none'});                
                 $('#coniner_data_panel *').prop('disabled', true);
                 $('#coniner_data_panel').css('background-color', '#F5F5F5');
                 $('#container_sing_in_panel *').prop('disabled', true);
                 $('#container_sing_in_panel').css('background-color', '#F5F5F5');
-
                 $("#btn_sing_in").hover(function () {
                     $('#btn_sing_in').css('cursor', 'not-allowed');
-                }, function () { });
-                
+                }, function () { });                
                 $("#coniner_data_panel *").hover(function () {
                     $('#coniner_data_panel *').css('cursor', 'not-allowed');
-                }, function () { });
-                
+                }, function () { });                
                 $("#container_sing_in_panel *").hover(function () {
                     $('#container_sing_in_panel *').css('cursor', 'not-allowed');
                 }, function () { });                
-                
-                break;
-                
+                break;                
             case 2:                
                 $('#login_sign_in').css('visibility', 'hidden');
                 $('#container_sigin_message').css('visibility', 'hidden');
-
                 $('#container_login_panel').css('visibility', 'hidden');
                 $('#container_login_panel').css('display', 'none');
                 $('#signin_profile').css('visibility', 'visible');
                 $('#signin_profile').css('display', 'block');
-
                 $('#img_ref_prof').attr("src", insta_profile_datas.profile_pic_url);
                 $('#name_ref_prof').text(insta_profile_datas.username);
                 $('#ref_prof_followers').text('Seguidores: ' + insta_profile_datas.follower_count);
                 $('#ref_prof_following').text('Seguindo: ' + insta_profile_datas.following);
-
                 $('#coniner_data_panel *').prop('disabled', false);
                 $('#coniner_data_panel *').css('color', '#000000');
                 $('#container_sing_in_panel *').prop('disabled', false);
                 $('#container_sing_in_panel *').css('color', '#000000');
-
-
                 $('#coniner_data_panel').css('background-color', 'transparent');
                 $('#container_sing_in_panel').css('background-color', 'transparent');
-
-                
                 $('#btn_sing_in').css('cursor', 'default');
-                
                 $("#coniner_data_panel *").hover(function () {
                     $('#coniner_data_panel *').css('cursor', 'auto');
                 }, function () { });
                 $("#container_sing_in_panel *").hover(function () {
                     $('#container_sing_in_panel *').css('cursor', 'auto');
                 }, function () { });
-
-
                 break;
         }
     }

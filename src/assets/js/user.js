@@ -1,4 +1,5 @@
 $(document).ready(function(){   
+        
     $("#btn_dumbu_login1").click(function() {        
         do_login('#userLogin1','#userPassword1', '#container_login_message1',this);
     });
@@ -68,17 +69,17 @@ $(document).ready(function(){
                         }
                     },                
                     error : function(xhr, status) {
-                        alert('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente');    
+                        alert(T('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
                         l.stop();
                     }
                 });   
             } else{
-                $(fieldErrorMessage).text('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
+                $(fieldErrorMessage).text(T('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.'));
                 $(fieldErrorMessage).css('visibility','visible');
                 $(fieldErrorMessage).css('color','red');
             }       
         } else{
-            $(fieldErrorMessage).text('Deve preencher todos os dados corretamente.');
+            $(fieldErrorMessage).text(T('Deve preencher todos os dados corretamente.'));
             $(fieldErrorMessage).css('visibility','visible');
             $(fieldErrorMessage).css('color','red');
         }

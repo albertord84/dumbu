@@ -24,12 +24,12 @@ $(document).ready(function(){
                     l.stop();
                 },
                 error : function(xhr, status) {
-                    alert('Erro enviando a mensagem, tente depois...');
+                    alert(T('Erro enviando a mensagem, tente depois...'));
                     l.stop();
                 }                
             });
         } else{
-            alert('Alguns dados incorretos');
+            alert(T('Alguns dados incorretos'));
         }
     });
         

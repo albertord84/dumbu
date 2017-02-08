@@ -7,8 +7,6 @@ $(document).ready(function(){
     $("#client_credit_card_validate_year").val(upgradable_datas['credit_card_exp_year']);
     $("#client_email").val(upgradable_datas['email']);*/
     
-    
-    
     $("#btn_cancel_update_datas").click(function() {
         $(location).attr('href',base_url+'index.php/welcome/reload_panel_client');
     });
@@ -49,7 +47,7 @@ $(document).ready(function(){
                 }
             });
         } else{
-            alert('Erro nos dados fornecidos');
+            alert(T('Erro nos dados fornecidos'));
         }
     }); 
     
@@ -87,8 +85,4 @@ $(document).ready(function(){
             return true;
         }
     }  
-        
-        
-        
-     
  }); 

@@ -31,6 +31,8 @@
             <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
 
             <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
+            <script type="text/javascript">var language = '<?php echo $language;?>';</script>
+            <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/client_painel.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/update_client_painel.js';?>"></script>
@@ -239,7 +241,7 @@
                     <div class="col-md-10 col-sm-10 col-xs-12 m-t30">
                         <div class="num">
                             <img src="<?php echo base_url().'assets/images/bol-g.png';?>" class="wauto" alt="">
-                                <?php echo $CI->T('Número de perfis já seguidos ',array()).$total_amount_followers_today;?>
+                                <?php echo $CI->T('Número de perfis já seguidos ',array()).' '.$total_amount_followers_today;?>
                             <span class="fright">
                                 <?php echo $total_amount_reference_profile_today.' '.$CI->T('Perfis de referência utilizados até hoje',array());?>
                             </span></div>
@@ -764,7 +766,7 @@
             <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS",array());?></span></div></footer>
 
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
             <!-- Include all compiled plugins (below), or include individual files as needed -->
             <script src="<?php echo base_url().'assets/bootstrap/js/bootstrap.min.js';?>"></script>
             <script src="<?php echo base_url().'assets/js/jquery.dlmenu.js';?>"></script>

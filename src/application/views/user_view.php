@@ -22,8 +22,6 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
-                
-                
 
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
@@ -33,7 +31,9 @@
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
-                <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
+                <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
+                <script type="text/javascript">var languaje = '<?php echo $languaje;?>';</script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$languaje.'/internalization.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
@@ -43,7 +43,7 @@
 	<body id="my_body">
                 <?php include_once("analyticstracking.php") ?>
                 <?php include_once("remarketing.php")?>                
-            
+                
 		<div class="windows8">
                     <div class="wBall" id="wBall_1">
                      <div class="wInnerBall"></div>
@@ -171,7 +171,7 @@
 						<span class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.",array());?></span>
 						<hr>
 						<span class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de",array());?></span>
-						<h1 class="fleft100 cl-fff no-mg">R$<b>4,90</b></h1>
+						<h1 class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b></h1>
 						<span class="fleft100 cl-fff no-mg"><?php echo $CI->T("no 1º mês",array());?></span>
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR",array());?></button></div>
@@ -182,7 +182,9 @@
 					<img src="assets/images/50 países.png" class="fleft100 i-block wauto paises" alt="">
 				</div>
 				<div class="col-md-5 col-sm-5 col-xs-12 text-center cel">
-					<img src="assets/images/755K.png" class="fleft100 m-wauto" alt="">
+                                    <?php                                        
+                                       echo '<img src="assets/images/'.$languaje.'/755K.png" class="fleft100 m-wauto" alt="">'
+                                    ?>
 				</div>
 			</div>
 		</section>
@@ -191,7 +193,7 @@
 			<div class="container">
 				<ul class="fleft100 vantagens text-center cl-fff">
 					<li><img src="assets/images/100.png" alt=""><span>100%</span><p><?php echo $CI->T("seguidores reais",array());?></p></li>
-					<li><img src="assets/images/lupa.png" style="margin-top: 3px;" alt=""><p><?php echo $CI->T("Você escolhe o perfil para captar seguidores",array());?></p></li>
+					<li><img src="assets/images/lupa.png" style="margin-top: 3px;" alt=""><p><?php print $CI->T("Você escolhe o perfil para captar seguidores",array());?></p></li>
 					<li><img src="assets/images/nuvem.png" style="margin-top: 6px;" alt=""> <p><?php echo $CI->T("Todos os perfis que segue  estarão protegidos em seu backup",array());?></p></li>
 				</ul>
 			</div>
@@ -202,8 +204,10 @@
 				<A name="lnk_how_function"></A>				
                                 <h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("COMO FUNCIONA",array());?></h3>
 				<div class="col-md-8 col-sm-8 col-xs-12">
-					<img src="assets/images/como-funciona-1.png" class="hidden-mobile" alt="">
-					<img src="assets/images/como-funciona-2.png" class="visible-mobile" alt="">
+                                    <?php
+					echo '<img src="assets/images/'.$languaje.'/como-funciona-1.png" class="hidden-mobile" alt="">';
+					echo '<img src="assets/images/'.$languaje.'/como-funciona-2.png" class="visible-mobile" alt="">';
+                                    ?>
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 text-center">
 					<img src="assets/images/info.png" class="wauto m-b10" alt="">
@@ -246,8 +250,8 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("BAIXA",array());?></b>
                                                 <hr>
-						<h2><?php echo $CI->T("R$",array());?><b>4,90</b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b>29,90</b></span>
+						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
+						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("29,90",array());?></b></span>
                                                 <br>
                                                 <input id="radio_plane_4_90" type="radio" name="plano">
 					</div>
@@ -258,8 +262,8 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("MODERADA",array());?></b>
                                                 <hr>
-						<h2><?php echo $CI->T("R$",array());?><b>9,90</b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b>49,90</b></span>
+						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("9,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
+						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("49,90",array());?></b></span>
                                                 <br>
                                                 <input id="radio_plane_9_90" type="radio" name="plano">
 					</div>
@@ -269,9 +273,9 @@
                                                 <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro03.png'?>"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("RÁPIDA",array());?></b>
-                                                <h2>R$<b>29,90</b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b>99,90</b></span>
-						<div class="rc">RECOMENDADO</div>
+                                                <h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
+						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("99,90",array());?></b></span>
+						<div class="rc"><?php echo $CI->T("RECOMENDADO",array());?></div>
                                                 <br>
                                                 <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
 					</div>
@@ -282,8 +286,8 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("TURBO!",array());?></b>
                                                 <hr>
-						<h2><?php echo $CI->T("R$",array());?><b>99,90</b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b>189,90</b></span>
+						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("99,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
+						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("189,90",array());?></b></span>
                                                 <br>
                                                 <input id="radio_plane_99_90" type="radio" name="plano">
 					</div>
@@ -415,8 +419,8 @@
                                                 </div>
                                             </div>
                                         </div>-->
-                                        <br><br><?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
-                                        <br><br><img src="assets/images/seguro.png" class="wauto" alt="">
+                                        <br><br><?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/'.$languaje.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
+                                        <br><br><?php echo '<img src="assets/images/'.$languaje.'/seguro.png" class="wauto" alt="">';?>
 				</div>
 			</div>
 		</section>
@@ -459,7 +463,7 @@
 		</section>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 		<script src="assets/js/jquery.dlmenu.js"></script>

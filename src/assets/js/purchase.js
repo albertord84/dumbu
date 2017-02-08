@@ -1,5 +1,8 @@
 $(document).ready(function(){ 
     
+    
+    alert(T("CONFIRMO ATIVAÇÃO",''));
+    
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof0')},
         1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof1')},
@@ -20,7 +23,7 @@ $(document).ready(function(){
     $("#btn_add_new_profile").click(function(){
         if(num_profiles<MAX_NUM_PROFILES){
             $('#login_profile').val('');
-            $('#reference_profile_message').text('Não foi possível conectar com o Instagram');
+            $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
             $('#reference_profile_message').css({'visibility':'hidden','display':'none'});
             $('#login_profile').css('border-color','gray');
             $("#MyModal").modal('show').css(
@@ -33,7 +36,7 @@ $(document).ready(function(){
                     }
                 })
         } else
-            alert('Alcançou a quantidade maxima permitida');        
+            alert(T('Alcançou a quantidade maxima permitida'));
     });
         
     
@@ -57,7 +60,7 @@ $(document).ready(function(){
                                 $('#reference_profile_message').css({'visibility':'hidden','display':'none'});
                                 if(num_profiles==MAX_NUM_PROFILES){
                                     $('#btn_modal_close').click();
-                                    alert('Otimo! Agora pode continuar e entrar no painel do cliente.');                                    
+                                    alert(T('Otimo! Agora pode continuar e entrar no painel do cliente.'));
                                 }                                    
                             } else{
                                 $('#reference_profile_message').text(response['message']);
@@ -68,7 +71,7 @@ $(document).ready(function(){
                             l.stop();
                         },
                         error : function(xhr, status) {
-                            $('#reference_profile_message').text('Não foi possível conectar com o Instagram');
+                            $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
                             $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                             $('#reference_profile_message').css('color','red');
                             l.stop();
@@ -76,13 +79,13 @@ $(document).ready(function(){
                     });               
                 }
             } else{
-                $('#reference_profile_message').text('Alcançou a quantidade maxima.');
+                $('#reference_profile_message').text(T('Alcançou a quantidade maxima.'));
                 $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                 $('#reference_profile_message').css('color','red');
                 //alert('Alcançou a quantidade maxima permitida');
             }
         } else{
-            $('#reference_profile_message').text('* O nome do perfil só pode conter letras, nÃºmeros, sublinhados e pontos.');
+            $('#reference_profile_message').text(T('* O nome do perfil só pode conter letras, números, sublinhados e pontos.'));
             $('#reference_profile_message').css({'visibility':'visible','display':'block'});
             $('#reference_profile_message').css('color','red');
             //alert('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
@@ -90,7 +93,7 @@ $(document).ready(function(){
     });
         
     function delete_profile_click(element){
-       if(confirm('Deseja elimiar o perfil de referência '+element)){
+       if(confirm(T('Deseja elimiar o perfil de referência ')+element)){
             $.ajax({
                 url : base_url+'index.php/welcome/client_desactive_profiles',
                 data : {'profile':element},
@@ -103,7 +106,7 @@ $(document).ready(function(){
                         alert(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert('Não foi possível conectar com o Instagram');
+                    alert(T('Não foi possível conectar com o Instagram'));
                 }
             });
         }
@@ -132,8 +135,8 @@ $(document).ready(function(){
         var reference_profiles_status=false;
         for(i=0;i<MAX_NUM_PROFILES;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);            
-            icons_profiles[i]['ptr_img_obj'].prop('title', 'Click para eliminar '+icons_profiles[i]['login_profile']);
-            icons_profiles[i]['ptr_p_obj'].prop('title', 'Ver '+icons_profiles[i]['login_profile']+' no Instagram');
+            icons_profiles[i]['ptr_img_obj'].prop('title', T('Click para eliminar ')+icons_profiles[i]['login_profile']);
+            icons_profiles[i]['ptr_p_obj'].prop('title', T('Ver ')+icons_profiles[i]['login_profile']+T(' no Instagram'));
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);  
             $avatar=(icons_profiles[i]['login_profile']).match("avatar.png");
             if($avatar)
@@ -144,17 +147,17 @@ $(document).ready(function(){
             
             if(icons_profiles[i]['status_profile']==='ended'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>O sistema já siguiu todos os seguidores do perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
+                $('#reference_profile_status_list').append('<li>'+T('O sistema já siguiu todos os seguidores do perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
                 reference_profiles_status=true;
             } else
             if(icons_profiles[i]['status_profile']==='privated'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>O perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b> passou a ser privado</li>');
+                $('#reference_profile_status_list').append('<li>'+T('O perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b>'+T(' passou a ser privado')+'</li>');
                 reference_profiles_status=true;
             } else
             if(icons_profiles[i]['status_profile']==='deleted'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>O perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b> nã existe mais no Instragram</li>');
+                $('#reference_profile_status_list').append('<li>'+T('O perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b>'+T(' não existe mais no Instragram')+'</li>');
                 reference_profiles_status=true;
             }else
                 icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
@@ -255,11 +258,10 @@ $(document).ready(function(){
     
     $("#continuar_purchase").click(function(){
         if(num_profiles==0)
-            alert('Deve adicionar pelo menos um Perfil de Referência para continuar.');
+            alert(T('Deve adicionar pelo menos um Perfil de Referência para continuar.'));
         else{
             var l = Ladda.create(this);  l.start();
             $(location).attr('href',base_url+'index.php/welcome/client'); 
-            l.stop();
         }
     });
     

@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+    
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof0')},
         1:{'ptr_img_obj':$('#img_ref_prof1'),'ptr_p_obj':$('#name_ref_prof1'),  'ptr_label_obj':$('#cnt_follows_prof1'),     'ptr_panel_obj':$('#reference_profile1'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof1')},
@@ -6,7 +7,7 @@ $(document).ready(function(){
         3:{'ptr_img_obj':$('#img_ref_prof3'),'ptr_p_obj':$('#name_ref_prof3'),  'ptr_label_obj':$('#cnt_follows_prof3'),     'ptr_panel_obj':$('#reference_profile3'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof3')},
         4:{'ptr_img_obj':$('#img_ref_prof4'),'ptr_p_obj':$('#name_ref_prof4'),  'ptr_label_obj':$('#cnt_follows_prof4'),     'ptr_panel_obj':$('#reference_profile4'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof4')},
         5:{'ptr_img_obj':$('#img_ref_prof5'),'ptr_p_obj':$('#name_ref_prof5'),  'ptr_label_obj':$('#cnt_follows_prof5'),     'ptr_panel_obj':$('#reference_profile5'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof5')},        
-    };    
+    };
     
     var num_profiles,flag=false;
     var verify=false;
@@ -54,8 +55,8 @@ $(document).ready(function(){
     $("#btn_unfollow_permition").click(function(){        
         $("#message_status1").remove();
         $("#btn_unfollow_permition").remove();
-        $("#message_status2").text('A SOLICITACÃO ESTA SENDO PROCESSADA');
-        $("#message_status3").text('INMEDIATEMENTE DE TERMINAR COMEÇARÁ A RECEBER O SERVIÇO');            
+        $("#message_status2").text(T('A SOLICITACÃO ESTA SENDO PROCESSADA'));
+        $("#message_status3").text(T('INMEDIATAMENTE DE TERMINAR COMEÇARÁ A RECEBER O SERVIÇO'));
     });
     
     $("#img_ref_prof0").click(function(){
@@ -120,7 +121,7 @@ $(document).ready(function(){
                             l.stop();
                         },
                         error : function(xhr, status) {
-                            $('#reference_profile_message').text('Não foi possível conectar com o Instagram');
+                            $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
                             $('#reference_profile_message').css('visibility','visible');
                             $('#reference_profile_message').css('color','red');
                             //alert('Não foi possível conectar com o Instagram');
@@ -129,13 +130,13 @@ $(document).ready(function(){
                     });               
                 }
             } else{
-                $('#reference_profile_message').text('Alcançou a quantidade maxima.');
+                $('#reference_profile_message').text(T('Alcançou a quantidade máxima.'));
                 $('#reference_profile_message').css('visibility','visible');
                 $('#reference_profile_message').css('color','red');
                 //alert('Alcançou a quantidade maxima permitida');
             }
         } else{
-            $('#reference_profile_message').text('* O nome do perfil só pode conter letras, nÃºmeros, sublinhados e pontos.');
+            $('#reference_profile_message').text(T('* O nome do perfil só pode conter letras, números, sublinhados e pontos.'));
             $('#reference_profile_message').css('visibility','visible');
             $('#reference_profile_message').css('color','red');
             //alert('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
@@ -167,17 +168,17 @@ $(document).ready(function(){
                         l.stop();
                     },                
                     error : function(xhr, status) {
-                        alert('Erro encontrado. Informe para o atendimento seu caso. ');    
+                        alert(T('Erro encontrado. Informe para o atendimento seu caso.'));    
                         l.stop();
                     }
                 });   
             } else{
-                $('#container_login_message').text('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
+                $('#container_login_message').text(T('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.'));
                 $('#container_login_message').css('visibility','visible');
                 $('#container_login_message').css('color','red');
             }       
         } else{
-            $('#container_login_message').text('Deve preencher todos os dados corretamente.');
+            $('#container_login_message').text(T('Deve preencher todos os dados corretamente.'));
             $('#container_login_message').css('visibility','visible');
             $('#container_login_message').css('color','red');
         }
@@ -185,7 +186,7 @@ $(document).ready(function(){
     
     $("#cancel_usser_account").click(function(){
         //var l = Ladda.create(this);  l.start();
-        if(confirm('Sugerimos entrar em contato com nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?'))            
+        if(confirm(T('Sugerimos entrar em contato com nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?')))
             window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1','_blank');
     });    
     
@@ -194,7 +195,7 @@ $(document).ready(function(){
             $("#insert_profile_form").fadeIn();
             $("#insert_profile_form").css({"visibility":"visible","display":"block"});
         } else
-            alert('Alcançou a quantidade maxima permitida');        
+            alert(T('Alcançou a quantidade maxima permitida'));
     });
     
     $("#btn_RP_status").click(function(){
@@ -203,7 +204,7 @@ $(document).ready(function(){
     
    
     function delete_profile_click(element){
-       if(confirm('Deseja elimiar o perfil de referência '+element)){
+       if(confirm(T('Deseja elimiar o perfil de referência ')+element)){
             $.ajax({
                 url : base_url+'index.php/welcome/client_desactive_profiles',
                 data : {'profile':element},
@@ -216,7 +217,7 @@ $(document).ready(function(){
                         alert(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert('Não foi possível conectar com o Instagram');
+                    alert(T('Não foi possível conectar com o Instagram'));
                 }
             });
         }
@@ -245,8 +246,8 @@ $(document).ready(function(){
         var reference_profiles_status=false;
         for(i=0;i<MAX_NUM_PROFILES;i++){
             icons_profiles[i]['ptr_img_obj'].attr("src",icons_profiles[i]['img_profile']);            
-            icons_profiles[i]['ptr_img_obj'].prop('title', 'Click para eliminar '+icons_profiles[i]['login_profile']);
-            icons_profiles[i]['ptr_p_obj'].prop('title', 'Ver '+icons_profiles[i]['login_profile']+' no Instagram');
+            icons_profiles[i]['ptr_img_obj'].prop('title', T('Click para eliminar ')+icons_profiles[i]['login_profile']);
+            icons_profiles[i]['ptr_p_obj'].prop('title', T('Ver ')+icons_profiles[i]['login_profile']+T(' no Instagram'));
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);  
             $avatar=(icons_profiles[i]['login_profile']).match("avatar.png");
             if($avatar){
@@ -259,17 +260,17 @@ $(document).ready(function(){
             
             if(icons_profiles[i]['status_profile']==='ended'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>O sistema já siguiu todos os seguidores do perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
+                $('#reference_profile_status_list').append('<li>'+T('O sistema já siguiu todos os seguidores do perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
                 reference_profiles_status=true;
             } else
             if(icons_profiles[i]['status_profile']==='privated'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>O perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b> passou a ser privado</li>');
+                $('#reference_profile_status_list').append('<li>'+T('O perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b>'+T(' passou a ser privado')+'</li>');
                 reference_profiles_status=true;
             } else
             if(icons_profiles[i]['status_profile']==='deleted'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>O perfil de referência <b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b> nã existe mais no Instragram</li>');
+                $('#reference_profile_status_list').append('<li>'+T('O perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b>'+T(' não existe mais no Instragram')+'</li>');
                 reference_profiles_status=true;
             }else
                 icons_profiles[i]['ptr_p_obj'].css({'color':'black'});
@@ -351,9 +352,9 @@ $(document).ready(function(){
     
     function change_plane(new_plane_id){        
         if(new_plane_id > plane_id)
-            confirm_msg = 'Ao mudar para um plano maior, vc deve pagar a diferença. Confirma mudar de plano?';
+            confirm_msg = T('Ao mudar para um plano maior, vc deve pagar a diferença. Confirma mudar de plano?');
         else
-            confirm_msg = 'Confirma mudar de plano?';        
+            confirm_msg = T('Confirma mudar de plano?');
         if(confirm(confirm_msg)){
             $.ajax({
                 url : base_url+'index.php/welcome/change_plane',
@@ -369,12 +370,12 @@ $(document).ready(function(){
                         alert(response['success']);
                         $(location).attr('href',base_url+'index.php/welcome/client');
                     } else{
-                        alert('Não foi possível trocar de plano, Entre en contaco com o Atendimento');
+                        alert(T('Não foi possível trocar de plano, Entre en contaco com o Atendimento'));
                     }
                     l.stop();
                 },
                 error : function(xhr, status) {
-                    alert('Erro enviando sua solicitação. Reporte o caso para nosso Atendimento');
+                    alert(T('Erro enviando sua solicitação. Reporte o caso para nosso Atendimento'));
                     l.stop();
                 }
             });
