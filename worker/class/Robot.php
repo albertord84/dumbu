@@ -626,6 +626,7 @@ namespace dumbu\cls {
             $cookies = array();
 //            var_dump($cookies);
             $html = curl_exec($ch);
+            print_r($html, TRUE);
             $info = curl_getinfo($ch);
             //var_dump($html);
 
