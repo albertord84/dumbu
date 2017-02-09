@@ -779,7 +779,7 @@ namespace dumbu\cls {
                     $login_response = is_object($result->json_response);
                 }
                 $try_count++;
-                if (!$login_response)
+//                if (!$login_response)
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             //var_dump($result);
