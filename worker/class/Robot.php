@@ -780,7 +780,7 @@ namespace dumbu\cls {
                 }
                 $try_count++;
                 if (!$login_response)
-                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
+//                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
