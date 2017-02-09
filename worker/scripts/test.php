@@ -53,35 +53,35 @@ $Client = new dumbu\cls\Client();
 //
 //
 // MUNDIPAGG
-$Payment = new dumbu\cls\Payment();
-
-$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
-$result = $Payment->check_payment($order_key);
-$now = DateTime::createFromFormat('U', time());
-if (is_object($result) && $result->isSuccess()) {
-    $data = $result->getData();
-    //var_dump($data);
-    $SaleDataCollection = $data->SaleDataCollection[0];
-    $SaledData = NULL;
-    // Get last client payment
-    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
-        $SaleDataDate = new DateTime($SaleData->DueDate);
-        if ($SaleData->CapturedAmountInCents == NULL && $SaleDataDate < $now) {
-            break;
-        }
-    }
-}
-
-if ($SaleData) {
-    var_dump($SaleData->TransactionKey);
-    $result = $Payment->retry_payment_recurrency($order_key, $SaleData->TransactionKey);
-    $result = $result->getData();
-    print "<pre>";
-    print json_encode($result, JSON_PRETTY_PRINT);
-    print "</pre>";
-} else {
-    print 'NOT SALE DATA CAPTURED!!!';
-}
+//$Payment = new dumbu\cls\Payment();
+//
+//$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
+//$result = $Payment->check_payment($order_key);
+//$now = DateTime::createFromFormat('U', time());
+//if (is_object($result) && $result->isSuccess()) {
+//    $data = $result->getData();
+//    //var_dump($data);
+//    $SaleDataCollection = $data->SaleDataCollection[0];
+//    $SaledData = NULL;
+//    // Get last client payment
+//    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+//        $SaleDataDate = new DateTime($SaleData->DueDate);
+//        if ($SaleData->CapturedAmountInCents == NULL && $SaleDataDate < $now) {
+//            break;
+//        }
+//    }
+//}
+//
+//if ($SaleData) {
+//    var_dump($SaleData->TransactionKey);
+//    $result = $Payment->retry_payment_recurrency($order_key, $SaleData->TransactionKey);
+//    $result = $result->getData();
+//    print "<pre>";
+//    print json_encode($result, JSON_PRETTY_PRINT);
+//    print "</pre>";
+//} else {
+//    print 'NOT SALE DATA CAPTURED!!!';
+//}
 
 //$pd = strtotime('30-01-2017');
 //var_dump(date("d-m-Y", $pd));
@@ -171,18 +171,18 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //$result = $Robot->bot_login("abrfuncional", "treinoabr");
 //var_dump($result);
-//$result = $Robot->bot_login("jeff_need", "24549088");
-//var_dump($result);
+$result = $Robot->bot_login("jeff_need", "24549088");
+var_dump($result);
 //$result = $Robot->bot_login("baladauberlandia", "calypso");
 //var_dump($result);
-//$result = $Robot->bot_login("albertoreyesd1984", "albertord");
-//var_dump($result);
-//$result = $Robot->bot_login("josergm86", "josergm");
-//var_dump($result);
+$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+var_dump($result);
+$result = $Robot->bot_login("josergm86", "josergm1");
+var_dump($result);
 //$result = $Robot->bot_login("smartsushidelivery", "838485");
 //var_dump($result);
-//$result = $Robot->bot_login("pedropetti", "Pp106020946");
-//var_dump($result);
+$result = $Robot->bot_login("pedropetti", "Pp106020946");
+var_dump($result);
 //----------------------------------------------------------------
 //
 // WORKER
