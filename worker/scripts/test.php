@@ -14,9 +14,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
-
 //dumbu\cls\system_config():: 
-
 // Ref Prof
 //$RP = new \dumbu\cls\Reference_profile();
 //$ref_prof = "santatemakeria";
@@ -57,6 +55,34 @@ $Client = new dumbu\cls\Client();
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
 
+$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
+$result = $Payment->check_payment($order_key);
+$now = DateTime::createFromFormat('U', time());
+if (is_object($result) && $result->isSuccess()) {
+    $data = $result->getData();
+    //var_dump($data);
+    $SaleDataCollection = $data->SaleDataCollection[0];
+    $SaledData = NULL;
+    // Get last client payment
+    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+        $SaleDataDate = new DateTime($SaleData->DueDate);
+        if ($SaleData->CapturedAmountInCents == NULL && $SaleDataDate < $now) {
+            break;
+        }
+    }
+}
+
+if ($SaleData) {
+    var_dump($SaleData->TransactionKey);
+    $result = $Payment->retry_payment_recurrency($order_key, $SaleData->TransactionKey);
+    $result = $result->getData();
+    print "<pre>";
+    print json_encode($result, JSON_PRETTY_PRINT);
+    print "</pre>";
+} else {
+    print 'NOT SALE DATA CAPTURED!!!';
+}
+
 //$pd = strtotime('30-01-2017');
 //var_dump(date("d-m-Y", $pd));
 //
@@ -78,7 +104,6 @@ $Payment = new dumbu\cls\Payment();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-
 //$pay_day = strtotime('03-03-2017');
 //$pay_day = time();
 //var_dump($pay_day);
@@ -91,18 +116,15 @@ $Payment = new dumbu\cls\Payment();
 //$payment_data['credit_card_cvc'] = '787';
 //$payment_data['amount_in_cents'] = 9990;
 //$payment_data['pay_day'] = $pay_day;
-
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
 ////----------------------------------------------------------------
-
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
 //header('Content-Type: application/json');
 //print_r($resul);
-
 //$order_key = "4942e0ac-fb5b-41fa-87a8-cb1f80d81d32";
 //$transaction_key = "79c28bd0-d0c8-47aa-be07-67d81202ed6dd";
 //$result = $Payment->retry_payment_recurrency($order_key, $transaction_key);
@@ -111,10 +133,8 @@ $Payment = new dumbu\cls\Payment();
 ////print_r($result->getData());
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
 //var_dump($result->isSuccess());
-
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
-
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass

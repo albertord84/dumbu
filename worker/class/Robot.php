@@ -625,8 +625,11 @@ namespace dumbu\cls {
             global $cookies;
             $cookies = array();
 //            var_dump($cookies);
+            $try_count = 0;
             $html = curl_exec($ch);
-            print_r($html, TRUE);
+            while (strlen($html) < 50 || $try_count > 5) {
+                $html = curl_exec($ch);
+            }
             $info = curl_getinfo($ch);
             //var_dump($html);
 
