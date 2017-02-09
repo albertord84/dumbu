@@ -87,8 +87,8 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
-        alert("Estamos apresentando problemas com o pagamento, por favor entre em contato como atendimento! Obrigado");
-        return;
+//        alert("Estamos apresentando problemas com o pagamento, por favor entre em contato como atendimento! Obrigado");
+//        return;
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);
