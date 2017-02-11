@@ -1,7 +1,9 @@
 $(document).ready(function(){   
         
-    $("#btn_dumbu_login1").click(function() {        
+    $("#btn_dumbu_login1").click(function() {
+        $("#btn_dumbu_login1").css({'cursor':'wait'});
         do_login('#userLogin1','#userPassword1', '#container_login_message1',this);
+        $('#btn_dumbu_login1').css({'cursor':'pointer'});
     });
     
     $("#btn_dumbu_login2").click(function() {        
@@ -16,6 +18,9 @@ $(document).ready(function(){
         if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
             if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
                 var l = Ladda.create(object);  l.start();
+                $(fieldErrorMessage).text(T('Espere por favor, confirindo credenciais!!'));
+                $(fieldErrorMessage).css('visibility','visible');
+                $(fieldErrorMessage).css('color','green');
                 $.ajax({
                     url : base_url+'index.php/welcome/user_do_login',      
                     data : {

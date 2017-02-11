@@ -61,7 +61,9 @@ var Translation={
     "Ver ":
             "Ver ",
     " no Instagram":
-            " no Instagram"
+            " no Instagram",
+    "Espere por favor, confirindo credenciais!!":
+            "Espere por favor, confirindo credenciais!!"
 };
 
 function T(token){

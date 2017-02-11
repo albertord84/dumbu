@@ -21,9 +21,9 @@ $(document).ready(function(){
             $("#lnk_verify_account").attr("href", base_url+'index.php/welcome/client');
             //$(location).attr('href',base_url+'index.php/welcome/client');
             verify=false;
-        }        
+        }
     });
-        
+ 
     $(".img_profile").hover(
         function(e){
             //alert($(e.target).attr('id'))
