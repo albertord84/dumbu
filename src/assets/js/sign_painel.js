@@ -16,7 +16,7 @@ $(document).ready(function () {
         return vars;
     }
 
-    $("#signin_btn_insta_login").click(function () {        
+    $("#signin_btn_insta_login").click(function () {    
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {
@@ -87,6 +87,8 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
+//        alert("Estamos apresentando problemas com o pagamento, por favor entre em contato como atendimento! Obrigado");
+//        return;
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);

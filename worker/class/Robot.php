@@ -358,7 +358,7 @@ namespace dumbu\cls {
                 if (isset($json->followed_by) && isset($json->followed_by->page_info)) {
                     if ($json->followed_by->page_info->end_cursor == '') {
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        var_dump(json_encode($json));
+                        //var_dump(json_encode($json));
                         $DB = new DB();
                         $result = $DB->delete_daily_work($this->daily_work->reference_id);
                     }
@@ -626,7 +626,6 @@ namespace dumbu\cls {
             $cookies = array();
 //            var_dump($cookies);
             $html = curl_exec($ch);
-            print_r($html, TRUE);
             $info = curl_getinfo($ch);
             //var_dump($html);
 
@@ -637,6 +636,7 @@ namespace dumbu\cls {
             $json_response = json_decode($json_str);
             $login_data = new \stdClass();
             $login_data->json_response = $json_response;
+
 //            var_dump($json);
 //            print_r($info);
 //            echo "<br><br>";
@@ -769,10 +769,18 @@ namespace dumbu\cls {
             $result = NULL;
             $url = "https://www.instagram.com/";
 //            $cookie = "/home/albertord/cookies.txt";
-            $ch = curl_init($url);
-            $this->csrftoken = $this->get_insta_csrftoken($ch);
-            if ($this->csrftoken != NULL && $this->csrftoken != "") {
-                $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
+            $login_response = false;
+            $try_count = 0;
+            while (!$login_response && $try_count < 4) {
+                $ch = curl_init($url);
+                $this->csrftoken = $this->get_insta_csrftoken($ch);
+                if ($this->csrftoken != NULL && $this->csrftoken != "") {
+                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
+                    $login_response = is_object($result->json_response);
+                }
+                $try_count++;
+//                if (!$login_response)
+//                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
@@ -791,7 +799,7 @@ namespace dumbu\cls {
         }
 
         public function get_reference_user($cookies, $reference_user_name) {
-            echo "-------Obtindo dados de perfil de referencia------------<br>\n<br>\n";
+            echo " -------Obtindo dados de perfil de referencia------------<br>\n<br>\n";
             $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
             $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
             $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
