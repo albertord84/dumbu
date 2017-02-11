@@ -1,4 +1,4 @@
-lnk_how_function<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
 		<meta charset="utf-8">
