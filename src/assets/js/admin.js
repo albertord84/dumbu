@@ -20,16 +20,11 @@ $(document).ready(function(){
         }
         
     });
-
-    /*$("#client_status").change(function(){
-        alert($("#client_status").val());
-    });*/
     
     var id=0;
        
     $(".delete-recurence").click(function(e){
        id=$(e.currentTarget).attr('id');
-       alert(id);
         name_row='#row-client-'+id;        
         if(confirm('Confirma o cancelamento da recorrência?')){
             var l = Ladda.create(this);  l.start();
