@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+lnk_how_function<!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
 		<meta charset="utf-8">
@@ -86,12 +86,13 @@
 										<div class="form-group">
 											<input id="userPassword1" type="password" class="form-control" placeholder="<?php echo $CI->T("Senha",array());?>" required="">
 										</div>
+										<!--<div class="form-group">
+                                                                                    <button type="button" name="" value="<?php //echo $CI->T("ENTRAR",array());?>" id="btn_dumbu_login1" style="white-space: normal;" class="btn btn-success" ><span class="ladda-label"></span></button>
+										</div>-->
+										
 										<div class="form-group">
-                                                                                    <button type="button" name="" value="<?php echo $CI->T("ENTRAR",array());?>" id="btn_dumbu_login1" style="white-space: normal;" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff" ><span class="ladda-label"></span></button>
+											<input type="submit" name="" value="<?php echo $CI->T("ENTRAR",array());?>" id="btn_dumbu_login1" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff" />
 										</div>
-                                                                                <!--<button id="btn_dumbu_login1" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                                                        <span class="ladda-label">Entrar</span>
-                                                                                </button>-->
 										<div id="container_login_message1" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
 										</div>
 									</form>
@@ -297,6 +298,7 @@
                                 
 		<section id="passos" class="fleft100 m-t30">
 			<div class="container cl-black">
+                            <!--PASSO 1-->
                                 <div  class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                     <div id="container_login_panel" style="visibility:hidden;display:none">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 1",array());?></b></h5>
@@ -335,6 +337,7 @@
                                     </div>
 				</div>
                             
+                            <!--PASSO 2-->
                                 <div id="coniner_data_panel" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
 					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
@@ -389,6 +392,7 @@
 					</div>
 				</div>
                             
+                            <!--PASSO 3-->
                                 <div id="container_sing_in_panel" class="col-md-4 col-sm-4 col-xs-12 passo text-center m-t40">
 					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 3",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">

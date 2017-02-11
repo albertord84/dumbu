@@ -597,9 +597,6 @@
                     </div>
                     -->
                     
-                    
-                    
-                    
                     <div class="fleft100">
                         <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t30">
                             <div class="fleft100 bk-cinza">
@@ -637,7 +634,6 @@
                     </div>
                     
                     
-                    <a name="lnk_update_data_bank"></a>
                     <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
                     <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
                         <div class="text-center fleft100 m-t20">
@@ -716,7 +712,6 @@
                         </div>
                     </div>
                     
-                    
                     <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
                         <div class="text-center fleft100 m-t20">
                             <img src="<?php echo base_url().'assets/images/mail.png';?>" class="wauto" alt="">
@@ -747,6 +742,7 @@
                     </div>
                 </div>
             </section>
+            
         
             <div class="m-t10">
                 <div>
@@ -761,6 +757,8 @@
                     </div>
                 </div>
              </div>
+        
+        <A name="lnk_update"></A>
 
             <div class="h150 fleft100"></div>
             <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS",array());?></span></div></footer>

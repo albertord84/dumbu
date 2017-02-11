@@ -1,10 +1,6 @@
 <?php
 class Welcome extends CI_Controller {
-
-    public function index1() {
-        $a=$this->T('Usuário @1 logueado',array(0=>'jose r gm'));
-        var_dump($a);
-    }
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
