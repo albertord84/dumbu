@@ -1,6 +1,14 @@
 <?php
 class Welcome extends CI_Controller {
     
+    public function index111() {
+        $init_date = strtotime('09/02/2017 14:04:49');
+        var_dump($init_date);
+
+        $pay_day = strtotime('11/03/2017 14:04:49');
+        var_dump($pay_day);
+    }
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -777,7 +785,8 @@ class Welcome extends CI_Controller {
 
         //1.1 + dos dias gratis
         $datas['pay_day'] = time();
-        $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $datas['pay_day']);
+        if(!$datas['early_client_canceled'])
+            $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $datas['pay_day']);
 
         $resp = $this->check_recurrency_mundipagg_credit_card($datas, 1);
         if (is_object($resp)) {
