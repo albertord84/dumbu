@@ -92,7 +92,13 @@ $Client = new dumbu\cls\Client();
 //var_dump(date("d-m-Y", $pd));
 //
 //
-//$pay_day = strtotime('01-01-2016');
+
+//$pay_day = strtotime('09/02/2017 14:04:49');
+//var_dump($pay_day);
+//
+//
+//$pay_day = strtotime('11/03/2017 14:04:49');
+//var_dump($pay_day);
 //
 //$d_today = date("j", $now);
 //$m_today = date("n", $now);
@@ -171,18 +177,18 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //$result = $Robot->bot_login("abrfuncional", "treinoabr");
 //var_dump($result);
-$result = $Robot->bot_login("jeff_need", "24549088");
-var_dump($result);
+//$result = $Robot->bot_login("jeff_need", "24549088");
+//var_dump($result);
 //$result = $Robot->bot_login("baladauberlandia", "calypso");
 //var_dump($result);
-$result = $Robot->bot_login("alberto_dreyes", "albertord4");
-var_dump($result);
-$result = $Robot->bot_login("josergm86", "josergm1");
-var_dump($result);
+//$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+//var_dump($result);
+//$result = $Robot->bot_login("josergm86", "josergm1");
+//var_dump($result);
 //$result = $Robot->bot_login("smartsushidelivery", "838485");
 //var_dump($result);
-$result = $Robot->bot_login("pedropetti", "Pp106020946");
-var_dump($result);
+//$result = $Robot->bot_login("pedropetti", "Pp106020946");
+//var_dump($result);
 //----------------------------------------------------------------
 //
 // WORKER
