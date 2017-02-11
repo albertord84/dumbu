@@ -785,7 +785,7 @@ class Welcome extends CI_Controller {
 
         //1.1 + dos dias gratis
         $datas['pay_day'] = time();
-        if(!$datas['early_client_canceled'])
+        if($datas['early_client_canceled']==='false')
             $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $datas['pay_day']);
 
         $resp = $this->check_recurrency_mundipagg_credit_card($datas, 1);
