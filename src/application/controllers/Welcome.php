@@ -4,7 +4,7 @@ class Welcome extends CI_Controller {
     public function index111() {
         $init_date = strtotime('09/02/2017 14:04:49');
         var_dump($init_date);
-        echo '<br>-----<br>';
+        echo '<br>-------<br>';
         $pay_day = strtotime('11/03/2017 14:04:49');
         var_dump($pay_day);
     }
