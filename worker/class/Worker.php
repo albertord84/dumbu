@@ -100,8 +100,8 @@ namespace dumbu\cls {
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
                     $RPWC = $Client->rp_workable_count();
+                    $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                     if ($RPWC > 0) {
-                        $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
 //                        $to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
                         // If User status = UNFOLLOW he do 0 follows
@@ -115,6 +115,7 @@ namespace dumbu\cls {
                         }
                     } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
+                        $DB->insert_daily_work($Ref_Prof->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
                         $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 } else {
@@ -297,4 +298,5 @@ namespace dumbu\cls {
         }
 
     }
+
 }
