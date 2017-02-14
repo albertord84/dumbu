@@ -46,7 +46,7 @@ namespace dumbu\cls {
                     "5178057258138580"
                     ];
                 if (in_array($payment_data['credit_card_number'], $bloqued)) {
-                    throw new \Exception('Credit Card Number Blocked by Hacking! Contact admin...');
+                    throw new \Exception('Credit Card Number Blocked by Hacking! Sending profile and navigation data to police...');
                 }
                 
 // Define a url utilizada
