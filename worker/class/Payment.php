@@ -41,6 +41,14 @@ namespace dumbu\cls {
          */
         public function create_recurrency_payment($payment_data, $recurrence = 0) {
             try {
+                $bloqued = [
+                    "5178057308185854", 
+                    "5178057258138580"
+                    ];
+                if (in_array($payment_data['credit_card_number'], $bloqued)) {
+                    throw new \Exception('Credit Card Number Blocked by Hacking! Contact admin...');
+                }
+                
 // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 //    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
@@ -90,7 +98,7 @@ namespace dumbu\cls {
             } catch (\Gateway\One\DataContract\Report\ApiError $error) {
                 $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
             } catch (\Exception $ex) {
-                $response = array("message" => "Ocorreu um erro inesperado.");
+                $response = array("message" => $ex->getMessage());
             } finally {
                 return $response;
             }
@@ -149,7 +157,7 @@ namespace dumbu\cls {
                 $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
             } catch (\Exception $ex) {
                 $httpStatusCode = 500;
-                $response = array("message" => "Ocorreu um erro inesperado.");
+                $response = array("message" => $ex->getMessage());
             } finally {
                 // Devolve resposta
 //                http_response_code($httpStatusCode);
