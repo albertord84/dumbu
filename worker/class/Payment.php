@@ -43,7 +43,8 @@ namespace dumbu\cls {
             try {
                 $bloqued = [
                     "5178057308185854", 
-                    "5178057258138580"
+                    "5178057258138580",
+                    "4984537159084527"
                     ];
                 if (in_array($payment_data['credit_card_number'], $bloqued)) {
                     throw new \Exception('Credit Card Number Blocked by Hacking! Sending profile and navigation data to police...');

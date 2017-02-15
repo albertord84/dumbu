@@ -115,7 +115,7 @@ namespace dumbu\cls {
                         }
                     } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
-                        $DB->insert_daily_work($Ref_Prof->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
+                        $DB->insert_daily_work(0, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
                         $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 } else {
