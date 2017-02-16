@@ -178,7 +178,7 @@ namespace dumbu\cls {
                         . "INNER JOIN users ON users.id = clients.user_id "
                         . "WHERE ((daily_work.to_follow  > 0) "
                         . "   OR  (daily_work.to_unfollow  > 0)) "
-                        . "   AND (reference_profile.deleted <> TRUE || daily_work.reference_id = 1) "
+                        . "   AND (reference_profile.deleted <> TRUE || daily_work.to_unfollow  > 0) "
                         //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
                         . "ORDER BY clients.last_access ASC, "
                         . "         daily_work.to_follow DESC "
