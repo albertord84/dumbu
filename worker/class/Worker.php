@@ -118,7 +118,7 @@ namespace dumbu\cls {
                         if (count($Client->reference_profiles)) { // To keep unfollow
                             $DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
                         }
-                        //$this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+//                        $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 } else {
 // TODO: do something in Client autentication error
