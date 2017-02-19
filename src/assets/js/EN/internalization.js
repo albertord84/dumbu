@@ -62,7 +62,7 @@ var Translation={
             "See ",
     " no Instagram":
             " in Instagram",
-    "Espere por favor, confirindo credenciais!!":
+    "Espere por favor, conferindo credenciais!!":
             "Please wait, checking credentials!!"
 };
 

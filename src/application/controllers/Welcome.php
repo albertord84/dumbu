@@ -1,12 +1,15 @@
 <?php
 class Welcome extends CI_Controller {
     
-    public function index111() {
-        $init_date = strtotime('09/02/2017 14:04:49');
-        var_dump($init_date);
-
-        $pay_day = strtotime('11/03/2017 14:04:49');
-        var_dump($pay_day);
+    public function aaa() {
+        print_r('init_date');
+        var_dump(strtotime('02/08/2017 13:36:31'));
+        
+        print_r('pay_date');
+        var_dump(strtotime('03/10/2017 13:36:28'));
+    }
+    public function bbb() {  
+        var_dump(strtotime("+32 days",1486849466));
     }
     
     public function index() {
@@ -37,9 +40,9 @@ class Welcome extends CI_Controller {
         }
     }
 
-    public function scielo_view() {
+    public function scielo_view(){
         $this->load->view('scielo');
-    }
+    }   
 
     public function scielo() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -99,6 +102,7 @@ class Welcome extends CI_Controller {
             $datas1['total_amount_reference_profile_today'] = count($total_amount_reference_profile_today);
             $datas1['total_amount_followers_today'] = $followeds;
             $datas1['my_login_profile'] = $this->session->userdata('login');
+            $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
             $datas1['plane_id'] = $this->session->userdata('plane_id');
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;            
@@ -861,6 +865,28 @@ class Welcome extends CI_Controller {
         return $response;
     }
     
+    public function unfollow_total(){
+        $this->load->model('class/user_role');
+        $this->load->model('class/client_model');
+        if($this->session->userdata('role_id') == user_role::CLIENT) {
+            $datas = $this->input->post();
+            $datas['unfollow_total']=(int)$datas['unfollow_total'];
+            //if($this->session->userdata('unfollow_total')==!$datas['unfollow_total']){
+                if($datas['unfollow_total']==1){
+                    
+                } elseif($datas['unfollow_total']==0){
+                    
+                }
+                $this->client_model->update_client($this->session->userdata('id'), array(
+                    'unfollow_total' => $datas['unfollow_total']
+                ));
+                $response['success']=true;
+                $response['unfollow_total']=$datas['unfollow_total'];
+            //}
+        }
+        echo json_encode($response);
+    }
+    
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -872,12 +898,19 @@ class Welcome extends CI_Controller {
             $this->load->model('class/user_status');
             $this->load->model('class/credit_card_status');
             $datas = $this->input->post();
-            if ($this->validate_post_credit_card_datas($datas)) {
+            $now=time();
+            if ($this->validate_post_credit_card_datas($datas)) {                
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                    $payments_days['pay_day'] = time();
-                    $payments_days['pay_now'] = false;
-                    $datas['pay_day'] = $payments_days['pay_day'];
+                if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {                    
+                    if($now<$client_data['pay_day']){
+                        $payments_days['pay_day'] = strtotime("+30 days",$now);
+                        $payments_days['pay_now'] = true;
+                        $datas['pay_day'] = $payments_days['pay_day'];
+                    }else{
+                        $payments_days['pay_day'] = time();
+                        $payments_days['pay_now'] = false;
+                        $datas['pay_day'] = $payments_days['pay_day'];
+                    }
                 } else {
                     $payments_days = $this->get_pay_day($client_data['pay_day']);
                     $datas['pay_day'] = $payments_days['pay_day'];
@@ -904,6 +937,10 @@ class Welcome extends CI_Controller {
                         //Determinar valor inicial del pagamento
                         if($datas['client_update_plane'] == 1)
                             $datas['client_update_plane'] = 4;
+                        if($now<$client_data['pay_day'] &&!($datas['client_update_plane'] > $this->session->userdata('plane_id'))){
+                            $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);
+                            $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                        } else
                         if ($datas['client_update_plane'] > $this->session->userdata('plane_id')) {
                             $promotional_time_range = $this->user_model->get_signin_date($this->session->userdata('id'));
                             $promotional_time_range = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $promotional_time_range);

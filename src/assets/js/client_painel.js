@@ -10,7 +10,9 @@ $(document).ready(function(){
     };
     
     var num_profiles,flag=false;
-    var verify=false;
+    var verify=false,flag_unfollow_request=false;
+    unfollow_total=parseInt(unfollow_total);
+    init_unfollow_type();
     
     $("#btn_verify_account").click(function(){
         if(!verify){
@@ -202,6 +204,78 @@ $(document).ready(function(){
         $('#reference_profile_status_container').css({"visibility":"hidden","display":"none"})
     });
     
+    
+    
+    
+    $("#my_container_toggle").hover(
+        function(){
+            $('#my_container_toggle').css('cursor', 'pointer');
+        },
+        function(){
+            $('#my_container_toggle').css('cursor', 'default');
+        }
+    );
+    
+    $("#my_container_toggle").click(function(){
+        if(unfollow_total){
+            confirm_message='Confirma ativar a opção UNFOLLOW NORMAL';
+            tmp_unfollow_total=0;
+        }
+        else{
+            confirm_message='Confirma ativar a opção UNFOLLOW TOTAL';
+            tmp_unfollow_total=1;
+        }
+        
+        if(confirm(confirm_message)){
+            $.ajax({
+                url : base_url+'index.php/welcome/unfollow_total',
+                data : {
+                    'unfollow_total':tmp_unfollow_total
+                },
+                type : 'POST',
+                dataType : 'json',
+                async: false,
+                success : function(response){
+                    if(response['success']){
+                       //alert(parseInt(response['unfollow_total']));
+                       set_global_var('unfollow_total', parseInt(response['unfollow_total']));
+                       init_unfollow_type();
+                    } else{
+                        alert(T('Erro ao processar sua requisição. Tente depois...'));         
+                    }
+                    //l.stop();
+                },                
+                error : function(xhr, status) {
+                    alert(T('Erro ao processar sua requisição. Tente depois...'));    
+                    //l.stop();
+                }
+            });
+        }
+    });
+    
+    function init_unfollow_type(){
+        if(unfollow_total){
+            $('#left_toggle_buttom').css({'background-color':'#009CDE'});
+            $('#right_toggle_buttom').css({'background-color':'#DFDFDF'});            
+        }else {
+            $('#left_toggle_buttom').css({'background-color':'#DFDFDF'});
+            $('#right_toggle_buttom').css({'background-color':'#009CDE'});           
+        }
+    }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
     function delete_profile_click(element){
        if(confirm(T('Deseja elimiar o perfil de referência ')+element)){
@@ -433,6 +507,14 @@ $(document).ready(function(){
             return false;
         }
     });
+    
+    function set_global_var(str, value) {
+        switch (str) {
+            case 'unfollow_total':
+                unfollow_total = value;
+                break;       
+        }
+    }
     
     
     init_icons_profiles(profiles); 
