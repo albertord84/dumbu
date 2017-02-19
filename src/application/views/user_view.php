@@ -231,6 +231,16 @@
 				</div>
 			</div>
 		</section>
+            
+		<section id="funciona" class="fleft100">
+			<div class="container">				
+				<!--<div class="col-md-3 col-sm-3 col-xs-12"></div>-->
+                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                    <iframe src="http://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>
+                                </div>
+				<!--<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
+			</div>
+		</section>
 
 		<section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
@@ -242,8 +252,6 @@
                                         <b style="color:white;font-size:1.3em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis",array());?>!</b>
                                     </div>
                                 </h4>
-				
-                                
                                 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_4_90" class="plano text-center fleft100">

@@ -32,6 +32,7 @@
 
             <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
             <script type="text/javascript">var language = '<?php echo $language;?>';</script>
+            <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total;?>';</script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/client_painel.js';?>"></script>
             <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
@@ -631,6 +632,34 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div class="row">                        
+                        <div class="col-xs-12 col-sm-3 col-md-3"></div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 m-t30">
+                            <h2>UNFOLLOW TOTAL</h2>
+                            <p style="text-align:justify"> Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
+                                processo onde deixará de seguir todos os perfis que segue no
+                                momento. Todos os perfis em sua lista de "Seguindo" serão deixados
+                                de seguir de manera aleatória. Ao desativar o recurso sua conta
+                                deixa de seguir apenas as contas que a Dumbu seguiu.
+                            </p>
+                            
+                            <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                                <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                                    <b style="color:white; margin-left: 25px">UNFOLLOW TOTAL</b>
+                                </div>
+                                <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                                    <b style="color:white;margin-left: 25px">UNFOLLOW NORMAL</b>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-xs-3 col-md-3"></div>
+                    </div>
+                    
+                    <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
+                        
                     </div>
                     
                     

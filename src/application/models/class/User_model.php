@@ -115,6 +115,7 @@ class User_model extends CI_Model {
                         $session->set_userdata('plane_id', $client_data['plane_id']);
                     $session->set_userdata('to_follow', (int) $client_data['to_follow']);
                     $session->set_userdata('normal_val', (int) $client_data['normal_val']);
+                    $session->set_userdata('unfollow_total', (int) $client_data['unfollow_total']);
                 }
                 $session->set_userdata('id', $user_data['id']);
                 $session->set_userdata('name', $user_data['name']);

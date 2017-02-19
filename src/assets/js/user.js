@@ -18,7 +18,7 @@ $(document).ready(function(){
         if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
             if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
                 var l = Ladda.create(object);  l.start();
-                $(fieldErrorMessage).text(T('Espere por favor, confirindo credenciais!!'));
+                $(fieldErrorMessage).text(T('Espere por favor, conferindo credenciais!!'));
                 $(fieldErrorMessage).css('visibility','visible');
                 $(fieldErrorMessage).css('color','green');
                 $.ajax({

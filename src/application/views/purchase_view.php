@@ -44,6 +44,7 @@
 	</head>
 	<body>
 		<?php include_once("analyticstracking.php") ?>
+                <?php include_once("adwords_conversion.php")?>
                 <?php include_once("remarketing.php")?>
                 <div class="windows8">
 		 <div class="wBall" id="wBall_1">
