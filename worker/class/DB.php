@@ -60,13 +60,19 @@ namespace dumbu\cls {
             try {
                 $this->connect();
                 $CLIENT = user_role::CLIENT;
-                $UNFOLLOW = user_status::UNFOLLOW;
-                $result = mysqli_query($this->connection, ""
+                $ACTIVE = user_status::ACTIVE;
+                $PENDING = user_status::PENDING;
+                //$UNFOLLOW = user_status::UNFOLLOW;
+                $sql = ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND users.status_id = $UNFOLLOW; "
-                );
+                        . "     AND clients.unfollow_total = 1 "
+                        . "     AND (users.status_id = $ACTIVE OR "
+                        . "          users.status_id = $PENDING "
+                        . "          );";
+                $result = mysqli_query($this->connection, $sql);
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();

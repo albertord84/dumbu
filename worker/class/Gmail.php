@@ -215,7 +215,7 @@ namespace dumbu\cls {
             //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
             $lang = $GLOBALS['sistem_config']->LANGUAGE;
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/payment_success.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/payment_success.php?username=$username&instaname=$instaname"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
             $this->mail->AltBody = 'DUMBU Payment Success';
@@ -283,7 +283,7 @@ namespace dumbu\cls {
             //-------------------
         }
 
-        public function send_new_client_payment_done($username, $useremail) {
+        public function send_new_client_payment_done($username, $useremail, $plane = 0) {
             //Set an alternative reply-to address
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
             //Set who the message is to be sent to
@@ -299,10 +299,12 @@ namespace dumbu\cls {
             //Read an HTML message body from an external file, convert referenced images to embedded,
             //convert HTML into a basic plain-text alternative body
             $username = urlencode($username);
+            $plane = urlencode($plane);
             //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
+            $lang = $GLOBALS['sistem_config']->LANGUAGE;
             $email_msg = "http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/new_client_with_payment.php?username=$username&useremail=$useremail";
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/new_client_with_payment.php?username=$username&useremail=$useremail"), dirname(__FILE__));
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/new_client_with_payment.php?username=$username&useremail=$useremail&plane=$plane"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
             $this->mail->AltBody = 'New Client with payment';

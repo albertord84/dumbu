@@ -156,7 +156,7 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
-//$Gmail->send_new_client_payment_done("Test test", "test@email");
+$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();

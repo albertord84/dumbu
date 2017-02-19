@@ -22,7 +22,7 @@ $clients_data_db = $DB->get_unfollow_clients_data();
 // Before
 print '<br>\nBEFORE:<br>\n';
 $CN = 0;
-while ($clients_data[$CN] = $clients_data_db->fetch_object()) {
+while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()) {
     $clients_data[$CN]->unfollows = 0;
     print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
     $CN++;
@@ -35,9 +35,9 @@ for ($i = 0; $i < 100 && $CN; $i++) {
         if ($client_data) {
             echo "<br>\nClient: $client_data->login ($client_data->id)   " . date("Y-m-d h:i:sa") . "<br>\n";
             // Verify Profile Following
-            $RP = new \dumbu\cls\Reference_profile();
-            $RP_data = $RP->get_insta_ref_prof_data($client_data->login);
-            if (is_object($RP_data) && $RP_data->following > $GLOBALS['sistem_config']->INSTA_MAX_FOLLOWING - $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT) {
+//            $RP = new \dumbu\cls\Reference_profile();
+//            $RP_data = $RP->get_insta_ref_prof_data($client_data->login);
+//            if (is_object($RP_data) && $RP_data->following > $GLOBALS['sistem_config']->INSTA_MAX_FOLLOWING - $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT) {
                 if ($client_data->cookies) {
                     $login_data = json_decode($client_data->cookies);
                     $json_response = $Robot->get_insta_follows(
@@ -83,14 +83,13 @@ for ($i = 0; $i < 100 && $CN; $i++) {
                     print "NOT COOKIES!!!";
                     echo "<br>\n DELETED FROM UNFOLLOW: $client_data->login ($client_data->id) <br>\n";
                 }
-            } else {
-                $DB = new \dumbu\cls\DB();
-                $result = $DB->set_client_status($client_data->id, \dumbu\cls\user_status::ACTIVE);
-                if ($result) {
-                    echo "<br>\nNew Status ACTIVE: $client_data->login ($client_data->id) <br>\n";
-                    unset($clients_data[$ckey]);
-                }
-            }
+//          } else {
+//                $DB = new \dumbu\cls\DB();
+//                $result = $DB->set_client_status($client_data->id, \dumbu\cls\user_status::ACTIVE);
+//                if ($result) {
+//                    echo "<br>\nNew Status ACTIVE: $client_data->login ($client_data->id) <br>\n";
+//                    unset($clients_data[$ckey]);
+//                }
         }
     }
     // Wait 20 minutes
