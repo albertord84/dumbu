@@ -133,6 +133,7 @@ namespace dumbu\cls {
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
 //                    }
                 }
+//              die("Alberto");
             }
 //            die("Loged all Clients");
 //
