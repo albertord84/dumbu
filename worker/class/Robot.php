@@ -332,7 +332,6 @@ namespace dumbu\cls {
                 //print_r($output);
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
-                var_dump($json);
                 if (isset($json->media) && isset($json->media->nodes) && count($json->media->nodes)) {
                     return $json->media->nodes;
                 }
@@ -823,7 +822,6 @@ namespace dumbu\cls {
             $result = $this->get_insta_chaining($client_cookies, $client_insta_id);
             //print_r($result);
             if ($result) {
-                print_r($result[0]->id);
                 $result = $this->make_insta_friendships_command($client_cookies, $result[0]->id, 'like', 'web/likes');
 //              print_r($result);
             }
