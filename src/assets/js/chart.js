@@ -15,7 +15,7 @@ $(document).ready(function () {
         axisX: {
             gridColor: "Silver",
             tickColor: "silver",
-            valueFormatString: "DD"
+            valueFormatString: "DD/MM/YY"
         },
         toolTip: {
             shared: true
@@ -34,7 +34,7 @@ $(document).ready(function () {
                 type: "line",
                 showInLegend: true,
                 lineThickness: 2,
-                name: "Seguidores ganhos",
+                name: "Perfis seguidos",
                 markerType: "square",
                 color: "#F08080",
                 dataPoints: followings_data
@@ -54,12 +54,11 @@ $(document).ready(function () {
             },
             {
                 type: "line",
-                showInLegend: true,
-                name: "Perfis seguidos",
+                showInLegend: true,                
+                name: "Seguidores ganhos",
                 color: "#20B2AA",
                 lineThickness: 2,
                 dataPoints: followers_data
-
             }
         ],
         legend: {

@@ -77,7 +77,7 @@ class Welcome extends CI_Controller {
             $N = count($result);
 
             for ($i = 0; $i < $N; $i++) {
-                $dd = date("j", $result[$i]['date'])+$i;
+                $dd = date("j", $result[$i]['date']);
                 $mm = date("n", $result[$i]['date']);
                 $yy = date("Y", $result[$i]['date']);
                 $followings[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
