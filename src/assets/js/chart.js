@@ -31,11 +31,7 @@
 					name: "Seguidores ganhos",
 					markerType: "square",
 					color: "#F08080",
-					dataPoints: //followings_data 
-                                        [
-					{ x: 3, y: 410 },
-					{ x: 5, y: 460 }
-					]
+					dataPoints: followings_data                                         
                                         /*[
 					{ x: new Date(2010, 0, 3), y: 650 },
 					{ x: new Date(2010, 0, 5), y: 700 },
@@ -56,12 +52,7 @@
 					name: "Perfis seguidos",
 					color: "#20B2AA",
 					lineThickness: 2,
-					dataPoints: 
-                                        [
-					{ x: 3, y: 510, z: 7},
-					{ x: 5, y: 560, z: 7}
-					]
-                        //followers_data
+					dataPoints: followers_data
 					
 				}
 				],
