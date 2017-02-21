@@ -34,7 +34,15 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 ////$Worker->do_follow_unfollow_work($daily_work);
 //$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
 //var_dump($Ref_profile_follows);
+
 $Client = new dumbu\cls\Client();
+
+//$result = $Client->insert_clients_daily_report();
+
+//$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data('ftthiagomonteiro');
+//$DB = new \dumbu\cls\DB();
+//$result = $DB->insert_client_daily_report(1624, $profile_data);
+
 //$Client->create_daily_work(234);
 //var_dump(date('d-m-Y',time()));
 //$a=strtotime("+" .'7'. " days", time());
@@ -53,7 +61,7 @@ $Client = new dumbu\cls\Client();
 //
 //
 // MUNDIPAGG
-//$Payment = new dumbu\cls\Payment();
+$Payment = new dumbu\cls\Payment();
 //
 //$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
 //$result = $Payment->check_payment($order_key);
@@ -82,8 +90,8 @@ $Client = new dumbu\cls\Client();
 //} else {
 //    print 'NOT SALE DATA CAPTURED!!!';
 //}
-
-//$pd = strtotime('30-01-2017');
+//$pd = strtotime('02/22/2017 04:33:32');
+//var_dump($pd);
 //var_dump(date("d-m-Y", $pd));
 //
 //$pd = strtotime("-3 days", 1487487807);
@@ -92,7 +100,6 @@ $Client = new dumbu\cls\Client();
 //var_dump(date("d-m-Y", $pd));
 //
 //
-
 //$pay_day = strtotime('09/02/2017 14:04:49');
 //var_dump($pay_day);
 //
@@ -110,20 +117,21 @@ $Client = new dumbu\cls\Client();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-//$pay_day = strtotime('03-03-2017');
+//$pay_day = strtotime('02/22/2017 04:33:32');
+//$pay_day = strtotime("+30 days", $pay_day);
 //$pay_day = time();
-//var_dump($pay_day);
+//$strdate = date("d-m-Y", $pay_day);
 //
 //////
-//$payment_data['credit_card_number'] = '4593140297833237';
-//$payment_data['credit_card_name'] = 'SIMONE R MAURICIO';
-//$payment_data['credit_card_exp_month'] = '03';
-//$payment_data['credit_card_exp_year'] = '2023';
-//$payment_data['credit_card_cvc'] = '787';
-//$payment_data['amount_in_cents'] = 9990;
+//$payment_data['credit_card_number'] = '5399832641710235';
+//$payment_data['credit_card_name'] = 'DANIEL ONOJA';
+//$payment_data['credit_card_exp_month'] = '02';
+//$payment_data['credit_card_exp_year'] = '2018';
+//$payment_data['credit_card_cvc'] = '657';
+//$payment_data['amount_in_cents'] = 2990;
 //$payment_data['pay_day'] = $pay_day;
-////$resul = $Payment->create_payment($payment_data);
-////var_dump($resul);
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
 ////----------------------------------------------------------------
@@ -146,7 +154,7 @@ $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
+//$result = $Gmail->send_client_payment_success("fashionactone@gmail.com", "fashionact", "fashionactcc", "fash1234");
 //var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result)
@@ -161,15 +169,14 @@ $Gmail = new dumbu\cls\Gmail();
 
 $Robot = new dumbu\cls\Robot();
 
-$client = $Client->get_client(1);
-//$result = $Robot->get_insta_chaining(json_decode($client->cookies), $client->insta_id, 10);
-////print_r($result);
+//$client = $Client->get_client(1);
+//$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
+//print_r($result);
+//
 //print_r($result->media->nodes[0]->id);
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
 //print_r($result);
-
 //$result = $Robot->like_fist_post(json_decode($client->cookies), $client->insta_id);
-
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
@@ -203,7 +210,7 @@ $Worker = new dumbu\cls\Worker();
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
 //$Worker->prepare_daily_work();
-$Worker->do_work();
+//$Worker->do_work();
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

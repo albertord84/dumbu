@@ -114,6 +114,28 @@ namespace dumbu\cls {
             }
         }
 
+        /**
+         * 
+         * @param type $client_id
+         * @param type $profile_data Data from this client as profile
+         * @return type
+         */
+        public function insert_client_daily_report($client_id, $profile_data) {
+            try {
+                $this->connect();
+                $date = time();
+                $sql = "INSERT INTO daily_report "
+                        . "(client_id, followings, followers, date) "
+                        . "VALUES "
+                        . "($client_id, '$profile_data->following', '$profile_data->follower_count', '$date');";
+
+                $result = mysqli_query($this->connection, $sql);
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function set_client_cookies($client_id, $cookies) {
             try {
                 $this->connect();

@@ -157,12 +157,23 @@ namespace dumbu\cls {
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
-                            $null_picture = strpos($Profile->profile_pic_url, 'scontent-lax3-2.cdninstagram.com');
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $null_picture === FALSE) { // If user not requested or follwed by Client
+//                            $null_picture = strpos($Profile->profile_pic_url, 'scontent-lax3-2.cdninstagram.com');
+                            // Check if its a valid profile
+                            $valid_profile = FALSE;
+                            $is_private = (new Profile())->is_private($Profile->username);
+                            if (!$is_private) {
+                                // Check the post amount from this profile
+                                $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
+                                $posts = $this->get_insta_chaining($login_data, $Profile->id, $MIN_FOLLOWER_POSTS);
+                                $valid_profile = count($posts) >= $MIN_FOLLOWER_POSTS;
+                            } else {
+                                $valid_profile = TRUE;
+                            }
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                                if ($daily_work->like_first) 
+                                if ($daily_work->like_first)
                                     $this->like_fist_post($login_data, $Profile->id);
                                 //var_dump($json_response);
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
@@ -745,29 +756,31 @@ namespace dumbu\cls {
                         $User = $users[$i]->user;
                         $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                         $User->following = $this->get_insta_ref_prof_following($ref_prof);
+                        if (!isset($User->follower_count)) {
+                            $User->follower_count =  isset($User->byline) ? $this->parse_follow_count($User->byline) : 0;
+                        }
                         break;
                     }
                 }
             }
             return $User;
-            // JOSE
-//            $content= file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
-//            $users = json_decode($content)->users;
-//             //var_dump($users[0]->user->username);
-//             
-//            // Get user with $ref_prof name over all matchs 
-//            $User = NULL;
-//            if(is_array($users)){               
-//                for($i=0;$i<count($users);$i++){            
-//                    if ($users[$i]->user->username === $ref_prof) {
-//                        $User = $users[$i]->user;
-//                        $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
-//                        $User->following = $this->get_insta_ref_prof_following($ref_prof);
-//                        break;
-//                    }
-//                }
-//            }
-//            return $User;
+        }
+
+        public function parse_follow_count($follow_count_str) {
+            $search = " followers";
+            $start = strpos($follow_count_str, $search);
+
+            $letter = substr($follow_count_str, $start - 1, 1);
+            $decimals = 1;
+            $substr = substr($follow_count_str, 0, strlen($follow_count_str) - strlen($search));
+            if ($letter === 'k' || $letter === 'm') { // If not integer its a 10 power
+                $substr = substr($follow_count_str, 0, strlen($follow_count_str) - strlen($search) - 1);
+                $decimals = $letter === 'k' ? 1000 : $decimals;
+                $decimals = $letter === 'm' ? 1000000 : $decimals;
+            }
+            $followers = floatval($substr) * $decimals;
+
+            return $followers;
         }
 
         public function get_insta_ref_prof_follows($ref_prof_id) {
