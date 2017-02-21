@@ -162,6 +162,17 @@
                 return false;
             }
         }
+                
+        public function insert_initial_instagram_datas($id,$datas){
+            try {
+                $this->db->where('client_id',$id);
+                $this->db->update('daily_report',$datas);
+                return true;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
         
         public function sign_up($client_login,$client_pass,$status_id) {
             try {
