@@ -70,7 +70,7 @@ class Welcome extends CI_Controller {
     public function get_daily_report($id) {
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
-            $sql = "SELECT * FROM daily_report WHERE client_id=" . $id . " ORDER BY date DESC LIMIT 30;";
+            $sql = "SELECT * FROM daily_report WHERE client_id=" . $id . " ORDER BY date ASC;";  // LIMIT 30
             $result = $this->user_model->execute_sql_query($sql);
             $followings = array();
             $followers = array();
