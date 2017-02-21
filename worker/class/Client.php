@@ -124,7 +124,7 @@ namespace dumbu\cls {
                     $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login);
                     if ($profile_data) {
                         $result = $DB->insert_client_daily_report($client_data->user_id, $profile_data);
-                        var_dump($result);
+                        var_dump($client_data->login);
                     } else {
                         var_dump($client_data);
                     }
