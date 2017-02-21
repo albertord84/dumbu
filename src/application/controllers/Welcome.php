@@ -3,7 +3,7 @@ class Welcome extends CI_Controller {
     
     public function aaa() {
         print_r('init_date');
-        var_dump(strtotime('02/08/2017 13:36:31'));
+        var_dump(strtotime('02/20/2017 04:33:33'));
         
         print_r('pay_date');
         var_dump(strtotime('03/10/2017 13:36:28'));
@@ -65,6 +65,26 @@ class Welcome extends CI_Controller {
         echo json_encode($response);
     }
 
+    public function get_daily_report($id){
+        if($this->session->userdata('id')){
+            $this->load->model('class/user_model');
+            $sql="SELECT * FROM daily_report WHERE client_id=".$id." ORDER BY date DESC LIMIT 30;";
+            $result=$this->user_model->execute_sql_query($sql);
+            $followings=array();
+            $followers=array();
+            $N=count($result);
+            
+            for($i=0;$i<$N;$i++){
+                $followings[$i]= (object) array('x'=>($i+1),'y'=>intval($result[$i]['followings']));
+                $followers[$i]=  (object) array('x'=>($i+1),'y'=>intval($result[$i]['followers']));
+            }
+        }
+        return array(
+            'followings'=>json_encode($followings),
+            'followers'=>json_encode($followers)
+            );
+    }
+
     public function client() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
@@ -107,6 +127,10 @@ class Welcome extends CI_Controller {
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;            
             $datas1['language']=$GLOBALS['sistem_config']->LANGUAGE;
+            
+            $daily_report=$this->get_daily_report($this->session->userdata('id'));            
+            $datas1['followings']=$daily_report['followings'];
+            $datas1['followers']=$daily_report['followers'];
 
             if ($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
                 $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));
@@ -645,6 +669,10 @@ class Welcome extends CI_Controller {
                         'insta_followers_ini' => $data_insta->follower_count,
                         'insta_following' => $data_insta->following,
                         'HTTP_SERVER_VARS' => json_encode($_SERVER)));
+                    $this->client_model->insert_initial_instagram_datas($client[$i]['id'], array(
+                        'followers' => $data_insta->follower_count,
+                        'followings' => $data_insta->following,
+                        'date' => time() ));
                     $response['datas'] = json_encode($data_insta);
                     if ($early_client_canceled)
                         $response['early_client_canceled'] = true;

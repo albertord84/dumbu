@@ -96,6 +96,22 @@ class Admin extends CI_Controller {
         }
     }
     
+    public function pendences(){
+        if ($this->session->userdata('id')){ 
+            $this->load->model('class/client_model'); 
+            $id=$this->input->get()['id']; 
+            $active_profiles=$this->client_model->get_client_active_profiles($id); 
+            $canceled_profiles=$this->client_model->get_client_canceled_profiles($id);            
+            $datas['active_profiles']=$active_profiles; 
+            $datas['canceled_profiles']=$canceled_profiles; 
+            $datas['my_daily_work']=$this->get_daily_work($active_profiles); 
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel','', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile',$datas,true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+    }
+    
     public function get_daily_work($active_profiles){        
         $this->load->model('class/client_model');
         $n=count($active_profiles);

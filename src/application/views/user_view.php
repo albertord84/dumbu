@@ -42,7 +42,12 @@
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php") ?>
-                <?php include_once("remarketing.php")?>                
+                <?php include_once("remarketing.php")?>
+                <?php include_once("retargeting.php")?>
+                <?php
+                    /*if($languaje=='EN')
+                        include_once("adroll.php");*/
+                ?>
                 
 		<div class="windows8">
                     <div class="wBall" id="wBall_1">
@@ -307,7 +312,7 @@
 		<section id="passos" class="fleft100 m-t30">
 			<div class="container cl-black">
                             <!--PASSO 1-->
-                                <div  class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
+                                <div style="margin-top:60px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                     <div id="container_login_panel" style="visibility:hidden;display:none">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 1",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
@@ -346,7 +351,7 @@
 				</div>
                             
                             <!--PASSO 2-->
-                                <div id="coniner_data_panel" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
+                                <div id="coniner_data_panel" style="margin-top:60px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
 					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/pay.png" class="wauto" alt="">
@@ -401,36 +406,17 @@
 				</div>
                             
                             <!--PASSO 3-->
-                                <div id="container_sing_in_panel" class="col-md-4 col-sm-4 col-xs-12 passo text-center m-t40">
+                                <div id="container_sing_in_panel" style="margin-top:60px" class="col-md-4 col-sm-4 col-xs-12 passo text-center m-t40">
 					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 3",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/ass.png" class="wauto" alt="">
 						<span class="fleft100"><?php echo $CI->T("Assine e configure sua conta",array());?></span>
 					</div>
-
 					<div class="text-center">
                                             <button id="btn_sing_in" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
                                                 <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ASSINAR AGORA",array());?></div></span>
                                             </button>                                            
                                         </div>
-                                        
-                                        <!--
-                                        <div class="modal fade" id="myModal" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">Atenção</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>A operação pode demorar alguns segundos. Aguarde, por favor...</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
                                         <br><br><?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/'.$languaje.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
                                         <br><br><?php echo '<img src="assets/images/'.$languaje.'/seguro.png" class="wauto" alt="">';?>
 				</div>
