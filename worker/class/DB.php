@@ -60,13 +60,19 @@ namespace dumbu\cls {
             try {
                 $this->connect();
                 $CLIENT = user_role::CLIENT;
-                $UNFOLLOW = user_status::UNFOLLOW;
-                $result = mysqli_query($this->connection, ""
+                $ACTIVE = user_status::ACTIVE;
+                $PENDING = user_status::PENDING;
+                //$UNFOLLOW = user_status::UNFOLLOW;
+                $sql = ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND users.status_id = $UNFOLLOW; "
-                );
+                        . "     AND clients.unfollow_total = 1 "
+                        . "     AND (users.status_id = $ACTIVE OR "
+                        . "          users.status_id = $PENDING "
+                        . "          );";
+                $result = mysqli_query($this->connection, $sql);
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -133,8 +139,9 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM reference_profile "
                         . "WHERE "
-                        . "  (reference_profile.client_id = $client_id) AND "
-                        . "  (reference_profile.deleted <> TRUE);"
+                        . "  (reference_profile.client_id = $client_id); "
+//                        . "  (reference_profile.client_id = $client_id) AND "
+//                        . "  (reference_profile.deleted <> TRUE);"
                 );
                 return $result;
             } catch (\Exception $exc) {
@@ -178,7 +185,7 @@ namespace dumbu\cls {
                         . "INNER JOIN users ON users.id = clients.user_id "
                         . "WHERE ((daily_work.to_follow  > 0) "
                         . "   OR  (daily_work.to_unfollow  > 0)) "
-                        . "   AND (reference_profile.deleted <> TRUE) "
+                        . "   AND (reference_profile.deleted <> TRUE || daily_work.to_unfollow  > 0) "
                         //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
                         . "ORDER BY clients.last_access ASC, "
                         . "         daily_work.to_follow DESC "

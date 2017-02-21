@@ -100,8 +100,8 @@ namespace dumbu\cls {
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
                     $RPWC = $Client->rp_workable_count();
+                    $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                     if ($RPWC > 0) {
-                        $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
 //                        $to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
                         // If User status = UNFOLLOW he do 0 follows
@@ -109,12 +109,15 @@ namespace dumbu\cls {
                         $to_unfollow = $to_follow_unfollow;
                         foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
-                            if ($Ref_Prof->end_date == NULL) {
+                            if (!$Ref_Prof->deleted) {
                                 $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
                             }
                         }
                     } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
+                        if (count($Client->reference_profiles)) { // To keep unfollow
+                            $DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
+                        }
                         $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 } else {
@@ -130,6 +133,7 @@ namespace dumbu\cls {
                     $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
 //                    }
                 }
+//              die("Alberto");
             }
 //            die("Loged all Clients");
 //
@@ -297,4 +301,5 @@ namespace dumbu\cls {
         }
 
     }
+
 }

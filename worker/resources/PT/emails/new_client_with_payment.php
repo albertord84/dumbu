@@ -11,6 +11,7 @@
   <br>
   <p>User personal contact information:</p>
   <p>email -> <strong><?php echo $_GET["useremail"]; ?></strong></p>
+  <p>plane -> <strong><?php echo $_GET["plane"]; ?></strong></p>
   <br>
   <p>DUMBU SYSTEM</p>
 </div>

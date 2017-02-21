@@ -92,7 +92,13 @@ $Client = new dumbu\cls\Client();
 //var_dump(date("d-m-Y", $pd));
 //
 //
-//$pay_day = strtotime('01-01-2016');
+
+//$pay_day = strtotime('09/02/2017 14:04:49');
+//var_dump($pay_day);
+//
+//
+//$pay_day = strtotime('11/03/2017 14:04:49');
+//var_dump($pay_day);
 //
 //$d_today = date("j", $now);
 //$m_today = date("n", $now);
@@ -150,14 +156,20 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
-//$Gmail->send_new_client_payment_done("Test test", "test@email");
+//$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
 
+$client = $Client->get_client(1);
+//$result = $Robot->get_insta_chaining(json_decode($client->cookies), $client->insta_id, 10);
+////print_r($result);
+//print_r($result->media->nodes[0]->id);
+//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
+//print_r($result);
 
-//$result = $Robot->bot_login("michelnapo", "ancdse102030");
-//print_r(json_encode($result));
+//$result = $Robot->like_fist_post(json_decode($client->cookies), $client->insta_id);
+
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
@@ -171,18 +183,18 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 //$result = $Robot->bot_login("abrfuncional", "treinoabr");
 //var_dump($result);
-$result = $Robot->bot_login("jeff_need", "24549088");
-var_dump($result);
+//$result = $Robot->bot_login("jeff_need", "24549088");
+//var_dump($result);
 //$result = $Robot->bot_login("baladauberlandia", "calypso");
 //var_dump($result);
-$result = $Robot->bot_login("alberto_dreyes", "albertord4");
-var_dump($result);
-$result = $Robot->bot_login("josergm86", "josergm1");
-var_dump($result);
+//$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+//var_dump($result);
+//$result = $Robot->bot_login("josergm86", "josergm1");
+//var_dump($result);
 //$result = $Robot->bot_login("smartsushidelivery", "838485");
 //var_dump($result);
-$result = $Robot->bot_login("pedropetti", "Pp106020946");
-var_dump($result);
+//$result = $Robot->bot_login("pedropetti", "Pp106020946");
+//var_dump($result);
 //----------------------------------------------------------------
 //
 // WORKER
@@ -191,7 +203,7 @@ $Worker = new dumbu\cls\Worker();
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
 //$Worker->prepare_daily_work();
-//$Worker->do_work();
+$Worker->do_work();
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

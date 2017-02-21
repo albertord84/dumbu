@@ -139,7 +139,7 @@ namespace dumbu\cls {
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             $Ref_profile_follows = array();
             $follows = 0;
-            echo "<br>\nmake_insta_friendships_command FOLLOW: $daily_work->to_follow <br>\n";
+            echo "<br>\nmake_insta_friendships_command FOLLOW (like firsts = $daily_work->like_first): $daily_work->to_follow <br>\n";
             if (!$error && $daily_work->to_follow > 0) { // If has to follow
                 $get_followers_count = 0;
                 $error = FALSE;
@@ -162,6 +162,8 @@ namespace dumbu\cls {
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
+                                if ($daily_work->like_first) 
+                                    $this->like_fist_post($login_data, $Profile->id);
                                 //var_dump($json_response);
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
@@ -276,12 +278,12 @@ namespace dumbu\cls {
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
          * @param type $login_data
-         * @param type $user_id
+         * @param type $resource_id
          * @param type $command {follow, unfollow, ... }
          * @return type
          */
-        public function make_insta_friendships_command($login_data, $user_id, $command = 'follow') {
-            $curl_str = $this->make_curl_follow_str("'https://www.instagram.com/web/friendships/$user_id/$command/'", $login_data);
+        public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
+            $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
             //print("<br><br>$curl_str<br><br>");
             //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
@@ -298,7 +300,7 @@ namespace dumbu\cls {
 //            return $json_response;
         }
 
-        public function make_curl_follow_str($url, $login_data) {
+        public function make_curl_friendships_command_str($url, $login_data) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
@@ -322,29 +324,23 @@ namespace dumbu\cls {
             return $curl_str;
         }
 
-// TODO: Remove if not use
-//        public function make_curl_friendships_str($url, $cookies) {
-//            $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
-//            $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
-//            $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
-//            $curl_str = "curl '$url' ";
-//            $curl_str .= "-X POST ";
-//            $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
-//            $curl_str .= "-H 'Host: www.instagram.com' ";
-//            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
-//            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-//            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-//            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
-//            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-//            $curl_str .= "-H 'X-Instagram-Ajax: 1' ";
-//            $curl_str .= "-H 'Content-Type: application/x-www-form-urlencoded' ";
-//            $curl_str .= "-H 'Accept: */*' ";
-//            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-//            $curl_str .= "-H 'Authority: www.instagram.com' ";
-//            $curl_str .= "-H 'Content-Length: 0' ";
-//            $curl_str .= "--compressed ";
-//            return $curl_str;
-//        }
+        public function get_insta_chaining($login_data, $user, $N = 1, $cursor = NULL) {
+            try {
+                $curl_str = $this->make_curl_chaining_str("'https://www.instagram.com/query/'", $login_data, $user, $N, $cursor);
+                //print("<br><br>$curl_str<br><br>");
+                exec($curl_str, $output, $status);
+                //print_r($output);
+                //print("-> $status<br><br>");
+                $json = json_decode($output[0]);
+                var_dump($json);
+                if (isset($json->media) && isset($json->media->nodes) && count($json->media->nodes)) {
+                    return $json->media->nodes;
+                }
+                return FALSE;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
         public function get_insta_followers($login_data, $user, $N, $cursor = NULL) {
             try {
@@ -429,6 +425,42 @@ namespace dumbu\cls {
                         . "'q=ig_user($user)+%7B%0A++followed_by.after($cursor, $N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++profile_pic_url%2C%0A++++++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list' ";
 //                "page_info": {"has_previous_page": true, "start_cursor": "AQCofdJPzGRljplmFndRzUK17kcV3cD2clwRHYSHInAWcmxn5fhtZVGZyHs1pLUafOMOw8SYZnM4UB-4WO8vM9oTjdAuvL14DmH87kZDJE2kmaW_sA-K6_yqP6pzsyC-6RE", "end_cursor": "AQDsGU9PY7SKUFVzb4g-9hUAqmN3AVn7WKa38BTEayApyPavBw6RqRriVD46_LamE1GllxTSdsFsbD3IQ7C5aEx2n7rRIaIegPoTWxPZg34SWMwLxJfI5I6ivcZ0wOZg7a4", "has_next_page": true}
             }
+            $curl_str .= "--compressed ";
+            return $curl_str;
+//            }
+        }
+
+        public function make_curl_chaining_str($url, $login_data, $user, $N, $cursor = NULL) {
+//            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
+            $csrftoken = $login_data->csrftoken;
+            $ds_user_id = $login_data->ds_user_id;
+            $sessionid = $login_data->sessionid;
+            $mid = $login_data->mid;
+            $curl_str = "curl '$url' ";
+            // TODO: automatizate mid
+            $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
+            $curl_str .= "-H 'Origin: https://www.instagram.com' ";
+            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
+            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
+            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            $curl_str .= "-H 'X-Instagram-ajax: 1' ";
+            $curl_str .= "-H 'content-type: application/x-www-form-urlencoded' ";
+            $curl_str .= "-H 'Accept: */*' ";
+            $curl_str .= "-H 'Referer: https://www.instagram.com/$login_data->login' ";
+            $curl_str .= "-H 'Authority: www.instagram.com' ";
+            if ($cursor === NULL || $cursor === '') {
+                $curl_str .= "--data "
+                        . "'q=ig_user($user)+%7B+media.first($N)+%7B%0A++count%2C%0A++nodes+%7B%0A++++__typename%2C%0A++++caption%2C%0A++++code%2C%0A++++comments+%7B%0A++++++count%0A++++%7D%2C%0A++++comments_disabled%2C%0A++++date%2C%0A++++dimensions+%7B%0A++++++height%2C%0A++++++width%0A++++%7D%2C%0A++++display_src%2C%0A++++id%2C%0A++++is_video%2C%0A++++likes+%7B%0A++++++count%0A++++%7D%2C%0A++++owner+%7B%0A++++++id%0A++++%7D%2C%0A++++thumbnail_src%2C%0A++++video_views%0A++%7D%2C%0A++page_info%0A%7D%0A+%7D' ";
+            }
+//            else {
+////                $curl_str .= "--data "
+////                        . "'q=ig_user($user)+%7B%0A++followed_by.after($cursor, $N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list&query_id=17851938028087704' ";
+//                $curl_str .= "--data "
+//                        . "'q=ig_user($user)+%7B%0A++followed_by.after($cursor, $N)+%7B%0A++++count%2C%0A++++page_info+%7B%0A++++++end_cursor%2C%0A++++++has_next_page%0A++++%7D%2C%0A++++nodes+%7B%0A++++++id%2C%0A++++++is_verified%2C%0A++++++followed_by_viewer%2C%0A+requested_by_viewer%2C%0A++++++full_name%2C%0A+++profile_pic_url%2C%0A++++++username%0A++++%7D%0A++%7D%0A%7D%0A&ref=relationships%3A%3Afollow_list' ";
+////                "page_info": {"has_previous_page": true, "start_cursor": "AQCofdJPzGRljplmFndRzUK17kcV3cD2clwRHYSHInAWcmxn5fhtZVGZyHs1pLUafOMOw8SYZnM4UB-4WO8vM9oTjdAuvL14DmH87kZDJE2kmaW_sA-K6_yqP6pzsyC-6RE", "end_cursor": "AQDsGU9PY7SKUFVzb4g-9hUAqmN3AVn7WKa38BTEayApyPavBw6RqRriVD46_LamE1GllxTSdsFsbD3IQ7C5aEx2n7rRIaIegPoTWxPZg34SWMwLxJfI5I6ivcZ0wOZg7a4", "has_next_page": true}
+//            }
             $curl_str .= "--compressed ";
             return $curl_str;
 //            }
@@ -785,6 +817,16 @@ namespace dumbu\cls {
             //var_dump($result);
             //die("<br><br>Debug Finish!");
             return $result;
+        }
+
+        public function like_fist_post($client_cookies, $client_insta_id) {
+            $result = $this->get_insta_chaining($client_cookies, $client_insta_id);
+            //print_r($result);
+            if ($result) {
+                print_r($result[0]->id);
+                $result = $this->make_insta_friendships_command($client_cookies, $result[0]->id, 'like', 'web/likes');
+//              print_r($result);
+            }
         }
 
 //  end of member function bot_login

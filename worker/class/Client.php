@@ -171,7 +171,7 @@ namespace dumbu\cls {
             $count = 0;
             if ($this->reference_profiles) {
                 foreach ($this->reference_profiles as $ref_prof) {
-                    if ($ref_prof->end_date == NULL) {
+                    if (!$ref_prof->deleted) {
                         $count++;
                     }
                 }
@@ -283,6 +283,7 @@ namespace dumbu\cls {
                     $Ref_Prof->insta_id = $prof_data->insta_id;
                     $Ref_Prof->insta_name = $prof_data->insta_name;
                     $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
+                    $Ref_Prof->deleted = $prof_data->deleted;
                     array_push($this->reference_profiles, $Ref_Prof);
 //                    }
                 }
