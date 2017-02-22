@@ -744,31 +744,36 @@ namespace dumbu\cls {
         }
 
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
-            $User = NULL;
-            if ($ref_prof != "") {
-                $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
-                //var_dump($content);
-                if ($users = json_decode($content)) {
-                    $users = $users->users;
-                    // Get user with $ref_prof name over all matchs 
-                    if (is_array($users)) {
-                        for ($i = 0; $i < count($users); $i++) {
-                            if ($users[$i]->user->username === $ref_prof) {
-                                $User = $users[$i]->user;
-                                $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
-                                $User->following = $this->get_insta_ref_prof_following($ref_prof);
-                                if (!isset($User->follower_count)) {
-                                    $User->follower_count = isset($User->byline) ? $this->parse_follow_count($User->byline) : 0;
+            try {
+                $User = NULL;
+                if ($ref_prof != "") {
+                    $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
+                    //var_dump($content);
+                    if ($users = json_decode($content)) {
+                        $users = $users->users;
+                        // Get user with $ref_prof name over all matchs 
+                        if (is_array($users)) {
+                            for ($i = 0; $i < count($users); $i++) {
+                                if ($users[$i]->user->username === $ref_prof) {
+                                    $User = $users[$i]->user;
+                                    $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
+                                    $User->following = $this->get_insta_ref_prof_following($ref_prof);
+                                    if (!isset($User->follower_count)) {
+                                        $User->follower_count = isset($User->byline) ? $this->parse_follow_count($User->byline) : 0;
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
+                } else {
+                    //var_dump("null reference profile!!!");
                 }
-            } else {
-                //var_dump("null reference profile!!!");
+                return $User;
+            } catch (Exception $ex) {
+                //print_r($ex->message);
+                return NULL;
             }
-            return $User;
         }
 
         public function parse_follow_count($follow_count_str) {
