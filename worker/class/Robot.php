@@ -764,10 +764,10 @@ namespace dumbu\cls {
                                 }
                             }
                         }
+                    } else {
+                        var_dump($content);
+                        //var_dump("null reference profile!!!");
                     }
-                } else {
-                    var_dump($content);
-                    //var_dump("null reference profile!!!");
                 }
                 return $User;
             } catch (Exception $ex) {
