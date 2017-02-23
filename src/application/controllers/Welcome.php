@@ -80,7 +80,7 @@ class Welcome extends CI_Controller {
                 $dd = date("j", $result[$i]['date']);
                 $mm = date("n", $result[$i]['date']);
                 $yy = date("Y", $result[$i]['date']);
-                $followings[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
+                $followings[$i] = (object) array('x' => ($i + 1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
                 $followers[$i] = (object) array('x' => ($i + 1), 'y' => intval($result[$i]['followers']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
             }
         }
@@ -1290,9 +1290,14 @@ class Welcome extends CI_Controller {
                 $data_insta['authenticated'] = true;
                 $data_insta['insta_id'] = $login_data->ds_user_id;
                 $user_data = $this->Robot->get_insta_ref_prof_data($client_login);
-                $data_insta['insta_followers_ini'] = $user_data->follower_count;
-                $data_insta['insta_following'] = $user_data->following;
-                $data_insta['insta_name'] = $user_data->full_name;
+                if ($user_data) {
+                    $data_insta['insta_followers_ini'] = $user_data->follower_count;
+                    $data_insta['insta_following'] = $user_data->following;
+                    $data_insta['insta_name'] = $user_data->full_name;
+                } else {
+                    $data_insta['insta_followers_ini'] = $data_insta['insta_following'] = 0;
+                    $data_insta['insta_name'] = "";
+                }
                 if (is_object($login_data))
                     $data_insta['insta_login_response'] = $login_data;
                 else
