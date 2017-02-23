@@ -128,7 +128,7 @@ namespace dumbu\cls {
                     } else {
                         var_dump($client_data);
                     }
-                    sleep(2); // secounds
+                    sleep(5); // secounds
                 }
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();

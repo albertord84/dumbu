@@ -748,7 +748,6 @@ namespace dumbu\cls {
                 $User = NULL;
                 if ($ref_prof != "") {
                     $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
-                    //var_dump($content);
                     if ($users = json_decode($content)) {
                         $users = $users->users;
                         // Get user with $ref_prof name over all matchs 
@@ -767,11 +766,12 @@ namespace dumbu\cls {
                         }
                     }
                 } else {
+                    var_dump($content);
                     //var_dump("null reference profile!!!");
                 }
                 return $User;
             } catch (Exception $ex) {
-                //print_r($ex->message);
+                print_r($ex->message);
                 return NULL;
             }
         }
