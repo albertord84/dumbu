@@ -747,9 +747,16 @@ namespace dumbu\cls {
             try {
                 $User = NULL;
                 if ($ref_prof != "") {
-//                    $content = file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
-                    exec("curl 'https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof'", $output, $status);
-                    $content = json_decode($output[0]);
+//                    $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
+//                    exec("curl 'https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof'", $output, $status);
+//                    $content = json_decode($output[0]);
+                    $ch = curl_init("https://www.instagram.com/");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_POST, FALSE);
+                    curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+                    $html = curl_exec($ch);
+                    $content = json_decode($html);
+                    curl_close($ch);
                     if (is_object($content) && $content->status === 'ok') {
                         $users = $content->users;
                         // Get user with $ref_prof name over all matchs 
