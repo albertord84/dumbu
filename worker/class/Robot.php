@@ -805,7 +805,7 @@ namespace dumbu\cls {
                     $curl_str .= "--compressed ";
                     exec($curl_str, $output, $status);
                     $content = json_decode($output[0]);
-                    if (is_object($content) && $content->status === 'ok') {
+                    if(is_object($content) && $content->status === 'ok') {
                         $users = $content->users;
                         // Get user with $ref_prof name over all matchs 
                         if (is_array($users)) {

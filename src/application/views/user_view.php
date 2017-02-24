@@ -312,7 +312,7 @@
 		<section id="passos" class="fleft100 m-t30">
 			<div class="container cl-black">
                             <!--PASSO 1-->
-                                <div style="margin-top:60px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
+                                <div id="coniner_login_panel" style="margin-top:60px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                     <div id="container_login_panel" style="visibility:hidden;display:none">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 1",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
@@ -329,13 +329,48 @@
 						<fieldset>
 							<input id = "signin_clientPassword" type="password" placeholder="<?php echo $CI->T("Senha Instagram",array());?>" required>
 						</fieldset>
-                                                <div class="text-center">
-                                                    <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                        <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></span>
-                                                    </button>
-                                                </div>
-                                                <div id="container_sigin_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
-                                                </div>
+                                            
+                                            <!--*******************************************************************************************************************-->
+                                           <script type="text/javascript">
+                                                function verificarcaptcha(){
+                                                    if($("#ct_captcha").val().length>=0){
+                                                        //enviar al servidor
+                                                        $.get("<?php echo base_url()?>assets/securimage/vercatpcha.php?ca="+$("#ct_captcha").val(), function(data) {
+                                                            $("#errorcaptcha").html(data);
+                                                            rptacap=data;
+                                                        });
+                                                    }
+                                                }
+                                            </script>
+
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <img id="siimage" style="border: 1px solid #000; margin-right: 15px;" src="<?php $value=md5(uniqid()); echo base_url().'assets/securimage/securimage_show.php?sid='.$value;?>" alt="<?php echo $CI->T("CAPTCHA Image",array());?>" align="center">
+                                                <!--<a tabindex="-1" style="border-style: none;" 
+                                                   href="#" 
+                                                   title="<?php //echo $CI->T("Refresh Image",array());?>" 
+                                                   onclick="document.getElementById('siimage').src = <?php //echo base_url()?> +'assets/securimage/securimage_show.php?sid=' + Math.random(); this.blur(); return false;">
+                                                   <br>
+                                                   <img style="width:30px" src="<?php //echo base_url().'assets/securimage/images/refresh.png';?>" alt="<?php //echo $CI->T("Reload Image",array());?>" onclick="this.blur()" align="bottom" border="0">
+                                                </a>-->                                                
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <strong><?php echo $CI->T("Insere o código",array());?>:</strong>                                                
+                                                <?php echo @$_SESSION['ctform']['captcha_error']?>
+                                                <input type="text" name="ct_captcha" size="14" maxlength="8" id="ct_captcha" class="span4" onblur="verificarcaptcha()" required/>                                            
+                                                <br>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                                <span style="color:red" id="errorcaptcha"></span>
+                                            </div>
+                                            <!--*******************************************************************************************************************-->
+                                            
+                                            <div class="text-center">
+                                                <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></span>
+                                                </button>
+                                            </div>
+                                            <div id="container_sigin_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                            </div>
 					</div>
                                     </div>
                                     <div id="signin_profile"  style="text-align:center; visibility:visible;display:block">
@@ -402,6 +437,31 @@
 								</div>
 							</fieldset>
 						</div>
+                                            
+                                            
+                                                <?php if($languaje==='PT'){
+                                                    echo '<div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t20">
+                                                        <span class="val">Cupão (*)</span>
+                                                    </div>
+                                                    <div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t20">
+                                                        <fieldset>
+                                                            <input id="cupao_number" type="text" placeholder="Cupão desconto" maxlength="5" required>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t20">
+                                                        <div class="text-center">
+                                                            <button id = "check_cupao" type="button" style="width:120px;height:40px;margin-top:5px" class="btn-primary ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                <span class="ladda-label"><div style="color:white; font-weight:bold">Check-in</div></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
+                                                        <fieldset>
+                                                                <span class="val">(*) Só pra usuários requisitados</span>
+                                                        </fieldset>
+                                                    </div>';
+                                                    }
+                                                ?>
 					</div>
 				</div>
                             
@@ -412,6 +472,7 @@
 						<img src="assets/images/ass.png" class="wauto" alt="">
 						<span class="fleft100"><?php echo $CI->T("Assine e configure sua conta",array());?></span>
 					</div>
+                                        
 					<div class="text-center">
                                             <button id="btn_sing_in" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
                                                 <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ASSINAR AGORA",array());?></div></span>

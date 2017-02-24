@@ -1,4 +1,6 @@
 <?PHP
+rker/scripts/test.php
+
 
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
@@ -119,6 +121,7 @@ $Payment = new dumbu\cls\Payment();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
+
 //$pay_day = strtotime('02/22/2017 04:33:32');
 //$pay_day = strtotime("+30 days", $pay_day);
 //$pay_day = time();
@@ -136,6 +139,7 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
+
 ////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
