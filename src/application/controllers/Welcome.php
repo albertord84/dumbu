@@ -90,7 +90,8 @@ class Welcome extends CI_Controller {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
-            $my_profile_datas = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'));
+            //$my_profile_datas = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'));
+            $my_profile_datas = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')), $this->session->userdata('login'));
             $datas1['my_img_profile'] = $my_profile_datas->profile_pic_url;
 
             $sql = "SELECT * FROM clients WHERE clients.user_id='" . $this->session->userdata('id') . "'";
@@ -1291,14 +1292,15 @@ class Welcome extends CI_Controller {
         $login_data = $this->Robot->bot_login($client_login, $client_pass);
         if (isset($login_data->json_response->status) && $login_data->json_response->status === "ok") {
             $data_insta['status'] = $login_data->json_response->status;
-            if ($login_data->json_response->authenticated) {
+            if($login_data->json_response->authenticated) {
                 $data_insta['authenticated'] = true;
                 $data_insta['insta_id'] = $login_data->ds_user_id;
-                $user_data = $this->Robot->get_insta_ref_prof_data($client_login);
+                //$user_data = $this->Robot->get_insta_ref_prof_data($client_login);
+                $user_data = $this->Robot->get_insta_ref_prof_data_from_client($login_data,$client_login);
                 $data_insta['insta_followers_ini'] = $user_data->follower_count;
                 $data_insta['insta_following'] = $user_data->following;
-                $data_insta['insta_name'] = $user_data->full_name;
-                if (is_object($login_data))
+                $data_insta['insta_name']=$user_data->full_name;
+                if(is_object($login_data))
                     $data_insta['insta_login_response'] = $login_data;
                 else
                     $data_insta['insta_login_response'] = NULL;

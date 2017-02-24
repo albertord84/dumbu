@@ -364,15 +364,13 @@
                                             </div>
                                             <!--*******************************************************************************************************************-->
                                             
-                                            
-                                            
-                                                <div class="text-center">
-                                                    <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                        <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></span>
-                                                    </button>
-                                                </div>
-                                                <div id="container_sigin_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
-                                                </div>
+                                            <div class="text-center">
+                                                <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></span>
+                                                </button>
+                                            </div>
+                                            <div id="container_sigin_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                            </div>
 					</div>
                                     </div>
                                     <div id="signin_profile"  style="text-align:center; visibility:visible;display:block">
