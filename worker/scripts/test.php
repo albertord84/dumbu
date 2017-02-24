@@ -39,8 +39,9 @@ $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
 
-$client = $Client->get_client(1);
+$client = $Client->get_client(11472);
 $profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'ftthiagomonteiro');
+var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
 
