@@ -1375,7 +1375,7 @@ class Welcome extends CI_Controller {
                 for ($i = 0; $i < $N; $i++) {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $id_profile = $client_active_profiles[$i]['id'];
-                    $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile, $id_profile);
+                    $datas_of_profile = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                     if($datas_of_profile!=NULL){
                         $array_profiles[$i]['login_profile'] = $name_profile;
                         $array_profiles[$i]['follows_from_profile'] = $datas_of_profile->follows;
