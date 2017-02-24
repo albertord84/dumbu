@@ -53,7 +53,7 @@ $Client = new dumbu\cls\Client();
 //
 //
 // MUNDIPAGG
-//$Payment = new dumbu\cls\Payment();
+$Payment = new dumbu\cls\Payment();
 //
 //$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
 //$result = $Payment->check_payment($order_key);
@@ -111,21 +111,22 @@ $Client = new dumbu\cls\Client();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 //$pay_day = strtotime('03-03-2017');
+$pay_day = strtotime('03/18/2017 13:07:24');
 //$pay_day = time();
-//var_dump($pay_day);
+var_dump($pay_day);
 //
 //////
-//$payment_data['credit_card_number'] = '4593140297833237';
-//$payment_data['credit_card_name'] = 'SIMONE R MAURICIO';
-//$payment_data['credit_card_exp_month'] = '03';
-//$payment_data['credit_card_exp_year'] = '2023';
-//$payment_data['credit_card_cvc'] = '787';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = $pay_day;
+$payment_data['credit_card_number'] = '5301150593624131';
+$payment_data['credit_card_name'] = 'ZONDER OOI KEE SEONG';
+$payment_data['credit_card_exp_month'] = '09';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '652';
+$payment_data['amount_in_cents'] = 9990;
+$payment_data['pay_day'] = $pay_day;
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0);
-//var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0);
+var_dump($resul);
 ////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);

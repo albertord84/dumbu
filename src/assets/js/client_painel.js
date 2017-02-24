@@ -205,8 +205,6 @@ $(document).ready(function(){
     });
     
     
-    
-    
     $("#my_container_toggle").hover(
         function(){
             $('#my_container_toggle').css('cursor', 'pointer');
@@ -262,21 +260,7 @@ $(document).ready(function(){
             $('#right_toggle_buttom').css({'background-color':'#009CDE'});           
         }
     }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+      
     function delete_profile_click(element){
        if(confirm(T('Deseja elimiar o perfil de referência ')+element)){
             $.ajax({
@@ -300,20 +284,24 @@ $(document).ready(function(){
     function init_icons_profiles(datas){
         response=jQuery.parseJSON(datas);
         prof=response['array_profiles'];
-        num_profiles=response['N'];
-        for(i=0;i<num_profiles;i++){
-            icons_profiles[i]['img_profile']=prof[i]['img_profile'];
-            icons_profiles[i]['follows_from_profile']=prof[i]['follows_from_profile'];
-            icons_profiles[i]['login_profile']=prof[i]['login_profile'];
-            icons_profiles[i]['status_profile']=prof[i]['status_profile'];                        
+        if(response['message'] !== 'Profiles unloaded by instagram failed connection'){
+            num_profiles=response['N'];
+            for(i=0;i<num_profiles;i++){
+                icons_profiles[i]['img_profile']=prof[i]['img_profile'];
+                icons_profiles[i]['follows_from_profile']=prof[i]['follows_from_profile'];
+                icons_profiles[i]['login_profile']=prof[i]['login_profile'];
+                icons_profiles[i]['status_profile']=prof[i]['status_profile'];                        
+            }
+            for(j=i;j<MAX_NUM_PROFILES;j++){
+                icons_profiles[j]['img_profile']=base_url+'assets/images/avatar.png';
+                icons_profiles[j]['follows_from_profile']='0';
+                icons_profiles[j]['login_profile']='perfilderef'+(j+1);
+                icons_profiles[j]['status_profile']='0';                        
+            }
+            display_reference_profiles();
+        } else{
+            alert('Não foi possível comunicar com o Instagram pra verificar seus perfis de referência. Tente depois');
         }
-        for(j=i;j<MAX_NUM_PROFILES;j++){
-            icons_profiles[j]['img_profile']=base_url+'assets/images/avatar.png';
-            icons_profiles[j]['follows_from_profile']='0';
-            icons_profiles[j]['login_profile']='perfilderef'+(j+1);
-            icons_profiles[j]['status_profile']='0';                        
-        }
-        display_reference_profiles();
     }
     
     function display_reference_profiles(){
@@ -324,12 +312,15 @@ $(document).ready(function(){
             icons_profiles[i]['ptr_p_obj'].prop('title', T('Ver ')+icons_profiles[i]['login_profile']+T(' no Instagram'));
             icons_profiles[i]['ptr_label_obj'].text(icons_profiles[i]['follows_from_profile']);  
             $avatar=(icons_profiles[i]['login_profile']).match("avatar.png");
-            if($avatar){
-                icons_profiles[i]['ptr_p_obj']
+            /*if($avatar){
+                //icons_profiles[i]['ptr_p_obj']
                 icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']).replace(/(^.{9}).*$/,'$1...'));
             }    
             else
                 icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']));
+            */
+           icons_profiles[i]['ptr_p_obj'].text((icons_profiles[i]['login_profile']).replace(/(^.{9}).*$/,'$1...'));
+           
             icons_profiles[i]['ptr_lnk_ref_prof'].attr("href",'https://www.instagram.com/'+icons_profiles[i]['login_profile']+'/');                         
             
             if(icons_profiles[i]['status_profile']==='ended'){

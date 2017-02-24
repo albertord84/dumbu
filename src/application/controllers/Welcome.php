@@ -2,18 +2,6 @@
 
 class Welcome extends CI_Controller {
 
-    public function aaa() {
-        print_r('init_date');
-        var_dump(strtotime('02/20/2017 04:33:33'));
-
-        print_r('pay_date');
-        var_dump(strtotime('03/10/2017 13:36:28'));
-    }
-
-    public function bbb() {
-        var_dump(strtotime("+32 days", 1486849466));
-    }
-
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -66,7 +54,7 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-
+   
     public function get_daily_report($id) {
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
@@ -115,7 +103,7 @@ class Welcome extends CI_Controller {
             $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id');
             //$sql="SELECT * FROM reference_profile WHERE client_id='".$this->session->userdata('id')."'";
             $total_amount_followers_today = $this->user_model->execute_sql_query($sql);
-            $followeds = (string) $total_amount_followers_today[0]["followeds"];
+            $followeds =(string)$total_amount_followers_today[0]["followeds"];
 
             $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
             $datas1['my_actual_followings'] = $my_profile_datas->following;
@@ -135,7 +123,7 @@ class Welcome extends CI_Controller {
 
             $daily_report = $this->get_daily_report($this->session->userdata('id'));
             $datas1['followings'] = $daily_report['followings'];
-            $datas1['followers'] = $daily_report['followers'];
+            $datas1['followers']  = $daily_report['followers'];
 
             if ($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
                 $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));
@@ -226,6 +214,11 @@ class Welcome extends CI_Controller {
             } else {
                 //Is an actually Instagram user?
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
+                if($data_insta==NULL){
+                    $result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array());
+                    $result['cause'] = 'error_login';
+                    $result['authenticated'] = false;
+                } else
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                     //Is a DUMBU Client by Insta ds_user_id?
                     $query = 'SELECT * FROM users,clients' .
@@ -326,8 +319,7 @@ class Welcome extends CI_Controller {
                             }
                             $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             $result['resource'] = 'client';
-                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']));
-                            ;
+                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']));                            
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
@@ -614,6 +606,21 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
 
+    public function check_ticket_peixe_urbano() {
+        $this->load->model('class/client_model');
+        $datas = $this->input->post();
+        if(true){
+            $this->client_model->update_client($datas['pk'], array(
+                'ticket_peixe_urbano'=>$datas['cupao_number']));
+            $result['success'] = true;
+            $result['message'] = 'Cupão de desconto verificado corretamennte';
+        } else{
+            $result['success'] = false;
+            $result['message'] = 'Cupão de desconto incorreto';
+        }
+        echo json_encode($result);
+    }
+    
     public function check_user_for_sing_in() { //sign in with passive instagram profile verification
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -712,7 +719,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
         $this->load->model('class/credit_card_status');
-        $datas = $this->input->post();
+        $datas = $this->input->post(); 
         if ($this->validate_post_credit_card_datas($datas)) {
             //0. salvar datos del carton de credito
             try {
@@ -743,9 +750,9 @@ class Welcome extends CI_Controller {
                     'plane_id' => $datas['plane_type']));
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                    if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
+                    /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
                         $datas['status_id'] = user_status::UNFOLLOW;
-                    else
+                    else*/
                         $datas['status_id'] = user_status::ACTIVE;
                     $this->user_model->update_user($datas['pk'], array(
                         'init_date' => time(),
@@ -787,8 +794,6 @@ class Welcome extends CI_Controller {
                         'status_id' => user_status::BLOCKED_BY_INSTA));
                     $this->user_model->set_sesion($datas['pk'], $this->session);
                 }
-
-
                 //Email com compra satisfactoria a atendimento y al cliente
                 //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
                 if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
@@ -806,7 +811,7 @@ class Welcome extends CI_Controller {
         } else {
             $result['success'] = false;
             $result['message'] = $this->T('Acesso não permitido', array());
-        }
+        }    
         echo json_encode($result);
     }
 
@@ -1369,27 +1374,34 @@ class Welcome extends CI_Controller {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $id_profile = $client_active_profiles[$i]['id'];
                     $datas_of_profile = $this->Robot->get_insta_ref_prof_data($name_profile, $id_profile);
-                    $array_profiles[$i]['login_profile'] = $name_profile;
-                    $array_profiles[$i]['follows_from_profile'] = $datas_of_profile->follows;
-                    if (!$datas_of_profile) { //perfil existia pero fue eliminado de IG
-                        $array_profiles[$i]['status_profile'] = 'deleted';
-                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_deleted.jpg';
-                    } else
-                    if ($client_active_profiles[$i]['end_date']) { //perfil
-                        $array_profiles[$i]['status_profile'] = 'ended';
-                        $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
-                    } else
-                    if ($datas_of_profile->is_private) { //perfil paso a ser privado
-                        $array_profiles[$i]['status_profile'] = 'privated';
-                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_privated.jpg';
-                    } else {
-                        $array_profiles[$i]['status_profile'] = 'active';
-                        $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
+                    if($datas_of_profile!=NULL){
+                        $array_profiles[$i]['login_profile'] = $name_profile;
+                        $array_profiles[$i]['follows_from_profile'] = $datas_of_profile->follows;
+                        if (!$datas_of_profile) { //perfil existia pero fue eliminado de IG
+                            $array_profiles[$i]['status_profile'] = 'deleted';
+                            $array_profiles[$i]['img_profile'] = base_url().'assets/images/profile_deleted.jpg';
+                        } else
+                        if ($client_active_profiles[$i]['end_date']) { //perfil
+                            $array_profiles[$i]['status_profile'] = 'ended';
+                            $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
+                        } else
+                        if ($datas_of_profile->is_private) { //perfil paso a ser privado
+                            $array_profiles[$i]['status_profile'] = 'privated';
+                            $array_profiles[$i]['img_profile'] = base_url().'assets/images/profile_privated.jpg';
+                        } else{
+                            $array_profiles[$i]['status_profile'] = 'active';
+                            $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
+                        }
+                    } else{
+                        $response['array_profiles'] = NULL;
+                        $response['message'] = 'Profiles unloaded by instagram failed connection';
                     }
                 }
                 $response['array_profiles'] = $array_profiles;
+                $response['message'] = 'Profiles loaded';
             } else {
                 $response['array_profiles'] = NULL;
+                $response['message'] = 'Profiles unloaded';
             }
             $response['N'] = $N;
             return json_encode($response);
