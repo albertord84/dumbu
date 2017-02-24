@@ -241,7 +241,7 @@
 			<div class="container">				
 				<!--<div class="col-md-3 col-sm-3 col-xs-12"></div>-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                    <iframe src="http://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>
+                                    <iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>
                                 </div>
 				<!--<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
 			</div>

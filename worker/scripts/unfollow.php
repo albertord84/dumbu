@@ -41,10 +41,11 @@ for ($i = 0; $i < 100 && $CN; $i++) {
                 if ($client_data->cookies) {
                     $login_data = json_decode($client_data->cookies);
                     $json_response = $Robot->get_insta_follows(
-                            $login_data, $client_data->insta_id, 15
+                            $login_data, $client_data->insta_id, 20
                     );
+                    $cursor = $json_response->follows->page_info->end_cursor;
                     $json_response = $Robot->get_insta_follows(
-                            $login_data, $client_data->insta_id, 15
+                            $login_data, $client_data->insta_id, 20, $cursor
                     );
 //            var_dump($json_response);
                     if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok

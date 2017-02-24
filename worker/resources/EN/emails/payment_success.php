@@ -14,7 +14,6 @@
             <p>We have been verified your account, please insert some nice reference profiles at our
                 <a href="https://www.dumbu.one/dumbu/src/">system</a> to start win followers quickly! :) </p>
             <p>Your instagram user name in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p>
-            <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
             <br>
             <p>Remember: you must have same username and password for both, instagram and our <a href="https://www.dumbu.one/dumbu/src/">system</a>!</p>
             <br>
