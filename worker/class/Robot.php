@@ -120,7 +120,7 @@ namespace dumbu\cls {
                     $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     echo "ID: $Profile->followed_id<br>\n";
-                    var_dump($json_response);
+//                    var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
                     // TODO: Class for error messages
                     if ($error == 6) {// Just empty message:
@@ -157,19 +157,20 @@ namespace dumbu\cls {
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
-//                            $null_picture = strpos($Profile->profile_pic_url, 'scontent-lax3-2.cdninstagram.com');
+                            $null_picture = strpos($Profile->profile_pic_url, 'scontent-lax3-2.cdninstagram.com');
                             // Check if its a valid profile
-                            $valid_profile = FALSE;
-                            $is_private = (new Profile())->is_private($Profile->username);
-                            if (!$is_private) {
-                                // Check the post amount from this profile
-                                $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
-                                $posts = $this->get_insta_chaining($login_data, $Profile->id, $MIN_FOLLOWER_POSTS);
-                                $valid_profile = count($posts) >= $MIN_FOLLOWER_POSTS;
-                            } else {
-                                $valid_profile = TRUE;
-                            }
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
+//                            $valid_profile = FALSE;
+//                            $is_private = (new Profile())->is_private($Profile->username);
+//                            if (!$is_private) {
+//                                // Check the post amount from this profile
+//                                $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
+//                                $posts = $this->get_insta_chaining($login_data, $Profile->id, $MIN_FOLLOWER_POSTS);
+//                                $valid_profile = count($posts) >= $MIN_FOLLOWER_POSTS;
+//                            } else {
+//                                $valid_profile = TRUE;
+//                            }
+//                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');

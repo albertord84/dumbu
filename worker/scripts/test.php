@@ -1,6 +1,4 @@
 <?PHP
-rker/scripts/test.php
-
 
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
