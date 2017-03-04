@@ -445,7 +445,7 @@
                                                     </div>
                                                     <div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t10">
                                                         <fieldset>
-                                                            <input id="cupao_number" type="text" placeholder="Cupão desconto" maxlength="5" required>
+                                                            <input id="cupao_number" type="text" placeholder="Cupão desconto" required>
                                                         </fieldset>
                                                     </div>
                                                     <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
