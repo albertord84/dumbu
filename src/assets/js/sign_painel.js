@@ -49,7 +49,7 @@ $(document).ready(function () {
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {                   
-                    if($("#errorcaptcha").text()!='Codigo de segurança errado' && $("#errorcaptcha").text()!=''){
+                    //if($("#errorcaptcha").text()!='Codigo de segurança errado' && $("#errorcaptcha").text()!=''){
                         var l = Ladda.create(this);
                         l.start();
                         l.start();
@@ -97,11 +97,11 @@ $(document).ready(function () {
                                 l.stop();
                             }
                         });
-                    } else{
+                    /*} else{
                         $('#container_sigin_message').text(T('Verifique o codigo de segurança'));
                         $('#container_sigin_message').css('visibility', 'visible');
                         $('#container_sigin_message').css('color', 'red');                    
-                    }    
+                    }    */
                 } else {
                     $('#container_sigin_message').text(T('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos!'));
                     $('#container_sigin_message').css('visibility', 'visible');
