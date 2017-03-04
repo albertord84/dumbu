@@ -2,6 +2,10 @@
 
 class Welcome extends CI_Controller {
 
+    public function index1() {
+        var_dump(date("d-m-Y",1487925340));
+    }
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1425,7 +1429,7 @@ class Welcome extends CI_Controller {
 
     public function display_access_error() {
         $this->session->sess_destroy();
-        header('Location: ' . base_url() . 'index.php/welcome/');
+        header('Location: ' . base_url().'index.php/welcome/');
     }
 
     public function update_client_by_retry_payment($user_id) {
