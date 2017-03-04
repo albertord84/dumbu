@@ -10,6 +10,17 @@ require_once '../class/Reference_profile.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
+
+$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
+
+Saiba mais sobre bloqueios na Central de Ajuda.", 'Parece que você estava usando esse recurso indevidamente de forma muito rápida.');
+
+if ($response !== false) {
+    print 'FOUND';
+} else {
+    var_dump($response);
+}
+
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
@@ -39,9 +50,9 @@ $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
 
-$client = $Client->get_client(11472);
-$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'ftthiagomonteiro');
-var_dump($profile_data);
+//$client = $Client->get_client(11472);
+//$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'ftthiagomonteiro');
+//var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
 

@@ -58,8 +58,9 @@ namespace dumbu\cls {
         public function parse_profile_follow_errors($response) {
             $error = FALSE;
             // If object
+            var_dump($response->message);
             if (is_object($response) && isset($response->message)) {
-                if (strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) {
+                if ((strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) || (strpos($response->message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE)) {
                     $error = 1;
                 } else if (strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
                     $error = 2;
@@ -75,8 +76,7 @@ namespace dumbu\cls {
                     $error = 6; // Empty message
                 }
             } // If array
-            else if (is_array($response) && count($response) == 1 && is_string($response[0]) 
-                    && strpos($response[0], 'Tente novamente mais tarde') !== FALSE) {
+            else if (is_array($response) && count($response) == 1 && is_string($response[0]) && strpos($response[0], 'Tente novamente mais tarde') !== FALSE) {
                 $error = 7; // Tente novamente mais tarde
             } else {
                 $error = -1;
