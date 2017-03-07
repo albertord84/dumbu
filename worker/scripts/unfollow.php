@@ -6,6 +6,7 @@ require_once '../class/Robot.php';
 require_once '../class/system_config.php';
 require_once '../class/user_role.php';
 require_once '../class/user_status.php';
+require_once '../class/Gmail.php';
 
 echo "UNFOLLOW Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
@@ -16,6 +17,8 @@ $Robot = new \dumbu\cls\Robot();
 
 $DB = new \dumbu\cls\DB();
 
+$Gmail = new \dumbu\cls\Gmail();
+
 
 $clients_data_db = $DB->get_unfollow_clients_data();
 
@@ -25,6 +28,16 @@ $CN = 0;
 while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()) {
     $clients_data[$CN]->unfollows = 0;
     print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
+    $login = $Robot->bot_login($clients_data[$CN]->login, $clients_data[$CN]->pass);
+    if (isset($login->json_response->authenticated) && $login->json_response->authenticated) {
+        $login_data = json_encode($login);
+        $clients_data[$CN]->cookies = $login_data;
+    } else {
+        $Gmail->send_client_login_error($clients_data[$CN]->email, $clients_data[$CN]->name, $clients_data[$CN]->login);
+        print "NOT AUTENTICATED!!!";
+        echo "<br>\n DELETED FROM UNFOLLOW: " . $clients_data[$CN]->login . " (" . $clients_data[$CN]->id . ") <br>\n";
+        unset($clients_data[$CN]);
+    }
     $CN++;
 }
 //var_dump($clients_data);
@@ -32,18 +45,14 @@ while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()
 for ($i = 0; $i < 100 && $CN; $i++) {
     // Process all UNFOLLOW clients
     foreach ($clients_data as $ckey => $client_data) {
-        if ($client_data) {
+        if ($client_data && $client_data->cookies) {
+            $login_data = json_decode($client_data->cookies);
             echo "<br>\nClient: $client_data->login ($client_data->id)   " . date("Y-m-d h:i:sa") . "<br>\n";
             // Verify Profile Following
-//            $RP = new \dumbu\cls\Reference_profile();
-//            $RP_data = $RP->get_insta_ref_prof_data($client_data->login);
-//            if (is_object($RP_data) && $RP_data->following > $GLOBALS['sistem_config']->INSTA_MAX_FOLLOWING - $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT) {
-            if ($client_data->cookies) {
-                $login_data = json_decode($client_data->cookies);
                 $json_response = $Robot->get_insta_follows(
                         $login_data, $client_data->insta_id, 15
                 );
-                if (isset($json_response->follows->page_info)) {
+                if (isset($json_response->follows->page_info) && count($json_response->follows->nodes) == 0) {
                     $cursor = $json_response->follows->page_info->end_cursor;
                     $json_response = $Robot->get_insta_follows(
                             $login_data, $client_data->insta_id, 15, $cursor
@@ -77,22 +86,10 @@ for ($i = 0; $i < 100 && $CN; $i++) {
                             break;
                         }
                     }
-                } else {
-                    //unset($clients_data[$ckey]);
-                    //echo "<br>\n DELETED FROM UNFOLLOW: $client_data->login ($client_data->id) <br>\n";
                 }
-            } else {
-                unset($clients_data[$ckey]);
-                print "NOT COOKIES!!!";
-                echo "<br>\n DELETED FROM UNFOLLOW: $client_data->login ($client_data->id) <br>\n";
-            }
-//          } else {
-//                $DB = new \dumbu\cls\DB();
-//                $result = $DB->set_client_status($client_data->id, \dumbu\cls\user_status::ACTIVE);
-//                if ($result) {
-//                    echo "<br>\nNew Status ACTIVE: $client_data->login ($client_data->id) <br>\n";
-//                    unset($clients_data[$ckey]);
-//                }
+        } else {
+            unset($clients_data[$ckey]);
+            echo "<br>\n DELETED FROM UNFOLLOW!! NOT CLIENT DATA: $client_data->login ($client_data->id) <br>\n";
         }
     }
     // Wait 20 minutes

@@ -11,15 +11,15 @@ require_once '../class/Reference_profile.php';
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
 
-$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
-
-Saiba mais sobre bloqueios na Central de Ajuda.", 'Parece que você estava usando esse recurso indevidamente de forma muito rápida.');
-
-if ($response !== false) {
-    print 'FOUND';
-} else {
-    var_dump($response);
-}
+//$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
+//
+//Saiba mais sobre bloqueios na Central de Ajuda.", 'Parece que você estava usando esse recurso indevidamente de forma muito rápida.');
+//
+//if ($response !== false) {
+//    print 'FOUND';
+//} else {
+//    var_dump($response);
+//}
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
@@ -192,7 +192,8 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
 //print_r($result);
 //$result = $Robot->like_fist_post(json_decode($client->cookies), $client->insta_id);
-//$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
+//$result = $Robot->bot_login("coach_anderson.rosa", "101210");
+//var_dump($result->json_response->authenticated);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));

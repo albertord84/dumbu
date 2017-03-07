@@ -70,7 +70,7 @@ namespace dumbu\cls {
             $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL, 'DUMBU');
         }
 
-        public function send_client_login_error($useremail, $username, $instaname, $instapass) {
+        public function send_client_login_error($useremail, $username, $instaname, $instapass = NULL) {
             //Set an alternative reply-to address
 //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
 //Set who the message is to be sent to
