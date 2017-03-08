@@ -789,10 +789,13 @@ namespace dumbu\cls {
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
             try {
                 $User = NULL;
-                if ($ref_prof != "" && $cookies) {
-                    $csrftoken = $cookies->csrftoken;
-                    $ds_user_id = $cookies->ds_user_id;
-                    $sessionid = $cookies->sessionid;
+                if ($ref_prof != "") {
+//                    $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
+//                    $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id: 0;
+//                    $sessionid = isset($cookies->sessionid) ? $cookies->sessionid: 0;
+                    $csrftoken =  $cookies->csrftoken;
+                    $ds_user_id =  $cookies->ds_user_id;
+                    $sessionid =  $cookies->sessionid;
                     $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
                     $curl_str = "curl '$url' ";
                     $curl_str .= "-H 'Accept-Encoding: gzip, deflate, sdch' ";
