@@ -789,7 +789,7 @@ namespace dumbu\cls {
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
             try {
                 $User = NULL;
-                if ($ref_prof != "") {
+                if ($ref_prof != "" && $cookies) {
                     $csrftoken = $cookies->csrftoken;
                     $ds_user_id = $cookies->ds_user_id;
                     $sessionid = $cookies->sessionid;

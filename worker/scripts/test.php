@@ -195,8 +195,9 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("coach_anderson.rosa", "101210");
 //var_dump($result->json_response->authenticated);
 //print_r(json_encode($result));
-//$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
-//print_r(json_encode($result));
+$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
+print_r(json_encode($result));
+var_dump("" == NULL);
 //$result = $Robot->bot_login("urpia", "romeus33");
 //var_dump($result);
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
