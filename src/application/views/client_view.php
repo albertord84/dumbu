@@ -750,9 +750,11 @@
                                         <?php
                                         for ($i = 0; $i < count($all_planes); $i++) {
                                             if ($i + 2 == $plane_id)
-                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . $currency . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0 (' . $CI->T("Plano atual", array()) . ')</b></option>';
+//                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . $currency . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0 (' . $CI->T("Plano atual", array()) . ')</b></option>';
+                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . 'R$' . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0 (' . $CI->T("Plano atual", array()) . ')</b></option>';
                                             else
-                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . $currency . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0</option>';
+//                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . $currency . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0</option>';
+                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . 'R$' . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0</option>';
                                         }
                                         ?>
                                     </select>
