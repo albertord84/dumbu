@@ -157,7 +157,7 @@ namespace dumbu\cls {
                         // Get Users 
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
-                            $null_picture = strpos($Profile->profile_pic_url, 'scontent-lax3-2.cdninstagram.com');
+                            $null_picture = strpos($Profile->profile_pic_url, '11906329_960233084022564_1448528159_a');
                             // Check if its a valid profile
 //                            $valid_profile = FALSE;
 //                            $is_private = (new Profile())->is_private($Profile->username);
@@ -228,10 +228,11 @@ namespace dumbu\cls {
             $error = $Profile->parse_profile_follow_errors($json_response);
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
-                    $result = $DB->delete_daily_work_client($client_id);
-                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-                    var_dump($result);
-                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
+//                    $result = $DB->delete_daily_work_client($client_id);
+//                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+//                    var_dump($result);
+//                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
+                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."

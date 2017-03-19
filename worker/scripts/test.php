@@ -21,6 +21,13 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 //    var_dump($response);
 //}
 
+$DB = new \dumbu\cls\DB();
+$clients_data = $DB->get_clients_data();
+while ($client_data = $clients_data->fetch_object()) {
+    var_dump($client_data->login);
+}
+
+
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
@@ -49,13 +56,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
-
 //$client = $Client->get_client(11472);
 //$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'ftthiagomonteiro');
 //var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
-
 //$Client->create_daily_work(234);
 //var_dump(date('d-m-Y',time()));
 //$a=strtotime("+" .'7'. " days", time());
@@ -130,7 +135,6 @@ $Payment = new dumbu\cls\Payment();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-
 //$pay_day = strtotime('02/22/2017 04:33:32');
 //$pay_day = strtotime("+30 days", $pay_day);
 //$pay_day = time();
@@ -148,7 +152,6 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
-
 ////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
@@ -195,9 +198,9 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("coach_anderson.rosa", "101210");
 //var_dump($result->json_response->authenticated);
 //print_r(json_encode($result));
-$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
-print_r(json_encode($result));
-var_dump("" == NULL);
+//$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
+//print_r(json_encode($result));
+//var_dump("" == NULL);
 //$result = $Robot->bot_login("urpia", "romeus33");
 //var_dump($result);
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
