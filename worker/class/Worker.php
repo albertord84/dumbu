@@ -6,6 +6,7 @@ namespace dumbu\cls {
     require_once 'Reference_profile.php';
     require_once 'Client.php';
     require_once 'Robot.php';
+    require_once 'Gmail.php';
 
     /**
      * class Wroker
@@ -57,10 +58,17 @@ namespace dumbu\cls {
          * @var type 
          */
         public $Robot;
-        
+
+        /**
+         *
+         * @var type 
+         */
+        public $Gmail;
+
         public function __construct() {
             $this->Robot = new Robot();
             $this->Robot->config = $GLOBALS['sistem_config'];
+            $this->Gmail = new Gmail();
         }
 
         /**
@@ -74,23 +82,62 @@ namespace dumbu\cls {
         }
 
         function prepare_daily_work() {
-            // Get Users Info
-            $Clients = \dumbu\cls\Client::get_clients();
-            $DB = new \dumbu\cls\DB();
-            $Client = new \dumbu\cls\Client();
+// Get Users Info
+            $Clients = (new Client())->get_clients();
+            $DB = new DB();
+            $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
-                // Log user with webdriver in istagram to get needed session data
-                $this->Robot->bot_login($Client->login, $Client->pass);
-                $cookies = $this->Robot->webdriver->getAllCookies();
-                $this->Robot->bot_logout();
-                // Distribute work between clients
-                $to_follow = $GLOBALS['sistem_config']::DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
-                foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
-                    $DB->insert_daily_work($Ref_Prof->id, $to_follow, json_encode($cookies));
+                if (!$Client->cookies) {
+                    // Log user with curl in istagram to get needed session data
+                    $login_data = $Client->sign_in($Client);
+                    if ($login_data !== NULL) {
+                        $Client->cookies = json_encode($login_data);
+                    }
                 }
+                if ($Client->cookies) {
+//                    var_dump($Client->login);
+                    print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
+                    $Client->set_client_status($Client->id, user_status::ACTIVE);
+// Distribute work between clients
+                    $RPWC = $Client->rp_workable_count();
+                    $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+                    if ($RPWC > 0) {
+                        $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
+//                        $to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
+                        // If User status = UNFOLLOW he do 0 follows
+                        $to_follow = $Client->status_id != user_status::DUMBU_UNFOLLOW ? $to_follow_unfollow : 0;
+                        $to_unfollow = $to_follow_unfollow;
+                        foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
+//$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
+                            if (!$Ref_Prof->deleted) {
+                                $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
+                            }
+                        }
+                    } else {
+                        echo "Not reference profiles: $Client->login <br>\n<br>\n";
+                        if (count($Client->reference_profiles)) { // To keep unfollow
+                            $DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
+                        }
+                        $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+                    }
+                } else {
+// TODO: do something in Client autentication error
+                    // Send email to client
+                    $now = new \DateTime("now");
+                    $status_date = new \DateTime();
+                    $status_date->setTimestamp($Client->status_date ? $Client->status_date : 0);
+                    $diff_info = $status_date->diff($now);
+                    var_dump($diff_info->days);
+//                    if ($diff_info->days <= 3) {
+                    // TODO, UNCOMMENT
+                    $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+//                    }
+                }
+//              die("Alberto");
             }
-            //
-            //$DB->reset_preference_profile_cursors();
+//            die("Loged all Clients");
+//
+//$DB->reset_preference_profile_cursors();
         }
 
 // end of member function prepare_daily_work
@@ -119,21 +166,31 @@ namespace dumbu\cls {
          */
         public function do_follow_unfollow_work($daily_work) {
             if ($daily_work) {
-                // Get new follows
+// Get new follows
                 $DB = new \dumbu\cls\DB();
-                $unfollow_work = $DB->get_unfollow_work($daily_work->client_id);
+                $unfollow_work = NULL;
                 $Followeds_to_unfollow = array();
-                while ($Followed = $unfollow_work->fetch_object()) { //
-                    $To_Unfollow = new \dumbu\cls\Followed();
-                    // Update Ref Prof Data
-                    $To_Unfollow->id = $Followed->id;
-                    $To_Unfollow->followed_id = $Followed->followed_id;
-                    array_push($Followeds_to_unfollow, $To_Unfollow);
+                if ($daily_work->to_unfollow > 0) {
+                    $unfollow_work = $DB->get_unfollow_work($daily_work->client_id);
+                    while ($Followed = $unfollow_work->fetch_object()) { //
+                        $To_Unfollow = new \dumbu\cls\Followed();
+// Update Ref Prof Data
+                        $To_Unfollow->id = $Followed->id;
+                        $To_Unfollow->followed_id = $Followed->followed_id;
+                        array_push($Followeds_to_unfollow, $To_Unfollow);
+                    }
                 }
-                // Do the FOLLOW work
+// Do the FOLLOW work
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
-                $DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows));
+// Count unfollows
+                $unfollows = 0;
+                foreach ($Followeds_to_unfollow as $unfollowed) {
+                    if ($unfollowed->unfollowed)
+                        $unfollows++;
+                }
+                // TODO: foults
+                $DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows);
                 return TRUE;
             }
             return FALSE;
@@ -174,7 +231,7 @@ namespace dumbu\cls {
          * @access public
          */
         public function have_work() {
-            //return count($this->work_queue);
+//return count($this->work_queue);
         }
 
 // end of member function have_work
@@ -190,75 +247,59 @@ namespace dumbu\cls {
                 $has_work = TRUE;
                 while ($has_work) {
                     $DB = new \dumbu\cls\DB();
-                    //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
+//daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
                     $daily_work = $DB->get_follow_work();
                     if ($daily_work) {
-                        $daily_work->cookies = json_decode($daily_work->cookies);
-                        $elapsed_time = (time() - strtotime($daily_work->last_access)) / 60 % 60; // minutes
-                        if ($elapsed_time < $GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME) {
-                            sleep(($GLOBALS['sistem_config']::MIN_NEXT_ATTEND_TIME - $elapsed_time) * 60); // secounds
+                        $daily_work->login_data = json_decode($daily_work->cookies);
+                        if ($daily_work->login_data != NULL) {
+                            // Calculate time to sleep    
+//                        $last_access = DateTime::createFromFormat('U', $daily_work->last_access);
+//                        $now = DateTime::createFromFormat('U', time());
+//                        $diff_info = $last_access->diff($now);
+//                        $elapsed_time = $diff_info->i; // In minutes
+//                            $elapsed_time = (time() - intval($daily_work->last_access)) / 60.0 % 60.0; // minutes
+                            $elapsed_time = time() - intval($daily_work->last_access); // sec
+                            if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
+                                $now = \DateTime::createFromFormat('U', time());
+                                $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
+                                print "<br>_________ELAPSE TIME ($elapsed_time): ";
+//                                print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s') . "<br>";
+//                                print "\$last_access = " . $daily_work->last_access . "<br>";
+//                                print "\$elapsed_time = " . $elapsed_time . " min (" . intval(time() - intval($daily_work->last_access)) . " tics) <br>";
+                                print "\$To_Wait = " . intval($GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time) . " secs <br>";
+                                sleep($GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time); // secounds
+//                                $now = \DateTime::createFromFormat('U', time());
+//                                print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "<br>";
+                            }
+                            $this->do_follow_unfollow_work($daily_work);
+                        } else {
+                            print "<br> Login data NULL!!!!!!!!!!!! <br>";
                         }
-                        $this->do_follow_unfollow_work($daily_work);
                     } else {
                         $has_work = FALSE;
                     }
                 }
-                echo "<br><br>Congratulations!!! Job done...<br>";
+                echo "<br>\n<br>\nCongratulations!!! Job done...<br>\n";
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
 
-        function delete_daily_work() {
+        function insert_daily_work($Ref_Prof, $to_follow, $to_unfollow, $login_data) {
             $DB = new \dumbu\cls\DB();
-            $DB->delete_daily_work();
+            $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
         }
 
-//
-//        function __set($name, $value) {
-//            if (method_exists($this, $name)) {
-//                $this->$name($value);
-//            } else {
-//                // Getter/Setter not defined so set as property of object
-//                $this->$name = $value;
-//            }
-//        }
-//
-//        function __get($name) {
-//            if (method_exists($this, $name)) {
-//                return $this->$name();
-//            } elseif (property_exists($this, $name)) {
-//                // Getter/Setter not defined so return property if it exists
-//                return $this->$name;
-//            }
-//            return null;
-//        }
-        // end of generic setter an getter definition
+        function delete_daily_work($ref_prof_id) {
+            $DB = new \dumbu\cls\DB();
+            $DB->truncate_daily_work($ref_prof_id);
+        }
+
+        function truncate_daily_work() {
+            $DB = new \dumbu\cls\DB();
+            $DB->truncate_daily_work();
+        }
+
     }
 
-    // end of Wroker
-//        /**
-//         * 
-//         *
-//         * @return void
-//         * @access public
-//         */
-//        public function request_follow_unfollow_work() {
-//            // Connect to BD
-//            // Get Users Info
-//            $Clients = \dumbu\cls\Client::get_clients();
-//            foreach ($Clients as $Client) {
-//                $DCW = new \dumbu\cls\Day_client_work();
-//                $DCW->Client = $Client;
-//                // Get profiles to unfollow today
-//                $DCW->get_unfollow_work($DCW->Client->id);
-////                for ($i = 0; $i < count($DCW->Client->reference_profiles); $i++) {
-////                    array_push($DCW->Ref_profile_follows, 0);  // Follows by this Client today
-////                }
-//                // Make a Queue of ussers
-//                array_push($this->work_queue, $DCW);             // Queue this Client to Work with later
-//            }
-//        }
 }
-
-?>

@@ -12,6 +12,8 @@ git pull -u origin master
 git push -u origin master
 
 
+git merge --ff origin/develop
+
 // Create a new branch
 git checkout -b new_branch #< create a new local branch with a copy of your code
 git push origin new_branch #< pushes to the server
@@ -20,6 +22,7 @@ git push origin new_branch #< pushes to the server
 git config credential.helper store
 =======
 ssh  albertord84@162.249.2.205 -p 7822
+ssh  albertord@vps0417.publiccloud.com.br
 
 
 // Init to work in a local folder from server
