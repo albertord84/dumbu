@@ -286,11 +286,6 @@ namespace dumbu\cls {
                     break;
 
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." 
-                    $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
-                    if (count($result) == 100 || count($result) == 150 || count($result) == 200) {
-                        $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS = " . count($result), "Alberto");
-                    }
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
 
