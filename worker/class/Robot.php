@@ -270,6 +270,7 @@ namespace dumbu\cls {
                         $Gmail = new Gmail();
                         $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 4= " . count($result), "Alberto");
                     }
+                    print "<br>\n BLOCKED_BY_TIME!!! number($rows_count) <br>\n";
                     break;
 
                 case 5: // "checkpoint_required"
