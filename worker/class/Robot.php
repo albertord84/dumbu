@@ -229,16 +229,17 @@ namespace dumbu\cls {
             $error = $Profile->parse_profile_follow_errors($json_response);
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
-//                    $result = $DB->delete_daily_work_client($client_id);
+                    $result = $DB->delete_daily_work_client($client_id);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-//                    var_dump($result);
-//                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
+                    var_dump($result);
+                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
                     $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
-                    if (count($result) == 100 || count($result) == 150 || count($result) == 200) {
+                    $rows_count = $result->num_rows;
+                    if ($rows_count == 100 || $rows_count == 150 || $rows_count >= 200) {
                         $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS = " . count($result), "Alberto");
+                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 1= " . count($result), "Alberto");
                     }
                     break;
 
@@ -258,15 +259,16 @@ namespace dumbu\cls {
                     break;
 
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
-                    $result = $DB->delete_daily_work_client($client_id);
-                    var_dump($result);
+//                    $result = $DB->delete_daily_work_client($client_id);
+//                    var_dump($result);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
-                    $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     // Alert when insta block by IP
-                    if (count($result) == 100 || count($result) == 150 || count($result) == 200) {
+                    $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    $rows_count = $result->num_rows;
+                    if ($rows_count == 100 || $rows_count == 150 || $rows_count >= 200) {
                         $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS = " . count($result), "Alberto");
+                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 4= " . count($result), "Alberto");
                     }
                     break;
 

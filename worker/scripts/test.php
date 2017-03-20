@@ -25,6 +25,8 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 // No esta insertando en la grafica qdo está en unfollow total
 $DB = new \dumbu\cls\DB();
 $clients_data = $DB->get_clients_by_status(10);
+
+var_dump($clients_data->num_rows);
 while ($client_data = $clients_data->fetch_object()) {
     var_dump($client_data->login);
 }
