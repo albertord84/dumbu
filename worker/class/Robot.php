@@ -86,8 +86,6 @@ namespace dumbu\cls {
          * @access public
          */
         public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
-//            $this->Day_client_work = $Day_client_work;
-//            $this->Ref_profile = $Ref_profile;
             $this->daily_work = $daily_work;
             $cookies = $this->daily_work->cookies;
             // Unfollow same profiles quantity that we will follow
@@ -150,6 +148,7 @@ namespace dumbu\cls {
                                     break;
                             } else {
                                 var_dump($json_response);
+                                break;
 //                                throw new \Exception(json_encode($json_response), 1001);
                             }
                             //echo "<br><br><br>O .seguidor " . $User->username . " foi requisitado. Resultado: ";
@@ -163,7 +162,6 @@ namespace dumbu\cls {
 //                    throw new \Exception(json_encode($json_response), 1002);
 //                }
             }
-            //$this->webdriver->close();
             return $Ref_profile_follows;
         }
 

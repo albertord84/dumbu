@@ -11,7 +11,7 @@ namespace dumbu\cls {
         const REFERENCE_PROFILE_AMOUNT = 3; // By Client
         const UNFOLLOW_ELAPSED_TIME_LIMIT = 24; // 48; // In hours
         const MAX_GET_FOLLOWERS_REQUESTS = 5; // Max of get followers request to complete REQUESTS_AT_SAME_TIME for a client work
-        const MAX_CLIENT_FAUTL_TRIES = 1; // Quantity max of failures with this client
+        const MAX_CLIENT_FAUTL_TRIES = 3; // Quantity max of failures with this client
 
         static public function Defines($const) {
             $cls = new ReflectionClass(__CLASS__);
