@@ -232,21 +232,22 @@ namespace dumbu\cls {
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     var_dump($result);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
-                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
+//                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
                     $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
-                    if ($rows_count == 100 || $rows_count == 150 || $rows_count >= 200) {
+                    if ($rows_count == 100 || $rows_count == 150 || $rows_count = 200) {
                         $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 1= " . count($result), "Alberto");
+                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 1= " . $rows_count, "Alberto");
                     }
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $result = $DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $DB->set_client_status($client_id, user_status::UNFOLLOW);
-                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
+//                    $DB->set_client_status($client_id, user_status::UNFOLLOW);
+//                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
+                    print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
                     break;
 
                 case 3: // "Unautorized"
@@ -259,7 +260,7 @@ namespace dumbu\cls {
 
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
 //                    $result = $DB->delete_daily_work_client($client_id);
-//                    var_dump($result);
+                    var_dump($result);
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
@@ -267,7 +268,7 @@ namespace dumbu\cls {
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || $rows_count >= 200) {
                         $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 4= " . count($result), "Alberto");
+                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 4= " . $rows_count, "Alberto");
                     }
                     print "<br>\n BLOCKED_BY_TIME!!! number($rows_count) <br>\n";
                     break;
