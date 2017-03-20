@@ -2,6 +2,7 @@
 
 namespace dumbu\cls {
     require_once 'DB.php';
+    require_once 'Gmail.php';
     require_once 'Reference_profile.php';
     require_once 'Day_client_work.php';
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
@@ -201,15 +202,15 @@ namespace dumbu\cls {
                     } else {
                         $ref_prof_id = $daily_work->rp_id;
                         $error = $this->process_follow_error($json_response);
-                        if ($error = -1) {
-                            $deleted = $DB->delete_daily_work($ref_prof_id);
-                            if ($deleted) {
-                                print "Deleted WORK! (Ref Prof: $ref_prof_id)";
-                            } else {
-                                //var_dump($deleted);
-                                print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
-                            }
-                        }
+//                        if ($error == -1) { What to do whend not error code found
+//                            $deleted = $DB->delete_daily_work($ref_prof_id);
+//                            if ($deleted) {
+//                                print "Deleted WORK! (Ref Prof: $ref_prof_id)";
+//                            } else {
+//                                //var_dump($deleted);
+//                                print "NOOOOOT Deleted WORK! (Ref Prof: $ref_prof_id)";
+//                            }
+//                        }
                         $error = TRUE;
                     }
                 }
@@ -229,10 +230,14 @@ namespace dumbu\cls {
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
 //                    $result = $DB->delete_daily_work_client($client_id);
-//                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
 //                    var_dump($result);
 //                    print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
+                    $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    if (count($result) == 100 || count($result) == 150 || count($result) == 200) {
+                        $Gmail = new Gmail();
+                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS = " . count($result), "Alberto");
+                    }
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."

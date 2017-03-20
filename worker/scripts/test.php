@@ -21,11 +21,19 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 //    var_dump($response);
 //}
 
+
+// No esta insertando en la grafica qdo está en unfollow total
 $DB = new \dumbu\cls\DB();
-$clients_data = $DB->get_clients_data();
+$clients_data = $DB->get_clients_by_status(10);
 while ($client_data = $clients_data->fetch_object()) {
     var_dump($client_data->login);
 }
+
+
+//$clients_data = $DB->get_clients_data();
+//while ($client_data = $clients_data->fetch_object()) {
+//    var_dump($client_data->login);
+//}
 
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
