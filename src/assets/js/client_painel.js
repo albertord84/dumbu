@@ -294,6 +294,11 @@ $(document).ready(function () {
                     icons_profiles[i]['follows_from_profile'] = prof[i]['follows_from_profile'];
                     icons_profiles[i]['login_profile'] = prof[i]['login_profile'];
                     icons_profiles[i]['status_profile'] = prof[i]['status_profile'];
+                } else {
+                    icons_profiles[i]['img_profile'] = prof[i+1]['img_profile'];
+                    icons_profiles[i]['follows_from_profile'] = prof[i+1]['follows_from_profile'];
+                    icons_profiles[i]['login_profile'] = prof[i+1]['login_profile'];
+                    icons_profiles[i]['status_profile'] = prof[i+1]['status_profile'];
                 }
             }
             for (j = i; j < MAX_NUM_PROFILES; j++) {
