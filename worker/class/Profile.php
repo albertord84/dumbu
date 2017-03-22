@@ -73,6 +73,8 @@ namespace dumbu\cls {
                     $error = 5;
                 } else if (strpos($response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
                     $error = 8;
+                } else if (strpos($response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
+                    $error = 9;
                 } else if ($response->message === '') {
                     $error = 6; // Empty message
                 }

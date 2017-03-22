@@ -127,7 +127,7 @@ namespace dumbu\cls {
                     if ($error == 6) {// Just empty message:
                         $error = FALSE;
                         $Profile->unfollowed = TRUE;
-                    } else if ($error == 7) { // To much request response string only
+                    } else if ($error == 7 || $error == 9) { // To much request response string only
                         $error = FALSE;
                         break;
                     } else {
@@ -294,6 +294,10 @@ namespace dumbu\cls {
                     $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //var_dump($result);
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
+                    break;
+
+                case 9: // "Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde." 
+                    print "<br>\n Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
 
                 default:
