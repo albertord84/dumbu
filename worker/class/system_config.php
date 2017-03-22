@@ -4,7 +4,6 @@ namespace dumbu\cls {
     include_once 'DB.php';
 
     class system_config {
-
 //        CONST LANGUAGE = 'PT';
 //        CONST DIALY_REQUESTS_BY_CLIENT = 480; // Change to 480 in production mode
 //        CONST REQUESTS_AT_SAME_TIME = 10;     // Reference Profile Followers amoun by request. Change to 10  in production mode   

@@ -61,13 +61,13 @@ namespace dumbu\cls {
             var_dump($response->message);
             if (is_object($response) && isset($response->message)) {
                 if ((strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) 
-                 || (strpos($response->message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE)) {
+                 || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
                     $error = 1;
                 } else if (strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) {
                     $error = 2;
                 } else if (strpos($response->message, 'unauthorized') !== FALSE) {
-                    $error = 3;
-                } else if (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida') !== FALSE) {
+                    $error = 3;                         
+                } else if (strpos($response->message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE) {
                     $error = 4;
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
