@@ -53,7 +53,12 @@ class Payment extends CI_Controller {
             $testing = new DateTime("now") < $init_date_2d;
             if ($client['order_key'] != NULL) {
                 if (!$testing) { // Not in promotial days
-                    $checked = $this->check_client_payment($client);
+                    try {
+                        $checked = $this->check_client_payment($client);
+                    } catch (Exception $ex) {
+                        $checked = FALSE;
+//                        var_dump($ex);
+                    }
                     if ($checked) {
                         //var_dump($client);
                         print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
