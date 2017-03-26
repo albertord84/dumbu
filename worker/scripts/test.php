@@ -23,13 +23,13 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 
 
 // No esta insertando en la grafica qdo está en unfollow total
-$DB = new \dumbu\cls\DB();
-$clients_data = $DB->get_clients_by_status(10);
-
-var_dump($clients_data->num_rows);
-while ($client_data = $clients_data->fetch_object()) {
-    var_dump($client_data->login);
-}
+//$DB = new \dumbu\cls\DB();
+//$clients_data = $DB->get_clients_by_status(10);
+//
+//var_dump($clients_data->num_rows);
+//while ($client_data = $clients_data->fetch_object()) {
+//    var_dump($client_data->login);
+//}
 
 
 //$clients_data = $DB->get_clients_data();
@@ -38,7 +38,11 @@ while ($client_data = $clients_data->fetch_object()) {
 //}
 
 
-$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+//$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+
+
+
+
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
@@ -73,7 +77,7 @@ $Client = new dumbu\cls\Client();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
 //$Client->create_daily_work(234);
 //var_dump(date('d-m-Y',time()));
-//$a=strtotime("+" .'7'. " days", time());
+//$a=strtotime("+" .'2'. " days", "1490482216");
 //var_dump($a);
 //var_dump(date('d-m-Y',1483449391));
 //var_dump(date('d-m-Y',1486247776));

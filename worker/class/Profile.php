@@ -58,7 +58,7 @@ namespace dumbu\cls {
         public function parse_profile_follow_errors($response) {
             $error = FALSE;
             // If object
-            var_dump($response->message);
+//            var_dump($response->message);
             if (is_object($response) && isset($response->message)) {
                 if ((strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) 
                  || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
