@@ -126,7 +126,7 @@ namespace dumbu\cls {
 
 //Set the subject line
 //            $this->mail->Subject = 'DUMBU Cliente sem perfis de referencia';
-            $this->mail->AltBody = 'DUMBU Client without reference profiles alert';
+            $this->mail->Subject = 'DUMBU Client without reference profiles alert';
 
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
