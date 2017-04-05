@@ -48,9 +48,9 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
 //dumbu\cls\system_config():: 
 // Ref Prof
-//$RP = new \dumbu\cls\Reference_profile();
+$RP = new \dumbu\cls\Reference_profile();
 //$ref_prof = "santatemakeria";
-//$response = $RP->get_insta_ref_prof_data($ref_prof);
+//$response = $RP->get_insta_ref_prof_data('cristiano');
 //var_dump($response);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(2);
 //var_dump($follows_count);
@@ -209,8 +209,11 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
 //print_r($result);
 //$result = $Robot->like_fist_post(json_decode($client->cookies), $client->insta_id);
-//$result = $Robot->bot_login("coach_anderson.rosa", "101210");
-//var_dump($result->json_response->authenticated);
+//exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
+//var_dump($output);
+//var_dump($return_var);
+$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
