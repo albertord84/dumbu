@@ -686,9 +686,9 @@ namespace dumbu\cls {
             // LOGIN WITH CURL TO TEST
 //            $json_response = $this->str_login($csrftoken, $login, $pass);
             // Parse html response
-//            $start = strpos($html, "{");
-//            $json_str = substr($html, $start);
-//            $json_response = json_decode($json_str);
+            $start = strpos($html, "{");
+            $json_str = substr($html, $start);
+            $json_response = json_decode($json_str);
             //
             $login_data = new \stdClass();
             $login_data->json_response = $json_response;
