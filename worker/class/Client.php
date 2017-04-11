@@ -115,6 +115,26 @@ namespace dumbu\cls {
             }
         }
 
+        public function insert_clients_daily_report() {
+            try {
+                $Clients = array();
+                $DB = new \dumbu\cls\DB();
+                $clients_data = $DB->get_clients_data();
+                while ($client_data = $clients_data->fetch_object()) {
+                    $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->cookies, $client_data->login);
+                    if ($profile_data) {
+                        $result = $DB->insert_client_daily_report($client_data->user_id, $profile_data);
+                        var_dump($client_data->login);
+                    } else {
+                        var_dump($client_data);
+                    }
+                    sleep(5); // secounds
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function fill_client_data($client_data) {
             $Client = NULL;
             if ($client_data) {

@@ -15,58 +15,93 @@ $(document).ready(function () {
         }
         return vars;
     }
-
-    $("#signin_btn_insta_login").click(function () {    
+                
+    $("#check_cupao").click(function () {
+        if($("#cupao_number").val()!==''){
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+                data: {
+                    'cupao_number': $('#cupao_number').val(),
+                    'pk': pk
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        set_global_var('cupao_number_checked', true);  
+                    }
+                    alert(response['message']);
+                    l.stop();
+                },
+                error: function (xhr, status) {
+                    alert('Não foi possível conferir a autenticidade do cupão. Tente depois.');                    
+                    l.stop();
+                }
+            });
+        }else{
+            alert('Deve preencher o campo com o código do cupão');  
+        }
+    });
+    
+    $("#signin_btn_insta_login").click(function () {           
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
-                if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {
-                    var l = Ladda.create(this);
-                    l.start();
-                    l.start();
-                    $.ajax({
-                        url: base_url + 'index.php/welcome/check_user_for_sing_in',
-                        data: {
-                            'client_email': $('#client_email').val(),
-                            'client_login': $('#signin_clientLogin').val(),
-                            'client_pass': $('#signin_clientPassword').val(),
-                            'utm_source': typeof getUrlVars()["utm_source"] !== 'undefined' ? getUrlVars()["utm_source"] : 'NULL'
-                        },
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response['success']) {
-                                set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
-                                set_global_var('pk', response['pk']);
-                                set_global_var('datas', response['datas']);
-                                set_global_var('early_client_canceled', response['early_client_canceled']);
-                                set_global_var('login', $('#signin_clientLogin').val());
-                                set_global_var('pass', $('#signin_clientPassword').val());
-                                set_global_var('email', $('#client_email').val());
-                                set_global_var('need_delete', response['need_delete']);
-                                //if(need_delete<response['MIN_MARGIN_TO_INIT']){   
-                                 //alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
-                                // }
-                                active_by_steep(2);
-                                l.stop();
-                            } else {
-                                if (response['cause'] == 'checkpoint_required') {
-                                    alert(response['message']);
+                if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {                   
+                    //if($("#errorcaptcha").text()!='Codigo de segurança errado' && $("#errorcaptcha").text()!=''){
+                        var l = Ladda.create(this);
+                        l.start();
+                        l.start();
+                        $.ajax({
+                            url: base_url + 'index.php/welcome/check_user_for_sing_in',
+                            data: {
+                                'client_email': $('#client_email').val(),
+                                'client_login': $('#signin_clientLogin').val(),
+                                'client_pass': $('#signin_clientPassword').val(),
+                                'utm_source': typeof getUrlVars()["utm_source"] !== 'undefined' ? getUrlVars()["utm_source"] : 'NULL'
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response['success']) {
+                                    set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
+                                    set_global_var('pk', response['pk']);
+                                    set_global_var('datas', response['datas']);
+                                    set_global_var('early_client_canceled', response['early_client_canceled']);
+                                    set_global_var('login', $('#signin_clientLogin').val());
+                                    set_global_var('pass', $('#signin_clientPassword').val());
+                                    set_global_var('email', $('#client_email').val());
+                                    set_global_var('need_delete', response['need_delete']);
+                                    //if(need_delete<response['MIN_MARGIN_TO_INIT']){   
+                                     //alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
+                                    // }
+                                    active_by_steep(2);
+                                    l.stop();
                                 } else {
-                                    $('#container_sigin_message').text(response['message']);
-                                    $('#container_sigin_message').css('visibility', 'visible');
-                                    $('#container_sigin_message').css('color', 'red');
+                                    if (response['cause'] == 'checkpoint_required') {
+                                        alert(response['message']);
+                                    } else {
+                                        $('#container_sigin_message').text(response['message']);
+                                        $('#container_sigin_message').css('visibility', 'visible');
+                                        $('#container_sigin_message').css('color', 'red');
+                                    }
+                                    l.stop();
                                 }
+
+                            },
+                            error: function (xhr, status) {
+                                $('#container_sigin_message').text(T('Não foi possível comprobar a autenticidade do usuario no Instagram!'));
+                                $('#container_sigin_message').css('visibility', 'visible');
+                                $('#container_sigin_message').css('color', 'red');
                                 l.stop();
                             }
-
-                        },
-                        error: function (xhr, status) {
-                            $('#container_sigin_message').text(T('Não foi possível comprobar a autenticidade do usuario no Instagram!'));
-                            $('#container_sigin_message').css('visibility', 'visible');
-                            $('#container_sigin_message').css('color', 'red');
-                            l.stop();
-                        }
-                    });
+                        });
+                    /*} else{
+                        $('#container_sigin_message').text(T('Verifique o codigo de segurança'));
+                        $('#container_sigin_message').css('visibility', 'visible');
+                        $('#container_sigin_message').css('color', 'red');                    
+                    }    */
                 } else {
                     $('#container_sigin_message').text(T('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos!'));
                     $('#container_sigin_message').css('visibility', 'visible');
@@ -101,7 +136,7 @@ $(document).ready(function () {
             var number = validate_element('#client_credit_card_number', "^[0-9]{10,20}$");
             var cvv = validate_element('#client_credit_card_cvv', "^[0-9 ]{3,5}$");
             var month = validate_month('#client_credit_card_validate_month', "^[0-10-9]{2,2}$");
-            var year = validate_year('#client_credit_card_validate_year', "^[2-20-01-20-9]{4,4}$");
+            var year = validate_year('#client_credit_card_validate_year', "^[2-20-01-20-9]{4,4}$");            
             if (name && number && cvv && month && year) {
                 $.ajax({
                     url: base_url + 'index.php/welcome/check_client_data_bank',
@@ -147,7 +182,7 @@ $(document).ready(function () {
                 $('#btn_sing_in').css('cursor', 'pointer');
                 $('#my_body').css('cursor', 'auto');
                 l.stop();
-            }
+            }            
         } else {
             console.log('paymet working');
         }
@@ -196,7 +231,8 @@ $(document).ready(function () {
 
 
 
-    $('#coniner_data_panel').css({'height': ''+$('#container_sing_in_panel').height()});
+    $('#coniner_data_panel').css({'height': ''+$('#coniner_login_panel').height()});
+    $('#container_sing_in_panel').css({'height': ''+$('#coniner_login_panel').height()});
 
     function active_by_steep(steep) {
         switch (steep) {
@@ -321,11 +357,14 @@ $(document).ready(function () {
             case 'insta_profile_datas':
                 insta_profile_datas = value;
                 break;
+            case 'cupao_number_checked':
+                cupao_number_checked = value;
+                break;
         }
     }
 
 
 
-    var plane, pk, datas, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
+    var plane, pk, datas,cupao_number_checked=false, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
     plane = '4';
 }); 

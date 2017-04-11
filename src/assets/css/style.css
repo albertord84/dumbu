@@ -693,15 +693,16 @@ footer span{
 	.pf-painel li{width: 27%;margin-bottom: 15px;}
 	.ps{width: 100%; margin-top: 10%;}
 	.cel{width: 100% ; height: 100%;}
+        .container_sing_in_panel{margin-top: 200px;}
 }
 
 @media screen and (max-width: 670px){
 	.pf-painel{margin: 20px 0;}
-
+        .container_sing_in_panel{margin-top: 200px;}
 }
 
 @media screen and (max-width: 430px){
 	.add-perfil li{width: 100%;margin-bottom: 15px;}
 	.pf-melhor li{margin-bottom: 30px;}
-        .container_sing_in_panel{margin-top: 30px;}
+        .container_sing_in_panel{margin-top: 200px;}
 }

@@ -120,7 +120,7 @@ namespace dumbu\cls {
                     $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
                 } else {
                     echo "ID: $Profile->followed_id<br>\n";
-                    var_dump($json_response);
+//                    var_dump($json_response);
                     $error = $this->process_follow_error($json_response);
                     // TODO: Class for error messages
                     if ($error == 6) {// Just empty message:
@@ -158,11 +158,23 @@ namespace dumbu\cls {
                         $Profiles = $json_response->followed_by->nodes;
                         foreach ($Profiles as $Profile) {
                             $null_picture = strpos($Profile->profile_pic_url, 'scontent-lax3-2.cdninstagram.com');
-                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $null_picture === FALSE) { // If user not requested or follwed by Client
+                            // Check if its a valid profile
+//                            $valid_profile = FALSE;
+//                            $is_private = (new Profile())->is_private($Profile->username);
+//                            if (!$is_private) {
+//                                // Check the post amount from this profile
+//                                $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
+//                                $posts = $this->get_insta_chaining($login_data, $Profile->id, $MIN_FOLLOWER_POSTS);
+//                                $valid_profile = count($posts) >= $MIN_FOLLOWER_POSTS;
+//                            } else {
+//                                $valid_profile = TRUE;
+//                            }
+//                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
+                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If user not requested or follwed by Client
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                                if ($daily_work->like_first) 
+                                if ($daily_work->like_first)
                                     $this->like_fist_post($login_data, $Profile->id);
                                 //var_dump($json_response);
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
@@ -332,7 +344,6 @@ namespace dumbu\cls {
                 //print_r($output);
                 //print("-> $status<br><br>");
                 $json = json_decode($output[0]);
-                var_dump($json);
                 if (isset($json->media) && isset($json->media->nodes) && count($json->media->nodes)) {
                     return $json->media->nodes;
                 }
@@ -448,7 +459,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'X-Instagram-ajax: 1' ";
             $curl_str .= "-H 'content-type: application/x-www-form-urlencoded' ";
             $curl_str .= "-H 'Accept: */*' ";
-            $curl_str .= "-H 'Referer: https://www.instagram.com/$login_data->login' ";
+            $curl_str .= "-H 'Referer: https://www.instagram.com' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             if ($cursor === NULL || $cursor === '') {
                 $curl_str .= "--data "
@@ -734,41 +745,110 @@ namespace dumbu\cls {
         }
 
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
-            $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
-            //var_dump($content);
-            $users = json_decode($content)->users;
-
-            // Get user with $ref_prof name over all matchs 
-            $User = NULL;
-            if (is_array($users)) {
-                for ($i = 0; $i < count($users); $i++) {
-                    if ($users[$i]->user->username === $ref_prof) {
-                        $User = $users[$i]->user;
-                        $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
-                        $User->following = $this->get_insta_ref_prof_following($ref_prof);
-                        break;
+            try {
+                $User = NULL;
+                if ($ref_prof != "") {
+//                    $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
+//                    exec("curl 'https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof'", $output, $status);
+//                    $content = json_decode($output[0]);
+                    $ch = curl_init("https://www.instagram.com/");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_POST, FALSE);
+                    curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+                    $html = curl_exec($ch);
+                    $content = json_decode($html);
+                    curl_close($ch);
+                    if (is_object($content) && $content->status === 'ok') {
+                        $users = $content->users;
+                        // Get user with $ref_prof name over all matchs 
+                        if (is_array($users)) {
+                            for ($i = 0; $i < count($users); $i++) {
+                                if ($users[$i]->user->username === $ref_prof) {
+                                    $User = $users[$i]->user;
+                                    $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
+                                    $User->following = $this->get_insta_ref_prof_following($ref_prof);
+                                    if (!isset($User->follower_count)) {
+                                        $User->follower_count = isset($User->byline) ? $this->parse_follow_count($User->byline) : 0;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        //var_dump($content);
+                        //var_dump("null reference profile!!!");
                     }
                 }
+                return $User;
+            } catch (Exception $ex) {
+                print_r($ex->message);
+                return NULL;
             }
-            return $User;
-            // JOSE
-//            $content= file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
-//            $users = json_decode($content)->users;
-//             //var_dump($users[0]->user->username);
-//             
-//            // Get user with $ref_prof name over all matchs 
-//            $User = NULL;
-//            if(is_array($users)){               
-//                for($i=0;$i<count($users);$i++){            
-//                    if ($users[$i]->user->username === $ref_prof) {
-//                        $User = $users[$i]->user;
-//                        $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
-//                        $User->following = $this->get_insta_ref_prof_following($ref_prof);
-//                        break;
-//                    }
-//                }
-//            }
-//            return $User;
+        }
+
+        public function get_insta_ref_prof_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
+            try {
+                $User = NULL;
+                if ($ref_prof != "") {
+                    $csrftoken = $cookies->csrftoken;
+                    $ds_user_id = $cookies->ds_user_id;
+                    $sessionid = $cookies->sessionid;
+                    $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
+                    $curl_str = "curl '$url' ";
+                    $curl_str .= "-H 'Accept-Encoding: gzip, deflate, sdch' ";
+                    $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
+                    $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+                    $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+                    $curl_str .= "-H 'Accept: */*' ";
+                    $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
+                    $curl_str .= "-H 'Authority: www.instagram.com' ";
+                    $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
+                    $curl_str .= "--compressed ";
+                    exec($curl_str, $output, $status);
+                    $content = json_decode($output[0]);
+                    if(is_object($content) && $content->status === 'ok') {
+                        $users = $content->users;
+                        // Get user with $ref_prof name over all matchs 
+                        if (is_array($users)) {
+                            for ($i = 0; $i < count($users); $i++) {
+                                if ($users[$i]->user->username === $ref_prof) {
+                                    $User = $users[$i]->user;
+                                    $User->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
+                                    $User->following = $this->get_insta_ref_prof_following($ref_prof);
+                                    if (!isset($User->follower_count)) {
+                                        $User->follower_count = isset($User->byline) ? $this->parse_follow_count($User->byline) : 0;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        //var_dump($content);
+                        //var_dump("null reference profile!!!");
+                    }
+                }
+                return $User;
+            } catch (Exception $ex) {
+                print_r($ex->message);
+                return NULL;
+            }
+        }
+
+        public function parse_follow_count($follow_count_str) {
+            $search = " followers";
+            $start = strpos($follow_count_str, $search);
+
+            $letter = substr($follow_count_str, $start - 1, 1);
+            $decimals = 1;
+            $substr = substr($follow_count_str, 0, strlen($follow_count_str) - strlen($search));
+            if ($letter === 'k' || $letter === 'm') { // If not integer its a 10 power
+                $substr = substr($follow_count_str, 0, strlen($follow_count_str) - strlen($search) - 1);
+                $decimals = $letter === 'k' ? 1000 : $decimals;
+                $decimals = $letter === 'm' ? 1000000 : $decimals;
+            }
+            $followers = floatval($substr) * $decimals;
+
+            return $followers;
         }
 
         public function get_insta_ref_prof_follows($ref_prof_id) {
@@ -823,7 +903,6 @@ namespace dumbu\cls {
             $result = $this->get_insta_chaining($client_cookies, $client_insta_id);
             //print_r($result);
             if ($result) {
-                print_r($result[0]->id);
                 $result = $this->make_insta_friendships_command($client_cookies, $result[0]->id, 'like', 'web/likes');
 //              print_r($result);
             }
@@ -845,7 +924,7 @@ namespace dumbu\cls {
             $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
             $ds_user_id = $this->obtine_cookie_value($cookies, "ds_user_id");
             $sessionid = $this->obtine_cookie_value($cookies, "sessionid");
-            $url = "https://www.instagram.com/$reference_user_name'/?__a=1'";
+            $url = "https://www.instagram.com/$reference_user_name'/?__a=1";
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, sdch' ";
             $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";

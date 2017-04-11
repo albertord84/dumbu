@@ -44,6 +44,7 @@ namespace dumbu\cls {
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
+                        . "     AND clients.unfollow_total <> 1 "
                         . "     AND (users.status_id = $ACTIVE OR "
                         . "          users.status_id = $PENDING OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
@@ -108,6 +109,28 @@ namespace dumbu\cls {
                     print "<br>Update client_status! status_date: $status_date <br>";
                 else
                     print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        /**
+         * 
+         * @param type $client_id
+         * @param type $profile_data Data from this client as profile
+         * @return type
+         */
+        public function insert_client_daily_report($client_id, $profile_data) {
+            try {
+                $this->connect();
+                $date = time();
+                $sql = "INSERT INTO daily_report "
+                        . "(client_id, followings, followers, date) "
+                        . "VALUES "
+                        . "($client_id, '$profile_data->following', '$profile_data->follower_count', '$date');";
+
+                $result = mysqli_query($this->connection, $sql);
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
