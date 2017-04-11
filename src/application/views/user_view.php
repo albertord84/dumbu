@@ -441,11 +441,11 @@
                                             
                                                 <?php if($languaje==='PT'){
                                                     echo '<div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
-                                                        <span class="val">Cupão (*)</span>
+                                                        <span class="val">CUPOM (*)</span>
                                                     </div>
                                                     <div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t10">
                                                         <fieldset>
-                                                            <input id="cupao_number" type="text" placeholder="Cupão desconto" required>
+                                                            <input id="cupao_number" type="text" placeholder="CUPOM desconto" required>
                                                         </fieldset>
                                                     </div>
                                                     <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">

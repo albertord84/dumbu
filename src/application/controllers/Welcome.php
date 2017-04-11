@@ -618,10 +618,10 @@ class Welcome extends CI_Controller {
             $this->client_model->update_client($datas['pk'], array(
                 'ticket_peixe_urbano'=>$datas['cupao_number']));
             $result['success'] = true;
-            $result['message'] = 'Cupão de desconto verificado corretamennte';
+            $result['message'] = 'CUPOM de desconto verificado corretamennte';
         } else{
             $result['success'] = false;
-            $result['message'] = 'Cupão de desconto incorreto';
+            $result['message'] = 'CUPOM de desconto incorreto';
         }
         echo json_encode($result);
     }

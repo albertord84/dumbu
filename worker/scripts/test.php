@@ -11,25 +11,46 @@ require_once '../class/Reference_profile.php';
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
 
-$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
+//$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
+//
+//Saiba mais sobre bloqueios na Central de Ajuda.", 'Parece que você estava usando esse recurso indevidamente de forma muito rápida.');
+//
+//if ($response !== false) {
+//    print 'FOUND';
+//} else {
+//    var_dump($response);
+//}
 
-Saiba mais sobre bloqueios na Central de Ajuda.", 'Parece que você estava usando esse recurso indevidamente de forma muito rápida.');
 
-if ($response !== false) {
-    print 'FOUND';
-} else {
-    var_dump($response);
-}
+// No esta insertando en la grafica qdo está en unfollow total
+//$DB = new \dumbu\cls\DB();
+//$clients_data = $DB->get_clients_by_status(10);
+//
+//var_dump($clients_data->num_rows);
+//while ($client_data = $clients_data->fetch_object()) {
+//    var_dump($client_data->login);
+//}
 
-$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+
+//$clients_data = $DB->get_clients_data();
+//while ($client_data = $clients_data->fetch_object()) {
+//    var_dump($client_data->login);
+//}
+
+
+//$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+
+
+
+
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
 //dumbu\cls\system_config():: 
 // Ref Prof
-//$RP = new \dumbu\cls\Reference_profile();
+$RP = new \dumbu\cls\Reference_profile();
 //$ref_prof = "santatemakeria";
-//$response = $RP->get_insta_ref_prof_data($ref_prof);
+//$response = $RP->get_insta_ref_prof_data('cristiano');
 //var_dump($response);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(2);
 //var_dump($follows_count);
@@ -49,16 +70,14 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
-
 //$client = $Client->get_client(11472);
 //$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'ftthiagomonteiro');
 //var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
-
 //$Client->create_daily_work(234);
 //var_dump(date('d-m-Y',time()));
-//$a=strtotime("+" .'7'. " days", time());
+//$a=strtotime("+" .'2'. " days", "1490482216");
 //var_dump($a);
 //var_dump(date('d-m-Y',1483449391));
 //var_dump(date('d-m-Y',1486247776));
@@ -130,7 +149,6 @@ $Payment = new dumbu\cls\Payment();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-
 //$pay_day = strtotime('02/22/2017 04:33:32');
 //$pay_day = strtotime("+30 days", $pay_day);
 //$pay_day = time();
@@ -148,7 +166,6 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
-
 ////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
@@ -192,10 +209,15 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
 //print_r($result);
 //$result = $Robot->like_fist_post(json_decode($client->cookies), $client->insta_id);
-//$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
+//exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
+//var_dump($output);
+//var_dump($return_var);
+$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+var_dump($result);
 //print_r(json_encode($result));
-//$result = $Robot->bot_login('abrfuncional','treinoabr');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
+//$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
+//var_dump("" == NULL);
 //$result = $Robot->bot_login("urpia", "romeus33");
 //var_dump($result);
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");

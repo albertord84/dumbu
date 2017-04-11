@@ -300,6 +300,7 @@ namespace dumbu\cls {
                 print json_encode($ex, JSON_PRETTY_PRINT);
                 print "</pre>";
             }
+            return NULL;
         }
 
         function retry_payment($order_key, $request_key) {

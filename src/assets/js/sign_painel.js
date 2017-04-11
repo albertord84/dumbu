@@ -36,12 +36,12 @@ $(document).ready(function () {
                     l.stop();
                 },
                 error: function (xhr, status) {
-                    alert('Não foi possível conferir a autenticidade do cupão. Tente depois.');                    
+                    alert('Não foi possível conferir a autenticidade do CUPOM. Tente depois.');                    
                     l.stop();
                 }
             });
         }else{
-            alert('Deve preencher o campo com o código do cupão');  
+            alert('Deve preencher o campo com o código do CUPOM');  
         }
     });
     
