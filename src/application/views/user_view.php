@@ -412,6 +412,50 @@
 						<img src="assets/images/ass.png" class="wauto" alt="">
 						<span class="fleft100"><?php echo $CI->T("Assine e configure sua conta",array());?></span>
 					</div>
+                                        
+                    <!--*******************************************************************************************************************-->
+                                        <script type="text/javascript">
+                                            function verificarcaptcha(){
+                                                if($("#ct_captcha").val().length>=0){
+                                                    //enviar al servidor
+                                                    alert($("#ct_captcha").val());
+                                                    $.get("<?php echo base_url()?>+'assets/vercatpcha.php?ca="+$("#ct_captcha").val(), function(data) {
+                                                        $("#errorcaptcha").html(data);
+                                                        rptacap=data;
+                                                    });
+                                                }
+                                            }
+                                        </script>
+                                        
+                                        <div class="controls">
+                                            <img id="siimage" style="border: 1px solid #000; margin-right: 15px; width:150px" src="<?php $value=md5(uniqid()); /*var_dump($value);*/ echo base_url().'assets/securimage/securimage_show.php?sid='.$value;?>" alt="<?php echo $CI->T("CAPTCHA Image",array());?>" align="center">
+                                            <!--<a tabindex="-1" style="border-style: none;" 
+                                               href="" 
+                                               title="<?php //echo $CI->T("Refresh Image",array());?>" 
+                                               onclick="document.getElementById('siimage').src = <?php //echo base_url()?> +'assets/securimage/securimage_show.php?sid=' + Math.random(); this.blur(); return false">
+                                               <br>
+                                               <img style="width:30px" src="<?php //echo base_url().'assets/securimage/images/refresh.png';?>" alt="<?php //echo $CI->T("Reload Image",array());?>" onclick="this.blur()" align="bottom" border="0">
+                                            </a>-->
+                                            <br>
+                                            <strong><?php echo $CI->T("Insere o código",array());?>:</strong>
+                                            <br>
+                                            <?php echo @$_SESSION['ctform']['captcha_error'] ?>
+                                            <input type="text" name="ct_captcha" size="14" maxlength="8" id="ct_captcha" class="span4" onblur="verificarcaptcha()" required/>
+
+                                            <br>
+                                            <span style="color:red" id="errorcaptcha"></span>
+                                            <span style="color:red" ><?php if(isset($_GET["err"])) $CI->T("Houve um erro",array());?></span>
+                                        </div>
+                    <!--*******************************************************************************************************************-->
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
 					<div class="text-center">
                                             <button id="btn_sing_in" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
                                                 <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ASSINAR AGORA",array());?></div></span>

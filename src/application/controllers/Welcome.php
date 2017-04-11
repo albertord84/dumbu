@@ -326,8 +326,7 @@ class Welcome extends CI_Controller {
                             }
                             $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             $result['resource'] = 'client';
-                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']));
-                            ;
+                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']));                            
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
@@ -1373,7 +1372,7 @@ class Welcome extends CI_Controller {
                     $array_profiles[$i]['follows_from_profile'] = $datas_of_profile->follows;
                     if (!$datas_of_profile) { //perfil existia pero fue eliminado de IG
                         $array_profiles[$i]['status_profile'] = 'deleted';
-                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_deleted.jpg';
+                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/images/profile_deleted.jpg';
                     } else
                     if ($client_active_profiles[$i]['end_date']) { //perfil
                         $array_profiles[$i]['status_profile'] = 'ended';
@@ -1381,7 +1380,7 @@ class Welcome extends CI_Controller {
                     } else
                     if ($datas_of_profile->is_private) { //perfil paso a ser privado
                         $array_profiles[$i]['status_profile'] = 'privated';
-                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/img/profile_privated.jpg';
+                        $array_profiles[$i]['img_profile'] = base_url() . 'assets/images/profile_privated.jpg';
                     } else {
                         $array_profiles[$i]['status_profile'] = 'active';
                         $array_profiles[$i]['img_profile'] = $datas_of_profile->profile_pic_url;
