@@ -184,7 +184,7 @@
                                                 </a>
 					</div>
 					<span class="fleft100 m-t30"><?php echo $CI->T("Presente em mais de",array());?></span>
-					<h2 class="fleft100 no-mg"><?php echo $CI->T("50 países",array());?></h2>
+					<h2 class="fleft100 no-mg"><?php echo $CI->T("200 países",array());?></h2>
 					<img src="assets/images/50 países.png" class="fleft100 i-block wauto paises" alt="">
 				</div>
 				<div class="col-md-5 col-sm-5 col-xs-12 text-center cel">

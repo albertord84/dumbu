@@ -200,7 +200,7 @@ class Welcome extends CI_Controller {
         //Is an active Administrator?
         $query = 'SELECT * FROM users' .
                 ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
-                '" AND role_id=' . user_role::ADMIN . ' AND status_id=' . user_status::ACTIVE;
+                '" AND role_id=' . user_role::ADMIN.' AND status_id=' . user_status::ACTIVE;
         $user = $this->user_model->execute_sql_query($query);
         if (count($user)) {
             $result['role'] = 'ADMIN';
