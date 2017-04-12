@@ -1,3 +1,6 @@
+<?php
+    header('X-Frame-Options SAMEORIGIN, GOFORIT'); 
+?>
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
@@ -241,7 +244,13 @@
 			<div class="container">				
 				<!--<div class="col-md-3 col-sm-3 col-xs-12"></div>-->
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                    <iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>
+                                    <?php
+                                        if($languaje=='PT')
+                                            echo '<iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
+                                        else                                            
+                                            echo '<iframe  src="http://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                            
+                                    ?>
+                                    
                                 </div>
 				<!--<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
 			</div>
@@ -394,16 +403,16 @@
 					</div>
 					<div class="pay fleft100 input-form">
 						<fieldset>
-							<input id="client_credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão",array());?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+							<input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão",array());?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
 						</fieldset>
 						<div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                                                     <fieldset>
-                                                        <input id="client_credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão",array());?>" maxlength="20" required>
+                                                        <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão",array());?>" maxlength="20" required>
                                                     </fieldset>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
 							<fieldset>
-                                                            <input id="client_credit_card_cvv" type="text" placeholder="<?php echo $CI->T("CVV/CVC",array());?>" maxlength="5" required>
+                                                            <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC",array());?>" maxlength="5" required>
 							</fieldset>
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-12 no-pd">
@@ -412,7 +421,7 @@
 						<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
 							<fieldset>
 								<div class="select">
-                                                                    <select id="client_credit_card_validate_month" name="local" class="btn-primeiro sel" id="local">
+                                                                    <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
 									<option>01</option><option>02</option><option>03</option>
                                                                         <option>04</option><option>05</option><option>06</option>
                                                                         <option>07</option><option>08</option><option>09</option>
@@ -424,7 +433,7 @@
 						<div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
 							<fieldset>
 								<div class="select">
-                                                                    <select id="client_credit_card_validate_year" name="local" class="btn-primeiro sel" id="local">
+                                                                    <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
                                                                         <option>2017</option><option>2018</option>
                                                                         <option>2019</option><option>2020</option><option>2021</option>
                                                                         <option>2022</option><option>2023</option><option>2024</option>

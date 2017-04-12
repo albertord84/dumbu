@@ -1,12 +1,12 @@
 <?php
 
 class Welcome extends CI_Controller {
-
-    public function index1() {
-        var_dump(date("d-m-Y",1487925340));
-    }
     
     public function index() {
+        $this->update_client_after_retry_payment_success(372);
+    }
+    
+    public function index1() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -729,11 +729,11 @@ class Welcome extends CI_Controller {
             //0. salvar datos del carton de credito
             try {
                 $this->client_model->update_client($datas['pk'], array(
-                    'credit_card_number' => $datas['client_credit_card_number'],
-                    'credit_card_cvc' => $datas['client_credit_card_cvv'],
-                    'credit_card_name' => $datas['client_credit_card_name'],
-                    'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
-                    'credit_card_exp_year' => $datas['client_credit_card_validate_year']
+                    'credit_card_number' => $datas['credit_card_number'],
+                    'credit_card_cvc' => $datas['credit_card_cvc'],
+                    'credit_card_name' => $datas['credit_card_name'],
+                    'credit_card_exp_month' => $datas['credit_card_exp_month'],
+                    'credit_card_exp_year' => $datas['credit_card_exp_year']
                 ));
             } catch (Exception $exc) {
                 $result['success'] = false;
@@ -873,11 +873,11 @@ class Welcome extends CI_Controller {
     }
 
     public function check_mundipagg_credit_card($datas) {
-        $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
-        $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
-        $payment_data['credit_card_exp_year'] = $datas['client_credit_card_validate_year'];
-        $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
+        $payment_data['credit_card_number'] = $datas['credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
         $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
         $payment_data['pay_day'] = time();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
@@ -887,11 +887,11 @@ class Welcome extends CI_Controller {
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
-        $payment_data['credit_card_number'] = $datas['client_credit_card_number'];
-        $payment_data['credit_card_name'] = $datas['client_credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $datas['client_credit_card_validate_month'];
-        $payment_data['credit_card_exp_year'] = $datas['client_credit_card_validate_year'];
-        $payment_data['credit_card_cvc'] = $datas['client_credit_card_cvv'];
+        $payment_data['credit_card_number'] = $datas['credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
         $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
@@ -963,11 +963,11 @@ class Welcome extends CI_Controller {
                         $this->user_model->update_user($this->session->userdata('id'), array(
                             'email' => $datas['client_email']));
                         $this->client_model->update_client($this->session->userdata('id'), array(
-                            'credit_card_number' => $datas['client_credit_card_number'],
-                            'credit_card_cvc' => $datas['client_credit_card_cvv'],
-                            'credit_card_name' => $datas['client_credit_card_name'],
-                            'credit_card_exp_month' => $datas['client_credit_card_validate_month'],
-                            'credit_card_exp_year' => $datas['client_credit_card_validate_year'],
+                            'credit_card_number' => $datas['credit_card_number'],
+                            'credit_card_cvc' => $datas['credit_card_cvc'],
+                            'credit_card_name' => $datas['credit_card_name'],
+                            'credit_card_exp_month' => $datas['credit_card_exp_month'],
+                            'credit_card_exp_year' => $datas['credit_card_exp_year'],
                             'pay_day' => $datas['pay_day']
                         ));
                     } catch (Exception $exc) {
@@ -1277,11 +1277,11 @@ class Welcome extends CI_Controller {
     //auxiliar function
     public function validate_post_credit_card_datas($datas) {
         //TODO: validate emial and datas of credit card using regular expresions
-        /* if (preg_match('^[0-9]{16,16}$',$datas['client_credit_card_number']) &&
-          preg_match('^[0-9 ]{3,3}$',$datas['client_credit_card_cvv']) &&
-          preg_match('^[A-Z ]{4,50}$',$datas['client_credit_card_name']) &&
-          preg_match('^[0-10-9]{2,2}$',$datas['client_credit_card_validate_month']) &&
-          preg_match('^[2-20-01-20-9]{4,4}$',$datas['client_credit_card_validate_year']) &&
+        /* if (preg_match('^[0-9]{16,16}$',$datas['credit_card_number']) &&
+          preg_match('^[0-9 ]{3,3}$',$datas['credit_card_cvc']) &&
+          preg_match('^[A-Z ]{4,50}$',$datas['credit_card_name']) &&
+          preg_match('^[0-10-9]{2,2}$',$datas['credit_card_exp_month']) &&
+          preg_match('^[2-20-01-20-9]{4,4}$',$datas['credit_card_exp_year']) &&
           preg_match('^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$',$datas['client_email']))
           return true;
           else
@@ -1432,54 +1432,53 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
 
-    public function update_client_by_retry_payment($user_id) {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        //1. recuperar el cliente y su plano
-        $this->load->model('class/client_model');
-        $this->load->model('class/user_model');
-        $this->load->model('class/user_status');
-        $client = $this->client_model->get_all_data_of_client($user_id)[0];
-        $plane = $this->client_model->get_plane($client['plane_id'])[0];
-
-        //2. eliminar recurrencia actual en la Mundipagg
-        $this->delete_recurrency_payment($client['order_key']);
-
-        //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
-        date_default_timezone_set('Etc/UTC');
-        $payment_data['credit_card_number'] = $client['credit_card_number'];
-        $payment_data['credit_card_name'] = $client['credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
-        $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-
-        $payment_data['amount_in_cents'] = $plane['normal_val'];
-        //$payment_data['pay_day'] = strtotime("+30 days", time());
-        $payment_data['pay_day'] = strtotime('04-03-2017');
-        $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
-        var_dump($resp);
-        //4. salvar nuevos pay_day e order_key
-        if (is_object($resp) && $resp->isSuccess()) {
-            $this->client_model->update_client($user_id, array(
-                'order_key' => $resp->getData()->OrderResult->OrderKey,
-                'pay_day' => $payment_data['pay_day']));
+    public function update_client_after_retry_payment_success($user_id) {
+        if(mundipagg_retry_payment($user_id)){
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
+            $this->load->model('class/client_model');
+            $this->load->model('class/user_model');
+            $this->load->model('class/user_status');
+            //1. recuperar el cliente y su plano
+            $client = $this->client_model->get_all_data_of_client($user_id)[0];
+            $plane = $this->client_model->get_plane($client['plane_id'])[0];
+            //2. eliminar recurrencia actual en la Mundipagg
+            $this->delete_recurrency_payment($client['order_key']);
+            //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
+            date_default_timezone_set('Etc/UTC');
+            $payment_data['credit_card_number'] = $client['credit_card_number'];
+            $payment_data['credit_card_name'] = $client['credit_card_name'];
+            $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
+            $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
+            $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+            $payment_data['amount_in_cents'] = $plane['normal_val'];
+            $payment_data['pay_day'] = strtotime("+1 month", time());
+            $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
+            //4. salvar nuevos pay_day e order_key
+            if (is_object($resp) && $resp->isSuccess()) {
+                $this->client_model->update_client($user_id, array(
+                    'order_key' => $resp->getData()->OrderResult->OrderKey,
+                    'pay_day' => $payment_data['pay_day']));            
+                //5. actualizar status del cliente
+                $data_insta = $this->is_insta_user($client['login'], $client['pass']);
+                if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                    $this->user_model->update_user($user_id, array(
+                        'status_id' => user_status::ACTIVE
+                    ));
+                } else
+                if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
+                    $this->user_model->update_user($user_id, array(
+                        'status_id' => user_status::BLOCKED_BY_INSTA
+                    ));
+                
+                
+                else
+                    $this->user_model->update_user($user_id, array(
+                        'status_id' => user_status::BLOCKED_BY_INSTA
+                    ));
+            }
         }
-
-        //5. actualizar status del cliente
-        $data_insta = $this->is_insta_user($client['login'], $client['pass']);
-        if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-            $this->user_model->update_user($user_id, array(
-                'status_id' => user_status::ACTIVE
-            ));
-        } else
-        if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
-            $this->user_model->update_user($user_id, array(
-                'status_id' => user_status::BLOCKED_BY_INSTA
-            ));
-        else
-            $this->user_model->update_user($user_id, array(
-                'status_id' => user_status::BLOCKED_BY_INSTA
-            ));
     }
 
+    
 }

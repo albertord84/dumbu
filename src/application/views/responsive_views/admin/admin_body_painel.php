@@ -95,6 +95,12 @@
                         <input id="ds_user_id" class="form-control" placeholder="ds_user_id">
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Credit Card name</b>
+                        <input id="credit_card_name" class="form-control" placeholder="Credit Card Name">
+                    </div>
+                </div>
             </div>
             <br><br>            
             

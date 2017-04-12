@@ -799,7 +799,7 @@ namespace dumbu\cls {
                 return NULL;
             }
         }
-
+          
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
             try {
                 $User = NULL;
@@ -816,7 +816,7 @@ namespace dumbu\cls {
                     $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
                     $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
                     $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-                    $curl_str .= "-H 'Accept: */*' ";
+                    $curl_str .= "-H 'Accept: *' ";
                     $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
                     $curl_str .= "-H 'Authority: www.instagram.com' ";
                     $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";

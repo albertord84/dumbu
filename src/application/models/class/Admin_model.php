@@ -32,6 +32,9 @@
             if($form_filter['ds_user_id']!='')
                 $this->db->where('insta_id', $form_filter['ds_user_id']);
             else
+            if($form_filter['credit_card_name']!='')
+                $this->db->where('credit_card_name', $form_filter['credit_card_name']);
+            else
             if($form_filter['client_status']>-1)
                 $this->db->where('status_id', $form_filter['client_status']);            
             return $this->db->get()->result_array();
