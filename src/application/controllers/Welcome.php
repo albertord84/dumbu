@@ -2,8 +2,11 @@
 
 class Welcome extends CI_Controller {
     
+    public function index_teste0() {
+        $this->update_client_after_retry_payment_success(372);
+    }
 
-    public function index1(){
+    public function index_teste1(){
         $this->get_names_by_chars('');
     }
     
@@ -34,10 +37,6 @@ class Welcome extends CI_Controller {
             $info = curl_getinfo($ch);
         //}
     }
-
-//    public function index() {
-//        $this->update_client_after_retry_payment_success(372);
-//    }
     
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
