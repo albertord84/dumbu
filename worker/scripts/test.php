@@ -38,7 +38,7 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 //}
 
 
-//$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 
@@ -69,9 +69,10 @@ $RP = new \dumbu\cls\Reference_profile();
 
 $Client = new dumbu\cls\Client();
 
-$result = $Client->insert_clients_daily_report();
+//$result = $Client->insert_clients_daily_report();
 $client = $Client->get_client(11472);
-$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'ftthiagomonteiro');
+$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'alberto_dreyes');
+//$profile_data = json_decode($profile_data,true);
 var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
@@ -212,8 +213,8 @@ $Robot = new dumbu\cls\Robot();
 //exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
 //var_dump($output);
 //var_dump($return_var);
-$result = $Robot->bot_login("alberto_dreyes", "albertord4");
-var_dump($result);
+//$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+//var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));

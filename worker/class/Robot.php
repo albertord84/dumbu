@@ -811,11 +811,11 @@ namespace dumbu\cls {
                     $headers = array();
                     $headers[] = "Host: www.instagram.com";
                     $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
-                    //            $headers[] = "Accept: application/json";
+//                                $headers[] = "Accept: application/json";
                     $headers[] = "Accept: */*";
                     $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
 
-                    $headers[] = "Accept-Encoding: gzip, deflate, sdch";
+                    $headers[] = "Accept-Encoding: deflate, sdch";
                     $headers[] = "Referer: https://www.instagram.com/";
                     $headers[] = "X-CSRFToken: $csrftoken";
                     $ip = "127.0.0.1";
@@ -823,18 +823,19 @@ namespace dumbu\cls {
                     $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
 
                     $headers[] = "Content-Type: application/x-www-form-urlencoded";
-//            $headers[] = "Content-Type: application/json";
+//                    $headers[] = "Content-Type: application/json";
                     $headers[] = "X-Requested-With: XMLHttpRequest";
                     $headers[] = "Authority: www.instagram.com";
-                    $headers[] = "Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
+                    $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
                     $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
+                    $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_HEADER, 1);
+                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
                     $output = curl_exec($ch);
-                    var_dump($output);
-                    die("Test");
-                    $content = json_decode($output[0]);
+                    $content = json_decode($output);
+                    //var_dump($content);
                     if (is_object($content) && $content->status === 'ok') {
                         $users = $content->users;
                         // Get user with $ref_prof name over all matchs 
