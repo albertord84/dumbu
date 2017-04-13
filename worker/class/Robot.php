@@ -769,7 +769,10 @@ namespace dumbu\cls {
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
                     curl_setopt($ch, CURLOPT_POST, FALSE);
                     curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
                     $html = curl_exec($ch);
+                    $string=curl_error($ch );
                     $content = json_decode($html);
                     curl_close($ch);
                     if (is_object($content) && $content->status === 'ok') {

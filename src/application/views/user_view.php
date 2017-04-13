@@ -330,10 +330,10 @@
 					</div>
                                         <div id="login_sign_in" class="login fleft100 input-form">
 						<fieldset>
-                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal",array());?>" required value="<?php if(isset($_GET) && count($_GET)) echo $_GET['email']; else echo '';?>">
+                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal",array());?>" required value="<?php if(isset($_GET) && isset($_GET['email'])) echo $_GET['email']; else echo '';?>">
 						</fieldset>
 						<fieldset>
-							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram",array());?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required value="<?php if(isset($_GET) && count($_GET)) echo $_GET['username']; else echo '';?>">
+							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram",array());?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required value="<?php if(isset($_GET) && isset($_GET['username'])) echo $_GET['username']; else echo '';?>">
 						</fieldset>
 						<fieldset>
 							<input id = "signin_clientPassword" type="password" placeholder="<?php echo $CI->T("Senha Instagram",array());?>" required>
@@ -452,7 +452,12 @@
                                                     echo '<div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
                                                         <span class="val">CUPOM (*)</span>
                                                     </div>
-                                                    <div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t10">
+                                                    <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
+                                                        <fieldset>
+                                                            <input id="ticket_peixe_urbano" type="text" placeholder="CUPOM desconto" required>
+                                                        </fieldset>
+                                                    </div>
+                                                    <!--<div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t10">
                                                         <fieldset>
                                                             <input id="cupao_number" type="text" placeholder="CUPOM desconto" required>
                                                         </fieldset>
@@ -463,7 +468,7 @@
                                                                 <span class="ladda-label"><div style="color:white; font-weight:bold">Check-in</div></span>
                                                             </button>
                                                         </div>
-                                                    </div>
+                                                    </div>-->
                                                     <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
                                                         <fieldset>
                                                                 <span class="val">(*) Só pra usuários requisitados</span>

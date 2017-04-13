@@ -63,7 +63,9 @@ var Translation={
     " no Instagram":
             " no Instagram",
     "Espere por favor, conferindo credenciais!!":
-            "Espere por favor, conferindo credenciais!!"
+            "Espere por favor, conferindo credenciais!!",
+    "Deve adicionar pelo menos um Perfil de Referência para continuar.":
+            "Deve adicionar pelo menos um Perfil de Referência para continuar."
 };
 
 function T(token){

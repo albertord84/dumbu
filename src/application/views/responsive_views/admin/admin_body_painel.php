@@ -148,7 +148,7 @@
                 }
             }
         ?>
-
+        
     <div class="row">
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
@@ -182,6 +182,48 @@
                                     echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br><br>';                                
                                     echo '<b>Actual followers: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
                                     echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
+                                    echo '<br><br>';
+                                    if($result[$i]['ticket_peixe_urbano']!=NULL){
+                                        if($result[$i]['ticket_peixe_urbano_status_id']==='1'){
+                                            echo '<a target="_blank" href="'.base_url().'index.php/admin/ticket_peixe_urbano_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success"> <span class="ladda-label">Peixe urbano</span></button></a><br><br>';                                            
+                                        }else
+                                        if($result[$i]['ticket_peixe_urbano_status_id']==='2'){
+                                            echo '<button style="width:160px" title="PENDENTE" type="button" class="btn btn-primary" alt="" data-toggle="modal" data-target="#myModal"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                            
+                                            echo '<div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                      <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                      '.$result[$i]['ticket_peixe_urbano'].'
+                                                                      
+                                                                    <select id="pay_day" class="form-control">
+                                                                        <option value="1">CONFERIDO</option>
+                                                                        <option value="2" selected="true">PENDENTE</option>
+                                                                        <option value="3">ERRADO</option>
+                                                                    </select>
+
+
+
+                                                                      <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                                                  </div>
+                                                                  <div class="modal-footer">                                                                      
+                                                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
+                                                                      </button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>                                                        
+                                                    </div> ';                                           
+                                        }else
+                                        if($result[$i]['ticket_peixe_urbano_status_id']==='3'){
+                                            echo '<a target="_blank" href="'.base_url().'index.php/admin/ticket_peixe_urbano_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" title="ERRADO" type="button" class="btn btn-danger"> <span class="ladda-label">Peixe urbano</span></button></a><br><br>';                                            
+                                        }
+                                    }
+                                        
+                                    
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>CC number: </b>'.$result[$i]['credit_card_number'].'<br>';
@@ -210,10 +252,9 @@
                                         echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';
                                     }                                        
                                     else    
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';                                    
-                                    
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';                                                                        
                                     echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" type="button" class="btn btn-success"> <span class="ladda-label">Perfis de referência</span></button></a><br><br>';
-                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" type="button" class="btn btn-success" disabled="true"> <span class="ladda-label">Check login</span></button></a><br><br>';
+                                    
                                 echo '</td>';
                             echo '</tr>';
                         }

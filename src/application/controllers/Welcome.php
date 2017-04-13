@@ -2,18 +2,6 @@
 
 class Welcome extends CI_Controller {
     
-//    public function index() {
-//        //number_format($float,0,'.','');
-//        $float = 2990/100;
-//        $string = sprintf("%.2f", $float); // $string = "0.123";
-//        $string=str_replace(array("."), ',', $string);
-//        var_dump($string);
-//    }
-    
-    public function index_teste0() {
-        $this->update_client_after_retry_payment_success(372);
-    }
-
     public function index_teste1(){
         $this->get_names_by_chars('');
     }
@@ -46,7 +34,7 @@ class Welcome extends CI_Controller {
         //}
     }
     
-    public function index() {
+       public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -775,6 +763,11 @@ class Welcome extends CI_Controller {
                     'credit_card_exp_month' => $datas['credit_card_exp_month'],
                     'credit_card_exp_year' => $datas['credit_card_exp_year']
                 ));
+                if(isset($datas['ticket_peixe_urbano'])){
+                    $this->client_model->update_client($datas['pk'], array(
+                        'ticket_peixe_urbano' => $datas['ticket_peixe_urbano']                    
+                    ));
+                }
             } catch (Exception $exc) {
                 $result['success'] = false;
                 $result['exception'] = $exc->getTraceAsString();
@@ -1473,54 +1466,60 @@ class Welcome extends CI_Controller {
         $this->session->sess_destroy();
         header('Location: ' . base_url().'index.php/welcome/');
     }
-
-    public function update_client_after_retry_payment_success($user_id) {
-        if(mundipagg_retry_payment($user_id)){
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
-            $this->load->model('class/client_model');
-            $this->load->model('class/user_model');
-            $this->load->model('class/user_status');
-            //1. recuperar el cliente y su plano
-            $client = $this->client_model->get_all_data_of_client($user_id)[0];
-            $plane = $this->client_model->get_plane($client['plane_id'])[0];
-            //2. eliminar recurrencia actual en la Mundipagg
-            $this->delete_recurrency_payment($client['order_key']);
-            //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
-            date_default_timezone_set('Etc/UTC');
-            $payment_data['credit_card_number'] = $client['credit_card_number'];
-            $payment_data['credit_card_name'] = $client['credit_card_name'];
-            $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
-            $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-            $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-            $payment_data['amount_in_cents'] = $plane['normal_val'];
-            $payment_data['pay_day'] = strtotime("+1 month", time());
-            $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
-            //4. salvar nuevos pay_day e order_key
-            if (is_object($resp) && $resp->isSuccess()) {
-                $this->client_model->update_client($user_id, array(
-                    'order_key' => $resp->getData()->OrderResult->OrderKey,
-                    'pay_day' => $payment_data['pay_day']));            
-                //5. actualizar status del cliente
-                $data_insta = $this->is_insta_user($client['login'], $client['pass']);
-                if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                    $this->user_model->update_user($user_id, array(
-                        'status_id' => user_status::ACTIVE
-                    ));
-                } else
-                if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
-                    $this->user_model->update_user($user_id, array(
-                        'status_id' => user_status::BLOCKED_BY_INSTA
-                    ));
-                
-                
-                else
-                    $this->user_model->update_user($user_id, array(
-                        'status_id' => user_status::BLOCKED_BY_INSTA
-                    ));
-            }
+    
+    public function update_all_retry_clients(){
+        //$array_ids=array(715,1176,1735,2821,2193,245,2942,3423,4629,5187,5885,6211,6351,6512,6544,7724,7952,7953,8239,8326,8450,11428,10981,11323,11527,11461,11271,11431,11522);
+        $array_ids=array(2942,3423,5187,5885,6211,7952,7953,8239,11428,10981,11527,11461,11431,11522);
+        $N=count($array_ids);
+        for($i=0;$i<$N;$i++){
+            $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
 
-    
+    public function update_client_after_retry_payment_success($user_id) {        
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        //1. recuperar el cliente y su plano
+        $client = $this->client_model->get_all_data_of_client($user_id)[0];
+        $plane = $this->client_model->get_plane($client['plane_id'])[0];
+        //2. eliminar recurrencia actual en la Mundipagg
+        $this->delete_recurrency_payment($client['order_key']);
+        //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
+        date_default_timezone_set('Etc/UTC');
+        $payment_data['credit_card_number'] = $client['credit_card_number'];
+        $payment_data['credit_card_name'] = $client['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+        $payment_data['amount_in_cents'] = $plane['normal_val'];
+        $payment_data['pay_day'] = strtotime("+1 month", time());
+        $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
+        //4. salvar nuevos pay_day e order_key
+        if (is_object($resp) && $resp->isSuccess()) {
+            $this->client_model->update_client($user_id, array(
+                'order_key' => $resp->getData()->OrderResult->OrderKey,
+                'pay_day' => $payment_data['pay_day'])); 
+            echo 'Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            //5. actualizar status del cliente
+            $data_insta = $this->is_insta_user($client['login'], $client['pass']);
+            if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                $this->user_model->update_user($user_id, array(
+                    'status_id' => user_status::ACTIVE
+                ));
+            } else
+            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
+                $this->user_model->update_user($user_id, array(
+                    'status_id' => user_status::BLOCKED_BY_INSTA
+                ));
+
+
+            else
+                $this->user_model->update_user($user_id, array(
+                    'status_id' => user_status::BLOCKED_BY_INSTA
+                ));
+        }        
+    }
 }
