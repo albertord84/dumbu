@@ -191,7 +191,7 @@ namespace dumbu\cls {
             $count = 0;
             if ($this->reference_profiles) {
                 foreach ($this->reference_profiles as $ref_prof) {
-                    if (!$ref_prof->deleted) {
+                    if (!$ref_prof->deleted && $ref_prof->end_date == NULL) {
                         $count++;
                     }
                 }

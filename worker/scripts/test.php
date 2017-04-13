@@ -10,6 +10,7 @@ require_once '../class/Reference_profile.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
+var_dump('' == NULL);
 
 //$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
 //
