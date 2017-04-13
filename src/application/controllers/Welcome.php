@@ -2,6 +2,14 @@
 
 class Welcome extends CI_Controller {
     
+//    public function index() {
+//        //number_format($float,0,'.','');
+//        $float = 2990/100;
+//        $string = sprintf("%.2f", $float); // $string = "0.123";
+//        $string=str_replace(array("."), ',', $string);
+//        var_dump($string);
+//    }
+    
     public function index_teste0() {
         $this->update_client_after_retry_payment_success(372);
     }
@@ -1331,7 +1339,9 @@ class Welcome extends CI_Controller {
             if($login_data->json_response->authenticated) {
                 $data_insta['authenticated'] = true;
                 $data_insta['insta_id'] = $login_data->ds_user_id;
+                
                 //$user_data = $this->Robot->get_insta_ref_prof_data($client_login);
+                
                 $user_data = $this->Robot->get_insta_ref_prof_data_from_client($login_data,$client_login);
                 $data_insta['insta_followers_ini'] = $user_data->follower_count;
                 $data_insta['insta_following'] = $user_data->following;

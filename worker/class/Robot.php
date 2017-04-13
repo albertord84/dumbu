@@ -828,12 +828,15 @@ namespace dumbu\cls {
                     $headers[] = "Authority: www.instagram.com";
                     $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
                     $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
-                    $ch = curl_init();
+                    $ch = curl_init("https://www.instagram.com/");
                     curl_setopt($ch, CURLOPT_URL, $url);
                     curl_setopt($ch, CURLOPT_HEADER, FALSE);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);                    
                     $output = curl_exec($ch);
+                    $string=curl_error($ch );
                     $content = json_decode($output);
                     //var_dump($content);
                     if (is_object($content) && $content->status === 'ok') {

@@ -140,7 +140,7 @@ namespace dumbu\cls {
 
                 //Define dados do pedido
                 $createSaleRequest->getOrder()
-                        ->setOrderReference('NumeroDopedido');
+                        ->setOrderReference($payment_data['pay_day']);
 
                 // Cria um objeto ApiClient
                 $apiClient = new \Gateway\ApiClient();
