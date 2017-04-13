@@ -633,9 +633,9 @@ namespace dumbu\cls {
             global $cookies;
             $cookies = array();
             $response = curl_exec($ch);
-            
+
             $csrftoken = $this->get_cookies_value("csrftoken");
-            
+
             return $csrftoken;
         }
 
@@ -799,7 +799,7 @@ namespace dumbu\cls {
                 return NULL;
             }
         }
-          
+
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
             try {
                 $User = NULL;
@@ -807,21 +807,33 @@ namespace dumbu\cls {
                     $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
                     $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
                     $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
-//                    $csrftoken =  $cookies->csrftoken;
-//                    $ds_user_id =  $cookies->ds_user_id;
-//                    $sessionid =  $cookies->sessionid;
+                    $mid = isset($cookies->mid) ? $cookies->mid : 0;
+                    $headers = array();
+                    $headers[] = "Host: www.instagram.com";
+                    $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+                    //            $headers[] = "Accept: application/json";
+                    $headers[] = "Accept: */*";
+                    $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
+
+                    $headers[] = "Accept-Encoding: gzip, deflate, sdch";
+                    $headers[] = "Referer: https://www.instagram.com/";
+                    $headers[] = "X-CSRFToken: $csrftoken";
+                    $ip = "127.0.0.1";
+                    $headers[] = "REMOTE_ADDR: $ip";
+                    $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+
+                    $headers[] = "Content-Type: application/x-www-form-urlencoded";
+//            $headers[] = "Content-Type: application/json";
+                    $headers[] = "X-Requested-With: XMLHttpRequest";
+                    $headers[] = "Authority: www.instagram.com";
+                    $headers[] = "Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
                     $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
-                    $curl_str = "curl '$url' ";
-                    $curl_str .= "-H 'Accept-Encoding: gzip, deflate, sdch' ";
-                    $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
-                    $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-                    $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-                    $curl_str .= "-H 'Accept: *' ";
-                    $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-                    $curl_str .= "-H 'Authority: www.instagram.com' ";
-                    $curl_str .= "-H 'Cookie: mid=V9WouwAEAAEC24F7E7oIcleD-vkG; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
-                    $curl_str .= "--compressed ";
-                    exec($curl_str, $output, $status);
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_HEADER, 1);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    $output = curl_exec($ch);
+                    var_dump($output);
+                    die("Test");
                     $content = json_decode($output[0]);
                     if (is_object($content) && $content->status === 'ok') {
                         $users = $content->users;
