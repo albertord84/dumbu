@@ -2,11 +2,39 @@
 
 class Welcome extends CI_Controller {
     
-//    public function index() {
-//        $this->update_client_after_retry_payment_success(372);
-//    }
+    public function index_teste1(){
+        $this->get_names_by_chars('');
+    }
     
-    public function index() {
+    public function get_names_by_chars($str) {
+        //if($this->session->userdata('role_id') == user_role::CLIENT){
+            //$cookies=json_decode($this->session->userdata('cookies'));            
+            $cookies=json_decode('{"json_response":{"status":"ok","authenticated":true,"user":"pedropetti"},"csrftoken":"viMkXgvBet7A6tOtA49Dk9GOqRHhUVk8","sessionid":"IGSCddb0f99140f99ed60b2253791cf1c7440704efb45c49ffdd0087c2316c6466fc%3A7hOvRf21cWTPiK1fr7NmXKqUIQpJNi50%3A%7B%22_platform%22%3A4%2C%22_token%22%3A%22236116119%3AY4jraowwqPRFrAusPWnOmyVhhgC0azGl%3Ac08bfcc8a7211576a2afdbc00decc7b4cbfe2a75e7463a7193edb5aeec857b24%22%2C%22_auth_user_id%22%3A236116119%2C%22last_refreshed%22%3A1487691811.210267%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_auth_user_hash%22%3A%22%22%7D","ds_user_id":"236116119","mid":"WKxgIgAEAAH0_piJBh2rj6clWGWP"}');
+            
+            
+            //curl "https://www.instagram.com/web/search/topsearch/?context=blended&query=i&rank_token=0.874990638870338" --2.0 
+            
+            $headers = array();
+            $headers[] = 'Host: www.instagram.com';
+            $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0';
+            $headers[] = 'Accept: */*';
+            $headers[] = 'Accept-Language: es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3'; //--compressed 
+            //$headers[] = 'Referer: https://www.instagram.com/explore/locations/219153358/tio-sam-camboinhas/'; 
+            $headers[] = 'X-Requested-With: XMLHttpRequest'; 
+            $headers[] = 'Cookie: mid='.$cookies->mid.'; fbm_124024574287414=base_domain=.instagram.com; csrftoken='.$cookies->csrftoken.'; rur=FRC; ig_vw=1280; ig_pr=1; ds_user_id='.$cookies->ds_user_id.'; sessionid='.$cookies->sessionid.'; s_network="""""';
+            $headers[] = "Connection: keep-alive";
+            
+            $url = "https://www.instagram.com/accounts/login/ajax/";
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $html = curl_exec($ch);
+            $info = curl_getinfo($ch);
+        //}
+    }
+    
+       public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -735,6 +763,11 @@ class Welcome extends CI_Controller {
                     'credit_card_exp_month' => $datas['credit_card_exp_month'],
                     'credit_card_exp_year' => $datas['credit_card_exp_year']
                 ));
+                if(isset($datas['ticket_peixe_urbano'])){
+                    $this->client_model->update_client($datas['pk'], array(
+                        'ticket_peixe_urbano' => $datas['ticket_peixe_urbano']                    
+                    ));
+                }
             } catch (Exception $exc) {
                 $result['success'] = false;
                 $result['exception'] = $exc->getTraceAsString();
@@ -1141,7 +1174,7 @@ class Welcome extends CI_Controller {
         return $datas;
     }
 
-//functions for reference profiles
+    //functions for reference profiles
     public function client_insert_profile() {
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
@@ -1166,8 +1199,8 @@ class Welcome extends CI_Controller {
             if (!$is_active_profile && !$is_deleted_profile) {
                 if ($N < $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas = $this->check_insta_profile($profile['profile']);
-                    if ($profile_datas) {
-                        if (!$profile_datas->is_private) {
+                    if($profile_datas) {                                                
+                        if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);
                             if ($p) {
                                 if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
@@ -1191,7 +1224,7 @@ class Welcome extends CI_Controller {
                         } else {
                             $result['success'] = false;
                             $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']));
-                        }
+                        }                        
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é um perfil do Instagram', array(0 => $profile['profile']));
@@ -1299,7 +1332,9 @@ class Welcome extends CI_Controller {
             if($login_data->json_response->authenticated) {
                 $data_insta['authenticated'] = true;
                 $data_insta['insta_id'] = $login_data->ds_user_id;
+                
                 //$user_data = $this->Robot->get_insta_ref_prof_data($client_login);
+                
                 $user_data = $this->Robot->get_insta_ref_prof_data_from_client($login_data,$client_login);
                 $data_insta['insta_followers_ini'] = $user_data->follower_count;
                 $data_insta['insta_following'] = $user_data->following;
@@ -1431,54 +1466,60 @@ class Welcome extends CI_Controller {
         $this->session->sess_destroy();
         header('Location: ' . base_url().'index.php/welcome/');
     }
-
-    public function update_client_after_retry_payment_success($user_id) {
-        if(mundipagg_retry_payment($user_id)){
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
-            $this->load->model('class/client_model');
-            $this->load->model('class/user_model');
-            $this->load->model('class/user_status');
-            //1. recuperar el cliente y su plano
-            $client = $this->client_model->get_all_data_of_client($user_id)[0];
-            $plane = $this->client_model->get_plane($client['plane_id'])[0];
-            //2. eliminar recurrencia actual en la Mundipagg
-            $this->delete_recurrency_payment($client['order_key']);
-            //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
-            date_default_timezone_set('Etc/UTC');
-            $payment_data['credit_card_number'] = $client['credit_card_number'];
-            $payment_data['credit_card_name'] = $client['credit_card_name'];
-            $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
-            $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-            $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-            $payment_data['amount_in_cents'] = $plane['normal_val'];
-            $payment_data['pay_day'] = strtotime("+1 month", time());
-            $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
-            //4. salvar nuevos pay_day e order_key
-            if (is_object($resp) && $resp->isSuccess()) {
-                $this->client_model->update_client($user_id, array(
-                    'order_key' => $resp->getData()->OrderResult->OrderKey,
-                    'pay_day' => $payment_data['pay_day']));            
-                //5. actualizar status del cliente
-                $data_insta = $this->is_insta_user($client['login'], $client['pass']);
-                if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                    $this->user_model->update_user($user_id, array(
-                        'status_id' => user_status::ACTIVE
-                    ));
-                } else
-                if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
-                    $this->user_model->update_user($user_id, array(
-                        'status_id' => user_status::BLOCKED_BY_INSTA
-                    ));
-                
-                
-                else
-                    $this->user_model->update_user($user_id, array(
-                        'status_id' => user_status::BLOCKED_BY_INSTA
-                    ));
-            }
+    
+    public function update_all_retry_clients(){
+        //$array_ids=array(715,1176,1735,2821,2193,245,2942,3423,4629,5187,5885,6211,6351,6512,6544,7724,7952,7953,8239,8326,8450,11428,10981,11323,11527,11461,11271,11431,11522);
+        $array_ids=array(2942,3423,5187,5885,6211,7952,7953,8239,11428,10981,11527,11461,11431,11522);
+        $N=count($array_ids);
+        for($i=0;$i<$N;$i++){
+            $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
 
-    
+    public function update_client_after_retry_payment_success($user_id) {        
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        //1. recuperar el cliente y su plano
+        $client = $this->client_model->get_all_data_of_client($user_id)[0];
+        $plane = $this->client_model->get_plane($client['plane_id'])[0];
+        //2. eliminar recurrencia actual en la Mundipagg
+        $this->delete_recurrency_payment($client['order_key']);
+        //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
+        date_default_timezone_set('Etc/UTC');
+        $payment_data['credit_card_number'] = $client['credit_card_number'];
+        $payment_data['credit_card_name'] = $client['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+        $payment_data['amount_in_cents'] = $plane['normal_val'];
+        $payment_data['pay_day'] = strtotime("+1 month", time());
+        $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
+        //4. salvar nuevos pay_day e order_key
+        if (is_object($resp) && $resp->isSuccess()) {
+            $this->client_model->update_client($user_id, array(
+                'order_key' => $resp->getData()->OrderResult->OrderKey,
+                'pay_day' => $payment_data['pay_day'])); 
+            echo 'Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            //5. actualizar status del cliente
+            $data_insta = $this->is_insta_user($client['login'], $client['pass']);
+            if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                $this->user_model->update_user($user_id, array(
+                    'status_id' => user_status::ACTIVE
+                ));
+            } else
+            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
+                $this->user_model->update_user($user_id, array(
+                    'status_id' => user_status::BLOCKED_BY_INSTA
+                ));
+
+
+            else
+                $this->user_model->update_user($user_id, array(
+                    'status_id' => user_status::BLOCKED_BY_INSTA
+                ));
+        }        
+    }
 }

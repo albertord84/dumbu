@@ -749,12 +749,17 @@
                                     <select name="local" id="client_update_plane" class="btn-primeiro sel"> 
                                         <?php
                                         for ($i = 0; $i < count($all_planes); $i++) {
-                                            if ($i + 2 == $plane_id)
-//                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . $currency . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0 (' . $CI->T("Plano atual", array()) . ')</b></option>';
-                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . 'R$' . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0 (' . $CI->T("Plano atual", array()) . ')</b></option>';
-                                            else
-                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . $currency . ' ' . $CI->T(($all_planes[$i]['normal_val']) / 100) . '0</option>';
-                                                //echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . 'R$' . ' ' . (($all_planes[$i]['normal_val']) / 100) . '0</option>';
+                                            if ($i + 2 == $plane_id){
+                                                $float = ($all_planes[$i]['normal_val']) / 100;
+                                                $string = sprintf("%.2f", $float);
+                                                $string=str_replace(array("."), ',', $string);                                                
+                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . $CI->T("R$",array()) . ' ' . $CI->T($string) . ' (' . $CI->T("Plano atual", array()) . ')</b></option>';
+                                            } else{
+                                                $float = ($all_planes[$i]['normal_val']) / 100;
+                                                $string = sprintf("%.2f", $float);
+                                                $string=str_replace(array("."), ',', $string);                                                
+                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . $CI->T("R$",array()) . ' ' . $CI->T($string) . '</option>';                                                
+                                            }
                                         }
                                         ?>
                                     </select>

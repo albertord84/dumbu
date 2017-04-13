@@ -137,10 +137,8 @@ $(document).ready(function () {
             var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
             var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
             var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
-            if (name && number && cvv && month && year) {
-                $.ajax({
-                    url: base_url + 'index.php/welcome/check_client_data_bank',
-                    data: {
+            if (name && number && cvv && month && year) {                
+                    datas={
                         'user_login': login,
                         'user_pass': pass,
                         'user_email': email,
@@ -154,7 +152,12 @@ $(document).ready(function () {
                         'plane_type': plane,
                         'pk': pk,
                         'datas': datas
-                    },
+                    };
+                    if(languaje==='PT')
+                        datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
+                $.ajax({
+                    url: base_url + 'index.php/welcome/check_client_data_bank',
+                    data: datas,
                     type: 'POST',
                     dataType: 'json',
                     success: function (response) {
