@@ -330,10 +330,10 @@
 					</div>
                                         <div id="login_sign_in" class="login fleft100 input-form">
 						<fieldset>
-                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal",array());?>" required>
+                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal",array());?>" required value="<?php if(isset($_GET) && count($_GET)) echo $_GET['email']; else echo '';?>">
 						</fieldset>
 						<fieldset>
-							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram",array());?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram",array());?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required value="<?php if(isset($_GET) && count($_GET)) echo $_GET['username']; else echo '';?>">
 						</fieldset>
 						<fieldset>
 							<input id = "signin_clientPassword" type="password" placeholder="<?php echo $CI->T("Senha Instagram",array());?>" required>

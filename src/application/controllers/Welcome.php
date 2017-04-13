@@ -2,11 +2,39 @@
 
 class Welcome extends CI_Controller {
     
-    public function index() {
-        $this->update_client_after_retry_payment_success(372);
+    public function index1(){
+        $this->get_names_by_chars('');
     }
     
-    public function index1() {
+    public function get_names_by_chars($str) {
+        //if($this->session->userdata('role_id') == user_role::CLIENT){
+            //$cookies=json_decode($this->session->userdata('cookies'));            
+            $cookies=json_decode('{"json_response":{"status":"ok","authenticated":true,"user":"pedropetti"},"csrftoken":"viMkXgvBet7A6tOtA49Dk9GOqRHhUVk8","sessionid":"IGSCddb0f99140f99ed60b2253791cf1c7440704efb45c49ffdd0087c2316c6466fc%3A7hOvRf21cWTPiK1fr7NmXKqUIQpJNi50%3A%7B%22_platform%22%3A4%2C%22_token%22%3A%22236116119%3AY4jraowwqPRFrAusPWnOmyVhhgC0azGl%3Ac08bfcc8a7211576a2afdbc00decc7b4cbfe2a75e7463a7193edb5aeec857b24%22%2C%22_auth_user_id%22%3A236116119%2C%22last_refreshed%22%3A1487691811.210267%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_auth_user_hash%22%3A%22%22%7D","ds_user_id":"236116119","mid":"WKxgIgAEAAH0_piJBh2rj6clWGWP"}');
+            
+            
+            //curl "https://www.instagram.com/web/search/topsearch/?context=blended&query=i&rank_token=0.874990638870338" --2.0 
+            
+            $headers = array();
+            $headers[] = 'Host: www.instagram.com';
+            $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0';
+            $headers[] = 'Accept: */*';
+            $headers[] = 'Accept-Language: es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3'; //--compressed 
+            //$headers[] = 'Referer: https://www.instagram.com/explore/locations/219153358/tio-sam-camboinhas/'; 
+            $headers[] = 'X-Requested-With: XMLHttpRequest'; 
+            $headers[] = 'Cookie: mid='.$cookies->mid.'; fbm_124024574287414=base_domain=.instagram.com; csrftoken='.$cookies->csrftoken.'; rur=FRC; ig_vw=1280; ig_pr=1; ds_user_id='.$cookies->ds_user_id.'; sessionid='.$cookies->sessionid.'; s_network="""""';
+            $headers[] = "Connection: keep-alive";
+            
+            $url = "https://www.instagram.com/accounts/login/ajax/";
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $html = curl_exec($ch);
+            $info = curl_getinfo($ch);
+        //}
+    }
+    
+    public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -1141,7 +1169,7 @@ class Welcome extends CI_Controller {
         return $datas;
     }
 
-//functions for reference profiles
+    //functions for reference profiles
     public function client_insert_profile() {
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
@@ -1166,8 +1194,8 @@ class Welcome extends CI_Controller {
             if (!$is_active_profile && !$is_deleted_profile) {
                 if ($N < $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas = $this->check_insta_profile($profile['profile']);
-                    if ($profile_datas) {
-                        if (!$profile_datas->is_private) {
+                    if($profile_datas) {                                                
+                        if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk);
                             if ($p) {
                                 if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
@@ -1191,7 +1219,7 @@ class Welcome extends CI_Controller {
                         } else {
                             $result['success'] = false;
                             $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']));
-                        }
+                        }                        
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é um perfil do Instagram', array(0 => $profile['profile']));
