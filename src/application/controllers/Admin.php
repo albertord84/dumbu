@@ -116,6 +116,21 @@ class Admin extends CI_Controller {
         }
     }
 
+    public function change_ticket_peixe_urbano_status_id() {
+        if ($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            $datas=$this->input->post();
+            if($this->client_model->update_cupom_peixe_urbano_status($datas)){
+                $result['success'] = true;
+                $result['message'] = 'Stauts de Cupom atualizado corretamente';
+            } else{
+                $result['success'] = false;
+                $result['message'] = 'Erro actualizando status do Cupom';
+            }
+            echo json_encode($result);
+        }        
+    }
+    
     public function get_daily_work($active_profiles) {
         $this->load->model('class/client_model');
         $n = count($active_profiles);
