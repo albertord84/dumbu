@@ -29,14 +29,14 @@ namespace dumbu\cls {
             }
         }
 
-        public function get_clients_by_status($user_status) {
+        public function get_clients_by_status($user_status, $uid = 0) {
             try {
                 $this->connect();
                 $sql = ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
-                        . "WHERE users.status_id = $user_status; ";
+                        . "WHERE users.status_id = $user_status AND user_id > $uid; ";
                 
                 $result = mysqli_query($this->connection, $sql);
                 return $result;

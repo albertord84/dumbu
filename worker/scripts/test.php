@@ -10,6 +10,7 @@ require_once '../class/Reference_profile.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
+var_dump('' == NULL);
 
 //$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
 //
@@ -70,10 +71,10 @@ $RP = new \dumbu\cls\Reference_profile();
 $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
-$client = $Client->get_client(11472);
-$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'alberto_dreyes');
+//$client = $Client->get_client(11472);
+//$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'josergm86');
 //$profile_data = json_decode($profile_data,true);
-var_dump($profile_data);
+//var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
 //$result = $DB->insert_client_daily_report(1624, $profile_data);
 //$Client->create_daily_work(234);
