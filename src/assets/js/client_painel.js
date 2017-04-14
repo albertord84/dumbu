@@ -511,6 +511,5 @@ $(document).ready(function () {
         }
     }
 
-
     init_icons_profiles(profiles);
 }); 
