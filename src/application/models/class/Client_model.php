@@ -374,7 +374,6 @@
             
             //desactivating reference profile
             try {
-                
                 $this->db->where(array('client_id'=>$clien_id, 'insta_name'=>$profile, 'deleted'=>'0'));
                 $this->db->update('reference_profile',array('deleted'=>'1'));
                 return true;
@@ -391,6 +390,17 @@
                 return $this->db->get()->row_array();
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
+            }
+        }   
+        
+        public function update_cupom_peixe_urbano_status($datas){            
+            try {                
+                $this->db->where('user_id',$datas['user_id']);
+                $this->db->update('clients',$datas);
+                return true;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+                return false;
             }
         }   
     // end of Client

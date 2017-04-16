@@ -185,41 +185,82 @@
                                     echo '<br><br>';
                                     if($result[$i]['ticket_peixe_urbano']!=NULL){
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='1'){
-                                            echo '<a target="_blank" href="'.base_url().'index.php/admin/ticket_peixe_urbano_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success"> <span class="ladda-label">Peixe urbano</span></button></a><br><br>';                                            
-                                        }else
-                                        if($result[$i]['ticket_peixe_urbano_status_id']==='2'){
-                                            echo '<button style="width:160px" title="PENDENTE" type="button" class="btn btn-primary" alt="" data-toggle="modal" data-target="#myModal"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                            
-                                            echo '<div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                                        <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
+                                            echo '<button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success" alt="" data-toggle="modal" data-target="#myModal_1"> <span class="ladda-label">Peixe urbano</span></button><br><br>';
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog modal-sm" role="document">                                                          
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
                                                                       <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                                       <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
                                                                   </div>
                                                                   <div class="modal-body">
-                                                                      '.$result[$i]['ticket_peixe_urbano'].'
-                                                                      
-                                                                    <select id="pay_day" class="form-control">
-                                                                        <option value="1">CONFERIDO</option>
-                                                                        <option value="2" selected="true">PENDENTE</option>
+                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'                                                                      
+                                                                    <select id="select_option_ticket_peixe_urbano_status_id_1" class="form-control" disabled="true">
+                                                                        <option value="1" selected="true">CONFERIDO</option>
+                                                                        <option value="2" >PENDENTE</option>
                                                                         <option value="3">ERRADO</option>
-                                                                    </select>
-
-
-
-                                                                      <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                                                    </select>                                                                      
                                                                   </div>
                                                                   <div class="modal-footer">                                                                      
-                                                                      <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                      <button disabled="true" id="btn_change_ticket_peixe_urbano_status_id_1" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                                                           <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
                                                                       </button>
                                                                   </div>
                                                               </div>
                                                           </div>                                                        
-                                                    </div> ';                                           
+                                                    </div> '; 
+                                        }else
+                                        if($result[$i]['ticket_peixe_urbano_status_id']==='2'){
+                                            echo '<button id="btn_cupom_'.$result[$i]['user_id'].'" style="width:160px" title="PENDENTE" type="button" class="btn btn-primary" alt="" data-toggle="modal" data-target="#myModal_2"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                            
+                                            echo '<div class="modal" style="top:30%" id="myModal_2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog modal-sm" role="document">                                                          
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                      <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
+                                                                  </div>
+                                                                  <div id="cupom_container" class="modal-body">
+                                                                        <p id="'.$result[$i]['user_id'].'"> CUPOM: '.$result[$i]['ticket_peixe_urbano'].'</p>
+                                                                        <select id="select_option_ticket_peixe_urbano_status_id" class="form-control">
+                                                                            <option id="option_confered" value="1">CONFERIDO</option>
+                                                                            <option id="option_pending" value="2" selected="true">PENDENTE</option>
+                                                                            <option id="option_wrong" value="3">ERRADO</option>
+                                                                        </select>                                                                      
+                                                                  </div>
+                                                                  <div class="modal-footer">                                                                      
+                                                                      <button id="btn_change_ticket_peixe_urbano_status_id" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
+                                                                      </button>
+                                                                  </div>
+                                                              </div>
+                                                        </div>                                                        
+                                                  </div> ';                                           
                                         }else
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='3'){
-                                            echo '<a target="_blank" href="'.base_url().'index.php/admin/ticket_peixe_urbano_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" title="ERRADO" type="button" class="btn btn-danger"> <span class="ladda-label">Peixe urbano</span></button></a><br><br>';                                            
+                                            echo '<button style="width:160px" title="ERRADO" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_3"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog modal-sm" role="document">                                                          
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                      <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'                                                                      
+                                                                    <select id="select_option_ticket_peixe_urbano_status_id_3" class="form-control" disabled="true">
+                                                                        <option value="1" >CONFERIDO</option>
+                                                                        <option value="2" >PENDENTE</option>
+                                                                        <option value="3" selected="true">ERRADO</option>
+                                                                    </select>                                                                      
+                                                                  </div>
+                                                                  <div class="modal-footer">                                                                      
+                                                                      <button disabled="true" id="btn_change_ticket_peixe_urbano_status_id_3" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
+                                                                      </button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>                                                        
+                                                    </div> '; 
                                         }
                                     }
                                         

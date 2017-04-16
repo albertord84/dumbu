@@ -1,4 +1,40 @@
 $(document).ready(function(){
+    
+    $("#btn_change_ticket_peixe_urbano_status_id").click(function(){        
+        var l = Ladda.create(this);  l.start();
+        $.ajax({
+            url : base_url+'index.php/admin/change_ticket_peixe_urbano_status_id',
+            data : {
+                'ticket_peixe_urbano_status_id':$("#select_option_ticket_peixe_urbano_status_id").val(),
+                'user_id':$('#cupom_container').children('p').attr("id")                
+            },
+            type : 'POST',
+            dataType : 'json',
+            success : function(response){
+                if(response['success']){
+                    $("#btn_change_ticket_peixe_urbano_status_id").attr("disabled",true);
+                    $("#select_option_ticket_peixe_urbano_status_id").attr("disabled",true);
+                    $("#myModal_2").modal('hide');                    
+                    if($("#select_option_ticket_peixe_urbano_status_id").val()==='1'){
+                        $("#btn_cupom_"+$('#cupom_container').children('p').attr("id")).attr("class","btn btn-success")
+                        $("#option_pending").attr("selected",false);
+                        $("#option_confered").attr("selected",true);
+                    }    
+                    else if($("#select_option_ticket_peixe_urbano_status_id").val()==='3'){                        
+                        $("#btn_cupom_"+$('#cupom_container').children('p').attr("id")).attr("class","btn btn-danger");
+                        $("#option_wrong").attr("selected",false);
+                        $("#option_confered").attr("selected",true);
+                    }
+                } else
+                    alert(response['message']);
+            },
+            error : function(xhr, status) {
+                alert('Não foi possível realizar a operação de atualização do status do cupom');
+            }
+        });
+        l.stop();
+    });
+    
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            $("#signin_initial_date").val()==='' &&
