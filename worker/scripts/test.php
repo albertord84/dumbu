@@ -10,34 +10,6 @@ require_once '../class/Reference_profile.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
-var_dump('' == NULL);
-
-//$response = strpos("Parece que você estava usando esse recurso indevidamente de forma muito rápida. Você foi impedido de usá-lo.
-//
-//Saiba mais sobre bloqueios na Central de Ajuda.", 'Parece que você estava usando esse recurso indevidamente de forma muito rápida.');
-//
-//if ($response !== false) {
-//    print 'FOUND';
-//} else {
-//    var_dump($response);
-//}
-
-
-// No esta insertando en la grafica qdo está en unfollow total
-//$DB = new \dumbu\cls\DB();
-//$clients_data = $DB->get_clients_by_status(10);
-//
-//var_dump($clients_data->num_rows);
-//while ($client_data = $clients_data->fetch_object()) {
-//    var_dump($client_data->login);
-//}
-
-
-//$clients_data = $DB->get_clients_data();
-//while ($client_data = $clients_data->fetch_object()) {
-//    var_dump($client_data->login);
-//}
-
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
@@ -137,10 +109,6 @@ $Payment = new dumbu\cls\Payment();
 //$pay_day = strtotime('09/02/2017 14:04:49');
 //var_dump($pay_day);
 //
-//
-//$pay_day = strtotime('11/03/2017 14:04:49');
-//var_dump($pay_day);
-//
 //$d_today = date("j", $now);
 //$m_today = date("n", $now);
 //$y_today = date("Y", $now);
@@ -183,6 +151,8 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+
+
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
@@ -202,6 +172,28 @@ $Gmail = new dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
+ini_set('xdebug.var_display_max_depth', 5);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
+
+//$client = $Client->get_client(1);
+//$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '624804708', 5);
+//var_dump($result->media->nodes[0]->owner);
+//
+//$Profiles = array();
+//foreach ($result->media->nodes as $Profile) {
+//    array_push($Profiles, $Profile->owner);
+//}
+
+
+$daily_work = (new dumbu\cls\DB())->get_follow_work();
+$daily_work->login_data = json_decode($daily_work->cookies);
+(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
+//$Profiles = $Robot->get_profiles_to_follow($daily_work);
+//var_dump($Profiles);
+
+
+//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
 
 //$client = $Client->get_client(1);
 //$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
@@ -226,20 +218,6 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
 //$result = $Robot->bot_login("dona_fina", "aquarell2016");
-//var_dump($result);
-//$result = $Robot->bot_login("abrfuncional", "treinoabr");
-//var_dump($result);
-//$result = $Robot->bot_login("jeff_need", "24549088");
-//var_dump($result);
-//$result = $Robot->bot_login("baladauberlandia", "calypso");
-//var_dump($result);
-//$result = $Robot->bot_login("alberto_dreyes", "albertord4");
-//var_dump($result);
-//$result = $Robot->bot_login("josergm86", "josergm1");
-//var_dump($result);
-//$result = $Robot->bot_login("smartsushidelivery", "838485");
-//var_dump($result);
-//$result = $Robot->bot_login("pedropetti", "Pp106020946");
 //var_dump($result);
 //----------------------------------------------------------------
 //

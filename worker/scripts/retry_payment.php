@@ -41,13 +41,13 @@ function retry_payment($order_key) {
         // Get last client payment
         foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
             $SaleDataDate = new DateTime($SaleData->DueDate);
-            if ($SaleData->CapturedAmountInCents == NULL && ($RetrySaleData == NULL || $SaleDataDate > new DateTime($RetrySaleData->DueDate)) && $SaleDataDate < $now) {
+            if (($RetrySaleData == NULL || $SaleDataDate > new DateTime($RetrySaleData->DueDate)) && $SaleDataDate < $now) {
                 $RetrySaleData = $SaleData;
             }
         }
     }
 
-    if ($RetrySaleData) {
+    if ($RetrySaleData && $RetrySaleData->CapturedAmountInCents == NULL) {
         //var_dump($RetrySaleData->TransactionKey);
         $result = $Payment->retry_payment_recurrency($order_key, $RetrySaleData->TransactionKey);
         if (is_object($result) && $result->isSuccess()) {

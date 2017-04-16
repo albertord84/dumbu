@@ -217,6 +217,7 @@ namespace dumbu\cls {
                         . "   users.id as users_id, "
                         . "   clients.cookies as client_cookies, "
                         . "   reference_profile.insta_id as rp_insta_id, "
+                        . "   reference_profile.type as rp_type, "
                         . "   reference_profile.id as rp_id "
                         . "FROM daily_work "
                         . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
