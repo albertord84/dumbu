@@ -440,6 +440,7 @@ namespace dumbu\cls {
         public function get_insta_geomedia($login_data, $location, $N, &$cursor = NULL) {
             try {
                 $curl_str = $this->make_curl_geomedia_str("'https://www.instagram.com/query/'", $login_data, $location, $N, $cursor);
+                print_r($curl_str);
                 exec($curl_str, $output, $status);
                 $json = json_decode($output[0]);
                 //var_dump($output);
