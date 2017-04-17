@@ -516,7 +516,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'X-Instagram-ajax: 1' ";
             $curl_str .= "-H 'content-type: application/x-www-form-urlencoded' ";
             $curl_str .= "-H 'Accept: */*' ";
-            $curl_str .= "-H 'Referer: https://www.instagram.com/explore/locations/624804708/christ-the-redeemer/' ";
+            $curl_str .= "-H 'Referer: https://www.instagram.com/explore/locations/$location/' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             if ($cursor === NULL || $cursor === '') {
                 $curl_str .= "--data "
