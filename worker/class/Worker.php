@@ -109,7 +109,7 @@ namespace dumbu\cls {
                         $to_unfollow = $to_follow_unfollow;
                         foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
 //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
-                            if (!$Ref_Prof->deleted && $ref_prof->end_date == NULL) {
+                            if (!$Ref_Prof->deleted && $Ref_Prof->end_date == NULL) {
                                 $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
                             }
                         }
