@@ -187,10 +187,10 @@ ini_set('xdebug.var_display_max_data', 1024);
 
 
 $daily_work = (new dumbu\cls\DB())->get_follow_work();
-$daily_work->login_data = json_decode($daily_work->cookies);
-(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
-//$Profiles = $Robot->get_profiles_to_follow($daily_work);
-//var_dump($Profiles);
+//$daily_work->login_data = json_decode($daily_work->cookies);
+//(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
+$Profiles = $Robot->get_profiles_to_follow($daily_work);
+var_dump($Profiles);
 
 
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
