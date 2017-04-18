@@ -1411,7 +1411,7 @@ class Welcome extends CI_Controller {
             $client_active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
             $N = count($client_active_profiles);
             if ($N > 0) {
-                $array_profiles = array(0);
+//                $array_profiles = array(0);   
                 for ($i = 0; $i < $N; $i++) {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $id_profile = $client_active_profiles[$i]['id'];
@@ -1439,7 +1439,7 @@ class Welcome extends CI_Controller {
                         $response['message'] = 'Profiles unloaded by instagram failed connection';
                     }
                 }
-                $response['array_profiles'] = $array_profiles;
+                $response['array_profiles'] = isset($array_profiles) ? $array_profiles : NULL;
                 $response['message'] = 'Profiles loaded';
             } else {
                 $response['array_profiles'] = NULL;
