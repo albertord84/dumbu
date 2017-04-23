@@ -42,14 +42,14 @@ namespace dumbu\cls {
         public function create_recurrency_payment($payment_data, $recurrence = 0) {
             try {
                 $bloqued = [
-                    "5178057308185854", 
+                    "5178057308185854",
                     "5178057258138580",
                     "4984537159084527"
-                    ];
+                ];
                 if (in_array($payment_data['credit_card_number'], $bloqued)) {
                     throw new \Exception('Credit Card Number Blocked by Hacking! Sending profile and navigation data to police...');
                 }
-                
+
 // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
 //    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
@@ -374,6 +374,30 @@ namespace dumbu\cls {
             } finally {
                 return $response;
             }
+        }
+
+        /**
+         * Check whether the $order_key have any payment done
+         * @param type $order_key
+         * @return boolean
+         */
+        public function check_client_order_paied($order_key) {
+            $result = $this->check_payment($order_key);
+            if (is_object($result) && $result->isSuccess()) {
+                $data = $result->getData();
+                //var_dump($data);
+                $SaleDataCollection = $data->SaleDataCollection[0];
+                foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                    // Get last client payment
+                    //$SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
+                    $SaleDataDate = new DateTime($SaleData->DueDate);
+                    if ($SaleData->CapturedAmountInCents != NULL) {
+                        return TRUE;
+                    }
+                    //var_dump($SaleData);
+                }
+            }
+            return FALSE;
         }
 
         // end of Payment

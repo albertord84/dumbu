@@ -31,7 +31,12 @@ $RP = new \dumbu\cls\Reference_profile();
 //var_dump($follows_count);
 //$Worker = new dumbu\cls\Worker();
 //$Robot = new dumbu\cls\Robot();
-//$DB = new \dumbu\cls\DB();
+
+
+$DB = new \dumbu\cls\DB();
+$result = $DB->is_profile_followed(1, '858888048');
+var_dump($result);
+
 //$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
@@ -176,6 +181,15 @@ ini_set('xdebug.var_display_max_depth', 5);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
+
+//$client = $Client->get_client(1);
+////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
+//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'itacoatiara');
+//var_dump($profile);
+//$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara');
+//var_dump($profile);
+
+
 //$client = $Client->get_client(1);
 //$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '624804708', 5);
 //var_dump($result->media->nodes[0]->owner);
@@ -186,11 +200,11 @@ ini_set('xdebug.var_display_max_data', 1024);
 //}
 
 
-$daily_work = (new dumbu\cls\DB())->get_follow_work();
+//$daily_work = (new dumbu\cls\DB())->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
 //(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
-$Profiles = $Robot->get_profiles_to_follow($daily_work);
-var_dump($Profiles);
+//$Profiles = $Robot->get_profiles_to_follow($daily_work);
+//var_dump($Profiles);
 
 
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
