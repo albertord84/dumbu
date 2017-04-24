@@ -39,12 +39,17 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
 
-        <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->            
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->            
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
         <script type="text/javascript">            
             $(document).ready(function () {
                 followings_data= jQuery.parseJSON('<?php echo $followings; ?>');
-                followers_data= jQuery.parseJSON('<?php echo $followers; ?>');                                    
+                followers_data= jQuery.parseJSON('<?php echo $followers; ?>');
+                
+                /*setTimeout(function () {
+                    alert(chart);
+                }, 5000);*/
+                /*chart.data[1].dataPoints = */'<?php //echo $followers; ?>';
             });
         </script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
@@ -101,11 +106,8 @@
                     echo 'var profiles=' . json_encode($profiles) . ';';
                 else
                     echo 'var profiles=' . json_encode(array()) . ';';
-                
-                if (isset($MAX_NUM_PROFILES)){
+                if (isset($MAX_NUM_PROFILES))
                     echo 'var MAX_NUM_PROFILES=' . $MAX_NUM_PROFILES . ';';
-                    echo 'var MAX_NUM_GEOLOCALIZATION=' . $MAX_NUM_PROFILES . ';';
-                }
                 echo '</script>';
                 ?>
                 <!---------------------------------------------------------------------------------------->
@@ -219,374 +221,147 @@
                         </div>            
                     </div>
                 </div>
-<!---------------------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------------------->
+                <!---------------------------------------------------------------------------------------->
 
                 <!-- Single button -->
-                <!--<div class="btn-group fleft100 m-tb20">
+                <div class="btn-group fleft100 m-tb20">
                     <button type="button" class="btn btn-drop fleft100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b><?php //echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php //echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
+                        <b><?php echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
                     </button>
                     <ul class="dropdown-menu drop-lista bk-cinza fleft100">
-                        <li><?php //echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></li>
-                        <li><?php //echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></li>
-                        <li><?php //echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></li>
-                        <li><?php //echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></li>
-                        <li><?php //echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></li>
+                        <li><?php echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></li>
+                        <li><?php echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></li>
+                        <li><?php echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></li>
+                        <li><?php echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></li>
+                        <li><?php echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></li>
                     </ul>
                 </div>
-                -->
-                
-                <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
-                    <div class="col-md-1 col-sm-1 col-xs-12"></div>
-                    <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
-                        <span class="fleft">
-                            <img src="<?php echo base_url() . 'assets/images/bol-g.png'; ?>" width="20px" class="wauto" alt="">
-                            <?php echo $CI->T('Novidades', array()); ?>
-                        </span>
-                        <br>
-                        <p class="m-t10">
-                            <?php echo $CI->T('Agora a Dumbu disponibiliza dois novos recursos: ', array()); ?><br>
-                        </p>
-                        <p class="m-t10">
-                            <b><?php echo $CI->T('AutoLike - ', array()); ?></b> <?php echo $CI->T('Permite que sua conta, além de seguir, interaja com as contas através de um like na ultima foto postada.', array()); ?><br>
-                        </p> 
-                        <p class="m-t10">
-                            <b><?php echo $CI->T('Geolocalização - ', array()); ?></b> <?php echo $CI->T('Agora você pode captar seguidores a partir de qualquer região, é só adicionar um local e pronto!', array()); ?><br>
-                        </p>
-                    </div>                    
-                    <div class="col-md-2 col-sm-2 col-xs-12 text-center bloco m-t20">
-                            <img id="my_img" src="<?php echo $my_img_profile; ?>" class="img50" alt="">
-                            <b><p id="my_name" style="font-size:1.2em; font-family:sans-serif;"><?php echo $my_login_profile; ?></p></b> 
-                            <!--<span class="fleft100 m-t10">@pedropetti</span>-->
-                            <span class="fleft100 cl-green">
-                                <?php
-                                if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10)
-                                    echo '<b id="status_text" style="font-family:sans-serif">' . $CI->T($status["status_name"], array()) . '</b>';
-                                else
-                                    echo '<b id="status_text" ">' . $CI->T($status["status_name"], array()) . '</b>';
-                                ?>
-                            </span>
-                    </div>
-                    <div class="col-md-5 col-sm-5 col-xs-12 text-center bloco ">
-                         <div class="btn-group fleft100">
-                            <button type="button" class="btn btn-drop fleft100 dropdown-toggle bk-cinza pf-novidades" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b><?php echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
-                            </button>
-                            <ul class="dropdown-menu drop-lista bk-cinza pf-novidades fleft100">
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></p>
-                            </ul>
-                        </div>
-                    </div>
+
+                <div class="text-center fleft100">
+                    <img src="<?php echo base_url() . 'assets/images/perfis.png'; ?>" class="wauto m-t20" alt="">
+                    <h4 class="fleft100 m-t20"><b><?php echo $CI->T("PERFIS DE PREFERÊNCIA", array()); ?></b></h4>
+                    <p class="m-t10 fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que seguem os perfis de referência que você escolher, uma parte <br>desses usuários o seguirão de volta e após um determinado tempo deixaremos de <br>seguir esses usuários. Adicione seus perfis de referência aqui:", array()); ?></p>
                 </div>
-                
-                
-                
-                
-                
-                <!--<div class="text-center m-t30">
-                    <img id="my_img" src="<?php //echo $my_img_profile; ?>" class="img50" alt="">
-                    <b><p id="my_name" style="font-size:1.2em; font-family:sans-serif;"><?php //echo $my_login_profile; ?></p></b> 
-                    
+
+                <div class="col-md-2 col-sm-2 col-xs-12 text-center m-t30">
+                    <img id="my_img" src="<?php echo $my_img_profile; ?>" class="img50" alt="">
+                    <b><p id="my_name" style="font-size:1.2em; font-family:sans-serif;"><?php echo $my_login_profile; ?></p></b> 
+                    <!--<span class="fleft100 m-t10">@pedropetti</span>-->
                     <span class="fleft100 cl-green">
                         <?php
-                        /*if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10)
+                        if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10)
                             echo '<b id="status_text" style="font-family:sans-serif">' . $CI->T($status["status_name"], array()) . '</b>';
                         else
                             echo '<b id="status_text" ">' . $CI->T($status["status_name"], array()) . '</b>';
-                        */?>
+                        ?>
                     </span>
-                </div>-->
-                
-                
-                <!----------------------------------------------------------------------------------------------------------------------------------->
-                <!--REFERENCES PROFILES-->
-                <div class="pf fleft100 text-center m-t30">
-                    <div class="m-t60 text-center">
-                        <ul>
+                </div>
+
+                <div class="col-md-10 col-sm-10 col-xs-12 m-t30">
+                    <div class="num">
+                        <img src="<?php echo base_url() . 'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                        <?php echo $CI->T('Número de perfis já seguidos ', array()) . ' ' . $total_amount_followers_today; ?>
+                        <span class="fright">
+                            <?php echo $total_amount_reference_profile_today . ' ' . $CI->T('Perfis de referência utilizados até hoje', array()); ?>
+                        </span></div>
+                    <div class="fleft100 bk-cinza pf-painel">
+                        <ul class="add-perfil text-center">
+
                             <li>
-                                <img src="<?php echo base_url() . 'assets/images/perfis.png'; ?>" class="wauto"/>                            
+                                <div id="reference_profile0" class="container-reference-profile">                                                                    
+                                    <img id="img_ref_prof0" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                    <br>
+                                    <a id="lnk_ref_prof0" target="_blank" href="#">
+                                        <small id="name_ref_prof0" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                    </a>
+                                    <b id="cnt_follows_prof0" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">520</b>
+                                </div>
                             </li>
-                            <li></li>
+
                             <li>
-                                <h4 class="m-t10"><b><?php echo $CI->T("PERFIS DE PREFERÊNCIA", array()); ?></b></h4>
+                                <div id="reference_profile1" class="container-reference-profile">                                                                    
+                                    <img id="img_ref_prof1" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                    <br>
+                                    <a id="lnk_ref_prof1" target="_blank" href="#">
+                                        <small id="name_ref_prof1" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                    </a>
+                                    <b id="cnt_follows_prof1" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">520</b>
+                                </div>
                             </li>
-                        </ul>    
-                    </div>                
 
-                    <div class="m-t10 text-center">
-                        <p class="fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que seguem os perfis de referência que você escolher, uma parte <br>desses usuários o seguirão de volta e após um determinado tempo deixaremos de <br>seguir esses usuários. Adicione seus perfis de referência aqui:", array()); ?></p>
-                    </div>                
+                            <li>
+                                <div id="reference_profile2" class="container-reference-profile">                                                                    
+                                    <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                    <br>
+                                    <a id="lnk_ref_prof2" target="_blank" href="#">
+                                        <small id="name_ref_prof2" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                    </a>
+                                    <b id="cnt_follows_prof2" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">520</b>
+                                </div>
+                            </li>
 
-                    <br>
-                    <div class="m-t60 text-center">
-                        <div class="num">
-                            <span class="fleft">
-                                <img src="<?php echo base_url() . 'assets/images/bol-g.png'; ?>" class="wauto" alt="">
-                                <?php echo $CI->T('Número de perfis já seguidos ', array()) . ' ' . $amount_followers_by_reference_profiles; ?>
-                            </span>
-                            <span class="fright">
-                                <?php echo $reference_profile_used . ' ' . $CI->T('Perfis de referência utilizados até hoje', array()); ?>
-                            </span>
-                        </div>
-                        <div class="fleft100 bk-cinza pf-painel">
-                            <ul class="add-perfil text-center">
-                                <li>
-                                    <div id="reference_profile0" class="container-reference-profile">                                                                    
-                                        <img id="img_ref_prof0" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
-                                        <br>
-                                        <a id="lnk_ref_prof0" target="_blank" href="#">
-                                            <small id="name_ref_prof0" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                        </a>
-                                        <b id="cnt_follows_prof0" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                    </div>
-                                </li>
+                            <li>
+                                <div id="reference_profile3" class="container-reference-profile">                                                                    
+                                    <img id="img_ref_prof3" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                    <br>
+                                    <a id="lnk_ref_prof3" target="_blank" href="#">
+                                        <small id="name_ref_prof3" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                    </a>
+                                    <b id="cnt_follows_prof3" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">520</b>
+                                </div>
+                            </li>
 
-                                <li>
-                                    <div id="reference_profile1" class="container-reference-profile">                                                                    
-                                        <img id="img_ref_prof1" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
-                                        <br>
-                                        <a id="lnk_ref_prof1" target="_blank" href="#">
-                                            <small id="name_ref_prof1" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                        </a>
-                                        <b id="cnt_follows_prof1" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                    </div>
-                                </li>
+                            <li>
+                                <div id="reference_profile4" class="container-reference-profile">                                                                    
+                                    <img id="img_ref_prof4" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                    <br>
+                                    <a id="lnk_ref_prof4" target="_blank" href="#">
+                                        <small id="name_ref_prof4" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                    </a>
+                                    <b id="cnt_follows_prof4" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">520</b>
+                                </div>
+                            </li>
 
-                                <li>
-                                    <div id="reference_profile2" class="container-reference-profile">                                                                    
-                                        <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
-                                        <br>
-                                        <a id="lnk_ref_prof2" target="_blank" href="#">
-                                            <small id="name_ref_prof2" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                        </a>
-                                        <b id="cnt_follows_prof2" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                    </div>
-                                </li>
+                            <li>
+                                <div id="reference_profile5" class="container-reference-profile">                                                                    
+                                    <img id="img_ref_prof5" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                    <br>
+                                    <a id="lnk_ref_prof5" target="_blank" href="#">
+                                        <small id="name_ref_prof5" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                    </a>
+                                    <b id="cnt_follows_prof5" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">520</b>
+                                </div>
+                            </li>
 
-                                <li>
-                                    <div id="reference_profile3" class="container-reference-profile">                                                                    
-                                        <img id="img_ref_prof3" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
-                                        <br>
-                                        <a id="lnk_ref_prof3" target="_blank" href="#">
-                                            <small id="name_ref_prof3" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                        </a>
-                                        <b id="cnt_follows_prof3" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                    </div>
-                                </li>
+                            <li class="add"><img id="btn_add_new_profile" src="<?php echo base_url() . 'assets/images/+.png'; ?>" class="wauto" alt="" type="button" data-toggle="modal" data-target="#myModal"></li>
+                        </ul>
 
-                                <li>
-                                    <div id="reference_profile4" class="container-reference-profile">                                                                    
-                                        <img id="img_ref_prof4" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
-                                        <br>
-                                        <a id="lnk_ref_prof4" target="_blank" href="#">
-                                            <small id="name_ref_prof4" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                        </a>
-                                        <b id="cnt_follows_prof4" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div id="reference_profile5" class="container-reference-profile">                                                                    
-                                        <img id="img_ref_prof5" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
-                                        <br>
-                                        <a id="lnk_ref_prof5" target="_blank" href="#">
-                                            <small id="name_ref_prof5" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                        </a>
-                                        <b id="cnt_follows_prof5" title='<?php echo $CI->T("Seguidos por mim para este perfil", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                    </div>
-                                </li>
-
-                                <li class="add"><img id="btn_add_new_profile" src="<?php echo base_url() . 'assets/images/+.png'; ?>" class="wauto" alt="" type="button" data-toggle="modal" data-target="#myModal"></li>
-                            </ul>
-                        </div>
-                        <!--<div class="num fleft100"><b>Dica:</b><?php //echo $CI->T("Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa ", array()); ?><a href="<?php //echo base_url() . 'index.php/welcome/help' ?>" style="color:green" target="_blank"><?php //echo $CI->T("Ajuda!", array()); ?></a></div>-->
                     </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array()); ?></h4>
-                                </div>
-                                <div class="modal-body">
-                                    <input id = "login_profile" type="text" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
-                                    <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                        <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar", array()); ?></div></span>
-                                    </button>
-                                </div>
+                    <div class="num fleft100"><b>Dica:</b><?php echo $CI->T("Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa ", array()); ?><a href="<?php echo base_url() . 'index.php/welcome/help' ?>" style="color:green" target="_blank"><?php echo $CI->T("Ajuda!", array()); ?></a></div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array()); ?></h4>
                             </div>
-                        </div>                                                        
-                    </div> 
+                            <div class="modal-body">
+                                <input id = "login_profile" type="text" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar", array()); ?></div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>                                                        
                 </div> 
 
-               
-                <!----------------------------------------------------------------------------------------------------------------------------------->
-                <!--GEOLOCALIZACION-->
-                
-                    <div style="z-index:1;" class="pf fleft100 text-center m-t30">
-                            <div class="m-t60 text-center">
-                                <ul>  
-                                    <li>
-                                        <img src="<?php echo base_url() . 'assets/images/geolocalizacao.png'; ?>" class="wauto"/>                            
-                                    </li>
-                                    <li></li>
-                                    <li>
-                                        <h4 class="m-t10"><b><?php echo $CI->T("GEOLOCALIZAÇÃO", array()); ?></b></h4>
-                                    </li>
-                                </ul>    
-                            </div>
 
-                            <div class="m-t10 text-center">
-                                <p class="fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que postaram fotos na localização que você escolher, uma parte <br>desses usuários o seguirão de volta e após um determinado tempo deixaremos de <br>seguir esses usuários. Adicione suas localizações de interesse aqui:", array()); ?></p>
-                            </div>                
 
-                            <br>
-                            <div class="m-t60 text-center">
-                                <div class="num">
-                                    <span class="fleft">
-                                        <img src="<?php echo base_url() . 'assets/images/bol-g.png'; ?>" class="wauto" alt="">
-                                        <?php echo $CI->T('Número de perfis já seguidos ', array()) . ' ' . $amount_followers_by_geolocalization; ?>
-                                    </span>
-                                    <span class="fright">
-                                        <?php echo $geolocalization_used . ' ' . $CI->T('Localizações utilizadas até hoje', array()); ?>
-                                    </span>
-                                </div>
-                                <div class="fleft100 bk-cinza pf-painel">
-                                    <ul class="add-perfil text-center">
-                                        <li>
-                                            <div id="geolocalization0" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization0" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
-                                                <br>
-                                                <a id="lnk_geolocalization0" target="_blank" href="#">
-                                                    <small id="name_geolocalization0" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                                </a>
-                                                <b id="cnt_follows_geolocalization0" title='<?php echo $CI->T("Seguidos por mim para esta localização", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div id="geolocalization1" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization1" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
-                                                <br>
-                                                <a id="lnk_geolocalization1" target="_blank" href="#">
-                                                    <small id="name_geolocalization1" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                                </a>
-                                                <b id="cnt_follows_geolocalization1" title='<?php echo $CI->T("Seguidos por mim para essa localização", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div id="geolocalization2" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization2" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
-                                                <br>
-                                                <a id="lnk_geolocalization2" target="_blank" href="#">
-                                                    <small id="name_geolocalization2" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                                </a>
-                                                <b id="cnt_follows_geolocalization2" title='<?php echo $CI->T("Seguidos por mim para essa localização", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div id="geolocalization3" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization3" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
-                                                <br>
-                                                <a id="lnk_geolocalization3" target="_blank" href="#">
-                                                    <small id="name_geolocalization3" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                                </a>
-                                                <b id="cnt_follows_geolocalization3" title='<?php echo $CI->T("Seguidos por mim para essa localização", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div id="geolocalization4" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization4" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
-                                                <br>
-                                                <a id="lnk_geolocalization4" target="_blank" href="#">
-                                                    <small id="name_geolocalization4" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                                </a>
-                                                <b id="cnt_follows_geolocalization4" title='<?php echo $CI->T("Seguidos por mim para essa localização", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div id="geolocalization5" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization5" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
-                                                <br>
-                                                <a id="lnk_geolocalization5" target="_blank" href="#">
-                                                    <small id="name_geolocalization5" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
-                                                </a>
-                                                <b id="cnt_follows_geolocalization5" title='<?php echo $CI->T("Seguidos por mim para essa localização", array()); ?>' class="cl-green fleft100 red_number">0</b>
-                                            </div>
-                                        </li>
-
-                                        <li class="add"><img id="btn_add_new_geolocalization" src="<?php echo base_url() . 'assets/images/+.png'; ?>" class="wauto" alt="" type="button" data-toggle="modal" data-target="#myModal_geolocalization"></li>
-                                    </ul>
-                                </div>
-                                <!--<div class="num fleft100"><b>Dica:</b><?php //echo $CI->T("Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa ", array()); ?><a href="<?php //echo base_url() . 'index.php/welcome/help' ?>" style="color:green" target="_blank"><?php //echo $CI->T("Ajuda!", array()); ?></a></div>-->
-                            </div>
-                            <?php if($plane_id==1 || $plane_id>3){?>
-                            <!-- Modal -->
-                            <div class="modal fade" style="top:30%" id="myModal_geolocalization" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div id="modal_container_add_geolocalization" class="modal-dialog modal-sm" role="document">                                                          
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Geolocalização", array()); ?></h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input id = "login_geolocalization" type="text" class="form-control" placeholder="<?php echo $CI->T("Localização", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
-                                            <div id="geolocalization_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button id="btn_insert_geolocalization" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar", array()); ?></div></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>                                                        
-                            </div>   
-                            <?php } else { ?>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" style="top:30%" id="myModal_geolocalization" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                <div id="modal_container_add_geolocalization" class="modal-dialog modal-sm" role="document">                                                          
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("DISPONÍVEL PARA OS", array()); ?></b></h4>
-                                            <h4 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("PLANOS RÁPIDO E TURBO", array()); ?></b></h4>
-                                        </div>
-                                        <div class="modal-body">                                            
-                                            <p class="modal-title" id="myModalLabel"><?php echo $CI->T("Migre agora mesmo sua conta para uma dessas velocidades e disfrute deste recurso", array()); ?></p>
-                                            <p class="modal-title" id="myModalLabel"><?php echo $CI->T("", array()); ?></p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="#lnk_update"><button id="upgrade_plane" type="button" class="btn btn-success text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("MIGRAR DE VELOCIDADE", array()); ?></div></span>
-                                            </button></a>
-                                        </div>
-                                    </div>
-                                </div>                                                        
-                            </div>       
-                            <?php }?>
-                    </div>
-               
-                <!----------------------------------------------------------------------------------------------------------------------------------->        
-                                                
-                                                
-                                                
 
                 <div class="pf fleft100 text-center m-t45">
                     <img src="<?php echo base_url() . 'assets/images/perf.png'; ?>" class="wauto" alt="">
@@ -773,7 +548,7 @@
                     <div class="fleft100 m-t45">
                         <div class="col-md-6 col-sm-6 col-xs-12 no-pd text-center center-mobile m-b10">
                             <b class="cl-black"><?php echo $CI->T("Seguidos até hoje", array()); ?></b>
-                            <h1 class="no-mg fleft100"><b><?php echo ($amount_followers_by_reference_profiles+$amount_followers_by_geolocalization); ?></b></h1>
+                            <h1 class="no-mg fleft100"><b><?php echo $total_amount_followers_today; ?></b></h1>
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12 no-pd text-center center-mobile m-b10">
@@ -895,25 +670,25 @@
                     </div>
                 </div>
 
-                <!--<div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
+                <div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
                     <div class="fleft100 bk-cinza local">
-                        <img src="<?php //echo base_url() . 'assets/images/local.png'; ?>" class="wauto" alt="">
-                        <h2 class="no-mg"><b><?php //echo $CI->T("GEOLOCALIZAÇÃO", array()); ?></b></h2>
-                        <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular"><?php //echo $CI->T("EM BREVE", array()); ?></a></div>
-                        
+                        <img src="<?php echo base_url() . 'assets/images/local.png'; ?>" class="wauto" alt="">
+                        <h2 class="no-mg"><b><?php echo $CI->T("GEOLOCALIZAÇÃO", array()); ?></b></h2>
+                        <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular"><?php echo $CI->T("EM BREVE", array()); ?></a></div>
+
+                        <!-- Modal -->
                         <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
                             <div class="modal-dialog modal-lg ligar" role="document">
                                 <div class="modal-content text-center pd-20">
-                                    <h4 class="m-tb30 cl-green"><b><?php// echo $CI->T("MUITAS NOVIDADES", array()); ?>!</b></h4>
-                                    <p class=""><?php //echo $CI->T("EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.", array()); ?></p>
-                                    <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20"><?php// echo $CI->T("QUERO PARTICIPAR", array()); ?></button></div>
+                                    <h4 class="m-tb30 cl-green"><b><?php echo $CI->T("MUITAS NOVIDADES", array()); ?>!</b></h4>
+                                    <p class=""><?php echo $CI->T("EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.", array()); ?></p>
+                                    <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20"><?php echo $CI->T("QUERO PARTICIPAR", array()); ?></button></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>-->
-                
-                <A name="lnk_upgdrade_plane"></A>
+                </div>
+
                 <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
                 <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="text-center fleft100 m-t20">
@@ -1000,7 +775,7 @@
                 </div>
 
                 <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
-                    <div class="text-center fleft100 m-t20"><A name="lnk_update"></A>
+                    <div class="text-center fleft100 m-t20">
                         <img src="<?php echo base_url() . 'assets/images/mail.png'; ?>" class="wauto" alt="">
                         <h4 class="fleft100 m-t20"><b><?php echo $CI->T("FALE CONOSCO", array()); ?></b></h4>
                     </div>
@@ -1045,7 +820,7 @@
             </div>
         </div>
 
-        
+        <A name="lnk_update"></A>
 
         <div class="h150 fleft100"></div>
         <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url() . 'assets/images/logo-footer.png'; ?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS", array()); ?></span></div></footer>

@@ -65,7 +65,9 @@ var Translation={
     "Espere por favor, conferindo credenciais!!":
             "Espere por favor, conferindo credenciais!!",
     "Deve adicionar pelo menos um Perfil de Referência para continuar.":
-            "Deve adicionar pelo menos um Perfil de Referência para continuar."
+            "Deve adicionar pelo menos um Perfil de Referência para continuar.",
+    "Deseja elimiar a geolocalização ":
+            "Deseja elimiar a geolocalização "
 };
 
 function T(token){

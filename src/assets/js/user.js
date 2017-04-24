@@ -105,13 +105,13 @@ $(document).ready(function(){
     });
     
     
-    $("#help").click(function(){
+    $(".help").click(function(){
         url=base_url+"index.php/welcome/help";
         window.open(url, '_blank');
     });
     
     
-    $("#help").hover(
+    $(".help").hover(
         function(){
             $('#help').css('cursor', 'pointer');
         },

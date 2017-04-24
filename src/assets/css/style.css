@@ -167,11 +167,15 @@ li{
 }
 
 .m-t40{
-	margin-top: 45px;
+	margin-top: 40px;
 }
 
 .m-t45{
 	margin-top: 45px;
+}
+
+.m-t60{
+	margin-top: 60px;
 }
 
 .m-b5{
@@ -513,9 +517,27 @@ li{
 	font-size: 17px;
 }
 
+.c-wite{
+    color:white;
+}
+
+.c-green{
+    color:#1AE1A5;
+}
+
+.pf-avisos{
+    padding: 5px 10px;
+}
+
 .pf-painel{
     padding: 10px 20px;
     border-radius: 80px;
+    border: 1px solid #ccc;
+}
+
+.pf-novidades{
+    padding: 5px 10px;
+    border-radius: 10px;
     border: 1px solid #ccc;
 }
 
@@ -573,6 +595,14 @@ li{
 .st{
     margin-top: 10px;
     margin-left: 10px;
+}
+
+.m-l10{    
+    margin-left: 10px;
+}
+
+.m-l40{    
+    margin-left: 40px;
 }
 
 .pf-melhor{
@@ -656,6 +686,9 @@ footer span{
 
 
 .img_profile{border:1px solid gray; border-radius:100px;}
+
+.img_geolocalization{border:1px solid gray; border-radius:100px;}
+
 .my_img_profile{border:1px solid gray; width:80%; max-width:160px;  border-radius:100px;}
 
 

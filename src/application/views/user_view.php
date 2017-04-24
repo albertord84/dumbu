@@ -186,9 +186,12 @@
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR",array());?></button></div>
                                                 </a>
 					</div>
-					<span class="fleft100 m-t30"><?php echo $CI->T("Presente em mais de",array());?></span>
-					<h2 class="fleft100 no-mg"><?php echo $CI->T("200 países",array());?></h2>
-					<img src="assets/images/50 países.png" class="fleft100 i-block wauto paises" alt="">
+					<img src="assets/images/50 países.png" class="i-block wauto paises" alt="">
+                                        <h3 style="margin-top:0px"><?php echo $CI->T("Dumbu é global!",array());?></h3>
+					<h5 class="fleft100 no-mg"><?php echo $CI->T("Temos clientes em mais de 200 países.",array());?></h5>
+					<h5 class="fleft100 no-mg"><?php echo $CI->T("Faça parte de uma das Startups que",array());?></h5>
+					<h5 class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></h5>
+                                        
 				</div>
 				<div class="col-md-5 col-sm-5 col-xs-12 text-center cel">
                                     <?php                                        
@@ -198,13 +201,65 @@
 			</div>
 		</section>
 
-		<section id="vantagens" class="fleft100">
+		<!--<section id="vantagens" class="fleft100">
+                        <h3 class="titulo fleft100 text-center m-tb30"><?php //echo $CI->T("RECURSOS",array());?></h3>
 			<div class="container">
-				<ul class="fleft100 vantagens text-center cl-fff">
-					<li><img src="assets/images/100.png" alt=""><span>100%</span><p><?php echo $CI->T("seguidores reais",array());?></p></li>
-					<li><img src="assets/images/lupa.png" style="margin-top: 3px;" alt=""><p><?php print $CI->T("Você escolhe o perfil para captar seguidores",array());?></p></li>
-					<li><img src="assets/images/nuvem.png" style="margin-top: 6px;" alt=""> <p><?php echo $CI->T("Todos os perfis que segue  estarão protegidos em seu backup",array());?></p></li>
+				<ul class="fleft100 vantagens text-center cl-fff">					
+					<li><img src="assets/images/lupa.png" style="margin-top: 3px;" alt=""><p><?php //print $CI->T("Você escolhe o perfil para captar seguidores",array());?></p></li>
+					<li><img src="assets/images/nuvem.png" style="margin-top: 6px;" alt=""> <p><?php //echo $CI->T("Todos os perfis que segue  estarão protegidos em seu backup",array());?></p></li>
 				</ul>
+			</div>
+		</section>-->
+            
+		<section id="vantagens" class="fleft100 c-wite">
+                    <h3 style="color:white" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></h3>
+			
+                            <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                                        <div class="col-md-8 col-sm-8 col-xs-12 text-right">
+                                            <img src="assets/images/geolocalization_bw.png" class="wauto" alt="">
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-12 text-left">
+                                            <img src="assets/images/novo.png" class="wauto" alt="">
+                                        </div>
+                                    </div>
+                                    <h5 ><b><?php print $CI->T("Geolocalização",array());?></b><br>
+                                    <?php print $CI->T("Capte seguidores através",array());?><br>
+                                    <?php print $CI->T("de locais definidos por você",array());?><br></h5>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                                        <div class="col-md-8 col-sm-8 col-xs-12 text-right">
+                                            <img src="assets/images/autolike_bw.png" class="wauto" alt="">
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-12 text-left">
+                                            <img src="assets/images/novo.png" class="wauto" alt="">
+                                        </div>
+                                    </div>
+                                    <h5><b><?php print $CI->T("Auto Like",array());?></b><br>
+                                    <?php print $CI->T("Além de seguir, sua conta irá",array());?><br>
+                                    <?php print $CI->T("interagir deixando um like na foto",array());?><br>
+                                    <?php print $CI->T("mais recente",array());?><br></h5>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">    
+                                    <img src="assets/images/persons.png" class="wauto" alt="">
+                                    <h5><b><?php print $CI->T("Seguidores reais captados",array());?><br>
+                                    <?php print $CI->T("a través de Perfis que",array());?><br>
+                                    <?php print $CI->T("você escolhe",array());?><br></h5>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                    <img src="assets/images/checked_person.png" class="wauto" alt="">
+                                    <h5><b><?php print $CI->T("Seguidores",array());?></b><br>                                    
+                                    <?php print $CI->T("100% reais",array());?><br></h5>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                    <img src="assets/images/new_nuvem.png" class="wauto" alt="">
+                                    <h5><b><?php print $CI->T("Todos os perfis que",array());?></b><br>
+                                    <?php print $CI->T("segue estarão protegidos",array());?><br>
+                                    <?php print $CI->T("em seu backup",array());?><br></h5>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-12"></div>
 			</div>
 		</section>
 
@@ -228,7 +283,7 @@
                                         <span class="texto fleft100">
                                             <br>
                                         </span>
-                                        <a id="help" style="color:green; margin-top:7%">
+                                        <a class="help" style="color:green; margin-top:7%">
                                             <div >
                                                 <img style="width:12%" src="<?php echo base_url().'assets/images/help.png'?>"/>
                                             </div>
@@ -296,9 +351,23 @@
                                                 <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro03.png'?>"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("RÁPIDA",array());?></b>
+						<div class="rc"><?php echo $CI->T("RECOMENDADO",array());?></div>
                                                 <h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
 						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("99,90",array());?></b></span>
-						<div class="rc"><?php echo $CI->T("RECOMENDADO",array());?></div>
+                                                <br>
+                                                <div class="text-left m-l10">
+                                                    <span >
+                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
+                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                    </span>
+                                                    <br>
+                                                    <span>
+                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
+                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                    </span>
+                                                </div>
                                                 <br>
                                                 <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
 					</div>
@@ -311,6 +380,20 @@
                                                 <hr>
 						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("99,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
 						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("189,90",array());?></b></span>
+                                                <br>
+                                                <div class="text-left m-l10">
+                                                    <span >
+                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
+                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                    </span>
+                                                    <br>
+                                                    <span>
+                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
+                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                    </span>
+                                                </div>
                                                 <br>
                                                 <input id="radio_plane_99_90" type="radio" name="plano">
 					</div>

@@ -1,5 +1,7 @@
-$(document).ready(function () {
-
+$(document).ready(function () {    
+    
+    //----------------------------------------------------------------------------------------------------------
+    //PERFIS DE REFERENCIA
     var icons_profiles = {
         0: {'ptr_img_obj': $('#img_ref_prof0'), 'ptr_p_obj': $('#name_ref_prof0'), 'ptr_label_obj': $('#cnt_follows_prof0'), 'ptr_panel_obj': $('#reference_profile0'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof0')},
         1: {'ptr_img_obj': $('#img_ref_prof1'), 'ptr_p_obj': $('#name_ref_prof1'), 'ptr_label_obj': $('#cnt_follows_prof1'), 'ptr_panel_obj': $('#reference_profile1'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof1')},
@@ -8,8 +10,10 @@ $(document).ready(function () {
         4: {'ptr_img_obj': $('#img_ref_prof4'), 'ptr_p_obj': $('#name_ref_prof4'), 'ptr_label_obj': $('#cnt_follows_prof4'), 'ptr_panel_obj': $('#reference_profile4'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof4')},
         5: {'ptr_img_obj': $('#img_ref_prof5'), 'ptr_p_obj': $('#name_ref_prof5'), 'ptr_label_obj': $('#cnt_follows_prof5'), 'ptr_panel_obj': $('#reference_profile5'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof5')},
     };
+    
+    
 
-    var num_profiles, flag = false;
+    var num_profiles, flag = false;    
     var verify = false, flag_unfollow_request = false;
     unfollow_total = parseInt(unfollow_total);
     init_unfollow_type();
@@ -51,6 +55,15 @@ $(document).ready(function () {
             },
             function () {
                 $('.red_number').css('cursor', 'default');
+            }
+    );
+    
+    $("#my_container_toggle").hover(
+            function () {
+                $('#my_container_toggle').css('cursor', 'pointer');
+            },
+            function () {
+                $('#my_container_toggle').css('cursor', 'default');
             }
     );
 
@@ -207,16 +220,6 @@ $(document).ready(function () {
         $('#reference_profile_status_container').css({"visibility": "hidden", "display": "none"})
     });
 
-
-    $("#my_container_toggle").hover(
-            function () {
-                $('#my_container_toggle').css('cursor', 'pointer');
-            },
-            function () {
-                $('#my_container_toggle').css('cursor', 'default');
-            }
-    );
-
     $("#my_container_toggle").click(function () {
         if (unfollow_total) {
             confirm_message = 'Confirma ativar a opção UNFOLLOW NORMAL';
@@ -287,9 +290,9 @@ $(document).ready(function () {
         response = jQuery.parseJSON(datas);
         prof = response['array_profiles'];
         if (response['message'] !== 'Profiles unloaded by instagram failed connection') {
-            num_profiles = response['N'];
+            num_profiles = response['N'];            
             for (i = 0; i < num_profiles; i++) {
-                if (typeof prof[i] !== 'undefined') {
+                if (!(typeof prof[i] === 'undefined')) {
                     icons_profiles[i]['img_profile'] = prof[i]['img_profile'];
                     icons_profiles[i]['follows_from_profile'] = prof[i]['follows_from_profile'];
                     icons_profiles[i]['login_profile'] = prof[i]['login_profile'];
@@ -510,6 +513,284 @@ $(document).ready(function () {
                 break;
         }
     }
+    
+    $("#upgrade_plane").click(function () {
+        
+    });
+    
 
     init_icons_profiles(profiles);
+    
+    
+    //----------------------------------------------------------------------------------------------------------
+    //GEOLOCALIZACAO
+    
+    var icons_geolocalization = {
+        0: {'ptr_img_obj':$('#img_geolocalization0'), 'ptr_p_obj':$('#name_geolocalization0'), 'ptr_label_obj':$('#cnt_follows_geolocalization0'), 'ptr_panel_obj':$('#geolocalization0'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization0')},
+        1: {'ptr_img_obj':$('#img_geolocalization1'), 'ptr_p_obj':$('#name_geolocalization1'), 'ptr_label_obj':$('#cnt_follows_geolocalization1'), 'ptr_panel_obj':$('#geolocalization1'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization1')},
+        2: {'ptr_img_obj':$('#img_geolocalization2'), 'ptr_p_obj':$('#name_geolocalization2'), 'ptr_label_obj':$('#cnt_follows_geolocalization2'), 'ptr_panel_obj':$('#geolocalization2'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization2')},
+        3: {'ptr_img_obj':$('#img_geolocalization3'), 'ptr_p_obj':$('#name_geolocalization3'), 'ptr_label_obj':$('#cnt_follows_geolocalization3'), 'ptr_panel_obj':$('#geolocalization3'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization3')},
+        4: {'ptr_img_obj':$('#img_geolocalization4'), 'ptr_p_obj':$('#name_geolocalization4'), 'ptr_label_obj':$('#cnt_follows_geolocalization4'), 'ptr_panel_obj':$('#geolocalization4'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization4')},
+        5: {'ptr_img_obj':$('#img_geolocalization5'), 'ptr_p_obj':$('#name_geolocalization5'), 'ptr_label_obj':$('#cnt_follows_geolocalization5'), 'ptr_panel_obj':$('#geolocalization5'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization5')}        
+    };
+    
+    $("#upgrade_plane").click(function () {
+             $("#myModal_geolocalization").modal('hide');    
+    });
+    
+//    function disable_geolocalization_painel() {
+//        if(plane_id==1||plane_id>3)
+//            $('#container_geolocalization *').prop('disabled', false);
+//        else
+//            $('#container_geolocalization *').prop('disabled', true);            
+//    }
+
+    var num_geolocalization;
+    
+    $(".img_geolocalization").hover(
+            function (e) {
+                //alert($(e.target).attr('id'))
+                $('.img_geolocalization').css('cursor', 'pointer');
+            },
+            function () {
+                $('.img_geolocalization').css('cursor', 'default');
+            }
+    );   
+   
+    $("#img_geolocalization0").click(function () {
+        if (!(icons_geolocalization[0]['login_geolocalization']).match("geolocalization"))
+            delete_geolocalization_click(icons_geolocalization[0]['login_geolocalization']);
+    });
+
+    $("#img_geolocalization1").click(function () {
+        if (!(icons_geolocalization[1]['login_geolocalization']).match("geolocalization"))
+            delete_geolocalization_click(icons_geolocalization[1]['login_geolocalization']);
+    });
+
+    $("#img_geolocalization2").click(function () {
+        if (!(icons_geolocalization[2]['login_geolocalization']).match("geolocalization"))
+            delete_geolocalization_click(icons_geolocalization[2]['login_geolocalization']);
+    });
+
+    $("#img_geolocalization3").click(function () {
+        if (!(icons_geolocalization[3]['login_geolocalization']).match("geolocalization"))
+            delete_geolocalization_click(icons_geolocalization[3]['login_geolocalization']);
+    });
+
+    $("#img_geolocalization4").click(function () {
+        if (!(icons_geolocalization[4]['login_geolocalization']).match("geolocalization"))
+            delete_geolocalization_click(icons_geolocalization[4]['login_geolocalization']);
+    });
+
+    $("#img_geolocalization5").click(function () {
+        if (!(icons_geolocalization[5]['login_geolocalization']).match("geolocalization"))
+            delete_geolocalization_click(icons_geolocalization[5]['login_geolocalization']);
+    });
+        
+    $("#btn_insert_geolocalization").click(function () {        
+        if (validate_element('#login_geolocalization', '^[a-zA-Z0-9\._]{1,300}$')) {
+            if(num_geolocalization < MAX_NUM_GEOLOCALIZATION) {
+                if($('#login_geolocalization').val() != '') {                    
+                    var l = Ladda.create(this);
+                    l.start();
+                    $.ajax({
+                        url: base_url + 'index.php/welcome/client_insert_geolocalization',
+                        data: {'geolocalization': $('#login_geolocalization').val()},
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response['success']) {
+                                inser_icons_geolocalization(response);
+                                $('#login_geolocalization').val('');
+                                $("#insert_geolocalization_form").fadeOut();
+                                $("#insert_geolocalization_form").css({"visibility": "hidden", "display": "none"});
+                                $('#geolocalization_message').text('');
+                                $('#geolocalization_message').css('visibility', 'hidden');
+                                if (num_geolocalization === MAX_NUM_GEOLOCALIZATION) {
+                                    $('#btn_modal_close').click();
+                                }
+                            } else {
+                                $('#geolocalization_message').text(response['message']);
+                                $('#geolocalization_message').css('visibility', 'visible');
+                                $('#geolocalization_message').css('color', 'red');   
+                            }                            
+                            l.stop();
+                        },
+                        error: function (xhr, status) {
+                            $('#geolocalization_message').text(T('Não foi possível conectar com o Instagram'));
+                            $('#geolocalization_message').css('visibility', 'visible');
+                            $('#geolocalization_message').css('color', 'red');
+                            l.stop();
+                        }
+                    });
+                }
+            } else {
+                $('#geolocalization_message').text(T('Alcançou a quantidade máxima.'));
+                $('#geolocalization_message').css('visibility', 'visible');
+                $('#geolocalization_message').css('color', 'red');            
+            }
+        } else {
+            $('#geolocalization_message').text(T('* O nome da geolocalização só pode conter letras, números, sublinhados e pontos.'));
+            $('#geolocalization_message').css('visibility', 'visible');
+            $('#geolocalization_message').css('color', 'red');
+        }
+    });
+
+    /*$("#btn_RP_status").click(function () {
+        $('#reference_profile_status_container').css({"visibility": "hidden", "display": "none"})
+    });*/
+    
+    function delete_geolocalization_click(element) {
+        if (confirm(T('Deseja elimiar a geolocalização ') + element)) {
+            $.ajax({
+                url: base_url + 'index.php/welcome/client_desactive_geolocalization',
+                data: {'geolocalization': element},
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        delete_icons_geolocalization(element);
+                    } else
+                        alert(response['message']);
+                },
+                error: function (xhr, status) {
+                    alert(T('Não foi possível conectar com o Instagram'));
+                }
+            });
+        }
+    }
+
+    function init_icons_geolocalization(datas) {
+        response = jQuery.parseJSON(datas);
+        prof = response['array_geolocalization'];
+        //prof = response['array_profiles'];
+        if (response['message'] !== 'Geolocalizations unloaded by Instagram failed connection') {
+            num_geolocalization = response['N_geolocalization'];
+            for (i = 0; i < num_geolocalization; i++) {
+                //if (!(typeof prof[i]==='undefined')) {
+                    icons_geolocalization[i]['img_geolocalization'] = prof[i]['img_geolocalization'];
+                    icons_geolocalization[i]['follows_from_geolocalization'] = prof[i]['follows_from_geolocalization'];
+                    icons_geolocalization[i]['login_geolocalization'] = prof[i]['login_geolocalization'];
+                    icons_geolocalization[i]['status_geolocalization'] = prof[i]['status_geolocalization'];
+                    
+                    /*icons_geolocalization[i]['img_geolocalization'] = prof[i]['img_profile'];
+                    icons_geolocalization[i]['follows_from_geolocalization'] = prof[i]['follows_from_profile'];
+                    icons_geolocalization[i]['login_geolocalization'] = prof[i]['login_profile'];
+                    icons_geolocalization[i]['status_geolocalization'] = prof[i]['status_profile'];*/
+                //}
+            }
+            for (j = i; j < MAX_NUM_GEOLOCALIZATION; j++) {
+                icons_geolocalization[j]['img_geolocalization'] = base_url + 'assets/images/avatar_geolocalization.jpg';
+                icons_geolocalization[j]['follows_from_geolocalization'] = '0';
+                icons_geolocalization[j]['login_geolocalization'] = 'geolocalization' + (j + 1);
+                icons_geolocalization[j]['status_geolocalization'] = '0';
+            }
+            display_geolocalization();
+        } else {
+            alert('Não foi possível comunicar com o Instagram pra verificar seus perfis de referência. Tente depois');
+        }
+    }
+
+    function display_geolocalization() {
+        var geolocalization_status = false;
+        for (i = 0; i < MAX_NUM_GEOLOCALIZATION; i++) {
+            icons_geolocalization[i]['ptr_img_obj'].attr("src", icons_geolocalization[i]['img_geolocalization']);
+            icons_geolocalization[i]['ptr_img_obj'].prop('title', T('Click para eliminar ') + icons_geolocalization[i]['login_geolocalization']);
+            icons_geolocalization[i]['ptr_p_obj'].prop('title', T('Ver ') + icons_geolocalization[i]['login_geolocalization'] + T(' no Instagram'));
+            icons_geolocalization[i]['ptr_label_obj'].text(icons_geolocalization[i]['follows_from_geolocalization']);
+            $avatar = (icons_geolocalization[i]['login_geolocalization']).match("avatar_geolocalization.jpg");            
+             
+            icons_geolocalization[i]['ptr_p_obj'].text((icons_geolocalization[i]['login_geolocalization']).replace(/(^.{9}).*$/, '$1...'));
+
+            icons_geolocalization[i]['ptr_lnk_geolocalization'].attr("href", 'https://www.instagram.com/' + icons_geolocalization[i]['login_geolocalization'] + '/');
+
+            if (icons_geolocalization[i]['status_geolocalization'] === 'ended') {
+                icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
+                $('#geolocalization_status_list').append('<li>' + T('O sistema já siguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
+                geolocalization_status = true;
+            } else
+            if (icons_geolocalization[i]['status_geolocalization'] === 'privated') {
+                icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
+                $('#geolocalization_status_list').append('<li>' + T('A geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b>' + T(' passou a ser privada') + '</li>');
+                geolocalization_status = true;
+            } else
+            if (icons_geolocalization[i]['status_geolocalization'] === 'deleted') {
+                icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
+                $('#geolocalization_status_list').append('<li>' + T('A geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
+                geolocalization_status = true;
+            } else
+                icons_geolocalization[i]['ptr_p_obj'].css({'color': 'black'});
+            icons_geolocalization[i]['ptr_panel_obj'].css({"visibility": "visible", "display": "block"});
+        }
+        if (geolocalization_status) {
+            $('#geolocalization_status_container').css({"visibility": "visible", "display": "block"})
+        }
+        if (num_geolocalization) {
+            $('#container_present_geolocalization').css({"visibility": "visible", "display": "block"})
+            $('#container_missing_geolocalization').css({"visibility": "hidden", "display": "none"});
+        } else {
+            $('#container_missing_geolocalization').css({"visibility": "visible", "display": "block"})
+            $('#container_present_geolocalization').css({"visibility": "hidden", "display": "none"});
+        }
+    }
+
+    function inser_icons_geolocalization(datas) {
+        icons_geolocalization[num_geolocalization]['img_geolocalization'] = datas['img_url'];
+        icons_geolocalization[num_geolocalization]['login_geolocalization'] = datas['profile'];
+        icons_geolocalization[num_geolocalization]['follows_from_geolocalization'] = datas['follows_from_profile'];//datas['follows_from_geolocalization'];
+        icons_geolocalization[num_geolocalization]['status_geolocalization'] = datas['status_profile'];//datas['status_geolocalization'];
+        icons_geolocalization[num_geolocalization]['ptr_lnk_geolocalization'].attr("href", 'https://www.instagram.com/' + datas['profile'] + '/');
+        num_geolocalization = num_geolocalization + 1;
+        display_geolocalization();
+        if (num_geolocalization) {
+            $('#container_present_geolocalization').css({"visibility": "visible", "display": "block"})
+            $('#container_missing_geolocalization').css({"visibility": "hidden", "display": "none"});
+        } else {
+            $('#container_missing_geolocalization').css({"visibility": "visible", "display": "block"})
+            $('#container_present_geolocalization').css({"visibility": "hidden", "display": "none"});
+        }
+    }
+    
+    function delete_icons_geolocalization(name_localization) {
+        var i, j;
+        for (i = 0; i < num_geolocalization; i++) {
+            if (icons_geolocalization[i]['login_geolocalization'] === name_localization)
+                break;
+        }
+        for (j = i; j < MAX_NUM_GEOLOCALIZATION - 1; j++) {
+            icons_geolocalization[j]['img_geolocalization'] = icons_geolocalization[j + 1]['img_geolocalization'];
+            if ((icons_geolocalization[j + 1]['login_geolocalization']).match("geolocalization")) {
+                icons_geolocalization[j]['login_geolocalization'] = 'geolocalization' + (j + 1);
+                icons_geolocalization[j]['follows_from_geolocalization'] = 0;
+            } else {
+                icons_geolocalization[j]['login_geolocalization'] = icons_geolocalization[j + 1]['login_geolocalization'];
+                icons_geolocalization[j]['follows_from_geolocalization'] = icons_geolocalization[j + 1]['follows_from_geolocalization'];
+            }
+            icons_geolocalization[j]['status_geolocalization'] = icons_geolocalization[j + 1]['status_geolocalization'];
+            icons_geolocalization[j]['ptr_lnk_geolocalization'].attr("href", icons_geolocalization[j + 1]['ptr_lnk_geolocalization'].attr("href"));
+        }
+        icons_geolocalization[j]['img_geolocalization'] = base_url + 'assets/images/avatar_geolocalization.jpg';
+        icons_geolocalization[j]['login_geolocalization'] = 'geolocalization' + (j + 1);
+        icons_geolocalization[j]['follows_from_geolocalization'] = 0;
+        icons_geolocalization[j]['ptr_lnk_geolocalization'].attr("href", "");
+        num_geolocalization = num_geolocalization - 1;
+        display_geolocalization();
+
+        if (num_geolocalization) {
+            $('#container_present_geolocalization').css({"visibility": "visible", "display": "block"})
+            $('#container_missing_geolocalization').css({"visibility": "hidden", "display": "none"});
+        } else {
+            $('#container_missing_geolocalization').css({"visibility": "visible", "display": "block"})
+            $('#container_present_geolocalization').css({"visibility": "hidden", "display": "none"});
+        }
+    }
+    
+    $('#modal_container_add_geolocalization').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_insert_geolocalization").click();
+            return false;
+        }
+    });
+    //disable_geolocalization_painel();
+    init_icons_geolocalization(profiles);
 }); 

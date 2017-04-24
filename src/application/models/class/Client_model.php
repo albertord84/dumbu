@@ -232,12 +232,15 @@
             }
         }
         
-        public function insert_insta_profile($clien_id, $profile, $insta_id_profile){       
+        public function insert_insta_profile($clien_id, $profile, $insta_id_profile, $profile_type=NULL){       
             try {
                 $data['client_id']=$clien_id;        
                 $data['insta_name']=$profile;
                 $data['insta_id']=$insta_id_profile;
                 $data['deleted']=false;
+                if($profile_type){
+                    $data['type']=$profile_type;
+                }
                 $this->db->insert('reference_profile',$data);
                 return $this->db->insert_id();
             } catch (Exception $exc) {
