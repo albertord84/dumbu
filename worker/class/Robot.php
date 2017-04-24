@@ -971,7 +971,7 @@ namespace dumbu\cls {
                         if ($users[$i]->user->username === $ref_prof) {
                             $Profile = $users[$i]->user;
                             $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
-                            $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
+//                            $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
                             if (!isset($Profile->follower_count)) {
                                 $Profile->follower_count = isset($Profile->byline) ? $this->parse_follow_count($Profile->byline) : 0;
                             }
@@ -995,6 +995,8 @@ namespace dumbu\cls {
                     for ($i = 0; $i < count($places); $i++) {
                         if ($places[$i]->place->slug === $ref_prof) {
                             $Profile = $places[$i]->place;
+                            $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
+//                            $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
                             break;
                         }
                     }
