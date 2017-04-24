@@ -182,16 +182,12 @@ ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
 
-$client = $Client->get_client(11472);
+$client = $Client->get_client(1);
 ////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'itacoatiara');
 //var_dump($profile);
-$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'nike');
+$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
 var_dump($profile);
-var_dump('fffffffffffffffffffffffffffffffff');
-var_dump($profile->location->pk);
-var_dump('fffffffffffffffffffffffffffffffff');
-var_dump($profile->slug);
 
 
 //$client = $Client->get_client(1);
