@@ -217,6 +217,7 @@ namespace dumbu\cls {
                         . "   users.id as users_id, "
                         . "   clients.cookies as client_cookies, "
                         . "   reference_profile.insta_id as rp_insta_id, "
+                        . "   reference_profile.type as rp_type, "
                         . "   reference_profile.id as rp_id "
                         . "FROM daily_work "
                         . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
@@ -269,6 +270,26 @@ namespace dumbu\cls {
                 );
                 //print "\nClient: $client_id " . mysqli_num_rows($result) . "  ";
                 return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        /**
+         * True is it was followed by this client
+         * @param type $client_id
+         * @param type $followed_id
+         * @return type
+         */
+        public function is_profile_followed($client_id, $followed_id) {
+            try {
+                $result = mysqli_query($this->connection, ""
+                    . "SELECT * FROM followed "
+                    . "WHERE followed.client_id   = $client_id "
+                    . "  AND followed.followed_id = $followed_id; "
+                );
+                //print "\nClient: $followed_id " . mysqli_num_rows($result) . "  ";
+                return mysqli_num_rows($result);
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }

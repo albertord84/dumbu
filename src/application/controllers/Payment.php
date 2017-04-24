@@ -74,26 +74,6 @@ class Payment extends CI_Controller {
         echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
     }
 
-    public function check_client_initial_payment($initial_order_key) {
-        $Payment = new \dumbu\cls\Payment();
-        $result = $Payment->check_payment($initial_order_key);
-        if (is_object($result) && $result->isSuccess()) {
-            $data = $result->getData();
-            //var_dump($data);
-            $SaleDataCollection = $data->SaleDataCollection[0];
-            foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
-                // Get last client payment
-                //$SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
-                $SaleDataDate = new DateTime($SaleData->DueDate);
-                if ($SaleData->CapturedAmountInCents != NULL) {
-                    return TRUE;
-                }
-                //var_dump($SaleData);
-            }
-        }
-        return FALSE;
-    }
-
     public function check_client_payment($client) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -101,8 +81,8 @@ class Payment extends CI_Controller {
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         // Check outhers payments
-        $IOK_ok = $client['initial_order_key'] ? $this->check_client_initial_payment($client['initial_order_key']) : TRUE;
-        $POK_ok = $client['pending_order_key'] ? $this->check_client_initial_payment($client['pending_order_key']) : TRUE;
+        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE;
+        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : TRUE;
         $IOK_ok = $IOK_ok || $POK_ok; // Whichever is paid
         // Check normal recurrency payment
         $result = $Payment->check_payment($client['order_key']);
@@ -218,6 +198,40 @@ class Payment extends CI_Controller {
             print "<br>Email NOT sent to: " . json_encode($client, JSON_PRETTY_PRINT);
 //            throw new Exception("Email not sent to: " . json_encode($client));
         }
+    }
+
+    function retry_payment($order_key) {
+        $result = $this->check_payment($order_key);
+        $now = DateTime::createFromFormat('U', time());
+        if (is_object($result) && $result->isSuccess()) {
+            $data = $result->getData();
+            //var_dump($data);
+            $SaleDataCollection = $data->SaleDataCollection[0];
+            $RetrySaleData = NULL;
+            // Get last client payment
+            foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                $SaleDataDate = new DateTime($SaleData->DueDate);
+                if (($RetrySaleData == NULL || $SaleDataDate > new DateTime($RetrySaleData->DueDate)) && $SaleDataDate < $now) {
+                    $RetrySaleData = $SaleData;
+                }
+            }
+        }
+
+        if ($RetrySaleData && $RetrySaleData->CapturedAmountInCents == NULL) {
+            //var_dump($RetrySaleData->TransactionKey);
+            $result = $this->retry_payment_recurrency($order_key, $RetrySaleData->TransactionKey);
+            if (is_object($result) && $result->isSuccess()) {
+                $result = $result->getData();
+                $RetriedSaleData = $result->CreditCardTransactionResultCollection[0];
+                if ($RetriedSaleData->CapturedAmountInCents > 100) {
+                    return TRUE;
+                }
+            }
+//        print "<pre>";
+//        print json_encode($result, JSON_PRETTY_PRINT);
+//        print "</pre>";
+        }
+        return FALSE;
     }
 
 }

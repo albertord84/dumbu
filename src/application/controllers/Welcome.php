@@ -1514,6 +1514,7 @@ class Welcome extends CI_Controller {
             $cnt_ref_prof=0;
             $cnt_geolocalization=0;            
             if ($N > 0) {
+//                $array_profiles = array(0);   
                 for ($i = 0; $i < $N; $i++) {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $id_profile = $client_active_profiles[$i]['id'];
@@ -1555,7 +1556,6 @@ class Welcome extends CI_Controller {
                     }
                 }
                 
-                
                 if($cnt_ref_prof)
                     $response['array_profiles'] = $array_profiles;
                 else
@@ -1568,7 +1568,7 @@ class Welcome extends CI_Controller {
                 else
                     $response['array_geolocalization'] = array();                
                 $response['N_geolocalization'] = $cnt_geolocalization;
-                
+
                 $response['message'] = 'Profiles loaded';
             } else {
                 $response['N'] =0;

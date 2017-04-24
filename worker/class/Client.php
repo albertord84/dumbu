@@ -148,7 +148,7 @@ namespace dumbu\cls {
                 $Client->email = $client_data->email;
                 $Client->insta_id = $client_data->insta_id;
                 $Client->plane_id = $client_data->plane_id;
-                $Client->to_follow = $client_data->to_follow;
+                $Client->to_follow = isset($client_data->to_follow) ? $client_data->to_follow : 0;
                 $Client->status_id = $client_data->status_id;
                 $Client->insta_following = $client_data->insta_following;
                 $Client->cookies = $client_data->cookies;

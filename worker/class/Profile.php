@@ -71,6 +71,9 @@ namespace dumbu\cls {
                     $error = 4;
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
+                } else if ((strpos($response->message, 'Há solicitações demais. Tente novamente mais tarde') !== FALSE) 
+                       ||  (strpos($response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
+                    $error = 7;
                 } else if (strpos($response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
                     $error = 8;
                 } else if (strpos($response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
@@ -79,7 +82,8 @@ namespace dumbu\cls {
                     $error = 6; // Empty message
                 }
             } // If array
-            else if (is_array($response) && count($response) == 1 && is_string($response[0]) && strpos($response[0], 'Tente novamente mais tarde') !== FALSE) {
+            else if (is_array($response) && count($response) == 1 && is_string($response[0]) && 
+                    ((strpos($response[0], 'Tente novamente mais tarde') !== FALSE) || strpos($response[0], 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
                 $error = 7; // Tente novamente mais tarde
             } else {
                 $error = -1;
