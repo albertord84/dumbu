@@ -16,7 +16,9 @@ $(document).ready(function () {
     var num_profiles, flag = false;    
     var verify = false, flag_unfollow_request = false;
     unfollow_total = parseInt(unfollow_total);
+    autolike = parseInt(autolike);
     init_unfollow_type();
+    init_autolike_type();
 
     $("#btn_verify_account").click(function () {
         if (!verify) {
@@ -59,6 +61,15 @@ $(document).ready(function () {
     );
     
     $("#my_container_toggle").hover(
+            function () {
+                $('#my_container_toggle').css('cursor', 'pointer');
+            },
+            function () {
+                $('#my_container_toggle').css('cursor', 'default');
+            }
+    );
+    
+    $("#my_container_toggle_autolike").hover(
             function () {
                 $('#my_container_toggle').css('cursor', 'pointer');
             },
@@ -228,7 +239,6 @@ $(document).ready(function () {
             confirm_message = 'Confirma ativar a opção UNFOLLOW TOTAL';
             tmp_unfollow_total = 1;
         }
-
         if (confirm(confirm_message)) {
             $.ajax({
                 url: base_url + 'index.php/welcome/unfollow_total',
@@ -263,6 +273,51 @@ $(document).ready(function () {
         } else {
             $('#left_toggle_buttom').css({'background-color': '#DFDFDF'});
             $('#right_toggle_buttom').css({'background-color': '#009CDE'});
+        }
+    }
+
+    $("#my_container_toggle_autolike").click(function () {
+        if (autolike) {
+            confirm_message = 'Confirma desativar o recurso AUTOLIKE';
+            tmp_autolike = 0;
+        } else {
+            confirm_message = 'Confirma ativar o recurso AUTOLIKE';
+            tmp_autolike = 1;
+        }
+        if (confirm(confirm_message)) {
+            $.ajax({
+                url: base_url + 'index.php/welcome/autolike',
+                data: {
+                    'autolike': tmp_autolike
+                },
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    if (response['success']) {
+                        //alert(parseInt(response['unfollow_total']));
+                        set_global_var('autolike', parseInt(response['autolike']));
+                        init_autolike_type();
+                    } else {
+                        alert(T('Erro ao processar sua requisição. Tente depois...'));
+                    }
+                    //l.stop();
+                },
+                error: function (xhr, status) {
+                    alert(T('Erro ao processar sua requisição. Tente depois...'));
+                    //l.stop();
+                }
+            });
+        }
+    });
+
+    function init_autolike_type() {
+        if (!autolike){
+            $('#left_toggle_buttom_autolike').css({'background-color': '#009CDE'});
+            $('#right_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
+        } else{
+            $('#left_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
+            $('#right_toggle_buttom_autolike').css({'background-color': '#009CDE'});
         }
     }
 
@@ -511,6 +566,9 @@ $(document).ready(function () {
             case 'unfollow_total':
                 unfollow_total = value;
                 break;
+            case 'autolike':
+                autolike = value;
+                break;
         }
     }
     
@@ -526,12 +584,12 @@ $(document).ready(function () {
     //GEOLOCALIZACAO
     
     var icons_geolocalization = {
-        0: {'ptr_img_obj':$('#img_geolocalization0'), 'ptr_p_obj':$('#name_geolocalization0'), 'ptr_label_obj':$('#cnt_follows_geolocalization0'), 'ptr_panel_obj':$('#geolocalization0'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization0')},
-        1: {'ptr_img_obj':$('#img_geolocalization1'), 'ptr_p_obj':$('#name_geolocalization1'), 'ptr_label_obj':$('#cnt_follows_geolocalization1'), 'ptr_panel_obj':$('#geolocalization1'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization1')},
-        2: {'ptr_img_obj':$('#img_geolocalization2'), 'ptr_p_obj':$('#name_geolocalization2'), 'ptr_label_obj':$('#cnt_follows_geolocalization2'), 'ptr_panel_obj':$('#geolocalization2'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization2')},
-        3: {'ptr_img_obj':$('#img_geolocalization3'), 'ptr_p_obj':$('#name_geolocalization3'), 'ptr_label_obj':$('#cnt_follows_geolocalization3'), 'ptr_panel_obj':$('#geolocalization3'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization3')},
-        4: {'ptr_img_obj':$('#img_geolocalization4'), 'ptr_p_obj':$('#name_geolocalization4'), 'ptr_label_obj':$('#cnt_follows_geolocalization4'), 'ptr_panel_obj':$('#geolocalization4'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization4')},
-        5: {'ptr_img_obj':$('#img_geolocalization5'), 'ptr_p_obj':$('#name_geolocalization5'), 'ptr_label_obj':$('#cnt_follows_geolocalization5'), 'ptr_panel_obj':$('#geolocalization5'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization5')}        
+        0: {'ptr_img_obj':$('#img_geolocalization0'), 'ptr_p_obj':$('#name_geolocalization0'), 'ptr_label_obj':$('#cnt_follows_geolocalization0'), 'ptr_panel_obj':$('#geolocalization0'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization0'), 'geolocalization_pk':''},
+        1: {'ptr_img_obj':$('#img_geolocalization1'), 'ptr_p_obj':$('#name_geolocalization1'), 'ptr_label_obj':$('#cnt_follows_geolocalization1'), 'ptr_panel_obj':$('#geolocalization1'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization1'), 'geolocalization_pk':''},
+        2: {'ptr_img_obj':$('#img_geolocalization2'), 'ptr_p_obj':$('#name_geolocalization2'), 'ptr_label_obj':$('#cnt_follows_geolocalization2'), 'ptr_panel_obj':$('#geolocalization2'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization2'), 'geolocalization_pk':''},
+        3: {'ptr_img_obj':$('#img_geolocalization3'), 'ptr_p_obj':$('#name_geolocalization3'), 'ptr_label_obj':$('#cnt_follows_geolocalization3'), 'ptr_panel_obj':$('#geolocalization3'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization3'), 'geolocalization_pk':''},
+        4: {'ptr_img_obj':$('#img_geolocalization4'), 'ptr_p_obj':$('#name_geolocalization4'), 'ptr_label_obj':$('#cnt_follows_geolocalization4'), 'ptr_panel_obj':$('#geolocalization4'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization4'), 'geolocalization_pk':''},
+        5: {'ptr_img_obj':$('#img_geolocalization5'), 'ptr_p_obj':$('#name_geolocalization5'), 'ptr_label_obj':$('#cnt_follows_geolocalization5'), 'ptr_panel_obj':$('#geolocalization5'), 'img_geolocalization':'', 'login_geolocalization':'', 'status_geolocalization':'', 'follows_from_geolocalization':'', 'ptr_lnk_geolocalization':$('#lnk_geolocalization5'), 'geolocalization_pk':''}        
     };
     
     $("#upgrade_plane").click(function () {
@@ -588,7 +646,7 @@ $(document).ready(function () {
     });
         
     $("#btn_insert_geolocalization").click(function () {        
-        if (validate_element('#login_geolocalization', '^[a-zA-Z0-9\._]{1,300}$')) {
+        if (validate_element('#login_geolocalization', '^[a-zA-Z0-9\.-]{1,300}$')) {
             if(num_geolocalization < MAX_NUM_GEOLOCALIZATION) {
                 if($('#login_geolocalization').val() != '') {                    
                     var l = Ladda.create(this);
@@ -671,6 +729,8 @@ $(document).ready(function () {
                     icons_geolocalization[i]['img_geolocalization'] = prof[i]['img_geolocalization'];
                     icons_geolocalization[i]['follows_from_geolocalization'] = prof[i]['follows_from_geolocalization'];
                     icons_geolocalization[i]['login_geolocalization'] = prof[i]['login_geolocalization'];
+                    xxx=prof[i]['geolocalization_pk'];
+                    icons_geolocalization[i]['geolocalization_pk'] = prof[i]['geolocalization_pk'];
                     icons_geolocalization[i]['status_geolocalization'] = prof[i]['status_geolocalization'];
                     
                     /*icons_geolocalization[i]['img_geolocalization'] = prof[i]['img_profile'];
@@ -702,7 +762,8 @@ $(document).ready(function () {
              
             icons_geolocalization[i]['ptr_p_obj'].text((icons_geolocalization[i]['login_geolocalization']).replace(/(^.{9}).*$/, '$1...'));
 
-            icons_geolocalization[i]['ptr_lnk_geolocalization'].attr("href", 'https://www.instagram.com/' + icons_geolocalization[i]['login_geolocalization'] + '/');
+            //icons_geolocalization[i]['ptr_lnk_geolocalization'].attr("href", 'https://www.instagram.com/' + icons_geolocalization[i]['login_geolocalization'] + '/');
+            icons_geolocalization[i]['ptr_lnk_geolocalization'].attr("href", 'https://www.instagram.com/explore/locations/'+icons_geolocalization[i]['geolocalization_pk']+'/'+ icons_geolocalization[i]['login_geolocalization'] + '/');
 
             if (icons_geolocalization[i]['status_geolocalization'] === 'ended') {
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
@@ -739,7 +800,10 @@ $(document).ready(function () {
         icons_geolocalization[num_geolocalization]['login_geolocalization'] = datas['profile'];
         icons_geolocalization[num_geolocalization]['follows_from_geolocalization'] = datas['follows_from_profile'];//datas['follows_from_geolocalization'];
         icons_geolocalization[num_geolocalization]['status_geolocalization'] = datas['status_profile'];//datas['status_geolocalization'];
+        icons_geolocalization[num_geolocalization]['geolocalization_pk'] = datas['geolocalization_pk'];
+        
         icons_geolocalization[num_geolocalization]['ptr_lnk_geolocalization'].attr("href", 'https://www.instagram.com/' + datas['profile'] + '/');
+        
         num_geolocalization = num_geolocalization + 1;
         display_geolocalization();
         if (num_geolocalization) {
@@ -768,11 +832,13 @@ $(document).ready(function () {
             }
             icons_geolocalization[j]['status_geolocalization'] = icons_geolocalization[j + 1]['status_geolocalization'];
             icons_geolocalization[j]['ptr_lnk_geolocalization'].attr("href", icons_geolocalization[j + 1]['ptr_lnk_geolocalization'].attr("href"));
+            icons_geolocalization[j]['geolocalization_pk'] = icons_geolocalization[j+1]['geolocalization_pk'];
         }
         icons_geolocalization[j]['img_geolocalization'] = base_url + 'assets/images/avatar_geolocalization.jpg';
         icons_geolocalization[j]['login_geolocalization'] = 'geolocalization' + (j + 1);
         icons_geolocalization[j]['follows_from_geolocalization'] = 0;
         icons_geolocalization[j]['ptr_lnk_geolocalization'].attr("href", "");
+        icons_geolocalization[j]['geolocalization_pk']='';
         num_geolocalization = num_geolocalization - 1;
         display_geolocalization();
 

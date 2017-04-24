@@ -34,8 +34,8 @@ $RP = new \dumbu\cls\Reference_profile();
 
 
 $DB = new \dumbu\cls\DB();
-$result = $DB->is_profile_followed(1, '858888048');
-var_dump($result);
+//$result = $DB->is_profile_followed(1, '858888048');
+//var_dump($result);
 
 //$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
@@ -182,12 +182,16 @@ ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
 
-//$client = $Client->get_client(1);
+$client = $Client->get_client(11472);
 ////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'itacoatiara');
 //var_dump($profile);
-//$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara');
-//var_dump($profile);
+$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'nike');
+var_dump($profile);
+var_dump('fffffffffffffffffffffffffffffffff');
+var_dump($profile->location->pk);
+var_dump('fffffffffffffffffffffffffffffffff');
+var_dump($profile->slug);
 
 
 //$client = $Client->get_client(1);

@@ -154,6 +154,7 @@ class Welcome extends CI_Controller {
             
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
+            $datas1['autolike'] = $this->session->userdata('autolike');
             $datas1['plane_id'] = $this->session->userdata('plane_id');
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
@@ -965,6 +966,20 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
+    
+    public function autolike() {
+        $this->load->model('class/user_role');
+        $this->load->model('class/client_model');
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            $datas = $this->input->post();
+            $this->client_model->update_client($this->session->userdata('id'), array(
+                'like_first' => (int) $datas['autolike']
+            ));
+            $response['success'] = true;
+            $response['autolike'] = $datas['autolike'];
+        }
+        echo json_encode($response);
+    }
 
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -1178,7 +1193,6 @@ class Welcome extends CI_Controller {
     }
 
     //functions for geolocalizations
-    
     public function client_insert_geolocalization() {
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
@@ -1204,12 +1218,14 @@ class Welcome extends CI_Controller {
                     break;
                 }
             }
-            if (!$is_active_profile && !$is_active_geolocalization) {
+            if (/*!$is_active_profile &&*/ !$is_active_geolocalization) {
                 if ($N_geolocalization < $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
-                    $profile_datas = $this->check_insta_profile($profile['geolocalization']);
+                    //$profile_datas = $this->check_insta_profile($profile['geolocalization']);
+                    $profile_datas = $this->check_insta_geolocalization($profile['geolocalization']);                    
+                    
                     if($profile_datas) {                                                
-                        if(!$profile_datas->is_private) {
-                            $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['geolocalization'], $profile_datas->pk,'1');
+                        //if(!$profile_datas->is_private) {
+                            $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile_datas->slug, $profile_datas->location->pk, '1');
                             if ($p) {
                                 if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
                                     $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
@@ -1219,7 +1235,8 @@ class Welcome extends CI_Controller {
                                 $result['success'] = true;
                                 $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
                                 $result['profile'] = $profile['geolocalization'];
-                                $result['follows_from_profile'] = $profile_datas->follows;
+                                $result['geolocalization_pk'] = $profile_datas->location->pk;
+                                $result['follows_from_profile'] = 0;
                                 if ($q) {
                                     $result['message'] = $this->T('Geolocalização adicionada corretamente', array());
                                 } else {
@@ -1229,10 +1246,10 @@ class Welcome extends CI_Controller {
                                 $result['success'] = false;
                                 $result['message'] = $this->T('Erro no sistema, tente novamente', array());
                             }
-                        } else {
+                        /*} else {
                             $result['success'] = false;
                             $result['message'] = $this->T('A geolocalização @1 é um perfil privado', array(0 => $profile['geolocalization']));
-                        }
+                        }*/
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é uma geolocalização do Instagram', array(0 => $profile['geolocalization']));
@@ -1296,7 +1313,7 @@ class Welcome extends CI_Controller {
                     break;
                 }
             }
-            if (!$is_active_profile && !$is_active_geolocalization) {
+            if (!$is_active_profile /*&& !$is_active_geolocalization*/) {
                 if ($N_profiles < $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas = $this->check_insta_profile($profile['profile']);
                     if($profile_datas) {                                                
@@ -1372,6 +1389,19 @@ class Welcome extends CI_Controller {
             return NULL;
         }
         //}
+    }
+    
+    public function check_insta_geolocalization($profile) {
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+            $this->Robot = new \dumbu\cls\Robot();
+            $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
+            if (is_object($datas_of_profile)) {
+                return $datas_of_profile;
+            } else {
+                return NULL;
+            }
+        }
     }
 
     public function message() {
@@ -1518,8 +1548,8 @@ class Welcome extends CI_Controller {
                 for ($i = 0; $i < $N; $i++) {
                     $name_profile = $client_active_profiles[$i]['insta_name'];
                     $id_profile = $client_active_profiles[$i]['id'];
-                    $datas_of_profile = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                     if($client_active_profiles[$i]['type']==='0'){ //es un perfil de referencia
+                    $datas_of_profile = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                         if($datas_of_profile!=NULL){                            
                             $array_profiles[$cnt_ref_prof]['login_profile'] = $name_profile;
                             $array_profiles[$cnt_ref_prof]['follows_from_profile'] = $datas_of_profile->follows;
@@ -1543,16 +1573,22 @@ class Welcome extends CI_Controller {
                             $response['array_profiles'] = NULL;
                             $response['message'] = 'Profiles unloaded by instagram failed connection';
                         }
-                    } else{ //es una geolocalizacion                        
+                    } else{ //es una geolocalizacion      
+                        $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                         $array_geolocalization[$cnt_geolocalization]['login_geolocalization'] = $name_profile;
-                        $array_geolocalization[$cnt_geolocalization]['follows_from_geolocalization'] = $datas_of_profile->follows;
+                        $array_geolocalization[$cnt_geolocalization]['geolocalization_pk'] = $client_active_profiles[$i]['insta_id'];
+                        /*TODO Alberto*/$array_geolocalization[$cnt_geolocalization]['follows_from_geolocalization'] = 0;// $datas_of_profile->follows;
                         $array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
+                        if(!$datas_of_profile){                        
+                            /*TODO JoseR*/$array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_deleted.jpg';
+                            $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'deleted';
+                        } else
                         if ($client_active_profiles[$cnt_geolocalization]['end_date']) { //perfil
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'ended';
                         } else{
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'active';
                         }
-                        $cnt_geolocalization=$cnt_geolocalization+1;
+                        $cnt_geolocalization=$cnt_geolocalization+1;                        
                     }
                 }
                 
@@ -1560,24 +1596,21 @@ class Welcome extends CI_Controller {
                     $response['array_profiles'] = $array_profiles;
                 else
                     $response['array_profiles']=array();
-                $response['N'] = $cnt_ref_prof;
-                
-                
+                $response['N'] = $cnt_ref_prof;  
                 if($cnt_geolocalization)
                     $response['array_geolocalization'] = $array_geolocalization;
                 else
                     $response['array_geolocalization'] = array();                
                 $response['N_geolocalization'] = $cnt_geolocalization;
-
                 $response['message'] = 'Profiles loaded';
+                
             } else {
                 $response['N'] =0;
                 $response['N_geolocalization'] =0;
                 $response['array_profiles'] = NULL;
                 $response['array_geolocalization'] =NULL;
                 $response['message'] = 'Profiles unloaded';
-            }
-            
+            }            
             return json_encode($response);
         } else {
             $this->display_access_error();

@@ -33,6 +33,7 @@
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>
+        <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
 
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
@@ -449,7 +450,7 @@
                             </div>
 
                             <div class="m-t10 text-center">
-                                <p class="fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que postaram fotos na localização que você escolher, uma parte <br>desses usuários o seguirão de volta e após um determinado tempo deixaremos de <br>seguir esses usuários. Adicione suas localizações de interesse aqui:", array()); ?></p>
+                                <p class="fleft100"><?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização:", array()); ?></p>
                             </div>                
 
                             <br>
@@ -467,7 +468,7 @@
                                     <ul class="add-perfil text-center">
                                         <li>
                                             <div id="geolocalization0" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization0" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
+                                                <img id="img_geolocalization0" class="img_geolocalization wauto" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                 <br>
                                                 <a id="lnk_geolocalization0" target="_blank" href="#">
                                                     <small id="name_geolocalization0" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -478,7 +479,7 @@
 
                                         <li>
                                             <div id="geolocalization1" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization1" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
+                                                <img id="img_geolocalization1" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                 <br>
                                                 <a id="lnk_geolocalization1" target="_blank" href="#">
                                                     <small id="name_geolocalization1" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -489,7 +490,7 @@
 
                                         <li>
                                             <div id="geolocalization2" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization2" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
+                                                <img id="img_geolocalization2" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                 <br>
                                                 <a id="lnk_geolocalization2" target="_blank" href="#">
                                                     <small id="name_geolocalization2" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -500,7 +501,7 @@
 
                                         <li>
                                             <div id="geolocalization3" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization3" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
+                                                <img id="img_geolocalization3" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                 <br>
                                                 <a id="lnk_geolocalization3" target="_blank" href="#">
                                                     <small id="name_geolocalization3" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -511,7 +512,7 @@
 
                                         <li>
                                             <div id="geolocalization4" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization4" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
+                                                <img id="img_geolocalization4" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                 <br>
                                                 <a id="lnk_geolocalization4" target="_blank" href="#">
                                                     <small id="name_geolocalization4" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -522,7 +523,7 @@
 
                                         <li>
                                             <div id="geolocalization5" class="container-geolocalization">                                                                    
-                                                <img id="img_geolocalization5" class="img_geolocalization" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
+                                                <img id="img_geolocalization5" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                 <br>
                                                 <a id="lnk_geolocalization5" target="_blank" href="#">
                                                     <small id="name_geolocalization5" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -751,11 +752,7 @@
         </div>
                 -->
 
-
-
-
-
-                <div class="col-md-6 col-sm-6 col-xs-12">                            
+                <div class="col-md-6 col-sm-6 col-xs-12 m-t40">                            
                     <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
                         <h3 class="fleft100 m-t10"><b><?php echo $CI->T("INÍCIO ", array()); ?><?php echo date("j", $my_sigin_date) . '/' . date("n", $my_sigin_date); ?></b></h3>
                         <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_followings; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo", array()); ?></small></div>
@@ -780,26 +777,7 @@
                             <b class="cl-black"><?php echo $CI->T("Ganho desde o início", array()); ?></b>
                             <h1 class="no-mg fleft100"><b><?php echo ($my_actual_followers - $my_initial_followers); ?></b></h1>
                         </div>
-                    </div>
-
-                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20 no-pd center-mobile">                                    
-                        <h2><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></h2>
-                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
-                                    processo onde deixará de seguir todos os perfis que segue no
-                                    momento. Todos os perfis em sua lista de "Seguindo" serão deixados
-                                    de seguir de manera aleatória. Ao desativar o recurso sua conta
-                                    deixa de seguir apenas as contas que a Dumbu seguiu.', array()); ?>
-                        </p>
-
-                        <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
-                            <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
-                                <b style="color:white; margin-left: 25px"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></b>
-                            </div>
-                            <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
-                                <b style="color:white;margin-left: 25px"><?php echo $CI->T("UNFOLLOW NORMAL", array()); ?></b>
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
 
 
@@ -858,9 +836,9 @@
                     </div>-->
 
                     <b class="cl-black fleft100"><?php echo $CI->T("Gráfico de desempenho", array()); ?></b>
-                    <div class="grafico fleft100 m-tb20">
+                    <div class="grafico fleft100 m-tb20  text-center">
                         <!--<img src="<?php //echo base_url().'assets/images/grafico.jpg'; ?>" alt="">-->
-                        <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+                        <div id="chartContainer" style="height: 300px; width: 90%;"></div>
                     </div>
                     <!--<span class="fleft100">
                         <b style="color:#2f61c5;">▬Seguidores ganhos</b> 
@@ -875,7 +853,48 @@
                             <li><a href=""><span>3º</span><img src="<?php //echo base_url().'assets/images/avatar.png'; ?>" class="wauto" alt=""></a><small class="fleft100 m-t10">@perfilderef <b class="cl-green fleft100 m-t20">25% <br><small>seguiu você</small></b></small></li>							
                         </ul>
                     </div>-->
-                </div>                   
+                </div>    
+                
+                
+                <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
+                    <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
+                    <h3 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></h3>
+                    <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
+                                processo onde deixará de seguir todos os perfis que segue no
+                                momento. Todos os perfis em sua lista de "Seguindo" serão deixados
+                                de seguir de manera aleatória. Ao desativar o recurso sua conta
+                                deixa de seguir apenas as contas que a Dumbu seguiu.', array()); ?>
+                    </p>
+
+                    <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                        <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                            <b style="color:white; margin-left: 25px"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></b>
+                        </div>
+                        <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                            <b style="color:white;margin-left: 25px"><?php echo $CI->T("UNFOLLOW NORMAL", array()); ?></b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-12 m-t20 text-center">
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
+                    <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
+                    <h3 class="m-t10"><?php echo $CI->T("AUTOLIKE", array()); ?></h3>
+                    <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
+                            automaticamente na primeira foto de todos os perfis que seguir, esse 
+                            processo pode aumentar sua conversão de seguidores.', array()); ?>
+                    </p>
+
+                    <div id='my_container_toggle_autolike' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                        <div id="left_toggle_buttom_autolike" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                            <b style="color:white; margin-left: 25px"><?php echo $CI->T("DESLIGADO", array()); ?></b>
+                        </div>
+                        <div id="right_toggle_buttom_autolike" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                            <b style="color:white;margin-left: 25px"><?php echo $CI->T("LIGADO", array()); ?></b>
+                        </div>
+                    </div>
+                </div>
+                
 
 
                 <div class="fleft100">
