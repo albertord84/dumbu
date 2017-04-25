@@ -241,7 +241,7 @@ $Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
-//$Worker->prepare_daily_work();
+$Worker->prepare_daily_work();
 //$Worker->do_work();
 //----------------------------------------------------------------
 
