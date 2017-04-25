@@ -16,6 +16,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 
+
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
@@ -49,7 +50,7 @@ $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
 //$client = $Client->get_client(11472);
-//$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'josergm86');
+//$profile_data = (new dumbu\cls\Robot())->get_insta_ref_prof_data 'josergm86');
 //$profile_data = json_decode($profile_data,true);
 //var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
