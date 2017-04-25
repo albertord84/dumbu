@@ -181,13 +181,14 @@ ini_set('xdebug.var_display_max_depth', 5);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
+var_dump($_SERVER['QUERY_STRING']);
 
-$client = $Client->get_client(1);
+//$client = $Client->get_client(11667);
 ////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
-//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'itacoatiara');
+//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
 //var_dump($profile);
-$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
-var_dump($profile);
+//$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
+//var_dump($profile);
 
 
 //$client = $Client->get_client(1);
