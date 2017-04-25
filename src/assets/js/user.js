@@ -1,4 +1,13 @@
 $(document).ready(function(){   
+    
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
         
     $("#btn_dumbu_login1").click(function() {
         $("#btn_dumbu_login1").css({'cursor':'wait'});
@@ -74,7 +83,7 @@ $(document).ready(function(){
                         }
                     },                
                     error : function(xhr, status) {
-                        alert(T('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
+                        modal_alert_message(T('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
                         l.stop();
                     }
                 });   

@@ -1,5 +1,14 @@
 $(document).ready(function(){
     
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
+    
     $("#btn_send_message").click(function(){
         name=validate_empty('#visitor_name');
         email=validate_element('#visitor_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");
@@ -18,18 +27,18 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response){
                     if(response['success']){                        
-                        alert(response['message']);                        
+                        modal_alert_message(response['message']);                        
                     } else
-                        alert(response['message']);    
+                        modal_alert_message(response['message']);    
                     l.stop();
                 },
                 error : function(xhr, status) {
-                    alert(T('Erro enviando a mensagem, tente depois...'));
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));
                     l.stop();
                 }                
             });
         } else{
-            alert(T('Alguns dados incorretos'));
+            modal_alert_message(T('Alguns dados incorretos'));
         }
     });
         

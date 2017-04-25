@@ -1,4 +1,28 @@
-$(document).ready(function () {    
+$(document).ready(function () {   
+    
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
+    
+    /*var confirmation=false;
+    function modal_confirm_message(text_message){
+        $('#modal_confirm_message').modal('show');
+        $('#message_text_confirmation').text(text_message);
+    }
+    
+    $("#accept_modal_confirm_message").click(function () {
+        $('#modal_confirm_message').modal('hide');
+        confirmation=true;
+    });
+    $("#cancel_modal_confirm_message").click(function () {
+        $('#modal_confirm_message').modal('hide');
+        confirmation=false;
+    });*/
     
     //----------------------------------------------------------------------------------------------------------
     //PERFIS DE REFERENCIA
@@ -11,9 +35,7 @@ $(document).ready(function () {
         5: {'ptr_img_obj': $('#img_ref_prof5'), 'ptr_p_obj': $('#name_ref_prof5'), 'ptr_label_obj': $('#cnt_follows_prof5'), 'ptr_panel_obj': $('#reference_profile5'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof5')},
     };
     
-    
-
-    var num_profiles, flag = false;    
+    var num_profiles, flag = false;
     var verify = false, flag_unfollow_request = false;
     unfollow_total = parseInt(unfollow_total);
     autolike = parseInt(autolike);
@@ -34,7 +56,7 @@ $(document).ready(function () {
 
     $(".img_profile").hover(
             function (e) {
-                //alert($(e.target).attr('id'))
+                //modal_alert_message($(e.target).attr('id'))
                 $('.img_profile').css('cursor', 'pointer');
             },
             function () {
@@ -142,7 +164,7 @@ $(document).ready(function () {
                                 $('#reference_profile_message').text(response['message']);
                                 $('#reference_profile_message').css('visibility', 'visible');
                                 $('#reference_profile_message').css('color', 'red')
-                                //alert(response['message']);                        
+                                //modal_alert_message(response['message']);                        
                             }
                             $("#waiting_inser_profile").css({"visibility": "hidden", "display": "none"});
                             l.stop();
@@ -151,7 +173,7 @@ $(document).ready(function () {
                             $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
                             $('#reference_profile_message').css('visibility', 'visible');
                             $('#reference_profile_message').css('color', 'red');
-                            //alert('Não foi possível conectar com o Instagram');
+                            //modal_alert_message('Não foi possível conectar com o Instagram');
                             l.stop();
                         }
                     });
@@ -160,13 +182,13 @@ $(document).ready(function () {
                 $('#reference_profile_message').text(T('Alcançou a quantidade máxima.'));
                 $('#reference_profile_message').css('visibility', 'visible');
                 $('#reference_profile_message').css('color', 'red');
-                //alert('Alcançou a quantidade maxima permitida');
+                //modal_alert_message('Alcançou a quantidade maxima permitida');
             }
         } else {
             $('#reference_profile_message').text(T('* O nome do perfil só pode conter letras, números, sublinhados e pontos.'));
             $('#reference_profile_message').css('visibility', 'visible');
             $('#reference_profile_message').css('color', 'red');
-            //alert('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
+            //modal_alert_message('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
         }
     });
 
@@ -192,12 +214,12 @@ $(document).ready(function () {
                                 $(location).attr('href', base_url + 'index.php/welcome/' + response['resource'] + '');
                             }
                         } else {
-                            alert('Senha incorreta');
+                            modal_alert_message('Senha incorreta');
                         }
                         l.stop();
                     },
                     error: function (xhr, status) {
-                        alert(T('Erro encontrado. Informe para o atendimento seu caso.'));
+                        modal_alert_message(T('Erro encontrado. Informe para o atendimento seu caso.'));
                         l.stop();
                     }
                 });
@@ -224,7 +246,7 @@ $(document).ready(function () {
             $("#insert_profile_form").fadeIn();
             $("#insert_profile_form").css({"visibility": "visible", "display": "block"});
         } else
-            alert(T('Alcançou a quantidade maxima permitida'));
+            modal_alert_message(T('Alcançou a quantidade maxima permitida'));
     });
 
     $("#btn_RP_status").click(function () {
@@ -250,16 +272,16 @@ $(document).ready(function () {
                 async: false,
                 success: function (response) {
                     if (response['success']) {
-                        //alert(parseInt(response['unfollow_total']));
+                        //modal_alert_message(parseInt(response['unfollow_total']));
                         set_global_var('unfollow_total', parseInt(response['unfollow_total']));
                         init_unfollow_type();
                     } else {
-                        alert(T('Erro ao processar sua requisição. Tente depois...'));
+                        modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
                     }
                     //l.stop();
                 },
                 error: function (xhr, status) {
-                    alert(T('Erro ao processar sua requisição. Tente depois...'));
+                    modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
                     //l.stop();
                 }
             });
@@ -295,16 +317,16 @@ $(document).ready(function () {
                 async: false,
                 success: function (response) {
                     if (response['success']) {
-                        //alert(parseInt(response['unfollow_total']));
+                        //modal_alert_message(parseInt(response['unfollow_total']));
                         set_global_var('autolike', parseInt(response['autolike']));
                         init_autolike_type();
                     } else {
-                        alert(T('Erro ao processar sua requisição. Tente depois...'));
+                        modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
                     }
                     //l.stop();
                 },
                 error: function (xhr, status) {
-                    alert(T('Erro ao processar sua requisição. Tente depois...'));
+                    modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
                     //l.stop();
                 }
             });
@@ -332,10 +354,10 @@ $(document).ready(function () {
                     if (response['success']) {
                         delete_icons_profiles(element);
                     } else
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                 },
                 error: function (xhr, status) {
-                    alert(T('Não foi possível conectar com o Instagram'));
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
                 }
             });
         }
@@ -362,7 +384,7 @@ $(document).ready(function () {
             }
             display_reference_profiles();
         } else {
-            alert('Não foi possível comunicar com o Instagram pra verificar seus perfis de referência. Tente depois');
+            modal_alert_message('Não foi possível comunicar com o Instagram pra verificar seus perfis de referência. Tente depois');
         }
     }
 
@@ -493,15 +515,15 @@ $(document).ready(function () {
                 async: false,
                 success: function (response) {
                     if (response['success'] == true) {
-                        alert(response['success']);
+                        modal_alert_message(response['success']);
                         $(location).attr('href', base_url + 'index.php/welcome/client');
                     } else {
-                        alert(T('Não foi possível trocar de plano, Entre en contaco com o Atendimento'));
+                        modal_alert_message(T('Não foi possível trocar de plano, Entre en contaco com o Atendimento'));
                     }
                     l.stop();
                 },
                 error: function (xhr, status) {
-                    alert(T('Erro enviando sua solicitação. Reporte o caso para nosso Atendimento'));
+                    modal_alert_message(T('Erro enviando sua solicitação. Reporte o caso para nosso Atendimento'));
                     l.stop();
                 }
             });
@@ -593,7 +615,7 @@ $(document).ready(function () {
     };
     
     $("#upgrade_plane").click(function () {
-             $("#myModal_geolocalization").modal('hide');    
+        $("#myModal_geolocalization").modal('hide');    
     });
     
 //    function disable_geolocalization_painel() {
@@ -607,7 +629,7 @@ $(document).ready(function () {
     
     $(".img_geolocalization").hover(
             function (e) {
-                //alert($(e.target).attr('id'))
+                //modal_alert_message($(e.target).attr('id'))
                 $('.img_geolocalization').css('cursor', 'pointer');
             },
             function () {
@@ -709,10 +731,10 @@ $(document).ready(function () {
                     if (response['success']) {
                         delete_icons_geolocalization(element);
                     } else
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                 },
                 error: function (xhr, status) {
-                    alert(T('Não foi possível conectar com o Instagram'));
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
                 }
             });
         }
@@ -747,7 +769,7 @@ $(document).ready(function () {
             }
             display_geolocalization();
         } else {
-            alert('Não foi possível comunicar com o Instagram pra verificar seus perfis de referência. Tente depois');
+            modal_alert_message('Não foi possível comunicar com o Instagram pra verificar seus perfis de referência. Tente depois');
         }
     }
 

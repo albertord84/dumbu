@@ -34,6 +34,7 @@
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var languaje = '<?php echo $languaje;?>';</script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$languaje.'/internalization.js';?>"></script>
@@ -355,15 +356,15 @@
                                                 <h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
 						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("99,90",array());?></b></span>
                                                 <br>
-                                                <div class="text-left m-l10">
+                                                <div class="text-left m-l10" style="margin-left: 5px">
                                                     <span >
-                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
                                                         <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
                                                     </span>
                                                     <br>
                                                     <span>
-                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
                                                         <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
                                                     </span>
@@ -381,15 +382,15 @@
 						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("99,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
 						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("189,90",array());?></b></span>
                                                 <br>
-                                                <div class="text-left m-l10">
+                                                <div class="text-left m-l10" style="margin-left: 5px">
                                                     <span >
-                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
                                                         <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
                                                     </span>
                                                     <br>
                                                     <span>
-                                                        <img src="<?php echo base_url().'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
                                                         <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
                                                     </span>
@@ -628,5 +629,30 @@
 				$( '#dl-menu' ).dlmenu();
 			});
 		</script>
+                
+                <!--modal_container_alert_message-->
+                <div class="modal fade" style="top:30%" id="modal_alert_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">                                                          
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                                </button>
+                                <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Mensagem", array()); ?></b></h5>                        
+                            </div>
+                            <div class="modal-body">                                            
+                                <p id="message_text"></p>                        
+                            </div>
+                            <div class="modal-footer text-center">
+                                <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>                                                        
+                </div> 
+                
+                
+                
 	</body>
 </html>

@@ -1,4 +1,13 @@
-$(document).ready(function(){ 
+$(document).ready(function(){
+    
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
     
     var icons_profiles={            
         0:{'ptr_img_obj':$('#img_ref_prof0'),'ptr_p_obj':$('#name_ref_prof0'),  'ptr_label_obj':$('#cnt_follows_prof0'),     'ptr_panel_obj':$('#reference_profile0'),'img_profile':'','login_profile':'','status_profile':'', 'follows_from_profile':'',  'ptr_lnk_ref_prof':$('#lnk_ref_prof0')},
@@ -33,7 +42,7 @@ $(document).ready(function(){
                     }
                 })
         } else
-            alert(T('Alcançou a quantidade maxima permitida'));
+            modal_alert_message(T('Alcançou a quantidade maxima permitida'));
     });
         
     
@@ -57,13 +66,13 @@ $(document).ready(function(){
                                 $('#reference_profile_message').css({'visibility':'hidden','display':'none'});
                                 if(num_profiles==MAX_NUM_PROFILES){
                                     $('#btn_modal_close').click();
-                                    alert(T('Otimo! Agora pode continuar e entrar no painel do cliente.'));
+                                    modal_alert_message(T('Otimo! Agora pode continuar e entrar no painel do cliente.'));
                                 }                                    
                             } else{
                                 $('#reference_profile_message').text(response['message']);
                                 $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                                 $('#reference_profile_message').css('color','red');
-                                //alert(response['message']);                        
+                                //modal_alert_message(response['message']);                        
                             }
                             l.stop();
                         },
@@ -79,13 +88,13 @@ $(document).ready(function(){
                 $('#reference_profile_message').text(T('Alcançou a quantidade maxima.'));
                 $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                 $('#reference_profile_message').css('color','red');
-                //alert('Alcançou a quantidade maxima permitida');
+                //modal_alert_message('Alcançou a quantidade maxima permitida');
             }
         } else{
             $('#reference_profile_message').text(T('* O nome do perfil só pode conter letras, números, sublinhados e pontos.'));
             $('#reference_profile_message').css({'visibility':'visible','display':'block'});
             $('#reference_profile_message').css('color','red');
-            //alert('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
+            //modal_alert_message('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
         }        
     });
         
@@ -100,10 +109,10 @@ $(document).ready(function(){
                     if(response['success']){
                         delete_icons_profiles(element);
                     } else
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert(T('Não foi possível conectar com o Instagram'));
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
                 }
             });
         }
@@ -255,7 +264,7 @@ $(document).ready(function(){
     
     $("#continuar_purchase").click(function(){
         if(num_profiles==0)
-            alert(T('Deve adicionar pelo menos um Perfil de Referência para continuar.'));
+            modal_alert_message(T('Deve adicionar pelo menos um Perfil de Referência para continuar.'));
         else{
             var l = Ladda.create(this);  l.start();
             $(location).attr('href',base_url+'index.php/welcome/client'); 

@@ -1,5 +1,14 @@
 $(document).ready(function(){  
     
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
+    
     /*$("#credit_card_name").val(upgradable_datas['credit_card_name']);    
     $("#credit_card_number").val(upgradable_datas['credit_card_number']);
     $("#credit_card_cvc").val(upgradable_datas['credit_card_cvc']);
@@ -35,10 +44,10 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response) {
                     if(response['success']){
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                         $(location).attr('href',base_url+'index.php/welcome/client');
                     } else{
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                     }
                     l.stop();
                 },
@@ -47,7 +56,7 @@ $(document).ready(function(){
                 }
             });
         } else{
-            alert(T('Erro nos dados fornecidos'));
+            modal_alert_message(T('Erro nos dados fornecidos'));
         }
     }); 
     

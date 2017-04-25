@@ -1,5 +1,14 @@
 $(document).ready(function(){
     
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
+    
     $("#btn_change_ticket_peixe_urbano_status_id").click(function(){        
         var l = Ladda.create(this);  l.start();
         $.ajax({
@@ -26,10 +35,10 @@ $(document).ready(function(){
                         $("#option_confered").attr("selected",true);
                     }
                 } else
-                    alert(response['message']);
+                    modal_alert_message(response['message']);
             },
             error : function(xhr, status) {
-                alert('Não foi possível realizar a operação de atualização do status do cupom');
+                modal_alert_message('Não foi possível realizar a operação de atualização do status do cupom');
             }
         });
         l.stop();
@@ -46,7 +55,7 @@ $(document).ready(function(){
            $("#order_key_client").val()==='' &&
            $("#ds_user_id").val()==='' &&
            $("#credit_card_name").val()==='') 
-            alert('Deve selecionar pelo menos um critério para filtrar a informação');
+            modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
             params='client_status='+$("#client_status").val();
@@ -78,13 +87,13 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response){
                     if(response['success']){
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                         $(e.currentTarget).attr({"disabled":"true"});
                     } else
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert('Não foi possível realizar a operação de cancelamento!');
+                    modal_alert_message('Não foi possível realizar a operação de cancelamento!');
                 }
             });
             l.stop();
@@ -103,13 +112,13 @@ $(document).ready(function(){
                 dataType : 'json',
                 success : function(response){
                     if(response['success']){
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                         $(name_row).css({"visibility":"hidden","display":"none"});
                     } else
-                        alert(response['message']);
+                        modal_alert_message(response['message']);
                 },
                 error : function(xhr, status) {
-                    alert('Não foi possível realizar a operação de desactivação!');
+                    modal_alert_message('Não foi possível realizar a operação de desactivação!');
                 }
             });
             l.stop();
@@ -118,7 +127,7 @@ $(document).ready(function(){
     
     $(".view-ref-prof").click(function(e){
        id=$(e.currentTarget).attr('id');
-       alert(id);
+       modal_alert_message(id);
     });
     
     $('#admin_form').keypress(function (e) {

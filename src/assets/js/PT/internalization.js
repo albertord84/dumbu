@@ -67,7 +67,9 @@ var Translation={
     "Deve adicionar pelo menos um Perfil de Referência para continuar.":
             "Deve adicionar pelo menos um Perfil de Referência para continuar.",
     "Deseja elimiar a geolocalização ":
-            "Deseja elimiar a geolocalização "
+            "Deseja elimiar a geolocalização ",
+    "Otimo! Agora pode continuar e entrar no painel do cliente.":
+            "Otimo! Agora pode continuar e entrar no painel do cliente."
 };
 
 function T(token){

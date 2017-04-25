@@ -1,4 +1,13 @@
 $(document).ready(function () {
+    
+    function modal_alert_message(text_message){
+        $('#modal_alert_message').modal('show');
+        $('#message_text').text(text_message);        
+    }
+    
+    $("#accept_modal_alert_message").click(function () {
+        $('#modal_alert_message').modal('hide');
+    });
 
     active_by_steep(1);
 
@@ -32,16 +41,16 @@ $(document).ready(function () {
                     if (response['success']) {
                         set_global_var('cupao_number_checked', true);  
                     }
-                    alert(response['message']);
+                    modal_alert_message(response['message']);
                     l.stop();
                 },
                 error: function (xhr, status) {
-                    alert('Não foi possível conferir a autenticidade do CUPOM. Tente depois.');                    
+                    modal_alert_message('Não foi possível conferir a autenticidade do CUPOM. Tente depois.');                    
                     l.stop();
                 }
             });
         }else{
-            alert('Deve preencher o campo com o código do CUPOM');  
+            modal_alert_message('Deve preencher o campo com o código do CUPOM');  
         }
     });
     
@@ -74,13 +83,13 @@ $(document).ready(function () {
                                     set_global_var('email', $('#client_email').val());
                                     set_global_var('need_delete', response['need_delete']);
                                     //if(need_delete<response['MIN_MARGIN_TO_INIT']){   
-                                     //alert('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
+                                     //modal_alert_message('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
                                     // }
                                     active_by_steep(2);
                                     l.stop();
                                 } else {
                                     if (response['cause'] == 'checkpoint_required') {
-                                        alert(response['message']);
+                                        modal_alert_message(response['message']);
                                     } else {
                                         $('#container_sigin_message').text(response['message']);
                                         $('#container_sigin_message').css('visibility', 'visible');
@@ -111,18 +120,18 @@ $(document).ready(function () {
                 $('#container_sigin_message').text(T('Problemas na estrutura do email informado!'));
                 $('#container_sigin_message').css('visibility', 'visible');
                 $('#container_sigin_message').css('color', 'red');
-                //alert('O email informado não é correto');
+                //modal_alert_message('O email informado não é correto');
             }
         } else {
             $('#container_sigin_message').text(T('Deve preencher todos os dados corretamente!'));
             $('#container_sigin_message').css('visibility', 'visible');
             $('#container_sigin_message').css('color', 'red');
-            //alert('Formulario incompleto');
+            //modal_alert_message('Formulario incompleto');
         }
     });
     
     $("#btn_sing_in").click(function () {
-//        alert("Estamos apresentando problemas com o pagamento, por favor entre em contato como atendimento! Obrigado");
+//        modal_alert_message("Estamos apresentando problemas com o pagamento, por favor entre em contato como atendimento! Obrigado");
 //        return;
         if (flag == true) {
             flag = false;
@@ -162,11 +171,11 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function (response) {
                         if (response['success']) {
-                            //alert("Sua compra foi realizada corretamente. Você sera redirecionado ...");
+                            //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
                             //$(location).attr('href',base_url+'index.php/welcome/client');
                             $(location).attr('href', base_url + 'index.php/welcome/purchase');
                         } else {
-                            alert(response['message']);
+                            modal_alert_message(response['message']);
                             set_global_var('flag', true);
                             $('#btn_sing_in').attr('disabled', false);
                             $('#btn_sing_in').css('cursor', 'pointer');
@@ -179,7 +188,7 @@ $(document).ready(function () {
                     }
                 });
             } else {
-                alert('Verifique os dados fornecidos');
+                modal_alert_message('Verifique os dados fornecidos');
                 set_global_var('flag', true);
                 $('#btn_sing_in').attr('disabled', false);
                 $('#btn_sing_in').css('cursor', 'pointer');
