@@ -735,7 +735,6 @@ class Welcome extends CI_Controller {
                     $response['message'] = $this->T('O usuario informado já tem cadastro no sistema.', array());
                 }
             }
-
             if ($response['success'] == true) {
                 $response['need_delete'] = ($GLOBALS['sistem_config']->INSTA_MAX_FOLLOWING - $data_insta->following);
                 //TODO: guardar esta cantidad en las cookies para trabajar con lo que este en la cookie
@@ -1595,9 +1594,9 @@ class Welcome extends CI_Controller {
                         $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                         $array_geolocalization[$cnt_geolocalization]['login_geolocalization'] = $name_profile;
                         $array_geolocalization[$cnt_geolocalization]['geolocalization_pk'] = $client_active_profiles[$i]['insta_id'];
-                        /*TODO Alberto*/$array_geolocalization[$cnt_geolocalization]['follows_from_geolocalization'] = 0;// $datas_of_profile->follows;
+                        /*TODO Alberto*/$array_geolocalization[$cnt_geolocalization]['follows_from_geolocalization'] = $datas_of_profile->follows;
                         $array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
-                        if(!$datas_of_profile){                        
+                        if(!$datas_of_profile){
                             /*TODO JoseR*/$array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_deleted.jpg';
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'deleted';
                         } else
