@@ -313,7 +313,6 @@ class Welcome extends CI_Controller {
                                     $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
                                 }
                             }
-
                             //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                             //$active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
                             if ($data_insta['insta_login_response']) {

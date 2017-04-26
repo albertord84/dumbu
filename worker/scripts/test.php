@@ -177,12 +177,12 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
-$Robot = new dumbu\cls\Robot();
+/*$Robot = new dumbu\cls\Robot();
 ini_set('xdebug.var_display_max_depth', 5);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-var_dump($_SERVER['QUERY_STRING']);
+var_dump($_SERVER['QUERY_STRING']);*/
 
 //$client = $Client->get_client(11667);
 ////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
@@ -222,8 +222,9 @@ var_dump($_SERVER['QUERY_STRING']);
 //exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
 //var_dump($output);
 //var_dump($return_var);
-//$result = $Robot->bot_login("alberto_dreyes", "albertord4");
-//var_dump($result);
+$Robot = new dumbu\cls\Robot();
+$result = $Robot->bot_login("fabianotunes", "Fa22169757");
+var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));

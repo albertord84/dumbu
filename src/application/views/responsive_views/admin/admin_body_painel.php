@@ -53,7 +53,7 @@
                 <div class="col-md-2">
                     <div class="center filters">
                         <b>ID do cliente</b>
-                        <input id="credit_card_name" class="form-control" placeholder="Credit Card Name">
+                        <input id="client_id" class="form-control" placeholder="ID do cliente">
                     </div>
                 </div>    
                 <div class="col-md-1"></div>
@@ -158,7 +158,7 @@
                                     echo '<b>Profile: </b>'.$result[$i]['login'].'<br>';
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
                                     echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
-                                    echo '<b>Status: </b><b style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
+                                    echo '<b>Status: </b><b id="label_status_'.$result[$i]['user_id'].'" style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
                                     echo '<b>Status date: </b>'.date('d-m-Y',$result[$i]['status_date']).'<br>';                                
                                     echo '<b>Sign-in date: </b>'.date('d-m-Y',$result[$i]['init_date']).'<br>';                                    
                                     if($result[$i]['end_date'])
