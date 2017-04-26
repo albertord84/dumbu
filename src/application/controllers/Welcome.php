@@ -120,7 +120,10 @@ class Welcome extends CI_Controller {
             $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
             //$my_profile_datas = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'));
             $my_profile_datas = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')), $this->session->userdata('login'));
-            $datas1['my_img_profile'] = $my_profile_datas->profile_pic_url;
+            if(isset($my_profile_datas->profile_pic_url))
+                $datas1['my_img_profile'] = $my_profile_datas->profile_pic_url;
+            else
+                $datas1['my_img_profile']="Blocked";
             //$datas1['dumbu_id'] = $this->session->userdata('id');
 
             $sql = "SELECT * FROM clients WHERE clients.user_id='" . $this->session->userdata('id') . "'";
@@ -144,8 +147,17 @@ class Welcome extends CI_Controller {
             $amount_followers_by_geolocalization =(string)$amount_followers_by_geolocalization[0]["followeds"];
             $datas1['amount_followers_by_geolocalization'] = $amount_followers_by_geolocalization;
 
-            $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
-            $datas1['my_actual_followings'] = $my_profile_datas->following;
+             
+            if(isset($my_profile_datas->follower_count))
+                $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
+            else
+                $datas1['my_actual_followers']="Blocked";            
+             
+            if(isset($my_profile_datas->following))
+               $datas1['my_actual_followings'] = $my_profile_datas->following;
+            else
+                $datas1['my_actual_followings']="Blocked";
+            
             $datas1['my_sigin_date'] = $this->session->userdata('init_date');
             date_default_timezone_set('Etc/UTC');
             $datas1['today'] = date('d-m-Y', time());

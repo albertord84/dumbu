@@ -261,7 +261,7 @@ $(document).ready(function () {
             confirm_message = 'Confirma ativar a opção UNFOLLOW TOTAL';
             tmp_unfollow_total = 1;
         }
-        if (confirm(confirm_message)) {
+        if (confirm(T(confirm_message))) {
             $.ajax({
                 url: base_url + 'index.php/welcome/unfollow_total',
                 data: {
@@ -306,7 +306,7 @@ $(document).ready(function () {
             confirm_message = 'Confirma ativar o recurso AUTOLIKE';
             tmp_autolike = 1;
         }
-        if (confirm(confirm_message)) {
+        if (confirm(T(confirm_message))) {
             $.ajax({
                 url: base_url + 'index.php/welcome/autolike',
                 data: {
