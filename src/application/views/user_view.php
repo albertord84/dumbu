@@ -356,7 +356,7 @@
                                                 <h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
 						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("99,90",array());?></b></span>
                                                 <br>
-                                                <div class="text-left m-l10" style="margin-left: 5px">
+                                                <div class="text-left m-l0">
                                                     <span >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
@@ -382,7 +382,7 @@
 						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("99,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
 						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("189,90",array());?></b></span>
                                                 <br>
-                                                <div class="text-left m-l10" style="margin-left: 5px">
+                                                <div class="text-left m-l0">
                                                     <span >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>

@@ -130,7 +130,7 @@
                                                 </div>                                                             
                                                 <div class="form-group">
                                                     <button id="activate_account_by_status_3" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                        <span class="ladda-label">' . $CI->T("ACTIVAR AGORA", array()) . '</span>
+                                                        <span class="ladda-label">' . $CI->T("ATIVAR AGORA", array()) . '</span>
                                                     </button>
                                                 </div>
                                                 <div id="container_login_message" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
@@ -1128,17 +1128,17 @@
                     </div>
                 </div>
             </div>                                                        
-        </div> 
+        </div>
         
         <!--modal_container_confirm_message-->
-        <!--<div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">                                                          
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <img src="<?php //echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
-                        <!--</button>
-                        <h5 class="modal-title" id="myModalLabel"><b><?php //echo $CI->T("Confirmação", array()); ?></b></h5>                        
+                            <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Confirmação", array()); ?></b></h5>                        
                     </div>
                     <div class="modal-body">                                            
                         <p id="message_text_confirmation"></p>                        
@@ -1155,7 +1155,7 @@
                     </div>
                 </div>
             </div>                                                        
-        </div> -->
+        </div>
         
     </body>
 </html>
