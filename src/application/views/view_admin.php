@@ -57,14 +57,14 @@
                         <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
                         </button>
-                        <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Mensagem", array()); ?></b></h5>                        
+                        <h5 class="modal-title" id="myModalLabel"><b>Mensagem</b></h5>                        
                     </div>
                     <div class="modal-body">                                            
                         <p id="message_text"></p>                        
                     </div>
                     <div class="modal-footer text-center">
                         <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                            <span class="ladda-label"><div style="color:white; font-weight:bold">ACEITAR</div></span>
                         </button>
                     </div>
                 </div>

@@ -100,8 +100,12 @@ $(document).ready(function(){
         }
     });
     
+    /*$('#modal_alert_message').close(function(){
+       window.location.href=window.location;
+    });*/
+    
     $(".desactive-cliente").click(function(e){
-        id=$(e.currentTarget).attr('id');        
+        id=$(e.currentTarget).attr('id');
         name_row='#row-client-'+id;        
         if(confirm('Confirma a desativação do cliente?')){
             var l = Ladda.create(this);  l.start();
@@ -113,7 +117,8 @@ $(document).ready(function(){
                 success : function(response){
                     if(response['success']){
                         modal_alert_message(response['message']);
-                        $(name_row).css({"visibility":"hidden","display":"none"});
+                        $('label_status_'+id).text('DELETED');
+                        $(name_row).css({"visibility":"hidden","display":"none"});                        
                     } else
                         modal_alert_message(response['message']);
                 },
