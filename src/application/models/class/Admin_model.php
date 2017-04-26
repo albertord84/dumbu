@@ -29,6 +29,9 @@
             if($form_filter['order_key_client']!='')
                 $this->db->where('order_key', $form_filter['order_key_client']);
             else
+            if($form_filter['client_id']!='')
+                $this->db->where('user_id', $form_filter['client_id']);
+            else
             if($form_filter['ds_user_id']!='')
                 $this->db->where('insta_id', $form_filter['ds_user_id']);
             else

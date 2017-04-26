@@ -53,7 +53,7 @@
                 <div class="col-md-2">
                     <div class="center filters">
                         <b>ID do cliente</b>
-                        <input id="credit_card_name" class="form-control" placeholder="Credit Card Name">
+                        <input id="client_id" class="form-control" placeholder="ID do cliente">
                     </div>
                 </div>    
                 <div class="col-md-1"></div>

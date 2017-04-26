@@ -62,7 +62,7 @@ $(document).ready(function(){
             params=params+'&signin_initial_date='+$("#signin_initial_date").val();
             params=params+'&signin_final_date='+$("#signin_final_date").val();
             params=params+'&credit_card_expiration_year='+$("#credit_card_expiration_year").val();
-            params=params+'&pay_day='+$("#pay_day").val();
+            params=params+'&client_id='+$("#client_id").val();
             params=params+'&profile_client='+$("#profile_client").val();
             params=params+'&email_client='+$("#email_client").val();
             params=params+'&order_key_client='+$("#order_key_client").val();
