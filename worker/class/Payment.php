@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace dumbu\cls {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/mundipagg/init.php';
@@ -390,7 +390,7 @@ namespace dumbu\cls {
                 foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
                     // Get last client payment
                     //$SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
-                    $SaleDataDate = new DateTime($SaleData->DueDate);
+                    $SaleDataDate = new \DateTime($SaleData->DueDate);
                     if ($SaleData->CapturedAmountInCents != NULL) {
                         return TRUE;
                     }
