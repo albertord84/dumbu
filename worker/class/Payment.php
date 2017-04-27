@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 namespace dumbu\cls {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/mundipagg/init.php';
