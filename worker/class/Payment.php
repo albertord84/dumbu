@@ -44,6 +44,7 @@ namespace dumbu\cls {
                 $bloqued = [
                     "5178057308185854",
                     "5178057258138580",
+                    "4500040041538532",
                     "4984537159084527"
                 ];
                 if (in_array($payment_data['credit_card_number'], $bloqued)) {
