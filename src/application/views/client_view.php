@@ -15,8 +15,13 @@
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
 
         <!-- jQuery -->
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>
-
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
+        
+        <!--typeahead-->
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
+        <link href="<?php echo base_url() . 'assets/css/typeahead.css'; ?>" rel="stylesheet">
+        
+        
         <!-- Bootstrap -->
         <link href="<?php echo base_url() . 'assets/bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/loading.css'; ?>" rel="stylesheet">
@@ -177,7 +182,7 @@
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array()) . '</b><BR>
                                                 <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array()) . '</b>             
-                                                <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="https://www.instagram.com/' . $verify_account_datas['verify_account_url'] . '">
+                                                <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="https://www.instagram.com' . $verify_account_datas['verify_account_url'] . '">
                                                     <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                                         ' . $CI->T("ACTIVAR AGORA", array()) . '
                                                     </button>
@@ -424,8 +429,9 @@
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array()); ?></h4>
                                 </div>
-                                <div class="modal-body">
-                                    <input id = "login_profile" type="text" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                <div class="modal-body text-left">                                                                       
+                                    <input id = "login_profile"  type="text" text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
+                                    <!--<input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>-->
                                     <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
                                 <div class="modal-footer">
@@ -557,7 +563,7 @@
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Geolocalização", array()); ?></h4>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body">                                            
                                             <input id = "login_geolocalization" type="text" class="form-control" placeholder="<?php echo $CI->T("Localização", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
                                             <div id="geolocalization_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                         </div>
@@ -1075,8 +1081,10 @@
                     </button>
                 </div>
             </div>
-        </div>       
-
+        </div>     
+        
+        
+        
         <div class="h150 fleft100"></div>
         <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url() . 'assets/images/logo-footer.png'; ?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS", array()); ?></span></div></footer>
 

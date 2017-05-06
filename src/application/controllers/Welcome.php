@@ -1,40 +1,20 @@
 <?php
 
 class Welcome extends CI_Controller {
-    
-    public function get_names_by_chars($str) {
-        //if($this->session->userdata('role_id') == user_role::CLIENT){
-            //$cookies=json_decode($this->session->userdata('cookies'));            
-            $cookies=json_decode('{"json_response":{"status":"ok","authenticated":true,"user":"pedropetti"},"csrftoken":"viMkXgvBet7A6tOtA49Dk9GOqRHhUVk8","sessionid":"IGSCddb0f99140f99ed60b2253791cf1c7440704efb45c49ffdd0087c2316c6466fc%3A7hOvRf21cWTPiK1fr7NmXKqUIQpJNi50%3A%7B%22_platform%22%3A4%2C%22_token%22%3A%22236116119%3AY4jraowwqPRFrAusPWnOmyVhhgC0azGl%3Ac08bfcc8a7211576a2afdbc00decc7b4cbfe2a75e7463a7193edb5aeec857b24%22%2C%22_auth_user_id%22%3A236116119%2C%22last_refreshed%22%3A1487691811.210267%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_auth_user_hash%22%3A%22%22%7D","ds_user_id":"236116119","mid":"WKxgIgAEAAH0_piJBh2rj6clWGWP"}');
-            
-            
-            //curl "https://www.instagram.com/web/search/topsearch/?context=blended&query=i&rank_token=0.874990638870338" --2.0 
-            
-            $headers = array();
-            $headers[] = 'Host: www.instagram.com';
-            $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0';
-            $headers[] = 'Accept: */*';
-            $headers[] = 'Accept-Language: es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3'; //--compressed 
-            //$headers[] = 'Referer: https://www.instagram.com/explore/locations/219153358/tio-sam-camboinhas/'; 
-            $headers[] = 'X-Requested-With: XMLHttpRequest'; 
-            $headers[] = 'Cookie: mid='.$cookies->mid.'; fbm_124024574287414=base_domain=.instagram.com; csrftoken='.$cookies->csrftoken.'; rur=FRC; ig_vw=1280; ig_pr=1; ds_user_id='.$cookies->ds_user_id.'; sessionid='.$cookies->sessionid.'; s_network="""""';
-            $headers[] = "Connection: keep-alive";
-            
-            $url = "https://www.instagram.com/accounts/login/ajax/";
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
-            curl_setopt($ch, CURLOPT_HEADER, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            $html = curl_exec($ch);
-            $info = curl_getinfo($ch);
-        //}
-    }
-    
+        
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
         $this->load->view('user_view', $param);
+    }
+    
+    public function admin_making_client_login(){
+        $datas = $this->input->get();
+        $result=$this->user_do_login($datas);
+        if($result['authenticated']===true){
+            $this->client();
+        }
     }
 
     public function T($token, $array_params) {
@@ -91,7 +71,6 @@ class Welcome extends CI_Controller {
             $followings = array();
             $followers = array();
             $N = count($result);
-
             for ($i = 0; $i < $N; $i++) {
                 $dd = date("j", $result[$i]['date']);
                 $mm = date("n", $result[$i]['date']);
@@ -193,7 +172,7 @@ class Welcome extends CI_Controller {
                             for ($i = 0; $i < $N; $i++) {
                                 $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                 $response = count($this->user_model->execute_sql_query($sql));
-                                if (!$response)
+                                if (!$response && $active_profiles[$i]['end_date']!=='NULL')
                                     $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $insta_login['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                             }
                         }
@@ -233,8 +212,12 @@ class Welcome extends CI_Controller {
         }
     }
 
-    public function user_do_login() {
-        $datas = $this->input->post();
+    public function user_do_login($datas=NULL) {        
+        $login_by_client=false;
+        if(!isset($datas)){
+            $datas = $this->input->post();
+            $login_by_client=true;
+        }
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
@@ -320,7 +303,7 @@ class Welcome extends CI_Controller {
                                 for ($i = 0; $i < $N; $i++) {
                                     $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                     $response = count($this->user_model->execute_sql_query($sql));
-                                    if (!$response)
+                                    if (!$response && $active_profiles[$i]['end_date']!=='NULL')
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
@@ -340,7 +323,8 @@ class Welcome extends CI_Controller {
                                     }
                                     //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                     for ($i = 0; $i < $N; $i++) {
-                                        $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
+                                        if($active_profiles[$i]['end_date']!=='NULL')
+                                            $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                     }
                                 }
                             }
@@ -351,7 +335,8 @@ class Welcome extends CI_Controller {
                                 $N = count($active_profiles);
                                 //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                 for ($i = 0; $i < $N; $i++) {
-                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
+                                    if($active_profiles[$i]['end_date']!=='NULL')
+                                        $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
 
@@ -651,7 +636,10 @@ class Welcome extends CI_Controller {
                 }
             }
         }
-        echo json_encode($result);
+        if($login_by_client)
+            echo json_encode($result);
+        else
+            return $result;
     }
 
     public function check_ticket_peixe_urbano() {
@@ -725,7 +713,8 @@ class Welcome extends CI_Controller {
                         'name' => $data_insta->full_name,
                         'email' => $datas['client_email'],
                         'login' => $datas['client_login'],
-                        'pass' => $datas['client_pass']));
+                        'pass' => $datas['client_pass'],
+                        'init_date' => time()));
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta->follower_count,
                         'insta_following' => $data_insta->following,
@@ -1118,6 +1107,7 @@ class Welcome extends CI_Controller {
                                         $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                                         $N = count($active_profiles);
                                         for ($i = 0; $i < $N; $i++) {
+                                            if($active_profiles[$i]['end_date']!=='NULL')
                                             $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
                                         }
                                     }
@@ -1220,6 +1210,7 @@ class Welcome extends CI_Controller {
         return $datas;
     }
 
+    
     //functions for geolocalizations
     public function client_insert_geolocalization() {
         $id = $this->session->userdata('id');
@@ -1314,7 +1305,20 @@ class Welcome extends CI_Controller {
         }
     }
     
+    public function check_insta_geolocalization($profile) {
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+            $this->Robot = new \dumbu\cls\Robot();
+            $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
+            if (is_object($datas_of_profile)) {
+                return $datas_of_profile;
+            } else {
+                return NULL;
+            }
+        }
+    }
 
+    
     //functions for reference profiles
     public function client_insert_profile() {
         $id = $this->session->userdata('id');
@@ -1419,19 +1423,7 @@ class Welcome extends CI_Controller {
         //}
     }
     
-    public function check_insta_geolocalization($profile) {
-        if ($this->session->userdata('id')) {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-            $this->Robot = new \dumbu\cls\Robot();
-            $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
-            if (is_object($datas_of_profile)) {
-                return $datas_of_profile;
-            } else {
-                return NULL;
-            }
-        }
-    }
-
+    
     public function message() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -1605,10 +1597,11 @@ class Welcome extends CI_Controller {
                         $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                         $array_geolocalization[$cnt_geolocalization]['login_geolocalization'] = $name_profile;
                         $array_geolocalization[$cnt_geolocalization]['geolocalization_pk'] = $client_active_profiles[$i]['insta_id'];
-                        /*TODO Alberto*/$array_geolocalization[$cnt_geolocalization]['follows_from_geolocalization'] = $datas_of_profile->follows;
+                        if($datas_of_profile)
+                            $array_geolocalization[$cnt_geolocalization]['follows_from_geolocalization'] = $datas_of_profile->follows;                        
                         $array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
                         if(!$datas_of_profile){
-                            /*TODO JoseR*/$array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_deleted.jpg';
+                            $array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_deleted.jpg';
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'deleted';
                         } else
                         if ($client_active_profiles[$cnt_geolocalization]['end_date']) { //perfil
@@ -1717,4 +1710,61 @@ class Welcome extends CI_Controller {
                 ));
         }        
     }
+    
+    public function prevalence(){
+        $this->load->model('class/user_model');
+        $result=$this->user_model->client_prevalence();
+    }
+    
+    public function get_names_by_chars() {
+        if($this->session->userdata('id')){
+            $cookies=json_decode($this->session->userdata('cookies'));
+            //$datas = $this->input->post();
+            $datas = $this->input->get();
+            $str=$datas['str'];
+            $profile_type=$datas['profile_type'];            
+            $mid=$cookies->mid;
+            $csrftoken=$cookies->csrftoken;
+            $ds_user_id=$cookies->ds_user_id;
+            $sessionid=$cookies->sessionid;            
+            $headers = array();
+            $headers[] = 'Host: www.instagram.com';
+            $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0';
+            $headers[] = 'Accept: */*';
+            $headers[] = 'Accept-Language: es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3'; //--compressed 
+            $headers[] = 'Referer: https://www.instagram.com/'; 
+            $headers[] = 'X-Requested-With: XMLHttpRequest'; 
+            $headers[] = 'Cookie: mid='.$mid.'; csrftoken='.$csrftoken.'; ds_user_id='.$ds_user_id.'; sessionid='.$sessionid.';';
+            $headers[] = "Connection: keep-alive";            
+            $url = 'https://www.instagram.com/web/search/topsearch/?context=blended&query='.$str.'/';
+            $ch = curl_init("https://www.instagram.com/");
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            $output = curl_exec($ch);
+            $info = curl_error($ch);
+            $output=json_decode($output);
+            if($profile_type==='places')
+                $output=$output->places;
+            else
+            if($profile_type==='users')
+                $output=$output->users;
+            
+            $result=array();
+            $N=count($output);                    
+            for($i=0;$i<$N;$i++){
+                if($profile_type==='places'){
+                    $result[$i]=$output[$i]->place->slug;
+                }else 
+                if($profile_type==='users'){
+                    $result[$i]=$output[$i]->user->username;
+                }
+            }
+            echo json_encode($result);
+        }
+    }
+    
 }

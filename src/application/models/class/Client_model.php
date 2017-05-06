@@ -342,19 +342,25 @@
             return $this->db->query($query)->result_array();
         }
         
-        public function desactive_profiles($clien_id, $profile){
+        public function desactive_profiles($clien_id, $profile, $id_profile=NULL){
             //deleting daily work of this profile add balancing the work of the rest
             $active_profiles=$this->get_client_active_profiles($clien_id);
             $N=count($active_profiles);
             $index=0;
             if($N>1){
-                for($i=0;$i<$N;$i++){
-                    if($active_profiles[$i]['insta_name']==$profile){
-                        $index=$i;
-                        break;
+                if(!$id_profile){
+                    for($i=0;$i<$N;$i++){
+                        if($active_profiles[$i]['insta_name']===$profile){
+                            $index=$i;
+                            break;
+                        }
                     }
                 }
-                $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$index]['id'].'"';
+                
+                if(!$id_profile)
+                    $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$index]['id'].'"';
+                else
+                    $query='SELECT * FROM daily_work WHERE reference_id="'.$id_profile.'"';                
                 $profile_work= $this->execute_sql_query($query);
                 
                 if(count($profile_work)){

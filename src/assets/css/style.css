@@ -6,6 +6,11 @@
 
 img{width: 100%;}
 
+.scrollable-typeahead{
+    max-height: 150px;
+    overflow-y: auto;
+}
+
 body{font-family: 'Lato', sans-serif;}
 
 li{

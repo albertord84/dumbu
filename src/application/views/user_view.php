@@ -215,14 +215,19 @@
 		<section id="vantagens" class="fleft100 c-wite">
                     <h3 style="color:white" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></h3>
 			
-                            <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-2 col-sm-2 col-xs-12 text-center">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                                             <img src="assets/images/geolocalization_bw.png" class="wauto" alt="">
                                         </div>
                                         <div class="col-md-4 col-sm-4 col-xs-12 text-left">
-                                            <img src="assets/images/novo.png" class="wauto" alt="">
+                                            <?php
+                                            if($languaje=='PT')
+                                                echo '<img src="assets/images/novo.png" style="width:40%" class="wauto" alt="">';
+                                            else
+                                                echo '<img src="assets/images/new_black.png" style="width:48px"  alt="">';
+                                            ?>
                                         </div>
                                     </div>
                                     <h5 ><b><?php print $CI->T("Geolocalização",array());?></b><br>
@@ -230,12 +235,17 @@
                                     <?php print $CI->T("de locais definidos por você",array());?><br></h5>
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12 text-center">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                                             <img src="assets/images/autolike_bw.png" class="wauto" alt="">
                                         </div>
                                         <div class="col-md-4 col-sm-4 col-xs-12 text-left">
-                                            <img src="assets/images/novo.png" class="wauto" alt="">
+                                            <?php
+                                                if($languaje=='PT')
+                                                    echo '<img src="assets/images/novo.png" class="wauto" alt="">';
+                                                else
+                                                    echo '<img src="assets/images/new_black.png" style="width:48px" alt="">';
+                                            ?>
                                         </div>
                                     </div>
                                     <h5><b><?php print $CI->T("Auto Like",array());?></b><br>
@@ -284,31 +294,36 @@
                                         <span class="texto fleft100">
                                             <br>
                                         </span>
-                                        <a class="help" style="color:green; margin-top:7%">
-                                            <div >
-                                                <img style="width:12%" src="<?php echo base_url().'assets/images/help.png'?>"/>
-                                            </div>
-                                            <div style="margin-top:2%;margin-bottom:2%">
-                                                <?php echo $CI->T("Veja as dicas para melhorar o desempenho",array());?>
-                                            </div>
-                                        </a>
+                                        <?php
+                                        if ($languaje==='PT')
+                                            echo '<a class="help" style="color:green; margin-top:7%">
+                                                    <div >
+                                                        <img style="width:12%" src="'.base_url().'assets/images/help.png"/>
+                                                    </div>
+                                                    <div style="margin-top:2%;margin-bottom:2%">
+                                                        '.$CI->T("Veja as dicas para melhorar o desempenho",array()).'
+                                                    </div>
+                                                </a>';
+                                        ?>
+                                        
 				</div>
 			</div>
 		</section>
-            
+                
+                
 		<section id="funciona" class="fleft100">
 			<div class="container">				
-				<!--<div class="col-md-3 col-sm-3 col-xs-12"></div>-->
+                            <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                     <?php
                                         if($languaje=='PT')
                                             echo '<iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
                                         else                                            
-                                            echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                            
+                                            //echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
                                     ?>
                                     
                                 </div>
-				<!--<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
+				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
 			</div>
 		</section>
 
@@ -360,13 +375,23 @@
                                                     <span >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
+                                                        ?>
                                                     </span>
                                                     <br>
                                                     <span>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
+                                                        ?>                                                        
                                                     </span>
                                                 </div>
                                                 <br>
@@ -386,13 +411,23 @@
                                                     <span >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
+                                                        ?>
                                                     </span>
                                                     <br>
                                                     <span>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
+                                                        ?>
                                                     </span>
                                                 </div>
                                                 <br>
