@@ -125,24 +125,26 @@ $Payment = new dumbu\cls\Payment();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-//$pay_day = strtotime('02/22/2017 04:33:32');
-//$pay_day = strtotime("+30 days", $pay_day);
-//$pay_day = time();
-//$strdate = date("d-m-Y", $pay_day);
 //
-//////
-//$payment_data['credit_card_number'] = '5399832641710235';
-//$payment_data['credit_card_name'] = 'DANIEL ONOJA';
-//$payment_data['credit_card_exp_month'] = '02';
-//$payment_data['credit_card_exp_year'] = '2018';
-//$payment_data['credit_card_cvc'] = '657';
-//$payment_data['amount_in_cents'] = 2990;
-//$payment_data['pay_day'] = $pay_day;
+//$pay_day = strtotime('05/28/2017 04:33:32');
+//$pay_day = strtotime("+30 days", $pay_day);
+
+$pay_day = time();
+$strdate = date("d-m-Y", $pay_day);
+
+$payment_data['credit_card_number'] = '4104240020928965';
+$payment_data['credit_card_name'] = 'RAFAEL CASTRO SALES';
+$payment_data['credit_card_exp_month'] = '08';
+$payment_data['credit_card_exp_year'] = '2019';
+$payment_data['credit_card_cvc'] = '136';
+$payment_data['amount_in_cents'] = 2990;
+$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0);
-//var_dump($resul);
-////----------------------------------------------------------------
+$resul = $Payment->create_recurrency_payment($payment_data, 0);
+var_dump($resul);
+var_dump($pay_day);
+//////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
 //header('Content-Type: application/json');
@@ -222,9 +224,9 @@ var_dump($_SERVER['QUERY_STRING']);*/
 //exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
 //var_dump($output);
 //var_dump($return_var);
-$Robot = new dumbu\cls\Robot();
-$result = $Robot->bot_login("fabianotunes", "Fa22169757");
-var_dump($result);
+//$Robot = new dumbu\cls\Robot();
+//$result = $Robot->bot_login("fabianotunes", "Fa22169757");
+//var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
@@ -243,7 +245,7 @@ $Worker = new dumbu\cls\Worker();
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
-$Worker->prepare_daily_work();
+//$Worker->prepare_daily_work();
 //$Worker->do_work();
 //----------------------------------------------------------------
 

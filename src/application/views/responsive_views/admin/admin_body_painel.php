@@ -29,7 +29,7 @@
 
                 <div class="col-md-2">
                     <div class="center filters">
-                        <b>Assinatura (fim)</b>   
+                        <b>Assinatura (fim)</b>
                         <input id = "signin_final_date" type="text" class="form-control"  placeholder="DD/MM/YYYY" disabled="true">       
                     </div>
                 </div>
@@ -261,7 +261,10 @@
                                     echo '<b>CC name: </b>'.$result[$i]['credit_card_name'].'<br>';
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
-                                    echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';                                    
+                                    if($result[$i]['pay_day']!=NULL && $result[$i]['pay_day']!=='null' && $result[$i]['pay_day']!=='NULL')
+                                        echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';                                    
+                                    else
+                                        echo '<b>Payment day: </b>NULL<br>';                                    
                                     if($result[$i]['initial_val'])
                                         echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> '.$result[$i]['initial_val'].' | '.$result[$i]['normal_val'].'<br>';
                                     else
@@ -275,7 +278,12 @@
                                     echo '<b>Pending order key: </b><a href="https://dashboard.mundipagg.com/#/9d0703f8-98a6-4f61-a28f-6be3771f3510/live/transactions?currentTab=creditCardTransactions&pageNumber=1&sortField=CreateDate&sortMode=DESC&pageSize=20&identifier='.$result[$i]['pending_order_key'].'" target="_blank">'.$result[$i]['pending_order_key'].'</a><br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
-                                    if($result[$i]['order_key'])
+                                
+                                echo '<a target="_blank" href="'.base_url().'index.php/welcome/admin_making_client_login?user_login='.$result[$i]['login'].'&user_pass='.$result[$i]['pass'].'">';                                
+                                    echo '<button style="width:160px" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Loguear cliente</span></button><br><br>';
+                                echo '</a>';
+                                
+                                if($result[$i]['order_key'])
                                         echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
                                     else
                                         echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';

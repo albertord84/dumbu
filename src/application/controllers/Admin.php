@@ -43,11 +43,9 @@ class Admin extends CI_Controller {
             $this->load->model('class/user_status');
             $id = $this->input->post()['id'];
             try {
-                // Alberto
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
                 $DB = new \dumbu\cls\DB();
-                $DB->delete_daily_work_client($this->session->userdata('id'));
-                //
+                $DB->delete_daily_work_client($id);
                 $this->user_model->update_user($id, array(
                     'status_id' => user_status::DELETED,
                     'end_date' => time()));
@@ -135,7 +133,7 @@ class Admin extends CI_Controller {
         $this->load->model('class/client_model');
         $n = count($active_profiles);
         $my_daily_work = array();
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; $i++){
             $work = $this->client_model->get_daily_work_to_profile($active_profiles[$i]['id']);
             if (count($work)) {
                 $work = $work[0];
@@ -157,5 +155,20 @@ class Admin extends CI_Controller {
         }
         return $my_daily_work;
     }
+    
+    /*public function delete_daily_work_of_canceled_client($id_cliente){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $this->load->model('class/client_model');
+            $active_profiles = $this->client_model->get_client_active_profiles($id_client);
+            $N=count($active_profiles);
+            for($i=0;$i<$N;$i++){
+                $this->client_model->desactive_profiles($id_client,$active_profiles[$i]['insta_name'],$active_profiles[$i]['id']);
+            }
+        }
+    }*/
+    
+
 
 }
