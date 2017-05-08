@@ -85,8 +85,8 @@ class Payment extends CI_Controller {
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         // Check outhers payments
-        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE;
-        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : TRUE;
+        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : FALSE;
+        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : FALSE;
         $IOK_ok = $IOK_ok || $POK_ok; // Whichever is paid
         // Check normal recurrency payment
         $result = $Payment->check_payment($client['order_key']);
