@@ -4,18 +4,18 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
+                <?php  $CI =& get_instance();?>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-                <?php  $CI =& get_instance();?>
+                <meta name="tile" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
                 <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
                 <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
-                
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<title>DUMBU</title>
+                
                 <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png'?>"> 
                 
                 <!-- jQuery -->
@@ -25,23 +25,20 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
-
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
-		<script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>
-                
                 <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
+		
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>                
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
-                <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
-                
+                <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>                
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var languaje = '<?php echo $languaje;?>';</script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$languaje.'/internalization.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
-                
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
                 <?php include_once("pixel_facebook.php")?>
 	</head>
 	<body id="my_body">
@@ -216,7 +213,7 @@
                     <h3 style="color:white" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></h3>
 			
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                                             <img src="assets/images/geolocalization_bw.png" class="wauto" alt="">
@@ -234,37 +231,41 @@
                                     <?php print $CI->T("Capte seguidores através",array());?><br>
                                     <?php print $CI->T("de locais definidos por você",array());?><br></h5>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                
+                                <!--<div class="col-md-3 col-sm-3 col-xs-12 text-center">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                                             <img src="assets/images/autolike_bw.png" class="wauto" alt="">
                                         </div>
                                         <div class="col-md-4 col-sm-4 col-xs-12 text-left">
                                             <?php
+                                            /*
                                                 if($languaje=='PT')
                                                     echo '<img src="assets/images/novo.png" class="wauto" alt="">';
                                                 else
                                                     echo '<img src="assets/images/new_black.png" style="width:48px" alt="">';
+                                                */
                                             ?>
                                         </div>
                                     </div>
-                                    <h5><b><?php print $CI->T("Auto Like",array());?></b><br>
-                                    <?php print $CI->T("Além de seguir, sua conta irá",array());?><br>
-                                    <?php print $CI->T("interagir deixando um like na foto",array());?><br>
-                                    <?php print $CI->T("mais recente",array());?><br></h5>
-                                </div>
+                                    <h5><b>
+                                    <?php //print $CI->T("Auto Like",array());?></b><br>
+                                    <?php //print $CI->T("Além de seguir, sua conta irá",array());?><br>
+                                    <?php //print $CI->T("interagir deixando um like na foto",array());?><br>
+                                    <?php //print $CI->T("mais recente",array());?><br></h5>
+                                </div>-->
                                 <div class="col-md-3 col-sm-3 col-xs-12 text-center">    
                                     <img src="assets/images/persons.png" class="wauto" alt="">
                                     <h5><b><?php print $CI->T("Seguidores reais captados",array());?><br>
                                     <?php print $CI->T("a través de Perfis que",array());?><br>
                                     <?php print $CI->T("você escolhe",array());?><br></h5>
                                 </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
                                     <img src="assets/images/checked_person.png" class="wauto" alt="">
                                     <h5><b><?php print $CI->T("Seguidores",array());?></b><br>                                    
                                     <?php print $CI->T("100% reais",array());?><br></h5>
                                 </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
                                     <img src="assets/images/new_nuvem.png" class="wauto" alt="">
                                     <h5><b><?php print $CI->T("Todos os perfis que",array());?></b><br>
                                     <?php print $CI->T("segue estarão protegidos",array());?><br>
@@ -383,16 +384,17 @@
                                                         ?>
                                                     </span>
                                                     <br>
-                                                    <span>
-                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
+                                                    <!--<span>
+                                                        <img src="<?php //echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>
                                                         <?php
-                                                            if($languaje=='PT')
+                                                            /*if($languaje=='PT')
                                                                 echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
                                                             else
-                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';                                                             
+                                                             */
                                                         ?>                                                        
-                                                    </span>
+                                                    </span>-->
                                                 </div>
                                                 <br>
                                                 <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
@@ -419,16 +421,17 @@
                                                         ?>
                                                     </span>
                                                     <br>
-                                                    <span>
-                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
+                                                    <!--<span>
+                                                        <img src="<?php //echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>
                                                         <?php
-                                                            if($languaje=='PT')
+                                                            /*if($languaje=='PT')
                                                                 echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
                                                             else
-                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';                                                             
+                                                             */
                                                         ?>
-                                                    </span>
+                                                    </span>-->
                                                 </div>
                                                 <br>
                                                 <input id="radio_plane_99_90" type="radio" name="plano">

@@ -1,60 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
     <head>
+        <?php $CI = & get_instance(); ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php $CI = & get_instance(); ?>
+        <meta name="tile" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
         <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct", array()); ?>">
         <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array()); ?>">
         <meta name="revisit-after" content="7 days">
         <meta name="robots" content="index,follow">
-        <meta name="distribution" content="global">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="distribution" content="global">        
         <title>DUMBU</title>
+        
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
-
-        <!-- jQuery -->
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
-        
-        <!--typeahead-->
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
         <link href="<?php echo base_url() . 'assets/css/typeahead.css'; ?>" rel="stylesheet">
-        
-        
-        <!-- Bootstrap -->
         <link href="<?php echo base_url() . 'assets/bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/loading.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/style.css'; ?>" rel="stylesheet">
-
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css'; ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css'; ?>" />
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">        
+        
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/modernizr.custom.js'; ?>"></script>
-
-        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">
         <script src="<?php echo base_url() . 'assets/js/spin.min.js' ?>"></script>
         <script src="<?php echo base_url() . 'assets/js/ladda.min.js' ?>"></script>
-
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
-
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
-
-        <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->            
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>        
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
-        <script type="text/javascript">            
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
+        <script type="text/javascript">
             $(document).ready(function () {
                 followings_data= jQuery.parseJSON('<?php echo $followings; ?>');
                 followers_data= jQuery.parseJSON('<?php echo $followers; ?>');                                    
             });
         </script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         <?php include_once("pixel_facebook.php") ?>
     </head>
 
