@@ -236,8 +236,8 @@ var_dump($_SERVER['QUERY_STRING']);*/
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
-//$result = $Robot->bot_login("dona_fina", "aquarell2016");
-//var_dump($result);
+$result = $Robot->bot_login("dona_fina", "aquarell2016");
+var_dump($result);
 //----------------------------------------------------------------
 //
 // WORKER
