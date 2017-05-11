@@ -164,7 +164,7 @@
 					<!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
-					<h4 class="fleft100"><b><?php echo $CI->T("PASSO A PASSO",array());?></b></h4>
+                                    <b style="left:0; font-size: 1.3em" class="fleft100"><?php echo $CI->T("PASSO A PASSO",array());?></b>
 					<ul class="fleft100 passos">
 						<li><span>1</span><p><?php echo $CI->T("Escolha os Perfis de referência que deseja captar seus seguidores",array());?></p></li>
 						<li><span>2</span><p><?php echo $CI->T("A ferramenta seguirá automaticamente os seguidores dos Perfis de referência",array());?></p></li>
@@ -174,21 +174,21 @@
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center ps m-t45">
 					<div class="plano plano-mensal text-center fleft100">
-						<h4 class="no-mg"><b><?php echo $CI->T("PLANO MENSAL",array());?></b></small></h4>
+						<b style="font-size: 1.3em"><?php echo $CI->T("PLANO MENSAL",array());?></b>
 						<span class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.",array());?></span>
 						<hr>
 						<span class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de",array());?></span>
-						<h1 class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b></h1>
+						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b></p>
 						<span class="fleft100 cl-fff no-mg"><?php echo $CI->T("no 1º mês",array());?></span>
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR",array());?></button></div>
                                                 </a>
 					</div>
-					<img src="assets/images/50 países.png" class="i-block wauto paises" alt="">
-                                        <h3 style="margin-top:0px"><?php echo $CI->T("Dumbu é global!",array());?></h3>
-					<h5 class="fleft100 no-mg"><?php echo $CI->T("Temos clientes em mais de 200 países.",array());?></h5>
-					<h5 class="fleft100 no-mg"><?php echo $CI->T("Faça parte de uma das Startups que",array());?></h5>
-					<h5 class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></h5>
+					<img src="assets/images/50 países.png" class="i-block wauto paises" alt=""><br>
+                                        <spam style="margin-top:0px; font-size:1.5em"><?php echo $CI->T("Dumbu é global!",array());?></spam>
+					<spam style="font-size:0.9em" class="fleft100 no-mg"><?php echo $CI->T("Temos clientes em mais de 200 países.",array());?></spam>
+					<spam style="font-size:0.9em" class="fleft100 no-mg"><?php echo $CI->T("Faça parte de uma das Startups que",array());?></spam>
+					<spam style="font-size:0.9em" class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></spam>
                                         
 				</div>
 				<div class="col-md-5 col-sm-5 col-xs-12 text-center cel">
@@ -210,7 +210,7 @@
 		</section>-->
             
 		<section id="vantagens" class="fleft100 c-wite">
-                    <h3 style="color:white" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></h3>
+                    <spam style="color:white; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></spam>
 			
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-3 col-sm-3 col-xs-12 text-center">
@@ -333,11 +333,11 @@
 			<div class="container">
 				<h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR",array());?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão",array());?>.</small></h3>
 				
-                                <h4 class="titulo fleft100 text-center m-tb30">
+                                <div class="titulo fleft100 text-center m-tb30">
                                      <div style="background-color:#2CC38F;margin-left:12%;margin-right:12%;margin-bottom:3%; padding:1%;border-radius:15px">
-                                        <b style="color:white;font-size:1.3em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis",array());?>!</b>
+                                        <b style="color:white;font-size:1.4em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis",array());?>!</b>
                                     </div>
-                                </h4>
+                                </div>
                                 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_4_90" class="plano text-center fleft100">
@@ -378,7 +378,7 @@
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
                                                         <?php
                                                             if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
                                                             else
                                                                 echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
                                                         ?>
@@ -389,7 +389,7 @@
                                                         <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>
                                                         <?php
                                                             /*if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
                                                             else
                                                                 echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';                                                             
                                                              */
@@ -415,7 +415,7 @@
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
                                                         <?php
                                                             if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
                                                             else
                                                                 echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';
                                                         ?>
@@ -426,7 +426,7 @@
                                                         <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>
                                                         <?php
                                                             /*if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.png" class="wauto" alt="">';
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
                                                             else
                                                                 echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';                                                             
                                                              */
