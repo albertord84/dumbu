@@ -78,11 +78,12 @@ class Welcome extends CI_Controller {
                 $followings[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
                 $followers[$i] = (object) array('x' => ($i + 1), 'y' => intval($result[$i]['followers']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
             }
+            $response= array(
+                'followings' => json_encode($followings),
+                'followers' => json_encode($followers)
+            );
+            return $response;
         }
-        return array(
-            'followings' => json_encode($followings),
-            'followers' => json_encode($followers)
-        );
     }
 
     public function client() {

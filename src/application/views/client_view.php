@@ -27,10 +27,14 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/modernizr.custom.js'; ?>"></script>
         <script src="<?php echo base_url() . 'assets/js/spin.min.js' ?>"></script>
         <script src="<?php echo base_url() . 'assets/js/ladda.min.js' ?>"></script>
+        
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
-        <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>
+        <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
+        <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
+        <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
+        
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
@@ -38,12 +42,7 @@
         <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>        
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                followings_data= jQuery.parseJSON('<?php echo $followings; ?>');
-                followers_data= jQuery.parseJSON('<?php echo $followers; ?>');                                    
-            });
-        </script>
+        
         <?php include_once("pixel_facebook.php") ?>
     </head>
 
@@ -471,7 +470,7 @@
                                         <ul class="add-perfil text-center">
                                             <li>
                                                 <div id="geolocalization0" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization0" class="img_geolocalization wauto" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization0" class="img_geolocalization wauto" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization0" target="_blank" href="#">
                                                         <small id="name_geolocalization0" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -482,7 +481,7 @@
 
                                             <li>
                                                 <div id="geolocalization1" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization1" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization1" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization1" target="_blank" href="#">
                                                         <small id="name_geolocalization1" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -493,7 +492,7 @@
 
                                             <li>
                                                 <div id="geolocalization2" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization2" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization2" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization2" target="_blank" href="#">
                                                         <small id="name_geolocalization2" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -504,7 +503,7 @@
 
                                             <li>
                                                 <div id="geolocalization3" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization3" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization3" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization3" target="_blank" href="#">
                                                         <small id="name_geolocalization3" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -515,7 +514,7 @@
 
                                             <li>
                                                 <div id="geolocalization4" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization4" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization4" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization4" target="_blank" href="#">
                                                         <small id="name_geolocalization4" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -526,7 +525,7 @@
 
                                             <li>
                                                 <div id="geolocalization5" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization5" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization5" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization5" target="_blank" href="#">
                                                         <small id="name_geolocalization5" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>

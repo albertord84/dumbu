@@ -69,7 +69,15 @@ var Translation={
     "Deseja elimiar a geolocalização ":
             "Deseja elimiar a geolocalização ",
     "Otimo! Agora pode continuar e entrar no painel do cliente.":
-            "Otimo! Agora pode continuar e entrar no painel do cliente."
+            "Otimo! Agora pode continuar e entrar no painel do cliente.",
+    "Confirma ativar o recurso AUTOLIKE":
+            "Confirma ativar o recurso AUTOLIKE" ,
+    "Confirma desativar o recurso AUTOLIKE":
+            "Confirma desativar o recurso AUTOLIKE" ,
+    "Confirma ativar a opção UNFOLLOW NORMAL":
+            "Confirma ativar a opção UNFOLLOW NORMAL",
+    "Confirma ativar a opção UNFOLLOW TOTAL":
+            "Confirma ativar a opção UNFOLLOW TOTAL"  
 };
 
 function T(token){
