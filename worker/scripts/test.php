@@ -179,17 +179,18 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
-/*$Robot = new dumbu\cls\Robot();
+$Robot = new dumbu\cls\Robot();
 ini_set('xdebug.var_display_max_depth', 5);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-var_dump($_SERVER['QUERY_STRING']);*/
+//var_dump($_SERVER['QUERY_STRING']);
 
-//$client = $Client->get_client(11667);
-////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
+$client = $Client->get_client(1);
+//$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
-//var_dump($profile);
+$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
+var_dump($profiles);
 //$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
 //var_dump($profile);
 
@@ -236,8 +237,8 @@ var_dump($_SERVER['QUERY_STRING']);*/
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
-$result = $Robot->bot_login("dona_fina", "aquarell2016");
-var_dump($result);
+//$result = $Robot->bot_login("dona_fina", "aquarell2016");
+//var_dump($result);
 //----------------------------------------------------------------
 //
 // WORKER
