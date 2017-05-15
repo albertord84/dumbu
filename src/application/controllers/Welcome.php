@@ -1,8 +1,30 @@
 <?php
 
 class Welcome extends CI_Controller {
+    
+    
+    public function index(){     
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
         
-    public function index() {
+        $datas['credit_card_number']='5491670426428673';
+        $datas['credit_card_name']='LUCAS BORSATTO';
+        $datas['credit_card_exp_month']='08';
+        $datas['credit_card_exp_year']='2024';
+        $datas['credit_card_cvc']='261';
+        $datas['amount_in_cents']=200;
+        $datas['pay_day'] = time();
+        $resp = $this->check_mundipagg_credit_card($datas);
+        
+        $data=$resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents;
+        var_dump($data);
+        
+        
+        
+    }
+        
+    public function index1() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -861,6 +883,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AMIGOSDOPEDRO'){
             //1. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
@@ -886,13 +909,20 @@ class Welcome extends CI_Controller {
                 $datas['amount_in_cents'] = $recurrency_value;
 
             //1.1 + dos dias gratis
-            $datas['pay_day'] = time();
-            if ($datas['early_client_canceled'] === 'false')
+            $flag=false;
+            if ($datas['early_client_canceled'] !== 'false'){
+                $datas['pay_day'] = time();
+                $resp = $this->check_mundipagg_credit_card($datas);
+                if(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)
+                    $flag=true;
+            } else {
                 $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $datas['pay_day']);
-
-            $resp = $this->check_recurrency_mundipagg_credit_card($datas, 1);
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas, 1);
+                if(is_object($resp) && $resp->isSuccess())
+                    $flag=true;
+            }
             if (is_object($resp)) {
-                if ($resp->isSuccess()) {
+                if ($flag) {
                     $this->client_model->update_client($datas['pk'], array(
                         'initial_order_key' => $resp->getData()->OrderResult->OrderKey));
                     $response['flag_initial_payment'] = true;
@@ -1077,7 +1107,7 @@ class Welcome extends CI_Controller {
                             $datas['pay_day'] = time();
                             $datas['amount_in_cents'] = $pay_values['initial_value'];
                             $resp_pay_now = $this->check_mundipagg_credit_card($datas);
-                            if (is_object($resp_pay_now) && $resp_pay_now->isSuccess()) {
+                            if (is_object($resp_pay_now) && $resp_pay_now->isSuccess() && $resp_pay_now->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0) {
                                 $this->client_model->update_client($this->session->userdata('id'), array(
                                     'pending_order_key' => $resp_pay_now->getData()->OrderResult->OrderKey));
                                 $flag_pay_now = true;
