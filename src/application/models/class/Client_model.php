@@ -96,12 +96,13 @@
             $id_user_table=$this->db->insert_id();
            
             //insert respectivity datas in the client table
+            $data_client['purchase_counter']=$datas['purchase_counter'];                //desde insersion anterior
             $data_client['user_id']=$id_user_table;                                     //desde insersion anterior
             $data_client['insta_id']=$data_insta->pk;                                   //desde instagram
             $data_client['insta_followers_ini']=$data_insta->follower_count;            //desde instagram
             $data_client['insta_following']=$data_insta->following;                     //desde instagram
             $data_client['HTTP_SERVER_VARS']=$datas['HTTP_SERVER_VARS'];                //desde instagram navegador y servidor
-            $data_client['utm_source']=$datas['utm_source'];                //desde instagram navegador y servidor
+            $data_client['utm_source']=$datas['utm_source'];                            //desde instagram navegador y servidor
             $this->db->insert('clients',$data_client);
             return $id_user_table;
         }        
@@ -153,6 +154,17 @@
         }
 
         public function update_client($id,$datas){
+            try {
+                $this->db->where('user_id',$id);
+                $this->db->update('clients',$datas);
+                return true;
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
+
+        public function decrement_purchase_retry($id,$datas){
             try {
                 $this->db->where('user_id',$id);
                 $this->db->update('clients',$datas);
