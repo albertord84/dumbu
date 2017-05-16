@@ -922,8 +922,8 @@ class Welcome extends CI_Controller {
 
             //1.1 + dos dias gratis
             $flag=false;
+            $datas['pay_day'] = time();
             if ($datas['early_client_canceled'] !== 'false'){
-                $datas['pay_day'] = time();
                 $resp = $this->check_mundipagg_credit_card($datas);
                 if(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)
                     $flag=true;
