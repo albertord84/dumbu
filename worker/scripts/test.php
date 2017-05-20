@@ -141,9 +141,9 @@ $payment_data['amount_in_cents'] = 2990;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0);
-var_dump($resul);
-var_dump($pay_day);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0);
+//var_dump($resul);
+//var_dump($pay_day);
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
@@ -166,8 +166,8 @@ $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-//$result = $Gmail->send_client_payment_success("fashionactone@gmail.com", "fashionact", "fashionactcc", "fash1234");
-//var_dump($result);
+$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
+var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result)
 //$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", Raphael PH & Pedrinho Lima"albertord84", "albertord");
@@ -189,8 +189,8 @@ ini_set('xdebug.var_display_max_data', 1024);
 $client = $Client->get_client(1);
 //$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
-$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
-var_dump($profiles);
+//$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
+//var_dump($profiles);
 //$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
 //var_dump($profile);
 
