@@ -4,9 +4,6 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
-                <!-- Google Tag Manager 
-                <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-W4BMH5T');</script>
-                <!-- End Google Tag Manager -->
                 <?php  $CI =& get_instance();?>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,11 +45,7 @@
 	<body id="my_body">
                 <?php include_once("analyticstracking.php") ?>
                 <?php include_once("remarketing.php")?>
-                <?php include_once("retargeting.php")?>
-                <!-- Google Tag Manager (noscript) 
-                <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4BMH5T" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-                <!-- End Google Tag Manager (noscript) -->
-                
+                <?php include_once("retargeting.php")?>            
                 <?php
                     /*if($languaje=='EN')
                         include_once("adroll.php");*/
@@ -698,7 +691,8 @@
                     </div>                                                        
                 </div> 
                 
-                
-                
+        <!-- Afilio Master Tag Home Page-->
+        <script type="text/javascript" src="http://v2.afilio.com.br/mastertag.php?progid=2289&type=homepage&id_partner=dumbupro&url_product=#https://dumbu.pro#"></script>
+        
 	</body>
 </html>
