@@ -129,15 +129,16 @@ $Payment = new dumbu\cls\Payment();
 //$pay_day = strtotime('05/28/2017 04:33:32');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
-$strdate = date("d-m-Y", $pay_day);
+//$pay_day = time();
+//$strdate = date("d-m-Y", $pay_day);
+$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4104240020928965';
-$payment_data['credit_card_name'] = 'RAFAEL CASTRO SALES';
-$payment_data['credit_card_exp_month'] = '08';
-$payment_data['credit_card_exp_year'] = '2019';
-$payment_data['credit_card_cvc'] = '136';
-$payment_data['amount_in_cents'] = 2990;
+$payment_data['credit_card_number'] = '5524890010278190';
+$payment_data['credit_card_name'] = 'LILIHUANG';
+$payment_data['credit_card_exp_month'] = '06';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '573';
+$payment_data['amount_in_cents'] = 9990;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);

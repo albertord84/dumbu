@@ -3,24 +3,9 @@
 class Welcome extends CI_Controller {
     
     
-    /*public function index(){     
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
-        
-        $datas['credit_card_number']='5491670426428673';
-        $datas['credit_card_name']='LUCAS BORSATTO';
-        $datas['credit_card_exp_month']='08';
-        $datas['credit_card_exp_year']='2024';
-        $datas['credit_card_cvc']='261';
-        $datas['amount_in_cents']=200;
-        $datas['pay_day'] = time();
-        $resp = $this->check_mundipagg_credit_card($datas);
-        
-        $data=$resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents;
-        var_dump($data);      
-    }*/
-        
+    public function i() {
+        echo date("Y-m-d",time());
+    }
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -48,13 +33,22 @@ class Welcome extends CI_Controller {
 
     public function purchase() {
         if ($this->session->userdata('id')) {
+            $this->load->model('class/user_model');
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
             $datas['profiles'] = $this->create_profiles_datas_to_display();
             $datas['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            
+            $datas['Afilio_UNIQUE_ID'] = $this->session->userdata('id');
+            $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
+            $result = $this->user_model->execute_sql_query($query);
+            $datas['Afilio_order_price']=$result[0]['initial_val'];
+            $datas['Afilio_total_value']=$result[0]['normal_val'];
+            $datas['Afilio_product_id']= $this->session->userdata('plane_id');
             $this->load->view('purchase_view', $datas);
-        }
+        }else
+            echo 'Access error';
     }
 
     public function scielo_view() {

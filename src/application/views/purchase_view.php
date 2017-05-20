@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
-                <!-- Google Tag Manager
-                <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-W4BMH5T');</script>
-                <!-- End Google Tag Manager -->
-		<meta charset="utf-8">
+                <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
                 <?php  $CI =& get_instance();?>
@@ -53,28 +50,24 @@
                 <?php include_once("adwords_conversion.php")?>
                 <?php include_once("retargeting.php")?>
                 <?php include_once("remarketing.php")?>
-                <!-- Google Tag Manager (noscript) 
-                <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4BMH5T" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-                <!-- End Google Tag Manager (noscript) -->                         
-                            
-                <img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#UNIQUE_ID#&order_price=#PRIX#" border="0" width="1" height="1" />
-            
+                <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#'.$Afilio_UNIQUE_ID.'#&order_price=#'.$Afilio_order_price.'#" border="0" width="1" height="1" />';?>
+                
                 <div class="windows8">
-		 <div class="wBall" id="wBall_1">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_2">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_3">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_4">
-		  <div class="wInnerBall"></div>
-		 </div>
-		 <div class="wBall" id="wBall_5">
-		  <div class="wInnerBall"></div>
-		 </div>
+                    <div class="wBall" id="wBall_1">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_2">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_3">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_4">
+                     <div class="wInnerBall"></div>
+                    </div>
+                    <div class="wBall" id="wBall_5">
+                     <div class="wInnerBall"></div>
+                    </div>
 		</div>
 		<header class="bk-black">
 			<div class="container">
@@ -216,5 +209,10 @@
                         </div>
                     </div>                                                        
                 </div> 
+                
+                <!-- Afilio Master Tag Purchase Page-->
+                <?php 
+                    echo'<script type="text/javascript" src="http://v2.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount=#'.sprintf("%.2f", ($Afilio_total_value/100)).'#&transaction_id=#'.$Afilio_UNIQUE_ID.'#&customer_type=#'.$Afilio_UNIQUE_ID.'#&product_id1=#dumbu_'.$Afilio_product_id.'#&url_product=#https://dumbu/src/index.php/welcome/purchase#&order_date=#'.date("Y-m-d",time()).'#&order_status=#completed#&customer_id=#$Afilio_UNIQUE_ID#"></script>';
+                ?>
 	</body>
 </html>
