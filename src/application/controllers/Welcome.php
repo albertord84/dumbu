@@ -6,6 +6,7 @@ class Welcome extends CI_Controller {
     public function i() {
         echo date("Y-m-d",time());
     }
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -772,13 +773,11 @@ class Welcome extends CI_Controller {
         $purchase_counter = ($this->client_model->execute_sql_query($query));
         $purchase_counter=(int)$purchase_counter[0]['purchase_counter'];
 
-        if($purchase_counter>0){
-           
+        if($purchase_counter>0){           
             $this->load->model('class/user_model');
             $this->load->model('class/user_status');
-            $this->load->model('class/credit_card_status');
-            
-            if ($this->validate_post_credit_card_datas($datas)) {
+            $this->load->model('class/credit_card_status');            
+            if($this->validate_post_credit_card_datas($datas)) {
                 //0. salvar datos del carton de credito
                 try {
                     $this->client_model->update_client($datas['pk'], array(
@@ -890,7 +889,9 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         //Amigos de Pedro
-        if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='AMIGOSDOPEDRO'|| ($datas['ticket_peixe_urbano']==='FITNESS'))){
+        if(isset($datas['ticket_peixe_urbano']) && (
+                       strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'
+                    || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
             //1. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
             $datas['pay_day'] = strtotime("+1 month", time());
@@ -905,16 +906,20 @@ class Welcome extends CI_Controller {
                 $response['flag_recurrency_payment'] = false;
                 $response['flag_initial_payment'] = false;
                 $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array());
-            }            
-        } else{
+            } 
+        }    
+        else {
             //1. hacer un pagamento inicial con el valor inicial del plano
             $response = array();
             if ($datas['early_client_canceled'] === 'false' || $datas['early_client_canceled'] === false)
                 $datas['amount_in_cents'] = $initial_value;
             else
-                $datas['amount_in_cents'] = $recurrency_value;
+                 if(strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU')
+                     $datas['amount_in_cents'] = $recurrency_value/2;
+                 else
+                     $datas['amount_in_cents'] = $recurrency_value;
 
-            //1.1 + dos dias gratis
+            //1. + dos dias gratis
             $flag=false;
             $datas['pay_day'] = time();
             if ($datas['early_client_canceled'] !== 'false'){
@@ -1382,10 +1387,10 @@ class Welcome extends CI_Controller {
                     break;
                 }
             }
-            if (!$is_active_profile /*&& !$is_active_geolocalization*/) {
-                if ($N_profiles < $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
-                    $profile_datas = $this->check_insta_profile($profile['profile']);
-                    if($profile_datas) {                                                
+            if (!$is_active_profile/*&& !$is_active_geolocalization*/) {
+                if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
+                    $profile_datas=$this->check_insta_profile_from_client($profile['profile']);
+                    if($profile_datas) {
                         if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '0');
                             if ($p) {
@@ -1393,7 +1398,6 @@ class Welcome extends CI_Controller {
                                     $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
                                 else
                                     $q = true;
-                                //$profile_datas = $this->check_insta_profile($profile['profile'], $p);
                                 $result['success'] = true;
                                 $result['img_url'] = $profile_datas->profile_pic_url;
                                 $result['profile'] = $profile['profile'];
@@ -1410,10 +1414,10 @@ class Welcome extends CI_Controller {
                         } else {
                             $result['success'] = false;
                             $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']));
-                        }                        
+                        }                    
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $this->T('@1 não é um perfil do Instagram', array(0 => $profile['profile']));
+                        $result['message'] = $this->T('Confira que o perfil @1 existe no Instagram e não tem bloqueado você', array(0 => $profile['profile']));
                     }
                 } else {
                     $result['success'] = false;
@@ -1450,7 +1454,7 @@ class Welcome extends CI_Controller {
     public function check_insta_profile($profile) {
         //if ($this->session->userdata('id')) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-        $this->Robot = new \dumbu\cls\Robot();
+        $this->Robot = new \dumbu\cls\Robot();       
         $data = $this->Robot->get_insta_ref_prof_data($profile);
         if (is_object($data)) {
             return $data;
@@ -1458,8 +1462,22 @@ class Welcome extends CI_Controller {
             return NULL;
         }
         //}
-    }
+    }    
     
+    public function check_insta_profile_from_client($profile) {        
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();       
+        $data = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
+        if(is_object($data)){
+            return $data;
+        }
+        else 
+            if(is_string($data)){
+                return json_decode($data);
+            } else {
+                return NULL;
+            }
+    }
     
     public function message() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
@@ -1607,7 +1625,7 @@ class Welcome extends CI_Controller {
                     $id_profile = $client_active_profiles[$i]['id'];
                     if($client_active_profiles[$i]['type']==='0'){ //es un perfil de referencia
                     $datas_of_profile = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
-                        if($datas_of_profile!=NULL){                            
+                    if($datas_of_profile!=NULL){
                             $array_profiles[$cnt_ref_prof]['login_profile'] = $name_profile;
                             $array_profiles[$cnt_ref_prof]['follows_from_profile'] = $datas_of_profile->follows;
                             if (!$datas_of_profile) { //perfil existia pero fue eliminado de IG
@@ -1627,8 +1645,11 @@ class Welcome extends CI_Controller {
                             }
                             $cnt_ref_prof=$cnt_ref_prof+1;
                         } else{
-                            $response['array_profiles'] = NULL;
-                            $response['message'] = 'Profiles unloaded by instagram failed connection';
+                            $array_profiles[$cnt_ref_prof]['status_profile'] = 'blocked';
+                            $array_profiles[$cnt_ref_prof]['img_profile'] = base_url().'assets/images/profile_privated.jpg';
+                            $array_profiles[$cnt_ref_prof]['login_profile'] = $name_profile;
+                            $array_profiles[$cnt_ref_prof]['follows_from_profile'] = '-+-';
+                            $cnt_ref_prof=$cnt_ref_prof+1;
                         }
                     } else{ //es una geolocalizacion      
                         $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);

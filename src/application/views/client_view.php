@@ -202,7 +202,7 @@
                             <hr><BR>
                         </div>
 
-                        <div style="text-align:left">
+                        <div style="text-align:center">
                             <ul id="reference_profile_status_list">
 
                             </ul>
@@ -1076,24 +1076,21 @@
         <div class="h150 fleft100"></div>
         <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url() . 'assets/images/logo-footer.png'; ?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS", array()); ?></span></div></footer>
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<?php echo base_url() . 'assets/bootstrap/js/bootstrap.min.js'; ?>"></script>
         <script src="<?php echo base_url() . 'assets/js/jquery.dlmenu.js'; ?>"></script>
         <script>
-                                $(function () {
-                                    $('#dl-menu').dlmenu();
-                                });
+            $(function () {
+                $('#dl-menu').dlmenu();
+            });
         </script>
         <script src="<?php echo base_url() . 'assets/js/datepiker.js'; ?>"></script>
         <script type="text/javascript">
-                                // When the document is ready
-                                $(document).ready(function () {
-                                    $('#datetimepicker1').datepicker({
-                                        format: "dd/mm/yyyy"
-                                    });
-                                });
+            // When the document is ready
+            $(document).ready(function () {
+                $('#datetimepicker1').datepicker({
+                    format: "dd/mm/yyyy"
+                });
+            });
         </script>
         <script type="text/javascript">
             // When the document is ready
@@ -1103,6 +1100,28 @@
                 });
             });
         </script>
+        
+        <!--modal_container_ENCUESTA
+        <div class="modal fade" style="top:30%" id="modal_ENCUESTA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div id="modal_container_ENCUESTA" class="modal-dialog modal-sm" role="document">                                                          
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img src="<?php //echo base_url() . 'assets/images/FECHAR.png'; ?>">
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel"><b><?php //echo $CI->T("Mensagem", array()); ?></b></h5>                        
+                    </div>
+                    <div class="modal-body">                                            
+                                                
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
         
         <!--modal_container_alert_message-->
         <div class="modal fade" style="top:30%" id="modal_alert_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -1123,8 +1142,8 @@
                         </button>
                     </div>
                 </div>
-            </div>                                                        
-        </div>
+            </div>
+        </div>        
         
         <!--modal_container_confirm_message-->
         <div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

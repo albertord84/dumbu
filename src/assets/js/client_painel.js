@@ -92,6 +92,8 @@ $(document).ready(function () {
         $('#modal_alert_message').modal('hide');
     });
     
+    //$('#modal_ENCUESTA').modal('show');
+    
     /*var confirmation=false;
     function modal_confirm_message(text_message){
         $('#modal_confirm_message').modal('show');
@@ -505,6 +507,11 @@ $(document).ready(function () {
             if (icons_profiles[i]['status_profile'] === 'deleted') {
                 icons_profiles[i]['ptr_p_obj'].css({'color': 'red'});
                 $('#reference_profile_status_list').append('<li>' + T('O perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
+                reference_profiles_status = true;
+            } else
+            if (icons_profiles[i]['status_profile'] === 'blocked') {
+                icons_profiles[i]['ptr_p_obj'].css({'color': 'red'});
+                $('#reference_profile_status_list').append('<li>' + T('O perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b>' + T(' bloqueu você no Instagram') + '</li>');
                 reference_profiles_status = true;
             } else
                 icons_profiles[i]['ptr_p_obj'].css({'color': 'black'});

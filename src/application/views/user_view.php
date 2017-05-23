@@ -577,21 +577,9 @@
                                                     </div>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                         <fieldset>
-                                                            <input id="ticket_peixe_urbano" type="text" placeholder="CUPOM desconto" required>
+                                                            <input id="ticket_peixe_urbano" type="text" placeholder="CUPOM desconto" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
                                                         </fieldset>
-                                                    </div>
-                                                    <!--<div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t10">
-                                                        <fieldset>
-                                                            <input id="cupao_number" type="text" placeholder="CUPOM desconto" required>
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
-                                                        <div class="text-center">
-                                                            <button id = "check_cupao" type="button" style="width:120px;height:40px;margin-top:5px" class="btn-primary ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                                <spam class="ladda-label"><div style="color:white; font-weight:bold">Check-in</div></spam>
-                                                            </button>
-                                                        </div>
-                                                    </div>-->
+                                                    </div>                                                    
                                                     <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
                                                         <fieldset>
                                                                 <spam class="val">(*) Só pra usuários requisitados</spam>

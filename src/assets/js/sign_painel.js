@@ -275,8 +275,8 @@ $(document).ready(function () {
                 $('#signin_profile').css('display', 'block');
                 $('#img_ref_prof').attr("src", insta_profile_datas.profile_pic_url);
                 $('#name_ref_prof').text(insta_profile_datas.username);
-                $('#ref_prof_followers').text('Seguidores: ' + insta_profile_datas.follower_count);
-                $('#ref_prof_following').text('Seguindo: ' + insta_profile_datas.following);
+                $('#ref_prof_followers').text(T('Seguidores: ') + insta_profile_datas.follower_count);
+                $('#ref_prof_following').text(T('Seguindo: ') + insta_profile_datas.following);
                 $('#coniner_data_panel *').prop('disabled', false);
                 $('#coniner_data_panel *').css('color', '#000000');
                 $('#container_sing_in_panel *').prop('disabled', false);
