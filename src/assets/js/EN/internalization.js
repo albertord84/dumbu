@@ -77,7 +77,13 @@ var Translation={
     "Confirma ativar a opção UNFOLLOW NORMAL":
             "Confirm activate the NORMAL UNFOLLOW feature",
     "Confirma ativar a opção UNFOLLOW TOTAL":
-            "Confirm activate the TOTAL UNFOLLOW feature"    
+            "Confirm activate the TOTAL UNFOLLOW feature",    
+    " bloqueu você no Instagram":
+            " blocked you in Instagram",
+    "Seguidores: ":
+            "Followers: ",
+    "Seguindo: ":
+            "Follwing: "  
 };
 
 function T(token){
