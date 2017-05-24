@@ -908,7 +908,7 @@ class Welcome extends CI_Controller {
                 $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array());
             } 
         }    
-        else {
+        else { /*kfkfkg*/
             //1. hacer un pagamento inicial con el valor inicial del plano
             $response = array();
             if ($datas['early_client_canceled'] === 'false' || $datas['early_client_canceled'] === false)
