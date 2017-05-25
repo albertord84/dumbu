@@ -1090,8 +1090,12 @@ class Welcome extends CI_Controller {
                         //Determinar valor inicial del pagamento
                         if ($datas['client_update_plane'] == 1)
                             $datas['client_update_plane'] = 4;
-                        if ($now < $client_data['pay_day'] && !($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
+                        if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] <= $this->session->userdata('plane_id'))) {
                             $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);
+                            $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                        } else
+                        if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
+                            $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
                             $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
                         } else
                         if ($datas['client_update_plane'] > $this->session->userdata('plane_id')) {
@@ -1696,6 +1700,13 @@ class Welcome extends CI_Controller {
         }
     }
 
+    public function dicas_geoloc() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $this->load->view('dicas_geoloc', $param);
+    }
+    
     public function help() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();

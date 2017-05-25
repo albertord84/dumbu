@@ -450,7 +450,15 @@
                             </div>
 
                             <div class="m-t10 text-center">
-                                <p class="fleft100"><?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização:", array()); ?></p>
+                                <p class="fleft100">
+                                    <?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização.", array()); ?> 
+                                     <?php
+                                        if ($language==='PT')
+                                            echo '<a id="dicas_geoloc" style="color:green; margin-top:7%">                                                    
+                                                        '.$CI->T("Veja dicas aqui",array()).'.
+                                                </a>';
+                                        ?>                                
+                                </p>
                             </div>                
 
                             <br>

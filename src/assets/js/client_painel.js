@@ -127,6 +127,22 @@ $(document).ready(function () {
     init_unfollow_type();
     init_autolike_type();
 
+      
+    $("#dicas_geoloc").click(function(){
+        url=base_url+"index.php/welcome/dicas_geoloc";
+        window.open(url, '_blank');
+    });
+    
+    
+    $("#dicas_geoloc").hover(
+        function(){
+            $('#dicas_geoloc').css('cursor', 'pointer');
+        },
+        function(){
+            $('#dicas_geoloc').css('cursor', 'default');
+        }
+    );    
+    
     $("#btn_verify_account").click(function () {
         if (!verify) {
             $("#btn_verify_account").text('CONFIRMO ATIVAÇÃO');
