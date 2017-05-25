@@ -1,5 +1,6 @@
 <br><br>
-<form action="<?php echo base_url().'index.php/admin/list_filter_view'?>" method="post">            
+<form action="<?php echo base_url().'index.php/admin/list_filter_view'?>" method="post">  
+        <div id="login_container2">
             <div id="admin_form" class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
@@ -101,9 +102,9 @@
                         <span class="ladda-label">Listar</span>
                     </button>
                </div>
-            </div>
-        
-        </form>
+            </div>        
+        </div>
+        <hr>
         <br><br>
 
         <div class="row">
@@ -159,10 +160,10 @@
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
                                     echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
                                     echo '<b>Status: </b><b id="label_status_'.$result[$i]['user_id'].'" style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
-                                    echo '<b>Status date: </b>'.date('d-m-Y',$result[$i]['status_date']).'<br>';                                
-                                    echo '<b>Sign-in date: </b>'.date('d-m-Y',$result[$i]['init_date']).'<br>';                                    
+                                    echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
+                                    echo '<b>Sign-in date: </b>'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'<br>';                                    
                                     if($result[$i]['end_date'])
-                                        echo '<b>Sign-out date: </b>'.date('d-m-Y',$result[$i]['end_date']).'<br>';
+                                        echo '<b>Sign-out date: </b>'.date('d-m-Y h:i:sa',$result[$i]['end_date']).'<br>';
                                     else
                                         echo '<b>Sign-out date: </b>----<br>';
                                 echo '</td>';
@@ -262,7 +263,7 @@
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
                                     if($result[$i]['pay_day']!=NULL && $result[$i]['pay_day']!=='null' && $result[$i]['pay_day']!=='NULL')
-                                        echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';                                    
+                                        echo '<b>Payment day: </b>'.date('d-m-Y h:i:sa',$result[$i]['pay_day']).'<br>';                                    
                                     else
                                         echo '<b>Payment day: </b>NULL<br>';                                    
                                     if($result[$i]['initial_val'])
