@@ -8,14 +8,14 @@ class Payment extends CI_Controller {
         // Write the contents back to the file
         $path = __dir__ . '/../../logs/';
         $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
-        $result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
-        $result = file_put_contents($file, serialize($_POST), FILE_APPEND);
+        //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
+        $result = file_put_contents($file, serialize($_POST) . "\n\n", FILE_APPEND);
 //        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
         if ($result === FALSE) {
             var_dump($file);
         }
         var_dump($file);
-        print '<br>OK';
+        print 'OK';
     }
 
     public function do_payment($payment_data) {
