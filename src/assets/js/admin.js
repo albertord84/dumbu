@@ -1,5 +1,12 @@
 $(document).ready(function(){
     
+    $('#login_container2').keypress(function (e) {
+        if (e.which == 13) {
+            $("#execute_query").click();
+            return false;
+        }
+    });
+    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
