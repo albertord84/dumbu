@@ -20,6 +20,20 @@
             $this->db->from('clients');
             $this->db->join('users', 'clients.user_id = users.id');
             $this->db->join('plane', 'clients.plane_id = plane.id');
+            
+            //$this->db->where('ticket_peixe_urbano', 'AMIGOSDOPEDRO');  //$form_filter['cod_promocional']
+            
+            if($form_filter['cod_promocional']!='--SELECT--'){
+                if($form_filter['cod_promocional']==='PEIXE URBANO'){
+                    $this->db->where('ticket_peixe_urbano !=', 'AMIGOSDOPEDRO');
+                    $this->db->where('ticket_peixe_urbano !=', 'FITNESS');
+                    $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU');
+                    $this->db->where('ticket_peixe_urbano !=', 'null');
+                } else{
+                    $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
+                }
+            }        
+            else
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             else
