@@ -49,7 +49,6 @@ namespace dumbu\cls {
             if ($result) {
                 while ($var_info = $result->fetch_array()) {
                     $this->{$var_info["name"]} = $var_info["value"];
-//                    print $this->{$var_info["name"]} . "<br>";
                 }
             } else {
                 die("Can't load system config vars...!!");

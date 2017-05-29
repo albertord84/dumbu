@@ -3,11 +3,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Payment extends CI_Controller {
-    
+
     public function mundi_notif_post() {
-        return 'OK';
+        // Write the contents back to the file
+        $path = __dir__ . '/../../logs/';
+        $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
+        //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
+        $result = file_put_contents($file, serialize($_POST) . "\n\n", FILE_APPEND);
+//        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
+        if ($result === FALSE) {
+            var_dump($file);
+        }
+        var_dump($file);
+        print 'OK';
     }
-    
+
     public function do_payment($payment_data) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
@@ -32,11 +42,12 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: COMENT
-//        $this->db->where('id', "1");
+//        $this->db->where('id', "11581");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
         $this->db->where('status_id <>', user_status::DONT_DISTURB);
+        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);
         // TODO: COMMENT MAYBE
 //        $this->db->or_where('status_id', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
 //        $this->db->or_where('status_id', user_status::ACTIVE);
@@ -85,8 +96,8 @@ class Payment extends CI_Controller {
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         // Check outhers payments
-        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE;
-        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : TRUE;
+        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE; // Deixar para um mes de graça
+        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : FALSE;
         $IOK_ok = $IOK_ok || $POK_ok; // Whichever is paid
         // Check normal recurrency payment
         $result = $Payment->check_payment($client['order_key']);
@@ -152,6 +163,7 @@ class Payment extends CI_Controller {
                 // TODO: check whend not pay and block user
                 if ($now > $pay_day) {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
+                    print "\n<br>Set to PENDING<br>\n";
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
                     // TODO: limit email by days diff
                     //$diff_days = 6;
