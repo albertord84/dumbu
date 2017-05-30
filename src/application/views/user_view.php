@@ -296,7 +296,7 @@
                                             <br>
                                         </spam>
                                         <?php
-                                        if ($languaje==='PT')
+                                        //if ($languaje==='PT')
                                             echo '<a class="help" style="color:green; margin-top:7%">
                                                     <div >
                                                         <img style="width:12%" src="'.base_url().'assets/images/help.png" alt="Help"/>
@@ -320,7 +320,7 @@
                                         if($languaje=='PT')
                                             echo '<iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
                                         else                                            
-                                            //echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
+                                            echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
                                     ?>
                                     
                                 </div>
