@@ -4,7 +4,7 @@ class Welcome extends CI_Controller {
     
     
     public function i() {
-        echo date("Y-m-d",time());
+        echo date("Y-m-d",1495597582);
     }
     
     public function index() {
