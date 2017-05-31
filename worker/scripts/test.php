@@ -133,18 +133,18 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '5292050068205286';
-$payment_data['credit_card_name'] = 'MAURO DOS SANTOS';
-$payment_data['credit_card_exp_month'] = '03';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '500';
-$payment_data['amount_in_cents'] = 2990;
+$payment_data['credit_card_number'] = '4984425393696969';
+$payment_data['credit_card_name'] = 'MAHELI F SILVEIRA';
+$payment_data['credit_card_exp_month'] = '11';
+$payment_data['credit_card_exp_year'] = '2019';
+$payment_data['credit_card_cvc'] = '319';
+$payment_data['amount_in_cents'] = 490;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0);
-var_dump($resul);
-var_dump($pay_day);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0);
+//var_dump($resul);
+//var_dump($pay_day);
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
@@ -167,7 +167,7 @@ $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-//$result = $Gmail->send_client_payment_success("fashionactone@gmail.com", "fashionact", "fashionactcc", "fash1234");
+//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
 //var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result)
@@ -180,17 +180,18 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
-/*$Robot = new dumbu\cls\Robot();
+$Robot = new dumbu\cls\Robot();
 ini_set('xdebug.var_display_max_depth', 5);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-var_dump($_SERVER['QUERY_STRING']);*/
+//var_dump($_SERVER['QUERY_STRING']);
 
-//$client = $Client->get_client(11667);
-////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
+$client = $Client->get_client(1);
+//$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
-//var_dump($profile);
+//$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
+//var_dump($profiles);
 //$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
 //var_dump($profile);
 

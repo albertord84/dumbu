@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
+                <?php  $CI =& get_instance();?>
                 <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-                <?php  $CI =& get_instance();?>
+                <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
                 <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
                 <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
                 <meta name="revisit-after" content="7 days">
@@ -212,7 +213,7 @@
                 
                 <!-- Afilio Master Tag Purchase Page-->
                 <?php 
-                    echo'<script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount=#'.sprintf("%.2f", ($Afilio_total_value/100)).'#&transaction_id=#'.$Afilio_UNIQUE_ID.'#&customer_type=#'.$Afilio_UNIQUE_ID.'#&product_id1=#dumbu_'.$Afilio_product_id.'#&url_product=#https://dumbu/src/index.php/welcome/purchase#&order_date=#'.date("Y-m-d",time()).'#&order_status=#completed#&customer_id=#$Afilio_UNIQUE_ID#"></script>';
+                    echo'<script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount=#'.sprintf("%.2f", ($Afilio_total_value/100)).'#&transaction_id=#'.$Afilio_UNIQUE_ID.'#&customer_type=#'.$Afilio_UNIQUE_ID.'#&product_id1=#dumbu_'.$Afilio_product_id.'#&url_product=#https://dumbu.pro/dumbu/src/index.php/welcome/purchase#&order_date=#'.date("Y-m-d",time()).'#&order_status=#completed#&customer_id=#$Afilio_UNIQUE_ID#"></script>';
                 ?>
 	</body>
 </html>

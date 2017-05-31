@@ -1,5 +1,6 @@
 <br><br>
-<form action="<?php echo base_url().'index.php/admin/list_filter_view'?>" method="post">            
+<form action="<?php echo base_url().'index.php/admin/list_filter_view'?>" method="post">  
+        <div id="login_container2">
             <div id="admin_form" class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
@@ -35,18 +36,13 @@
                 </div>
                 <div class="col-md-2">
                     <div class="center filters">
-                         <b>Ano expiração CC</b>
-                        <select id="credit_card_expiration_year" class="form-control" disabled="true">
+                        <b>Cód. Promocional</b>
+                        <select id="cod_promocional" class="form-control" >                            
                             <option>--SELECT--</option>
-                            <option>TODOS</option>
-                            <option>2017</option><option>2018</option>
-                            <option>2019</option><option>2020</option><option>2021</option>
-                            <option>2022</option><option>2023</option><option>2024</option>
-                            <option>2025</option><option>2026</option><option>2027</option>
-                            <option>2028</option><option>2029</option><option>2030</option>
-                            <option>2031</option><option>2032</option><option>2033</option>
-                            <option>2034</option><option>2035</option><option>2036</option>
-                            <option>2037</option><option>2038</option><option>2039</option>
+                            <option>PEIXE URBANO</option>
+                            <option>AMIGOSDOPEDRO</option>
+                            <option>FITNESS</option>
+                            <option>BACKTODUMBU</option>
                         </select>
                     </div>
                 </div>
@@ -101,9 +97,9 @@
                         <span class="ladda-label">Listar</span>
                     </button>
                </div>
-            </div>
-        
-        </form>
+            </div>        
+        </div>
+        <hr>
         <br><br>
 
         <div class="row">
@@ -159,10 +155,10 @@
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
                                     echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
                                     echo '<b>Status: </b><b id="label_status_'.$result[$i]['user_id'].'" style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
-                                    echo '<b>Status date: </b>'.date('d-m-Y',$result[$i]['status_date']).'<br>';                                
-                                    echo '<b>Sign-in date: </b>'.date('d-m-Y',$result[$i]['init_date']).'<br>';                                    
+                                    echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
+                                    echo '<b>Sign-in date: </b>'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'<br>';                                    
                                     if($result[$i]['end_date'])
-                                        echo '<b>Sign-out date: </b>'.date('d-m-Y',$result[$i]['end_date']).'<br>';
+                                        echo '<b>Sign-out date: </b>'.date('d-m-Y h:i:sa',$result[$i]['end_date']).'<br>';
                                     else
                                         echo '<b>Sign-out date: </b>----<br>';
                                 echo '</td>';
@@ -262,7 +258,7 @@
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
                                     if($result[$i]['pay_day']!=NULL && $result[$i]['pay_day']!=='null' && $result[$i]['pay_day']!=='NULL')
-                                        echo '<b>Payment day: </b>'.date('d',$result[$i]['pay_day']).'<br>';                                    
+                                        echo '<b>Payment day: </b>'.date('d-m-Y h:i:sa',$result[$i]['pay_day']).'<br>';                                    
                                     else
                                         echo '<b>Payment day: </b>NULL<br>';                                    
                                     if($result[$i]['initial_val'])
@@ -284,7 +280,7 @@
                                 echo '</a>';
                                 
                                 if($result[$i]['order_key'])
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar pagamento</span></button><br><br>';
                                     else
                                         echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
                                     if($result[$i]['status_id']==4||$result[$i]['status_id']==5){                                        

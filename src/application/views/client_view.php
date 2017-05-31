@@ -5,13 +5,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="tile" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
+        <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
         <meta name="description" content="<?php echo $CI->T("Obter seguidores no Instagram. Dumbu.pro te permite adicionar seguidores de Instagram 100% reales e ativos. Ganhe mais seguidores em Instagram a precios mais baratos!",array());?>">
         <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array()); ?>">
         <meta name="revisit-after" content="7 days">
         <meta name="robots" content="index,follow">
         <meta name="distribution" content="global">        
-        <title>DUMBU</title>
         
         
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
@@ -450,7 +449,15 @@
                             </div>
 
                             <div class="m-t10 text-center">
-                                <p class="fleft100"><?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização:", array()); ?></p>
+                                <p class="fleft100">
+                                    <?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização.", array()); ?> 
+                                     <?php
+                                        if ($language==='PT')
+                                            echo '<a id="dicas_geoloc" style="color:green; margin-top:7%">                                                    
+                                                        '.$CI->T("Veja dicas aqui",array()).'.
+                                                </a>';
+                                        ?>                                
+                                </p>
                             </div>                
 
                             <br>
