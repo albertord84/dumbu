@@ -133,12 +133,12 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4984078108853332';
-$payment_data['credit_card_name'] = 'JOE VIEIRA DA SILVA';
+$payment_data['credit_card_number'] = '4984425393696969';
+$payment_data['credit_card_name'] = 'MAHELI F SILVEIRA';
 $payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '500';
-$payment_data['amount_in_cents'] = 9990;
+$payment_data['credit_card_exp_year'] = '2019';
+$payment_data['credit_card_cvc'] = '319';
+$payment_data['amount_in_cents'] = 490;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);

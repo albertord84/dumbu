@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
+                <?php  $CI =& get_instance();?>
                 <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-                <?php  $CI =& get_instance();?>
+                <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
                 <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
                 <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
                 <meta name="revisit-after" content="7 days">

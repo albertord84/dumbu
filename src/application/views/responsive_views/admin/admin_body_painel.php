@@ -280,7 +280,7 @@
                                 echo '</a>';
                                 
                                 if($result[$i]['order_key'])
-                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
+                                        echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Cancelar pagamento</span></button><br><br>';
                                     else
                                         echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button delete-recurence"  data-style="expand-left" data-spinner-color="#ffffff" disabled="true"> <span class="ladda-label">Cancelar recurrencia</span></button><br><br>';
                                     if($result[$i]['status_id']==4||$result[$i]['status_id']==5){                                        

@@ -70,13 +70,31 @@ class Admin extends CI_Controller {
             $client = $this->client_model->get_client_by_id($id)[0];
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
             $Payment = new \dumbu\cls\Payment();
+            $status_cancelamento=0;
+            if(count($client['initial_order_key'])>3){
+                $response = json_decode($Payment->delete_payment($client['initial_order_key']));
+                if ($response->success) 
+                    $status_cancelamento=1;
+            }
             $response = json_decode($Payment->delete_payment($client['order_key']));
-            if ($response->success) {
-                $result['success'] = true;
-                $result['message'] = 'Recorrência cancelada corretamente';
-            } else {
+            if ($response->success) 
+                $status_cancelamento=$status_cancelamento+2;
+                
+            if ($status_cancelamento==0){
                 $result['success'] = false;
-                $result['message'] = 'A recorrência já tinha sido cancelada ou não existe. Verifique na Mundipagg';
+                $result['message'] = 'Não foi possivel cancelar o pagamento, faça direito na Mundipagg!!';
+            } else 
+            if ($status_cancelamento==1){
+                $result['success'] = true;
+                $result['message'] = 'ATENÇÂO: somente foi cancelado o initial_order_key. Cancele manualmente a Recurrancia!!';
+            }else
+            if ($status_cancelamento==2){
+                $result['success'] = true;
+                $result['message'] = 'ATENÇÂO: somente foi cancelada a Recurrencia. Confira se o cliente não tem Initial Order Key!!';
+            }else
+            if ($status_cancelamento==3){
+                $result['success'] = true;
+                $result['message'] = 'Initial_Order_Key e Recurrencia cancelados corretamente!!';
             }
             echo json_encode($result);
         }
