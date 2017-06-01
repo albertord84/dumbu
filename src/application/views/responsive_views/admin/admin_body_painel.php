@@ -43,6 +43,8 @@
                             <option>AMIGOSDOPEDRO</option>
                             <option>FITNESS</option>
                             <option>BACKTODUMBU</option>
+                            <option>SHENIA</option>
+                            <option>VANESSA</option>
                         </select>
                     </div>
                 </div>

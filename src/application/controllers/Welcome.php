@@ -764,7 +764,7 @@ class Welcome extends CI_Controller {
         echo json_encode($response);
     }
     
-    public function check_client_data_bank_old() {  //new_check_client_data_bank       
+    public function check_client_data_bank() {  //new_check_client_data_bank       
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $datas = $this->input->post(); 
@@ -892,6 +892,7 @@ class Welcome extends CI_Controller {
         if(isset($datas['ticket_peixe_urbano']) && (
                        strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'
                     || strtoupper($datas['ticket_peixe_urbano'])==='SHENIA'
+                    || strtoupper($datas['ticket_peixe_urbano'])==='VANESSA'
                     || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
             //1. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
@@ -900,6 +901,7 @@ class Welcome extends CI_Controller {
             if (is_object($resp) && $resp->isSuccess()) {
                 $this->client_model->update_client($datas['pk'], array(
                     'order_key' => $resp->getData()->OrderResult->OrderKey,
+                    'ticket_peixe_urbano' => $datas['ticket_peixe_urbano'],
                     'pay_day' => $datas['pay_day']));
                 $response['flag_initial_payment'] = true;
                 $response['flag_recurrency_payment'] = true;
