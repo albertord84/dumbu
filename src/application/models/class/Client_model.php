@@ -215,7 +215,8 @@
                 $this->db->select('*');
                 $this->db->from('clients');        
                 $this->db->where('user_id', $user_id);
-                return $this->db->get()->result_array();
+                $result=$this->db->get()->result_array();
+                return $result;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }

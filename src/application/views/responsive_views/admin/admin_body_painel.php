@@ -43,6 +43,9 @@
                             <option>AMIGOSDOPEDRO</option>
                             <option>FITNESS</option>
                             <option>BACKTODUMBU</option>
+                            <option>SHENIA</option>
+                            <option>VANESSA</option>
+                            <option>NINA</option>
                         </select>
                     </div>
                 </div>
@@ -249,7 +252,12 @@
                                                     </div> '; 
                                         }
                                     }
-                                        
+                                
+                                echo '<br><br>';
+                                if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
+                                    echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
+                                    echo '<p style="color:brown">'.$result[$i]['observation'].'</p>';                                    
+                                }
                                     
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';

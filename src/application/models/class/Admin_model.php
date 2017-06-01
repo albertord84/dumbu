@@ -28,6 +28,9 @@
                     $this->db->where('ticket_peixe_urbano !=', 'AMIGOSDOPEDRO');
                     $this->db->where('ticket_peixe_urbano !=', 'FITNESS');
                     $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU');
+                    $this->db->where('ticket_peixe_urbano !=', 'SHENIA');
+                    $this->db->where('ticket_peixe_urbano !=', 'VANESSA');
+                    $this->db->where('ticket_peixe_urbano !=', 'NINA');
                     $this->db->where('ticket_peixe_urbano !=', 'null');
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);

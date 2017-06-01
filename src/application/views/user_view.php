@@ -199,16 +199,7 @@
 			</div>
 		</section>
 
-		<!--<section id="vantagens" class="fleft100">
-                        <h3 class="titulo fleft100 text-center m-tb30"><?php //echo $CI->T("RECURSOS",array());?></h3>
-			<div class="container">
-				<ul class="fleft100 vantagens text-center cl-fff">					
-					<li><img src="assets/images/lupa.png" style="margin-top: 3px;" alt=""><p><?php //print $CI->T("Você escolhe o perfil para captar seguidores",array());?></p></li>
-					<li><img src="assets/images/nuvem.png" style="margin-top: 6px;" alt=""> <p><?php //echo $CI->T("Todos os perfis que segue  estarão protegidos em seu backup",array());?></p></li>
-				</ul>
-			</div>
-		</section>-->
-            
+		            
 		<section id="vantagens" class="fleft100 c-wite">
                     <spam style="color:white; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></spam>
 			
@@ -345,8 +336,16 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("BAIXA",array());?></b>
                                                 <hr>
-                                                <spam style="font-size:1.7em; color:#26a4e0"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></spam><br>
-						<spam><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("29,90",array());?></b></spam>
+                                                <spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <b><?php echo $CI->T("4,90",array());?></b>
+                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?>
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <b><?php echo $CI->T("29,90",array());?></b>
+                                                </spam>
                                                 <br>
                                                 <input id="radio_plane_4_90" type="radio" name="plano">
 					</div>
@@ -357,8 +356,16 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("MODERADA",array());?></b>
                                                 <hr>
-                                                <spam style="font-size:1.7em; color:#26a4e0"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("9,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></spam><br>
-						<spam><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("49,90",array());?></b></spam>
+                                                <spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?><b>
+                                                    <?php echo $CI->T("9,90",array());?>
+                                                    </b> <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?><b>
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <?php echo $CI->T("49,90",array());?></b>
+                                                </spam>
                                                 <br>
                                                 <input id="radio_plane_9_90" type="radio" name="plano">
 					</div>
@@ -369,8 +376,16 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("RÁPIDA",array());?></b>
 						<div class="rc"><?php echo $CI->T("RECOMENDADO",array());?></div>
-                                                <spam style="font-size:1.7em; color:#26a4e0"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></spam><br>
-						<spam><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("99,90",array());?></b></spam>
+                                                <br><spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?><b>
+                                                    <?php echo $CI->T("29,90",array());?></b> 
+                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?><b>                                                    
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <?php echo $CI->T("99,90",array());?></b>
+                                                </spam>
                                                 <br>
                                                 <div class="text-left m-l0">
                                                     <spam >
@@ -383,18 +398,7 @@
                                                                 echo '<img src="assets/images/new_black.png" style="width:40px"  alt="new">';
                                                         ?>
                                                     </spam>
-                                                    <br>
-                                                    <!--<spam>
-                                                        <img src="<?php //echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>
-                                                        <?php
-                                                            /*if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
-                                                            else
-                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';                                                             
-                                                             */
-                                                        ?>                                                        
-                                                    </spam>-->
+                                                    <br>                                                   
                                                 </div>
                                                 <br>
                                                 <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
@@ -406,8 +410,16 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("TURBO!",array());?></b>
                                                 <hr>
-                                                <spam style="font-size:1.7em; color:#26a4e0"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("99,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></spam><br>
-						<spam><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("189,90",array());?></b></spam>
+                                                <spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?><b>
+                                                    <?php echo $CI->T("99,90",array());?></b> 
+                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?><b>
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <?php echo $CI->T("189,90",array());?></b>
+                                                </spam>
                                                 <br>
                                                 <div class="text-left m-l0">
                                                     <spam >
