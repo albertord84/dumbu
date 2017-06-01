@@ -45,6 +45,7 @@
                             <option>BACKTODUMBU</option>
                             <option>SHENIA</option>
                             <option>VANESSA</option>
+                            <option>NINA</option>
                         </select>
                     </div>
                 </div>
