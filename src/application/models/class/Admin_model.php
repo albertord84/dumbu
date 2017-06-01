@@ -32,6 +32,7 @@
                     $this->db->where('ticket_peixe_urbano !=', 'VANESSA');
                     $this->db->where('ticket_peixe_urbano !=', 'NINA');
                     $this->db->where('ticket_peixe_urbano !=', 'CAROL');
+                    $this->db->where('ticket_peixe_urbano !=', 'NICOLE');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
