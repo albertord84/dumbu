@@ -763,8 +763,8 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-
-    public function check_client_data_bank() {  //new_check_client_data_bank       
+    
+    public function check_client_data_bank_old() {  //new_check_client_data_bank       
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $datas = $this->input->post(); 
@@ -815,9 +815,6 @@ class Welcome extends CI_Controller {
                         'plane_id' => $datas['plane_type']));
                     $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                     if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                        /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
-                            $datas['status_id'] = user_status::UNFOLLOW;
-                        else*/
                             $datas['status_id'] = user_status::ACTIVE;
                         $this->user_model->update_user($datas['pk'], array(
                             'init_date' => time(),
@@ -911,7 +908,7 @@ class Welcome extends CI_Controller {
                 $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array());
             } 
         }    
-        else { /*kfkfkg*/
+        else { 
             //1. hacer un pagamento inicial con el valor inicial del plano
             $response = array();
             if ($datas['early_client_canceled'] === 'false' || $datas['early_client_canceled'] === false)
@@ -1042,7 +1039,7 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-
+    
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
