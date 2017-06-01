@@ -4,7 +4,7 @@ class Welcome extends CI_Controller {
     
     
     public function i() {
-        echo date("Y-m-d",time());
+        echo date("Y-m-d",1495597582);
     }
     
     public function index() {
@@ -891,6 +891,7 @@ class Welcome extends CI_Controller {
         //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && (
                        strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'
+                    || strtoupper($datas['ticket_peixe_urbano'])==='SHENIA'
                     || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
             //1. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
