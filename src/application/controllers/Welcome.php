@@ -789,11 +789,9 @@ class Welcome extends CI_Controller {
                     ));
                     if(isset($datas['ticket_peixe_urbano'])){
                         $ticket=trim($datas['ticket_peixe_urbano']);
-                        if(count($ticket)>4){
-                            $this->client_model->update_client($datas['pk'], array(
-                                'ticket_peixe_urbano' => $ticket                  
-                            ));
-                        }
+                        $this->client_model->update_client($datas['pk'], array(
+                            'ticket_peixe_urbano' => $ticket                  
+                        ));
                     }
                 } catch (Exception $exc) {
                     $result['success'] = false;
@@ -901,7 +899,6 @@ class Welcome extends CI_Controller {
             if (is_object($resp) && $resp->isSuccess()) {
                 $this->client_model->update_client($datas['pk'], array(
                     'order_key' => $resp->getData()->OrderResult->OrderKey,
-                    'ticket_peixe_urbano' => $datas['ticket_peixe_urbano'],
                     'pay_day' => $datas['pay_day']));
                 $response['flag_initial_payment'] = true;
                 $response['flag_recurrency_payment'] = true;
