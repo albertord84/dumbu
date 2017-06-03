@@ -110,7 +110,7 @@
                         case 3:
                             echo '
                                         <div id="activate_account" class="center" style="margin-left:25%; width:50%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("SAIR", array()) . '</b><BR>
+                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("HABILITE SUA CONTA", array()) . '</b><BR>
                                             <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("INFORME NOVAMENTE LOGIN E SENHA DE INSTAGRAM", array()) . '</b>             
                                             <br><br>
                                             <form id="usersLoginForm"  action="#" method="#"  class="form" role="form" style="margin-left:25%;margin-right:25%;"  accept-charset="UTF-8" >                                
