@@ -9,7 +9,8 @@ class Payment extends CI_Controller {
         $path = __dir__ . '/../../logs/';
         $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
         //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
-        $result = file_put_contents($file, serialize($_POST) . "\n\n", FILE_APPEND);
+        $post = $post = file_get_contents('php://input');
+        $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
 //        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
         if ($result === FALSE) {
             var_dump($file);
@@ -134,7 +135,7 @@ class Payment extends CI_Controller {
                 if ($diff_days > 34) { // Limit to bolck
                     //Block client by paiment
                     if ($client['status_id'] != user_status::BLOCKED_BY_PAYMENT) {
-                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                         $this->send_payment_email($client, 0);
                         print "This client was blocked by payment just now: " . $client['user_id'];
                         // TODO: Put 31 in system_config    
@@ -145,11 +146,11 @@ class Payment extends CI_Controller {
                     print "Diff in days bigger tham 31 days: $diff_days ";
                     $this->load->model('class/dumbu_system_config');
                     $this->send_payment_email($client, 34 - $diff_days + 1);
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING, 'status_date' => time()));
                 } else {
 //                    print_r($client);
                     if ($client['status_id'] == user_status::PENDING || $client['status_id'] == user_status::BLOCKED_BY_PAYMENT) {
-                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE));
+                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
                     }
                     return TRUE;
                 }
@@ -164,7 +165,7 @@ class Payment extends CI_Controller {
                 if ($now > $pay_day) {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
                     print "\n<br>Set to PENDING<br>\n";
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING, 'status_date' => time()));
                     // TODO: limit email by days diff
                     //$diff_days = 6;
                     if ($diff_days >= 0) {
@@ -174,7 +175,7 @@ class Payment extends CI_Controller {
                         // TODO: limit email by days diff
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
                             //Block client by paiment
-                            $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                            $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                             ///////////////////////////////////////$this->send_payment_email($client);
                             print "This client was blocked by payment just now: " . $client['user_id'];
                             // TODO: Put 31 in system_config    
@@ -182,7 +183,7 @@ class Payment extends CI_Controller {
                     }
                 } else if ($IOK_ok === FALSE) { // Si está en fecha de promocion pero no pagó initial order key
                     //Block client by paiment
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                     $this->send_payment_email($client, 0);
                     ///////////////////////////////////////$this->send_payment_email($client);
                     print "This client was blocked by payment just now: " . $client['user_id'];

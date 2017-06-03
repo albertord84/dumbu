@@ -892,6 +892,7 @@ class Welcome extends CI_Controller {
                     || strtoupper($datas['ticket_peixe_urbano'])==='SHENIA'
                     || strtoupper($datas['ticket_peixe_urbano'])==='VANESSA'
                     || strtoupper($datas['ticket_peixe_urbano'])==='NINA'
+                    || strtoupper($datas['ticket_peixe_urbano'])==='CAROL'
                     || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
             //1. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
@@ -1062,6 +1063,7 @@ class Welcome extends CI_Controller {
                         ||$client_data['ticket_peixe_urbano']==='BACKTODUMBU'
                         ||$client_data['ticket_peixe_urbano']==='SHENIA'
                         ||$client_data['ticket_peixe_urbano']==='VANESSA'
+                        ||$client_data['ticket_peixe_urbano']==='CAROL'
                         ||$client_data['ticket_peixe_urbano']==='NINA')){
                     $result['success'] = false;
                     $result['message'] = 'Você não pode atualizar no mês promocional';
