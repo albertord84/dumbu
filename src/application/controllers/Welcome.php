@@ -5,6 +5,8 @@ class Welcome extends CI_Controller {
     
     public function i() {
         echo date("Y-m-d",1495597582);
+        
+        
     }
     
     public function index() {
@@ -788,7 +790,7 @@ class Welcome extends CI_Controller {
                         'credit_card_exp_year' => $datas['credit_card_exp_year']
                     ));
                     if(isset($datas['ticket_peixe_urbano'])){
-                        $ticket=trim($datas['ticket_peixe_urbano']);
+                        $ticket=strtoupper(trim($datas['ticket_peixe_urbano']));
                         $this->client_model->update_client($datas['pk'], array(
                             'ticket_peixe_urbano' => $ticket                  
                         ));
