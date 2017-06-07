@@ -4,9 +4,9 @@ class Welcome extends CI_Controller {
     
     
     public function i() {
-        echo date("Y-m-d",1495597582);
-        
-        
+        echo strtotime('05/01/2017 00:00:32'); 
+        echo '<br>';
+        echo strtotime('05/11/2017 23:59:32'); 
     }
     
     public function index() {
@@ -1741,10 +1741,11 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
-    public function update_all_retry_clients(){
-        //$array_ids=array(715,1176,1735,2821,2193,245,2942,3423,4629,5187,5885,6211,6351,6512,6544,7724,7952,7953,8239,8326,8450,11428,10981,11323,11527,11461,11271,11431,11522);
-        //$array_ids=array(2942,3423,5187,5885,6211,7952,7953,8239,11428,10981,11527,11461,11431,11522);
-        $array_ids=array(1296,1825,3178,7147,9397,7935,10074,10377,10881,10984,11344,11363,11382,11440,11340,11313,11330,11369,11451,11395,11607,11610,11522);
+    public function update_all_retry_clients(){    
+        //[154, 1320, 11249, 2544, 2562, 4032, 4727, 5409, 6345, 6394, 6893, 8234, 9136, 9379, 9432, 9524, 9560, 9736, 9777, 9829, 9580, 9608, 9774, 9910, 9584, 9792, 10391, 10453, 10582, 10618, 10765, 10881, 10057, 10433, 10508, 10801, 11059, 11101, 10166, 10452, 10718, 11440, 11510, 11597, 11625, 11421, 11490, 11526, 11839, 15738]
+
+        
+        $array_ids=array(154, 1320, 11249, 2544, 2562, 4032, 4727, 5409, 6345, 6394, 6893, 8234, 9136, 9379, 9432, 9524, 9560, 9736, 9777, 9829, 9580, 9608, 9774, 9910, 9584, 9792, 10391, 10453, 10582, 10618, 10765, 10881, 10057, 10433, 10508, 10801, 11059, 11101, 10166, 10452, 10718, 11440, 11510, 11597, 11625, 11421, 11490, 11526, 11839, 15738);
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
             $this->update_client_after_retry_payment_success($array_ids[$i]);
@@ -1777,7 +1778,7 @@ class Welcome extends CI_Controller {
             $this->client_model->update_client($user_id, array(
                 'order_key' => $resp->getData()->OrderResult->OrderKey,
                 'pay_day' => $payment_data['pay_day'])); 
-            echo 'Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
             //5. actualizar status del cliente
             $data_insta = $this->is_insta_user($client['login'], $client['pass']);
             if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
@@ -1789,13 +1790,17 @@ class Welcome extends CI_Controller {
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
-
-
             else
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
-        }        
+        } else{
+            echo '--------------aaaaaaaaa-----------------';
+            if (is_object($resp))
+                echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            else 'error';
+            echo '--------------bbbbbbbbb-----------------';
+        }   
     }
     
     public function prevalence(){
