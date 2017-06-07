@@ -43,12 +43,12 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: COMENT
-//        $this->db->where('id', "11581");
+        $this->db->where('id', "13381");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
         $this->db->where('status_id <>', user_status::DONT_DISTURB);
-        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);
+//        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);
         // TODO: COMMENT MAYBE
 //        $this->db->or_where('status_id', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
 //        $this->db->or_where('status_id', user_status::ACTIVE);
@@ -70,6 +70,7 @@ class Payment extends CI_Controller {
             if ($client['order_key'] != NULL) {
                 if (!$testing) { // Not in promotial days
                     try {
+//                        var_dump($client);
                         $checked = $this->check_client_payment($client);
                     } catch (Exception $ex) {
                         $checked = FALSE;
@@ -181,13 +182,23 @@ class Payment extends CI_Controller {
                             // TODO: Put 31 in system_config    
                         }
                     }
-                } else if ($IOK_ok === FALSE) { // Si está en fecha de promocion pero no pagó initial order key
+                } else if ($IOK_ok === FALSE && $diff_days >= dumbu_system_config::PROMOTION_N_FREE_DAYS) { // Si está en fecha de promocion del mes pero no pagó initial order key
                     //Block client by paiment
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                     $this->send_payment_email($client, 0);
                     ///////////////////////////////////////$this->send_payment_email($client);
                     print "This client was blocked by payment just now: " . $client['user_id'];
                 }
+            }
+            // Caso especial para activar bloqueados injustamente
+            $pay_day = new DateTime();
+            $pay_day->setTimestamp($client['init_date']);
+            $diff_info = $pay_day->diff($now);
+            $diff_days = $diff_info->days;
+            if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && $IOK_ok === TRUE && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
+                print "\n<br> LastSaledData = NULL";
+                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
+                print "\n<br>This client UNBLOQUED by payment just now: " . $client['user_id'];
             }
         } else {
             $bool = is_object($result);
