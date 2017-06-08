@@ -512,7 +512,7 @@ $(document).ready(function () {
 
             if (icons_profiles[i]['status_profile'] === 'ended') {
                 icons_profiles[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#reference_profile_status_list').append('<li>' + T('O sistema já siguiu todos os seguidores do perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b></li>');
+                $('#reference_profile_status_list').append('<li>' + T('O sistema já seguiu todos os seguidores do perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b></li>');
                 reference_profiles_status = true;
             } else
             if (icons_profiles[i]['status_profile'] === 'privated') {
@@ -892,7 +892,7 @@ $(document).ready(function () {
 
             if (icons_geolocalization[i]['status_geolocalization'] === 'ended') {
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#geolocalization_status_list').append('<li>' + T('O sistema já siguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
+                $('#geolocalization_status_list').append('<li>' + T('O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
                 geolocalization_status = true;
             } else
             if (icons_geolocalization[i]['status_geolocalization'] === 'privated') {

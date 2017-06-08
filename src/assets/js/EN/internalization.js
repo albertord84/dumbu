@@ -26,7 +26,7 @@ var Translation={
             "Do you want to delete the reference profile ",
     "Click para eliminar ":
             "Click to delete ",
-    "O sistema já siguiu todos os seguidores do perfil de referência ":
+    "O sistema já seguiu todos os seguidores do perfil de referência ":
             "The system has already followed all followers of the reference profile ",
     "O perfil de referência ":
             "The reference profile ",

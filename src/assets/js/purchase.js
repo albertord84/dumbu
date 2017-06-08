@@ -153,7 +153,7 @@ $(document).ready(function(){
             
             if(icons_profiles[i]['status_profile']==='ended'){
                 icons_profiles[i]['ptr_p_obj'].css({'color':'red'});
-                $('#reference_profile_status_list').append('<li>'+T('O sistema já siguiu todos os seguidores do perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
+                $('#reference_profile_status_list').append('<li>'+T('O sistema já seguiu todos os seguidores do perfil de referência ')+'<b style="color:red">"'+icons_profiles[i]['login_profile']+'"</b></li>');
                 reference_profiles_status=true;
             } else
             if(icons_profiles[i]['status_profile']==='privated'){
