@@ -36,6 +36,7 @@ class Welcome extends CI_Controller {
 
     public function purchase() {
         if ($this->session->userdata('id')) {
+            $datas = $this->input->get();
             $this->load->model('class/user_model');
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
