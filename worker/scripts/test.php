@@ -37,7 +37,6 @@ $RP = new \dumbu\cls\Reference_profile();
 $DB = new \dumbu\cls\DB();
 //$result = $DB->is_profile_followed(1, '858888048');
 //var_dump($result);
-
 //$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
@@ -160,8 +159,6 @@ $payment_data['pay_day'] = $pay_day;
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
-
-
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
@@ -181,41 +178,40 @@ $Gmail = new dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
-ini_set('xdebug.var_display_max_depth', 5);
+ini_set('xdebug.var_display_max_depth', 7);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
 //var_dump($_SERVER['QUERY_STRING']);
-
-$client = $Client->get_client(1);
+//$client = $Client->get_client(1);
 //$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
 //$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
 //var_dump($profiles);
 //$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
 //var_dump($profile);
-
-
 //$client = $Client->get_client(1);
-//$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '624804708', 5);
+//$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '5445947882', 5);
+//var_dump($result);
 //var_dump($result->media->nodes[0]->owner);
 //
 //$Profiles = array();
 //foreach ($result->media->nodes as $Profile) {
 //    array_push($Profiles, $Profile->owner);
 //}
-
-
 //$daily_work = (new dumbu\cls\DB())->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
 //(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
 //$Profiles = $Robot->get_profiles_to_follow($daily_work);
 //var_dump($Profiles);
-
-
+//var_dump($profiles->data->user->edge_followed_by->edges[0]->node);
+//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $profiles->data->user->edge_followed_by->edges[0]->node->id, 'follow');
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
+//var_dump($result);
 
 //$client = $Client->get_client(1);
+//$result = $Robot->get_geo_post_user_info(json_decode($client->cookies), '303230', 'BVSGZXunI7a');
+//$result = $Robot->get_reference_user(json_decode($client->cookies), 'pedropetti');
 //$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
 //print_r($result);
 //
@@ -227,7 +223,7 @@ $client = $Client->get_client(1);
 //var_dump($output);
 //var_dump($return_var);
 //$Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("fabianotunes", "Fa22169757");
+//$result = $Robot->bot_login("alberto_dreyes", "albertord5");
 //var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
