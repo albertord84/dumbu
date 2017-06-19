@@ -194,10 +194,14 @@ namespace dumbu\cls {
                         }
                     }
                     // Update cursor
-                    $this->daily_work->insta_follower_cursor = $page_info->end_cursor;
-                    $this->DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
-                    if (!$page_info->has_next_page)
+                    if ($page_info) {
+                        $this->daily_work->insta_follower_cursor = $page_info->end_cursor;
+                        $this->DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
+                        if (!$page_info->has_next_page)
+                            break;
+                    } else {
                         break;
+                    }
                 }
             }
             return $Ref_profile_follows;
