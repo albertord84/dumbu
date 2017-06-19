@@ -60,9 +60,10 @@ namespace dumbu\cls {
          */
         public $csrftoken = NULL;
 
-        function __construct() {
+        function __construct($DB = NULL) {
             $this->Day_client_work = new Day_client_work();
             $this->Ref_profile = new Reference_profile();
+            $this->DB = $DB ? $DB : new \dumbu\cls\DB();
         }
 
         /**
@@ -92,7 +93,7 @@ namespace dumbu\cls {
         public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
 //            $this->Day_client_work = $Day_client_work;
 //            $this->Ref_profile = $Ref_profile;
-            $DB = new DB();
+            //$DB = new DB();
             $this->daily_work = $daily_work;
             $login_data = $this->daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
@@ -166,32 +167,35 @@ namespace dumbu\cls {
 //                                $valid_profile = TRUE;
 //                            }
 //                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
-                        // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
-                        $followed_in_db = $DB->is_profile_followed($daily_work->client_id, $Profile->id);
-                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && !$followed_in_db) { // If profile not requested or follwed by Client
-                            // Do follow request
-                            echo "Profil name: $Profile->username<br>\n";
-                            $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                            if ($daily_work->like_first)
-                                $this->like_fist_post($login_data, $Profile->id);
-                            if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
-                                array_push($Ref_profile_follows, $Profile);
-                                $follows++;
-                                if ($follows >= $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME)
-                                    break;
-                            } else {
-                                $error = $this->process_follow_error($json_response2);
-                                var_dump($json_response2);
-                                $error = TRUE;
-                                break;
+                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If profile not requested or follwed by Client
+                            // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
+                            //$followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
+                            $followed_in_db = NULL;
+                            if (!$followed_in_db) {
+                                // Do follow request
+                                echo "Profil name: $Profile->username<br>\n";
+                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
+                                if ($daily_work->like_first)
+//                                $this->like_fist_post($login_data, $Profile->id);
+                                    if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
+                                        array_push($Ref_profile_follows, $Profile);
+                                        $follows++;
+                                        if ($follows >= $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME)
+                                            break;
+                                    } else {
+                                        $error = $this->process_follow_error($json_response2);
+                                        var_dump($json_response2);
+                                        $error = TRUE;
+                                        break;
+                                    }
+                                // Sleep up to proper delay between request
+                                sleep($GLOBALS['sistem_config']->DELAY_BETWEEN_REQUESTS);
                             }
-                            // Sleep up to proper delay between request
-                            sleep($GLOBALS['sistem_config']->DELAY_BETWEEN_REQUESTS);
                         }
                     }
                     // Update cursor
                     $this->daily_work->insta_follower_cursor = $page_info->end_cursor;
-                    $DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
+                    $this->DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
                     if (!$page_info->has_next_page)
                         break;
                 }
@@ -237,20 +241,20 @@ namespace dumbu\cls {
 // end of member function do_follow_unfollow_work
 
         function process_follow_error($json_response) {
-            $DB = new DB();
+            //$DB = new DB();
             $Profile = new Profile();
             $ref_prof_id = $this->daily_work->rp_id;
             $client_id = $this->daily_work->client_id;
             $error = $Profile->parse_profile_follow_errors($json_response);
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
-                    $result = $DB->delete_daily_work_client($client_id);
-                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     var_dump($result);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
-                    $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 210)) {
                         $Gmail = new Gmail();
@@ -259,28 +263,28 @@ namespace dumbu\cls {
                     break;
 
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
-                    $result = $DB->delete_daily_work_client($client_id);
+                    $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
-//                    $DB->set_client_status($client_id, user_status::UNFOLLOW);
+//                    $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
 //                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
                     break;
 
                 case 3: // "Unautorized"
-                    $result = $DB->delete_daily_work_client($client_id);
+                    $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
-                    $DB->set_client_cookies($client_id, NULL);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    $this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;
 
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
-//                    $result = $DB->delete_daily_work_client($client_id);
+//                    $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
-                    $result = $DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 210)) {
                         $Gmail = new Gmail();
@@ -290,10 +294,10 @@ namespace dumbu\cls {
                     break;
 
                 case 5: // "checkpoint_required"
-                    $result = $DB->delete_daily_work_client($client_id);
+                    $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
-                    $DB->set_client_cookies($client_id, NULL);
+                    $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
+                    $this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
 
@@ -306,8 +310,8 @@ namespace dumbu\cls {
                     break;
 
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
-                    $result = $DB->delete_daily_work_client($client_id);
-                    $DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //var_dump($result);
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
@@ -405,13 +409,13 @@ namespace dumbu\cls {
                     if ($json->data->user->edge_followed_by->page_info->has_next_page == false) {
                         echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         //var_dump(json_encode($json));
-                        $DB = new DB();
-                        $result = $DB->delete_daily_work($this->daily_work->reference_id);
+                        //$DB = new DB();
+                        $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                     }
                 } else {
                     var_dump($output);
                     var_dump($curl_str);
-                    //$DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
                 }
                 return $json;
             } catch (\Exception $exc) {
@@ -435,7 +439,7 @@ namespace dumbu\cls {
 //                } else {
 //                    //var_dump($output);
 //                    var_dump($curl_str);
-//                    //$DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+//                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
 //                }
 //                return $json;
 //            } catch (\Exception $exc) {
@@ -460,7 +464,7 @@ namespace dumbu\cls {
                 } else {
                     //var_dump($output);
                     var_dump($curl_str);
-                    //$DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
                 }
                 return $json;
             } catch (\Exception $exc) {

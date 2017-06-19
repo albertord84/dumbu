@@ -65,10 +65,11 @@ namespace dumbu\cls {
          */
         public $Gmail;
 
-        public function __construct() {
-            $this->Robot = new Robot();
+        public function __construct($DB = NULL) {
+            $this->Robot = new Robot($DB);
             $this->Robot->config = $GLOBALS['sistem_config'];
             $this->Gmail = new Gmail();
+            $this->DB = $DB? $DB : new \dumbu\cls\DB();
         }
 
         /**
@@ -84,7 +85,7 @@ namespace dumbu\cls {
         function prepare_daily_work() {
 // Get Users Info
             $Clients = (new Client())->get_clients();
-            $DB = new DB();
+            //$DB = new DB();
             $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
                 if (!$Client->cookies) {
@@ -112,14 +113,14 @@ namespace dumbu\cls {
                             if (!$Ref_Prof->deleted && $Ref_Prof->end_date == NULL) {
                                 $valid_geo = ($Ref_Prof->type == 1 && ($Client->plane_id == 1 || $Client->plane_id > 3));
                                 if ($Ref_Prof->type == 0 || $valid_geo) {
-                                    $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
+                                    $this->DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
                                 }
                             }
                         }
                     } else {
                         echo "Not reference profiles: $Client->login <br>\n<br>\n";
                         if (count($Client->reference_profiles)) { // To keep unfollow
-                            $DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
+                            $this->DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
                         }
                         $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
@@ -140,7 +141,7 @@ namespace dumbu\cls {
             }
 //            die("Loged all Clients");
 //
-//$DB->reset_preference_profile_cursors();
+//$this->DB->reset_preference_profile_cursors();
         }
 
 // end of member function prepare_daily_work
@@ -170,11 +171,11 @@ namespace dumbu\cls {
         public function do_follow_unfollow_work($daily_work) {
             if ($daily_work) {
 // Get new follows
-                $DB = new \dumbu\cls\DB();
+                //$DB = new \dumbu\cls\DB();
                 $unfollow_work = NULL;
                 $Followeds_to_unfollow = array();
                 if ($daily_work->to_unfollow > 0) {
-                    $unfollow_work = $DB->get_unfollow_work($daily_work->client_id);
+                    $unfollow_work = $this->DB->get_unfollow_work($daily_work->client_id);
                     while ($Followed = $unfollow_work->fetch_object()) { //
                         $To_Unfollow = new \dumbu\cls\Followed();
 // Update Ref Prof Data
@@ -193,17 +194,17 @@ namespace dumbu\cls {
                         $unfollows++;
                 }
                 // TODO: foults
-                $DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows);
+                $this->DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows);
                 return TRUE;
             }
             return FALSE;
         }
 
-        function save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work) {
+        public function save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work) {
             try {
-                $DB = new \dumbu\cls\DB();
-                $DB->save_unfollow_work($Followeds_to_unfollow);
-                $DB->save_follow_work($Ref_profile_follows, $daily_work);
+                //$DB = new \dumbu\cls\DB();
+                $this->DB->save_unfollow_work($Followeds_to_unfollow);
+                $this->DB->save_follow_work($Ref_profile_follows, $daily_work);
                 return TRUE;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -239,6 +240,25 @@ namespace dumbu\cls {
 
 // end of member function have_work
 
+        function get_work() {
+            //$DB = new \dumbu\cls\DB();
+            $daily_work = $this->DB->get_follow_work();
+            $daily_work->login_data = json_decode($daily_work->cookies);
+            $Followeds_to_unfollow = array();
+            if ($daily_work->to_unfollow > 0) {
+                $unfollow_work = $this->DB->get_unfollow_work($daily_work->client_id);
+                while ($Followed = $unfollow_work->fetch_object()) { //
+                    $To_Unfollow = new \dumbu\cls\Followed();
+// Update Ref Prof Data
+                    $To_Unfollow->id = $Followed->id;
+                    $To_Unfollow->followed_id = $Followed->followed_id;
+                    array_push($Followeds_to_unfollow, $To_Unfollow);
+                }
+            }
+            $daily_work->to_unfollow = $Followeds_to_unfollow;
+            return $daily_work;
+        }
+
         /**
          * 
          *
@@ -249,9 +269,9 @@ namespace dumbu\cls {
             try {
                 $has_work = TRUE;
                 while ($has_work) {
-                    $DB = new \dumbu\cls\DB();
+                    //$DB = new \dumbu\cls\DB();
 //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
-                    $daily_work = $DB->get_follow_work();
+                    $daily_work = $this->DB->get_follow_work();
                     if ($daily_work) {
                         $daily_work->login_data = json_decode($daily_work->cookies);
                         if ($daily_work->login_data != NULL) {
@@ -282,6 +302,7 @@ namespace dumbu\cls {
                     } else {
                         $has_work = FALSE;
                     }
+//                    die("Test Ended!");
                 }
                 echo "<br>\n<br>\nCongratulations!!! Job done...!<br>\n";
             } catch (\Exception $exc) {
@@ -290,18 +311,18 @@ namespace dumbu\cls {
         }
 
         function insert_daily_work($Ref_Prof, $to_follow, $to_unfollow, $login_data) {
-            $DB = new \dumbu\cls\DB();
-            $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
+            //$DB = new \dumbu\cls\DB();
+            $this->DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, json_encode($login_data));
         }
 
         function delete_daily_work($ref_prof_id) {
-            $DB = new \dumbu\cls\DB();
-            $DB->truncate_daily_work($ref_prof_id);
+            //$DB = new \dumbu\cls\DB();
+            $this->DB->truncate_daily_work($ref_prof_id);
         }
 
         function truncate_daily_work() {
-            $DB = new \dumbu\cls\DB();
-            $DB->truncate_daily_work();
+            //$DB = new \dumbu\cls\DB();
+            $this->DB->truncate_daily_work();
         }
 
     }

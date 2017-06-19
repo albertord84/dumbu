@@ -12,14 +12,14 @@ namespace dumbu\cls {
         
         private $connection = NULL;
 
-        public function __construct() {
-            $this->connect();
+        public function __construct($conf_file = "/../../../CONFIG.INI") {
+            $this->connect($conf_file);
         }
 
-        public function connect() {
+        public function connect($conf_file = NULL) {
             if (!$this->connection) {
                 // Connect to DB
-                $config = parse_ini_file(dirname(__FILE__) . "/../../../CONFIG.INI", true);
+                $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
                 $this->host = $config["database"]["host"];
                 $this->db = $config["database"]["db"];
                 //$this->port = $GLOBALS['sistem_config']->DB_PORT;
