@@ -148,7 +148,7 @@ namespace dumbu\cls {
                 while (!$error && $follows < $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']->MAX_GET_FOLLOWERS_REQUESTS) {
                     // Get next insta followers of Ref_profile
                     $get_followers_count++;
-                    echo "<br>\nRef Profil: $daily_work->insta_name<br>\n";
+                    echo "<br>\nRef Profil: $daily_work->insta_name (type: $daily_work->type)<br>\n";
                     // Get Users 
                     $page_info = NULL;
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
