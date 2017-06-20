@@ -175,19 +175,20 @@ namespace dumbu\cls {
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-                                if ($daily_work->like_first)
-//                                $this->like_fist_post($login_data, $Profile->id);
-                                    if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
-                                        array_push($Ref_profile_follows, $Profile);
-                                        $follows++;
-                                        if ($follows >= $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME)
-                                            break;
-                                    } else {
-                                        $error = $this->process_follow_error($json_response2);
-                                        var_dump($json_response2);
-                                        $error = TRUE;
+//                                if ($daily_work->like_first) {
+//                                    $this->like_fist_post($login_data, $Profile->id);
+//                                }
+                                if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
+                                    array_push($Ref_profile_follows, $Profile);
+                                    $follows++;
+                                    if ($follows >= $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME)
                                         break;
-                                    }
+                                } else {
+                                    $error = $this->process_follow_error($json_response2);
+                                    var_dump($json_response2);
+                                    $error = TRUE;
+                                    break;
+                                }
                                 // Sleep up to proper delay between request
                                 sleep($GLOBALS['sistem_config']->DELAY_BETWEEN_REQUESTS);
                             }
@@ -260,9 +261,10 @@ namespace dumbu\cls {
                     // Alert when insta block by IP
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
-                    if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 210)) {
+                    if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
                         $Gmail = new Gmail();
                         $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 1= " . $rows_count, "Alberto");
+                        $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 1= " . $rows_count, "Jose");
                     }
                     break;
 
