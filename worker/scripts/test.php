@@ -16,6 +16,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 
+
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
@@ -36,7 +37,6 @@ $RP = new \dumbu\cls\Reference_profile();
 $DB = new \dumbu\cls\DB();
 //$result = $DB->is_profile_followed(1, '858888048');
 //var_dump($result);
-
 //$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
@@ -49,7 +49,7 @@ $Client = new dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
 //$client = $Client->get_client(11472);
-//$profile_data = (new dumbu\cls\Reference_profile())->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'josergm86');
+//$profile_data = (new dumbu\cls\Robot())->get_insta_ref_prof_data 'josergm86');
 //$profile_data = json_decode($profile_data,true);
 //var_dump($profile_data);
 //$DB = new \dumbu\cls\DB();
@@ -124,24 +124,27 @@ $Payment = new dumbu\cls\Payment();
 //$data = strtotime("+5 days", time());
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
-//$pay_day = strtotime('02/22/2017 04:33:32');
-//$pay_day = strtotime("+30 days", $pay_day);
-//$pay_day = time();
-//$strdate = date("d-m-Y", $pay_day);
 //
-//////
-//$payment_data['credit_card_number'] = '5399832641710235';
-//$payment_data['credit_card_name'] = 'DANIEL ONOJA';
-//$payment_data['credit_card_exp_month'] = '02';
-//$payment_data['credit_card_exp_year'] = '2018';
-//$payment_data['credit_card_cvc'] = '657';
-//$payment_data['amount_in_cents'] = 2990;
-//$payment_data['pay_day'] = $pay_day;
+//$pay_day = strtotime('05/28/2017 04:33:32');
+//$pay_day = strtotime("+30 days", $pay_day);
+
+$pay_day = time();
+//$strdate = date("d-m-Y", $pay_day);
+//$pay_day = strtotime("+1 days", time());
+
+$payment_data['credit_card_number'] = '4984425393696969';
+$payment_data['credit_card_name'] = 'MAHELI F SILVEIRA';
+$payment_data['credit_card_exp_month'] = '11';
+$payment_data['credit_card_exp_year'] = '2019';
+$payment_data['credit_card_cvc'] = '319';
+$payment_data['amount_in_cents'] = 490;
+$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
 //var_dump($resul);
-////----------------------------------------------------------------
+//var_dump($pay_day);
+//////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);
 //header('Content-Type: application/json');
@@ -156,15 +159,13 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
-
-
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
-var_dump($result);
+//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
+//var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result)
 //$result = $Gmail->send_client_not_rps("albertord84@gmail.com", "Alberto R", Raphael PH & Pedrinho Lima"albertord84", "albertord");
@@ -177,39 +178,40 @@ var_dump($result);
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
-ini_set('xdebug.var_display_max_depth', 5);
+ini_set('xdebug.var_display_max_depth', 7);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-
-$client = $Client->get_client(1);
-////$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
-//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'itacoatiara');
-//var_dump($profile);
-$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
-var_dump($profile);
-
-
+//var_dump($_SERVER['QUERY_STRING']);
 //$client = $Client->get_client(1);
-//$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '624804708', 5);
+//$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
+//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
+//$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
+//var_dump($profiles);
+//$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
+//var_dump($profile);
+//$client = $Client->get_client(1);
+//$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '5445947882', 5);
+//var_dump($result);
 //var_dump($result->media->nodes[0]->owner);
 //
 //$Profiles = array();
 //foreach ($result->media->nodes as $Profile) {
 //    array_push($Profiles, $Profile->owner);
 //}
-
-
 //$daily_work = (new dumbu\cls\DB())->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
 //(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
 //$Profiles = $Robot->get_profiles_to_follow($daily_work);
 //var_dump($Profiles);
-
-
+//var_dump($profiles->data->user->edge_followed_by->edges[0]->node);
+//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $profiles->data->user->edge_followed_by->edges[0]->node->id, 'follow');
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
+//var_dump($result);
 
 //$client = $Client->get_client(1);
+//$result = $Robot->get_geo_post_user_info(json_decode($client->cookies), '303230', 'BVSGZXunI7a');
+//$result = $Robot->get_reference_user(json_decode($client->cookies), 'pedropetti');
 //$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
 //print_r($result);
 //
@@ -220,7 +222,8 @@ var_dump($profile);
 //exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
 //var_dump($output);
 //var_dump($return_var);
-//$result = $Robot->bot_login("alberto_dreyes", "albertord4");
+//$Robot = new dumbu\cls\Robot();
+//$result = $Robot->bot_login("alberto_dreyes", "albertord5");
 //var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'

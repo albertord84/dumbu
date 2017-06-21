@@ -21,7 +21,7 @@ $(document).ready(function(){
     
     $('#google_conversion_frame').ready(function(){        
         $('#google_conversion_frame').css({"float": "none","display":"none"});
-    } );
+    });
         
     function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
         if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){

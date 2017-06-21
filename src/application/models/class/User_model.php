@@ -231,6 +231,57 @@ class User_model extends CI_Model {
     public function disable_account() {
         
     }
+    
+       
+    
+    public function client_prevalence() {
+        $prevalence=array('in'=>array(),'out'=>array());
+        $this->db->select('*');
+        $this->db->from('users');
+        $all_users=$this->db->get()->result_array();
+        $N=count($all_users);
+        for($i=0;$i<$N;$i++){
+            $user=$all_users[$i];            
+            if($user['status_id']!=='8'){
+                $init_day=$user['init_date'];
+                if($init_day!=='NULL'){
+                    $d_init_day= date("j", $init_day);
+                    $m_init_day= date("n", $init_day);
+                    $y_init_day= date("Y", $init_day);
+                    $str_init_day=sprintf('%s/%s/%s',$y_init_day,$m_init_day,$d_init_day);
+                    if(!isset($prevalence['in'][$str_init_day])){
+                        $prevalence['in'][$str_init_day]=1;
+                        if(!isset($prevalence['out'][$str_init_day]))
+                            $prevalence['out'][$str_init_day]=0;
+                    }
+                    else
+                        $prevalence['in'][$str_init_day]=$prevalence['in'][$str_init_day]+1;
+                }
+                $end_day=$user['end_date'];
+                if($end_day!=='NULL'){
+                    $d_end_day= date("j", $end_day);
+                    $m_end_day= date("n", $end_day);
+                    $y_end_day= date("Y", $end_day);
+                    $str_end_day=sprintf('%s/%s/%s',$y_end_day,$m_end_day,$d_end_day);            
+                    if(!isset($prevalence['out'][$str_end_day])){
+                        $prevalence['out'][$str_end_day]=1;
+                        if(!isset($prevalence['in'][$str_end_day]))
+                            $prevalence['in'][$str_end_day]=0;
+                    }
+                    else
+                        $prevalence['out'][$str_end_day]=$prevalence['out'][$str_end_day]+1;
+                }
+            }
+        }        
+        foreach($prevalence['in'] as $key =>$value){  
+            echo sprintf('%s;%d<br>', $key, $prevalence['in'][$key]);
+        }
+        echo '<br><br><br><br><br>';
+        
+        foreach($prevalence['out'] as $key =>$value){  
+            echo sprintf('%s;%d<br>', $key, $prevalence['out'][$key]);
+        }
+    }
 
 }
 
