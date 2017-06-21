@@ -502,7 +502,7 @@ class Welcome extends CI_Controller {
                             'status_id' => $status_id
                         ));
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
-                        $result['resource'] = 'client';
+                        $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
                         $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram', array());
@@ -1580,7 +1580,11 @@ class Welcome extends CI_Controller {
                 $data_insta['status'] = $login_data->json_response->status;
                 if ($login_data->json_response->message === "checkpoint_required") {
                     $data_insta['message'] = $login_data->json_response->message;
-                    $data_insta['verify_account_url'] = $login_data->json_response->checkpoint_url;
+                    if(strpos($login_data->json_response->checkpoint_url,'challenge'))
+                        $data_insta['verify_account_url'] = 'https://www.instagram.com'.$login_data->json_response->checkpoint_url;
+                    else
+                        $data_insta['verify_account_url'] = $login_data->json_response->checkpoint_url;
+                    
                 } else
                 if ($login_data->json_response->message === "") {
                     if (isset($login_data->json_response->phone_verification_settings) && is_object($login_data->json_response->phone_verification_settings)) {
