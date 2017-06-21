@@ -148,7 +148,7 @@ namespace dumbu\cls {
                 while (!$error && $follows < $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME && $get_followers_count < $GLOBALS['sistem_config']->MAX_GET_FOLLOWERS_REQUESTS) {
                     // Get next insta followers of Ref_profile
                     $get_followers_count++;
-                    echo "<br>\nRef Profil: $daily_work->insta_name (type: $daily_work->type)<br>\n";
+                    echo "<br>\nRef Profil: $daily_work->insta_name (id: $daily_work->rp_id | type: $daily_work->type)<br>\n";
                     // Get Users 
                     $page_info = NULL;
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
@@ -213,28 +213,39 @@ namespace dumbu\cls {
             $error = TRUE;
             $login_data = json_decode($daily_work->cookies);
             $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME));
+            $page_info = new \stdClass();
             if ($daily_work->rp_type == 0) {
                 $json_response = $this->get_insta_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                 );
                 echo "<br>\nRef Profil: $daily_work->insta_name<br>\n";
-                if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->data->user->edge_followed_by->edges)) { // if response is ok
-                    echo "Nodes: " . count($json_response->data->user->edge_followed_by->edges) . " <br>\n";
-                    $page_info = $json_response->data->user->edge_followed_by->page_info;
-                    $Profiles = $json_response->data->user->edge_followed_by->edges;
-                    $error = FALSE;
+                if (is_object($json_response) && $json_response->status == 'ok') {
+                    if (isset($json_response->data->user->edge_followed_by)) { // if response is ok
+                        echo "Nodes: " . count($json_response->data->user->edge_followed_by->edges) . " <br>\n";
+                        $page_info = $json_response->data->user->edge_followed_by->page_info;
+                        $Profiles = $json_response->data->user->edge_followed_by->edges;
+                        $error = FALSE;
+                    } else {
+                        $page_info->end_cursor = NULL;
+                        $page_info->has_next_page = false;
+                    }
                 }
             } else {
                 $json_response = $this->get_insta_geomedia($login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor);
-                if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->data->location->edge_location_to_media->edges)) { // if response is ok
-                    echo "Nodes: " . count($json_response->data->location->edge_location_to_media->edges) . " <br>\n";
-                    $page_info = $json_response->data->location->edge_location_to_media->page_info;
-                    foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
-                        $profile = new \stdClass();
-                        $profile->node = $this->get_geo_post_user_info($login_data, $daily_work->rp_insta_id, $Edge->node->shortcode);
-                        array_push($Profiles, $profile);
+                if (is_object($json_response) && $json_response->status == 'ok') {
+                    if (isset($json_response->data->location->edge_location_to_media)) { // if response is ok
+                        echo "Nodes: " . count($json_response->data->location->edge_location_to_media->edges) . " <br>\n";
+                        $page_info = $json_response->data->location->edge_location_to_media->page_info;
+                        foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
+                            $profile = new \stdClass();
+                            $profile->node = $this->get_geo_post_user_info($login_data, $daily_work->rp_insta_id, $Edge->node->shortcode);
+                            array_push($Profiles, $profile);
+                        }
+                        $error = FALSE;
+                    } else {
+                        $page_info->end_cursor = NULL;
+                        $page_info->has_next_page = false;
                     }
-                    $error = FALSE;
                 }
             }
             if ($error) {
@@ -413,15 +424,29 @@ namespace dumbu\cls {
                 //var_dump($output);
                 if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
                     if ($json->data->user->edge_followed_by->page_info->has_next_page == false) {
-                        echo ("END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        //var_dump(json_encode($json));
+                        echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        var_dump(json_encode($json));
                         //$DB = new DB();
+                        $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                        echo ("<br>\n Updated Reference Cursor to NULL!!");
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                        if ($result) {
+                            echo ("<br>\n Deleted Daily work!!");
+                        }
                     }
                 } else {
                     var_dump($output);
-                    var_dump($curl_str);
-                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    print_r($curl_str);
+                    if (isset($json->data) && ($json->data->user == null)) {
+                        $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                        echo ("<br>\n Updated Reference Cursor to NULL!!");
+                        $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                        if ($result) {
+                            echo ("<br>\n Deleted Daily work!!");
+                        } else {
+                            var_dump($result);
+                        }
+                    }
                 }
                 return $json;
             } catch (\Exception $exc) {
@@ -463,13 +488,17 @@ namespace dumbu\cls {
                 if (isset($json->data->location->edge_location_to_media) && isset($json->data->location->edge_location_to_media->page_info)) {
                     $cursor = $json->data->location->edge_location_to_media->page_info->end_cursor;
                     if (count($json->data->location->edge_location_to_media->edges) == 0) {
+                        //echo '<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>';
                         var_dump($json);
 //                        var_dump($curl_str);
-                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        echo ("<br>\n No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                        $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                        echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
                     }
                 } else {
-                    //var_dump($output);
-                    var_dump($curl_str);
+                    var_dump($output);
+                    print_r($curl_str);
                     //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
                 }
                 return $json;
