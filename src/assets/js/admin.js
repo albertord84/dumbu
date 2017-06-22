@@ -1,5 +1,12 @@
 $(document).ready(function(){
     
+    $('#login_container2').keypress(function (e) {
+        if (e.which == 13) {
+            $("#execute_query").click();
+            return false;
+        }
+    });
+    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
@@ -48,7 +55,7 @@ $(document).ready(function(){
         if($("#client_status").val()<=0 && 
            $("#signin_initial_date").val()==='' &&
            $("#signin_final_date").val()==='' &&
-           $("#credit_card_expiration_year").val()==='--SELECT--' &&
+           $("#cod_promocional").val()==='--SELECT--' &&
            $("#pay_day").val()=='--SELECT--' &&
            $("#profile_client").val()==='' &&
            $("#email_client").val()==='' &&
@@ -61,8 +68,8 @@ $(document).ready(function(){
             params='client_status='+$("#client_status").val();
             params=params+'&signin_initial_date='+$("#signin_initial_date").val();
             params=params+'&signin_final_date='+$("#signin_final_date").val();
-            params=params+'&credit_card_expiration_year='+$("#credit_card_expiration_year").val();
-            params=params+'&pay_day='+$("#pay_day").val();
+            params=params+'&cod_promocional='+$("#cod_promocional").val();
+            params=params+'&client_id='+$("#client_id").val();
             params=params+'&profile_client='+$("#profile_client").val();
             params=params+'&email_client='+$("#email_client").val();
             params=params+'&order_key_client='+$("#order_key_client").val();
@@ -100,8 +107,12 @@ $(document).ready(function(){
         }
     });
     
+    /*$('#modal_alert_message').close(function(){
+       window.location.href=window.location;
+    });*/
+    
     $(".desactive-cliente").click(function(e){
-        id=$(e.currentTarget).attr('id');        
+        id=$(e.currentTarget).attr('id');
         name_row='#row-client-'+id;        
         if(confirm('Confirma a desativação do cliente?')){
             var l = Ladda.create(this);  l.start();
@@ -113,7 +124,8 @@ $(document).ready(function(){
                 success : function(response){
                     if(response['success']){
                         modal_alert_message(response['message']);
-                        $(name_row).css({"visibility":"hidden","display":"none"});
+                        $('label_status_'+id).text('DELETED');
+                        $(name_row).css({"visibility":"hidden","display":"none"});                        
                     } else
                         modal_alert_message(response['message']);
                 },

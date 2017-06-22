@@ -4,6 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Payment extends CI_Controller {
 
+    public function mundi_notif_post() {
+        // Write the contents back to the file
+        $path = __dir__ . '/../../logs/';
+        $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
+        //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
+        $post = $post = file_get_contents('php://input');
+        $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
+//        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
+        if ($result === FALSE) {
+            var_dump($file);
+        }
+        //var_dump($file);
+        print 'OK';
+    }
+
     public function do_payment($payment_data) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
@@ -28,11 +43,12 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: COMENT
-//        $this->db->where('id', "1");
+//        $this->db->where('id', "13381");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
         $this->db->where('status_id <>', user_status::DONT_DISTURB);
+//        $this->db->where('status_id <>', user_status::BLOCKED_BY_PAYMENT);
         // TODO: COMMENT MAYBE
 //        $this->db->or_where('status_id', user_status::BLOCKED_BY_PAYMENT);  // This status change when the client update his pay data
 //        $this->db->or_where('status_id', user_status::ACTIVE);
@@ -54,6 +70,7 @@ class Payment extends CI_Controller {
             if ($client['order_key'] != NULL) {
                 if (!$testing) { // Not in promotial days
                     try {
+//                        var_dump($client);
                         $checked = $this->check_client_payment($client);
                     } catch (Exception $ex) {
                         $checked = FALSE;
@@ -81,8 +98,8 @@ class Payment extends CI_Controller {
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         // Check outhers payments
-        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE;
-        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : TRUE;
+        $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE; // Deixar para um mes de graça
+        $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : FALSE;
         $IOK_ok = $IOK_ok || $POK_ok; // Whichever is paid
         // Check normal recurrency payment
         $result = $Payment->check_payment($client['order_key']);
@@ -119,7 +136,7 @@ class Payment extends CI_Controller {
                 if ($diff_days > 34) { // Limit to bolck
                     //Block client by paiment
                     if ($client['status_id'] != user_status::BLOCKED_BY_PAYMENT) {
-                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                         $this->send_payment_email($client, 0);
                         print "This client was blocked by payment just now: " . $client['user_id'];
                         // TODO: Put 31 in system_config    
@@ -130,11 +147,11 @@ class Payment extends CI_Controller {
                     print "Diff in days bigger tham 31 days: $diff_days ";
                     $this->load->model('class/dumbu_system_config');
                     $this->send_payment_email($client, 34 - $diff_days + 1);
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING, 'status_date' => time()));
                 } else {
 //                    print_r($client);
                     if ($client['status_id'] == user_status::PENDING || $client['status_id'] == user_status::BLOCKED_BY_PAYMENT) {
-                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE));
+                        $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
                     }
                     return TRUE;
                 }
@@ -148,7 +165,8 @@ class Payment extends CI_Controller {
                 // TODO: check whend not pay and block user
                 if ($now > $pay_day) {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING));
+                    print "\n<br>Set to PENDING<br>\n";
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING, 'status_date' => time()));
                     // TODO: limit email by days diff
                     //$diff_days = 6;
                     if ($diff_days >= 0) {
@@ -158,19 +176,29 @@ class Payment extends CI_Controller {
                         // TODO: limit email by days diff
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
                             //Block client by paiment
-                            $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                            $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                             ///////////////////////////////////////$this->send_payment_email($client);
                             print "This client was blocked by payment just now: " . $client['user_id'];
                             // TODO: Put 31 in system_config    
                         }
                     }
-                } else if ($IOK_ok === FALSE) { // Si está en fecha de promocion pero no pagó initial order key
+                } else if ($IOK_ok === FALSE && $diff_days >= dumbu_system_config::PROMOTION_N_FREE_DAYS) { // Si está en fecha de promocion del mes pero no pagó initial order key
                     //Block client by paiment
-                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT));
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                     $this->send_payment_email($client, 0);
                     ///////////////////////////////////////$this->send_payment_email($client);
                     print "This client was blocked by payment just now: " . $client['user_id'];
                 }
+            }
+            // Caso especial para activar bloqueados injustamente
+            $pay_day = new DateTime();
+            $pay_day->setTimestamp($client['init_date']);
+            $diff_info = $pay_day->diff($now);
+            $diff_days = $diff_info->days;
+            if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && $IOK_ok === TRUE && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
+                print "\n<br> LastSaledData = NULL";
+                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
+                print "\n<br>This client UNBLOQUED by payment just now: " . $client['user_id'];
             }
         } else {
             $bool = is_object($result);

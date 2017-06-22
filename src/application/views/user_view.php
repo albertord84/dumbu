@@ -4,18 +4,18 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 	<head>
+                <?php  $CI =& get_instance();?>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-                <?php  $CI =& get_instance();?>
-                <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
+                <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
+                <meta name="description" content="<?php echo $CI->T("Obter seguidores no Instagram. Dumbu.pro te permite adicionar seguidores de Instagram 100% reales e ativos. Ganhe mais seguidores em Instagram a precios mais baratos!",array());?>">
                 <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
                 
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<title>DUMBU</title>
+                
                 <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png'?>"> 
                 
                 <!-- jQuery -->
@@ -25,29 +25,33 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
-
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
-		<script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>
-                
                 <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
+		
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>                
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
-                <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
-                
+                <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>                
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var languaje = '<?php echo $languaje;?>';</script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$languaje.'/internalization.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
+                
+                <?php //para SEO 
+                    if($languaje=="EN"){
+                        echo '<link rel="canonical" href="https://www.dumbu.one" />';
+                    }                              
+                ?>
                 
                 <?php include_once("pixel_facebook.php")?>
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php") ?>
                 <?php include_once("remarketing.php")?>
-                <?php include_once("retargeting.php")?>
+                <?php include_once("retargeting.php")?>            
                 <?php
                     /*if($languaje=='EN')
                         include_once("adroll.php");*/
@@ -96,7 +100,7 @@
 											<input id="userPassword1" type="password" class="form-control" placeholder="<?php echo $CI->T("Senha",array());?>" required="">
 										</div>
 										<!--<div class="form-group">
-                                                                                    <button type="button" name="" value="<?php //echo $CI->T("ENTRAR",array());?>" id="btn_dumbu_login1" style="white-space: normal;" class="btn btn-success" ><span class="ladda-label"></span></button>
+                                                                                    <button type="button" name="" value="<?php //echo $CI->T("ENTRAR",array());?>" id="btn_dumbu_login1" style="white-space: normal;" class="btn btn-success" ><spam class="ladda-label"></spam></button>
 										</div>-->
 										
 										<div class="form-group">
@@ -122,7 +126,7 @@
 						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA",array());?></a></li>
 						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA",array());?></a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt=""><?php echo $CI->T("ENTRAR",array());?><span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt="User"><?php echo $CI->T("ENTRAR",array());?><spam class="caret"></spam></a>
 							<ul class="dropdown-menu">
 								<li>
 									<div class="row">
@@ -143,7 +147,7 @@
 												</div>
 												<div class="form-group">
 													<button id="btn_dumbu_login2" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-														<span class="ladda-label"><?php echo $CI->T("Entrar",array());?></span>
+														<spam class="ladda-label"><?php echo $CI->T("Entrar",array());?></spam>
 													</button>
 												</div>
 												<div id="container_login_message2" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
@@ -167,95 +171,100 @@
 					<!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
-					<h4 class="fleft100"><b><?php echo $CI->T("PASSO A PASSO",array());?></b></h4>
+                                    <b style="left:0; font-size: 1.3em" class="fleft100"><?php echo $CI->T("PASSO A PASSO",array());?></b>
 					<ul class="fleft100 passos">
-						<li><span>1</span><p><?php echo $CI->T("Escolha os Perfis de referência que deseja captar seus seguidores",array());?></p></li>
-						<li><span>2</span><p><?php echo $CI->T("A ferramenta seguirá automaticamente os seguidores dos Perfis de referência",array());?></p></li>
-						<li class="active"><span>3</span><p><?php echo $CI->T("Alguns desses seguidores poderão seguir você de volta por se identificar com seu conteúdo",array());?></p></li>
-						<li><span>4</span><p><?php echo $CI->T("Entre 24h e 48h a ferramenta deixará de seguir esses perfis automáticamente",array());?></p></li>
+						<li><spam>1</spam><p><?php echo $CI->T("Escolha os Perfis de referência que deseja captar seus seguidores",array());?></p></li>
+						<li><spam>2</spam><p><?php echo $CI->T("A ferramenta seguirá automaticamente os seguidores dos Perfis de referência",array());?></p></li>
+						<li class="active"><spam>3</spam><p><?php echo $CI->T("Alguns desses seguidores poderão seguir você de volta por se identificar com seu conteúdo",array());?></p></li>
+						<li><spam>4</spam><p><?php echo $CI->T("Entre 24h e 48h a ferramenta deixará de seguir esses perfis automáticamente",array());?></p></li>
 					</ul>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center ps m-t45">
 					<div class="plano plano-mensal text-center fleft100">
-						<h4 class="no-mg"><b><?php echo $CI->T("PLANO MENSAL",array());?></b></small></h4>
-						<span class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.",array());?></span>
+						<b style="font-size: 1.3em"><?php echo $CI->T("PLANO MENSAL",array());?></b>
+						<spam class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.",array());?></spam>
 						<hr>
-						<span class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de",array());?></span>
-						<h1 class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b></h1>
-						<span class="fleft100 cl-fff no-mg"><?php echo $CI->T("no 1º mês",array());?></span>
+						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de",array());?></spam>
+						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b></p>
+						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("no 1º mês",array());?></spam>
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR",array());?></button></div>
                                                 </a>
 					</div>
-					<img src="assets/images/50 países.png" class="i-block wauto paises" alt="">
-                                        <h3 style="margin-top:0px"><?php echo $CI->T("Dumbu é global!",array());?></h3>
-					<h5 class="fleft100 no-mg"><?php echo $CI->T("Temos clientes em mais de 200 países.",array());?></h5>
-					<h5 class="fleft100 no-mg"><?php echo $CI->T("Faça parte de uma das Startups que",array());?></h5>
-					<h5 class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></h5>
+					<img src="assets/images/50 países.png" class="i-block wauto paises" alt="Flags"><br>
+                                        <spam style="margin-top:0px; font-size:1.5em"><?php echo $CI->T("Dumbu é global!",array());?></spam>
+					<spam style="font-size:0.9em" class="fleft100 no-mg"><?php echo $CI->T("Temos clientes em mais de 200 países.",array());?></spam>
+					<spam style="font-size:0.9em" class="fleft100 no-mg"><?php echo $CI->T("Faça parte de uma das Startups que",array());?></spam>
+					<spam style="font-size:0.9em" class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></spam>
                                         
 				</div>
 				<div class="col-md-5 col-sm-5 col-xs-12 text-center cel">
                                     <?php                                        
-                                       echo '<img src="assets/images/'.$languaje.'/755K.png" class="fleft100 m-wauto" alt="">'
+                                       echo '<img src="assets/images/'.$languaje.'/755K.png" class="fleft100 m-wauto" alt="Increase your followers on Instagram">'
                                     ?>
 				</div>
 			</div>
 		</section>
 
-		<!--<section id="vantagens" class="fleft100">
-                        <h3 class="titulo fleft100 text-center m-tb30"><?php //echo $CI->T("RECURSOS",array());?></h3>
-			<div class="container">
-				<ul class="fleft100 vantagens text-center cl-fff">					
-					<li><img src="assets/images/lupa.png" style="margin-top: 3px;" alt=""><p><?php //print $CI->T("Você escolhe o perfil para captar seguidores",array());?></p></li>
-					<li><img src="assets/images/nuvem.png" style="margin-top: 6px;" alt=""> <p><?php //echo $CI->T("Todos os perfis que segue  estarão protegidos em seu backup",array());?></p></li>
-				</ul>
-			</div>
-		</section>-->
-            
+		            
 		<section id="vantagens" class="fleft100 c-wite">
-                    <h3 style="color:white" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></h3>
+                    <spam style="color:white; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></spam>
 			
-                            <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
-                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
-                                            <img src="assets/images/geolocalization_bw.png" class="wauto" alt="">
+                                            <img src="assets/images/geolocalization_bw.png" class="wauto" alt="geo-location">
                                         </div>
                                         <div class="col-md-4 col-sm-4 col-xs-12 text-left">
-                                            <img src="assets/images/novo.png" class="wauto" alt="">
+                                            <?php
+                                            if($languaje=='PT')
+                                                echo '<img src="assets/images/novo.png" style="width:40%" class="wauto" alt="novo">';
+                                            else
+                                                echo '<img src="assets/images/new_black.png" style="width:48px"  alt="new">';
+                                            ?>
                                         </div>
                                     </div>
                                     <h5 ><b><?php print $CI->T("Geolocalização",array());?></b><br>
                                     <?php print $CI->T("Capte seguidores através",array());?><br>
                                     <?php print $CI->T("de locais definidos por você",array());?><br></h5>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                                
+                                <!--<div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                                             <img src="assets/images/autolike_bw.png" class="wauto" alt="">
                                         </div>
                                         <div class="col-md-4 col-sm-4 col-xs-12 text-left">
-                                            <img src="assets/images/novo.png" class="wauto" alt="">
+                                            <?php
+                                            /*
+                                                if($languaje=='PT')
+                                                    echo '<img src="assets/images/novo.png" class="wauto" alt="">';
+                                                else
+                                                    echo '<img src="assets/images/new_black.png" style="width:48px" alt="">';
+                                                */
+                                            ?>
                                         </div>
                                     </div>
-                                    <h5><b><?php print $CI->T("Auto Like",array());?></b><br>
-                                    <?php print $CI->T("Além de seguir, sua conta irá",array());?><br>
-                                    <?php print $CI->T("interagir deixando um like na foto",array());?><br>
-                                    <?php print $CI->T("mais recente",array());?><br></h5>
-                                </div>
+                                    <h5><b>
+                                    <?php //print $CI->T("Auto Like",array());?></b><br>
+                                    <?php //print $CI->T("Além de seguir, sua conta irá",array());?><br>
+                                    <?php //print $CI->T("interagir deixando um like na foto",array());?><br>
+                                    <?php //print $CI->T("mais recente",array());?><br></h5>
+                                </div>-->
                                 <div class="col-md-3 col-sm-3 col-xs-12 text-center">    
-                                    <img src="assets/images/persons.png" class="wauto" alt="">
+                                    <img src="assets/images/persons.png" class="wauto" alt="Person">
                                     <h5><b><?php print $CI->T("Seguidores reais captados",array());?><br>
                                     <?php print $CI->T("a través de Perfis que",array());?><br>
                                     <?php print $CI->T("você escolhe",array());?><br></h5>
                                 </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
-                                    <img src="assets/images/checked_person.png" class="wauto" alt="">
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                    <img src="assets/images/checked_person.png" class="wauto" alt=Person">
                                     <h5><b><?php print $CI->T("Seguidores",array());?></b><br>                                    
                                     <?php print $CI->T("100% reais",array());?><br></h5>
                                 </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
-                                    <img src="assets/images/new_nuvem.png" class="wauto" alt="">
+                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                    <img src="assets/images/new_nuvem.png" class="wauto" alt="cloud save">
                                     <h5><b><?php print $CI->T("Todos os perfis que",array());?></b><br>
                                     <?php print $CI->T("segue estarão protegidos",array());?><br>
                                     <?php print $CI->T("em seu backup",array());?><br></h5>
@@ -267,107 +276,136 @@
 		<section id="funciona" class="fleft100">
 			<div class="container">
 				<A name="lnk_how_function"></A>				
-                                <h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("COMO FUNCIONA",array());?></h3>
+                                <spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("COMO FUNCIONA",array());?></spam>
 				<div class="col-md-8 col-sm-8 col-xs-12">
                                     <?php
-					echo '<img src="assets/images/'.$languaje.'/como-funciona-1.png" class="hidden-mobile" alt="">';
-					echo '<img src="assets/images/'.$languaje.'/como-funciona-2.png" class="visible-mobile" alt="">';
+					echo '<img src="assets/images/'.$languaje.'/como-funciona-1.png" class="hidden-mobile" alt="How its work">';
+					echo '<img src="assets/images/'.$languaje.'/como-funciona-2.png" class="visible-mobile" alt="How its functions">';
                                     ?>
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 text-center">
-					<img src="assets/images/info.png" class="wauto m-b10" alt="">
-					<span class="texto fleft100">
+					<img src="assets/images/info.png" class="wauto m-b10" alt="Information">
+					<spam class="texto fleft100">
 						<?php echo $CI->T("A Dumbu não deposita seguidores em sua conta, nós captamos seguidores reais. O resultado da ferramenta depende diretamente das escolhas que o assinante faz para os seus perfis de referência.",array());?>
 						<br>    
 						<!-- *5 mil seguidores é a média de ganho para assinantes do plano de R$ 189,90 que postam diariamente e escolhem bons perfis de referência.  Esse número pode variar de acordo com cada conta. -->                                                
-					</span>
-                                        <span class="texto fleft100">
+					</spam>
+                                        <spam class="texto fleft100">
                                             <br>
-                                        </span>
-                                        <a class="help" style="color:green; margin-top:7%">
-                                            <div >
-                                                <img style="width:12%" src="<?php echo base_url().'assets/images/help.png'?>"/>
-                                            </div>
-                                            <div style="margin-top:2%;margin-bottom:2%">
-                                                <?php echo $CI->T("Veja as dicas para melhorar o desempenho",array());?>
-                                            </div>
-                                        </a>
+                                        </spam>
+                                        <?php
+                                        //if ($languaje==='PT')
+                                            echo '<a class="help" style="color:green; margin-top:7%">
+                                                    <div >
+                                                        <img style="width:12%" src="'.base_url().'assets/images/help.png" alt="Help"/>
+                                                    </div>
+                                                    <div style="margin-top:2%;margin-bottom:2%">
+                                                        '.$CI->T("Veja as dicas para melhorar o desempenho",array()).'
+                                                    </div>
+                                                </a>';
+                                        ?>
+                                        
 				</div>
 			</div>
 		</section>
-            
+                
+                
 		<section id="funciona" class="fleft100">
 			<div class="container">				
-				<!--<div class="col-md-3 col-sm-3 col-xs-12"></div>-->
+                            <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                     <?php
                                         if($languaje=='PT')
                                             echo '<iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
                                         else                                            
-                                            echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                            
+                                            echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
                                     ?>
                                     
                                 </div>
-				<!--<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
+				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
 			</div>
 		</section>
 
 		<section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
-				<h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR",array());?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão",array());?>.</small></h3>
+				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR",array());?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão",array());?>.</small></spam>
 				
-                                <h4 class="titulo fleft100 text-center m-tb30">
+                                <div class="titulo fleft100 text-center m-tb30">
                                      <div style="background-color:#2CC38F;margin-left:12%;margin-right:12%;margin-bottom:3%; padding:1%;border-radius:15px">
-                                        <b style="color:white;font-size:1.3em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis",array());?>!</b>
+                                        <b style="color:white;font-size:1.4em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis",array());?>!</b>
                                     </div>
-                                </h4>
+                                </div>
                                 
                                 <div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_4_90" class="plano text-center fleft100">
-                                                <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro01.png'?>"/>
+                                            <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro01.png'?>" alt="velocimetro-1"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("BAIXA",array());?></b>
                                                 <hr>
-						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("29,90",array());?></b></span>
+                                                <spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <b><?php echo $CI->T("4,90",array());?></b>
+                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?>
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <b><?php echo $CI->T("29,90",array());?></b>
+                                                </spam>
                                                 <br>
                                                 <input id="radio_plane_4_90" type="radio" name="plano">
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_9_90" class="plano text-center fleft100">
-						<img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro02.png'?>"/>
+                                            <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro02.png'?>" alt="velocimetro-4"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("MODERADA",array());?></b>
                                                 <hr>
-						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("9,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("49,90",array());?></b></span>
+                                                <spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?><b>
+                                                    <?php echo $CI->T("9,90",array());?>
+                                                    </b> <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?><b>
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <?php echo $CI->T("49,90",array());?></b>
+                                                </spam>
                                                 <br>
                                                 <input id="radio_plane_9_90" type="radio" name="plano">
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
 					<div id="container_plane_29_90" class="plano active text-center fleft100">
-                                                <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro03.png'?>"/>
+                                            <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro03.png'?>" alt="velocimetro-3"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("RÁPIDA",array());?></b>
 						<div class="rc"><?php echo $CI->T("RECOMENDADO",array());?></div>
-                                                <h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("99,90",array());?></b></span>
+                                                <br><spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?><b>
+                                                    <?php echo $CI->T("29,90",array());?></b> 
+                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?><b>                                                    
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <?php echo $CI->T("99,90",array());?></b>
+                                                </spam>
                                                 <br>
-                                                <div class="text-left m-l10" style="margin-left: 5px">
-                                                    <span >
-                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
+                                                <div class="text-left m-l0">
+                                                    <spam >
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
-                                                    </span>
-                                                    <br>
-                                                    <span>
-                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
-                                                    </span>
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="new">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="new">';
+                                                        ?>
+                                                    </spam>
+                                                    <br>                                                   
                                                 </div>
                                                 <br>
                                                 <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
@@ -375,25 +413,44 @@
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
                                         <div id="container_plane_99_90" class="plano text-center fleft100">
-                                                <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro04.png'?>"/>
+                                            <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro04.png'?>" alt="velocimetro-2"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("TURBO!",array());?></b>
                                                 <hr>
-						<h2><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("99,90",array());?></b> <small>/<?php echo $CI->T("1º mês",array());?></small></h2>
-						<span><?php echo $CI->T("Depois R$",array());?><b><?php echo $CI->T("189,90",array());?></b></span>
+                                                <spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php echo $CI->T("R$",array());?><b>
+                                                    <?php echo $CI->T("99,90",array());?></b> 
+                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>
+						<spam>
+                                                    <?php echo $CI->T("Depois R$",array());?><b>
+                                                    <?php echo $CI->T("R$",array());?>
+                                                    <?php echo $CI->T("189,90",array());?></b>
+                                                </spam>
                                                 <br>
-                                                <div class="text-left m-l10" style="margin-left: 5px">
-                                                    <span >
-                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="">
+                                                <div class="text-left m-l0">
+                                                    <spam >
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
-                                                    </span>
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="new">';
+                                                        ?>
+                                                    </spam>
                                                     <br>
-                                                    <span>
-                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Auto Like",array());?></b></a>
-                                                        <img src="<?php echo base_url().'assets/images/new_funtionalities.jpg'; ?>" style="width:20%" alt="">
-                                                    </span>
+                                                    <!--<spam>
+                                                        <img src="<?php //echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>
+                                                        <?php
+                                                            /*if($languaje=='PT')
+                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="">';                                                             
+                                                             */
+                                                        ?>
+                                                    </spam>-->
                                                 </div>
                                                 <br>
                                                 <input id="radio_plane_99_90" type="radio" name="plano">
@@ -409,8 +466,8 @@
                                     <div id="container_login_panel" style="visibility:hidden;display:none">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 1",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
-						<img src="assets/images/ig.png" class="wauto" alt="">
-						<span class="fleft100 m-b5"><?php echo $CI->T("Conta de Instagram",array());?></span>
+						<img src="assets/images/ig.png" class="wauto" alt="Instagram">
+						<spam class="fleft100 m-b5"><?php echo $CI->T("Conta de Instagram",array());?></spam>
 					</div>
                                         <div id="login_sign_in" class="login fleft100 input-form">
 						<fieldset>
@@ -449,17 +506,17 @@
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <strong><?php //echo $CI->T("Insere o código",array());?>:</strong>                                                
                                                 <?php //echo @$_SESSION['ctform']['captcha_error']?>
-                                                <input type="text" name="ct_captcha" size="14" maxlength="8" id="ct_captcha" class="span4" onblur="verificarcaptcha()" required/>                                            
+                                                <input type="text" name="ct_captcha" size="14" maxlength="8" id="ct_captcha" class="spam4" onblur="verificarcaptcha()" required/>                                            
                                                 <br>
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                <span style="color:red" id="errorcaptcha"></span>
+                                                <spam style="color:red" id="errorcaptcha"></spam>
                                             </div>-->     
                                             <!--*******************************************************************************************************************-->
                                             
                                             <div class="text-center">
                                                 <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></span>
+                                                    <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></spam>
                                                 </button>
                                             </div>
                                             <div id="container_sigin_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
@@ -482,8 +539,8 @@
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
 					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
-						<img src="assets/images/pay.png" class="wauto" alt="">
-						<span class="fleft100"><?php echo $CI->T("Informações de pagamento",array());?></span>
+						<img src="assets/images/pay.png" class="wauto" alt="Pay">
+						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento",array());?></spam>
 					</div>
 					<div class="pay fleft100 input-form">
 						<fieldset>
@@ -500,7 +557,7 @@
 							</fieldset>
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-12 no-pd">
-							<span class="val"><?php echo $CI->T("Validade",array());?></span>
+							<spam class="val"><?php echo $CI->T("Validade",array());?></spam>
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
 							<fieldset>
@@ -534,28 +591,16 @@
                                             
                                                 <?php if($languaje==='PT'){
                                                     echo '<div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
-                                                        <span class="val">CUPOM (*)</span>
+                                                        <spam class="val">CUPOM (*)</spam>
                                                     </div>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                         <fieldset>
-                                                            <input id="ticket_peixe_urbano" type="text" placeholder="CUPOM desconto" required>
+                                                            <input id="ticket_peixe_urbano" type="text" placeholder="CUPOM desconto" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
                                                         </fieldset>
-                                                    </div>
-                                                    <!--<div class="col-md-5 col-sm-5 col-xs-12 pd-r15 m-t10">
-                                                        <fieldset>
-                                                            <input id="cupao_number" type="text" placeholder="CUPOM desconto" required>
-                                                        </fieldset>
-                                                    </div>
-                                                    <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
-                                                        <div class="text-center">
-                                                            <button id = "check_cupao" type="button" style="width:120px;height:40px;margin-top:5px" class="btn-primary ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                                <span class="ladda-label"><div style="color:white; font-weight:bold">Check-in</div></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>-->
+                                                    </div>                                                    
                                                     <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
                                                         <fieldset>
-                                                                <span class="val">(*) Só pra usuários requisitados</span>
+                                                                <spam class="val">(*) Só pra usuários requisitados</spam>
                                                         </fieldset>
                                                     </div>';
                                                     }
@@ -567,24 +612,24 @@
                                 <div id="container_sing_in_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo text-center m-t40">
 					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 3",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
-						<img src="assets/images/ass.png" class="wauto" alt="">
-						<span class="fleft100"><?php echo $CI->T("Assine e configure sua conta",array());?></span>
+						<img src="assets/images/ass.png" class="wauto" alt="Add User">
+						<spam class="fleft100"><?php echo $CI->T("Assine e configure sua conta",array());?></spam>
 					</div>                                        
 
 					<div class="text-center">
                                             <button id="btn_sing_in" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
-                                                <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ASSINAR AGORA",array());?></div></span>
+                                                <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ASSINAR AGORA",array());?></div></spam>
                                             </button>                                            
                                         </div>
                                         <br><br><?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/'.$languaje.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
-                                        <br><br><?php echo '<img src="assets/images/'.$languaje.'/seguro.png" class="wauto" alt="">';?>
+                                        <br><br><?php echo '<img src="assets/images/'.$languaje.'/seguro.png" class="wauto" alt="100% Safe Encrypted Data">';?>
 				</div>
 			</div>
 		</section>
 
 		<section id="contato" class="fleft100 input-form">
 			<div class="container">
-				<h3 class="titulo fleft100 text-center m-tb30"><?php echo $CI->T("FALE CONOSCO",array());?></h3>
+				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("FALE CONOSCO",array());?></spam>
 				<div class="col-md-3 col-sm-3 col-xs-12"><br></div>
                                 <div id="talkme_frm" class="col-md-6 col-sm-6 col-xs-12 no-pd">
 					<div class="col-md-6 col-sm-6 col-xs-12 pd-r15">
@@ -615,7 +660,7 @@
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12"><br></div>
 
-				<footer class="text-center fleft100 m-t30 m-b10"><img src="assets/images/logo-footer.png" class="wauto" alt=""></footer>
+				<footer class="text-center fleft100 m-t30 m-b10"><img src="assets/images/logo-footer.png" class="wauto" alt="Dumbu Footer Logo"></footer>
 			</div>
 		</section>
 
@@ -636,7 +681,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                                                                                                              <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>" alt="cancel"> <!--<spam aria-hidden="true">&times;</spam>-->
                                 </button>
                                 <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Mensagem", array()); ?></b></h5>                        
                             </div>
@@ -645,14 +690,15 @@
                             </div>
                             <div class="modal-footer text-center">
                                 <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                                    <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></spam>
                                 </button>
                             </div>
                         </div>
                     </div>                                                        
                 </div> 
                 
-                
-                
+        <!-- Afilio Master Tag Home Page-->
+        <script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=homepage&id_partner=dumbupro&url_product=#https://dumbu.pro#"></script>        
+        
 	</body>
 </html>

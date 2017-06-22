@@ -43,11 +43,9 @@ class Admin extends CI_Controller {
             $this->load->model('class/user_status');
             $id = $this->input->post()['id'];
             try {
-                // Alberto
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
                 $DB = new \dumbu\cls\DB();
-                $DB->delete_daily_work_client($this->session->userdata('id'));
-                //
+                $DB->delete_daily_work_client($id);
                 $this->user_model->update_user($id, array(
                     'status_id' => user_status::DELETED,
                     'end_date' => time()));
@@ -72,13 +70,31 @@ class Admin extends CI_Controller {
             $client = $this->client_model->get_client_by_id($id)[0];
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
             $Payment = new \dumbu\cls\Payment();
+            $status_cancelamento=0;
+            if(count($client['initial_order_key'])>3){
+                $response = json_decode($Payment->delete_payment($client['initial_order_key']));
+                if ($response->success) 
+                    $status_cancelamento=1;
+            }
             $response = json_decode($Payment->delete_payment($client['order_key']));
-            if ($response->success) {
-                $result['success'] = true;
-                $result['message'] = 'Recorrência cancelada corretamente';
-            } else {
+            if ($response->success) 
+                $status_cancelamento=$status_cancelamento+2;
+                
+            if ($status_cancelamento==0){
                 $result['success'] = false;
-                $result['message'] = 'A recorrência já tinha sido cancelada ou não existe. Verifique na Mundipagg';
+                $result['message'] = 'Não foi possivel cancelar o pagamento, faça direito na Mundipagg!!';
+            } else 
+            if ($status_cancelamento==1){
+                $result['success'] = true;
+                $result['message'] = 'ATENÇÂO: somente foi cancelado o initial_order_key. Cancele manualmente a Recurrancia!!';
+            }else
+            if ($status_cancelamento==2){
+                $result['success'] = true;
+                $result['message'] = 'ATENÇÂO: somente foi cancelada a Recurrencia. Confira se o cliente não tem Initial Order Key!!';
+            }else
+            if ($status_cancelamento==3){
+                $result['success'] = true;
+                $result['message'] = 'Initial_Order_Key e Recurrencia cancelados corretamente!!';
             }
             echo json_encode($result);
         }
@@ -135,7 +151,7 @@ class Admin extends CI_Controller {
         $this->load->model('class/client_model');
         $n = count($active_profiles);
         $my_daily_work = array();
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; $i++){
             $work = $this->client_model->get_daily_work_to_profile($active_profiles[$i]['id']);
             if (count($work)) {
                 $work = $work[0];
@@ -157,5 +173,20 @@ class Admin extends CI_Controller {
         }
         return $my_daily_work;
     }
+    
+    /*public function delete_daily_work_of_canceled_client($id_cliente){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $this->load->model('class/client_model');
+            $active_profiles = $this->client_model->get_client_active_profiles($id_client);
+            $N=count($active_profiles);
+            for($i=0;$i<$N;$i++){
+                $this->client_model->desactive_profiles($id_client,$active_profiles[$i]['insta_name'],$active_profiles[$i]['id']);
+            }
+        }
+    }*/
+    
+
 
 }

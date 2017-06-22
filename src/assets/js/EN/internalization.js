@@ -26,7 +26,7 @@ var Translation={
             "Do you want to delete the reference profile ",
     "Click para eliminar ":
             "Click to delete ",
-    "O sistema já siguiu todos os seguidores do perfil de referência ":
+    "O sistema já seguiu todos os seguidores do perfil de referência ":
             "The system has already followed all followers of the reference profile ",
     "O perfil de referência ":
             "The reference profile ",
@@ -69,7 +69,21 @@ var Translation={
     "Deseja elimiar a geolocalização ":
             "Do you want to delete the geolocalization ",
     "Otimo! Agora pode continuar e entrar no painel do cliente. ":
-            "Now you can go to client painel"    
+            "Now you can go to client painel",    
+    "Confirma ativar o recurso AUTOLIKE":
+            "Confirm activate the AUTOLIKE feature" ,
+    "Confirma desativar o recurso AUTOLIKE":
+            "Confirm desactivate the AUTOLIKE feature" ,
+    "Confirma ativar a opção UNFOLLOW NORMAL":
+            "Confirm activate the NORMAL UNFOLLOW feature",
+    "Confirma ativar a opção UNFOLLOW TOTAL":
+            "Confirm activate the TOTAL UNFOLLOW feature",    
+    " bloqueu você no Instagram":
+            " blocked you in Instagram",
+    "Seguidores: ":
+            "Followers: ",
+    "Seguindo: ":
+            "Follwing: "  
 };
 
 function T(token){

@@ -44,6 +44,7 @@ namespace dumbu\cls {
                 $bloqued = [
                     "5178057308185854",
                     "5178057258138580",
+                    "4500040041538532",
                     "4984537159084527"
                 ];
                 if (in_array($payment_data['credit_card_number'], $bloqued)) {
@@ -303,7 +304,7 @@ namespace dumbu\cls {
             return NULL;
         }
 
-        function retry_payment($order_key, $request_key) {
+        function retry_payment($order_key, $request_key = NULL) {
             try {
 // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
@@ -390,7 +391,7 @@ namespace dumbu\cls {
                 foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
                     // Get last client payment
                     //$SaleData = $SaleDataCollection->CreditCardTransactionDataCollection[0];
-                    $SaleDataDate = new DateTime($SaleData->DueDate);
+                    $SaleDataDate = new \DateTime($SaleData->DueDate);
                     if ($SaleData->CapturedAmountInCents != NULL) {
                         return TRUE;
                     }

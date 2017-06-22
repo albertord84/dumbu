@@ -1,5 +1,88 @@
 $(document).ready(function () {   
+
+    //typeahead INIT
+    /*
+    var users_source = new Bloodhound({
+        initialize:false,
+        sufficient:100,
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //local: ['jose','juan','juaniquito','juancito','joaquin','j','jj','jjj','jjjjjjj']
+        local: function(){
+            data=$.get(
+                    base_url+'index.php/welcome/get_names_by_chars',
+                    {  
+                        str: 'josergm',
+                        profile_type: 'users'
+                    }, 
+                    function (data) {
+                        data = $.parseJSON(data);
+                        users_source.inicializate();
+                        console.log(data);
+                        return data;
+                    }
+                );
+            //data=["jose","juan","juaniquito","juancito","joaquin","j","jj","jjj","jjjjjjj"];
+            //console.log(data);
+            return data;            
+        }
+    });
     
+    $('#login_profile').typeahead(
+        {
+            hint: true,
+            highlight: true, 
+            minLength: 1
+        },
+        {
+            name: 'users_datas',
+            source: users_source
+        }
+    );
+    
+    
+    */
+    
+     
+   /* $.get(
+        base_url+'index.php/welcome/get_names_by_chars',
+        {  
+            str: 'josergm',
+            profile_type: 'users'
+        }, 
+        function (data) {
+            data = $.parseJSON(data);
+            console.log(data);
+            return (data);
+        }
+    );  */
+    
+    
+    
+    /*$("#login_profile").on('keyup', function(){
+        var text = $(this).val();
+        if(text.length){            
+            $.ajax({
+                url: base_url + 'index.php/welcome/get_names_by_chars',
+                data: {
+                    'str':'text',
+                    'profile_type':'users'
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    set_global_var('users_datas',response);                     
+                },
+                error: function (xhr, status) {
+                    
+                }
+            });
+        }
+    }).keyup();      */  
+    //typeahead END
+    
+    //----------------------------------------------------------------------------------------------------------    
+        
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
@@ -8,6 +91,8 @@ $(document).ready(function () {
     $("#accept_modal_alert_message").click(function () {
         $('#modal_alert_message').modal('hide');
     });
+    
+    //$('#modal_ENCUESTA').modal('show');
     
     /*var confirmation=false;
     function modal_confirm_message(text_message){
@@ -42,6 +127,22 @@ $(document).ready(function () {
     init_unfollow_type();
     init_autolike_type();
 
+      
+    $("#dicas_geoloc").click(function(){
+        url=base_url+"index.php/welcome/dicas_geoloc";
+        window.open(url, '_blank');
+    });
+    
+    
+    $("#dicas_geoloc").hover(
+        function(){
+            $('#dicas_geoloc').css('cursor', 'pointer');
+        },
+        function(){
+            $('#dicas_geoloc').css('cursor', 'default');
+        }
+    );    
+    
     $("#btn_verify_account").click(function () {
         if (!verify) {
             $("#btn_verify_account").text('CONFIRMO ATIVAÇÃO');
@@ -236,9 +337,11 @@ $(document).ready(function () {
     });
 
     $("#cancel_usser_account").click(function () {
-        //var l = Ladda.create(this);  l.start();
         if (confirm(T('Sugerimos entrar em contato com nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?')))
-            window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
+            if(language==='PT')
+                window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
+            else
+                window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
     });
 
     $("#adding_profile").click(function () {
@@ -261,7 +364,7 @@ $(document).ready(function () {
             confirm_message = 'Confirma ativar a opção UNFOLLOW TOTAL';
             tmp_unfollow_total = 1;
         }
-        if (confirm(confirm_message)) {
+        if (confirm(T(confirm_message))) {
             $.ajax({
                 url: base_url + 'index.php/welcome/unfollow_total',
                 data: {
@@ -306,7 +409,7 @@ $(document).ready(function () {
             confirm_message = 'Confirma ativar o recurso AUTOLIKE';
             tmp_autolike = 1;
         }
-        if (confirm(confirm_message)) {
+        if (confirm(T(confirm_message))) {
             $.ajax({
                 url: base_url + 'index.php/welcome/autolike',
                 data: {
@@ -409,7 +512,7 @@ $(document).ready(function () {
 
             if (icons_profiles[i]['status_profile'] === 'ended') {
                 icons_profiles[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#reference_profile_status_list').append('<li>' + T('O sistema já siguiu todos os seguidores do perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b></li>');
+                $('#reference_profile_status_list').append('<li>' + T('O sistema já seguiu todos os seguidores do perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b></li>');
                 reference_profiles_status = true;
             } else
             if (icons_profiles[i]['status_profile'] === 'privated') {
@@ -420,6 +523,11 @@ $(document).ready(function () {
             if (icons_profiles[i]['status_profile'] === 'deleted') {
                 icons_profiles[i]['ptr_p_obj'].css({'color': 'red'});
                 $('#reference_profile_status_list').append('<li>' + T('O perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
+                reference_profiles_status = true;
+            } else
+            if (icons_profiles[i]['status_profile'] === 'blocked') {
+                icons_profiles[i]['ptr_p_obj'].css({'color': 'red'});
+                $('#reference_profile_status_list').append('<li>' + T('O perfil de referência ') + '<b style="color:red">"' + icons_profiles[i]['login_profile'] + '"</b>' + T(' bloqueu você no Instagram') + '</li>');
                 reference_profiles_status = true;
             } else
                 icons_profiles[i]['ptr_p_obj'].css({'color': 'black'});
@@ -591,14 +699,20 @@ $(document).ready(function () {
             case 'autolike':
                 autolike = value;
                 break;
+            case 'users_datas':
+                users_datas = value;
+                /*users_source = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: users_datas
+                    });*/
+                break;
+            case 'places':
+                places = value;
+                break;
         }
     }
     
-    $("#upgrade_plane").click(function () {
-        
-    });
-    
-
     init_icons_profiles(profiles);
     
     
@@ -616,14 +730,7 @@ $(document).ready(function () {
     
     $("#upgrade_plane").click(function () {
         $("#myModal_geolocalization").modal('hide');    
-    });
-    
-//    function disable_geolocalization_painel() {
-//        if(plane_id==1||plane_id>3)
-//            $('#container_geolocalization *').prop('disabled', false);
-//        else
-//            $('#container_geolocalization *').prop('disabled', true);            
-//    }
+    });    
 
     var num_geolocalization;
     
@@ -715,11 +822,7 @@ $(document).ready(function () {
             $('#geolocalization_message').css('color', 'red');
         }
     });
-
-    /*$("#btn_RP_status").click(function () {
-        $('#reference_profile_status_container').css({"visibility": "hidden", "display": "none"})
-    });*/
-    
+      
     function delete_geolocalization_click(element) {
         if (confirm(T('Deseja elimiar a geolocalização ') + element)) {
             $.ajax({
@@ -789,7 +892,7 @@ $(document).ready(function () {
 
             if (icons_geolocalization[i]['status_geolocalization'] === 'ended') {
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#geolocalization_status_list').append('<li>' + T('O sistema já siguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
+                $('#geolocalization_status_list').append('<li>' + T('O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
                 geolocalization_status = true;
             } else
             if (icons_geolocalization[i]['status_geolocalization'] === 'privated') {
@@ -879,6 +982,6 @@ $(document).ready(function () {
             return false;
         }
     });
-    //disable_geolocalization_painel();
+    
     init_icons_geolocalization(profiles);
 }); 

@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
     <head>
+        <?php $CI = & get_instance(); ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php $CI = & get_instance(); ?>
-        <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct", array()); ?>">
+        <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
+        <meta name="description" content="<?php echo $CI->T("Obter seguidores no Instagram. Dumbu.pro te permite adicionar seguidores de Instagram 100% reales e ativos. Ganhe mais seguidores em Instagram a precios mais baratos!",array());?>">
         <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array()); ?>">
         <meta name="revisit-after" content="7 days">
         <meta name="robots" content="index,follow">
-        <meta name="distribution" content="global">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>DUMBU</title>
+        <meta name="distribution" content="global">        
+        
+        
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
-
-        <!-- jQuery -->
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>
-
-        <!-- Bootstrap -->
+        <link href="<?php echo base_url() . 'assets/css/typeahead.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/loading.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/style.css'; ?>" rel="stylesheet">
-
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css'; ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css'; ?>" />
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">        
+        
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/modernizr.custom.js'; ?>"></script>
-
-        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">
         <script src="<?php echo base_url() . 'assets/js/spin.min.js' ?>"></script>
         <script src="<?php echo base_url() . 'assets/js/ladda.min.js' ?>"></script>
-
+        
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
-        <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>
+        <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
-
+        <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
+        <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
+        
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
-
-        <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->            
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>        
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
-        <script type="text/javascript">            
-            $(document).ready(function () {
-                followings_data= jQuery.parseJSON('<?php echo $followings; ?>');
-                followers_data= jQuery.parseJSON('<?php echo $followers; ?>');                                    
-            });
-        </script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
+        
+        <?php //para SEO 
+            if($language=="EN"){
+                echo '<link rel="canonical" href="https://www.dumbu.one" />';
+            }                              
+        ?>
+        
         <?php include_once("pixel_facebook.php") ?>
     </head>
 
@@ -57,7 +56,6 @@
         <?php include_once("analyticstracking.php") ?>
         <?php include_once("remarketing.php") ?>
         <?php include_once("retargeting.php") ?>
-
         <div class="windows8">
             <div class="wBall" id="wBall_1">
                 <div class="wInnerBall"></div>
@@ -118,7 +116,7 @@
                         case 3:
                             echo '
                                         <div id="activate_account" class="center" style="margin-left:25%; width:50%; padding: 2%;  border:1px solid red; border-radius:5px ">
-                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("SAIR", array()) . '</b><BR>
+                                            <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("HABILITE SUA CONTA", array()) . '</b><BR>
                                             <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("INFORME NOVAMENTE LOGIN E SENHA DE INSTAGRAM", array()) . '</b>             
                                             <br><br>
                                             <form id="usersLoginForm"  action="#" method="#"  class="form" role="form" style="margin-left:25%;margin-right:25%;"  accept-charset="UTF-8" >                                
@@ -130,7 +128,7 @@
                                                 </div>                                                             
                                                 <div class="form-group">
                                                     <button id="activate_account_by_status_3" class="btn btn-success btn-block ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                        <span class="ladda-label">' . $CI->T("ACTIVAR AGORA", array()) . '</span>
+                                                        <span class="ladda-label">' . $CI->T("ATIVAR AGORA", array()) . '</span>
                                                     </button>
                                                 </div>
                                                 <div id="container_login_message" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
@@ -176,7 +174,7 @@
                                     echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array()) . '</b><BR>
-                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array()) . '</b>             
+                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array()) . '</b>  <br>           
                                                 <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="' . $verify_account_datas['verify_account_url'] . '">
                                                     <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                                         ' . $CI->T("ACTIVAR AGORA", array()) . '
@@ -209,7 +207,7 @@
                             <hr><BR>
                         </div>
 
-                        <div style="text-align:left">
+                        <div style="text-align:center">
                             <ul id="reference_profile_status_list">
 
                             </ul>
@@ -424,8 +422,9 @@
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array()); ?></h4>
                                 </div>
-                                <div class="modal-body">
-                                    <input id = "login_profile" type="text" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                <div class="modal-body text-left">                                                                       
+                                    <input id = "login_profile"  type="text" text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
+                                    <!--<input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>-->
                                     <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
                                 <div class="modal-footer">
@@ -456,7 +455,15 @@
                             </div>
 
                             <div class="m-t10 text-center">
-                                <p class="fleft100"><?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização:", array()); ?></p>
+                                <p class="fleft100">
+                                    <?php echo $CI->T("Adicione localizações e melhore seu desempenho! Agora você pode adicionar locais estratégicos e aumentar a qualidade da sua captação acertando seu público alvo pela geolocalização.", array()); ?> 
+                                     <?php
+                                        //if ($language==='PT')
+                                            echo '<a id="dicas_geoloc" style="color:green; margin-top:7%">                                                    
+                                                        '.$CI->T("Veja dicas aqui",array()).'.
+                                                </a>';
+                                        ?>                                
+                                </p>
                             </div>                
 
                             <br>
@@ -476,7 +483,7 @@
                                         <ul class="add-perfil text-center">
                                             <li>
                                                 <div id="geolocalization0" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization0" class="img_geolocalization wauto" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization0" class="img_geolocalization wauto" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization0" target="_blank" href="#">
                                                         <small id="name_geolocalization0" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -487,7 +494,7 @@
 
                                             <li>
                                                 <div id="geolocalization1" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization1" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization1" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization1" target="_blank" href="#">
                                                         <small id="name_geolocalization1" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -498,7 +505,7 @@
 
                                             <li>
                                                 <div id="geolocalization2" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization2" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization2" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization2" target="_blank" href="#">
                                                         <small id="name_geolocalization2" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -509,7 +516,7 @@
 
                                             <li>
                                                 <div id="geolocalization3" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization3" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization3" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization3" target="_blank" href="#">
                                                         <small id="name_geolocalization3" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -520,7 +527,7 @@
 
                                             <li>
                                                 <div id="geolocalization4" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization4" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization4" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization4" target="_blank" href="#">
                                                         <small id="name_geolocalization4" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -531,7 +538,7 @@
 
                                             <li>
                                                 <div id="geolocalization5" class="container-geolocalization">                                                                    
-                                                    <img id="img_geolocalization5" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.png'; ?>"> 
+                                                    <img id="img_geolocalization5" class="img_geolocalization wauto" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar_geolocalization.jpg'; ?>"> 
                                                     <br>
                                                     <a id="lnk_geolocalization5" target="_blank" href="#">
                                                         <small id="name_geolocalization5" title="<?php echo $CI->T("Ver no Instagram", array()); ?>" style="color:black" class="fleft100 m-t10"></small>
@@ -557,7 +564,7 @@
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Geolocalização", array()); ?></h4>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body">                                            
                                             <input id = "login_geolocalization" type="text" class="form-control" placeholder="<?php echo $CI->T("Localização", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
                                             <div id="geolocalization_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                         </div>
@@ -1075,29 +1082,28 @@
                     </button>
                 </div>
             </div>
-        </div>       
-
+        </div>     
+        
+        
+        
         <div class="h150 fleft100"></div>
         <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url() . 'assets/images/logo-footer.png'; ?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS", array()); ?></span></div></footer>
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<?php echo base_url() . 'assets/bootstrap/js/bootstrap.min.js'; ?>"></script>
         <script src="<?php echo base_url() . 'assets/js/jquery.dlmenu.js'; ?>"></script>
         <script>
-                                $(function () {
-                                    $('#dl-menu').dlmenu();
-                                });
+            $(function () {
+                $('#dl-menu').dlmenu();
+            });
         </script>
         <script src="<?php echo base_url() . 'assets/js/datepiker.js'; ?>"></script>
         <script type="text/javascript">
-                                // When the document is ready
-                                $(document).ready(function () {
-                                    $('#datetimepicker1').datepicker({
-                                        format: "dd/mm/yyyy"
-                                    });
-                                });
+            // When the document is ready
+            $(document).ready(function () {
+                $('#datetimepicker1').datepicker({
+                    format: "dd/mm/yyyy"
+                });
+            });
         </script>
         <script type="text/javascript">
             // When the document is ready
@@ -1107,6 +1113,28 @@
                 });
             });
         </script>
+        
+        <!--modal_container_ENCUESTA
+        <div class="modal fade" style="top:30%" id="modal_ENCUESTA" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div id="modal_container_ENCUESTA" class="modal-dialog modal-sm" role="document">                                                          
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img src="<?php //echo base_url() . 'assets/images/FECHAR.png'; ?>">
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel"><b><?php //echo $CI->T("Mensagem", array()); ?></b></h5>                        
+                    </div>
+                    <div class="modal-body">                                            
+                                                
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
         
         <!--modal_container_alert_message-->
         <div class="modal fade" style="top:30%" id="modal_alert_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -1127,18 +1155,18 @@
                         </button>
                     </div>
                 </div>
-            </div>                                                        
-        </div> 
+            </div>
+        </div>        
         
         <!--modal_container_confirm_message-->
-        <!--<div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">                                                          
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <img src="<?php //echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
-                        <!--</button>
-                        <h5 class="modal-title" id="myModalLabel"><b><?php //echo $CI->T("Confirmação", array()); ?></b></h5>                        
+                            <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Confirmação", array()); ?></b></h5>                        
                     </div>
                     <div class="modal-body">                                            
                         <p id="message_text_confirmation"></p>                        
@@ -1155,7 +1183,7 @@
                     </div>
                 </div>
             </div>                                                        
-        </div> -->
+        </div>
         
     </body>
 </html>
