@@ -1586,6 +1586,9 @@ class Welcome extends CI_Controller {
                     if(strpos($login_data->json_response->checkpoint_url,'challenge'))
                         $data_insta['verify_account_url'] = 'https://www.instagram.com'.$login_data->json_response->checkpoint_url;
                     else
+                    if(strpos($login_data->json_response->checkpoint_url,'integrity'))
+                        $data_insta['verify_account_url'] =$login_data->json_response->checkpoint_url;
+                    else
                         $data_insta['verify_account_url'] = $login_data->json_response->checkpoint_url;
                     
                 } else
