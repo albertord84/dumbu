@@ -47,6 +47,7 @@
                             <option>VANESSA</option>
                             <option>CAROL</option>
                             <option>NINA</option>
+                            <option>NICOLE</option>
                         </select>
                     </div>
                 </div>

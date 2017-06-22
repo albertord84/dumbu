@@ -4,7 +4,9 @@ class Welcome extends CI_Controller {
     
     
     public function i() {
-        echo date("Y-m-d",1495597582);
+        echo strtotime('05/01/2017 00:00:32'); 
+        echo '<br>';
+        echo strtotime('05/11/2017 23:59:32'); 
     }
     
     public function index() {
@@ -34,6 +36,7 @@ class Welcome extends CI_Controller {
 
     public function purchase() {
         if ($this->session->userdata('id')) {
+            $datas = $this->input->get();
             $this->load->model('class/user_model');
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -47,6 +50,9 @@ class Welcome extends CI_Controller {
             $datas['Afilio_order_price']=$result[0]['initial_val'];
             $datas['Afilio_total_value']=$result[0]['normal_val'];
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');
+            
+            $datas['client_email']= $this->session->userdata('email');            
+            
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
@@ -499,7 +505,7 @@ class Welcome extends CI_Controller {
                             'status_id' => $status_id
                         ));
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
-                        $result['resource'] = 'client';
+                        $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
                         $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram', array());
@@ -893,6 +899,7 @@ class Welcome extends CI_Controller {
                     || strtoupper($datas['ticket_peixe_urbano'])==='VANESSA'
                     || strtoupper($datas['ticket_peixe_urbano'])==='NINA'
                     || strtoupper($datas['ticket_peixe_urbano'])==='CAROL'
+                    || strtoupper($datas['ticket_peixe_urbano'])==='NICOLE'
                     || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
             //1. recurrencia para un mes mas alante
             $datas['amount_in_cents'] = $recurrency_value;
@@ -1064,6 +1071,7 @@ class Welcome extends CI_Controller {
                         ||$client_data['ticket_peixe_urbano']==='SHENIA'
                         ||$client_data['ticket_peixe_urbano']==='VANESSA'
                         ||$client_data['ticket_peixe_urbano']==='CAROL'
+                        ||$client_data['ticket_peixe_urbano']==='NICOLE'
                         ||$client_data['ticket_peixe_urbano']==='NINA')){
                     $result['success'] = false;
                     $result['message'] = 'Você não pode atualizar no mês promocional';
@@ -1575,7 +1583,11 @@ class Welcome extends CI_Controller {
                 $data_insta['status'] = $login_data->json_response->status;
                 if ($login_data->json_response->message === "checkpoint_required") {
                     $data_insta['message'] = $login_data->json_response->message;
-                    $data_insta['verify_account_url'] = $login_data->json_response->checkpoint_url;
+                    if(strpos($login_data->json_response->checkpoint_url,'challenge'))
+                        $data_insta['verify_account_url'] = 'https://www.instagram.com'.$login_data->json_response->checkpoint_url;
+                    else
+                        $data_insta['verify_account_url'] = $login_data->json_response->checkpoint_url;
+                    
                 } else
                 if ($login_data->json_response->message === "") {
                     if (isset($login_data->json_response->phone_verification_settings) && is_object($login_data->json_response->phone_verification_settings)) {
@@ -1739,10 +1751,11 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
-    public function update_all_retry_clients(){
-        //$array_ids=array(715,1176,1735,2821,2193,245,2942,3423,4629,5187,5885,6211,6351,6512,6544,7724,7952,7953,8239,8326,8450,11428,10981,11323,11527,11461,11271,11431,11522);
-        //$array_ids=array(2942,3423,5187,5885,6211,7952,7953,8239,11428,10981,11527,11461,11431,11522);
-        $array_ids=array(1296,1825,3178,7147,9397,7935,10074,10377,10881,10984,11344,11363,11382,11440,11340,11313,11330,11369,11451,11395,11607,11610,11522);
+    public function update_all_retry_clients(){    
+        //[154, 1320, 11249, 2544, 2562, 4032, 4727, 5409, 6345, 6394, 6893, 8234, 9136, 9379, 9432, 9524, 9560, 9736, 9777, 9829, 9580, 9608, 9774, 9910, 9584, 9792, 10391, 10453, 10582, 10618, 10765, 10881, 10057, 10433, 10508, 10801, 11059, 11101, 10166, 10452, 10718, 11440, 11510, 11597, 11625, 11421, 11490, 11526, 11839, 15738]
+
+        
+        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
             $this->update_client_after_retry_payment_success($array_ids[$i]);
@@ -1775,7 +1788,7 @@ class Welcome extends CI_Controller {
             $this->client_model->update_client($user_id, array(
                 'order_key' => $resp->getData()->OrderResult->OrderKey,
                 'pay_day' => $payment_data['pay_day'])); 
-            echo 'Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
             //5. actualizar status del cliente
             $data_insta = $this->is_insta_user($client['login'], $client['pass']);
             if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
@@ -1787,13 +1800,16 @@ class Welcome extends CI_Controller {
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
-
-
             else
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
-        }        
+        } else{
+            if (is_object($resp))
+                echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            else 
+                echo '<br>Client '.$user_id.' DONT updated. Missing order key';
+        }   
     }
     
     public function prevalence(){

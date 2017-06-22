@@ -304,7 +304,7 @@ namespace dumbu\cls {
             return NULL;
         }
 
-        function retry_payment($order_key, $request_key) {
+        function retry_payment($order_key, $request_key = NULL) {
             try {
 // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);

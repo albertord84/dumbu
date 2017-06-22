@@ -39,6 +39,13 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
+                
+                <?php //para SEO 
+                    if($languaje=="EN"){
+                        echo '<link rel="canonical" href="https://www.dumbu.one" />';
+                    }                              
+                ?>
+                
                 <?php include_once("pixel_facebook.php")?>
 	</head>
 	<body id="my_body">

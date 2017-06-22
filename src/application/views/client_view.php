@@ -43,6 +43,12 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         
+        <?php //para SEO 
+            if($language=="EN"){
+                echo '<link rel="canonical" href="https://www.dumbu.one" />';
+            }                              
+        ?>
+        
         <?php include_once("pixel_facebook.php") ?>
     </head>
 
@@ -168,8 +174,8 @@
                                     echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array()) . '</b><BR>
-                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array()) . '</b>             
-                                                <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="https://www.instagram.com' . $verify_account_datas['verify_account_url'] . '">
+                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array()) . '</b>  <br>           
+                                                <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="' . $verify_account_datas['verify_account_url'] . '">
                                                     <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                                         ' . $CI->T("ACTIVAR AGORA", array()) . '
                                                     </button>
