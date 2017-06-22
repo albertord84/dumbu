@@ -274,8 +274,8 @@ namespace dumbu\cls {
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
                         $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 1= " . $rows_count, "Alberto");
                         $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 1= " . $rows_count, "Jose");
+                        $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 1= " . $rows_count, "Alberto");
                     }
                     break;
 
@@ -305,6 +305,7 @@ namespace dumbu\cls {
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 210)) {
                         $Gmail = new Gmail();
+                        $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 4= " . $rows_count, "Jose");
                         $Gmail->send_client_login_error("albertord84@gmail.com", "Alberto!!!!!!! BLOQUEADOS 4= " . $rows_count, "Alberto");
                     }
                     print "<br>\n BLOCKED_BY_TIME!!! number($rows_count) <br>\n";
