@@ -15,7 +15,7 @@ class Payment extends CI_Controller {
         if ($result === FALSE) {
             var_dump($file);
         }
-        var_dump($file);
+        //var_dump($file);
         print 'OK';
     }
 
