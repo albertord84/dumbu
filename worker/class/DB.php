@@ -19,6 +19,7 @@ namespace dumbu\cls {
         public function connect() {
             if (!$this->connection) {
                 // Connect to DB
+                echo dirname(__FILE__) . "/../../../CONFIG.INI";
                 $config = parse_ini_file(dirname(__FILE__) . "/../../../CONFIG.INI", true);
                 $this->host = $config["database"]["host"];
                 $this->db = $config["database"]["db"];

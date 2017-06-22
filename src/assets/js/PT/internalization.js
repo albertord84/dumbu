@@ -26,8 +26,8 @@ var Translation={
             "Deseja elimiar o perfil de referência ",
     "Click para eliminar ":
             "Click para eliminar ",
-    "O sistema já siguiu todos os seguidores do perfil de referência ":
-            "O sistema já siguiu todos os seguidores do perfil de referência ",
+    "O sistema já seguiu todos os seguidores do perfil de referência ":
+            "O sistema já seguiu todos os seguidores do perfil de referência ",
     "O perfil de referência ":
             "O perfil de referência ",
     " passou a ser privado":
