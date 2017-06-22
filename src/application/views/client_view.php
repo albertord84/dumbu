@@ -43,6 +43,12 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         
+        <?php //para SEO 
+            if($language=="EN"){
+                echo '<link rel="canonical" href="https://www.dumbu.one" />';
+            }                              
+        ?>
+        
         <?php include_once("pixel_facebook.php") ?>
     </head>
 
