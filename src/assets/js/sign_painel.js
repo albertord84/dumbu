@@ -174,6 +174,7 @@ $(document).ready(function () {
                             //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
                             //$(location).attr('href',base_url+'index.php/welcome/client');
                             $(location).attr('href', base_url + 'index.php/welcome/purchase');
+                            //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
                         } else {
                             modal_alert_message(response['message']);
                             set_global_var('flag', true);

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
+        <!-- Abandono de carrinho de Revanth --> 
+        <!-- Getresponse Analytics  <script type="text/javascript" src="https://ga.getresponse.com/script/ga.js?grid=sBDcEXURffXoIBw%3D%3D" async></script> <!-- End Getresponse Analytics -->
 	<head>
                 <?php  $CI =& get_instance();?>
                 <meta charset="utf-8">
@@ -53,6 +55,8 @@
                 <?php include_once("remarketing.php")?>
                 <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#'.$Afilio_UNIQUE_ID.'#&order_price=#'.$Afilio_order_price.'#" border="0" width="1" height="1" />';?>
                 
+                <!--<?php //echo " <script type='text/javascript'>gaSetUserId('".$client_email."');</script>"; ?> -->
+            
                 <div class="windows8">
                     <div class="wBall" id="wBall_1">
                      <div class="wInnerBall"></div>
