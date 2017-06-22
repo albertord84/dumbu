@@ -50,6 +50,9 @@ class Welcome extends CI_Controller {
             $datas['Afilio_order_price']=$result[0]['initial_val'];
             $datas['Afilio_total_value']=$result[0]['normal_val'];
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');
+            
+            $datas['client_email']= $this->session->userdata('email');            
+            
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
