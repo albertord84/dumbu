@@ -852,7 +852,7 @@ class Welcome extends CI_Controller {
         else {
             $response = array();   
             //si es un cliente viejo que esta entrando por BACKTODUMBU
-            if(strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){                
+            if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){                
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
                 $datas['amount_in_cents'] = $recurrency_value/2;                
