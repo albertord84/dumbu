@@ -336,9 +336,43 @@ $(document).ready(function () {
         }
     });
 
-    $("#cancel_usser_account").click(function () {
-        if (confirm(T('Sugerimos entrar em contato com nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?')))
+    $("#accept_modal").click(function () {
+        if($('#aceita_desconto').prop("checked")){
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: base_url + 'index.php/welcome/client_acept_discont',   
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    if (response['success']) {
+                        alert(response['message']);
+                    } else {
+                        alert('Desconto erro');
+                    }
+                    l.stop();
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Erro encontrado. Informe para o atendimento seu caso.'));
+                    
+                }
+            });
+            l.stop();
+            $('#cancel_usser_account').modal('hide');
+        }
+        else 
+        if($('#nao_aceita_desconto').prop("checked")){
+            $('#cancel_usser_account').modal('hide');
             if(language==='PT')
+                window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
+            else
+                window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
+        }        
+    });
+    
+    $("#cancel_usser_account").click(function () {
+        //$('#modal_cancel_account_message').modal('show');
+        if(language==='PT')
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
             else
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');

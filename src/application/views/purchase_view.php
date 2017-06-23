@@ -26,9 +26,7 @@
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
                 
-                
-
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
 		<script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>
                 
@@ -42,7 +40,6 @@
                 <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
                 <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
                 
                 <?php //para SEO 
                     if($language=="EN"){
