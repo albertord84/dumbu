@@ -455,29 +455,37 @@ namespace dumbu\cls {
             }
         }
 
-//        public function get_insta_follows($login_data, $user, $N, &$cursor = NULL) {
-//            try {
-//                $curl_str = $this->make_curl_follows_str("'https://www.instagram.com/query/'", $login_data, $user, $N, $cursor);
-//                exec($curl_str, $output, $status);
-//                $json = json_decode($output[0]);
-//                //var_dump($output);
-//                if (isset($json->follows) && isset($json->follows->page_info)) {
-//                    $cursor = $json->follows->page_info->end_cursor;
-//                    if (count($json->follows->nodes) == 0) {
-//                        var_dump($json);
-////                        var_dump($curl_str);
-//                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//                    }
-//                } else {
-//                    //var_dump($output);
-//                    var_dump($curl_str);
-//                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
-//                }
-//                return $json;
-//            } catch (\Exception $exc) {
-//                echo $exc->getTraceAsString();
-//            }
-//        }
+        /**
+         * Unfollow Total
+         * @param type $login_data
+         * @param type $user
+         * @param type $N
+         * @param type $cursor
+         * @return type
+         */
+        public function get_insta_follows($login_data, $user, $N, &$cursor = NULL) {
+            try {
+                $curl_str = $this->make_curl_follows_str("'https://www.instagram.com/query/'", $login_data, $user, $N, $cursor);
+                exec($curl_str, $output, $status);
+                $json = json_decode($output[0]);
+                //var_dump($output);
+                if (isset($json->follows) && isset($json->follows->page_info)) {
+                    $cursor = $json->follows->page_info->end_cursor;
+                    if (count($json->follows->nodes) == 0) {
+                        var_dump($json);
+//                        var_dump($curl_str);
+                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    }
+                } else {
+                    //var_dump($output);
+                    var_dump($curl_str);
+                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                }
+                return $json;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
         public function get_insta_geomedia($login_data, $location, $N, &$cursor = NULL) {
             try {

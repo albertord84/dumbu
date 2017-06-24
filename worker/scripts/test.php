@@ -184,10 +184,11 @@ ini_set('xdebug.var_display_max_data', 1024);
 
 //var_dump($_SERVER['QUERY_STRING']);
 //$client = $Client->get_client(1);
-//$profile = $Robot->get_insta_ref_prof_data('itacoatiara');
-//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), 'sobrancelhasdesignimbui');
+//$profile = $Robot->get_insta_ref_prof_data('teatro-popular-oscar-niemeyer');
+//$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), "caminho-niemeyer");
 //$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
-//var_dump($profiles);
+//var_dump($profile);
+//$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'teatro-popular-oscar-niemeyer', 2);
 //$profile = $Robot->get_insta_geolocalization_data_from_client(json_decode($client->cookies), 'itacoatiara', 2);
 //var_dump($profile);
 //$client = $Client->get_client(1);
