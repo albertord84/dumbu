@@ -23,7 +23,6 @@ $Client = new dumbu\cls\Client();
 
 $clients_data_db = $DB->get_unfollow_clients_data();
 //$clients_data_db = $Client->get_client(1);
-
 // Before
 print '<br>\nBEFORE:<br>\n';
 $CN = 0;
@@ -37,7 +36,7 @@ while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()
         $login_data = $login;
         $clients_data[$CN]->cookies = $login_data;
         $json_response = $Robot->get_insta_follows(// Respect firsts X users
-                $login_data, $client_data->insta_id, 30
+                $login_data, $clients_data[$CN]->insta_id, 30
         );
     } else {
         $Gmail->send_client_login_error($clients_data[$CN]->email, $clients_data[$CN]->name, $clients_data[$CN]->login);
@@ -96,6 +95,9 @@ for ($i = 0; $i < 100 && $CN; $i++) {
                         break;
                     }
                 }
+            } else {
+                unset($clients_data[$ckey]);
+                echo "<br>\n DELETED FROM UNFOLLOW!! NOT CLIENT DATA: $client_data->login ($client_data->id) <br>\n";
             }
         } else {
             unset($clients_data[$ckey]);
