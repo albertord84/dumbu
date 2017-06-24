@@ -19,21 +19,25 @@ $DB = new \dumbu\cls\DB();
 
 $Gmail = new \dumbu\cls\Gmail();
 
+$Client = new dumbu\cls\Client();
 
 $clients_data_db = $DB->get_unfollow_clients_data();
+//$clients_data_db = $Client->get_client(1);
 
 // Before
 print '<br>\nBEFORE:<br>\n';
 $CN = 0;
 while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()) {
+//    $clients_data[$CN] = $clients_data_db;
     $clients_data[$CN]->unfollows = 0;
     print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
     $login = $Robot->bot_login($clients_data[$CN]->login, $clients_data[$CN]->pass);
     if (isset($login->json_response->authenticated) && $login->json_response->authenticated) {
-        $login_data = json_encode($login);
+//        $login_data = json_encode($login);
+        $login_data = $login;
         $clients_data[$CN]->cookies = $login_data;
         $json_response = $Robot->get_insta_follows(// Respect firsts X users
-                $login_data, $client_data->insta_id, 50
+                $login_data, $client_data->insta_id, 30
         );
     } else {
         $Gmail->send_client_login_error($clients_data[$CN]->email, $clients_data[$CN]->name, $clients_data[$CN]->login);
@@ -49,25 +53,28 @@ for ($i = 0; $i < 100 && $CN; $i++) {
     // Process all UNFOLLOW clients
     foreach ($clients_data as $ckey => $client_data) {
         if ($client_data && $client_data->cookies) {
-            $login_data = json_decode($client_data->cookies);
+            $login_data = $client_data->cookies;
             echo "<br>\nClient: $client_data->login ($client_data->id)   " . date("Y-m-d h:i:sa") . "<br>\n";
             // Verify Profile Following
             $json_response = $Robot->get_insta_follows(
                     $login_data, $client_data->insta_id, 15
             );
-            if (isset($json_response->follows->page_info) && count($json_response->follows->nodes) == 0) {
-                $cursor = $json_response->follows->page_info->end_cursor;
-                $json_response = $Robot->get_insta_follows(
-                        $login_data, $client_data->insta_id, 15, $cursor
-                );
+            if (isset($json_response->data->user->edge_follow) && isset($json_response->data->user->edge_follow->page_info)) {
+                if ($json_response->data->user->edge_follow->page_info->has_next_page == false) {
+                    $cursor = $json_response->data->user->edge_follow->page_info->end_cursor;
+                    $json_response = $Robot->get_insta_follows(
+                            $login_data, $client_data->insta_id, 15, $cursor
+                    );
+                }
             }
 //            var_dump($json_response);
-            if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->follows->nodes)) { // if response is ok
+            if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->data->user->edge_follow->edges)) { // if response is ok
                 // Get Users 
-                print '\n<br> Count: ' . count($json_response->follows->nodes) . '\n<br>';
-                $Profiles = $json_response->follows->nodes;
+                print '\n<br> Count: ' . count($json_response->data->user->edge_follow->edges) . '\n<br>';
+                $Profiles = $json_response->data->user->edge_follow->edges;
                 foreach ($Profiles as $rpkey => $Profile) {
                     // Do unfollow request
+                    $Profile = $Profile->node;
                     echo "Profil name: $Profile->username<br>\n";
                     $json_response2 = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
                     var_dump($json_response2);

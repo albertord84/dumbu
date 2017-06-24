@@ -470,9 +470,9 @@ namespace dumbu\cls {
                 exec($curl_str, $output, $status);
                 $json = json_decode($output[0]);
                 //var_dump($output);
-                if (isset($json->follows) && isset($json->follows->page_info)) {
-                    $cursor = $json->follows->page_info->end_cursor;
-                    if (count($json->follows->nodes) == 0) {
+                if (isset($json->data->user->edge_follow) && isset($json->data->user->edge_follow->page_info)) {
+                    $cursor = $json->data->user->edge_follow->page_info->end_cursor;
+                    if (count($json->data->user->edge_follow->edges) == 0) {
                         var_dump($json);
 //                        var_dump($curl_str);
                         echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
