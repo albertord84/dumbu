@@ -3,7 +3,7 @@
 class Welcome extends CI_Controller {    
     
     public function test(){
-        //$
+        
     }    
     
     public function index() {
