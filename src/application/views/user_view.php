@@ -32,7 +32,6 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>                
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>                
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var languaje = '<?php echo $languaje;?>';</script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$languaje.'/internalization.js';?>"></script>
@@ -343,13 +342,13 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("BAIXA",array());?></b>
                                                 <hr>
-                                                <spam style="font-size:1.7em; color:#26a4e0">
-                                                    <?php echo $CI->T("R$",array());?>
-                                                    <b><?php echo $CI->T("4,90",array());?></b>
-                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
-                                                </spam><br>
-						<spam>
-                                                    <?php echo $CI->T("Depois R$",array());?>
+                                                <!--<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("R$",array());?>
+                                                    <b><?php //echo $CI->T("4,90",array());?></b>
+                                                    <small>/<?php //echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>-->
+						<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("Depois R$",array());?>
                                                     <?php echo $CI->T("R$",array());?>
                                                     <b><?php echo $CI->T("29,90",array());?></b>
                                                 </spam>
@@ -363,13 +362,13 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("MODERADA",array());?></b>
                                                 <hr>
-                                                <spam style="font-size:1.7em; color:#26a4e0">
-                                                    <?php echo $CI->T("R$",array());?><b>
-                                                    <?php echo $CI->T("9,90",array());?>
-                                                    </b> <small>/<?php echo $CI->T("1º mês",array());?></small>
-                                                </spam><br>
-						<spam>
-                                                    <?php echo $CI->T("Depois R$",array());?><b>
+                                                <!--<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("R$",array());?><b>
+                                                    <?php //echo $CI->T("9,90",array());?>
+                                                    </b> <small>/<?php //echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>-->
+						<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("Depois R$",array());?><b>
                                                     <?php echo $CI->T("R$",array());?>
                                                     <?php echo $CI->T("49,90",array());?></b>
                                                 </spam>
@@ -383,13 +382,14 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("RÁPIDA",array());?></b>
 						<div class="rc"><?php echo $CI->T("RECOMENDADO",array());?></div>
-                                                <br><spam style="font-size:1.7em; color:#26a4e0">
-                                                    <?php echo $CI->T("R$",array());?><b>
-                                                    <?php echo $CI->T("29,90",array());?></b> 
-                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
-                                                </spam><br>
-						<spam>
-                                                    <?php echo $CI->T("Depois R$",array());?><b>                                                    
+                                                <br>
+                                                <!--<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("R$",array());?><b>
+                                                    <?php //echo $CI->T("29,90",array());?></b> 
+                                                    <small>/<?php //echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>-->
+						<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("Depois R$",array());?><b>                                                    
                                                     <?php echo $CI->T("R$",array());?>
                                                     <?php echo $CI->T("99,90",array());?></b>
                                                 </spam>
@@ -417,13 +417,13 @@
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE",array());?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("TURBO!",array());?></b>
                                                 <hr>
-                                                <spam style="font-size:1.7em; color:#26a4e0">
-                                                    <?php echo $CI->T("R$",array());?><b>
-                                                    <?php echo $CI->T("99,90",array());?></b> 
-                                                    <small>/<?php echo $CI->T("1º mês",array());?></small>
-                                                </spam><br>
-						<spam>
-                                                    <?php echo $CI->T("Depois R$",array());?><b>
+                                                <!--<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("R$",array());?><b>
+                                                    <?php //echo $CI->T("99,90",array());?></b> 
+                                                    <small>/<?php //echo $CI->T("1º mês",array());?></small>
+                                                </spam><br>-->
+						<spam style="font-size:1.7em; color:#26a4e0">
+                                                    <?php //echo $CI->T("Depois R$",array());?><b>
                                                     <?php echo $CI->T("R$",array());?>
                                                     <?php echo $CI->T("189,90",array());?></b>
                                                 </spam>

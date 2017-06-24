@@ -39,7 +39,6 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>        
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         
@@ -1136,6 +1135,37 @@
             </div>
         </div>-->
         
+        
+         <!--modal_container_cancel_account_message-->
+        <div class="modal fade" style="top:30%" id="modal_cancel_account_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div id="modal_container_cancel_account_message" class="modal-dialog modal-sm" role="document">                                                          
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                        </button>
+                        <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Sugestão", array()); ?></b></h5>                        
+                    </div>
+                    <div class="modal-body">                                            
+                        <p>Prezado cliente, você aceita continuar com desconto do <b style="color: red">40%</b> do valor do seu plano?</p>
+                        <div  class="radio">
+                            <label><input id="aceita_desconto" type="radio" name="optradio" checked="true">Sim, aceito o desconto</label>
+                        </div>
+                        <div class="radio">
+                            <label><input id="nao_aceita_desconto" type="radio" name="optradio">Não, obrigado</label>
+                        </div>                      
+                    </div>
+                    <div class="modal-footer text-center">
+                        <span>
+                            <button id="accept_modal" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#000000">
+                                <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONTINUAR", array()); ?></div></span>
+                            </button>                            
+                        </span>
+                    </div>
+                </div>
+            </div>                                                        
+        </div>
+        
         <!--modal_container_alert_message-->
         <div class="modal fade" style="top:30%" id="modal_alert_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">                                                          
@@ -1156,7 +1186,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>     
         
         <!--modal_container_confirm_message-->
         <div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -1184,6 +1214,8 @@
                 </div>
             </div>                                                        
         </div>
+        
+       
         
     </body>
 </html>
