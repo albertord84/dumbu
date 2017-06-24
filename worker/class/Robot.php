@@ -465,7 +465,8 @@ namespace dumbu\cls {
          */
         public function get_insta_follows($login_data, $user, $N, &$cursor = NULL) {
             try {
-                $curl_str = $this->make_curl_follows_str("'https://www.instagram.com/query/'", $login_data, $user, $N, $cursor);
+                $url = "https://www.instagram.com/graphql/query/";
+                $curl_str = $this->make_curl_follows_str("$url", $login_data, $user, $N, $cursor);
                 exec($curl_str, $output, $status);
                 $json = json_decode($output[0]);
                 //var_dump($output);
