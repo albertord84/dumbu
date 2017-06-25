@@ -132,17 +132,17 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4984425393696969';
-$payment_data['credit_card_name'] = 'MAHELI F SILVEIRA';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2019';
-$payment_data['credit_card_cvc'] = '319';
-$payment_data['amount_in_cents'] = 490;
+$payment_data['credit_card_number'] = '5549063016369793';
+$payment_data['credit_card_name'] = 'NAGIB KRUGER';
+$payment_data['credit_card_exp_month'] = '09';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '339';
+$payment_data['amount_in_cents'] = 100;
 $payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
+$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
-//var_dump($resul);
+var_dump($resul);
 //var_dump($pay_day);
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
@@ -178,9 +178,9 @@ $Gmail = new dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
+//ini_set('xdebug.var_display_max_depth', 7);
+//ini_set('xdebug.var_display_max_children', 256);
+//ini_set('xdebug.var_display_max_data', 1024);
 
 //var_dump($_SERVER['QUERY_STRING']);
 //$client = $Client->get_client(1);
