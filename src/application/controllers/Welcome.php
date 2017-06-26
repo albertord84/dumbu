@@ -2,6 +2,10 @@
 
 class Welcome extends CI_Controller {    
     
+    public function test(){
+        
+    }    
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1718,9 +1722,22 @@ class Welcome extends CI_Controller {
                 //$user_data = $this->Robot->get_insta_ref_prof_data($client_login);
                 
                 $user_data = $this->Robot->get_insta_ref_prof_data_from_client($login_data,$client_login);
-                $data_insta['insta_followers_ini'] = $user_data->follower_count;
-                $data_insta['insta_following'] = $user_data->following;
-                $data_insta['insta_name']=$user_data->full_name;
+                
+                if($data_insta && isset($user_data->follower_count))
+                    $data_insta['insta_followers_ini'] = $user_data->follower_count;
+                else
+                    $data_insta['insta_followers_ini'] = 'Access denied';
+                
+                if($data_insta && isset($user_data->following))
+                    $data_insta['insta_following'] = $user_data->following;
+                else
+                    $data_insta['insta_following'] = 'Access denied';
+                
+                if($data_insta && isset($user_data->full_name))
+                    $data_insta['insta_name']=$user_data->full_name;
+                else
+                    $data_insta['insta_name']='Access denied';
+                
                 if(is_object($login_data))
                     $data_insta['insta_login_response'] = $login_data;
                 else
@@ -2041,6 +2058,8 @@ class Welcome extends CI_Controller {
         if($result['authenticated']===true){
             $this->client();
         }
+        else
+            echo 'Esse cliente deve ter senha errada ou mudou suas credenciais no IG';
     }
 
     public function T($token, $array_params) {
@@ -2100,4 +2119,8 @@ class Welcome extends CI_Controller {
             return $response;
         }
     }
+    
+    
+    
+    
 }

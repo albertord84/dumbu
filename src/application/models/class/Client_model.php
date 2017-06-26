@@ -263,15 +263,18 @@
         }
         
         public function insert_profile_in_daily_work($reference_id, $insta_datas, $N, $active_profiles, $DIALY_REQUESTS_BY_CLIENT){
-            $total_to_follow=0;
-            for($i=0;$i<$N;$i++){
-                $work=$this->get_daily_work_to_profile($active_profiles[$i]['id']);
-                if(count($work)){
-                    $total_to_follow=$total_to_follow+$work[0]['to_follow'];
+            $total_to_follow=0; 
+            if($N==0)
+                $total_to_follow=$DIALY_REQUESTS_BY_CLIENT;
+            else {
+                for($i=0;$i<$N;$i++){
+                    $work=$this->get_daily_work_to_profile($active_profiles[$i]['id']);
+                    if(count($work)){
+                        $total_to_follow=$total_to_follow+$work[0]['to_follow'];
+                    }
                 }
             }
-            if(!$total_to_follow)
-                $total_to_follow=$DIALY_REQUESTS_BY_CLIENT;
+           
             $cnt_to_follow=floor($total_to_follow/($N+1));
             try {
                 $this->db->insert('daily_work',array(
