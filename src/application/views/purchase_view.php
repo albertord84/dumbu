@@ -11,6 +11,7 @@
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
+                <title>Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers</title>
                 
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<title>DUMBU</title>

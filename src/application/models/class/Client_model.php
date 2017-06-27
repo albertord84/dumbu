@@ -107,7 +107,22 @@
             return $id_user_table;
         }        
         
-        public function insert_client_in_strict_instagram_login($datas,$data_insta){
+        public function get_my_recent_followed_by_dumbu($client_id, $page_number=null){
+            $limit=100; //limit by page
+            if($page_number)
+                $start=$page_number*$quantity_by_page+1;
+            $this->db->select('*');
+            $this->db->from('followed'); 
+            $this->db->where('followed.client_id', $client_id);            
+            $this->db->order_by('id', 'asc');
+            if($page_number)
+                $this->db->limit($limit, $start);            
+            $followed_profiles = $this->db->get()->result_array();
+            
+            return $followed_profiles;
+        }
+
+                public function insert_client_in_strict_instagram_login($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta['insta_name'];           //desde instagram
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
