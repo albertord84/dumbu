@@ -127,10 +127,33 @@ namespace dumbu\cls {
                         . "WHERE users.id = $client_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
-                if ($result)
-                    print "<br>Update client_status! status_date: $status_date <br>";
-                else
-                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
+//                if ($result)
+//                    print "<br>Update client_status! status_date: $status_date <br>";
+//                else
+//                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function set_client_status_by_login($login, $status_id) {
+            try {
+                $this->connect();
+                $status_date = time();
+                $sql = "UPDATE users "
+                        . "SET "
+                        . "      users.status_id   = $status_id, "
+                        . "      users.status_date = '$status_date' "
+                        . "WHERE users.login = '$login' "
+                        . "ORDER BY id DESC "
+                        . "LIMIT 1; ";
+
+                $result = mysqli_query($this->connection, $sql);
+//                if ($result)
+//                    print "<br>Update client_status! status_date: $status_date <br>";
+//                else
+//                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();

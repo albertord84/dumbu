@@ -88,7 +88,7 @@ namespace dumbu\cls {
             //$DB = new DB();
             $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
-                if (!$Client->cookies) {
+                if (!$Client->cookies || $Client->status_id != user_status::ACTIVE) {
                     // Log user with curl in istagram to get needed session data
                     $login_data = $Client->sign_in($Client);
                     if ($login_data !== NULL) {
