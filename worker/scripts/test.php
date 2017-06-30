@@ -245,8 +245,8 @@ ini_set('xdebug.var_display_max_data', 1024);
 
 // WORKER
 $Worker = new dumbu\cls\Worker();
-$daily_work = (new dumbu\cls\DB())->get_follow_work_by_id(20012);
-(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
+$daily_work = $Worker->get_work_by_id(20012);
+$Worker->do_follow_unfollow_work($daily_work);
 //$error = NULL; $page_info = NULL;
 //$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
 //var_dump($profiles);
