@@ -157,7 +157,6 @@ namespace dumbu\cls {
                         $null_picture = strpos($Profile->profile_pic_url, '11906329_960233084022564_1448528159_a');
                         // Check if its a valid profile
 //                            $valid_profile = FALSE;
-//                            $is_private = (new Profile())->is_private($Profile->username);
 //                            if (!$is_private) {
 //                                // Check the post amount from this profile
 //                                $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
@@ -167,18 +166,24 @@ namespace dumbu\cls {
 //                                $valid_profile = TRUE;
 //                            }
 //                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
-                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If profile not requested or follwed by Client
+                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && !$null_picture) { // If profile not requested or follwed by Client
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
-                            $following_me = $this->get_reference_user($login_data, $Profile->username);
+                            $Profile_data = $this->get_reference_user($login_data, $Profile->username);
+                            $is_private = (isset($Profile_data->user->is_private)) ? $Profile_data->user->is_private : false;
+                            $posts_count = isset($Profile_data->user->media->count) ? $Profile_data->user->media->count : 0;
+                            $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
+                            $valid_profile = $posts_count >= $MIN_FOLLOWER_POSTS;
+                            $following_me = (isset($Profile_data->user->follows_viewer)) ? $Profile_data->user->follows_viewer : false;
                             $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
 //                            $followed_in_db = NULL;
-                            if (!$followed_in_db && !$following_me) { // Si no lo he seguido en BD y no me está siguiendo
+                            if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-//                                if ($daily_work->like_first) {
+                                if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
+                                    $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
 //                                    $this->like_fist_post($login_data, $Profile->id);
-//                                }
+                                }
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
                                     $follows++;
