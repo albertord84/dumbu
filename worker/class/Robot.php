@@ -169,9 +169,10 @@ namespace dumbu\cls {
 //                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
                         if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If profile not requested or follwed by Client
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
+                            $following_me = $this->get_reference_user($login_data, $Profile->username);
                             $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
 //                            $followed_in_db = NULL;
-                            if (!$followed_in_db) {
+                            if (!$followed_in_db && !$following_me) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "Profil name: $Profile->username<br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
