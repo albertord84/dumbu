@@ -159,6 +159,7 @@ $pay_day = time();
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
@@ -207,7 +208,8 @@ ini_set('xdebug.var_display_max_data', 1024);
 //var_dump($Profiles);
 //var_dump($profiles->data->user->edge_followed_by->edges[0]->node);
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $profiles->data->user->edge_followed_by->edges[0]->node->id, 'follow');
-//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
+//$client = $Client->get_client(14736);
+//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), "182227372");
 //var_dump($result);
 
 //$client = $Client->get_client(1);
@@ -243,10 +245,11 @@ ini_set('xdebug.var_display_max_data', 1024);
 
 // WORKER
 $Worker = new dumbu\cls\Worker();
-$daily_work = (new dumbu\cls\DB())->get_follow_work();
-$error = NULL; $page_info = NULL;
-$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
-var_dump($profiles);
+$daily_work = (new dumbu\cls\DB())->get_follow_work_by_id(20012);
+(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
+//$error = NULL; $page_info = NULL;
+//$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
+//var_dump($profiles);
 
 //
 ////$Worker->check_daily_work();

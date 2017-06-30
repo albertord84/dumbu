@@ -282,6 +282,47 @@ namespace dumbu\cls {
             }
         }
 
+        public function get_follow_work_by_id($reference_id) {
+            //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
+            try {
+                // Get daily work
+                $sql = ""
+                        . "SELECT *, "
+                        . "   daily_work.cookies as cookies, "
+                        . "   users.id as users_id, "
+                        . "   clients.cookies as client_cookies, "
+                        . "   reference_profile.insta_id as rp_insta_id, "
+                        . "   reference_profile.type as rp_type, "
+                        . "   reference_profile.id as rp_id "
+                        . "FROM daily_work "
+                        . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
+                        . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
+                        . "INNER JOIN users ON users.id = clients.user_id "
+                        . "WHERE daily_work.reference_id = $reference_id "
+                        . "LIMIT 1;";
+
+                $result = mysqli_query($this->connection, $sql);
+                $object = $result->fetch_object();
+
+                // Update daily work time
+                if ($object) {
+                    //$ref_prof_id = $object->rp_insta_id;
+                    $time = time();
+                    $sql2 = ""
+                            . "UPDATE clients "
+                            . "SET clients.last_access = '$time' "
+                            . "WHERE clients.user_id = $object->users_id; ";
+                    $result2 = mysqli_query($this->connection, $sql2);
+                    if (!$result2) {
+                        var_dump($sql2);
+                    }
+                }
+                return $object;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
         public function get_unfollow_work($client_id) {
             try {
                 // Get profiles to unfollow today for this Client... 
