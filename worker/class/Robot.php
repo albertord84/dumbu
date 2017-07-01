@@ -544,7 +544,7 @@ namespace dumbu\cls {
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
-            $url .= "?query_id=17851374694183129&id=$ds_user_id&first=$N";
+            $url .= "?query_id=17851374694183129&id=$user&first=$N";
             if ($cursor) {
                 $url .= "&after=$cursor";
             }

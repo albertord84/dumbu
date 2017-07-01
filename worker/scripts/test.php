@@ -216,15 +216,15 @@ $client = $Client->get_client(1);
 //$result = $Robot->get_geo_post_user_info(json_decode($client->cookies), '303230', 'BVSGZXunI7a');
 //$result = $Robot->get_reference_user(json_decode($client->cookies), 'pedropetti');
 //$result = $Robot->get_reference_user(json_decode($client->cookies), 'dannyy_se');
-$result = $Robot->get_reference_user(json_decode($client->cookies), 'tuner_con');
-if ($result->user->follows_viewer) {
-    print '<br><br>Following viewer<br><br>';
-}
-else {
-    print '<br><br>NOT!! Following viewer<br><br>';
-}
+//$result = $Robot->get_reference_user(json_decode($client->cookies), 'edtirzo');
+//if ($result->user->follows_viewer) {
+//    print '<br><br>Following viewer<br><br>';
+//}
+//else {
+//    print '<br><br>NOT!! Following viewer<br><br>';
+//}
+//print_r($result);
 //$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
-print_r($result);
 //
 //print_r($result->media->nodes[0]->id);
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
@@ -252,12 +252,13 @@ print_r($result);
 //
 
 // WORKER
-//$Worker = new dumbu\cls\Worker();
-//$daily_work = $Worker->get_work_by_id(2);
+$Worker = new dumbu\cls\Worker();
+$daily_work = $Worker->get_work_by_id(2);
 //$Worker->do_follow_unfollow_work($daily_work);
-//$error = NULL; $page_info = NULL;
-//$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
-//var_dump($profiles);
+$error = NULL; $page_info = NULL;
+var_dump($daily_work->rp_insta_id);
+$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
+var_dump($profiles);
 
 //
 ////$Worker->check_daily_work();
