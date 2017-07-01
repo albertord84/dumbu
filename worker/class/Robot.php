@@ -154,6 +154,7 @@ namespace dumbu\cls {
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
                     foreach ($Profiles as $Profile) {
                         $Profile = $Profile->node;
+                        echo "Profil name: $Profile->username ";
                         $null_picture = strpos($Profile->profile_pic_url, '11906329_960233084022564_1448528159_a');
                         // Check if its a valid profile
 //                            $valid_profile = FALSE;
@@ -168,7 +169,7 @@ namespace dumbu\cls {
 //                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
                         if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && !$null_picture) { // If profile not requested or follwed by Client
                             $Profile_data = $this->get_reference_user($login_data, $Profile->username);
-                            $is_private = (isset($Profile_data->user->is_private)) ? $Profile_data->user->is_private : false;
+                            $is_private = isset($Profile_data->user->is_private) ? $Profile_data->user->is_private : false;
                             $posts_count = isset($Profile_data->user->media->count) ? $Profile_data->user->media->count : 0;
                             $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
                             $valid_profile = $posts_count >= $MIN_FOLLOWER_POSTS;
@@ -178,7 +179,7 @@ namespace dumbu\cls {
                             $followed_in_db = NULL;
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
-                                echo "Profil name: $Profile->username<br>\n";
+                                echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
 //                                    $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
@@ -197,7 +198,11 @@ namespace dumbu\cls {
                                 }
                                 // Sleep up to proper delay between request
                                 sleep($GLOBALS['sistem_config']->DELAY_BETWEEN_REQUESTS);
+                            } else {
+                                echo "NOT FOLLOWING: followed_in_db($followed_in_db) following_me($following_me) valid_profile($valid_profile)<br>\n";
                             }
+                        } else {
+                            echo "NOT FOLLOWING: requested_by_viewer($Profile->requested_by_viewer) followed_by_viewer($Profile->followed_by_viewer) null_picture($null_picture)<br>\n";
                         }
                     }
                     // Update cursor

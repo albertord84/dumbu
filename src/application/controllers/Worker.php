@@ -15,8 +15,13 @@ class Worker extends CI_Controller {
         $Worker = new \dumbu\cls\Worker();
 //        $daily_work = $Worker->get_work();
         $reference_id = $_GET['reference_id'];
-        $daily_work = $Worker->get_work_by_id($reference_id);
-        $Worker->do_follow_unfollow_work($daily_work);
+        if ($reference_id) {
+            $daily_work = $Worker->get_work_by_id($reference_id);
+            $Worker->do_follow_unfollow_work($daily_work);
+        }
+        else {
+            print "Missing Refence Id...!!!";
+        }
 //        var_dump($daily_work);
     }
 
