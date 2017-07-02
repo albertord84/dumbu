@@ -54,7 +54,7 @@ $(document).ready(function(){
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            $("#signin_initial_date").val()==='' &&
-           $("#signin_final_date").val()==='' &&
+           $("#observations").val()==='' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#pay_day").val()=='--SELECT--' &&
            $("#profile_client").val()==='' &&
@@ -67,7 +67,7 @@ $(document).ready(function(){
             var params;
             params='client_status='+$("#client_status").val();
             params=params+'&signin_initial_date='+$("#signin_initial_date").val();
-            params=params+'&signin_final_date='+$("#signin_final_date").val();
+            params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
             params=params+'&profile_client='+$("#profile_client").val();

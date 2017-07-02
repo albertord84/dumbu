@@ -42,6 +42,10 @@
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             else
+            if($form_filter['observations']!='NO')
+                //$this->db->where('login', $form_filter['observations']);
+                $this->db->where('observation is NOT NULL', NULL, FALSE);
+            else
             if($form_filter['email_client']!='')
                 $this->db->where('email', $form_filter['email_client']);
             else
