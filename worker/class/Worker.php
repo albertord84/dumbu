@@ -259,6 +259,25 @@ namespace dumbu\cls {
             return $daily_work;
         }
 
+        function get_work_by_id($reference_id) {
+            //$DB = new \dumbu\cls\DB();
+            $daily_work = $this->DB->get_follow_work_by_id($reference_id);
+            $daily_work->login_data = json_decode($daily_work->cookies);
+            $Followeds_to_unfollow = array();
+            if ($daily_work->to_unfollow > 0) {
+                $unfollow_work = $this->DB->get_unfollow_work($daily_work->client_id);
+                while ($Followed = $unfollow_work->fetch_object()) { //
+                    $To_Unfollow = new \dumbu\cls\Followed();
+// Update Ref Prof Data
+                    $To_Unfollow->id = $Followed->id;
+                    $To_Unfollow->followed_id = $Followed->followed_id;
+                    array_push($Followeds_to_unfollow, $To_Unfollow);
+                }
+            }
+            $daily_work->to_unfollow = $Followeds_to_unfollow;
+            return $daily_work;
+        }
+
         /**
          * 
          *
@@ -285,7 +304,7 @@ namespace dumbu\cls {
                             if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
                                 $now = \DateTime::createFromFormat('U', time());
                                 $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
-                                print "<br>_________ELAPSE TIME ($elapsed_time): ";
+                                print "<br>_________ELAPSED TIME ($elapsed_time): ";
 //                                print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s') . "<br>";
 //                                print "\$last_access = " . $daily_work->last_access . "<br>";
 //                                print "\$elapsed_time = " . $elapsed_time . " min (" . intval(time() - intval($daily_work->last_access)) . " tics) <br>";

@@ -40,7 +40,7 @@ $Worker = new dumbu\cls\Worker();
 $Worker->truncate_daily_work();
 $Worker->prepare_daily_work();
 //die("tested");
-$Worker->do_work();
+//$Worker->do_work();
 
 //----------------------------------------------------------------
 

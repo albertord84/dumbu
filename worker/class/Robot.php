@@ -154,10 +154,10 @@ namespace dumbu\cls {
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
                     foreach ($Profiles as $Profile) {
                         $Profile = $Profile->node;
+                        echo "Profil name: $Profile->username ";
                         $null_picture = strpos($Profile->profile_pic_url, '11906329_960233084022564_1448528159_a');
                         // Check if its a valid profile
 //                            $valid_profile = FALSE;
-//                            $is_private = (new Profile())->is_private($Profile->username);
 //                            if (!$is_private) {
 //                                // Check the post amount from this profile
 //                                $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
@@ -167,17 +167,24 @@ namespace dumbu\cls {
 //                                $valid_profile = TRUE;
 //                            }
 //                            if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && $valid_profile) { // If user not requested or follwed by Client
-                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer) { // If profile not requested or follwed by Client
+                        if (!$Profile->requested_by_viewer && !$Profile->followed_by_viewer && !$null_picture) { // If profile not requested or follwed by Client
+                            $Profile_data = $this->get_reference_user($login_data, $Profile->username);
+                            $is_private = isset($Profile_data->user->is_private) ? $Profile_data->user->is_private : false;
+                            $posts_count = isset($Profile_data->user->media->count) ? $Profile_data->user->media->count : 0;
+                            $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
+                            $valid_profile = $posts_count >= $MIN_FOLLOWER_POSTS;
+                            $following_me = (isset($Profile_data->user->follows_viewer)) ? $Profile_data->user->follows_viewer : false;
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
-                            //$followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
+//                            $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
                             $followed_in_db = NULL;
-                            if (!$followed_in_db) {
+                            if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
-                                echo "Profil name: $Profile->username<br>\n";
+                                echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
-//                                if ($daily_work->like_first) {
+                                if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
+//                                    $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
 //                                    $this->like_fist_post($login_data, $Profile->id);
-//                                }
+                                }
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
                                     $follows++;
@@ -191,11 +198,15 @@ namespace dumbu\cls {
                                 }
                                 // Sleep up to proper delay between request
                                 sleep($GLOBALS['sistem_config']->DELAY_BETWEEN_REQUESTS);
+                            } else {
+                                echo "NOT FOLLOWING: followed_in_db($followed_in_db) following_me($following_me) valid_profile($valid_profile)<br>\n";
                             }
+                        } else {
+                            echo "NOT FOLLOWING: requested_by_viewer($Profile->requested_by_viewer) followed_by_viewer($Profile->followed_by_viewer) null_picture($null_picture)<br>\n";
                         }
                     }
                     // Update cursor
-                    if ($page_info) {
+                    if ($page_info && isset($page_info->end_cursor)) {
                         $this->daily_work->insta_follower_cursor = $page_info->end_cursor;
                         $this->DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
                         if (!$page_info->has_next_page)
@@ -224,6 +235,23 @@ namespace dumbu\cls {
                         echo "Nodes: " . count($json_response->data->user->edge_followed_by->edges) . " <br>\n";
                         $page_info = $json_response->data->user->edge_followed_by->page_info;
                         $Profiles = $json_response->data->user->edge_followed_by->edges;
+                        //$DB = new DB();
+                        if ($page_info->has_next_page === FALSE && $page_info->end_cursor != NULL) { // Solo qdo es <> de null es que llego al final
+                            $this->DB->update_reference_cursor($daily_work->reference_id, NULL);
+                            echo ("<br>\n Updated Reference Cursor to NULL!!");
+                            $result = $this->DB->delete_daily_work($daily_work->reference_id);
+                            if ($result) {
+                                echo ("<br>\n Deleted Daily work!!");
+                            }
+                        } else if ($page_info->has_next_page === FALSE && $page_info->end_cursor === NULL) {
+                            $Client = new Client();
+                            $Client = $Client->get_client($daily_work->user_id);
+                            $login_result = $Client->sign_in($Client);
+                            $result = $this->DB->delete_daily_work($daily_work->reference_id);
+                            if ($result) {
+                                echo ("<br>\n Deleted Daily work!!");
+                            }
+                        }
                         $error = FALSE;
                     } else {
                         $page_info->end_cursor = NULL;
@@ -296,7 +324,7 @@ namespace dumbu\cls {
                     break;
 
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
-//                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
@@ -424,23 +452,16 @@ namespace dumbu\cls {
                 $json = json_decode($output[0]);
                 //var_dump($output);
                 if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
-                    if ($json->data->user->edge_followed_by->page_info->has_next_page == false) {
+                    if ($json->data->user->edge_followed_by->page_info->has_next_page === false) {
                         echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         var_dump(json_encode($json));
-                        //$DB = new DB();
-                        $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
-                        echo ("<br>\n Updated Reference Cursor to NULL!!");
-                        $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
-                        if ($result) {
-                            echo ("<br>\n Deleted Daily work!!");
-                        }
                     }
                 } else {
                     var_dump($output);
                     print_r($curl_str);
                     if (isset($json->data) && ($json->data->user == null)) {
-                        $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
-                        echo ("<br>\n Updated Reference Cursor to NULL!!");
+                        //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                        //echo ("<br>\n Updated Reference Cursor to NULL!!");
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         if ($result) {
                             echo ("<br>\n Deleted Daily work!!");
@@ -499,7 +520,7 @@ namespace dumbu\cls {
                     $cursor = $json->data->location->edge_location_to_media->page_info->end_cursor;
                     if (count($json->data->location->edge_location_to_media->edges) == 0) {
                         //echo '<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>';
-                        var_dump($json);
+                        //var_dump($json);
 //                        var_dump($curl_str);
                         echo ("<br>\n No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
@@ -523,7 +544,7 @@ namespace dumbu\cls {
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
-            $url .= "?query_id=17851374694183129&id=$ds_user_id&first=$N";
+            $url .= "?query_id=17851374694183129&id=$user&first=$N";
             if ($cursor) {
                 $url .= "&after=$cursor";
             }
@@ -1095,6 +1116,12 @@ namespace dumbu\cls {
                     $login_response = is_object($result->json_response);
                 }
                 $try_count++;
+//                if (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required") {
+//                    $this->DB->set_client_status_by_login($login, user_status::VERIFY_ACCOUNT);
+//                }
+//                else if (isset($result->json_response->authenticated) && $result->json_response->authenticated == FALSE) {
+//                    $this->DB->set_client_status_by_login($login, user_status::BLOCKED_BY_INSTA);
+//                }
 //                if (!$login_response)
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
