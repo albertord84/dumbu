@@ -41,26 +41,25 @@
             else
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
-            else
-            if($form_filter['observations']!='NO')
-                //$this->db->where('login', $form_filter['observations']);
+            //else
+            if($form_filter['observations']!=='NAO')
                 $this->db->where('observation is NOT NULL', NULL, FALSE);
-            else
+            //else
             if($form_filter['email_client']!='')
                 $this->db->where('email', $form_filter['email_client']);
-            else
+            //else
             if($form_filter['order_key_client']!='')
                 $this->db->where('order_key', $form_filter['order_key_client']);
-            else
+            //else
             if($form_filter['client_id']!='')
                 $this->db->where('user_id', $form_filter['client_id']);
-            else
+            //else
             if($form_filter['ds_user_id']!='')
                 $this->db->where('insta_id', $form_filter['ds_user_id']);
-            else
+            //else
             if($form_filter['credit_card_name']!='')
                 $this->db->where('credit_card_name', $form_filter['credit_card_name']);
-            else
+            //else
             if($form_filter['client_status']>-1)
                 $this->db->where('status_id', $form_filter['client_status']);            
             return $this->db->get()->result_array();
