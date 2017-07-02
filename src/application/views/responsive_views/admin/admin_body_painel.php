@@ -30,8 +30,11 @@
 
                 <div class="col-md-2">
                     <div class="center filters">
-                        <b>Assinatura (fim)</b>
-                        <input id = "signin_final_date" type="text" class="form-control"  placeholder="DD/MM/YYYY" disabled="true">       
+                        <b>Listar Observações</b>
+                        <select id="observations" class="form-control" >                            
+                            <option>NÂO</option>
+                            <option>SIM</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-2">
