@@ -3,10 +3,10 @@
 class Welcome extends CI_Controller {    
     
     public function test(){
-        $this->load->model('class/client_model');
-        $a=$this->client_model->get_my_recent_followed_by_dumbu('11826');   
-        $datas['datas']=$a;
-        $this->load->view('client_view_recent_followed', $datas);
+//        $this->load->model('class/client_model');
+//        $a=$this->client_model->get_my_recent_followed_by_dumbu('11826');   
+//        $datas['datas']=$a;
+//        $this->load->view('client_view_recent_followed', $datas);
     }    
     
     public function index() {
@@ -734,9 +734,9 @@ class Welcome extends CI_Controller {
                     ));
                     if(isset($datas['ticket_peixe_urbano'])){
                         $ticket=trim($datas['ticket_peixe_urbano']);
-                        if(count($ticket)>4){
+                        if(count($ticket)>=3){
                             $this->client_model->update_client($datas['pk'], array(
-                                'ticket_peixe_urbano' => $ticket                  
+                                'ticket_peixe_urbano' => $ticket
                             ));
                         }
                     }
@@ -856,6 +856,49 @@ class Welcome extends CI_Controller {
                 $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array());
             } 
         } else 
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='OLX'){
+            $kk=$GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS;
+            $t=time();
+            $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $t);
+            $t2=$datas['pay_day'];
+            $datas['amount_in_cents'] = $recurrency_value/2;
+            $resp = $this->check_recurrency_mundipagg_credit_card($datas,1);
+            //guardo el initial order key 
+            if(is_object($resp) && $resp->isSuccess()){
+                $this->client_model->update_client($datas['pk'], array('initial_order_key' => $resp->getData()->OrderResult->OrderKey));                    
+                $response['flag_initial_payment'] = true;
+                
+                //genero una recurrencia un mes mas alante
+                $datas['amount_in_cents'] = $recurrency_value;
+                $datas['pay_day'] = strtotime("+1 month", $datas['pay_day']);
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas, 0);
+                if (is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            } else{
+                $response['flag_recurrency_payment'] = false;
+                $response['flag_initial_payment'] = false;
+                if(is_array($resp))
+                    $response['message'] = 'Error: '.$resp["message"]; 
+                else
+                    $response['message'] = 'Incorrect credit card datas!!';
+                if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                    $this->client_model->update_client($datas['pk'], array('initial_order_key' => $resp->getData()->OrderResult->OrderKey));
+                }
+            }
+        }else        
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AGENCIALUUK'){
                 $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", time());
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
@@ -1229,6 +1272,7 @@ class Welcome extends CI_Controller {
         echo json_encode($response);
     }
     
+    
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1243,8 +1287,8 @@ class Welcome extends CI_Controller {
             $now = time();
             if ($this->validate_post_credit_card_datas($datas)) {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                $kk=$client_data['ticket_peixe_urbano'];
-                
+                $kk=$client_data['ticket_peixe_urbano'];                
+                        
                 if($now<$client_data['pay_day'] &&$client_data['ticket_peixe_urbano']==='AGENCIALUUK'){                    
                     $result['success'] = false;
                     $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
@@ -1294,6 +1338,7 @@ class Welcome extends CI_Controller {
                             } finally {
                                 $flag_pay_now = false;
                                 $flag_pay_day = false;
+                                
                                 //Determinar valor inicial del pagamento
                                 if ($datas['client_update_plane'] == 1)
                                     $datas['client_update_plane'] = 4;
@@ -1329,6 +1374,10 @@ class Welcome extends CI_Controller {
                                     $datas['pay_day'] = time();
                                     if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
                                         $datas['amount_in_cents'] = round(($pay_values['initial_value']*8)/10);
+                                    else
+                                    if($client_data['ticket_peixe_urbano']==='OLX')
+                                        //$datas['amount_in_cents'] = round(($pay_values['initial_value']*5)/10);
+                                        $datas['amount_in_cents'] = round(($pay_values['normal_value']*5)/10);
                                     else
                                         $datas['amount_in_cents'] = $pay_values['initial_value'];
                                     $resp_pay_now = $this->check_mundipagg_credit_card($datas);
