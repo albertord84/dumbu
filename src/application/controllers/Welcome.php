@@ -1377,7 +1377,10 @@ class Welcome extends CI_Controller {
                                     else
                                     if($client_data['ticket_peixe_urbano']==='OLX')
                                         //$datas['amount_in_cents'] = round(($pay_values['initial_value']*5)/10);
-                                        $datas['amount_in_cents'] = round(($pay_values['normal_value']*5)/10);
+                                        if($now < $client_data['pay_day'])
+                                            $datas['amount_in_cents'] = $pay_values['normal_value']/2;
+                                        else
+                                            $datas['amount_in_cents'] = $pay_values['normal_value'];
                                     else
                                         $datas['amount_in_cents'] = $pay_values['initial_value'];
                                     $resp_pay_now = $this->check_mundipagg_credit_card($datas);
