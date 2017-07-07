@@ -733,12 +733,10 @@ class Welcome extends CI_Controller {
                         'credit_card_exp_year' => $datas['credit_card_exp_year']
                     ));
                     if(isset($datas['ticket_peixe_urbano'])){
-                        $ticket=trim($datas['ticket_peixe_urbano']);
-                        if(count($ticket)>=3){
-                            $this->client_model->update_client($datas['pk'], array(
-                                'ticket_peixe_urbano' => $ticket
-                            ));
-                        }
+                        $ticket=trim($datas['ticket_peixe_urbano']);                        
+                        $this->client_model->update_client($datas['pk'], array(
+                            'ticket_peixe_urbano' => $ticket
+                        ));
                     }
                 } catch (Exception $exc) {
                     $result['success'] = false;
