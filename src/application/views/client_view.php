@@ -176,7 +176,7 @@
                                                 <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array()) . '</b>  <br>           
                                                 <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="' . $verify_account_datas['verify_account_url'] . '">
                                                     <button id="btn_verify_account" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                                        ' . $CI->T("ACTIVAR AGORA", array()) . '
+                                                        ' . $CI->T("ATIVAR AGORA", array()) . '
                                                     </button>
                                                 </a>
                                             </div>';

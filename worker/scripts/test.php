@@ -132,17 +132,17 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '5549063016369793';
-$payment_data['credit_card_name'] = 'NAGIB KRUGER';
-$payment_data['credit_card_exp_month'] = '09';
-$payment_data['credit_card_exp_year'] = '2020';
-$payment_data['credit_card_cvc'] = '339';
-$payment_data['amount_in_cents'] = 100;
-$payment_data['pay_day'] = $pay_day;
-$resul = $Payment->create_payment($payment_data);
+//$payment_data['credit_card_number'] = '5549063016369793';
+//$payment_data['credit_card_name'] = 'NAGIB KRUGER';
+//$payment_data['credit_card_exp_month'] = '09';
+//$payment_data['credit_card_exp_year'] = '2020';
+//$payment_data['credit_card_cvc'] = '339';
+//$payment_data['amount_in_cents'] = 100;
+//$payment_data['pay_day'] = $pay_day;
+//$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
-var_dump($resul);
+//var_dump($resul);
 //var_dump($pay_day);
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
@@ -159,6 +159,7 @@ var_dump($resul);
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
@@ -178,11 +179,12 @@ $Gmail = new dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
-//ini_set('xdebug.var_display_max_depth', 7);
-//ini_set('xdebug.var_display_max_children', 256);
-//ini_set('xdebug.var_display_max_data', 1024);
+ini_set('xdebug.var_display_max_depth', 7);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
 
 //var_dump($_SERVER['QUERY_STRING']);
+//$client = $Client->get_client(1);
 //$client = $Client->get_client(1);
 //$profile = $Robot->get_insta_ref_prof_data('teatro-popular-oscar-niemeyer');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), "caminho-niemeyer");
@@ -200,21 +202,29 @@ $Robot = new dumbu\cls\Robot();
 //foreach ($result->media->nodes as $Profile) {
 //    array_push($Profiles, $Profile->owner);
 //}
-//$daily_work = (new dumbu\cls\DB())->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
 //(new dumbu\cls\Worker())->do_follow_unfollow_work($daily_work);
 //$Profiles = $Robot->get_profiles_to_follow($daily_work);
 //var_dump($Profiles);
 //var_dump($profiles->data->user->edge_followed_by->edges[0]->node);
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $profiles->data->user->edge_followed_by->edges[0]->node->id, 'follow');
-//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->owner->id);
+//$client = $Client->get_client(14736);
+//$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), "182227372");
 //var_dump($result);
 
-//$client = $Client->get_client(1);
+$client = $Client->get_client(1);
 //$result = $Robot->get_geo_post_user_info(json_decode($client->cookies), '303230', 'BVSGZXunI7a');
 //$result = $Robot->get_reference_user(json_decode($client->cookies), 'pedropetti');
-//$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
+//$result = $Robot->get_reference_user(json_decode($client->cookies), 'dannyy_se');
+//$result = $Robot->get_reference_user(json_decode($client->cookies), 'edtirzo');
+//if ($result->user->follows_viewer) {
+//    print '<br><br>Following viewer<br><br>';
+//}
+//else {
+//    print '<br><br>NOT!! Following viewer<br><br>';
+//}
 //print_r($result);
+//$result = $Robot->get_insta_chaining(json_decode($client->cookies), 1420916955, 10);
 //
 //print_r($result->media->nodes[0]->id);
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), $result->media->nodes[0]->id, 'unlike', 'web/likes');
@@ -235,12 +245,21 @@ $Robot = new dumbu\cls\Robot();
 //$Gmail->send_client_login_error("ronefilho@gmail.com", 'Rone', "ronefilho", "renivalfilho");
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
-//$result = $Robot->bot_login("dona_fina", "aquarell2016");
+//$result = $Robot->bot_login("lambaosbeicos", "75005310");
+//$result = $Robot->bot_login("alberto_dreyes", "albertord7");
 //var_dump($result);
 //----------------------------------------------------------------
 //
+
 // WORKER
 $Worker = new dumbu\cls\Worker();
+$daily_work = $Worker->get_work_by_id(2);
+//$Worker->do_follow_unfollow_work($daily_work);
+$error = NULL; $page_info = NULL;
+var_dump($daily_work->rp_insta_id);
+$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
+var_dump($profiles);
+
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();
