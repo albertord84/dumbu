@@ -45,7 +45,7 @@ $DB = new \dumbu\cls\DB();
 //$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
 //var_dump($Ref_profile_follows);
 
-$Client = new dumbu\cls\Client();
+$Client = new \dumbu\cls\Client();
 
 //$result = $Client->insert_clients_daily_report();
 //$client = $Client->get_client(11472);
@@ -72,7 +72,7 @@ $Client = new dumbu\cls\Client();
 //
 //
 // MUNDIPAGG
-$Payment = new dumbu\cls\Payment();
+$Payment = new \dumbu\cls\Payment();
 //
 //$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
 //$result = $Payment->check_payment($order_key);
@@ -131,7 +131,6 @@ $Payment = new dumbu\cls\Payment();
 $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
-
 //$payment_data['credit_card_number'] = '5549063016369793';
 //$payment_data['credit_card_name'] = 'NAGIB KRUGER';
 //$payment_data['credit_card_exp_month'] = '09';
@@ -159,9 +158,8 @@ $pay_day = time();
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
-
 // GMAIL
-$Gmail = new dumbu\cls\Gmail();
+$Gmail = new \dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
@@ -178,13 +176,17 @@ $Gmail = new dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
-$Robot = new dumbu\cls\Robot();
+$Robot = new \dumbu\cls\Robot();
 ini_set('xdebug.var_display_max_depth', 7);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
 //var_dump($_SERVER['QUERY_STRING']);
-//$client = $Client->get_client(1);
+$client = $Client->get_client(13640);
+if (isset($client->cookies) && $client->cookies) {
+    $result = $Robot->follow_me_myself(json_decode($client->cookies));
+    var_dump($result);
+}
 //$client = $Client->get_client(1);
 //$profile = $Robot->get_insta_ref_prof_data('teatro-popular-oscar-niemeyer');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), "caminho-niemeyer");
@@ -195,7 +197,6 @@ ini_set('xdebug.var_display_max_data', 1024);
 //var_dump($profile);
 //$client = $Client->get_client(1);
 //$result = $Robot->get_insta_geomedia(json_decode($client->cookies), '5445947882', 5);
-//var_dump($result);
 //var_dump($result->media->nodes[0]->owner);
 //
 //$Profiles = array();
@@ -211,8 +212,7 @@ ini_set('xdebug.var_display_max_data', 1024);
 //$client = $Client->get_client(14736);
 //$result = $Robot->make_insta_friendships_command(json_decode($client->cookies), "182227372");
 //var_dump($result);
-
-$client = $Client->get_client(1);
+//$client = $Client->get_client(1);
 //$result = $Robot->get_geo_post_user_info(json_decode($client->cookies), '303230', 'BVSGZXunI7a');
 //$result = $Robot->get_reference_user(json_decode($client->cookies), 'pedropetti');
 //$result = $Robot->get_reference_user(json_decode($client->cookies), 'dannyy_se');
@@ -250,16 +250,14 @@ $client = $Client->get_client(1);
 //var_dump($result);
 //----------------------------------------------------------------
 //
-
 // WORKER
 $Worker = new dumbu\cls\Worker();
-$daily_work = $Worker->get_work_by_id(2);
-//$Worker->do_follow_unfollow_work($daily_work);
-$error = NULL; $page_info = NULL;
-var_dump($daily_work->rp_insta_id);
-$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
-var_dump($profiles);
-
+//$daily_work = $Worker->get_work_by_id(2);
+////$Worker->do_follow_unfollow_work($daily_work);
+//$error = NULL; $page_info = NULL;
+//var_dump($daily_work->rp_insta_id);
+//$profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
+//var_dump($profiles);
 //
 ////$Worker->check_daily_work();
 //$Worker->truncate_daily_work();

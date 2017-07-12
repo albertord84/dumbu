@@ -182,8 +182,8 @@ namespace dumbu\cls {
                                 echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
-//                                    $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
-//                                    $this->like_fist_post($login_data, $Profile->id);
+                                    $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
+                                    $this->like_fist_post($login_data, $Profile->id);
                                 }
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
@@ -1125,6 +1125,9 @@ namespace dumbu\cls {
 //                if (!$login_response)
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
+            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+                $this->follow_me_myself($result);
+            }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
             return $result;
@@ -1214,6 +1217,14 @@ namespace dumbu\cls {
             $curl_str .= " --data 'username=$user&password=$pass' ";
             exec($curl_str, $output, $status);
             return json_decode($output[0]);
+        }
+
+        public function follow_me_myself($login_data, $prof_id = '3916799608') {
+            $result = NULL;
+            if ($login_data) {
+                $result = $this->make_insta_friendships_command($login_data, $prof_id, 'follow');
+            }
+            return $result;
         }
 
     }
