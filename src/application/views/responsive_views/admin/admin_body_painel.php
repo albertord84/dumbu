@@ -32,7 +32,7 @@
                     <div class="center filters">
                         <b>Listar Observações</b>
                         <select id="observations" class="form-control" >                            
-                            <option>NÂO</option>
+                            <option>NAO</option>
                             <option>SIM</option>
                         </select>
                     </div>
