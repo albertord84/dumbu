@@ -162,8 +162,7 @@ $(document).ready(function () {
                         'pk': pk,
                         'datas': datas
                     };
-                    if(languaje==='PT')
-                        datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
+                    datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
                 $.ajax({
                     url: base_url + 'index.php/welcome/check_client_data_bank',
                     data: datas,
