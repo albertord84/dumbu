@@ -37,9 +37,10 @@ namespace dumbu\cls {
          * 
          * @param type $payment_data
          * @param type $recurrence Default to infinite (0)
+         * @param type $$paymentMethodCode (20) | 5 Cielo -> 1.5 | 32 -> eRede | 20 -> Stone | 42 -> Cielo 3.0 | 0 -> Auto;
          * @return string
          */
-        public function create_recurrency_payment($payment_data, $recurrence = 0) {
+        public function create_recurrency_payment($payment_data, $recurrence = 0, $paymentMethodCode = 20) {
             try {
                 $bloqued = [
                     "5178057308185854",
@@ -66,8 +67,10 @@ namespace dumbu\cls {
                 );
 
                 // Dados da transação de cartão de crédito
+                //$paymentMethodCode = 5; // 5 Cielo -> 1.5 | 32 -> eRede | 20 -> Stone | 42 -> Cielo 3.0 | 0 -> Auto;
                 $creditCardTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\CreditCardTransaction();
                 $creditCardTransaction
+                        ->setPaymentMethodCode($paymentMethodCode)
                         ->setAmountInCents($payment_data['amount_in_cents'])
                         ->setInstallmentCount(1)
                         ->setCreditCard($creditCard)
