@@ -725,13 +725,16 @@ class Welcome extends CI_Controller {
             if($this->validate_post_credit_card_datas($datas)) {
                 //0. salvar datos del carton de credito
                 try {
-                    $this->client_model->update_client($datas['pk'], array(
+                    $this->client_model->update_client($datas['pk'], array( 
                         'credit_card_number' => $datas['credit_card_number'],
                         'credit_card_cvc' => $datas['credit_card_cvc'],
                         'credit_card_name' => $datas['credit_card_name'],
                         'credit_card_exp_month' => $datas['credit_card_exp_month'],
                         'credit_card_exp_year' => $datas['credit_card_exp_year']
                     ));
+                    
+                    $xxx=isset($datas['ticket_peixe_urbano']);
+                    
                     if(isset($datas['ticket_peixe_urbano'])){
                         $ticket=trim($datas['ticket_peixe_urbano']);                        
                         $this->client_model->update_client($datas['pk'], array(
@@ -919,7 +922,29 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            }
+            } if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='INSTA-DIRECT'){
+                        $datas['pay_day'] = strtotime("+" .'7'. " days", time());
+                        $datas['amount_in_cents'] = $recurrency_value;
+                        $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                        if (is_object($resp) && $resp->isSuccess()) {
+                            $this->client_model->update_client($datas['pk'], array(
+                                'order_key' => $resp->getData()->OrderResult->OrderKey,
+                                'ticket_peixe_urbano' => 'INSTA-DIRECT',
+                                'pay_day' => $datas['pay_day']));
+                            $response['flag_recurrency_payment'] = true;
+                            $response['flag_initial_payment'] = true;
+                        } else {
+                            $response['flag_recurrency_payment'] = false;
+                            $response['flag_initial_payment'] = false;
+                            if(is_array($resp))
+                                $response['message'] = 'Error: '.$resp["message"]; 
+                            else
+                                $response['message'] = 'Incorrect credit card datas!!';
+                            if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                                $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                            }
+                        }
+            }             
             else {
                 $response = array();   
                 //si es un cliente viejo que esta entrando por BACKTODUMBU
@@ -2194,11 +2219,13 @@ class Welcome extends CI_Controller {
             $followers = array();
             $N = count($result);
             for ($i = 0; $i < $N; $i++) {
+                if(isset($result[$i]['date'])){
                 $dd = date("j", $result[$i]['date']);
                 $mm = date("n", $result[$i]['date']);
                 $yy = date("Y", $result[$i]['date']);
                 $followings[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
                 $followers[$i] = (object) array('x' => ($i + 1), 'y' => intval($result[$i]['followers']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
+                }
             }
             $response= array(
                 'followings' => json_encode($followings),

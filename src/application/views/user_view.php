@@ -589,22 +589,19 @@
 						</div>
                                             
                                             
-                                                <?php if($languaje==='PT'){
-                                                    echo '<div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
-                                                        <spam class="val">CUPOM (*)</spam>
+                                               <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
+                                                        <spam class="val"><?php echo $CI->T("CUPOM",array());?> (*)</spam>
                                                     </div>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                         <fieldset>
-                                                            <input id="ticket_peixe_urbano" type="text" placeholder="CUPOM desconto" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
+                                                            <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL",array());?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
                                                         </fieldset>
                                                     </div>                                                    
                                                     <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
                                                         <fieldset>
-                                                                <spam class="val">(*) Só pra usuários requisitados</spam>
+                                                                <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados",array());?></spam>
                                                         </fieldset>
-                                                    </div>';
-                                                    }
-                                                ?>
+                                                    </div>
 					</div>
 				</div>
                             
