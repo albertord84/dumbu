@@ -1245,9 +1245,30 @@ class Welcome extends CI_Controller {
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
-        $response = $Payment->create_recurrency_payment($payment_data, $cnt);
-        //}
+        
+        //5 Cielo -> 1.5 | 32 -> eRede | 20 -> Stone | 42 -> Cielo 3.0 | 0 -> Auto;
+        
+        $response = $Payment->create_recurrency_payment($payment_data, $cnt, 20);
+        if (is_object($response) && $response->isSuccess()){
+            return $response;
+        } else{
+            
+        $response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
+        if (is_object($response) && $response->isSuccess()){
+            return $response;
+        } else{
+            
+        $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
+        if (is_object($response) && $response->isSuccess()){
+            return $response;
+        } else{
+            
+        $response = $Payment->create_recurrency_payment($payment_data, $cnt, 32);
         return $response;
+        }                
+        }
+        } 
+        
     }
 
     
