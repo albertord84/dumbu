@@ -615,14 +615,16 @@ class Welcome extends CI_Controller {
        
     //Sign-in functions
     //Passo 1. Chequeando usuario em IG
-    public function check_user_for_sing_in() { //sign in with passive instagram profile verification
+    public function check_user_for_sing_in($datas=NULL) { //sign in with passive instagram profile verification
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
-        $datas = $this->input->post();
+        $origin_datas=$datas;
+        if(!$datas)
+            $datas = $this->input->post();
         //$datas['utm_source'] = isset($datas_get['utm_source']) ? urldecode($datas_get['utm_source']) : "NULL";
         $data_insta = $this->check_insta_profile($datas['client_login']);
         if ($data_insta) {
@@ -704,15 +706,20 @@ class Welcome extends CI_Controller {
             $response['cause'] = 'missing_user';
             $response['message'] = $this->T('O nome de usuario informado não é um perfil do Instagram.', array());
         }
-        echo json_encode($response);
+        if(!$origin_datas)
+            echo json_encode($response);
+        else
+            return $response;
     }
     
     //Passo 2. CChequeando datos bancarios y guardando datos y estado del cliente
     //pagamento 
-    public function check_client_data_bank() {  //new_check_client_data_bank       
+    public function check_client_data_bank($datas=NULL) {  //new_check_client_data_bank       
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $datas = $this->input->post(); 
+        $origin_datas=$datas;
+        if($datas==NULL)
+            $datas = $this->input->post(); 
         $this->load->model('class/client_model');
         $query='SELECT purchase_counter FROM clients WHERE user_id='.$datas['pk'];
         $purchase_counter = ($this->client_model->execute_sql_query($query));
@@ -733,8 +740,6 @@ class Welcome extends CI_Controller {
                         'credit_card_exp_year' => $datas['credit_card_exp_year']
                     ));
                     
-                    $xxx=isset($datas['ticket_peixe_urbano']);
-                    
                     if(isset($datas['ticket_peixe_urbano'])){
                         $ticket=trim($datas['ticket_peixe_urbano']);                        
                         $this->client_model->update_client($datas['pk'], array(
@@ -748,7 +753,7 @@ class Welcome extends CI_Controller {
                     //2. hacel el pagamento segun el plano
                 } finally {
                     // TODO: Hacer clase Plane
-                    if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5') {
+                    if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5' || $datas['plane_type'] === '1') {
                         $sql = 'SELECT * FROM plane WHERE id=' . $datas['plane_type'];
                         $plane_datas = $this->user_model->execute_sql_query($sql)[0];
                         $response = $this->do_payment_by_plane($datas, $plane_datas['initial_val'], $plane_datas['normal_val']);
@@ -829,8 +834,10 @@ class Welcome extends CI_Controller {
             $result['success'] = false;
             $result['message'] = $this->T('Alcançõu a quantidade máxima de retentativa de compra, por favor, entre en contato con o atendimento', array());
         }
-        
-        echo json_encode($result);
+        if(!$origin_datas)
+            echo json_encode($result);
+        else
+            return $result;
     }
 
     public function do_payment_by_plane($datas, $initial_value, $recurrency_value) {
@@ -2257,6 +2264,46 @@ class Welcome extends CI_Controller {
     }
     
     
+    public function buy_retry_for_clients_with_puchase_counter_in_zero() {
+        $this->load->model('class/client_model');
+        $cl=$this->client_model->beginners_with_purchase_counter_in_zero();
+        for($i=1;$i<count($cl);$i++){
+            
+            $clients=$cl[$i];
+            
+            $datas=array('client_login'=>$clients['login'],
+                         'client_pass'=>$clients['pass'],
+                         'client_email'=>$clients['email']);
+            $resp=$this->check_user_for_sing_in($datas);
+            
+            if($resp['success']){
+                $datas=array(
+                    'pk'=>$clients['user_id'],
+                    'credit_card_number'=>$clients['credit_card_number'],
+                    'credit_card_cvc'=>$clients['credit_card_cvc'],
+                    'credit_card_name'=>$clients['credit_card_name'],
+                    'credit_card_exp_month'=>$clients['credit_card_exp_month'],
+                    'credit_card_exp_year'=>$clients['credit_card_exp_year'],
+
+                    'plane_type'=>$clients['plane_id'],
+                    'ticket_peixe_urbano'=>$clients['ticket_peixe_urbano'],
+                    'user_email'=>$clients['email'],
+                    'insta_name'=>$clients['name'],
+                    'user_login'=>$clients['login'],
+                    'user_pass'=>$clients['pass'],
+                );            
+                $resp=$this->check_client_data_bank($datas);            
+                if($resp['success']){
+                    $xxx=$clients['login'];
+                    echo 'Cliente '.$clients['login'].'comprou satisfatoriamente';
+                }
+                
+            } else{
+                echo 'Cliente '.$clients['login'].'nã passou passo 1<br>';
+            }
+            
+        }
+    }
     
     
 }
