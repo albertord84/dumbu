@@ -2266,11 +2266,9 @@ class Welcome extends CI_Controller {
     
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
         $this->load->model('class/client_model');
-        $cl=$this->client_model->beginners_with_purchase_counter_in_zero();
-        for($i=1;$i<count($cl);$i++){
-            
-            $clients=$cl[$i];
-            
+        $cl=$this->client_model->beginners_with_purchase_counter_less_value(7);
+        for($i=1;$i<count($cl);$i++){            
+            $clients=$cl[$i];            
             $datas=array('client_login'=>$clients['login'],
                          'client_pass'=>$clients['pass'],
                          'client_email'=>$clients['email']);
@@ -2295,11 +2293,12 @@ class Welcome extends CI_Controller {
                 $resp=$this->check_client_data_bank($datas);            
                 if($resp['success']){
                     $xxx=$clients['login'];
-                    echo 'Cliente '.$clients['login'].'comprou satisfatoriamente';
+                    echo 'Cliente ('.$clients['login'].')   '.$clients['login'].'comprou satisfatoriamente';
+                } else{
+                    echo 'Cliente '.$clients['login'].' ERRADO';
                 }
-                
             } else{
-                echo 'Cliente '.$clients['login'].'nã passou passo 1<br>';
+                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1<br>';
             }
             
         }

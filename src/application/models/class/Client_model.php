@@ -443,12 +443,12 @@
             }
         }   
         
-         public function beginners_with_purchase_counter_in_zero(){
+         public function beginners_with_purchase_counter_less_value($value){
             try {
                 $this->db->select('*');
                 $this->db->from('clients');
                 $this->db->join('users', 'users.id = clients.user_id');
-                $this->db->where('purchase_counter <=', '7');
+                $this->db->where('purchase_counter <=', $value);
                 $this->db->where('status_id', 8);
                 return $this->db->get()->result_array();
             } catch (Exception $exc) {
