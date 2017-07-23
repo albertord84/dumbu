@@ -740,6 +740,9 @@ class Welcome extends CI_Controller {
                         'credit_card_exp_year' => $datas['credit_card_exp_year']
                     ));
                     
+                    $this->client_model->update_client($datas['pk'], array(
+                        'plane_id' => $datas['plane_type']));
+                    
                     if(isset($datas['ticket_peixe_urbano'])){
                         $ticket=trim($datas['ticket_peixe_urbano']);                        
                         $this->client_model->update_client($datas['pk'], array(
@@ -761,9 +764,7 @@ class Welcome extends CI_Controller {
                         $response['flag_initial_payment'] = false;
                 }
                 //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
-                if ($response['flag_initial_payment']) {
-                    $this->client_model->update_client($datas['pk'], array(
-                        'plane_id' => $datas['plane_type']));
+                if ($response['flag_initial_payment']) {                    
                     $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                     if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                         /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
@@ -2099,28 +2100,41 @@ class Welcome extends CI_Controller {
             $this->client_model->update_client($user_id, array(
                 'order_key' => $resp->getData()->OrderResult->OrderKey,
                 'pay_day' => $payment_data['pay_day'])); 
-            echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+            echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey;
             //5. actualizar status del cliente
             $data_insta = $this->is_insta_user($client['login'], $client['pass']);
             if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::ACTIVE
                 ));
+                echo ' STATUS = '.user_status::ACTIVE;
             } else
-            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated'])
+            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']){
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
-            else
+                echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
+            }
+            else{
                 $this->user_model->update_user($user_id, array(
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
+                echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
+            }
         } else{
+            $this->client_model->update_user($user_id, array(            
+                'status_id' => 1)); 
             if (is_object($resp))
-                echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey.'<br>';
+                echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey;
             else 
                 echo '<br>Client '.$user_id.' DONT updated. Missing order key';
-        }   
+            echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
+        }
+        
+        $this->client_model->update_client($user_id, array(            
+            'initial_order_key' => '')); 
+         
+        
     }
     
     public function prevalence(){
@@ -2268,7 +2282,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(7);
         for($i=1;$i<count($cl);$i++){            
-            $clients=$cl[$i];            
+            $clients=$cl[$i];
             $datas=array('client_login'=>$clients['login'],
                          'client_pass'=>$clients['pass'],
                          'client_email'=>$clients['email']);
