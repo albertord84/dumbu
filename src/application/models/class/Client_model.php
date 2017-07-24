@@ -441,7 +441,7 @@
                 echo $exc->getTraceAsString();
                 return false;
             }
-        }   
+        }
         
          public function beginners_with_purchase_counter_less_value($value){
             try {
@@ -449,14 +449,13 @@
                 $this->db->from('clients');
                 $this->db->join('users', 'users.id = clients.user_id');
                 $this->db->where('purchase_counter <=', $value);
+                $this->db->where('purchase_counter <>', -100);
                 $this->db->where('status_id', 8);
                 return $this->db->get()->result_array();
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
-        
-        
     // end of Client
 }
 ?>

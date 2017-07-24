@@ -167,7 +167,7 @@ class Welcome extends CI_Controller {
         }
     }
 
-    public function user_do_login($datas=NULL) {        
+    public function user_do_login($datas=NULL) {
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
@@ -2237,7 +2237,7 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-   
+    
     public function get_daily_report($id) {
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
@@ -2268,7 +2268,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(7);
         for($i=1;$i<count($cl);$i++){            
-            $clients=$cl[$i];            
+            $clients=$cl[$i];
             $datas=array('client_login'=>$clients['login'],
                          'client_pass'=>$clients['pass'],
                          'client_email'=>$clients['email']);
@@ -2293,14 +2293,17 @@ class Welcome extends CI_Controller {
                 $resp=$this->check_client_data_bank($datas);            
                 if($resp['success']){
                     $xxx=$clients['login'];
-                    echo 'Cliente ('.$clients['login'].')   '.$clients['login'].'comprou satisfatoriamente';
+                    echo 'Cliente ('.$clients['login'].')   '.$clients['login'].'comprou satisfatoriamente\n<br>';
                 } else{
-                    echo 'Cliente '.$clients['login'].' ERRADO';
+                    $this->client_model->update_client($clients['user_id'], array(
+                        'purchase_counter' => -100 ));
+                    echo 'Cliente '.$clients['login'].' ERRADO\n<br>';
                 }
             } else{
-                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1<br>';
+                $this->client_model->update_client($clients['user_id'], array(
+                        'purchase_counter' => -100 ));
+                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1\n<br>';
             }
-            
         }
     }
     
