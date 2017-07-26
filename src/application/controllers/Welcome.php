@@ -2253,7 +2253,7 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-   
+    
     public function get_daily_report($id) {
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
@@ -2309,14 +2309,17 @@ class Welcome extends CI_Controller {
                 $resp=$this->check_client_data_bank($datas);            
                 if($resp['success']){
                     $xxx=$clients['login'];
-                    echo 'Cliente ('.$clients['login'].')   '.$clients['login'].'comprou satisfatoriamente';
+                    echo 'Cliente ('.$clients['login'].')   '.$clients['login'].'comprou satisfatoriamente\n<br>';
                 } else{
-                    echo 'Cliente '.$clients['login'].' ERRADO';
+                    $this->client_model->update_client($clients['user_id'], array(
+                        'purchase_counter' => -100 ));
+                    echo 'Cliente '.$clients['login'].' ERRADO\n<br>';
                 }
             } else{
-                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1<br>';
+                $this->client_model->update_client($clients['user_id'], array(
+                        'purchase_counter' => -100 ));
+                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1\n<br>';
             }
-            
         }
     }
     

@@ -59,7 +59,7 @@
                 <?php include_once("adwords_conversion.php")?>
                 <?php include_once("retargeting.php")?>
                 <?php include_once("remarketing.php")?>
-                <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#'.$Afilio_UNIQUE_ID.'#&order_price=#'.$Afilio_order_price.'#" border="0" width="1" height="1" />';?>
+                <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#'.$Afilio_UNIQUE_ID.'#&order_price=#'.$Afilio_total_value.'#" border="0" width="1" height="1" />';?>
                 
                 <!-- Abandono de carrinho de Revanth --> 
                     <?php                         

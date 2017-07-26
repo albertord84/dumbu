@@ -184,8 +184,8 @@
 						<spam class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.",array());?></spam>
 						<hr>
 						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de",array());?></spam>
-						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("4,90",array());?></b></p>
-						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("no 1º mês",array());?></spam>
+						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b></p>
+						<!--<spam class="fleft100 cl-fff no-mg"><?php //echo $CI->T("no 1º mês",array());?></spam>-->
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR",array());?></button></div>
                                                 </a>
@@ -695,7 +695,7 @@
                 </div> 
                 
         <!-- Afilio Master Tag Home Page-->
-        <script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=homepage&id_partner=dumbupro&url_product=#https://dumbu.pro#"></script>        
+        <script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=homepage&id_partner=dumbupro&url_product=#https://dumbu.pro/dumbu/src/#"></script>        
         
 	</body>
 </html>
