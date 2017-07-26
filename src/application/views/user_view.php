@@ -210,7 +210,9 @@
                     <spam style="color:white; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></spam>
 			
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
+                                
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                                             <img src="assets/images/geolocalization_bw.png" class="wauto" alt="geo-location">
@@ -228,41 +230,24 @@
                                     <?php print $CI->T("Capte seguidores através",array());?><br>
                                     <?php print $CI->T("de locais definidos por você",array());?><br></h5>
                                 </div>
-                                
-                                <!--<div class="col-md-3 col-sm-3 col-xs-12 text-center">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <div class="col-md-8 col-sm-8 col-xs-12 text-right">
-                                            <img src="assets/images/autolike_bw.png" class="wauto" alt="">
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-xs-12 text-left">
-                                            <?php
-                                            /*
-                                                if($languaje=='PT')
-                                                    echo '<img src="assets/images/novo.png" class="wauto" alt="">';
-                                                else
-                                                    echo '<img src="assets/images/new_black.png" style="width:48px" alt="">';
-                                                */
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <h5><b>
-                                    <?php //print $CI->T("Auto Like",array());?></b><br>
-                                    <?php //print $CI->T("Além de seguir, sua conta irá",array());?><br>
-                                    <?php //print $CI->T("interagir deixando um like na foto",array());?><br>
-                                    <?php //print $CI->T("mais recente",array());?><br></h5>
-                                </div>-->
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">    
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">    
                                     <img src="assets/images/persons.png" class="wauto" alt="Person">
                                     <h5><b><?php print $CI->T("Seguidores reais captados",array());?><br>
                                     <?php print $CI->T("a través de Perfis que",array());?><br>
                                     <?php print $CI->T("você escolhe",array());?><br></h5>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
                                     <img src="assets/images/checked_person.png" class="wauto" alt=Person">
                                     <h5><b><?php print $CI->T("Seguidores",array());?></b><br>                                    
                                     <?php print $CI->T("100% reais",array());?><br></h5>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+                                    <img src="assets/images/security.png" class="wauto" alt=Person">
+                                    <h5><b><?php print $CI->T("100% seguro",array());?></b><br>                                    
+                                    <?php print $CI->T("Seus dados serão criptografados",array());?><br></h5>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
                                     <img src="assets/images/new_nuvem.png" class="wauto" alt="cloud save">
                                     <h5><b><?php print $CI->T("Todos os perfis que",array());?></b><br>
                                     <?php print $CI->T("segue estarão protegidos",array());?><br>

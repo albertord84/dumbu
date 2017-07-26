@@ -727,7 +727,7 @@ class Welcome extends CI_Controller {
         $purchase_counter = ($this->client_model->execute_sql_query($query));
         $purchase_counter=(int)$purchase_counter[0]['purchase_counter'];
 
-        if($purchase_counter>0){           
+        if($purchase_counter>0){
             $this->load->model('class/user_model');
             $this->load->model('class/user_status');
             $this->load->model('class/credit_card_status');            

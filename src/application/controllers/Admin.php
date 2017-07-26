@@ -135,7 +135,7 @@ class Admin extends CI_Controller {
             $datas['canceled_profiles'] = $canceled_profiles;
             $datas['my_daily_work'] = $this->get_daily_work($active_profiles);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
-            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile', $datas, true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
         }

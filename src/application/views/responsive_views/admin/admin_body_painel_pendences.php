@@ -16,8 +16,7 @@
                                     echo '<td>A seguir</td>';
                                     echo '<td>A deseguer</td>';
                                     echo '<td>Data fim</td>';
-                                    echo '<td>Status</td>';
-                                    
+                                    echo '<td>Status</td>';                                    
                             echo '</tr>';
                                 
                             $n=count($my_daily_work);
@@ -34,7 +33,7 @@
                                         echo '<td>---</td>';
                                     echo '<td style="color:green">ACTIVE</td>';
                                 echo '</tr>';
-                            }                            
+                            }
                             $n=count($canceled_profiles);
                             for($i=0;$i<$n;$i++){
                                 echo '<tr>';
