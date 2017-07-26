@@ -7,7 +7,7 @@ class Welcome extends CI_Controller {
 //        $a=$this->client_model->get_my_recent_followed_by_dumbu('11826');   
 //        $datas['datas']=$a;
 //        $this->load->view('client_view_recent_followed', $datas);
-        echo PHP_INT_MAX;
+          echo strtotime('05/02/2017 10:33:32');
     }
     
     public function index() {
@@ -49,7 +49,6 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_status');
         $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
-        $xxx=$this->session->userdata('role_id');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
