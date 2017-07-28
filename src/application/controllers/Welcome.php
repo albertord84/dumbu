@@ -7,7 +7,8 @@ class Welcome extends CI_Controller {
 //        $a=$this->client_model->get_my_recent_followed_by_dumbu('11826');   
 //        $datas['datas']=$a;
 //        $this->load->view('client_view_recent_followed', $datas);
-          echo strtotime('06/26/2017 10:33:32');
+          //echo strtotime('06/26/2017 10:33:32');
+        echo urlencode('*R5sl@n#');
     }
     
     public function index() {
@@ -2206,6 +2207,7 @@ class Welcome extends CI_Controller {
     
     public function admin_making_client_login(){
         $datas = $this->input->get();
+        $datas['user_pass']=urldecode($datas['user_pass']);
         $result=$this->user_do_login($datas);
         if($result['authenticated']===true){
             $this->client();
