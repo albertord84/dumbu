@@ -300,7 +300,6 @@
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                 
-                                var_dump(urlencode($result[$i]['pass']));
                                 
                                 echo '<a target="_blank" href="'.base_url().'index.php/welcome/admin_making_client_login?user_login='.$result[$i]['login'].'&user_pass='.urlencode($result[$i]['pass']).'">';                                
                                     echo '<button style="width:160px" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Loguear cliente</span></button><br><br>';
