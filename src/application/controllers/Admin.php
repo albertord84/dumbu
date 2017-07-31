@@ -41,6 +41,7 @@ class Admin extends CI_Controller {
     }
 
     public function desactive_client() {
+        $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/user_model');
             $this->load->model('class/user_status');
@@ -69,6 +70,7 @@ class Admin extends CI_Controller {
     public function recorrency_cancel() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/client_model');
             $id = $this->input->post()['id'];
@@ -108,6 +110,7 @@ class Admin extends CI_Controller {
     }
 
     public function reference_profile_view() {
+        $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/client_model');
             $this->load->model('class/user_model');
@@ -135,6 +138,7 @@ class Admin extends CI_Controller {
     }
 
     public function pendences() {
+        $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/client_model');
             $id = $this->input->get()['id'];
@@ -153,6 +157,7 @@ class Admin extends CI_Controller {
     }
 
     public function change_ticket_peixe_urbano_status_id() {
+        $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
             $this->load->model('class/client_model');
             $datas=$this->input->post();
@@ -166,11 +171,12 @@ class Admin extends CI_Controller {
             echo json_encode($result);
         } else{
             echo "Não pode acessar a esse recurso, deve fazer login!!";
-        }       
+        }
     }
     
     public function get_daily_work($active_profiles) {
         $this->load->model('class/client_model');
+        $this->load->model('class/user_role');
         $n = count($active_profiles);
         $my_daily_work = array();
         if($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
