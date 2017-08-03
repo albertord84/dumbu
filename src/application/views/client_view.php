@@ -315,7 +315,7 @@
                             </li>
                             <li></li>
                             <li>
-                                <h4 class="m-t10"><b><?php echo $CI->T("PERFIS DE PREFERÊNCIA", array()); ?></b></h4>
+                                <h4 class="m-t10"><b><?php echo $CI->T("PERFIS DE REFERÊNCIA", array()); ?></b></h4>
                             </li>
                         </ul>    
                     </div>                
