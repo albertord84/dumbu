@@ -699,7 +699,9 @@
                 </div> 
                 
         <!-- Afilio Master Tag Home Page-->
-        <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
-        
+            <?php
+                if($languaje==='PT'){?>
+                    <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
+            <?php }?>
 	</body>
 </html>
