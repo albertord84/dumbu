@@ -613,9 +613,26 @@
 
 		<section id="contato" class="fleft100 input-form">
 			<div class="container">
-				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("FALE CONOSCO",array());?></spam>
-				<div class="col-md-3 col-sm-3 col-xs-12"><br></div>
+				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-t10"><?php echo $CI->T("FALE CONOSCO",array());?></spam>
+                                <div class="col-md-3 col-sm-3 col-xs-12"><br></div>
                                 <div id="talkme_frm" class="col-md-6 col-sm-6 col-xs-12 no-pd">
+                                        <?php
+                                            if($languaje=='EN'){?>
+                                    
+                                                <div class="col-md-1 col-sm-1 col-xs-12"></div>
+                                                <div class="col-md-8 col-sm-8 col-xs-12 text-right">      
+                                                    <spam style="color:black; font-size:0.8em">
+                                                        WRITE TO US! OUR SERVICE IS SUPPORTED <BR> IN MORE THAN ONE LANGUAJE:
+                                                    </spam>
+                                                        
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 col-xs-12 m-t10 text-left">
+                                                    <img src="assets/images/flag_EN.png" title="English" class="wauto" alt="">
+                                                    <img src="assets/images/flag_BR.png" title="Português" class="wauto" alt="">
+                                                    <img src="assets/images/flag_ES.png" title="Español" class="wauto" alt="">
+                                                </div>
+                                        <?php    }
+                                        ?>                                
 					<div class="col-md-6 col-sm-6 col-xs-12 pd-r15">
 						<fieldset>
 							<input id="visitor_name" type="text" placeholder="<?php echo $CI->T("Nome",array());?>">

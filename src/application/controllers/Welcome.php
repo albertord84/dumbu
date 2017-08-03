@@ -2096,8 +2096,9 @@ class Welcome extends CI_Controller {
             //2. eliminar recurrencia actual en la Mundipagg
             $this->delete_recurrency_payment($client['order_key']);
             $this->client_model->update_client($user_id, array(
+                'initial_order_key' => '',
                 'order_key' => $resp->getData()->OrderResult->OrderKey,
-                'pay_day' => $payment_data['pay_day'])); 
+                'pay_day' => $payment_data['pay_day']));
             echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey;
             //5. actualizar status del cliente
             $data_insta = $this->is_insta_user($client['login'], $client['pass']);

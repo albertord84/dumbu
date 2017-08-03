@@ -1042,6 +1042,23 @@
                     <div class="text-center fleft100 m-t20"><A name="lnk_update"></A>
                         <img src="<?php echo base_url() . 'assets/images/mail.png'; ?>" class="wauto" alt="">
                         <h4 class="fleft100 m-t20"><b><?php echo $CI->T("FALE CONOSCO", array()); ?></b></h4>
+                        <?php
+                            if($language=='EN'){?>
+
+                                <div class="col-md-1 col-sm-1 col-xs-12"></div>
+                                <div class="col-md-8 col-sm-8 col-xs-12 text-right">      
+                                    <spam style="color:black; font-size:0.8em">
+                                        WRITE TO US! OUR SERVICE IS SUPPORTED <BR> IN MORE THAN ONE LANGUAJE:
+                                    </spam>
+
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 m-t10 text-left">
+                                    <img src="assets/images/flag_EN.png" title="English" class="wauto" alt="">
+                                    <img src="assets/images/flag_BR.png" title="Português" class="wauto" alt="">
+                                    <img src="assets/images/flag_ES.png" title="Español" class="wauto" alt="">
+                                </div>
+                        <?php    }
+                        ?>          
                     </div>
                     <div class="pay fleft100 input-form" id="talkme_frm">
                         <fieldset>
