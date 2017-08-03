@@ -699,7 +699,7 @@
                 </div> 
                 
         <!-- Afilio Master Tag Home Page-->
-        <script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=homepage&id_partner=dumbupro&url_product=#https://dumbu.pro/dumbu/src/#"></script>        
+        <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
         
 	</body>
 </html>

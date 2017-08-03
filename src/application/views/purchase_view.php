@@ -60,7 +60,7 @@
                 <?php include_once("adwords_conversion.php")?>
                 <?php include_once("retargeting.php")?>
                 <?php include_once("remarketing.php")?>
-                <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#'.$Afilio_UNIQUE_ID.'#&order_price=#'.$Afilio_total_value.'#" border="0" width="1" height="1" />';?>
+                <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id='.$Afilio_UNIQUE_ID.'&order_price='.$Afilio_total_value.'" border="0" width="1" height="1" />';?>
                 
                 <!-- Abandono de carrinho de Revanth --> 
                     <?php                         
@@ -226,8 +226,8 @@
                 </div> 
                 
                 <!-- Afilio Master Tag Purchase Page-->
-                <?php 
-                    echo'<script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount=#'.sprintf("%.2f", ($Afilio_total_value/100)).'#&transaction_id=#'.$Afilio_UNIQUE_ID.'#&customer_type=#'.$Afilio_UNIQUE_ID.'#&product_id1=#dumbu_'.$Afilio_product_id.'#&url_product=#https://dumbu.pro/dumbu/src/index.php/welcome/purchase#&order_date=#'.date("Y-m-d",time()).'#&order_status=#completed#&customer_id=#$Afilio_UNIQUE_ID#"></script>';
+                <?php
+                    echo'<script type="text/javascript" src="https://secure.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount='.sprintf("%.2f", ($Afilio_total_value/100)).'&transaction_id='.$Afilio_UNIQUE_ID.'&customer_type='.$Afilio_UNIQUE_ID.'&url_product=https://dumbu.pro/dumbu/src/index.php/welcome/purchase&order_date='.date("Y-m-d",time()).'&order_status="completed"></script>';
                 ?>
 	</body>
 </html>
