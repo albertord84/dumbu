@@ -909,7 +909,7 @@ class Welcome extends CI_Controller {
                     $this->client_model->update_client($datas['pk'], array('initial_order_key' => $resp->getData()->OrderResult->OrderKey));
                 }
             }
-        }else        
+        }else
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AGENCIALUUK'){
                 $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", time());
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);

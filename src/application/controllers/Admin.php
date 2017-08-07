@@ -111,7 +111,7 @@ class Admin extends CI_Controller {
 
     public function reference_profile_view() {
         $this->load->model('class/user_role');
-        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+        //if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/client_model');
             $this->load->model('class/user_model');
             $id = $this->input->get()['id'];
@@ -132,9 +132,9 @@ class Admin extends CI_Controller {
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
-        } else{
-            echo "Não pode acessar a esse recurso, deve fazer login!!";
-        }
+        //} else{
+            //echo "Não pode acessar a esse recurso, deve fazer login!!";
+        //}
     }
 
     public function pendences() {
@@ -179,7 +179,7 @@ class Admin extends CI_Controller {
         $this->load->model('class/user_role');
         $n = count($active_profiles);
         $my_daily_work = array();
-        if($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
+        //if($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
             for ($i = 0; $i < $n; $i++){
                 $work = $this->client_model->get_daily_work_to_profile($active_profiles[$i]['id']);
                 if (count($work)) {
@@ -201,7 +201,7 @@ class Admin extends CI_Controller {
                 $my_daily_work[$i] = $tmp;
             }
             return $my_daily_work;
-        } else return 0;
+        //} else return 0;
         
     }
 
