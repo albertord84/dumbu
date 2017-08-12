@@ -14,9 +14,9 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
+//ini_set('xdebug.var_display_max_depth', 7);
+//ini_set('xdebug.var_display_max_children', 256);
+//ini_set('xdebug.var_display_max_data', 1024);
 
 
 
@@ -128,22 +128,22 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 //
-//$pay_day = strtotime('05/28/2017 04:33:32');
+$pay_day = strtotime('08/10/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
-$strdate = date("d-m-Y", $pay_day);
-$pay_day = strtotime("+1 days", time());
-$payment_data['credit_card_number'] = '4984422429563487';
-$payment_data['credit_card_name'] = 'JOSE MICHEL DE LIMA MACHADO';
-$payment_data['credit_card_exp_month'] = '03';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '186';
-$payment_data['amount_in_cents'] = 9990;
+//$pay_day = time();
+//$strdate = date("d-m-Y", $pay_day);
+//$pay_day = strtotime("+1 days", time());
+$payment_data['credit_card_number'] = '4551879999923933';
+$payment_data['credit_card_name'] = 'ALEXANDRE CORREA RI';
+$payment_data['credit_card_exp_month'] = '05';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '981';
+$payment_data['amount_in_cents'] = 7992;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 32);
+$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 var_dump($resul);
 //var_dump($pay_day);
 //////----------------------------------------------------------------

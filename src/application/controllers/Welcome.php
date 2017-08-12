@@ -2,13 +2,12 @@
 
 class Welcome extends CI_Controller {    
     
+    private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
+
+
     public function test(){
-//        $this->load->model('class/client_model');
-//        $a=$this->client_model->get_my_recent_followed_by_dumbu('11826');   
-//        $datas['datas']=$a;
-//        $this->load->view('client_view_recent_followed', $datas);
-          //echo strtotime('06/26/2017 10:33:32');
-        echo urlencode('*R5sl@n#');
+        $security_code=rand(100000,999999);
+        echo $this->security_purchase_code=md5("$security_code");
     }
     
     public function index() {
@@ -627,7 +626,7 @@ class Welcome extends CI_Controller {
         $origin_datas=$datas;
         if(!$datas)
             $datas = $this->input->post();
-        //$datas['utm_source'] = isset($datas_get['utm_source']) ? urldecode($datas_get['utm_source']) : "NULL";
+        $datas['utm_source'] = isset($datas_get['utm_source']) ? urldecode($datas_get['utm_source']) : "NULL";
         $data_insta = $this->check_insta_profile($datas['client_login']);
         if ($data_insta) {
             if (!isset($data_insta->following))
@@ -669,6 +668,8 @@ class Welcome extends CI_Controller {
                     $response['early_client_canceled'] = false;
                 $response['datas'] = json_encode($data_insta);
                 $response['success'] = true;
+                $security_code=rand(100000,999999);
+                $this->security_purchase_code=md5("$security_code");
                 //TODO: enviar para el navegador los datos del usuario logueado en las cookies para chequearlas en los PASSOS 2 y 3
             } else {
                 if ($real_status ==1) {
