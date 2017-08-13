@@ -855,7 +855,7 @@ class Welcome extends CI_Controller {
         if(isset($datas['ticket_peixe_urbano']) && ( strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO' || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
                 //1. recurrencia para un mes mas alante
                 $datas['amount_in_cents'] = $recurrency_value;
-                if ($datas['early_client_canceled'] !== 'false' || $datas['early_client_canceled']!==false){
+                if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
                     if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
                         $response['flag_recurrency_payment'] = false;
@@ -883,7 +883,7 @@ class Welcome extends CI_Controller {
         } else 
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='OLX'){
                 $resp=1;
-                if ($datas['early_client_canceled'] !== 'false' || $datas['early_client_canceled']!==false){
+                if ($datas['early_client_canceled'] === 'true'){
                     $datas['amount_in_cents'] = $recurrency_value/2;
                     $datas['pay_day']=time();
                     $resp = $this->check_mundipagg_credit_card($datas);                    
@@ -943,7 +943,7 @@ class Welcome extends CI_Controller {
         }else
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AGENCIALUUK'){
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
-                if ($datas['early_client_canceled'] !== 'false' || $datas['early_client_canceled']!==false){
+                if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
                     if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
                         $response['flag_recurrency_payment'] = false;
@@ -981,7 +981,7 @@ class Welcome extends CI_Controller {
             } else                
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='INSTA-DIRECT' || $datas['ticket_peixe_urbano']==='MALADIRETA')){
                 $datas['amount_in_cents'] = $recurrency_value;
-                if ($datas['early_client_canceled'] !== 'false' || $datas['early_client_canceled']!==false){
+                if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
                     if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
                         $response['flag_recurrency_payment'] = false;
@@ -1058,7 +1058,7 @@ class Welcome extends CI_Controller {
                 }
             } else { //si es un cliente sin codigo promocional
                     $datas['amount_in_cents'] = $recurrency_value;
-                    if ($datas['early_client_canceled'] !== 'false' || $datas['early_client_canceled']!==false){
+                    if ($datas['early_client_canceled'] === 'true'){
                         $resp = $this->check_mundipagg_credit_card($datas);
                         if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
                             $response['flag_recurrency_payment'] = false;
