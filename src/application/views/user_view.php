@@ -46,6 +46,8 @@
                 ?>
                 
                 <?php include_once("pixel_facebook.php")?>
+                
+                <script src='https://www.google.com/recaptcha/api.js'></script>
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php"); ?>            
@@ -575,7 +577,7 @@
 							</fieldset>
 						</div>
                                             
-                                            
+                                                <!--<div class="text-center m-t20 g-recaptcha" data-sitekey="6LdLoCwUAAAAAPo1W1PEf3n24JASjAVQXQTQRZdF"></div>-->
                                                <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
                                                         <spam class="val"><?php echo $CI->T("CUPOM",array());?> (*)</spam>
                                                     </div>
@@ -589,6 +591,7 @@
                                                                 <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados",array());?></spam>
                                                         </fieldset>
                                                     </div>
+                                            
 					</div>
 				</div>
                             
@@ -605,6 +608,8 @@
                                                 <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ASSINAR AGORA",array());?></div></spam>
                                             </button>                                            
                                         </div>
+                                            
+                                        
                                         <br><br><?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/'.$languaje.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
                                         <br><br><?php echo '<img src="assets/images/'.$languaje.'/seguro.png" class="wauto" alt="100% Safe Encrypted Data">';?>
 				</div>
@@ -699,7 +704,9 @@
                 </div> 
                 
         <!-- Afilio Master Tag Home Page-->
-        <script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=homepage&id_partner=dumbupro&url_product=#https://dumbu.pro/dumbu/src/#"></script>        
-        
+            <?php
+                if($languaje==='PT'){?>
+                    <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
+            <?php }?>
 	</body>
 </html>
