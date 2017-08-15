@@ -1033,7 +1033,7 @@ class Welcome extends CI_Controller {
                     }
                 } else{
                     $datas['pay_day'] = strtotime("+" .'15'. " days", time());
-                }                          
+                }
                 $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
                 if (is_object($resp) && $resp->isSuccess()) {
                     $this->client_model->update_client($datas['pk'], array(
@@ -1052,44 +1052,7 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            }else  
-        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='INSTA15D'){
-                $datas['amount_in_cents'] = $recurrency_value;
-                if ($datas['early_client_canceled'] === 'true'){
-                    $resp = $this->check_mundipagg_credit_card($datas);
-                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
-                        $response['flag_recurrency_payment'] = false;
-                        $response['flag_initial_payment'] = false;
-                        if(is_array($resp))
-                            $response['message'] = 'Error: '.$resp["message"]; 
-                        else
-                            $response['message'] = 'Incorrect credit card datas!!';
-                        return $response;
-                    } else{
-                        $datas['pay_day'] = strtotime("+1 month", time());
-                    }
-                } else{
-                    $datas['pay_day'] = strtotime("+" .'15'. " days", time());
-                }                          
-                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
-                if (is_object($resp) && $resp->isSuccess()) {
-                    $this->client_model->update_client($datas['pk'], array(
-                        'order_key' => $resp->getData()->OrderResult->OrderKey,
-                        'pay_day' => $datas['pay_day']));
-                    $response['flag_recurrency_payment'] = true;
-                    $response['flag_initial_payment'] = true;
-                } else {
-                    $response['flag_recurrency_payment'] = false;
-                    $response['flag_initial_payment'] = false;
-                    if(is_array($resp))
-                        $response['message'] = 'Error: '.$resp["message"]; 
-                    else
-                        $response['message'] = 'Incorrect credit card datas!!';
-                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
-                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
-                    }
-                }
-            }else          
+            }else                 
         if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
