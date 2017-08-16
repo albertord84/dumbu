@@ -38,6 +38,7 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
                 
                 <?php //para SEO 
                     if($languaje=="EN"){
@@ -116,6 +117,7 @@
 								</li>
 							</ul>
 						</li>
+                                                
 					</ul>
 				</div><!-- /dl-menuwrapper -->
 				<nav class="navbar navbar-default navbar-static-top">
@@ -126,8 +128,8 @@
 						</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right menu-principal">
-						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA",array());?></a></li>
-						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA",array());?></a></li>
+						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA",array());?></a></li>                                                 
+                                                <li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA",array());?></a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt="User"><?php echo $CI->T("ENTRAR",array());?><spam class="caret"></spam></a>
 							<ul class="dropdown-menu">
@@ -161,7 +163,9 @@
 									</div>
 								</li>
 							</ul>
-						</li>
+						</li>  
+                                                
+                                                
 					</ul>
 				</nav>
 			</div>
@@ -170,8 +174,23 @@
 		<section id="destaque" class="fleft100 bk-black cl-fff">
 			<div class="container">
 				<div class="fleft100 m-tb60">
-					<h1 class="fleft100 text-center"><?php echo $CI->T("Aumente o número de seguidores no seu Instagram",array());?></h1>
-					<!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
+                                    <!--<span class="lang-selector dropdown">
+                                        <a class="btn btn-default dropdown-toggle" type="button" id="dropdownLang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <img class="wauto hidden-xs flag" src="assets/images/flag_BR.png" />PT - BR<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLang">
+                                            <li>
+                                              <a href="#">
+                                                    <img class="wauto hidden-xs flag" src="assets/images/flag_EN.png" />EN - US </a>
+                                            </li>
+                                        </ul>
+                                    </span>-->
+                                    
+                                    <h1 class="fleft100 text-center"><?php echo $CI->T("Aumente o número de seguidores no seu Instagram",array());?></h1>
+                                    <!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
+                                    
+                                                                      
+                                    
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
                                     <b style="left:0; font-size: 1.3em" class="fleft100"><?php echo $CI->T("PASSO A PASSO",array());?></b>

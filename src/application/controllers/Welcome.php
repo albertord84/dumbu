@@ -18,6 +18,14 @@ class Welcome extends CI_Controller {
         $this->load->view('user_view', $param);
     }
     
+    public function languaje() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $this->load->library('recaptcha');
+        $this->load->view('user_view', $param);
+    }
+    
     public function purchase() {
         if ($this->session->userdata('id')) {
             $datas = $this->input->get();
