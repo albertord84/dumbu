@@ -65,5 +65,40 @@
                 $this->db->where('status_id', $form_filter['client_status']);            
             return $this->db->get()->result_array();
         }
+        
+        public function view_pendences_by_filter($form_filter) {
+            $this->db->select('*');
+            $this->db->from('pendences');
+            
+/*
+$mañana        = mktime(0, 0, 0, date("m")  , date("d")+1, date("Y"));
+$mes_anterior  = mktime(0, 0, 0, date("m")-1, date("d"),   date("Y"));
+$año_siguiente = mktime(0, 0, 0, date("m"),   date("d"),   date("Y")+1);
+$this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
+ */
+           
+            if ($form_filter['pendences_date'] == -50) { // all pendences before today
+                $this->db->where('event_date <= ', time());
+            }
+            else if ($form_filter['pendences_date'] == 0) { // today
+                $this->db->where('event_date >= ', mktime(0, 0, 0, date("m"), date("d"),   date("Y")));
+                $this->db->where('event_date <= ', mktime(23, 59, 59, date("m"), date("d"),   date("Y")));
+            } 
+            else if ($form_filter['pendences_date'] == 50) { // all pendences after today
+                $this->db->where('event_date >= ', time());
+            }
+            else {
+                if ($form_filter['pendences_date'] < 0) { // -30, -7 o -1 days
+                    $this->db->where('event_date >= ', mktime(0, 0, 0, date("m"), date("d") + $form_filter['pendences_date'],   date("Y")));
+                    $this->db->where('event_date <= ', time());
+                }
+                else { // 1, 7 o 30 days
+                    $this->db->where('event_date <= ', mktime(0, 0, 0, date("m"), date("d") + $form_filter['pendences_date'],   date("Y")));
+                    $this->db->where('event_date >= ', time());
+                }
+            }
+                       
+            return $this->db->get()->result_array();
+        }
     }
 ?>
