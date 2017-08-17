@@ -80,6 +80,11 @@ $(document).ready(function(){
         
     });
     
+    $("#execute_query2").click(function(){
+        var params='pendences_date='+$("#pendences_date").val();
+        $(location).attr('href',base_url+'index.php/admin/list_filter_view_pendences?'+params);     
+    });
+    
     var id=0;
        
     $(".delete-recurence").click(function(e){
@@ -149,4 +154,10 @@ $(document).ready(function(){
         }
     });
     
+    $('#admin_form2').keypress(function (e) {
+        if (e.which == 13) {
+            $("#execute_query2").click();
+            return false;
+        }
+    });
 }); 

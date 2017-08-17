@@ -40,7 +40,7 @@ class Admin extends CI_Controller {
         }
     }
     
-    public function list_filter_view_2() {
+    public function list_filter_view_pendences() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/admin_model');
@@ -51,7 +51,8 @@ class Admin extends CI_Controller {
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
-        } else{
+        }
+        else {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
@@ -156,18 +157,19 @@ class Admin extends CI_Controller {
     public function pendences() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
-            $this->load->model('class/client_model');
+            /*$this->load->model('class/client_model');
             $id = $this->input->get()['id'];
             $active_profiles = $this->client_model->get_client_active_profiles($id);
             $canceled_profiles = $this->client_model->get_client_canceled_profiles($id);
             $datas['active_profiles'] = $active_profiles;
             $datas['canceled_profiles'] = $canceled_profiles;
-            $datas['my_daily_work'] = $this->get_daily_work($active_profiles);
+            $datas['my_daily_work'] = $this->get_daily_work($active_profiles);*/
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
-            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', '', true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
-        } else{
+        }
+        else {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
