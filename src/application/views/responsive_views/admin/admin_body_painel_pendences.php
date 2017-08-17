@@ -5,8 +5,9 @@
         <div class="col-xs-2">
             <div class="left">
                 <div class="row">
-                    <input type="radio" name="pendence_option" value="1" checked="checked" /><b> Listar pendências</b>
+                    <input type="radio" name="pendence_option" value="1" checked="checked" /><b> LISTAR PENDÊNCIAS</b>
                 </div>
+                <br>
                 <div class="row">
                     <div class="col-xs-6">
                         <select id="pendences_date" class="form-control" style="width: 100px">
@@ -29,8 +30,43 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-8">
-            
+        <div class="col-xs-1"></div>
+        <div class="col-xs-7">
+            <div class="row">
+                <input type="radio" name="pendence_option" value="2" /><b> CRIAR PENDÊNCIA</b>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="center filters">
+                        <b>ID do cliente</b>
+                        <input id="client_id" class="form-control" placeholder="ID do cliente">
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="center filters">
+                        <b>Data da pertinência</b>
+                        <input id="event_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" >       
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="center filters">
+                        <b>Texto da pendência</b>
+                        <input id = "profile_client" type="text" class="form-control"  placeholder="Texto da pendência">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="center">
+                    <button  style="min-width:100px" id = "execute_query3" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <span class="ladda-label">Criar</span>
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="col-xs-1"></div>            
     </div>
