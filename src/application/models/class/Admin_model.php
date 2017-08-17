@@ -31,6 +31,12 @@
                     $this->db->where('ticket_peixe_urbano !=', 'NINA');
                     $this->db->where('ticket_peixe_urbano !=', 'CAROL');
                     $this->db->where('ticket_peixe_urbano !=', 'NICOLE');
+                    $this->db->where('ticket_peixe_urbano !=', 'OLX');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA50P');
+                    $this->db->where('ticket_peixe_urbano !=', 'AGENCIALUUK');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA-DIRECT');
+                    $this->db->where('ticket_peixe_urbano !=', 'MALADIRETA');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA15D');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);

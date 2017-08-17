@@ -38,6 +38,7 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
                 
                 <?php //para SEO 
                     if($languaje=="EN"){
@@ -116,6 +117,7 @@
 								</li>
 							</ul>
 						</li>
+                                                
 					</ul>
 				</div><!-- /dl-menuwrapper -->
 				<nav class="navbar navbar-default navbar-static-top">
@@ -126,8 +128,8 @@
 						</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right menu-principal">
-						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA",array());?></a></li>
-						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA",array());?></a></li>
+						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA",array());?></a></li>                                                 
+                                                <li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA",array());?></a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt="User"><?php echo $CI->T("ENTRAR",array());?><spam class="caret"></spam></a>
 							<ul class="dropdown-menu">
@@ -161,7 +163,9 @@
 									</div>
 								</li>
 							</ul>
-						</li>
+						</li>  
+                                                
+                                                
 					</ul>
 				</nav>
 			</div>
@@ -170,8 +174,23 @@
 		<section id="destaque" class="fleft100 bk-black cl-fff">
 			<div class="container">
 				<div class="fleft100 m-tb60">
-					<h1 class="fleft100 text-center"><?php echo $CI->T("Aumente o número de seguidores no seu Instagram",array());?></h1>
-					<!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
+                                    <!--<span class="lang-selector dropdown">
+                                        <a class="btn btn-default dropdown-toggle" type="button" id="dropdownLang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <img class="wauto hidden-xs flag" src="assets/images/flag_BR.png" />PT - BR<span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLang">
+                                            <li>
+                                              <a href="#">
+                                                    <img class="wauto hidden-xs flag" src="assets/images/flag_EN.png" />EN - US </a>
+                                            </li>
+                                        </ul>
+                                    </span>-->
+                                    
+                                    <h1 class="fleft100 text-center"><?php echo $CI->T("Aumente o número de seguidores no seu Instagram",array());?></h1>
+                                    <!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
+                                    
+                                                                      
+                                    
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
                                     <b style="left:0; font-size: 1.3em" class="fleft100"><?php echo $CI->T("PASSO A PASSO",array());?></b>
@@ -303,12 +322,11 @@
                             <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                     <?php
-                                        if($languaje=='PT')
-                                            echo '<iframe src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                        else                                            
-                                            echo '<iframe  src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
-                                    ?>
-                                    
+                                            if($languaje=='PT')
+                                                echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
+                                            else                                            
+                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
+                                        ?>
                                 </div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
 			</div>
@@ -469,40 +487,7 @@
 							<input id = "signin_clientPassword" type="password" placeholder="<?php echo $CI->T("Senha Instagram",array());?>" required>
 						</fieldset>
                                             
-                                            <!--*******************************************************************************************************************-->
-                                            <!--<script type="text/javascript">
-                                                function verificarcaptcha(){
-                                                    if($("#ct_captcha").val().length>=0){
-                                                        //enviar al servidor
-                                                        $.get("<?php //echo base_url()?>assets/securimage/vercatpcha.php?ca="+$("#ct_captcha").val(), function(data) {
-                                                            $("#errorcaptcha").html(data);
-                                                            rptacap=data;
-                                                        });
-                                                    }
-                                                }
-                                            </script>
-
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <img id="siimage" style="border: 1px solid #000; margin-right: 15px;" src="<?php //$value=md5(uniqid()); echo base_url().'assets/securimage/securimage_show.php?sid='.$value;?>" alt="<?php //echo $CI->T("CAPTCHA Image",array());?>" align="center">
-                                                <a tabindex="-1" style="border-style: none;" 
-                                                   href="#" 
-                                                   title="<?php //echo $CI->T("Refresh Image",array());?>" 
-                                                   onclick="document.getElementById('siimage').src = <?php //echo base_url()?> +'assets/securimage/securimage_show.php?sid=' + Math.random(); this.blur(); return false;">
-                                                   <br>
-                                                   <img style="width:30px" src="<?php //echo base_url().'assets/securimage/images/refresh.png';?>" alt="<?php //echo $CI->T("Reload Image",array());?>" onclick="this.blur()" align="bottom" border="0">
-                                                </a>                                           
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <strong><?php //echo $CI->T("Insere o código",array());?>:</strong>                                                
-                                                <?php //echo @$_SESSION['ctform']['captcha_error']?>
-                                                <input type="text" name="ct_captcha" size="14" maxlength="8" id="ct_captcha" class="spam4" onblur="verificarcaptcha()" required/>                                            
-                                                <br>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                                <spam style="color:red" id="errorcaptcha"></spam>
-                                            </div>-->     
-                                            <!--*******************************************************************************************************************-->
-                                            
+                                           
                                             <div class="text-center">
                                                 <button id = "signin_btn_insta_login" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                                     <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR",array());?></div></spam>
@@ -577,7 +562,7 @@
 							</fieldset>
 						</div>
                                             
-                                                <!--<div class="text-center m-t20 g-recaptcha" data-sitekey="6LdLoCwUAAAAAPo1W1PEf3n24JASjAVQXQTQRZdF"></div>-->
+                                                
                                                <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
                                                         <spam class="val"><?php echo $CI->T("CUPOM",array());?> (*)</spam>
                                                     </div>
@@ -601,7 +586,9 @@
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/ass.png" class="wauto" alt="Add User">
 						<spam class="fleft100"><?php echo $CI->T("Assine e configure sua conta",array());?></spam>
-					</div>                                        
+                                                <!--<div class="text-right m-t20 g-recaptcha" data-sitekey="6LdLoCwUAAAAAPo1W1PEf3n24JASjAVQXQTQRZdF"></div>-->
+					</div>    
+                                        
 
 					<div class="text-center">
                                             <button id="btn_sing_in" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
@@ -610,7 +597,7 @@
                                         </div>
                                             
                                         
-                                        <br><br><?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/'.$languaje.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
+                                        <?php echo $CI->T("Ao assinar já estou aceitando os ",array());?><a id="use_term" href="<?php echo base_url().'assets/others/'.$languaje.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso",array());?></a>
                                         <br><br><?php echo '<img src="assets/images/'.$languaje.'/seguro.png" class="wauto" alt="100% Safe Encrypted Data">';?>
 				</div>
 			</div>
