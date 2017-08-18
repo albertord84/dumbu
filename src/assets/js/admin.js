@@ -85,6 +85,17 @@ $(document).ready(function(){
         $(location).attr('href',base_url+'index.php/admin/list_filter_view_pendences?'+params);     
     });
     
+    $("#execute_query3").click(function(){
+        var params='client_id='+$("#client_id").val();
+        params=params+'&event_date='+$("#event_date").val();
+        params=params+'&pendence_text='+$("#pendence_text").val();
+        params=params+'&frequency_option1='+$("#frequency_option1").prop("checked");
+        params=params+'&frequency_option2='+$("#frequency_option2").prop("checked");
+        params=params+'&frequency_option3='+$("#frequency_option3").prop("checked");
+        params=params+'&number_times='+$("#number_times").val();
+        $(location).attr('href',base_url+'index.php/admin/create_pendence?'+params);     
+    });
+    
     var id=0;
        
     $(".delete-recurence").click(function(e){

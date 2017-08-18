@@ -56,6 +56,23 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
+    
+    public function create_pendence() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->create_pendence_by_form($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
 
     public function desactive_client() {
         $this->load->model('class/user_role');
