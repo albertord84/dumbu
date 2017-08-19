@@ -115,7 +115,7 @@ $this->db->set('name', $name);
 $this->db->insert('mytable');
 // Produces: INSERT INTO mytable (name) VALUES ('{$name}')
 */
-            if ($form_filter['frequency_option1']) { // frecuencia única
+            if ($form_filter['frequency_option1'] == 'true') { // frecuencia única
                 $this->db->set('client_id', $form_filter['client_id']);
                 $this->db->set('text', $form_filter['pendence_text']);
                 $this->db->set('init_date', time());
@@ -124,10 +124,10 @@ $this->db->insert('mytable');
                 $this->db->set('frequency', 1);
                 $this->db->insert('pendences');
             }
-            else if ($form_filter['frequency_option2']) { // frecuencia de X veces
+            else if ($form_filter['frequency_option2'] == 'true') { // frecuencia de X veces
                 $event_date = strtotime($form_filter['event_date'].' 00:00:01');
                 
-                for ($i = 1; $i <= $form_filter['number_times']; $i++) {
+                for ($i = 0; $i < $form_filter['number_times']; $i++) {
                     $this->db->set('client_id', $form_filter['client_id']);
                     $this->db->set('text', $form_filter['pendence_text']);
                     $this->db->set('init_date', time());
@@ -140,12 +140,12 @@ $this->db->insert('mytable');
             else { // frecuencia infinita
                 $event_date = strtotime($form_filter['event_date'].' 00:00:01');
                 
-                for ($i = 1; $i <= 50; $i++) {
+                for ($i = 0; $i < 12; $i++) {
                     $this->db->set('client_id', $form_filter['client_id']);
                     $this->db->set('text', $form_filter['pendence_text']);
                     $this->db->set('init_date', time());
                     $this->db->set('event_date', $event_date + $i * (30 * 24 * 60 * 60));
-                    $this->db->set('number', $i);
+                    $this->db->set('number', $i + 1);
                     $this->db->set('frequency', 0);
                     $this->db->insert('pendences');
                 }

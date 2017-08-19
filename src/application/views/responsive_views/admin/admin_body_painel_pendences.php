@@ -1,4 +1,4 @@
-    <br><br>
+<br>
 <div id="admin_form2">    
     <div class="row">
         <form id="form_listar_criar" name="form_listar_criar">
@@ -107,6 +107,7 @@
         </form>
     </div>
 </div>
+<hr>
 <div class="row">
     <div class="col-xs-1"></div>
     <div class="col-xs-10">
@@ -118,4 +119,61 @@
         ?>
     </div>
     <div class="col-xs-1"></div>
+</div>
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <table>
+            <tr class="list-group-item-success">
+                <th style="min-width:50px; max-width:50px; padding:5px; text-align: center"><b>No.</b></th>
+                <th style="min-width:100px; max-width:100px; padding:5px; text-align: center"><b>Dumbu ID</b></th>
+                <th style="min-width:250px; max-width:250px; padding:5px; text-align: center"><b>Text</b></th>
+                <th style="min-width:100px; max-width:100px; padding:5px; text-align: center"><b>Initial date</b></th>
+                <th style="min-width:100px; max-width:100px; padding:5px; text-align: center"><b>Event date</b></th>
+                <th style="min-width:120px; max-width:120px; padding:5px; text-align: center"><b>Resolved date</b></th>
+                <th style="min-width:50px; max-width:50px; padding:5px; text-align: center"><b>#</b></th>
+                <th style="min-width:60px; max-width:60px; padding:5px; text-align: center"><b>Freq</b></th>
+                <th style="min-width:250px; max-width:250px; padding:5px; text-align: center"><b>Closed message</b></th>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-1"></div>
+</div>
+
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <table>
+            <?php                    
+                if (isset($result)) {                        
+                    for ($i = 0; $i < $num_rows; $i++) {
+                        echo '<tr style="border-top: gray 1px solid'; 
+                        if ($i % 2) {echo '; background-color: #dff0d8';}
+                        echo '">';
+                            echo '<td style="min-width:50px; max-width:50px; padding:5px; text-align: center"><b>'.($i + 1).'</b></td>';
+                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.$result[$i]['client_id'].'</td>';
+                            echo '<td style="min-width:250px; max-width:250px; padding:5px; text-align: left">'.$result[$i]['text'].'</td>';
+                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'</td>';
+                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.date('d-m-Y h:i:sa',$result[$i]['event_date']).'</td>';
+                            echo '<td style="min-width:120px; max-width:120px; padding:5px; text-align: center">';
+                                if ($result[$i]['resolved_date']) {echo date('d-m-Y h:i:sa',$result[$i]['resolved_date']);}
+                                else {echo ' --- ';}
+                            echo '</td>';
+                            echo '<td style="min-width:50px; max-width:50px; padding:5px; text-align: center">'.$result[$i]['number'].'</td>';
+                            echo '<td style="min-width:60px; max-width:60px; padding:5px; text-align: center">';
+                                if ($result[$i]['frequency'] == 1) {echo 'Única';}
+                                else if ($result[$i]['frequency'] == 0) {echo 'Infinita';}
+                                else { echo $result[$i]['frequency'];}
+                            echo '</td>';
+                            echo '<td style="min-width:250px; max-width:250px; padding:5px; text-align: left">';
+                                if ($result[$i]['closed_message']) {echo $result[$i]['closed_message'];}
+                                else {echo ' --- ';}
+                            echo '</td>';
+                        echo '</tr>';
+                    }
+                }               
+            ?>
+        </table>
+    </div>
+    <div class="col-xs-1"></div>            
 </div>

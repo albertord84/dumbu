@@ -54,9 +54,9 @@ $(document).ready(function(){
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            $("#signin_initial_date").val()==='' &&
-           $("#observations").val()==='' &&
+           $("#observations").val()==='NAO' &&
            $("#cod_promocional").val()==='--SELECT--' &&
-           $("#pay_day").val()=='--SELECT--' &&
+           $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&
            $("#email_client").val()==='' &&
            $("#order_key_client").val()==='' &&
