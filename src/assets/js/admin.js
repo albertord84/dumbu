@@ -96,11 +96,6 @@ $(document).ready(function(){
         $(location).attr('href',base_url+'index.php/admin/create_pendence?'+params);     
     });
     
-    $("#pendence_option_listar").click(function () {
-       $("#pendences_date").disabled = "true";  
-       $("#execute_query2").disabled = "true";
-    });
-    
     var id=0;
        
     $(".delete-recurence").click(function(e){

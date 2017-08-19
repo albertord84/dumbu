@@ -89,7 +89,7 @@
                 </div>
                 <div class="row">
                     <input type="radio" id="frequency_option2" name="frequency_option" value="2" onchange="document.form_listar_criar.number_times.disabled=false;" disabled/>
-                    <input type="text" id="number_times" name="number_times" placeholder="2" size="2" maxlength="2" disabled> vezes
+                    <input type="text" id="number_times" name="number_times" placeholder="12" size="2" maxlength="2" disabled> vezes
                 </div>
                 <div class="row">
                     <input type="radio" id="frequency_option3" name="frequency_option" value="3" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Infinita
