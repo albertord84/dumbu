@@ -6,8 +6,17 @@ class Welcome extends CI_Controller {
 
 
     public function test(){
-        $security_code=rand(100000,999999);
-        echo $this->security_purchase_code=md5("$security_code");
+        $this->load->model('class/user_model');
+        $a=$this->user_model->get_all_dummbu_clients();
+        $N=5;//count($a);
+        for($i=0;$i<$N;$i++){
+            $login=$a[$i]['login'];
+            $pass=$a[$i]['pass'];
+            $datas['user_login']=$login;
+            $datas['user_pass']=$pass;
+            $result= $this->user_do_login($datas);
+            echo 'Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>';
+        }
     }
     
     public function index() {
