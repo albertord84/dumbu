@@ -9,14 +9,18 @@ class Welcome extends CI_Controller {
     public function test(){
         $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
-        $N=5;//count($a);
+        $N=count($a);
         for($i=0;$i<$N;$i++){
-            $login=$a[$i]['login'];
-            $pass=$a[$i]['pass'];
-            $datas['user_login']=$login;
-            $datas['user_pass']=$pass;
-            $result= $this->user_do_login($datas);
-            echo 'Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>';
+            $st=$a[$i]['status_id'];
+            if($st!=='4' && $st!=='8' && $st!=='11'){
+                echo $i;
+                $login=$a[$i]['login'];
+                $pass=$a[$i]['pass'];
+                $datas['user_login']=$login;
+                $datas['user_pass']=$pass;
+                $result= $this->user_do_login($datas);
+                //print_r('Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>');
+            }
         }
     }
 
