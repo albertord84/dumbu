@@ -12,7 +12,7 @@ class Welcome extends CI_Controller {
         $N=count($a);
         for($i=0;$i<$N;$i++){
             $st=$a[$i]['status_id'];
-            if($st!=='4' && $st!=='8' && $st!=='11'){
+            if($st!=='4' && $st!=='8' && $st!=='11' && $a[$i]['role_id']==='2'){
                 echo $i;
                 $login=$a[$i]['login'];
                 $pass=$a[$i]['pass'];
