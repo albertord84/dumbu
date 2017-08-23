@@ -158,6 +158,18 @@ $(document).ready(function(){
        modal_alert_message(id);
     });
     
+    $(".editar-pendencia").click(function(e){
+        id=$(e.currentTarget).attr('id');
+        var contenedor=document.getElementById(id);
+	contenedor.style.display="none";
+        contenedor=document.getElementById('resolved_date'+id);
+        contenedor.disabled=false;
+        contenedor=document.getElementById('pendence_closed_message'+id);
+        contenedor.disabled=false;
+        contenedor=document.getElementById('atualizar_'+id);
+        contenedor.style.display="block";
+    });
+    
     $('#admin_form').keypress(function (e) {
         if (e.which == 13) {
             $("#execute_query").click();
