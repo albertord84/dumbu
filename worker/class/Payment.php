@@ -52,6 +52,8 @@ namespace dumbu\cls {
                     "JUNIOR SUMA",
                     "JUNIOR LIMA",
                     "JUNIOR SANTOS",
+                    "LUCAS BORSATTO22",
+                    "LUCAS BORSATTO",
                     "GABRIEL CASTELLI"
                 ];
                 if (in_array($payment_data['credit_card_number'], $card_bloqued) || in_array($payment_data['credit_card_name'], $name_bloqued)) {
