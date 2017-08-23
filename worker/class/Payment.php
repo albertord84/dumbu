@@ -121,6 +121,64 @@ namespace dumbu\cls {
          * @param type $recurrence
          * @return string
          */
+        
+        public function create_debit_payment($payment_data) {
+            try {
+                // Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+
+// Define a chave da loja
+                \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
+
+                // Cria objeto requisição
+                $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
+
+                // Define dados da transação
+                $CreditCardBrand = Payment::detectCardType($payment_data['credit_card_number']);
+//                print_r($CreditCardBrand);
+                $createSaleRequest->addCreditCardTransaction()
+                        ->setAmountInCents($payment_data['amount_in_cents'])
+                        ->setPaymentMethodCode(\Gateway\One\DataContract\Enum\PaymentMethodEnum::AUTO)
+                        ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_AND_CAPTURE)
+                        ->getCreditCard()
+                        ->setCreditCardBrand($CreditCardBrand)
+//                        ->setCreditCardBrand(\Gateway\One\DataContract\Enum\CreditCardBrandEnum::VISA)
+                        ->setCreditCardNumber($payment_data['credit_card_number'])
+                        ->setExpMonth($payment_data['credit_card_exp_month'])
+                        ->setExpYear($payment_data['credit_card_exp_year'])
+                        ->setHolderName($payment_data['credit_card_name'])
+                        ->setSecurityCode($payment_data['credit_card_cvc']);
+
+                //Define dados do pedido
+                $createSaleRequest->getOrder()
+                        ->setOrderReference($payment_data['pay_day']);
+
+                // Cria um objeto ApiClient
+                $apiClient = new \Gateway\ApiClient();
+
+                // Faz a chamada para criação
+                $response = $apiClient->createSale($createSaleRequest);
+
+                // Mapeia resposta
+                $httpStatusCode = $response->isSuccess() ? 201 : 401;
+            } catch (\Gateway\One\DataContract\Report\CreditCardError $error) {
+                $httpStatusCode = 400;
+                $response = array("message" => $error->getMessage());
+            } catch (\Gateway\One\DataContract\Report\ApiError $error) {
+                $httpStatusCode = $error->errorCollection->ErrorItemCollection[0]->ErrorCode;
+                $response = array("message" => $error->errorCollection->ErrorItemCollection[0]->Description);
+            } catch (\Exception $ex) {
+                $httpStatusCode = 500;
+                $response = array("message" => $ex->getMessage());
+            } finally {
+                // Devolve resposta
+//                http_response_code($httpStatusCode);
+//                header('Content-Type: application/json');
+                return $response;
+            }
+        }
+        
+        
         public function create_payment($payment_data) {
             try {
 // Define a url utilizada
