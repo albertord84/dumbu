@@ -158,7 +158,7 @@
                             echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.date('d-m-Y h:i:sa',$result[$i]['event_date']).'</td>';
                             echo '<td style="min-width:125px; max-width:125px; padding:5px; text-align: center">';
                                 if ($result[$i]['resolved_date']) {echo date('d-m-Y h:i:sa',$result[$i]['resolved_date']);}
-                                else {echo '<input id="resolved_date'.$result[$i]['id'].'" name="resolved_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled>';}
+                                else {echo '<input id="resolved_date_'.$result[$i]['id'].'" name="resolved_date_'.$result[$i]['id'].'" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled>';}
                             echo '</td>';
                             echo '<td style="min-width:50px; max-width:50px; padding:5px; text-align: center">'.$result[$i]['number'].'</td>';
                             echo '<td style="min-width:60px; max-width:60px; padding:5px; text-align: center">';
@@ -168,16 +168,18 @@
                             echo '</td>';
                             echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align: left">';
                                 if ($result[$i]['closed_message']) {echo $result[$i]['closed_message'];}
-                                else {echo '<textarea id="pendence_closed_message'.$result[$i]['id'].'" name="pendence_closed_message" class="form-control" placeholder="Texto final da pendência" style="min-width:190px; max-width:190px; min-height: 75px" disabled></textarea>';}
+                                else {echo '<textarea id="pendence_closed_message_'.$result[$i]['id'].'" name="pendence_closed_message_'.$result[$i]['id'].'" class="form-control" placeholder="Texto final da pendência" style="min-width:190px; max-width:190px; min-height: 75px" disabled></textarea>';}
                             echo '</td>';
-                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">
-                                    <button  style="min-width:80px" id="'.$result[$i]['id'].'" name="execute_query4" type="button" class="btn btn-success ladda-button editar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
-                                        <span class="ladda-label">Editar</span>
-                                    </button>
-                                    <button  style="min-width:80px; display:none" id="atualizar_'.$result[$i]['id'].'" name="execute_query5" type="button" class="btn btn-success ladda-button atualizar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
-                                        <span class="ladda-label">Atualizar</span>
-                                    </button>
-                                  </td>';
+                            if (!$result[$i]['resolved_date'] || !$result[$i]['closed_message']) {
+                                echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">
+                                        <button  style="min-width:80px" id="'.$result[$i]['id'].'" name="execute_query4" type="button" class="btn btn-success ladda-button editar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
+                                            <span class="ladda-label">Editar</span>
+                                        </button>
+                                        <button  style="min-width:80px; display:none" id="atualizar_'.$result[$i]['id'].'" name="execute_query5" type="button" class="btn btn-success ladda-button atualizar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
+                                            <span class="ladda-label">Atualizar</span>
+                                        </button>
+                                      </td>';  
+                            } else { echo '<td></td>'; }
                         echo '</tr>';
                     }
                 }               

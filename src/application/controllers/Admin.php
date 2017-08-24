@@ -73,6 +73,33 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
+    
+    public function update_pendence() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            try {
+                $datas['result'] = $this->admin_model->update_pendence($form_filter);
+                $datas['form_filter'] = $form_filter;
+                $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+                $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+                $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+                $this->load->view('view_admin', $data);
+            } catch (Exception $ex) {
+                echo $exc->getTraceAsString();
+                $result['success'] = false;
+                $result['message'] = "Erro no banco de dados. Contate ao grupo de desenvolvimento!";
+            } finally {
+                $result['success'] = true;
+                $result['message'] = "Pendência atualizada com sucesso!";
+            }
+            echo json_encode($result);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
 
     public function desactive_client() {
         $this->load->model('class/user_role');

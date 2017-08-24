@@ -162,12 +162,21 @@ $(document).ready(function(){
         id=$(e.currentTarget).attr('id');
         var contenedor=document.getElementById(id);
 	contenedor.style.display="none";
-        contenedor=document.getElementById('resolved_date'+id);
+        contenedor=document.getElementById('resolved_date_'+id);
         contenedor.disabled=false;
-        contenedor=document.getElementById('pendence_closed_message'+id);
+        contenedor=document.getElementById('pendence_closed_message_'+id);
         contenedor.disabled=false;
         contenedor=document.getElementById('atualizar_'+id);
         contenedor.style.display="block";
+    });
+    
+    $(".atualizar-pendencia").click(function(e){
+        id=$(e.currentTarget).attr('id');
+        var arrayid = id.split("_");
+        var params='id='+arrayid[1];
+        params=params+'&resolved_date='+$("#resolved_date_"+arrayid[1]).val();
+        params=params+'&pendence_closed_message='+$("#pendence_closed_message_"+arrayid[1]).val();
+        $(location).attr('href',base_url+'index.php/admin/update_pendence?'+params);
     });
     
     $('#admin_form').keypress(function (e) {

@@ -151,5 +151,31 @@ $this->db->insert('mytable');
                 }
             }
         }
+        
+        public function update_pendence($form_filter) {
+/*
+$data = array(
+               'title' => $title,
+               'name' => $name,
+               'date' => $date
+            );
+
+$this->db->where('id', $id);
+$this->db->update('mytable', $data);
+// Produces:
+// UPDATE mytable
+// SET title = '{$title}', name = '{$name}', date = '{$date}'
+// WHERE id = $id
+
+$this->db->set('name', $name);
+$this->db->where('id', $id);
+$this->db->update('mytable');
+// Produces: UPDATE mytable SET name = '{$name}' WHERE id = $id
+*/
+            $this->db->set('resolved_date', strtotime($form_filter['resolved_date'].' 00:00:01'));
+            $this->db->set('closed_message', $form_filter['pendence_closed_message']);
+            $this->db->where('id', $form_filter['id']);
+            $this->db->update('pendences');
+        }
     }
 ?>
