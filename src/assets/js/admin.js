@@ -66,7 +66,7 @@ $(document).ready(function(){
         else{
             var params;
             params='client_status='+$("#client_status").val();
-            params=params+'&signin_initial_date='+$("#signin_initial_date").val();
+                params=params+'&signin_initial_date='+$("#signin_initial_date").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();

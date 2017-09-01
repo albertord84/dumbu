@@ -261,5 +261,12 @@ class Payment extends CI_Controller {
         }
         return FALSE;
     }
+    
+    //JOSE RAMON developing
+    public function process_notification($notification){
+        //$notification
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
+    }
 
 }

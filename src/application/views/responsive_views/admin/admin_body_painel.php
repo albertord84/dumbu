@@ -24,7 +24,7 @@
                 <div class="col-md-2">
                     <div class="center filters">
                         <b>Assinatura (inic)</b>
-                        <input id = "signin_initial_date" type="text" class="form-control"  placeholder="DD/MM/YYYY" disabled="true">       
+                        <input id = "signin_initial_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" >       
                     </div>
                 </div>
 
@@ -51,6 +51,12 @@
                             <option>CAROL</option>
                             <option>NINA</option>
                             <option>NICOLE</option>
+                            <option>OLX</option>
+                            <option>INSTA50P</option>
+                            <option>AGENCIALUUK</option>
+                            <option>INSTA-DIRECT</option>
+                            <option>MALADIRETA</option>
+                            <option>INSTA15D</option>
                         </select>
                     </div>
                 </div>
@@ -109,6 +115,19 @@
         </div>
         <hr>
         <br><br>
+        
+        <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="col-xs-10">
+                <?php
+                    if(isset($result)){
+                        $num_rows=count($result);
+                        echo '<br><p><b style="color:red">Total de registros: </b><b>'.$num_rows.'</b></p><br>';
+                    }
+                ?>
+            </div>
+            <div class="col-xs-1"></div>
+        </div>
 
         <div class="row">
             <div class="col-xs-1"></div>
@@ -148,8 +167,7 @@
         <div class="col-xs-10">
             <table class="table">
                 <?php                    
-                    if(isset($result)){
-                        $num_rows=count($result);
+                    if(isset($result)){                        
                         for($i=0;$i<$num_rows;$i++){
                             //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
                             echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block">';
@@ -288,7 +306,8 @@
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                 
-                                echo '<a target="_blank" href="'.base_url().'index.php/welcome/admin_making_client_login?user_login='.$result[$i]['login'].'&user_pass='.$result[$i]['pass'].'">';                                
+                                
+                                echo '<a target="_blank" href="'.base_url().'index.php/welcome/admin_making_client_login?user_login='.$result[$i]['login'].'&user_pass='.urlencode($result[$i]['pass']).'">';                                
                                     echo '<button style="width:160px" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Loguear cliente</span></button><br><br>';
                                 echo '</a>';
                                 

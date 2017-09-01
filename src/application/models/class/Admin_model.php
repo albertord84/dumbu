@@ -21,8 +21,6 @@
             $this->db->join('users', 'clients.user_id = users.id');
             $this->db->join('plane', 'clients.plane_id = plane.id');
             
-            //$this->db->where('ticket_peixe_urbano', 'AMIGOSDOPEDRO');  //$form_filter['cod_promocional']
-            
             if($form_filter['cod_promocional']!='--SELECT--'){
                 if($form_filter['cod_promocional']==='PEIXE URBANO'){
                     $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU');
@@ -33,14 +31,23 @@
                     $this->db->where('ticket_peixe_urbano !=', 'NINA');
                     $this->db->where('ticket_peixe_urbano !=', 'CAROL');
                     $this->db->where('ticket_peixe_urbano !=', 'NICOLE');
+                    $this->db->where('ticket_peixe_urbano !=', 'OLX');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA50P');
+                    $this->db->where('ticket_peixe_urbano !=', 'AGENCIALUUK');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA-DIRECT');
+                    $this->db->where('ticket_peixe_urbano !=', 'MALADIRETA');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA15D');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
                 }
             }        
-            else
+            //else
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
+            //else
+            if($form_filter['signin_initial_date']!=='')
+                $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
             //else
             if($form_filter['observations']!=='NAO')
                 $this->db->where('observation is NOT NULL', NULL, FALSE);

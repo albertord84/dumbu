@@ -92,6 +92,7 @@
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
+            $data_user['init_date']= time();                        //
             $this->db->insert('users',$data_user);
             $id_user_table=$this->db->insert_id();
            
@@ -397,7 +398,6 @@
                 if(count($profile_work)){
                     $cnt_follow_of_profile=$profile_work[0]['to_follow'];
                     $cnt_to_add=floor($cnt_follow_of_profile/($N-1));
-
                     for($i=0;$i<$N;$i++){
                         if($i!=$index){
                             $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$i]['id'].'"';
@@ -442,7 +442,21 @@
                 echo $exc->getTraceAsString();
                 return false;
             }
-        }   
+        }
+        
+         public function beginners_with_purchase_counter_less_value($value){
+            try {
+                $this->db->select('*');
+                $this->db->from('clients');
+                $this->db->join('users', 'users.id = clients.user_id');
+                $this->db->where('purchase_counter <=', $value);
+                $this->db->where('purchase_counter <>', -100);
+                $this->db->where('status_id', 8);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
     // end of Client
 }
 ?>

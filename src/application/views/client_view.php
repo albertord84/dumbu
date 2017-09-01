@@ -6,12 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
-        <meta name="description" content="<?php echo $CI->T("Obter seguidores no Instagram. Dumbu.pro te permite adicionar seguidores de Instagram 100% reales e ativos. Ganhe mais seguidores em Instagram a precios mais baratos!",array());?>">
+        <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.",array());?>">
         <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array()); ?>">
         <meta name="revisit-after" content="7 days">
         <meta name="robots" content="index,follow">
         <meta name="distribution" content="global">        
-        <title>Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers</title>
+        <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers",array());?></title>
         
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
         <link href="<?php echo base_url() . 'assets/css/typeahead.css'; ?>" rel="stylesheet">
@@ -53,6 +53,7 @@
 
     <body>
         <?php include_once("analyticstracking.php") ?>
+        <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?> 
         <?php include_once("remarketing.php") ?>
         <?php include_once("retargeting.php") ?>
         <div class="windows8">
@@ -314,7 +315,7 @@
                             </li>
                             <li></li>
                             <li>
-                                <h4 class="m-t10"><b><?php echo $CI->T("PERFIS DE PREFERÊNCIA", array()); ?></b></h4>
+                                <h4 class="m-t10"><b><?php echo $CI->T("PERFIS DE REFERÊNCIA", array()); ?></b></h4>
                             </li>
                         </ul>    
                     </div>                
@@ -1041,6 +1042,23 @@
                     <div class="text-center fleft100 m-t20"><A name="lnk_update"></A>
                         <img src="<?php echo base_url() . 'assets/images/mail.png'; ?>" class="wauto" alt="">
                         <h4 class="fleft100 m-t20"><b><?php echo $CI->T("FALE CONOSCO", array()); ?></b></h4>
+                        <?php
+                            if($language=='EN'){?>
+
+                                <div class="col-md-1 col-sm-1 col-xs-12"></div>
+                                <div class="col-md-8 col-sm-8 col-xs-12 text-right">      
+                                    <spam style="color:black; font-size:0.8em">
+                                        WRITE TO US! OUR SERVICE IS SUPPORTED <BR> IN MORE THAN ONE LANGUAJE:
+                                    </spam>
+
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12 m-t10 text-left">
+                                    <img src="assets/images/flag_EN.png" title="English" class="wauto" alt="">
+                                    <img src="assets/images/flag_BR.png" title="Português" class="wauto" alt="">
+                                    <img src="assets/images/flag_ES.png" title="Español" class="wauto" alt="">
+                                </div>
+                        <?php    }
+                        ?>          
                     </div>
                     <div class="pay fleft100 input-form" id="talkme_frm">
                         <fieldset>
