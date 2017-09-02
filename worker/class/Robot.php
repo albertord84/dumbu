@@ -432,7 +432,7 @@ namespace dumbu\cls {
             $curl_str .= "--compressed ";
             if (is_array($this->IPS) && count($this->IPS)) {
                 $i = rand(0, count($this->IPS) - 1);
-                $curl_str .= "--interface " . $this->IPS[$i];
+                $curl_str .= "--interface " . $this->IPS['IPS'][$i];
             }
             return $curl_str;
         }
