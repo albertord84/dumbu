@@ -643,7 +643,10 @@
 					</div>
 					<div class="col-md-12 col-sm-12 col-xs-12 no-pd">
 						<textarea id="visitor_message" name="" placeholder="<?php echo $CI->T("Mensagem",array());?>" id=""  rows="8"></textarea>
-
+                                                
+                                                <p class="text-center"><?php echo $CI->T("Enviando para",array());?>: <?php if($languaje=='PT') echo 'atendimento@dumbu.pro'; else echo 'contact@dumbu.one';?>
+                                                </p>
+                                                
 						<div class="text-center">
                                                     <button id="btn_send_message" class="btn-primary btn-475f66 m-t20 ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                                         <?php echo $CI->T("ENVIAR MENSAGEM",array());?>
