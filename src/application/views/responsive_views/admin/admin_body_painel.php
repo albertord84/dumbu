@@ -51,6 +51,12 @@
                             <option>CAROL</option>
                             <option>NINA</option>
                             <option>NICOLE</option>
+                            <option>OLX</option>
+                            <option>INSTA50P</option>
+                            <option>AGENCIALUUK</option>
+                            <option>INSTA-DIRECT</option>
+                            <option>MALADIRETA</option>
+                            <option>INSTA15D</option>
                         </select>
                     </div>
                 </div>
@@ -323,5 +329,5 @@
                 ?>
             </table>
         </div>
-        <div class="col-xs-1"></div>            
+        <div class="col-xs-1"></div>    
     </div>
