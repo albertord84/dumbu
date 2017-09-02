@@ -14,9 +14,9 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
-//ini_set('xdebug.var_display_max_depth', 7);
-//ini_set('xdebug.var_display_max_children', 256);
-//ini_set('xdebug.var_display_max_data', 1024);
+ini_set('xdebug.var_display_max_depth', 7);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
 
 
 
@@ -124,9 +124,9 @@ $Payment = new \dumbu\cls\Payment();
 //$m_pay_day = date("n", $pay_day);
 //$y_pay_day = date("Y", $pay_day);
 //
-$data = strtotime("+20 min +1 day + 2hour", time());
-var_dump($data);
-var_dump(date('d-m-Y h:i:sa', $data));
+//$data = strtotime("+20 min +1 day + 2hour", time());
+//var_dump($data);
+//var_dump(date('d-m-Y h:i:sa', $data));
 //
 //$pay_day = strtotime('08/10/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
@@ -180,6 +180,7 @@ $Gmail = new \dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new \dumbu\cls\Robot();
+//var_dump($Robot->IPS);
 
 //var_dump($_SERVER['QUERY_STRING']);
 //$client = $Client->get_client(13640);
