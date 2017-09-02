@@ -128,12 +128,14 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y', $data));
 //
+
 //$pay_day = strtotime('08/10/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
+        
 $payment_data['credit_card_number'] = '4984532131095824';
 $payment_data['credit_card_name'] = 'DULCE L A R RAMOS';
 $payment_data['credit_card_exp_month'] = '06';
