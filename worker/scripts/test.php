@@ -183,6 +183,7 @@ $Gmail = new \dumbu\cls\Gmail();
 
 $Robot = new \dumbu\cls\Robot();
 //var_dump($Robot->IPS);
+//var_dump($Robot->IPS['IPS'][0]);
 
 //var_dump($_SERVER['QUERY_STRING']);
 //$client = $Client->get_client(13640);
