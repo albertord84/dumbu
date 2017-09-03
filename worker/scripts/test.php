@@ -14,9 +14,9 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
+//ini_set('xdebug.var_display_max_depth', 7);
+//ini_set('xdebug.var_display_max_children', 256);
+//ini_set('xdebug.var_display_max_data', 1024);
 
 
 

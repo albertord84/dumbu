@@ -933,50 +933,32 @@
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="col-md-12 col-sm-12 col-xs-12 bk text-center no-pd m-t30">
-                    <div class="fleft100 bk-cinza local">
-                        <img src="<?php //echo base_url() . 'assets/images/local.png'; ?>" class="wauto" alt="">
-                        <h2 class="no-mg"><b><?php //echo $CI->T("GEOLOCALIZAÇÃO", array()); ?></b></h2>
-                        <div class="breve"><a href="" data-toggle="modal" data-target=".bs-simular"><?php //echo $CI->T("EM BREVE", array()); ?></a></div>
-                        
-                        <div class="modal fade bs-simular bs-example-ligar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                            <div class="modal-dialog modal-lg ligar" role="document">
-                                <div class="modal-content text-center pd-20">
-                                    <h4 class="m-tb30 cl-green"><b><?php// echo $CI->T("MUITAS NOVIDADES", array()); ?>!</b></h4>
-                                    <p class=""><?php //echo $CI->T("EM BREVE A DUMBU DISBONIBILIZARÁ NOVAS FUNÇÕES, CLIQUE EM OK SE QUISER <br>PARTICIPAR DA VERSÃO DE TESTES E SER UM DOS PRIMEROS A TER ACESSO.", array()); ?></p>
-                                    <div class="text-center m-b20"><button class="btn-primary w40 btn-green m-t20"><?php// echo $CI->T("QUERO PARTICIPAR", array()); ?></button></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
                 
                 <A name="lnk_upgdrade_plane"></A>
                 <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
                 <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="text-center fleft100 m-t20">
                         <img src="<?php echo base_url() . 'assets/images/pay.png'; ?>" class="wauto" alt="">
-                        <h4 class="fleft100 m-t20"><b><?php echo $CI->T("DADOS DE PAGAMENTO", array()); ?></b></h4>
+                        <h4 class="fleft100"><b><?php echo $CI->T("DADOS DE PAGAMENTO", array()); ?></b></h4>
                     </div>
                     <div class="pay fleft100 input-form">
                         <fieldset>
-                            <input id="credit_card_name" onkeyup="javascript:this.value = this.value.toUpperCase();" class="form-control" placeholder="<?php echo $CI->T("Meu nome no cartão", array()); ?>" required style="text-transform:uppercase;">
+                            <input id="credit_card_name" onkeyup="javascript:this.value = this.value.toUpperCase();"  placeholder="<?php echo $CI->T("Meu nome no cartão", array()); ?>" required style="text-transform:uppercase;">
                         </fieldset>
 
                         <fieldset>
-                            <input type="text" placeholder="<?php echo $CI->T("E-mail", array()); ?>"  id="client_email" type="email" class="form-control" required>
+                            <input type="text" placeholder="<?php echo $CI->T("E-mail", array()); ?>"  id="client_email" type="email"  required>
                         </fieldset>
 
                         <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                             <fieldset>
-                                <input id="credit_card_number" type="text" class="form-control" placeholder="<?php echo $CI->T("Número no cartão", array()); ?>" data-mask="0000 0000 0000 0000" maxlength="20" required>
+                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número no cartão", array()); ?>" data-mask="0000 0000 0000 0000" maxlength="20" required>
                             </fieldset>
                         </div>
 
                         <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
                             <fieldset>
-                                <input id="credit_card_cvc" type="text" class="form-control" placeholder="<?php echo $CI->T("CVV/CVC", array()); ?>" maxlength="5" required>
+                                <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array()); ?>" maxlength="5" required>
                             </fieldset>
                         </div>
 
@@ -987,7 +969,7 @@
                         <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
                             <fieldset>
                                 <div class="select"> 
-                                    <select name="local" id="credit_card_exp_month" class="btn-primeiro sel"> 
+                                    <select name="local" id="credit_card_exp_month" > 
                                         <option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                     </select>
                                 </div>
@@ -1084,30 +1066,40 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- teste 
-        <div class="m-t10 text-center">
-            <a href="<?php// echo base_url().'index.php/welcome/test'?>" target="_blank"></a>
-        </div>-->
         
-        
-
-        <div class="m-t10 ">
-            <div>
-                <p class=text-center><?php echo $CI->T("CANCELAMENTO DA ASSINATURA", array()); ?></p> 
-            </div>
-
-            <div class="text-center" >
-                <div class="row" style="margin-top: 2%; margin-bottom: 2%">
-                    <button id="cancel_usser_account" class="btn btn-default ladda-button"  type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                        <span class="ladda-label"><?php echo $CI->T("Cancelar conta", array()); ?></span>
-                    </button>
+            <div class="fleft100 m-t30">
+                <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
+                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
+                    <div class="m-t10 ">
+                        <div>
+                            <p class=text-center><?php echo $CI->T("CANCELAMENTO DA ASSINATURA", array()); ?></p> 
+                        </div>
+                        <div class="text-center" >
+                            <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                                <button id="cancel_usser_account" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CANCELAR", array()); ?></div></span>
+                                </button>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
+                    <div class="m-t10">
+                        <div>
+                            <p class=text-center><?php echo $CI->T("GERENCIAR LISTA NEGRA", array()); ?></p> 
+                        </div>
+                        <div class="text-center" >
+                            <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                                <button id="black_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("GERENCIAR", array()); ?></div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>     
-        
-        
+        </section>
         
         <div class="h150 fleft100"></div>
         <footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url() . 'assets/images/logo-footer.png'; ?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS", array()); ?></span></div></footer>
@@ -1152,12 +1144,49 @@
                     </div>
                     <div class="modal-footer text-center">
                         <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php //echo $CI->T("ACEITAR", array()); ?></div></span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>-->
+        
+        
+        
+        <!--modal_container_BLACK LIST-->
+        <div class="modal fade" style="top:20%;" id="modal_black_list" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header pay fleft100">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><?php echo $CI->T("Lista negra", array()); ?></h4>  
+                        <div class="col-md-5 col-sm-5 col-xs-12 text-center m-t20">  
+                            <fieldset>
+                                <input id="visitor_phone" class="form-control" type="text" placeholder="<?php echo $CI->T("Perfil", array()); ?>">                                                       
+                            </fieldset>
+                        </div>
+                        
+                        <div class="col-md-5 col-sm-5 col-xs-12 text-left m-t20">
+                            <fieldset>
+                                <button id="black_list" class="btn btn-info ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div class="pd-l15 pd-r15"><?php echo $CI->T("Adicionar", array()); ?></div></span>
+                                </button>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div style="width:100%; min-height:140px; overflow-y: scroll;" class="modal-body">
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                            <table id="table_black_list" class="table table-hover">                                
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>     
         
         
          <!--modal_container_cancel_account_message-->
@@ -1195,9 +1224,10 @@
             <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">                                                          
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
-                        </button>
+                        <!--<button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img src="<?php //echo base_url() . 'assets/images/FECHAR.png'; ?>">
+                        </button>-->
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Mensagem", array()); ?></b></h5>                        
                     </div>
                     <div class="modal-body">                                            
@@ -1210,20 +1240,20 @@
                     </div>
                 </div>
             </div>
-        </div>     
+        </div>
         
         <!--modal_container_confirm_message-->
         <div class="modal fade" style="top:30%" id="modal_confirm_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">                                                          
+            <div id="modal_container_alert_message" class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
                         </button>
-                        <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Confirmação", array()); ?></b></h5>                        
+                        <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Confirmação", array()); ?></b></h5>
                     </div>
-                    <div class="modal-body">                                            
-                        <p id="message_text_confirmation"></p>                        
+                    <div class="modal-body">
+                        <p id="message_text_confirmation"></p>
                     </div>
                     <div class="modal-footer text-center">
                         <span>

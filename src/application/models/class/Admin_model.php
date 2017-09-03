@@ -3,16 +3,13 @@
     require_once 'User_model.php';
     class Admin_model extends User_model {
         
-        public function add_admin() {
-            
+        public function add_admin() {            
         }
 
-        public function delete_admin() {
-            
+        public function delete_admin() {            
         }
         
-        public function update_admin() {
-            
+        public function update_admin() {            
         }
         
         public function view_clients_by_filter($form_filter) {
@@ -71,18 +68,11 @@
                 $this->db->where('status_id', $form_filter['client_status']);            
             return $this->db->get()->result_array();
         }
-        
+           
         public function view_pendences_by_filter($form_filter) {
             $this->db->select('*');
-            $this->db->from('pendences');
-            
-/*
-$mañana        = mktime(0, 0, 0, date("m")  , date("d")+1, date("Y"));
-$mes_anterior  = mktime(0, 0, 0, date("m")-1, date("d"),   date("Y"));
-$año_siguiente = mktime(0, 0, 0, date("m"),   date("d"),   date("Y")+1);
-$this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
- */
-           
+            $this->db->from('pendences');            
+          
             if ($form_filter['pendences_date'] == -50) { // all pendences before today
                 $this->db->where('event_date <= ', time());
             }
@@ -108,23 +98,11 @@ $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 
         }
         
         public function create_pendence_by_form($form_filter) {
-/*
-$data = array(
-   'title' => 'My title' ,
-   'name' => 'My Name' ,
-   'date' => 'My date'
-);
-$this->db->insert('mytable', $data);
-// Produces: INSERT INTO mytable (title, name, date) VALUES ('My title', 'My name', 'My date')
-
-$this->db->set('name', $name);
-$this->db->insert('mytable');
-// Produces: INSERT INTO mytable (name) VALUES ('{$name}')
-*/
+            $now = time();
             if ($form_filter['frequency_option1'] == 'true') { // frecuencia única
                 $this->db->set('client_id', $form_filter['client_id']);
                 $this->db->set('text', $form_filter['pendence_text']);
-                $this->db->set('init_date', time());
+                $this->db->set('init_date', $now);
                 $this->db->set('event_date', strtotime($form_filter['event_date'].' 00:00:01'));
                 $this->db->set('number', 1);
                 $this->db->set('frequency', 1);
@@ -136,8 +114,8 @@ $this->db->insert('mytable');
                 for ($i = 0; $i < $form_filter['number_times']; $i++) {
                     $this->db->set('client_id', $form_filter['client_id']);
                     $this->db->set('text', $form_filter['pendence_text']);
-                    $this->db->set('init_date', time());
-                    $this->db->set('event_date', $event_date + $i * (30 * 24 * 60 * 60));
+                    $this->db->set('init_date', $now);
+                    $this->db->set('event_date', strtotime("+".$i." month", $event_date));
                     $this->db->set('number', $i + 1);
                     $this->db->set('frequency', $form_filter['number_times']);
                     $this->db->insert('pendences');
@@ -149,8 +127,8 @@ $this->db->insert('mytable');
                 for ($i = 0; $i < 12; $i++) {
                     $this->db->set('client_id', $form_filter['client_id']);
                     $this->db->set('text', $form_filter['pendence_text']);
-                    $this->db->set('init_date', time());
-                    $this->db->set('event_date', $event_date + $i * (30 * 24 * 60 * 60));
+                    $this->db->set('init_date', $now);
+                    $this->db->set('event_date', strtotime("+".$i." month", $event_date));
                     $this->db->set('number', $i + 1);
                     $this->db->set('frequency', 0);
                     $this->db->insert('pendences');
@@ -159,25 +137,6 @@ $this->db->insert('mytable');
         }
         
         public function update_pendence($form_filter) {
-/*
-$data = array(
-               'title' => $title,
-               'name' => $name,
-               'date' => $date
-            );
-
-$this->db->where('id', $id);
-$this->db->update('mytable', $data);
-// Produces:
-// UPDATE mytable
-// SET title = '{$title}', name = '{$name}', date = '{$date}'
-// WHERE id = $id
-
-$this->db->set('name', $name);
-$this->db->where('id', $id);
-$this->db->update('mytable');
-// Produces: UPDATE mytable SET name = '{$name}' WHERE id = $id
-*/
             $this->db->set('resolved_date', strtotime($form_filter['resolved_date'].' 00:00:01'));
             $this->db->set('closed_message', $form_filter['pendence_closed_message']);
             $this->db->where('id', $form_filter['id']);

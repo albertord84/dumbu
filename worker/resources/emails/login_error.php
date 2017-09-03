@@ -18,7 +18,7 @@
   <p>Your instagram password in our system is: <strong><?php echo $_GET["instapass"]; ?></strong></p>
   <br>
   <p>Remember: you must have same username and password for both, instagram and our <a href="https://www.dumbu.pro/dumbu/src/">system</a>! 
-  You just need do login in DUMBU with a valid instagram username and password.!</p>
+  You just need do login in DUMBU with a valid instagram username and password.!</p>  
   <br>
   <p>Thanks for using our services,</p>
   <p>DUMBU SYSTEM</p>
