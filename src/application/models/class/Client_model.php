@@ -155,6 +155,13 @@
             return $this->db->get()->result_array();
         }
         
+        public function get_client_black_list_by_id($id){
+            $this->db->select('profile');
+            $this->db->from('black_list');
+            $this->db->where('client_id',$id);
+            return $this->db->get()->result_array();
+        }
+        
         public function get_normal_pay_value($id_value){
             $this->db->select('normal_val');
             $this->db->from('plane');

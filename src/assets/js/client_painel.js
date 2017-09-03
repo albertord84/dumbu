@@ -126,6 +126,7 @@ $(document).ready(function () {
     autolike = parseInt(autolike);
     init_unfollow_type();
     init_autolike_type();
+    flag_black_list=false;
 
       
     $("#dicas_geoloc").click(function(){
@@ -1016,6 +1017,54 @@ $(document).ready(function () {
             return false;
         }
     });
+    
+    $("#black_list").click(function(){
+        flag_black_list=false;
+        client_black_list=0;
+        var l = Ladda.create(this);
+        l.start();
+        $.ajax({
+                url: base_url + 'index.php/welcome/client_black_list',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        set_global_var('flag_black_list',true);
+                        set_global_var('client_black_list',response['client_black_list']);
+                        aaa=response['client_black_list'];
+                        $("#table_black_list").empty();
+                        for(i=0;i<response['cnt'];i++){
+                            $("#table_black_list").append("<tr>");
+                                $("#table_black_list").append("<td class='text-center'><a target='_blank' href='https://www.instagram.com/"+aaa[i].profile+"'><img class='img_profile' style='width:45px;height:45px;border-radius:25px' src='"+aaa[i].url_foto+"'></a></td>");
+                                $("#table_black_list").append("<td class='text-left'><a target='_blank' href='https://www.instagram.com/"+aaa[i].profile+"'><p style='color:black'>"+(aaa[i].profile)+"</p></a></td>");
+                                $("#table_black_list").append("<td class='text-right'>"
+                                        +"<button id='' type='button' class='btn btn-default ladda-button' data-style='expand-left' data-spinner-color='#ffffff'>"
+                                            +"<span class='ladda-label'>"+T('Eliminar')+"</span>"
+                                        +"</button></td>");
+                            $("#table_black_list").append("</tr>");
+                            $("#table_black_list").append("<hr>");
+                        }
+                        $('#modal_black_list').modal('show');
+                        l.stop();
+                    } 
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
+                }            
+        });        
+    });
+    
+    function set_global_var(str, value) {
+        switch (str) {
+            case 'flag_black_list':
+                flag_black_list = value;
+                break;
+            case 'client_black_list':
+                client_black_list = value;
+                break;
+        }
+    }
+    
     
     init_icons_geolocalization(profiles);
 }); 

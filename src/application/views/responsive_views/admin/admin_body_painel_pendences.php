@@ -1,5 +1,5 @@
 <br>
-<div id="admin_form2">    
+<div id="admin_form2">
     <div class="row">
         <form id="form_listar_criar" name="form_listar_criar">
             <div class="col-xs-1"></div>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-xs-6">
                         <div class="center filters">
-                            <b>Data da pendência</b>
+                            <b>Data da execução</b>
                             <input id="event_date" name="event_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled>      
                         </div>
                     </div>

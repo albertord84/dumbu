@@ -83,7 +83,9 @@ var Translation={
     "Seguidores: ":
             "Followers: ",
     "Seguindo: ":
-            "Follwing: "  
+            "Follwing: ",
+    "Eliminar":
+            "Delete"  
 };
 
 function T(token){

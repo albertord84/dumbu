@@ -1,6 +1,6 @@
 <?php
 
-class Welcome extends CI_Controller {    
+class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
@@ -2468,6 +2468,38 @@ class Welcome extends CI_Controller {
                 echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1\n<br>';
             }
         }
+    }
+    
+    public function client_black_list(){
+        if($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            try {
+                $bl=$this->client_model->get_client_black_list_by_id($this->session->userdata('id'));                
+                $dados=array();
+                $N=count($bl);
+                for($i=0;$i<$N;$i++){
+                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
+                }
+                $response['client_black_list'] = $dados;
+                $response['success'] = true;
+                $response['cnt'] = $N;
+            } catch (Exception $ex) {
+                $response['success'] = false;
+            }
+            echo json_encode($response);
+        }
+    }
+    
+    public function get_img_profile($profile){
+        $this->load->model('class/client_model');
+        $datas= $this->check_insta_profile($profile);
+        return $datas->profile_pic_url;
+    }
+    
+    public function insert_in_black_list($profile){
+        $this->load->model('class/client_model');
+        $datas= $this->check_insta_profile($profile);
+        return $datas->profile_pic_url;
     }
     
     
