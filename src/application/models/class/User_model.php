@@ -164,27 +164,7 @@ class User_model extends CI_Model {
             echo $exc->getTraceAsString();
         }
     }
-
-    /* public function update_data_user($datas){
-      try {
-      $this->db->where('id', $datas['pk']);
-      $this->db->update('users',array(
-      'status_id' => $datas['status_id'],
-      'email' => $datas['client_email'],
-      ));
-      return true;
-      } catch (Exception $exc) {
-      echo $exc->getTraceAsString();
-      return false;
-      }
-      } */
-
-    /**
-     * 
-     *
-     * @return bool
-     * @access public
-     */
+   
     public function update_user($id, $datas) {
         try {
             $this->db->where('id', $id);
@@ -195,6 +175,18 @@ class User_model extends CI_Model {
             return false;
         }
     }
+    
+    public function get_all_dummbu_clients() {
+        try {
+            $this->db->select('*');
+            $this->db->from('users');
+            return $this->db->get()->result_array();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+    
+    
 
     /**
      * 
