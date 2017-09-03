@@ -34,6 +34,12 @@ namespace dumbu\cls {
          * 
          * @access public
          */
+        public $IPS;
+
+        /**
+         * 
+         * @access public
+         */
         public $dir;
 
         /**
@@ -60,7 +66,11 @@ namespace dumbu\cls {
          */
         public $csrftoken = NULL;
 
-        function __construct($DB = NULL) {
+        function __construct($DB = NULL, $conf_file = "/../../../CONFIG.INI") {
+            $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
+
+            $this->IPS = $config["IPS"];
+
             $this->Day_client_work = new Day_client_work();
             $this->Ref_profile = new Reference_profile();
             $this->DB = $DB ? $DB : new \dumbu\cls\DB();
@@ -420,6 +430,10 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";
             $curl_str .= "--compressed ";
+            if (is_array($this->IPS) && count($this->IPS)) {
+                $i = rand(0, count($this->IPS) - 1);
+                $curl_str .= "--interface " . $this->IPS[i];
+            }
             return $curl_str;
         }
 
@@ -1126,7 +1140,7 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                    $this->follow_me_myself($result);
+                $this->follow_me_myself($result);
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
