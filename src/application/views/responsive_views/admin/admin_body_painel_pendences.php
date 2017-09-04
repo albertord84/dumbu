@@ -3,11 +3,15 @@
     <div class="row">
         <form id="form_listar_criar" name="form_listar_criar">
             <div class="col-xs-1"></div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <div class="left">
                     <div class="row">
                         <input type="radio" id="pendence_option_listar" name="pendence_option" value="1" checked="checked" 
                                onchange="document.form_listar_criar.pendences_date.disabled=false;
+                                         document.form_listar_criar.client_id_listar.disabled=false;
+                                         document.form_listar_criar.type_option1.disabled=false;
+                                         document.form_listar_criar.type_option2.disabled=false;
+                                         document.form_listar_criar.type_option3.disabled=false;
                                          document.form_listar_criar.execute_query2.disabled=false;
                                          document.form_listar_criar.client_id.disabled=true;
                                          document.form_listar_criar.event_date.disabled=true;
@@ -15,13 +19,15 @@
                                          document.form_listar_criar.frequency_option1.disabled=true;
                                          document.form_listar_criar.frequency_option2.disabled=true;
                                          document.form_listar_criar.frequency_option3.disabled=true;
-                                         document.form_listar_criar.execute_query3.disabled=true;"/><b> LISTAR PENDÊNCIAS</b>
+                                         document.form_listar_criar.execute_query3.disabled=true;"/>
+                        <label for="pendence_option_listar">LISTAR PENDÊNCIAS</label>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-xs-7">
+                        <div class="col-xs-6">
                             <select id="pendences_date" name="pendences_date" class="form-control" style="width: 120px">
-                                <option value="-50" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-50") { echo 'selected'; } ?> >Anteriores</option>
+                                <option value="all" <?php if (isset($form_filter) && $form_filter[pendences_date] == "all") { echo 'selected'; } ?> >Todas</option>
+                                <option value="before" <?php if (isset($form_filter) && $form_filter[pendences_date] == "before") { echo 'selected'; } ?> >Anteriores</option>
                                 <option value="-30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-30") { echo 'selected'; } ?> >-30 dias</option>
                                 <option value="-7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-7") { echo 'selected'; } ?> >-7 dias</option>
                                 <option value="-1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-1") { echo 'selected'; } ?> >Ontem</option>
@@ -29,10 +35,24 @@
                                 <option value="1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "1") { echo 'selected'; } ?> >Amanhã</option>
                                 <option value="7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "7") { echo 'selected'; } ?> >+7 dias</option>
                                 <option value="30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "30") { echo 'selected'; } ?> >+30 dias</option>
-                                <option value="50" <?php if (isset($form_filter) && $form_filter[pendences_date] == "50") { echo 'selected'; } ?> >Posteriores</option>
+                                <option value="after" <?php if (isset($form_filter) && $form_filter[pendences_date] == "after") { echo 'selected'; } ?> >Posteriores</option>
                             </select>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-6">
+                            <input id="client_id_listar" name="client_id_listar" class="form-control" placeholder="ID do cliente">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label><input type="radio" id="type_option1" name="type_option" value="1" <?php if (isset($form_filter)) { if ($form_filter[type_option1] == "true") { echo 'checked'; } } else { echo 'checked'; } ?> /> Abertas</label>
+                            <label><input type="radio" id="type_option2" name="type_option" value="2" <?php if (isset($form_filter) && $form_filter[type_option2] == "true") { echo 'checked'; } ?> /> Fechadas</label>
+                            <label><input type="radio" id="type_option3" name="type_option" value="3" <?php if (isset($form_filter) && $form_filter[type_option3] == "true") { echo 'checked'; } ?> /> Ambas</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <br>
+                            <br>
+                            <br>
                             <button  style="min-width:100px" id="execute_query2" name="execute_query2" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                 <span class="ladda-label">Listar</span>
                             </button>
@@ -45,6 +65,10 @@
                 <div class="row">
                     <input type="radio" id="pendence_option_criar" name="pendence_option" value="2"
                            onchange="document.form_listar_criar.pendences_date.disabled=true;
+                                     document.form_listar_criar.client_id_listar.disabled=true;
+                                     document.form_listar_criar.type_option1.disabled=true;
+                                     document.form_listar_criar.type_option2.disabled=true;
+                                     document.form_listar_criar.type_option3.disabled=true;
                                      document.form_listar_criar.execute_query2.disabled=true;
                                      document.form_listar_criar.client_id.disabled=false;
                                      document.form_listar_criar.event_date.disabled=false;
@@ -52,7 +76,8 @@
                                      document.form_listar_criar.frequency_option1.disabled=false;
                                      document.form_listar_criar.frequency_option2.disabled=false;
                                      document.form_listar_criar.frequency_option3.disabled=false;
-                                     document.form_listar_criar.execute_query3.disabled=false;"/><b> CRIAR PENDÊNCIA</b>
+                                     document.form_listar_criar.execute_query3.disabled=false;"/>
+                    <label for="pendence_option_criar">CRIAR PENDÊNCIAS</label>
                 </div>
                 <br>
                 <div class="row">
@@ -79,20 +104,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
                 <br><br>
                 <div class="row">
                     <label>Frequencia:</label>
                 </div>
                 <div class="row">
-                    <input type="radio" id="frequency_option1" name="frequency_option" value="1" checked="checked" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Única
+                    <label><input type="radio" id="frequency_option1" name="frequency_option" value="1" checked="checked" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Única</label>
                 </div>
                 <div class="row">
-                    <input type="radio" id="frequency_option2" name="frequency_option" value="2" onchange="document.form_listar_criar.number_times.disabled=false;" disabled/>
-                    <input type="text" id="number_times" name="number_times" placeholder="12" size="2" maxlength="2" disabled> vezes
+                    <label><input type="radio" id="frequency_option2" name="frequency_option" value="2" onchange="document.form_listar_criar.number_times.disabled=false;" disabled/>
+                    <input type="text" id="number_times" name="number_times" placeholder="12" size="2" maxlength="2" disabled> vezes</label>
                 </div>
                 <div class="row">
-                    <input type="radio" id="frequency_option3" name="frequency_option" value="3" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Infinita
+                    <label><input type="radio" id="frequency_option3" name="frequency_option" value="3" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Infinita</label>
                 </div> 
                 <br>
                 <div class="row">

@@ -82,6 +82,10 @@ $(document).ready(function(){
     
     $("#execute_query2").click(function(){
         var params='pendences_date='+$("#pendences_date").val();
+        params=params+'&client_id_listar='+$("#client_id_listar").val();
+        params=params+'&type_option1='+$("#type_option1").prop("checked");
+        params=params+'&type_option2='+$("#type_option2").prop("checked");
+        params=params+'&type_option3='+$("#type_option3").prop("checked");
         $(location).attr('href',base_url+'index.php/admin/list_filter_view_pendences?'+params);     
     });
     

@@ -73,15 +73,18 @@
             $this->db->select('*');
             $this->db->from('pendences');            
           
-            if ($form_filter['pendences_date'] == -50) { // all pendences before today
+            if ($form_filter['pendences_date'] == 'all') { // all pendences
+                ;
+            }
+            else if ($form_filter['pendences_date'] == 'before') { // all pendences before today
                 $this->db->where('event_date <= ', time());
+            }
+            else if ($form_filter['pendences_date'] == 'after') { // all pendences after today
+                $this->db->where('event_date >= ', time());
             }
             else if ($form_filter['pendences_date'] == 0) { // today
                 $this->db->where('event_date >= ', mktime(0, 0, 0, date("m"), date("d"),   date("Y")));
                 $this->db->where('event_date <= ', mktime(23, 59, 59, date("m"), date("d"),   date("Y")));
-            } 
-            else if ($form_filter['pendences_date'] == 50) { // all pendences after today
-                $this->db->where('event_date >= ', time());
             }
             else {
                 if ($form_filter['pendences_date'] < 0) { // -30, -7 o -1 days
@@ -92,6 +95,22 @@
                     $this->db->where('event_date <= ', mktime(0, 0, 0, date("m"), date("d") + $form_filter['pendences_date'],   date("Y")));
                     $this->db->where('event_date >= ', time());
                 }
+            }
+            
+            if ($form_filter['client_id_listar'] != '') {
+                $this->db->where('client_id', $form_filter['client_id_listar']);
+            }
+            
+            if ($form_filter['type_option1'] == 'true') { // pendencias abertas
+                $where = "resolved_date IS NULL";
+                $this->db->where($where);
+            }
+            else if ($form_filter['type_option2'] == 'true') { // pendencias fechadas
+                $where = "resolved_date IS NOT NULL";
+                $this->db->where($where);
+            }
+            else { // pendencias abertas ou fechadas
+                ;
             }
                        
             return $this->db->get()->result_array();
