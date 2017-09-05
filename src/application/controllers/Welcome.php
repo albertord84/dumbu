@@ -53,6 +53,8 @@ class Welcome extends CI_Controller {
         if ($this->session->userdata('id')) {
             $datas = $this->input->get();
             $this->load->model('class/user_model');
+            $this->user_model->insert_washdog('em página de compra satisfatória');
+            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
@@ -624,6 +626,10 @@ class Welcome extends CI_Controller {
                 }
             }
         }
+        if($result['authenticated'] == true){
+            $this->load->model('class/user_model');
+            $this->user_model->insert_washdog('fez login');
+        }
         if($login_by_client)
             echo json_encode($result);
         else
@@ -806,7 +812,11 @@ class Welcome extends CI_Controller {
                             $response['flag_initial_payment'] = false;
                     }
                     //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
-                    if ($response['flag_initial_payment']) {                    
+                    if ($response['flag_initial_payment']) {  
+                        
+                        $this->load->model('class/user_model');
+                        $this->user_model->insert_washdog('fez compra satisfatória');
+                        
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
@@ -1450,6 +1460,11 @@ class Welcome extends CI_Controller {
             } elseif ($datas['unfollow_total'] == 0) {
                 
             }
+            
+            ($datas['unfollow_total']==0)?$ut='desativado':$ut='ativado';
+            $this->load->model('class/user_model');
+            $this->user_model->insert_washdog('unfollow total '.$ut);
+            
             $this->client_model->update_client($this->session->userdata('id'), array(
                 'unfollow_total' => $datas['unfollow_total']
             ));
@@ -1465,9 +1480,15 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             $datas = $this->input->post();
+            $al=(int) $datas['autolike'];
             $this->client_model->update_client($this->session->userdata('id'), array(
-                'like_first' => (int) $datas['autolike']
+                'like_first' => $al
             ));
+            
+            ($al==0)?$ut='desativado':$ut='ativado';
+            $this->load->model('class/user_model');
+            $this->user_model->insert_washdog('autolike '.$ut);
+            
             $response['success'] = true;
             $response['autolike'] = $datas['autolike'];
         }
@@ -1680,6 +1701,15 @@ class Welcome extends CI_Controller {
                 $result['success'] = false;
                 $result['message'] = $this->T('Acesso não permitido', array());
             }
+            
+            if($result['success'] == true){
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog('atualização de cartão correta');
+            } else{
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog('atualização de cartão errada');
+            }
+            
             echo json_encode($result);
         }
     }
@@ -1800,6 +1830,11 @@ class Welcome extends CI_Controller {
                 else
                     $result['message']=$this->T('A geolocalizaçao informada ja está ativa', array());                
             }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog('insersão de geolocalização '.$profile['geolocalization']);
+            }
             echo json_encode($result);
         }
     }
@@ -1816,6 +1851,11 @@ class Welcome extends CI_Controller {
             } else {
                 $result['success'] = false;
                 $result['message'] = $this->T('Erro no sistema, tente novamente', array());
+            }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog('eliminação da geolocalização '.$profile['geolocalization']);
             }
             echo json_encode($result);
         }
@@ -1904,6 +1944,12 @@ class Welcome extends CI_Controller {
                 else
                     $result['message'] = $this->T('O perfil informado é uma geolocalização ativa', array());                
             }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog('insersão do perfil de referência '.$profile['profile']);
+            }
+            
             echo json_encode($result);
         }
     }
@@ -1921,6 +1967,12 @@ class Welcome extends CI_Controller {
                 $result['success'] = false;
                 $result['message'] = $this->T('Erro no sistema, tente novamente', array());
             }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog('eliminação do perfil de referência '.$profile['profile']);
+            }
+            
             echo json_encode($result);
         }
     }
@@ -2097,6 +2149,8 @@ class Welcome extends CI_Controller {
 
     public function log_out() {
         $data['user_active'] = false;
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog('encerrando sessão');
         $this->session->sess_destroy();
         header('Location: ' . base_url() . 'index.php');
     }
@@ -2193,7 +2247,9 @@ class Welcome extends CI_Controller {
     public function dicas_geoloc() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;        
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog('vendo dicas de geolocalização');
         $this->load->view('dicas_geoloc', $param);
     }
     
@@ -2201,6 +2257,8 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog('vendo dicas de perfis de referência');
         $this->load->view('ajuda', $param);
     }
 
@@ -2482,7 +2540,7 @@ class Welcome extends CI_Controller {
                 }
                 $response['client_black_list'] = $dados;
                 $response['success'] = true;
-                $response['cnt'] = $N;
+                $response['cnt'] = $N;   
             } catch (Exception $ex) {
                 $response['success'] = false;
             }
@@ -2506,7 +2564,9 @@ class Welcome extends CI_Controller {
             if($datas){
                 if($this->client_model->insert_in_black_list_model($this->session->userdata('id'),$profile)){
                     $result['success'] = true;
-                    $result['url_foto'] = $datas->profile_pic_url;             
+                    $result['url_foto'] = $datas->profile_pic_url;    
+                    $this->load->model('class/user_model');
+                    $this->user_model->insert_washdog('inserindo perfil '.$profile.'em lista negra');
                 } else{
                     $result['success'] = false;
                     $result['message'] = $this->T('O perfil já está na lista negra', array());

@@ -220,7 +220,7 @@ class User_model extends CI_Model {
      * @return bool
      * @access public
      */
-    public function disable_account() {
+    public function insert_washdog($cad) {
         
     }
     
