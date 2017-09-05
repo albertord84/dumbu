@@ -5,7 +5,7 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     public function test(){
-        $this->load->model('class/user_model');
+       /* $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
         $N=count($a);
         for($i=0;$i<$N;$i++){
@@ -19,7 +19,8 @@ class Welcome extends CI_Controller {
                 $result= $this->user_do_login($datas);
                 //print_r('Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>');
             }
-        }
+        }*/
+     echo date('d-m-Y',1494882485);
     }
 
     public function block_hacker(){
