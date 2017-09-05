@@ -1163,19 +1163,21 @@
                         <h4 class="modal-title"><?php echo $CI->T("Lista negra", array()); ?></h4>  
                         <div class="col-md-5 col-sm-5 col-xs-12 text-center m-t20">  
                             <fieldset>
-                                <input id="visitor_phone" class="form-control" type="text" placeholder="<?php echo $CI->T("Perfil", array()); ?>">                                                       
+                                <input id="text_profile_black_list" class="form-control" type="text" placeholder="<?php echo $CI->T("Perfil", array()); ?>">                                                       
                             </fieldset>
-                        </div>
-                        
+                        </div>                        
                         <div class="col-md-5 col-sm-5 col-xs-12 text-left m-t20">
                             <fieldset>
-                                <button id="black_list" class="btn btn-info ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                <button id="add_profile_in_black_list" class="btn btn-info ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
                                     <span class="ladda-label"><div class="pd-l15 pd-r15"><?php echo $CI->T("Adicionar", array()); ?></div></span>
                                 </button>
                             </fieldset>
                         </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-left m-t20">
+                            <p id="insert_black_list_msg_error"></p>
+                        </div>                        
                     </div>
-                    <div style="width:100%; min-height:140px; overflow-y: scroll;" class="modal-body">
+                    <div style="width:100%; min-height:120px; max-height:150px; overflow-y: scroll;" class="modal-body">
                         <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                             <table id="table_black_list" class="table table-hover">                                
                             </table>

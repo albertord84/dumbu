@@ -2496,10 +2496,27 @@ class Welcome extends CI_Controller {
         return $datas->profile_pic_url;
     }
     
-    public function insert_in_black_list($profile){
-        $this->load->model('class/client_model');
-        $datas= $this->check_insta_profile($profile);
-        return $datas->profile_pic_url;
+    public function insert_profile_in_black_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];   
+            $datas=$this->check_insta_profile($profile);
+            if($datas){
+                if($this->client_model->insert_in_black_list_model($this->session->userdata('id'),$profile)){
+                    $result['success'] = true;
+                    $result['url_foto'] = $datas->profile_pic_url;             
+                } else{
+                    $result['success'] = false;
+                    $result['message'] = $this->T('O perfil já está na lista negra', array());
+                }
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('O perfil não existe no Instagram', array());
+            }            
+            echo json_encode($result);
+        }
     }
     
     
