@@ -1,6 +1,6 @@
 <?php
 
-class Welcome extends CI_Controller {    
+class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
@@ -2214,10 +2214,7 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
-    public function update_all_retry_clients(){    
-        //[154, 1320, 11249, 2544, 2562, 4032, 4727, 5409, 6345, 6394, 6893, 8234, 9136, 9379, 9432, 9524, 9560, 9736, 9777, 9829, 9580, 9608, 9774, 9910, 9584, 9792, 10391, 10453, 10582, 10618, 10765, 10881, 10057, 10433, 10508, 10801, 11059, 11101, 10166, 10452, 10718, 11440, 11510, 11597, 11625, 11421, 11490, 11526, 11839, 15738]
-
-        
+    public function update_all_retry_clients(){            
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
@@ -2471,6 +2468,55 @@ class Welcome extends CI_Controller {
                         'purchase_counter' => -100 ));
                 echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1\n<br>';
             }
+        }
+    }
+    
+    public function client_black_list(){
+        if($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            try {
+                $bl=$this->client_model->get_client_black_list_by_id($this->session->userdata('id'));                
+                $dados=array();
+                $N=count($bl);
+                for($i=0;$i<$N;$i++){
+                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
+                }
+                $response['client_black_list'] = $dados;
+                $response['success'] = true;
+                $response['cnt'] = $N;
+            } catch (Exception $ex) {
+                $response['success'] = false;
+            }
+            echo json_encode($response);
+        }
+    }
+    
+    public function get_img_profile($profile){
+        $this->load->model('class/client_model');
+        $datas= $this->check_insta_profile($profile);
+        return $datas->profile_pic_url;
+    }
+    
+    public function insert_profile_in_black_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];   
+            $datas=$this->check_insta_profile($profile);
+            if($datas){
+                if($this->client_model->insert_in_black_list_model($this->session->userdata('id'),$profile)){
+                    $result['success'] = true;
+                    $result['url_foto'] = $datas->profile_pic_url;             
+                } else{
+                    $result['success'] = false;
+                    $result['message'] = $this->T('O perfil já está na lista negra', array());
+                }
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('O perfil não existe no Instagram', array());
+            }            
+            echo json_encode($result);
         }
     }
     

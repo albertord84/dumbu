@@ -457,6 +457,36 @@
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_client_black_list_by_id($id){
+            $this->db->select('profile');
+            $this->db->from('black_list');
+            $this->db->where('client_id',$id);
+            $this->db->where('deleted','0');
+            return $this->db->get()->result_array();
+        }
+        
+        public function insert_in_black_list_model($id,$profile){            
+            $this->db->select('*');
+            $this->db->from('black_list');
+            $this->db->where('client_id',$id);
+            $this->db->where('profile',$profile);
+            $this->db->where('deleted','0');
+            $a=$this->db->get()->result_array();
+            if(count($a)==0){ //si no esta activo en la base de datos
+                $data_user=array(
+                    'client_id'=>$id,
+                    'profile'=>$profile,
+                    'add_date'=>time()
+                );
+                $this->db->insert('black_list',$data_user);
+                return true;
+            } else{
+                return false;
+            }
+        }
+        
+        
     // end of Client
 }
 ?>
