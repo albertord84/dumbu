@@ -92,8 +92,7 @@
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
-            $data_user['init_date']= time();                        //
-            $this->db->insert('users',$data_user);
+            $data_user['init_date']= time();                        
             $id_user_table=$this->db->insert_id();
            
             //insert respectivity datas in the client table

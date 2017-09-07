@@ -726,27 +726,7 @@ $(document).ready(function () {
         }
     });
 
-    function set_global_var(str, value) {
-        switch (str) {
-            case 'unfollow_total':
-                unfollow_total = value;
-                break;
-            case 'autolike':
-                autolike = value;
-                break;
-            case 'users_datas':
-                users_datas = value;
-                /*users_source = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.whitespace,
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    local: users_datas
-                    });*/
-                break;
-            case 'places':
-                places = value;
-                break;
-        }
-    }
+    
     
     init_icons_profiles(profiles);
     
@@ -1028,7 +1008,6 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (response['success']) {
-                        set_global_var('flag_black_list',true);
                         set_global_var('client_black_list',response['client_black_list']);
                         aaa=response['client_black_list'];
                         $("#table_black_list").empty();
@@ -1042,6 +1021,11 @@ $(document).ready(function () {
                                         +"</button></td>");
                             $("#table_black_list").append("</tr>");
                         }
+                        
+                        $("#blog-test-cont").on("click", ".blog-test", function(){
+                            $(this).after("<p class=\"blog-test\">Pulsa para probar " + (++bt_count) + "</p>");
+                        });
+                        
                         $('#modal_black_list').modal('show');
                         l.stop();
                     } 
@@ -1104,14 +1088,19 @@ $(document).ready(function () {
         }
     });
     
-    
-    
-    
-    
     function set_global_var(str, value) {
         switch (str) {
-            case 'flag_black_list':
-                flag_black_list = value;
+            case 'unfollow_total':
+                unfollow_total = value;
+                break;
+            case 'autolike':
+                autolike = value;
+                break;
+            case 'users_datas':
+                users_datas = value;
+                break;
+            case 'places':
+                places = value;
                 break;
             case 'client_black_list':
                 client_black_list = value;
