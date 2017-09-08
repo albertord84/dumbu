@@ -2584,7 +2584,7 @@ class Welcome extends CI_Controller {
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
                     $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'inserido o perfil '.$profile.'da lista negra');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'inserindo perfil '.$profile.'em lista negra');
                 } else{
                     $result['success'] = false;
                     $result['message'] = $this->T('O perfil já está na lista negra', array());

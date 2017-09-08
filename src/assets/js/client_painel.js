@@ -1020,10 +1020,12 @@ $(document).ready(function () {
                                             +"<span class='ladda-label row_"+aaa[i].profile+"'>"+T('Eliminar')+"</span>"
                                         +"</button></td>");
                             $("#table_black_list").append("</tr>");
+
                         }                        
                         $("#table_black_list").on("click", ".delete-btn", function(e){
                             delete_profile_from_black_list(e);
                         });                        
+
                         $('#modal_black_list').modal('show');
                         l.stop();
                     } 
