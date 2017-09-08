@@ -92,8 +92,7 @@
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
-            $data_user['init_date']= time();                        //
-            $this->db->insert('users',$data_user);
+            $data_user['init_date']= time();                        
             $id_user_table=$this->db->insert_id();
            
             //insert respectivity datas in the client table
@@ -466,7 +465,7 @@
             return $this->db->get()->result_array();
         }
         
-        public function insert_in_black_list_model($id,$profile){            
+        public function insert_in_black_list_model($id,$profile){
             $this->db->select('*');
             $this->db->from('black_list');
             $this->db->where('client_id',$id);
@@ -482,6 +481,18 @@
                 $this->db->insert('black_list',$data_user);
                 return true;
             } else{
+                return false;
+            }
+        }
+        
+        public function delete_in_black_list_model($id,$profile){
+            try {
+                $this->db->where('client_id',$id);
+                $this->db->where('profile',$profile);
+                $this->db->update('black_list',array('end_date'=>time(),'deleted'=>'1'));
+                return true;
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
                 return false;
             }
         }

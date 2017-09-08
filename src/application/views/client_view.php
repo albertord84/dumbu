@@ -412,6 +412,7 @@
                         </div>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
+                    
                     <!-- Modal -->
                     <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
@@ -423,7 +424,7 @@
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array()); ?></h4>
                                 </div>
                                 <div class="modal-body text-left">                                                                       
-                                    <input id = "login_profile"  type="text" text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
+                                    <input id = "login_profile"  type="text" style="text-transform:lowercase" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
                                     <!--<input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>-->
                                     <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
