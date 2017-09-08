@@ -239,6 +239,7 @@ $client = $Client->get_client(1);
 $str_curl = $Robot->make_curl_friendships_command_str("https://www.instagram.com/web/friendships/4447467576/unfollow/", json_decode($client->cookies));
 exec($str_curl, $output, $return_var);
 
+var_dump($Robot->IPS);
 var_dump($str_curl);
 var_dump($output);
 //var_dump($return_var);
