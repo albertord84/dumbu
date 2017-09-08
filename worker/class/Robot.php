@@ -430,10 +430,10 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";
             $curl_str .= "--compressed ";
-//            if (is_array($this->IPS) && count($this->IPS)) {
-//                $i = rand(0, count($this->IPS) - 1);
-//                $curl_str .= "--interface " . $this->IPS['IPS'][$i];
-//            }
+            if (is_array($this->IPS) && count($this->IPS)) {
+                $i = rand(0, count($this->IPS) - 1);
+                $curl_str .= "--interface " . $this->IPS['IPS'][$i];
+            }
             return $curl_str;
         }
 

@@ -189,7 +189,7 @@ $Robot = new \dumbu\cls\Robot();
 //    $result = $Robot->follow_me_myself(json_decode($client->cookies));
 //    var_dump($result);
 //}
-//$client = $Client->get_client(1);
+$client = $Client->get_client(1);
 //$profile = $Robot->get_insta_ref_prof_data('teatro-popular-oscar-niemeyer');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), "caminho-niemeyer");
 //$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);
@@ -233,6 +233,12 @@ $Robot = new \dumbu\cls\Robot();
 //print_r($result);
 //$result = $Robot->like_fist_post(json_decode($client->cookies), $client->insta_id);
 //exec("curl 'https://www.instagram.com/accounts/login/ajax/' -H 'Accept: application/json' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.5' -H 'Cookie: csrftoken=eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'Host: www.instagram.com' -H 'Referer: https://www.instagram.com/' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' -H 'X-CSRFToken: eJzTF9Wt9Cd6HHia8QSApAJfDPtllJIX' -H 'X-Instagram-AJAX: 1' -H 'X-Requested-With: XMLHttpRequest' --data 'username=alberto_dreyes&password=albertord4' -H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'", $output, $return_var);
+//exec("curl 'https://www.instagram.com/web/friendships/4447467576/unfollow/' -X POST -H 'Host: www.instagram.com' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'X-CSRFToken: fJzTTtHABXCmXshy1axGtLImAUdVdHVH' -H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' -H 'Referer: https://www.instagram.com/emiine.eren/' -H 'Cookie: mid=WGgNFgAEAAEHckqAspn_mLpONLuz; datr=pvF7WIAeHPHeRehh-mQkjYcz; fbm_124024574287414=base_domain=.instagram.com; csrftoken=fJzTTtHABXCmXshy1axGtLImAUdVdHVH; ds_user_id=3916799608; sessionid=IGSCfceccdf7508beb639afacae54eca8ec633613808fa9d72793bf88de53dcd8cec%3AByXGOgbxg86eGI5xMGjFSyg8kPDBddq1%3A%7B%22_auth_user_id%22%3A3916799608%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_auth_user_hash%22%3A%22%22%2C%22_token_ver%22%3A2%2C%22_token%22%3A%223916799608%3AG36Kb3HqZ0H8WTHQ1IlMmcvVoO9j7v31%3A8e158f25df605ea386f1dd5278831e51e6f9dfc2f043f7e22893d09562082b95%22%2C%22_platform%22%3A4%2C%22last_refreshed%22%3A1504314116.4444174767%2C%22asns%22%3A%7B%22time%22%3A1504314115%7D%7D; rur=ASH; ig_vw=1855; ig_pr=1; ig_vh=953; fbsr_124024574287414=bEMfEf8cBeSKucCB3zQIXyHbUb9PUfyU58nHPrAOTB8.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUUNER0JZdmhQbFFmOG95Xy1yNFR3NkkwNk1HRG9Ta0dlSFlGQ3ExR3VrSnFHWVg3RkdKT2dQdVpNMU1QRHJrSmdFdWI1UHZrUHFxRW5vSFVuTWViX01GSG8zYjdkanJQVzFVdm81U0V2TUp6SWY0S3F0dEJsSnpIdzR4MFpqN2VUd3lkVTZJaktIMVlRb0dfXzlTaXlJY3dqTF9kcmNQdmFNZEs3c1hVNElUQUhpS3ZLZmt5eERsMktyWUJqbDd4QjBnQmpMemhJNG9SNTV6RHFUcEt4WnpHd2I2TlgtcTQtNmVkeXJYeThSVVRwZzkxMlFFWEhLM1JRR1hvYnl1YWNidUtzU25HekFodzYwYVNVZ0dpN1I1dC1mYzNST05aQ1BpSWd6MDc4RGZKNVBtWXVfN3dHUHJFTzRmRGFsYnpHT3hzV0RMUms1RUwyNjFQcm9RbG9tYVg5X1VFQkd3a0lpc0pPb0tEendMMXIzb3NzbGhCcUpCTXVOUmwzMWhuU3ciLCJpc3N1ZWRfYXQiOjE1MDQzMTQxMzAsInVzZXJfaWQiOiIxMDAwMDk0MzMwNjkwOTUifQ' --interface 191.252.103.137", $output, $return_var);
+
+$client = $Client->get_client(1);
+$str_curl = $Robot->make_curl_friendships_command_str("https://www.instagram.com/web/friendships/4447467576/unfollow/", json_decode($client->cookies));
+exec($str_curl, $output, $return_var);
+
 //var_dump($output);
 //var_dump($return_var);
 //$Robot = new dumbu\cls\Robot();
