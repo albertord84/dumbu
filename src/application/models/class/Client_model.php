@@ -457,39 +457,52 @@
             }
         }
         
-        public function get_client_black_list_by_id($id){
+        public function get_client_black_or_white_list_by_id($id,$type){
             $this->db->select('profile');
-            $this->db->from('black_list');
+            $this->db->from('black_and_white_list');
             $this->db->where('client_id',$id);
             $this->db->where('deleted','0');
-            return $this->db->get()->result_array();
+            $this->db->where('black_or_white',$type);
+            $result=$this->db->get()->result_array();
+            return $result;
         }
         
-        public function insert_in_black_list_model($id,$profile){
+        public function insert_in_black_or_white_list_model($id,$profile,$type){
             $this->db->select('*');
-            $this->db->from('black_list');
+            $this->db->from('black_and_white_list');
             $this->db->where('client_id',$id);
             $this->db->where('profile',$profile);
             $this->db->where('deleted','0');
             $a=$this->db->get()->result_array();
+            
             if(count($a)==0){ //si no esta activo en la base de datos
                 $data_user=array(
                     'client_id'=>$id,
                     'profile'=>$profile,
-                    'add_date'=>time()
+                    'init_date'=>time(),
+                    'black_or_white'=>$type
                 );
-                $this->db->insert('black_list',$data_user);
-                return true;
+                $this->db->insert('black_and_white_list',$data_user);
+                $result['message']='O perfil '.$profile.'foi inserifo';
+                $result['success']=true;
             } else{
-                return false;
+                if($a[0]['black_or_white']==='0'){
+                    $result['message']='está na lista negra';
+                    $result['success']=false;
+                } else{
+                    $result['message']='está na lista branca';
+                    $result['success']=false;
+                }
             }
+            return $result;
         }
         
-        public function delete_in_black_list_model($id,$profile){
+        public function delete_in_black_or_white_list_model($id,$profile,$type){
             try {
                 $this->db->where('client_id',$id);
                 $this->db->where('profile',$profile);
-                $this->db->update('black_list',array('end_date'=>time(),'deleted'=>'1'));
+                $this->db->where('black_or_white',$type);
+                $this->db->update('black_and_white_list',array('end_date'=>time(),'deleted'=>'1'));
                 return true;
             } catch (Exception $exc) {                
                 echo $exc->getTraceAsString();
@@ -497,7 +510,5 @@
             }
         }
         
-        
-    // end of Client
 }
 ?>

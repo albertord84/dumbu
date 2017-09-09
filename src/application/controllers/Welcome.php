@@ -2501,8 +2501,7 @@ class Welcome extends CI_Controller {
             return $response;
         }
     }
-    
-    
+        
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
         $this->load->model('class/client_model');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(7);
@@ -2546,11 +2545,22 @@ class Welcome extends CI_Controller {
         }
     }
     
+    public function get_img_profile($profile){
+        $this->load->model('class/client_model');
+        $datas= $this->check_insta_profile($profile);
+        if($datas)
+            return $datas->profile_pic_url;
+        else
+            return 'missing_profile';
+    }
+        
+    
+    
     public function client_black_list(){
         if($this->session->userdata('id')){
             $this->load->model('class/client_model');
             try {
-                $bl=$this->client_model->get_client_black_list_by_id($this->session->userdata('id'));                
+                $bl=$this->client_model->get_client_black_or_white_list_by_id($this->session->userdata('id'),0);                
                 $dados=array();
                 $N=count($bl);
                 for($i=0;$i<$N;$i++){
@@ -2558,20 +2568,14 @@ class Welcome extends CI_Controller {
                 }
                 $response['client_black_list'] = $dados;
                 $response['success'] = true;
-                $response['cnt'] = $N;   
+                $response['cnt'] = $N;
             } catch (Exception $ex) {
                 $response['success'] = false;
             }
             echo json_encode($response);
         }
     }
-    
-    public function get_img_profile($profile){
-        $this->load->model('class/client_model');
-        $datas= $this->check_insta_profile($profile);
-        return $datas->profile_pic_url;
-    }
-    
+        
     public function insert_profile_in_black_list(){
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -2580,14 +2584,15 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                if($this->client_model->insert_in_black_list_model($this->session->userdata('id'),$profile)){
-                    $result['success'] = true;
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,0);
+                if($result['success']){
+                    $resp['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
                     $this->load->model('class/user_model');
                     $this->user_model->insert_washdog($this->session->userdata('id'),'inserindo perfil '.$profile.'em lista negra');
                 } else{
                     $result['success'] = false;
-                    $result['message'] = $this->T('O perfil já está na lista negra', array());
+                    $result['message'] = $this->T('O perfil '.$resp['message'], array());
                 }
             } else{
                 $result['success'] = false;
@@ -2603,7 +2608,7 @@ class Welcome extends CI_Controller {
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $this->load->model('class/client_model');
             $profile = $this->input->post()['profile'];
-            if($this->client_model->delete_in_black_list_model($this->session->userdata('id'),$profile)){
+            if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,0)){
                 $result['success'] = true;
                 $this->load->model('class/user_model');
                 $this->user_model->insert_washdog($this->session->userdata('id'),'eliminado o perfil '.$profile.' da lista negra');
@@ -2615,5 +2620,70 @@ class Welcome extends CI_Controller {
         }
     }
     
+    
+    
+    public function client_white_list(){
+        if($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            try {
+                $bl=$this->client_model->get_client_black_or_white_list_by_id($this->session->userdata('id'),1);                
+                $dados=array();
+                $N=count($bl);
+                for($i=0;$i<$N;$i++){
+                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
+                }
+                $response['client_white_list'] = $dados;
+                $response['success'] = true;
+                $response['cnt'] = $N;   
+            } catch (Exception $ex) {
+                $response['success'] = false;
+            }
+            echo json_encode($response);
+        }
+    }
+    
+    public function insert_profile_in_white_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];   
+            $datas=$this->check_insta_profile($profile);
+            if($datas){
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,1);
+                if($resp['success']){
+                    $result['success'] = true;
+                    $result['url_foto'] = $datas->profile_pic_url;    
+                    $this->load->model('class/user_model');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'inserindo perfil '.$profile.'em lista branca');
+                } else{
+                    $result['success'] = false;
+                    $result['message'] = $this->T('O perfil '.$resp['message'], array());
+                }
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('O perfil não existe no Instagram', array());
+            }            
+            echo json_encode($result);
+        }
+    }
+    
+    public function delete_client_from_white_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];
+            if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,1)){
+                $result['success'] = true;
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'eliminado o perfil '.$profile.' da lista negra');
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro eliminando da lista negra', array());
+            }
+            echo json_encode($result);
+        }
+    }
     
 }
