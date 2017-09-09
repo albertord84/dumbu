@@ -92,8 +92,7 @@
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
-            $data_user['init_date']= time();                        //
-            $this->db->insert('users',$data_user);
+            $data_user['init_date']= time();                        
             $id_user_table=$this->db->insert_id();
            
             //insert respectivity datas in the client table
@@ -457,6 +456,59 @@
                 echo $exc->getTraceAsString();
             }
         }
-    // end of Client
+        
+        public function get_client_black_or_white_list_by_id($id,$type){
+            $this->db->select('profile');
+            $this->db->from('black_and_white_list');
+            $this->db->where('client_id',$id);
+            $this->db->where('deleted','0');
+            $this->db->where('black_or_white',$type);
+            $result=$this->db->get()->result_array();
+            return $result;
+        }
+        
+        public function insert_in_black_or_white_list_model($id,$profile,$type){
+            $this->db->select('*');
+            $this->db->from('black_and_white_list');
+            $this->db->where('client_id',$id);
+            $this->db->where('profile',$profile);
+            $this->db->where('deleted','0');
+            $a=$this->db->get()->result_array();
+            
+            if(count($a)==0){ //si no esta activo en la base de datos
+                $data_user=array(
+                    'client_id'=>$id,
+                    'profile'=>$profile,
+                    'init_date'=>time(),
+                    'black_or_white'=>$type
+                );
+                $this->db->insert('black_and_white_list',$data_user);
+                $result['message']='O perfil '.$profile.'foi inserifo';
+                $result['success']=true;
+            } else{
+                if($a[0]['black_or_white']==='0'){
+                    $result['message']='está na lista negra';
+                    $result['success']=false;
+                } else{
+                    $result['message']='está na lista branca';
+                    $result['success']=false;
+                }
+            }
+            return $result;
+        }
+        
+        public function delete_in_black_or_white_list_model($id,$profile,$type){
+            try {
+                $this->db->where('client_id',$id);
+                $this->db->where('profile',$profile);
+                $this->db->where('black_or_white',$type);
+                $this->db->update('black_and_white_list',array('end_date'=>time(),'deleted'=>'1'));
+                return true;
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
+        
 }
 ?>
