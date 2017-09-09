@@ -1077,12 +1077,13 @@
                 </div>
             </div>
         
+            <!--
             <div class="fleft100 m-t30">
                 <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
                 <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="m-t10">
                         <div>
-                            <p class=text-center><?php echo $CI->T("GERENCIAR LISTA BRANCA", array()); ?></p> 
+                            <p class=text-center><?php //echo $CI->T("GERENCIAR LISTA BRANCA", array()); ?></p> 
                         </div>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">
@@ -1097,19 +1098,21 @@
                 <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
                     <div class="m-t10">
                         <div>
-                            <p class=text-center><?php echo $CI->T("GERENCIAR LISTA NEGRA", array()); ?></p> 
+                            <p class=text-center><?php //echo $CI->T("GERENCIAR LISTA NEGRA", array()); ?></p> 
                         </div>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">
                                 <button id="black_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("GERENCIAR", array()); ?></div></span>
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php //echo $CI->T("GERENCIAR", array()); ?></div></span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                
+            -->
+            
+            
             <div class="fleft100 m-t30">
                 <div class="col-md-12 col-sm-12 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="m-t10 ">
