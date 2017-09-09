@@ -34,6 +34,12 @@ namespace dumbu\cls {
          * 
          * @access public
          */
+        public $IPS;
+
+        /**
+         * 
+         * @access public
+         */
         public $dir;
 
         /**
@@ -60,7 +66,11 @@ namespace dumbu\cls {
          */
         public $csrftoken = NULL;
 
-        function __construct($DB = NULL) {
+        function __construct($DB = NULL, $conf_file = "/../../../CONFIG.INI") {
+            $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
+
+            $this->IPS = $config["IPS"];
+
             $this->Day_client_work = new Day_client_work();
             $this->Ref_profile = new Reference_profile();
             $this->DB = $DB ? $DB : new \dumbu\cls\DB();
@@ -420,6 +430,11 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";
             $curl_str .= "--compressed ";
+            if (isset($this->IPS['IPS']) && is_array($this->IPS['IPS']) && count($this->IPS['IPS'])) {
+                $i = rand(0, count($this->IPS['IPS']) - 1);
+                $curl_str .= "--interface " . $this->IPS['IPS'][$i];
+                var_dump("--interface " . $this->IPS['IPS'][$i]);
+            }
             return $curl_str;
         }
 
