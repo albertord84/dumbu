@@ -14,7 +14,9 @@
                                          document.form_listar_criar.type_option3.disabled=false;
                                          document.form_listar_criar.execute_query2.disabled=false;
                                          document.form_listar_criar.client_id.disabled=true;
-                                         document.form_listar_criar.event_date.disabled=true;
+                                         document.form_listar_criar.day.disabled=true;
+                                         document.form_listar_criar.month.disabled=true;
+                                         document.form_listar_criar.year.disabled=true;
                                          document.form_listar_criar.pendence_text.disabled=true;
                                          document.form_listar_criar.frequency_option1.disabled=true;
                                          document.form_listar_criar.frequency_option2.disabled=true;
@@ -71,7 +73,9 @@
                                      document.form_listar_criar.type_option3.disabled=true;
                                      document.form_listar_criar.execute_query2.disabled=true;
                                      document.form_listar_criar.client_id.disabled=false;
-                                     document.form_listar_criar.event_date.disabled=false;
+                                     document.form_listar_criar.day.disabled=false;
+                                     document.form_listar_criar.month.disabled=false;
+                                     document.form_listar_criar.year.disabled=false;
                                      document.form_listar_criar.pendence_text.disabled=false;
                                      document.form_listar_criar.frequency_option1.disabled=false;
                                      document.form_listar_criar.frequency_option2.disabled=false;
@@ -81,16 +85,40 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
                         <div class="center filters">
-                            <b>ID do cliente</b>
-                            <input id="client_id" name="client_id" class="form-control" placeholder="ID do cliente" disabled>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="center filters">
-                            <b>Data da execução</b>
-                            <input id="event_date" name="event_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled>      
+                            <table>
+                                <tr>
+                                    <th class="center filters">ID do cliente</th>
+                                    <th>&nbsp;&nbsp;&nbsp;</th>
+                                    <th class="center filters" colspan="5">Data da execução</th>
+                                </tr>
+                                <tr>
+                                    <td><input id="client_id" name="client_id" class="form-control" placeholder="ID do cliente" style="width: 140px" disabled></td>
+                                    <td>&nbsp;&nbsp;&nbsp;</td>
+                                    <!-- <td><input id="event_date" name="event_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled></td> -->
+                                    <td><select id="day" name="day" class="form-control" style="width: 60px" disabled>
+                                        <option value="">Dia</option>
+                                        <?php for ($day = 1; $day <= 31; $day++) { ?>
+                                        <option value="<?php echo strlen($day)==1 ? '0'.$day : $day; ?>"><?php echo strlen($day)==1 ? '0'.$day : $day; ?></option>
+                                        <?php } ?>
+                                        </select></td>
+                                        <td>&nbsp;<b>/</b>&nbsp;</td>
+                                    <td><select id="month" name="month" class="form-control" style="width: 70px" disabled>
+                                        <option value="">Mês</option>
+                                        <?php for ($month = 1; $month <= 12; $month++) { ?>
+                                        <option value="<?php echo strlen($month)==1 ? '0'.$month : $month; ?>"><?php echo strlen($month)==1 ? '0'.$month : $month; ?></option>
+                                        <?php } ?>
+                                        </select></td>
+                                    <td>&nbsp;<b>/</b>&nbsp;</td>
+                                    <td><select id="year" name="year" class="form-control" style="width: 75px" disabled>
+                                        <option value="">Ano</option>
+                                        <?php for ($year = date('Y'); $year <= date('Y')+1; $year++) { ?>
+                                        <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+                                        <?php } ?>
+                                        </select></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
