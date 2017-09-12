@@ -54,9 +54,9 @@ $(document).ready(function(){
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            $("#signin_initial_date").val()==='' &&
-           $("#observations").val()==='' &&
+           $("#observations").val()==='NAO' &&
            $("#cod_promocional").val()==='--SELECT--' &&
-           $("#pay_day").val()=='--SELECT--' &&
+           $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&
            $("#email_client").val()==='' &&
            $("#order_key_client").val()==='' &&
@@ -77,7 +77,22 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
-        
+    });
+    
+    $("#execute_query2").click(function(){
+        var params='pendences_date='+$("#pendences_date").val();
+        $(location).attr('href',base_url+'index.php/admin/list_filter_view_pendences?'+params);     
+    });
+    
+    $("#execute_query3").click(function(){
+        var params='client_id='+$("#client_id").val();
+        params=params+'&event_date='+$("#event_date").val();
+        params=params+'&pendence_text='+$("#pendence_text").val();
+        params=params+'&frequency_option1='+$("#frequency_option1").prop("checked");
+        params=params+'&frequency_option2='+$("#frequency_option2").prop("checked");
+        params=params+'&frequency_option3='+$("#frequency_option3").prop("checked");
+        params=params+'&number_times='+$("#number_times").val();
+        $(location).attr('href',base_url+'index.php/admin/create_pendence?'+params);     
     });
     
     var id=0;
@@ -142,6 +157,27 @@ $(document).ready(function(){
        modal_alert_message(id);
     });
     
+    $(".editar-pendencia").click(function(e){
+        id=$(e.currentTarget).attr('id');
+        var contenedor=document.getElementById(id);
+	contenedor.style.display="none";
+        contenedor=document.getElementById('resolved_date_'+id);
+        contenedor.disabled=false;
+        contenedor=document.getElementById('pendence_closed_message_'+id);
+        contenedor.disabled=false;
+        contenedor=document.getElementById('atualizar_'+id);
+        contenedor.style.display="block";
+    });
+    
+    $(".atualizar-pendencia").click(function(e){
+        id=$(e.currentTarget).attr('id');
+        var arrayid = id.split("_");
+        var params='id='+arrayid[1];
+        params=params+'&resolved_date='+$("#resolved_date_"+arrayid[1]).val();
+        params=params+'&pendence_closed_message='+$("#pendence_closed_message_"+arrayid[1]).val();
+        $(location).attr('href',base_url+'index.php/admin/update_pendence?'+params);
+    });
+    
     $('#admin_form').keypress(function (e) {
         if (e.which == 13) {
             $("#execute_query").click();
@@ -149,4 +185,10 @@ $(document).ready(function(){
         }
     });
     
+    $('#admin_form2').keypress(function (e) {
+        if (e.which == 13) {
+            $("#execute_query2").click();
+            return false;
+        }
+    });
 }); 

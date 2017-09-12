@@ -1141,7 +1141,7 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                $this->follow_me_myself($result);
+                //$this->follow_me_myself($result);
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");

@@ -15,9 +15,9 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
+//ini_set('xdebug.var_display_max_depth', 7);
+//ini_set('xdebug.var_display_max_children', 256);
+//ini_set('xdebug.var_display_max_data', 1024);
 
 
 //DEBIT CIELO
@@ -134,12 +134,14 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
+
 //$pay_day = strtotime('08/10/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
+
 //$payment_data['credit_card_number'] = '4984422429563487';
 //$payment_data['credit_card_name'] = 'JOSE MICHEL DE LIMA MACHADO';
 //$payment_data['credit_card_exp_month'] = '03';

@@ -83,7 +83,11 @@ var Translation={
     "Seguidores: ":
             "Followers: ",
     "Seguindo: ":
-            "Follwing: "  
+            "Follwing: ",
+    "Eliminar":
+            "Delete",  
+    "Ver no Instagram":
+            "View in Instagram"  
 };
 
 function T(token){
