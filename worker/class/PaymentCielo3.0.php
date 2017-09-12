@@ -65,7 +65,6 @@ namespace dumbu\cls {
             // Configure seu merchant
             $merchant = new Merchant('472a5d6b-6ba8-476c-9bd6-377e19eafe9d', 'Z87vM3TKvBfG4Zj2BgHGoYfkBqFJMcXTBuWZhJj1');
             //1077629602 estabelecimento
-
             // Crie uma instância de Sale informando o ID do pagamento
             $sale = new Sale('777');
 
@@ -82,7 +81,7 @@ namespace dumbu\cls {
             // Crie uma instância de Debit Card utilizando os dados de teste
             // esses dados estão disponíveis no manual de integração
             $payment->debitCard($payment_data['credit_card_cvc'], $payment_data['credit_card_flag'])
-                    ->setExpirationDate($payment_data['credit_card_data'])
+                    ->setExpirationDate($payment_data['credit_card_exp_month'] . '/' . $payment_data['credit_card_exp_year'])
                     ->setCardNumber($payment_data['credit_card_number'])
                     ->setHolder($payment_data['credit_card_name']);
 
@@ -166,8 +165,18 @@ namespace dumbu\cls {
          * @return Payment
          * @access public
          */
-        public function check_payment($order_key) {
-            
+        public function check_payment($payment_id) {
+            $url = "https://apiquery.cieloecommerce.cielo.com.br/1/sales/$payment_id";
+            $curl_str = "curl --request GET '$url' ";
+            $curl_str .= "-H 'content-type: application/json' ";
+            $curl_str .= "-H 'MerchantId: 472a5d6b-6ba8-476c-9bd6-377e19eafe9d' ";
+            $curl_str .= "-H 'MerchantKey: Z87vM3TKvBfG4Zj2BgHGoYfkBqFJMcXTBuWZhJj1' ";
+            $curl_str .= "--data-binary --verbose --insecure";
+            exec($curl_str, $output, $status);
+            //print_r($output);
+            //print("-> $status<br><br>");
+            $json = json_decode($output[0]);
+            return $json;
         }
 
         // end of member function update_payment
