@@ -22,18 +22,19 @@ ini_set('xdebug.var_display_max_data', 1024);
 
 //DEBIT CIELO
 $PaymentCielo = new \dumbu\cls\PaymentCielo();
-//$payment_data['credit_card_flag'] = 'Master';
-//$payment_data['credit_card_number'] = '5293230334451133';
-//$payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
-//$payment_data['credit_card_exp_month'] = '05';
-//$payment_data['credit_card_exp_year'] = '2024';
-//$payment_data['credit_card_cvc'] = '379';
-//$payment_data['amount_in_cents'] = 1000;
-//$PaymentCielo->create_payment_debit($payment_data);
+$payment_data['credit_card_flag'] = 'Master';
+$payment_data['credit_card_number'] = '5293230334451133';
+$payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
+$payment_data['credit_card_exp_month'] = '05';
+$payment_data['credit_card_exp_year'] = '2024';
+$payment_data['credit_card_cvc'] = '379';
+$payment_data['amount_in_cents'] = 1000;
+$sale = $PaymentCielo->create_payment_debit($payment_data);
+var_dump($sale);
 
-$payment_id = "8bd9f487-612e-4e39-8bf8-f045068e6000";
-$result = $PaymentCielo->check_payment($payment_id);
-var_dump($result);
+//$payment_id = "8bd9f487-612e-4e39-8bf8-f045068e6000";
+//$result = $PaymentCielo->check_payment($payment_id);
+//var_dump($result);
 
 
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";

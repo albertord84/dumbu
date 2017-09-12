@@ -97,6 +97,8 @@ namespace dumbu\cls {
                 // Utilize a URL de autenticação para redirecionar o cliente ao ambiente
                 // de autenticação do emissor do cartão
                 $authenticationUrl = $sale->getPayment()->getAuthenticationUrl();
+                
+                return $sale;
             } catch (CieloRequestException $e) {
                 // Em caso de erros de integração, podemos tratar o erro aqui.
                 // os códigos de erro estão todos disponíveis no manual de integração.
