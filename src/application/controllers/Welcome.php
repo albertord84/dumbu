@@ -20,6 +20,7 @@ class Welcome extends CI_Controller {
                 //print_r('Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>');
             }
         }
+        
     }
 
     public function block_hacker(){
