@@ -2504,7 +2504,7 @@ class Welcome extends CI_Controller {
         
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
         $this->load->model('class/client_model');
-        $cl=$this->client_model->beginners_with_purchase_counter_less_value(7);
+        $cl=$this->client_model->beginners_with_purchase_counter_less_value(9);
         for($i=1;$i<count($cl);$i++){            
             $clients=$cl[$i];
             $datas=array('client_login'=>$clients['login'],

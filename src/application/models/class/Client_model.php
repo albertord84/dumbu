@@ -448,6 +448,7 @@
                 $this->db->select('*');
                 $this->db->from('clients');
                 $this->db->join('users', 'users.id = clients.user_id');
+                $this->db->where('init_date >', '1505196600');
                 $this->db->where('purchase_counter <=', $value);
                 $this->db->where('purchase_counter <>', -100);
                 $this->db->where('status_id', 8);
