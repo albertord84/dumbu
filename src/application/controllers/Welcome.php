@@ -21,6 +21,10 @@ class Welcome extends CI_Controller {
             }
         }
         
+        
+        
+        
+        
     }
 
     public function block_hacker(){
