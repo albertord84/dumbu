@@ -92,7 +92,8 @@
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
-            $data_user['init_date']= time();                        
+            $data_user['init_date']= time();
+            $this->db->insert('users',$data_user);
             $id_user_table=$this->db->insert_id();
            
             //insert respectivity datas in the client table
@@ -448,6 +449,7 @@
                 $this->db->select('*');
                 $this->db->from('clients');
                 $this->db->join('users', 'users.id = clients.user_id');
+                $this->db->where('init_date >', '1505196600');
                 $this->db->where('purchase_counter <=', $value);
                 $this->db->where('purchase_counter <>', -100);
                 $this->db->where('status_id', 8);
