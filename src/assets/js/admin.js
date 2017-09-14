@@ -77,7 +77,6 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
-        
     });
     
     $("#execute_query2").click(function(){

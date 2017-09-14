@@ -85,7 +85,9 @@ var Translation={
     "Seguindo: ":
             "Follwing: ",
     "Eliminar":
-            "Delete"  
+            "Delete",  
+    "Ver no Instagram":
+            "View in Instagram"  
 };
 
 function T(token){
