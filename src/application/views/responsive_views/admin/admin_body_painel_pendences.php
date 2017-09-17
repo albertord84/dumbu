@@ -138,14 +138,14 @@
                     <label>Frequencia:</label>
                 </div>
                 <div class="row">
-                    <label><input type="radio" id="frequency_option1" name="frequency_option" value="1" checked="checked" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Única</label>
+                    <label style="font-weight:normal"><input type="radio" id="frequency_option1" name="frequency_option" value="1" checked="checked" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Única</label>
                 </div>
                 <div class="row">
-                    <label><input type="radio" id="frequency_option2" name="frequency_option" value="2" onchange="document.form_listar_criar.number_times.disabled=false;" disabled/>
+                    <label style="font-weight:normal"><input type="radio" id="frequency_option2" name="frequency_option" value="2" onchange="document.form_listar_criar.number_times.disabled=false;" disabled/>
                     <input type="text" id="number_times" name="number_times" placeholder="12" size="2" maxlength="2" disabled> vezes</label>
                 </div>
                 <div class="row">
-                    <label><input type="radio" id="frequency_option3" name="frequency_option" value="3" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Infinita</label>
+                    <label style="font-weight:normal"><input type="radio" id="frequency_option3" name="frequency_option" value="3" onchange="document.form_listar_criar.number_times.disabled=true;" disabled/> Infinita</label>
                 </div> 
                 <br>
                 <div class="row">
@@ -205,24 +205,33 @@
                         if ($i % 2) {echo '; background-color: #dff0d8';}
                         echo '">';
                             echo '<td style="min-width:50px; max-width:50px; padding:5px; text-align: center"><b>'.($i + 1).'</b></td>';
-                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.$result[$i]['client_id'].'</td>';
-                            echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align: left">'.$result[$i]['text'].'</td>';
+                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'
+                                    .'<label id="client_id_'.$result[$i]['id'].'" style="font-weight:normal">'.$result[$i]['client_id'].'</label>'
+                                    .'<input id="new_client_id_'.$result[$i]['id'].'" name="new_client_id_'.$result[$i]['id'].'" type="text" class="form-control"  value="'.$result[$i]['client_id'].'" style="display:none"></td>';
+                            echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align: left">'
+                                    .'<label id="text_'.$result[$i]['id'].'" style="font-weight:normal">'.$result[$i]['text'].'</label>'
+                                    .'<textarea id="new_text_'.$result[$i]['id'].'" class="form-control" style="min-width:190px; max-width:190px; min-height: 75px; display:none">'.$result[$i]['text'].'</textarea></td>';
                             echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'</td>';
-                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.date('d-m-Y h:i:sa',$result[$i]['event_date']).'</td>';
-                            echo '<td style="min-width:125px; max-width:125px; padding:5px; text-align: center">';
+                            echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'
+                                    .'<label id="event_date_'.$result[$i]['id'].'" style="font-weight:normal">'.date('d-m-Y h:i:sa',$result[$i]['event_date']).'</label>'
+                                    .'<input id="new_event_date_'.$result[$i]['id'].'" name="new_event_date_'.$result[$i]['id'].'" type="text" class="form-control"  placeholder="MM/DD/YYYY" style="display:none"></td>';
+                            echo '<td style="min-width:125px; max-width:125px; padding:5px; text-align: center">'
+                                    .'<label id="resolved_date_'.$result[$i]['id'].'" style="font-weight:normal">';
                                 if ($result[$i]['resolved_date']) {echo date('d-m-Y h:i:sa',$result[$i]['resolved_date']);}
-                                else {echo '<input id="resolved_date_'.$result[$i]['id'].'" name="resolved_date_'.$result[$i]['id'].'" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled>';}
-                            echo '</td>';
+                                else {echo '---';}
+                            echo '</label></td>';
                             echo '<td style="min-width:50px; max-width:50px; padding:5px; text-align: center">'.$result[$i]['number'].'</td>';
                             echo '<td style="min-width:60px; max-width:60px; padding:5px; text-align: center">';
                                 if ($result[$i]['frequency'] == 1) {echo 'Única';}
                                 else if ($result[$i]['frequency'] == 0) {echo 'Infinita';}
                                 else { echo $result[$i]['frequency'];}
                             echo '</td>';
-                            echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align: left">';
+                            echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align:left">'
+                                    .'<textarea id="new_pendence_closed_message_'.$result[$i]['id'].'" name="new_pendence_closed_message_'.$result[$i]['id'].'" class="form-control" placeholder="Texto final da pendência" style="min-width:190px; max-width:190px; min-height: 75px; display:none"></textarea>'
+                                    .'<label id="pendence_closed_message_'.$result[$i]['id'].'" style="font-weight:normal">';
                                 if ($result[$i]['closed_message']) {echo $result[$i]['closed_message'];}
-                                else {echo '<textarea id="pendence_closed_message_'.$result[$i]['id'].'" name="pendence_closed_message_'.$result[$i]['id'].'" class="form-control" placeholder="Texto final da pendência" style="min-width:190px; max-width:190px; min-height: 75px" disabled></textarea>';}
-                            echo '</td>';
+                                else {echo '---';}
+                            echo '</label></td>';
                             if (!$result[$i]['resolved_date'] || !$result[$i]['closed_message']) {
                                 echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">
                                         <button  style="min-width:80px" id="'.$result[$i]['id'].'" name="execute_query4" type="button" class="btn btn-success ladda-button editar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
