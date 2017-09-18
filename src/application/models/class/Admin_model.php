@@ -109,7 +109,7 @@
                 $where = "resolved_date IS NOT NULL";
                 $this->db->where($where);
             }
-            else { // pendencias abertas ou fechadas
+            else { // pendencias abertas ou resolvidas
                 ;
             }
                        
@@ -156,8 +156,16 @@
         }
         
         public function update_pendence($form_filter) {
-            $this->db->set('resolved_date', strtotime($form_filter['resolved_date'].' 00:00:01'));
+            $this->db->set('client_id', $form_filter['client_id']);
+            $this->db->set('text', $form_filter['pendence_text']);
+            $this->db->set('event_date', strtotime($form_filter['event_date'].' 00:00:01'));
             $this->db->set('closed_message', $form_filter['pendence_closed_message']);
+            $this->db->where('id', $form_filter['id']);
+            $this->db->update('pendences');
+        }
+        
+        public function resolve_pendence($form_filter) {
+            $this->db->set('resolved_date', time());
             $this->db->where('id', $form_filter['id']);
             $this->db->update('pendences');
         }

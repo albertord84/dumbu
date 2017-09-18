@@ -28,16 +28,16 @@
                     <div class="row">
                         <div class="col-xs-6">
                             <select id="pendences_date" name="pendences_date" class="form-control" style="width: 120px">
-                                <option value="all" <?php if (isset($form_filter) && $form_filter[pendences_date] == "all") { echo 'selected'; } ?> >Todas</option>
-                                <option value="before" <?php if (isset($form_filter) && $form_filter[pendences_date] == "before") { echo 'selected'; } ?> >Anteriores</option>
-                                <option value="-30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-30") { echo 'selected'; } ?> >-30 dias</option>
-                                <option value="-7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-7") { echo 'selected'; } ?> >-7 dias</option>
-                                <option value="-1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-1") { echo 'selected'; } ?> >Ontem</option>
-                                <option value="0" <?php if (isset($form_filter)) { if ($form_filter[pendences_date] == "0") { echo 'selected'; } } else { echo 'selected'; } ?> >Hoje</option>
-                                <option value="1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "1") { echo 'selected'; } ?> >Amanhã</option>
-                                <option value="7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "7") { echo 'selected'; } ?> >+7 dias</option>
-                                <option value="30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "30") { echo 'selected'; } ?> >+30 dias</option>
-                                <option value="after" <?php if (isset($form_filter) && $form_filter[pendences_date] == "after") { echo 'selected'; } ?> >Posteriores</option>
+                                <option value="all" <?php if (isset($form_filter) && $form_filter[pendences_date] == "all") { echo ' selected'; } ?> >Todas</option>
+                                <option value="before" <?php if (isset($form_filter) && $form_filter[pendences_date] == "before") { echo ' selected'; } ?> >Anteriores</option>
+                                <option value="-30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-30") { echo ' selected'; } ?> >-30 dias</option>
+                                <option value="-7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-7") { echo ' selected'; } ?> >-7 dias</option>
+                                <option value="-1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-1") { echo ' selected'; } ?> >Ontem</option>
+                                <option value="0" <?php if (isset($form_filter)) { if ($form_filter[pendences_date] == "0") { echo ' selected'; } } else { echo ' selected'; } ?> >Hoje</option>
+                                <option value="1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "1") { echo ' selected'; } ?> >Amanhã</option>
+                                <option value="7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "7") { echo ' selected'; } ?> >+7 dias</option>
+                                <option value="30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "30") { echo ' selected'; } ?> >+30 dias</option>
+                                <option value="after" <?php if (isset($form_filter) && $form_filter[pendences_date] == "after") { echo ' selected'; } ?> >Posteriores</option>
                             </select>
                         </div>
                         <div class="col-xs-6">
@@ -47,8 +47,8 @@
                     <br>
                     <div class="row">
                         <div class="col-xs-6">
-                            <label><input type="radio" id="type_option1" name="type_option" value="1" <?php if (isset($form_filter)) { if ($form_filter[type_option1] == "true") { echo 'checked'; } } else { echo 'checked'; } ?> /> Abertas</label>
-                            <label><input type="radio" id="type_option2" name="type_option" value="2" <?php if (isset($form_filter) && $form_filter[type_option2] == "true") { echo 'checked'; } ?> /> Fechadas</label>
+                            <label><input type="radio" id="type_option1" name="type_option" value="1" checked="checked" /> Abertas</label>
+                            <label><input type="radio" id="type_option2" name="type_option" value="2" <?php if (isset($form_filter) && $form_filter[type_option2] == "true") { echo 'checked'; } ?> /> Resolvidas</label>
                             <label><input type="radio" id="type_option3" name="type_option" value="3" <?php if (isset($form_filter) && $form_filter[type_option3] == "true") { echo 'checked'; } ?> /> Ambas</label>
                         </div>
                         <div class="col-xs-6">
@@ -98,21 +98,21 @@
                                     <td>&nbsp;&nbsp;&nbsp;</td>
                                     <!-- <td><input id="event_date" name="event_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" disabled></td> -->
                                     <td><select id="day" name="day" class="form-control" style="width: 60px" disabled>
-                                        <option value="00">Dia</option>
+                                        <option value="<?php echo date('d'); ?>">Dia</option>
                                         <?php for ($day = 1; $day <= 31; $day++) { ?>
                                         <option value="<?php echo strlen($day)==1 ? '0'.$day : $day; ?>"><?php echo strlen($day)==1 ? '0'.$day : $day; ?></option>
                                         <?php } ?>
                                         </select></td>
                                         <td>&nbsp;<b>/</b>&nbsp;</td>
                                     <td><select id="month" name="month" class="form-control" style="width: 70px" disabled>
-                                        <option value="00">Mês</option>
+                                        <option value="<?php echo date('m'); ?>">Mês</option>
                                         <?php for ($month = 1; $month <= 12; $month++) { ?>
                                         <option value="<?php echo strlen($month)==1 ? '0'.$month : $month; ?>"><?php echo strlen($month)==1 ? '0'.$month : $month; ?></option>
                                         <?php } ?>
                                         </select></td>
                                     <td>&nbsp;<b>/</b>&nbsp;</td>
                                     <td><select id="year" name="year" class="form-control" style="width: 75px" disabled>
-                                        <option value="0000">Ano</option>
+                                        <option value="<?php echo date('Y'); ?>">Ano</option>
                                         <?php for ($year = date('Y'); $year <= date('Y')+1; $year++) { ?>
                                         <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
                                         <?php } ?>
@@ -210,11 +210,37 @@
                                     .'<input id="new_client_id_'.$result[$i]['id'].'" name="new_client_id_'.$result[$i]['id'].'" type="text" class="form-control"  value="'.$result[$i]['client_id'].'" style="display:none"></td>';
                             echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align: left">'
                                     .'<label id="text_'.$result[$i]['id'].'" style="font-weight:normal">'.$result[$i]['text'].'</label>'
-                                    .'<textarea id="new_text_'.$result[$i]['id'].'" class="form-control" style="min-width:190px; max-width:190px; min-height: 75px; display:none">'.$result[$i]['text'].'</textarea></td>';
+                                    .'<textarea id="new_text_'.$result[$i]['id'].'" class="form-control" placeholder="Texto da pendência" style="min-width:190px; max-width:190px; min-height: 75px; display:none">'.$result[$i]['text'].'</textarea></td>';
                             echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'</td>';
                             echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">'
-                                    .'<label id="event_date_'.$result[$i]['id'].'" style="font-weight:normal">'.date('d-m-Y h:i:sa',$result[$i]['event_date']).'</label>'
-                                    .'<input id="new_event_date_'.$result[$i]['id'].'" name="new_event_date_'.$result[$i]['id'].'" type="text" class="form-control"  placeholder="MM/DD/YYYY" style="display:none"></td>';
+                                    .'<select id="new_day_'.$result[$i]['id'].'" class="form-control" style="width:60px; display:none" title="Dia">';
+                                        for ($day = 1; $day <= 31; $day++) {
+                                            echo '<option value="'.(strlen($day)==1 ? '0'.$day : $day).'"';
+                                            if ($day == date('d',$result[$i]['event_date'])) {
+                                                echo ' selected';
+                                            }
+                                            echo '>'.(strlen($day)==1 ? '0'.$day : $day).'</option>';
+                                        }
+                                echo '</select>'
+                                    .'<select id="new_month_'.$result[$i]['id'].'" class="form-control" style="width:60px; display:none" title="Mês">';
+                                        for ($month = 1; $month <= 12; $month++) {
+                                            echo '<option value="'.(strlen($month)==1 ? '0'.$month : $month).'"';
+                                            if ($month == date('m',$result[$i]['event_date'])) {
+                                                echo ' selected';
+                                            }
+                                            echo '>'.(strlen($month)==1 ? '0'.$month : $month).'</option>';
+                                        }
+                                echo '</select>'
+                                    .'<select id="new_year_'.$result[$i]['id'].'" class="form-control" style="width:75px; display:none" title="Ano">';
+                                        for ($year = date('Y'); $year <= date('Y')+1; $year++) {
+                                            echo '<option value="'.$year.'"';
+                                            if ($year == date('Y',$result[$i]['event_date'])) {
+                                                echo ' selected';
+                                            }
+                                            echo '>'.$year.'</option>';
+                                        }
+                                echo '</select>'
+                                    .'<label id="event_date_'.$result[$i]['id'].'" style="font-weight:normal">'.date('d-m-Y h:i:sa',$result[$i]['event_date']).'</label></td>';
                             echo '<td style="min-width:125px; max-width:125px; padding:5px; text-align: center">'
                                     .'<label id="resolved_date_'.$result[$i]['id'].'" style="font-weight:normal">';
                                 if ($result[$i]['resolved_date']) {echo date('d-m-Y h:i:sa',$result[$i]['resolved_date']);}
@@ -227,18 +253,23 @@
                                 else { echo $result[$i]['frequency'];}
                             echo '</td>';
                             echo '<td style="min-width:200px; max-width:200px; padding:5px; text-align:left">'
-                                    .'<textarea id="new_pendence_closed_message_'.$result[$i]['id'].'" name="new_pendence_closed_message_'.$result[$i]['id'].'" class="form-control" placeholder="Texto final da pendência" style="min-width:190px; max-width:190px; min-height: 75px; display:none"></textarea>'
+                                    .'<textarea id="new_pendence_closed_message_'.$result[$i]['id'].'" name="new_pendence_closed_message_'.$result[$i]['id'].'" class="form-control" placeholder="Texto final da pendência" style="min-width:190px; max-width:190px; min-height: 75px; display:none">'.$result[$i]['closed_message'].'</textarea>'
                                     .'<label id="pendence_closed_message_'.$result[$i]['id'].'" style="font-weight:normal">';
                                 if ($result[$i]['closed_message']) {echo $result[$i]['closed_message'];}
                                 else {echo '---';}
                             echo '</label></td>';
-                            if (!$result[$i]['resolved_date'] || !$result[$i]['closed_message']) {
+                            if (!$result[$i]['resolved_date']) {
                                 echo '<td style="min-width:100px; max-width:100px; padding:5px; text-align: center">
                                         <button  style="min-width:80px" id="'.$result[$i]['id'].'" name="execute_query4" type="button" class="btn btn-success ladda-button editar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
                                             <span class="ladda-label">Editar</span>
                                         </button>
+                                        <br>
                                         <button  style="min-width:80px; display:none" id="atualizar_'.$result[$i]['id'].'" name="execute_query5" type="button" class="btn btn-success ladda-button atualizar-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
                                             <span class="ladda-label">Atualizar</span>
+                                        </button>
+                                        <br>
+                                        <button  style="min-width:80px" id="resolver_'.$result[$i]['id'].'" name="execute_query6" type="button" class="btn btn-success ladda-button resolver-pendencia"  data-style="expand-left" data-spinner-color="#ffffff">
+                                            <span class="ladda-label">Resolver</span>
                                         </button>
                                       </td>';  
                             } else { echo '<td></td>'; }
