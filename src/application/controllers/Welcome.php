@@ -1455,8 +1455,6 @@ class Welcome extends CI_Controller {
         
     }
 
-    
-    
     public function delete_recurrency_payment($order_key) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
@@ -1510,8 +1508,7 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-    
-    
+        
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
