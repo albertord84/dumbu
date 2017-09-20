@@ -163,9 +163,27 @@
 									</div>
 								</li>
 							</ul>
-						</li>  
-                                                
-                                                
+						</li> 
+                                                <li id="locales" class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="assets/images/en_flag.png" class="wauto us" alt="EN">
+                                                        EN
+                                                        <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu" style="min-width: 50px">
+                                                        <li>
+                                                            <a href="#">
+                                                                <img alt="PT" src="assets/images/pt_br_flag.png" class="wauto us"/>
+                                                                PT
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <img alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                                ES
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+						</li>
 					</ul>
 				</nav>
 			</div>

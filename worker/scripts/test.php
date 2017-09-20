@@ -19,7 +19,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //ini_set('xdebug.var_display_max_data', 1024);
 
 //DEBIT CIELO
-$PaymentCielo = new \dumbu\cls\PaymentCielo();
+/*$PaymentCielo = new \dumbu\cls\PaymentCielo();
 
 //CARTAO EMPRESSA
 $payment_data['credit_card_flag'] = 'Master';
@@ -30,12 +30,14 @@ $payment_data['credit_card_exp_year'] = '2023';
 $payment_data['credit_card_cvc'] = '004';
 $payment_data['amount_in_cents'] = 1000;
 $sale = $PaymentCielo->create_payment_debit($payment_data);
-var_dump($sale);
-$payment_id = "65f916c4-bcc8-4faa-b113-247911455c54";
-$result = $PaymentCielo->check_payment($payment_id);
-var_dump($result);
 
-$payment_data = NULL;
+var_dump($sale);*/
+
+//$payment_id = "8bd9f487-612e-4e39-8bf8-f045068e6000";
+//$result = $PaymentCielo->check_payment($payment_id);
+//var_dump($result);
+
+//$payment_data = NULL;
 //$PaymentCielo->create_payment_debit($payment_data);
 
 
@@ -149,25 +151,29 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-//$pay_day = strtotime('08/10/2017 00:42:27');
+$pay_day = strtotime('10/16/2017 00:42:27');
+
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
+//$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-//$payment_data['credit_card_number'] = '4415241617725370';
-//$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
-//$payment_data['credit_card_exp_month'] = '01';
-//$payment_data['credit_card_exp_year'] = '2023';
-//$payment_data['credit_card_cvc'] = '261';
-//$payment_data['amount_in_cents'] = 500;
-//$payment_data['pay_day'] = $pay_day;
+
+$payment_data['credit_card_number'] = '4695810100034143';
+$payment_data['credit_card_name'] = 'ELIA S YOUSSEF';
+$payment_data['credit_card_exp_month'] = '04';
+$payment_data['credit_card_exp_year'] = '2019';
+$payment_data['credit_card_cvc'] = '898';
+$payment_data['amount_in_cents'] = 500;
+$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 32);
-//var_dump($resul);
-//var_dump($pay_day);
+$resul = $Payment->create_recurrency_payment($payment_data, 1, 20);
+var_dump($resul);
+
+var_dump($pay_day);
+
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment(NULL);

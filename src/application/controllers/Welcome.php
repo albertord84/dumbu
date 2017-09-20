@@ -5,6 +5,8 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     public function test(){
+        $security_code=rand(100000,999999);
+        echo $this->security_purchase_code=md5("$security_code");
         $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
         $N=count($a);
