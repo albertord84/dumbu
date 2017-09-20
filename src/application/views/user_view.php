@@ -164,7 +164,7 @@
 								</li>
 							</ul>
 						</li> 
-                                                <li id="locales" class="dropdown">
+                                                <!--<li id="locales" class="dropdown">
                                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <img src="assets/images/en_flag.png" class="wauto us" alt="EN">
                                                         EN
@@ -183,7 +183,7 @@
                                                             </a>
                                                         </li>
                                                     </ul>
-						</li>
+						</li>-->
 					</ul>
 				</nav>
 			</div>
