@@ -139,18 +139,19 @@ class User_model extends CI_Model {
     }
 
     public function get_all_users() {
-        $this->db->select('id');
+        $this->db->select('id,status_id,plane_id');
         $this->db->from('users');
+        $this->db->join('clients', 'clients.user_id = users.id');
+        $this->db->where('status_id <', 11);
         $this->db->where('status_id <>', 8);
-        $this->db->where('status_id <>', 11);
-        $this->db->where('status_id <>', 2);
-        $this->db->where('role_id', 2);
+        $this->db->order_by("plane_id","asc");        
+        $this->db->order_by("user_id","asc");        
         $a = $this->db->get()->result_array();
         return $a;
     }
     
     public function get_daily_report($user_id) {
-        $this->db->select('followers');
+        $this->db->select('followers,date');
         $this->db->from('daily_report');
         $this->db->where('client_id', $user_id);
         $this->db->order_by("date","asc");

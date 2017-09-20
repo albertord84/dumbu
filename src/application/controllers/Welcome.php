@@ -2454,16 +2454,25 @@ class Welcome extends CI_Controller {
     public function Pedro(){
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
-        for($i=0;$i<count($users);$i++){
+        for($i=0;$i<10/*count($users)*/;$i++){
             $result=$this->user_model->get_daily_report($users[$i]['id']);
-            $total=count($result);
-            if($total!=0){
-                $first=$result[0]['followers'];
-                $last=$result[$total-1]['followers'];
-                echo 'ID: '.$users[$i]['id'].'--->'.((int)(($last - $first) / $total)).'<br>';
-            }
+            $Ndaily_R=count($result);
+            $N=0; $sum=0;
+            if($Ndaily_R>5){
+                for($j=1;$j<$Ndaily_R;$j++){
+                    $diferencia = $result[$j]['date']-$result[$j-1]['date']; 
+                    $horas = (int)($diferencia/(60*60)); 
+                    if($horas <=30 && $horas>20){
+                        $N++;
+                        $sum=$sum+($result[$j]['followers'] - $result[$j-1]['followers']);
+                    }
+                }
+                echo $users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.($sum/$N).'<br>';
+            }            
         }
     }
+    
+    
     
     public function test(){
         $this->load->model('class/user_model');
