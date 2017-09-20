@@ -240,10 +240,16 @@ class User_model extends CI_Model {
      * @return bool
      * @access public
      */
-    public function disable_account() {
-        
+    public function insert_washdog($user_id,$cad) {
+        //$this->db->insert('washdog',array('user_id'=>$user_id,'action'=>$cad,'date'=>time()));
     }
     
+     public function get_status_by_id($status_id){
+        $this->db->select('name');
+        $this->db->from('user_status');
+        $this->db->where('id',$status_id);
+        return $this->db->get()->row_array();
+     }
        
     
     public function client_prevalence() {

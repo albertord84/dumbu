@@ -412,6 +412,7 @@
                         </div>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
+                    
                     <!-- Modal -->
                     <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
@@ -423,7 +424,7 @@
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array()); ?></h4>
                                 </div>
                                 <div class="modal-body text-left">                                                                       
-                                    <input id = "login_profile"  type="text" text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
+                                    <input id = "login_profile"  type="text" style="text-transform:lowercase" class="form-control" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
                                     <!--<input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array()); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>-->
                                     <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
@@ -878,7 +879,7 @@
                 
                 <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
                     <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
-                    <h3 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></h3>
+                    <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></h4>
                     <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
                                 processo onde deixará de seguir todos os perfis que segue no
                                 momento. Todos os perfis em sua lista de "Seguindo" serão deixados
@@ -899,7 +900,7 @@
                 </div>
                 <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
                     <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
-                    <h3 class="m-t10"><?php echo $CI->T("AUTOLIKE", array()); ?></h3>
+                    <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array()); ?></h4>
                     <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
                             automaticamente na primeira foto de todos os perfis que seguir, esse 
                             processo pode aumentar sua conversão de seguidores.', array()); ?>
@@ -935,8 +936,7 @@
                 </div>
                 
                 <A name="lnk_upgdrade_plane"></A>
-                <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
-                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
+                <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="text-center fleft100 m-t20">
                         <img src="<?php echo base_url() . 'assets/images/pay.png'; ?>" class="wauto" alt="">
                         <h4 class="fleft100"><b><?php echo $CI->T("DADOS DE PAGAMENTO", array()); ?></b></h4>
@@ -985,11 +985,11 @@
                             </fieldset>
                         </div>
 
-                        <div class="col-md-4 col-sm-4 col-xs-12 pd-r15  m-t10">
+                        <div class="col-md-4 col-sm-4 col-xs-12 pd-r15  m-t20">
                             <span class="val"><?php echo $CI->T("Mudar plano", array()); ?>:</span>
                         </div>
 
-                        <div class="col-md-8 col-sm-8 col-xs-12 pd-r15  m-t10">
+                        <div class="col-md-8 col-sm-8 col-xs-12 pd-r15  m-t20">
                             <fieldset>
                                 <div class="select"> 
                                     <select name="local" id="client_update_plane" class="btn-primeiro sel"> 
@@ -1013,14 +1013,14 @@
                             </fieldset>
                         </div>
                         <div class="text-center">
-                            <button id = "btn_send_update_datas" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                            <button id = "btn_send_update_datas" type="button" style="border-radius:20px" class="btn-primary m-t30 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                 <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONFERIR", array()); ?></div></span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
+                <div class="col-md-6 col-sm-6 col-xs-12 bk text-center pd-l15 m-t45">
                     <div class="text-center fleft100 m-t20"><A name="lnk_update"></A>
                         <img src="<?php echo base_url() . 'assets/images/mail.png'; ?>" class="wauto" alt="">
                         <h4 class="fleft100 m-t20"><b><?php echo $CI->T("FALE CONOSCO", array()); ?></b></h4>
@@ -1043,21 +1043,31 @@
                         ?>          
                     </div>
                     <div class="pay fleft100 input-form" id="talkme_frm">
-                        <fieldset>
-                            <input id="visitor_name" type="text" placeholder="<?php echo $CI->T("Nome", array()); ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input id="visitor_email" type="text" placeholder="<?php echo $CI->T("E-mail", array()); ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input id="visitor_company" type="text" placeholder="<?php echo $CI->T("Empresa", array()); ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input id="visitor_phone" type="text" placeholder="<?php echo $CI->T("Telefone", array()); ?>">
-                        </fieldset>
-                        <fieldset>
-                            <textarea name="" id="visitor_message" cols="30" rows="5" placeholder="<?php echo $CI->T("Mensagem", array()); ?>"></textarea>
-                        </fieldset>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <fieldset>
+                                <input id="visitor_name" type="text" placeholder="<?php echo $CI->T("Nome", array()); ?>">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <fieldset>
+                                <input id="visitor_email" type="text" placeholder="<?php echo $CI->T("E-mail", array()); ?>">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <fieldset>
+                                <input id="visitor_company" type="text" placeholder="<?php echo $CI->T("Empresa", array()); ?>">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <fieldset>
+                                <input id="visitor_phone" type="text" placeholder="<?php echo $CI->T("Telefone", array()); ?>">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <fieldset>
+                                <textarea name="" id="visitor_message" cols="30" rows="5" placeholder="<?php echo $CI->T("Mensagem", array()); ?>"></textarea>
+                            </fieldset>
+                        </div>
                         <div class="text-center">
                             <button id="btn_send_message" type="button" style="border-radius:20px" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                 <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ENVIAR", array()); ?></div></span>
@@ -1067,9 +1077,44 @@
                 </div>
             </div>
         
+            
+            <div class="fleft100 m-t30">                
+                <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-r15 m-t45">
+                    <div class="m-t10">
+                        <h4 class="text-center"><b><?php echo $CI->T("SEGUIR SEMPRE", array()); ?></b></h4>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('A ferramenta nunca deixará de seguir perfis adicionados nesta lista <br>
+                               e que seguiu automaticamente' , array()); ?>
+                        </p>
+                        <div class="text-center" >
+                            <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                                <button id="white_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("GERENCIAR", array()); ?></div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-l15 m-t45">
+                    <div class="m-t10">
+                        <h4 class="text-center" ><b><?php echo $CI->T("NUNCA SEGUIR", array()); ?></b></h4>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('Os perfis que adicione nesta lista nunca 
+                                serão seguidos <br> com a ferramenta.', array()); ?>
+                        </p>
+                        <div class="text-center" >
+                            <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                                <button id="black_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("GERENCIAR", array()); ?></div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
             <div class="fleft100 m-t30">
-                <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
-                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
+                <div class="col-md-12 col-sm-12 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="m-t10 ">
                         <div>
                             <p class=text-center><?php echo $CI->T("CANCELAMENTO DA ASSINATURA", array()); ?></p> 
@@ -1082,22 +1127,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
                 
-                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
-                    <div class="m-t10">
-                        <div>
-                            <p class=text-center><?php echo $CI->T("GERENCIAR LISTA NEGRA", array()); ?></p> 
-                        </div>
-                        <div class="text-center" >
-                            <div class="row" style="margin-top: 2%; margin-bottom: 2%">
-                                <button id="black_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("GERENCIAR", array()); ?></div></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
         
@@ -1178,7 +1209,7 @@
                         </div>                        
                     </div>
                     <div style="width:100%; min-height:120px; max-height:150px; overflow-y: scroll;" class="modal-body">
-                        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <div id="container_black_list" class="col-md-12 col-sm-12 col-xs-12 text-center ">                            
                             <table id="table_black_list" class="table table-hover">                                
                             </table>
                         </div>
@@ -1189,6 +1220,43 @@
                 </div>
             </div>
         </div>     
+        
+        
+        <!--modal_container_WHITE_LIST-->
+        <div class="modal fade" style="top:20%;" id="modal_white_list" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header pay fleft100">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><?php echo $CI->T("Lista branca", array()); ?></h4>
+                        <div class="col-md-5 col-sm-5 col-xs-12 text-center m-t20">  
+                            <fieldset>
+                                <input id="text_profile_white_list" class="form-control" type="text" placeholder="<?php echo $CI->T("Perfil", array()); ?>">                                                       
+                            </fieldset>
+                        </div>                        
+                        <div class="col-md-5 col-sm-5 col-xs-12 text-left m-t20">
+                            <fieldset>
+                                <button id="add_profile_in_white_list" class="btn btn-info ladda-button" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div class="pd-l15 pd-r15"><?php echo $CI->T("Adicionar", array()); ?></div></span>
+                                </button>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-left m-t20">
+                            <p id="insert_white_list_msg_error"></p>
+                        </div>                        
+                    </div>
+                    <div style="width:100%; min-height:120px; max-height:150px; overflow-y: scroll;" class="modal-body">
+                        <div id="container_white_list" class="col-md-12 col-sm-12 col-xs-12 text-center ">                            
+                            <table id="table_white_list" class="table table-hover">                                
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         
          <!--modal_container_cancel_account_message-->

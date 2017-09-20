@@ -131,8 +131,7 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
-//        modal_alert_message("Estamos apresentando problemas com o pagamento, por favor entre em contato como atendimento! Obrigado");
-//        return;
+       //pagamento por credito
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);
@@ -146,7 +145,7 @@ $(document).ready(function () {
             var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
             var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
             var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
-            if (name && number && cvv && month && year) {                
+            if (name && number && cvv && month && year) {
                     datas={
                         'user_login': login,
                         'user_pass': pass,
@@ -160,7 +159,8 @@ $(document).ready(function () {
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
                         'pk': pk,
-                        'datas': datas
+                        'datas': datas,
+                        //'card_type': ($("#credit_function").is(":checked")==true)?'credit':'debit'
                     };
                     datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
                 $.ajax({
@@ -197,7 +197,8 @@ $(document).ready(function () {
             }            
         } else {
             console.log('paymet working');
-        }
+        }            
+        
     });
     
     $('#container_login_panel').keypress(function (e) {
