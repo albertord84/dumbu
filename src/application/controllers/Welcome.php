@@ -4,6 +4,20 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
+    public function Pedro(){
+        $this->load->model('class/user_model');
+        $users= $this->user_model->get_all_users();
+        for($i=0;$i<count($users);$i++){
+            $result=$this->user_model->get_daily_report($users[$i]['id']);
+            $total=count($result);
+            if($total!=0){
+                $first=$result[0]['followers'];
+                $last=$result[$total-1]['followers'];
+                echo 'ID: '.$users[$i]['id'].'--->'.((int)(($last - $first) / $total)).'<br>';
+            }
+        }
+    }
+    
     public function test(){
        /* $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
@@ -30,8 +44,7 @@ class Welcome extends CI_Controller {
         for($i=0; $i<count($ids); $i++) {
             echo $this->user_model->update_user($ids[$i], array('status_id' => user_status::DELETED)) ;
             echo '<br>';
-        } 
-
+        }
     }
     
     public function index() {
@@ -807,7 +820,7 @@ class Welcome extends CI_Controller {
                             $response['flag_initial_payment'] = false;
                     }
                     //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
-                    if ($response['flag_initial_payment']) {                    
+                    if ($response['flag_initial_payment']) {
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
@@ -896,6 +909,7 @@ class Welcome extends CI_Controller {
         //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && ( strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO' || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
                 //1. recurrencia para un mes mas alante
+                $datas['amount_in_cents'] = $recurrency_value;
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);

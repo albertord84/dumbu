@@ -133,19 +133,19 @@ $Payment = new \dumbu\cls\Payment();
 
 //$pay_day = strtotime("+30 days", $pay_day);
 
-//$pay_day = time();
+$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-//$payment_data['credit_card_number'] = '4984422429563487';
-//$payment_data['credit_card_name'] = 'JOSE MICHEL DE LIMA MACHADO';
-//$payment_data['credit_card_exp_month'] = '03';
-//$payment_data['credit_card_exp_year'] = '2021';
-//$payment_data['credit_card_cvc'] = '186';
-//$payment_data['amount_in_cents'] = 9990;
-//$payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
+$payment_data['credit_card_number'] = '375177005055259';
+$payment_data['credit_card_name'] = 'PIETRA PINHO ';
+$payment_data['credit_card_exp_month'] = '03';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '733';
+$payment_data['amount_in_cents'] = 9990;
+$payment_data['pay_day'] = $pay_day;
+$resul = $Payment->create_payment($payment_data);
+var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 32);
 //var_dump($resul);
 //var_dump($pay_day);
