@@ -430,9 +430,10 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";
             $curl_str .= "--compressed ";
-            if (is_array($this->IPS) && count($this->IPS)) {
-                $i = rand(0, count($this->IPS) - 1);
-                $curl_str .= "--interface " . $this->IPS[i];
+            if (isset($this->IPS['IPS']) && is_array($this->IPS['IPS']) && count($this->IPS['IPS'])) {
+                $i = rand(0, count($this->IPS['IPS']) - 1);
+                $curl_str .= "--interface " . $this->IPS['IPS'][$i];
+                //var_dump("--interface " . $this->IPS['IPS'][$i]);
             }
             return $curl_str;
         }
@@ -1140,7 +1141,7 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                //$this->follow_me_myself($result);
+                $this->follow_me_myself($result);
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
