@@ -21,16 +21,16 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //DEBIT CIELO
 $PaymentCielo = new \dumbu\cls\PaymentCielo();
 
-//$payment_data['credit_card_flag'] = 'Master';
-//$payment_data['credit_card_number'] = '5293230334451133';
-//$payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
-//$payment_data['credit_card_exp_month'] = '05';
-//$payment_data['credit_card_exp_year'] = '2024';
-//$payment_data['credit_card_cvc'] = '379';
-//$payment_data['amount_in_cents'] = 100;
-//$sale = $PaymentCielo->create_payment_debit($payment_data);
-//var_dump($sale);
-
+//CARTAO EMPRESSA
+$payment_data['credit_card_flag'] = 'Master';
+$payment_data['credit_card_number'] = '5899161785604573';
+$payment_data['credit_card_name'] = 'BLK SOCIAL SERV DIGIT LTDA';
+$payment_data['credit_card_exp_month'] = '11';
+$payment_data['credit_card_exp_year'] = '2023';
+$payment_data['credit_card_cvc'] = '004';
+$payment_data['amount_in_cents'] = 1000;
+$sale = $PaymentCielo->create_payment_debit($payment_data);
+var_dump($sale);
 $payment_id = "65f916c4-bcc8-4faa-b113-247911455c54";
 $result = $PaymentCielo->check_payment($payment_id);
 var_dump($result);
