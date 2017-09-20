@@ -163,9 +163,27 @@
 									</div>
 								</li>
 							</ul>
-						</li>  
-                                                
-                                                
+						</li> 
+                                                <!--<li id="locales" class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="assets/images/en_flag.png" class="wauto us" alt="EN">
+                                                        EN
+                                                        <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu" style="min-width: 50px">
+                                                        <li>
+                                                            <a href="#">
+                                                                <img alt="PT" src="assets/images/pt_br_flag.png" class="wauto us"/>
+                                                                PT
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <img alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                                ES
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+						</li>-->
 					</ul>
 				</nav>
 			</div>
@@ -173,24 +191,8 @@
 
 		<section id="destaque" class="fleft100 bk-black cl-fff">
 			<div class="container">
-				<div class="fleft100 m-tb60">
-                                    <!--<span class="lang-selector dropdown">
-                                        <a class="btn btn-default dropdown-toggle" type="button" id="dropdownLang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <img class="wauto hidden-xs flag" src="assets/images/flag_BR.png" />PT - BR<span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLang">
-                                            <li>
-                                              <a href="#">
-                                                    <img class="wauto hidden-xs flag" src="assets/images/flag_EN.png" />EN - US </a>
-                                            </li>
-                                        </ul>
-                                    </span>-->
-                                    
-                                    <h1 class="fleft100 text-center"><?php echo $CI->T("Aumente o número de seguidores no seu Instagram",array());?></h1>
-                                    <!--<h4 class="fleft100 text-center no-mg">Pague por mês e receba seguidores todos os dias.</h4>-->
-                                    
-                                                                      
-                                    
+				<div class="fleft100 m-tb60">                                    
+                                    <h1 class="fleft100 text-center"><?php echo $CI->T("Aumente o número de seguidores no seu Instagram",array());?></h1>                                    
 				</div>
 				<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 passos m-t45">
                                     <b style="left:0; font-size: 1.3em" class="fleft100"><?php echo $CI->T("PASSO A PASSO",array());?></b>
@@ -217,8 +219,7 @@
                                         <spam style="margin-top:0px; font-size:1.5em"><?php echo $CI->T("Dumbu é global!",array());?></spam>
 					<spam style="font-size:0.9em" class="fleft100 no-mg"><?php echo $CI->T("Temos clientes em mais de 200 países.",array());?></spam>
 					<spam style="font-size:0.9em" class="fleft100 no-mg"><?php echo $CI->T("Faça parte de uma das Startups que",array());?></spam>
-					<spam style="font-size:0.9em" class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></spam>
-                                        
+					<spam style="font-size:0.9em" class="m-b10 fleft100 no-mg"><?php echo $CI->T("mais cresce nos últimos tempos!",array());?></spam>                                        
 				</div>
 				<div class="col-md-5 col-sm-5 col-xs-12 text-center cel">
                                     <?php                                        
@@ -233,8 +234,7 @@
                     <spam style="color:white; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("RECURSOS",array());?></spam>
 			
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
-                                
+                                <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>                                
                                 <div class="col-md-2 col-sm-2 col-xs-12 text-center">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
@@ -511,73 +511,78 @@
                             
                             <!--PASSO 2-->
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
-					<h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2",array());?></b></h5>
+                                        <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2",array());?></b></h5>
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/pay.png" class="wauto" alt="Pay">
 						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento",array());?></spam>
-					</div>
-					<div class="pay fleft100 input-form">
-						<fieldset>
-							<input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão",array());?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
-						</fieldset>
-						<div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
+					</div> 
+                                        
+                                        <!--<label class="radio-inline">
+                                            <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input id="debit_function" type="radio" name="optradio">Débito
+                                        </label>-->
+                                        
+                                        <div class="pay fleft100 input-form">
+                                            <fieldset>
+                                                    <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão",array());?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                            </fieldset>
+                                            <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
+                                                <fieldset>
+                                                    <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão",array());?>" maxlength="20" required>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
                                                     <fieldset>
-                                                        <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão",array());?>" maxlength="20" required>
+                                                        <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC",array());?>" maxlength="5" required>
                                                     </fieldset>
-						</div>
-						<div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
-							<fieldset>
-                                                            <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC",array());?>" maxlength="5" required>
-							</fieldset>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12 no-pd">
-							<spam class="val"><?php echo $CI->T("Validade",array());?></spam>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
-							<fieldset>
-								<div class="select">
-                                                                    <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
-									<option>01</option><option>02</option><option>03</option>
-                                                                        <option>04</option><option>05</option><option>06</option>
-                                                                        <option>07</option><option>08</option><option>09</option>
-                                                                        <option>10</option><option>11</option><option>12</option>
-								    </select>
-								</div>
-							</fieldset>
-						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
-							<fieldset>
-								<div class="select">
-                                                                    <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
-                                                                        <option>2017</option><option>2018</option>
-                                                                        <option>2019</option><option>2020</option><option>2021</option>
-                                                                        <option>2022</option><option>2023</option><option>2024</option>
-                                                                        <option>2025</option><option>2026</option><option>2027</option>
-                                                                        <option>2028</option><option>2029</option><option>2030</option>
-                                                                        <option>2031</option><option>2032</option><option>2033</option>
-                                                                        <option>2034</option><option>2035</option><option>2036</option>
-                                                                        <option>2037</option><option>2038</option><option>2039</option>
-								    </select>
-								</div>
-							</fieldset>
-						</div>
-                                            
-                                                
-                                               <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
-                                                        <spam class="val"><?php echo $CI->T("CUPOM",array());?> (*)</spam>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
-                                                        <fieldset>
-                                                            <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL",array());?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
-                                                        </fieldset>
-                                                    </div>                                                    
-                                                    <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
-                                                        <fieldset>
-                                                                <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados",array());?></spam>
-                                                        </fieldset>
-                                                    </div>
-                                            
-					</div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                                    <spam class="val"><?php echo $CI->T("Validade",array());?></spam>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
+                                                    <fieldset>
+                                                            <div class="select">
+                                                                <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
+                                                                    <option>01</option><option>02</option><option>03</option>
+                                                                    <option>04</option><option>05</option><option>06</option>
+                                                                    <option>07</option><option>08</option><option>09</option>
+                                                                    <option>10</option><option>11</option><option>12</option>
+                                                                </select>
+                                                            </div>
+                                                    </fieldset>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
+                                                    <fieldset>
+                                                            <div class="select">
+                                                                <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
+                                                                    <option>2017</option><option>2018</option>
+                                                                    <option>2019</option><option>2020</option><option>2021</option>
+                                                                    <option>2022</option><option>2023</option><option>2024</option>
+                                                                    <option>2025</option><option>2026</option><option>2027</option>
+                                                                    <option>2028</option><option>2029</option><option>2030</option>
+                                                                    <option>2031</option><option>2032</option><option>2033</option>
+                                                                    <option>2034</option><option>2035</option><option>2036</option>
+                                                                    <option>2037</option><option>2038</option><option>2039</option>
+                                                                </select>
+                                                            </div>
+                                                    </fieldset>
+                                            </div>
+                                           <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
+                                                    <spam class="val"><?php echo $CI->T("CUPOM",array());?> (*)</spam>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
+                                                    <fieldset>
+                                                        <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL",array());?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
+                                                    </fieldset>
+                                                </div>                                                    
+                                                <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
+                                                    <fieldset>
+                                                            <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados",array());?></spam>
+                                                    </fieldset>
+                                                </div>
+                                        </div>                                           
 				</div>
                             
                             <!--PASSO 3-->
@@ -659,6 +664,13 @@
 				<footer class="text-center fleft100 m-t30 m-b10"><img src="assets/images/logo-footer.png" class="wauto" alt="Dumbu Footer Logo"></footer>
 			</div>
 		</section>
+            
+            <!--
+            
+            -->
+            
+            
+            
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->

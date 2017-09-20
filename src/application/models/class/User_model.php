@@ -221,7 +221,7 @@ class User_model extends CI_Model {
      * @access public
      */
     public function insert_washdog($user_id,$cad) {
-        $this->db->insert('washdog',array('user_id'=>$user_id,'action'=>$cad,'date'=>time()));
+        //$this->db->insert('washdog',array('user_id'=>$user_id,'action'=>$cad,'date'=>time()));
     }
     
      public function get_status_by_id($status_id){

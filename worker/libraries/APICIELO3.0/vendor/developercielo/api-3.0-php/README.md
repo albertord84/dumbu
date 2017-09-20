@@ -304,3 +304,10 @@ try {
 ## Manual
 
 Para mais informações sobre a integração com a API 3.0 da Cielo, vide o manual em: [Integração API 3.0](https://developercielo.github.io/Webservice-3.0/)
+
+
+curl --request GET "https://apiquery.cieloecommerce.cielo.com.br/1/sales/8bd9f487-612e-4e39-8bf8-f045068e6000" 
+--header "Content-Type: application/json" 
+--header "MerchantId: 472a5d6b-6ba8-476c-9bd6-377e19eafe9d" 
+--header "MerchantKey: Z87vM3TKvBfG4Zj2BgHGoYfkBqFJMcXTBuWZhJj1" 
+--data-binary --verbose --insecure

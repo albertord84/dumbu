@@ -63,7 +63,7 @@ abstract class AbstractSaleRequest
         }
         
         curl_close($curl);
-        var_dump(json_decode($response));
+//        var_dump(json_decode($response));
         return $this->readResponse($statusCode, $response);
     }
 
