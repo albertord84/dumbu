@@ -14,28 +14,26 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
-
+//ini_set('xdebug.var_display_max_depth', 7);
+//ini_set('xdebug.var_display_max_children', 256);
+//ini_set('xdebug.var_display_max_data', 1024);
 
 //DEBIT CIELO
 $PaymentCielo = new \dumbu\cls\PaymentCielo();
 
-$payment_data['credit_card_flag'] = 'Master';
-$payment_data['credit_card_number'] = '5293230334451133';
-$payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
-$payment_data['credit_card_exp_month'] = '05';
-$payment_data['credit_card_exp_year'] = '2024';
-$payment_data['credit_card_cvc'] = '379';
-$payment_data['amount_in_cents'] = 1000;
-$sale = $PaymentCielo->create_payment_debit($payment_data);
-var_dump($sale);
+//$payment_data['credit_card_flag'] = 'Master';
+//$payment_data['credit_card_number'] = '5293230334451133';
+//$payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
+//$payment_data['credit_card_exp_month'] = '05';
+//$payment_data['credit_card_exp_year'] = '2024';
+//$payment_data['credit_card_cvc'] = '379';
+//$payment_data['amount_in_cents'] = 100;
+//$sale = $PaymentCielo->create_payment_debit($payment_data);
+//var_dump($sale);
 
-//$payment_id = "8bd9f487-612e-4e39-8bf8-f045068e6000";
-//$result = $PaymentCielo->check_payment($payment_id);
-//var_dump($result);
+$payment_id = "65f916c4-bcc8-4faa-b113-247911455c54";
+$result = $PaymentCielo->check_payment($payment_id);
+var_dump($result);
 
 $payment_data = NULL;
 //$PaymentCielo->create_payment_debit($payment_data);
@@ -158,15 +156,15 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4415241617725370';
-$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
-$payment_data['credit_card_exp_month'] = '01';
-$payment_data['credit_card_exp_year'] = '2023';
-$payment_data['credit_card_cvc'] = '261';
-$payment_data['amount_in_cents'] = 500;
-$payment_data['pay_day'] = $pay_day;
-$resul = $Payment->create_payment($payment_data);
-var_dump($resul);
+//$payment_data['credit_card_number'] = '4415241617725370';
+//$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
+//$payment_data['credit_card_exp_month'] = '01';
+//$payment_data['credit_card_exp_year'] = '2023';
+//$payment_data['credit_card_cvc'] = '261';
+//$payment_data['amount_in_cents'] = 500;
+//$payment_data['pay_day'] = $pay_day;
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 32);
 //var_dump($resul);
 //var_dump($pay_day);
