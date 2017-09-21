@@ -236,11 +236,51 @@ namespace dumbu\cls {
             return $Ref_profile_follows;
         }
 
+        /*
         public function do_unfollow_work($Followeds_to_unfollow)
-        {}
+        {      
+             $error = FALSE;
+             $limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
+             $has_next = count($Followeds_to_unfollow);
+             $login_data = $this->daily_work->login_data;
+            
+            for ($i = 0; $i < $limit && ($has_next); $i++) {
+                // Next profile to unfollow, not yet unfollwed
+                $Profile = array_shift($Followeds_to_unfollow);
+                $Profile->unfollowed = FALSE;
+                $json_response = $this->make_insta_friendships_command(
+                        $login_data, $Profile->followed_id, 'unfollow'
+                );
+                if (is_object($json_response) && $json_response->status == 'ok') { 
+                    // if unfollowed 
+                    $Profile->unfollowed = TRUE;
+                    var_dump(json_encode($json_response));
+                    echo "Followed ID: $Profile->followed_id<br>\n";
+                    // Mark it unfollowed and send back to queue
+                    // If have some Profile to unfollow
+                    $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
+                } else {
+                    echo "ID: $Profile->followed_id<br>\n";
+//                    var_dump($json_response);
+                    $error = $this->process_follow_error($json_response);
+                    // TODO: Class for error messages
+                    if ($error == 6) {// Just empty message:
+                        $error = FALSE;
+                        $Profile->unfollowed = TRUE;
+                    } else if ($error == 7 || $error == 9) { // To much request response string only
+                        $error = FALSE;
+                        break;
+                    } else {
+                        break;
+                    }
+                }
+                array_push($Followeds_to_unfollow, $Profile);
+            }
+        }
         
         public function do_follow_work($Followeds_to_unfollow)
         {}
+        */
         
         public function get_profiles_to_follow($daily_work, &$error, &$page_info) {
             $Profiles = array();

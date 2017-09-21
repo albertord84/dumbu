@@ -564,7 +564,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "SELECT insta_id "
                         . "FROM black_and_white_list "
-                        . "WHERE black_and_white_list.user_id = $id_user AND black_and_white_list.black_or_white = 1"
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 1 AND black_and_white_list.deleted = 0 "
                         . "ORDER BY black_and_white_list.insta_id;";
                 $result = mysqli_query($this->connection, $sql);
                 $new_array = NULL;
@@ -585,7 +585,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "SELECT insta_id "
                         . "FROM black_and_white_list "
-                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 0 "
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 0 AND black_and_white_list.deleted = 0 "
                         . "ORDER BY black_and_white_list.insta_id;";
                 $result = mysqli_query($this->connection, $sql);
                 $new_array = NULL;
