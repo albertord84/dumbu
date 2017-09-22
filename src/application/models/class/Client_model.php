@@ -469,7 +469,7 @@
             return $result;
         }
         
-        public function insert_in_black_or_white_list_model($id,$profile,$type){
+        public function insert_in_black_or_white_list_model($id,$ds_user_id,$profile,$type){
             $this->db->select('*');
             $this->db->from('black_and_white_list');
             $this->db->where('client_id',$id);
@@ -480,6 +480,7 @@
             if(count($a)==0){ //si no esta activo en la base de datos
                 $data_user=array(
                     'client_id'=>$id,
+                    'insta_id'=>$ds_user_id,
                     'profile'=>$profile,
                     'init_date'=>time(),
                     'black_or_white'=>$type
@@ -497,6 +498,18 @@
                 }
             }
             return $result;
+        }
+        
+        public function select_white_list_model(){
+            $this->db->select('*');
+            $this->db->from('black_and_white_list');
+            $this->db->order_by('id', 'asc');
+            return $this->db->get()->result_array();            
+        }
+        
+        public function update_ds_user_id_white_list_model($id,$ds_user_id){
+            $this->db->where('id',$id);                    
+            $this->db->update('black_and_white_list',array('insta_id'=>$ds_user_id));
         }
         
         public function delete_in_black_or_white_list_model($id,$profile,$type){

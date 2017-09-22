@@ -4,7 +4,17 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
-
+    
+    
+    public function update_ds_user_id() {
+        $this->load->model('class/client_model');
+        $resul=$this->client_model->select_white_list_model();
+        foreach ($resul as $key => $value) {
+            $data_insta = $this->check_insta_profile($value['profile']);
+            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
+        }
+    }
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1020,6 +1030,44 @@ class Welcome extends CI_Controller {
                     }
                 }
             } else                
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='DUMBUDF20'){
+                $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());                
+                        $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", time());                
+                    $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                }
+                if (is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            } else
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='INSTA-DIRECT' || $datas['ticket_peixe_urbano']==='MALADIRETA')){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -2341,7 +2389,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,0);
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,0);
                 if($resp['success']){
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
@@ -2407,7 +2455,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,1);
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,1);
                 if($resp['success']){
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
