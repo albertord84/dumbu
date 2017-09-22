@@ -2053,14 +2053,7 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
-    public function update_all_retry_clients(){            
-        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
-        $N=count($array_ids);
-        for($i=0;$i<$N;$i++){
-            $this->update_client_after_retry_payment_success($array_ids[$i]);
-        }
-    }
-
+    
     public function update_client_after_retry_payment_success($user_id) {        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
@@ -2454,22 +2447,30 @@ class Welcome extends CI_Controller {
     public function Pedro(){
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
-        for($i=0;$i<10/*count($users)*/;$i++){
+        $L=count($users);
+        echo 'Num clientes '.$L."<br>";
+        $file = fopen("media_pro.txt","w");
+        for($i=0;$i<$L;$i++){
             $result=$this->user_model->get_daily_report($users[$i]['id']);
             $Ndaily_R=count($result);
+            //echo $i.'----'.$users[$i]['id'].'-----'.count($users).'<br>';
             $N=0; $sum=0;
             if($Ndaily_R>5){
                 for($j=1;$j<$Ndaily_R;$j++){
                     $diferencia = $result[$j]['date']-$result[$j-1]['date']; 
                     $horas = (int)($diferencia/(60*60)); 
-                    if($horas <=30 && $horas>20){
+                    if( $horas>20 && $horas <=30){
                         $N++;
                         $sum=$sum+($result[$j]['followers'] - $result[$j-1]['followers']);
                     }
                 }
-                echo $users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.($sum/$N).'<br>';
+                //fwrite($file, ($users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.((int)($sum/$N)).'<br>'));
+                echo $users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.((int)($sum/$N)).'<br>';
+                
             }            
         }
+        echo 'fin';
+        fclose($file);
     }
     
     
@@ -2499,6 +2500,14 @@ class Welcome extends CI_Controller {
         for($i=0; $i<count($ids); $i++) {
             echo $this->user_model->update_user($ids[$i], array('status_id' => user_status::DELETED)) ;
             echo '<br>';
+        }
+    }
+
+    public function update_all_retry_clients(){            
+        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
+        $N=count($array_ids);
+        for($i=0;$i<$N;$i++){
+            $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
     
