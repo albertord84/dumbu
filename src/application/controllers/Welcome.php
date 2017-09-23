@@ -4,7 +4,17 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
-
+    
+    
+    public function update_ds_user_id() {
+        $this->load->model('class/client_model');
+        $resul=$this->client_model->select_white_list_model();
+        foreach ($resul as $key => $value) {
+            $data_insta = $this->check_insta_profile($value['profile']);
+            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
+        }
+    }
+    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -982,7 +992,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }else
-        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AGENCIALUUK'){
+        if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='AGENCIALUUK' || $datas['ticket_peixe_urbano']==='DUMBUDF20')){
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
                 if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
@@ -1019,7 +1029,7 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            } else                
+            } else
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='INSTA-DIRECT' || $datas['ticket_peixe_urbano']==='MALADIRETA')){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1093,8 +1103,8 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            }else                 
-        if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
+            }else
+        if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
                 $datas['amount_in_cents'] = $recurrency_value/2;                
@@ -1164,14 +1174,13 @@ class Welcome extends CI_Controller {
                         $response['flag_recurrency_payment'] = false;
                         $response['flag_initial_payment'] = false;
                         if(is_array($resp))
-                            $response['message'] = 'Error: '.$resp["message"]; 
+                            $response['message'] = 'Error: '.$resp["message"];
                         else
                             $response['message'] = 'Incorrect credit card datas!!';
-                        if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                        if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
                             $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                         }
                     }
-                
             }
          return $response;
     }
@@ -1292,7 +1301,7 @@ class Welcome extends CI_Controller {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
                 $kk=$client_data['ticket_peixe_urbano'];                
                         
-                if($now<$client_data['pay_day'] &&$client_data['ticket_peixe_urbano']==='AGENCIALUUK'){                    
+                if($now<$client_data['pay_day'] && $client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20'){                    
                     $result['success'] = false;
                     $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
                 } else
@@ -1375,7 +1384,7 @@ class Welcome extends CI_Controller {
 
                                 if ($payments_days['pay_now']) { //si necesitara hacer un pagamento ahora                                                   
                                     $datas['pay_day'] = time();
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
+                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20') 
                                         $datas['amount_in_cents'] = round(($pay_values['initial_value']*8)/10);
                                     else
                                     if($client_data['ticket_peixe_urbano']==='OLX')
@@ -1397,7 +1406,7 @@ class Welcome extends CI_Controller {
                                 if (($payments_days['pay_now'] && $flag_pay_now) || !$payments_days['pay_now']) {
                                     $response_delete_early_payment = '';
                                     $datas['pay_day'] = $payments_days['pay_day'];
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
+                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20')
                                         $datas['amount_in_cents'] = round(($pay_values['normal_value']*8)/10);
                                     else
                                         $datas['amount_in_cents'] = $pay_values['normal_value'];
@@ -2053,14 +2062,7 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
-    public function update_all_retry_clients(){            
-        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
-        $N=count($array_ids);
-        for($i=0;$i<$N;$i++){
-            $this->update_client_after_retry_payment_success($array_ids[$i]);
-        }
-    }
-
+    
     public function update_client_after_retry_payment_success($user_id) {        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
@@ -2348,7 +2350,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,0);
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,0);
                 if($resp['success']){
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
@@ -2414,7 +2416,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,1);
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,1);
                 if($resp['success']){
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
@@ -2454,22 +2456,30 @@ class Welcome extends CI_Controller {
     public function Pedro(){
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
-        for($i=0;$i<10/*count($users)*/;$i++){
+        $L=count($users);
+        echo 'Num clientes '.$L."<br>";
+        $file = fopen("media_pro.txt","w");
+        for($i=0;$i<$L;$i++){
             $result=$this->user_model->get_daily_report($users[$i]['id']);
             $Ndaily_R=count($result);
+            //echo $i.'----'.$users[$i]['id'].'-----'.count($users).'<br>';
             $N=0; $sum=0;
             if($Ndaily_R>5){
                 for($j=1;$j<$Ndaily_R;$j++){
                     $diferencia = $result[$j]['date']-$result[$j-1]['date']; 
                     $horas = (int)($diferencia/(60*60)); 
-                    if($horas <=30 && $horas>20){
+                    if( $horas>20 && $horas <=30){
                         $N++;
                         $sum=$sum+($result[$j]['followers'] - $result[$j-1]['followers']);
                     }
                 }
-                echo $users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.($sum/$N).'<br>';
+                //fwrite($file, ($users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.((int)($sum/$N)).'<br>'));
+                echo $users[$i]['id'].'---'.$users[$i]['status_id'].'---'.$users[$i]['plane_id'].'---'.((int)($sum/$N)).'<br>';
+                
             }            
         }
+        echo 'fin';
+        fclose($file);
     }
     
     
@@ -2499,6 +2509,14 @@ class Welcome extends CI_Controller {
         for($i=0; $i<count($ids); $i++) {
             echo $this->user_model->update_user($ids[$i], array('status_id' => user_status::DELETED)) ;
             echo '<br>';
+        }
+    }
+
+    public function update_all_retry_clients(){            
+        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
+        $N=count($array_ids);
+        for($i=0;$i<$N;$i++){
+            $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
     
