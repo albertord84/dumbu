@@ -2476,7 +2476,6 @@ class Welcome extends CI_Controller {
         }
     }
         
-        
     public function Pedro(){
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
@@ -2504,26 +2503,6 @@ class Welcome extends CI_Controller {
         }
         echo 'fin';
         fclose($file);
-    }
-    
-    
-    
-    public function test(){
-        $this->load->model('class/user_model');
-        $a=$this->user_model->get_all_dummbu_clients();
-        $N=count($a);
-        for($i=0;$i<$N;$i++){
-            $st=$a[$i]['status_id'];
-            if($st!=='4' && $st!=='8' && $st!=='11' && $a[$i]['role_id']==='2'){
-                echo $i;
-                $login=$a[$i]['login'];
-                $pass=$a[$i]['pass'];
-                $datas['user_login']=$login;
-                $datas['user_pass']=$pass;
-                $result= $this->user_do_login($datas);
-                //print_r('Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>');
-            }
-        }
     }
 
     public function update_all_retry_clients(){            
