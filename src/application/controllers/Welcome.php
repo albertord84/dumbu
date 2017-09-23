@@ -992,45 +992,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }else
-        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AGENCIALUUK'){
-                $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
-                if ($datas['early_client_canceled'] === 'true'){
-                    $resp = $this->check_mundipagg_credit_card($datas);
-                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
-                        $response['flag_recurrency_payment'] = false;
-                        $response['flag_initial_payment'] = false;
-                        if(is_array($resp))
-                            $response['message'] = 'Error: '.$resp["message"]; 
-                        else
-                            $response['message'] = 'Incorrect credit card datas!!';
-                        return $response;
-                    } else{
-                        $datas['pay_day'] = strtotime("+1 month", time());                
-                        $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
-                    }
-                } else{
-                    $datas['pay_day'] = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", time());                
-                    $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
-                }
-                if (is_object($resp) && $resp->isSuccess()) {
-                    $this->client_model->update_client($datas['pk'], array(
-                        'order_key' => $resp->getData()->OrderResult->OrderKey,
-                        'pay_day' => $datas['pay_day']));
-                    $response['flag_recurrency_payment'] = true;
-                    $response['flag_initial_payment'] = true;
-                } else {
-                    $response['flag_recurrency_payment'] = false;
-                    $response['flag_initial_payment'] = false;
-                    if(is_array($resp))
-                        $response['message'] = 'Error: '.$resp["message"]; 
-                    else
-                        $response['message'] = 'Incorrect credit card datas!!';
-                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
-                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
-                    }
-                }
-            } else                
-        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='DUMBUDF20'){
+        if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='AGENCIALUUK' || $datas['ticket_peixe_urbano']==='DUMBUDF20')){
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
                 if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
@@ -1141,8 +1103,8 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            }else                 
-        if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
+            }else
+        if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
                 $datas['amount_in_cents'] = $recurrency_value/2;                
@@ -1212,14 +1174,13 @@ class Welcome extends CI_Controller {
                         $response['flag_recurrency_payment'] = false;
                         $response['flag_initial_payment'] = false;
                         if(is_array($resp))
-                            $response['message'] = 'Error: '.$resp["message"]; 
+                            $response['message'] = 'Error: '.$resp["message"];
                         else
                             $response['message'] = 'Incorrect credit card datas!!';
-                        if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                        if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
                             $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                         }
                     }
-                
             }
          return $response;
     }
@@ -1340,7 +1301,7 @@ class Welcome extends CI_Controller {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
                 $kk=$client_data['ticket_peixe_urbano'];                
                         
-                if($now<$client_data['pay_day'] &&$client_data['ticket_peixe_urbano']==='AGENCIALUUK'){                    
+                if($now<$client_data['pay_day'] && $client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20'){                    
                     $result['success'] = false;
                     $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
                 } else
@@ -1423,7 +1384,7 @@ class Welcome extends CI_Controller {
 
                                 if ($payments_days['pay_now']) { //si necesitara hacer un pagamento ahora                                                   
                                     $datas['pay_day'] = time();
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
+                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20') 
                                         $datas['amount_in_cents'] = round(($pay_values['initial_value']*8)/10);
                                     else
                                     if($client_data['ticket_peixe_urbano']==='OLX')
@@ -1445,7 +1406,7 @@ class Welcome extends CI_Controller {
                                 if (($payments_days['pay_now'] && $flag_pay_now) || !$payments_days['pay_now']) {
                                     $response_delete_early_payment = '';
                                     $datas['pay_day'] = $payments_days['pay_day'];
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
+                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20')
                                         $datas['amount_in_cents'] = round(($pay_values['normal_value']*8)/10);
                                     else
                                         $datas['amount_in_cents'] = $pay_values['normal_value'];
