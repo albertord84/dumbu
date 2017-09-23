@@ -113,13 +113,17 @@ if(str_binary_search("347569",$array2))
 else{ echo "\n<br> DB search false </br>" ;
 }
 
+
+
 //Testing Worker with black list
-$worker = new \dumbu\cls\Worker();
+/*$worker = new \dumbu\cls\Worker();
+
+$worker->prepare_daily_work();
 $daily_work = $DB->get_follow_work();
 $daily_work->login_data = json_decode($daily_work->cookies);
 var_dump($daily_work);
 $worker->do_follow_unfollow_work($daily_work);
-
+*/
 //Testing white and black list 
 //    $DB = new \dumbu\cls\DB();
 //$result = $DB->insert_in_white_list(1,"407964088");

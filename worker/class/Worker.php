@@ -88,7 +88,7 @@ namespace dumbu\cls {
             //$DB = new DB();
             $Client = new Client();
             foreach ($Clients as $Client) { // for each CLient
-                if (!$Client->cookies) {
+                    if (!$Client->cookies) {
                     // Log user with curl in istagram to get needed session data
                     $login_data = $Client->sign_in($Client);
                     if ($login_data !== NULL) {
@@ -186,14 +186,14 @@ namespace dumbu\cls {
                 }
                 //Reuest for the black list in the data base
                 $daily_work->black_list = $this->DB->get_black_list($daily_work->users_id);
-                
+              
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
                 //Count unfollows
                 $unfollows = 0;
                 foreach ($Followeds_to_unfollow as $unfollowed) {
                     if ($unfollowed->unfollowed)
-                        $unfollows++;
+                    {    $unfollows++; }
                 }
                 // TODO: foults
                 $this->DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows);
