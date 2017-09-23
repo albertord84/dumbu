@@ -7,6 +7,8 @@ class Welcome extends CI_Controller {
     
     
     public function update_ds_user_id() {
+        
+        
         $this->load->model('class/client_model');
         $resul=$this->client_model->select_white_list_model();
         foreach ($resul as $key => $value) {
