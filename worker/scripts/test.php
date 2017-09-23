@@ -14,23 +14,23 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
-
+//ini_set('xdebug.var_display_max_depth', 7);
+//ini_set('xdebug.var_display_max_children', 256);
+//ini_set('xdebug.var_display_max_data', 1024);
 
 //DEBIT CIELO
 /*$PaymentCielo = new \dumbu\cls\PaymentCielo();
 
+//CARTAO EMPRESSA
 $payment_data['credit_card_flag'] = 'Master';
-$payment_data['credit_card_number'] = '5293230334451133';
-$payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
-$payment_data['credit_card_exp_month'] = '05';
-$payment_data['credit_card_exp_year'] = '2024';
-$payment_data['credit_card_cvc'] = '379';
+$payment_data['credit_card_number'] = '5899161785604573';
+$payment_data['credit_card_name'] = 'BLK SOCIAL SERV DIGIT LTDA';
+$payment_data['credit_card_exp_month'] = '11';
+$payment_data['credit_card_exp_year'] = '2023';
+$payment_data['credit_card_cvc'] = '004';
 $payment_data['amount_in_cents'] = 1000;
 $sale = $PaymentCielo->create_payment_debit($payment_data);
+
 var_dump($sale);*/
 
 //$payment_id = "8bd9f487-612e-4e39-8bf8-f045068e6000";
@@ -151,11 +151,10 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('09/21/2017 00:42:27');
-
+$pay_day = strtotime('10/16/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-//$pay_day = time();
+$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
