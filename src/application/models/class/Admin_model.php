@@ -65,7 +65,10 @@
                 $this->db->where('credit_card_name', $form_filter['credit_card_name']);
             //else
             if($form_filter['client_status']>-1)
-                $this->db->where('status_id', $form_filter['client_status']);            
+                $this->db->where('status_id', $form_filter['client_status']);
+            if ($form_filter['plane'] > 0)
+                $this->db->where('plane_id', $form_filter['plane']); 
+            
             return $this->db->get()->result_array();
         }
            
@@ -92,7 +95,7 @@
                     $this->db->where('event_date <= ', time());
                 }
                 else { // 1, 7 o 30 days
-                    $this->db->where('event_date <= ', mktime(0, 0, 0, date("m"), date("d") + $form_filter['pendences_date'],   date("Y")));
+                    $this->db->where('event_date <= ', mktime(23, 59, 59, date("m"), date("d") + $form_filter['pendences_date'],   date("Y")));
                     $this->db->where('event_date >= ', time());
                 }
             }

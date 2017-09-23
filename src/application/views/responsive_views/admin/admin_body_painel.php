@@ -96,10 +96,23 @@
                     </div>
                 </div>
             </div>
-            <br><br>            
-            
+            <br>
 
-            <div class="row">        
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Plano</b>   
+                        <select id="plane" class="form-control">
+                            <option value="0">--SELECT--</option>
+                            <option value="1">1</option>
+                            <option value="2">2 (LOW)</option>
+                            <option value="3">3 (MODERATED)</option>
+                            <option value="4">4 (FAST)</option>
+                            <option value="5">5 (TURBO)</option>
+                        </select>
+                    </div> 
+                </div>
                 <div class="center">
                     <button  style="min-width:200px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                         <span class="ladda-label">Listar</span>
