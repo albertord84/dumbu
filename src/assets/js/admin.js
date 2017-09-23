@@ -54,9 +54,9 @@ $(document).ready(function(){
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            $("#signin_initial_date").val()==='' &&
-           $("#observations").val()==='' &&
+           $("#observations").val()==='NAO' &&
            $("#cod_promocional").val()==='--SELECT--' &&
-           $("#pay_day").val()=='--SELECT--' &&
+           $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&
            $("#email_client").val()==='' &&
            $("#order_key_client").val()==='' &&
@@ -77,7 +77,26 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
-        
+    });
+    
+    $("#execute_query2").click(function(){
+        var params='pendences_date='+$("#pendences_date").val();
+        params=params+'&client_id_listar='+$("#client_id_listar").val();
+        params=params+'&type_option1='+$("#type_option1").prop("checked");
+        params=params+'&type_option2='+$("#type_option2").prop("checked");
+        params=params+'&type_option3='+$("#type_option3").prop("checked");
+        $(location).attr('href',base_url+'index.php/admin/list_filter_view_pendences?'+params);     
+    });
+    
+    $("#execute_query3").click(function(){
+        var params='client_id='+$("#client_id").val();
+        params=params+'&event_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
+        params=params+'&pendence_text='+$("#pendence_text").val();
+        params=params+'&frequency_option1='+$("#frequency_option1").prop("checked");
+        params=params+'&frequency_option2='+$("#frequency_option2").prop("checked");
+        params=params+'&frequency_option3='+$("#frequency_option3").prop("checked");
+        params=params+'&number_times='+$("#number_times").val();
+        $(location).attr('href',base_url+'index.php/admin/create_pendence?'+params);     
     });
     
     var id=0;
@@ -142,6 +161,58 @@ $(document).ready(function(){
        modal_alert_message(id);
     });
     
+    $(".editar-pendencia").click(function(e){
+        id=$(e.currentTarget).attr('id');
+        var contenedor=document.getElementById(id);
+	contenedor.style.display="none";
+        contenedor=document.getElementById('resolver_'+id);
+        contenedor.style.display="none";
+        contenedor=document.getElementById('client_id_'+id);
+        contenedor.style.display="none";
+        contenedor=document.getElementById('new_client_id_'+id);
+        contenedor.style.display="inline";
+        contenedor=document.getElementById('text_'+id);
+        contenedor.style.display="none";
+        contenedor=document.getElementById('new_text_'+id);
+        contenedor.style.display="inline";
+        contenedor=document.getElementById('event_date_'+id);
+        contenedor.style.display="none";
+        contenedor=document.getElementById('new_day_'+id);
+        contenedor.style.display="inline";
+        contenedor=document.getElementById('new_month_'+id);
+        contenedor.style.display="inline";
+        contenedor=document.getElementById('new_year_'+id);
+        contenedor.style.display="inline";
+        contenedor=document.getElementById('pendence_closed_message_'+id);
+        contenedor.style.display="none";
+        contenedor=document.getElementById('new_pendence_closed_message_'+id);
+        contenedor.style.display="inline";
+        contenedor=document.getElementById('atualizar_'+id);
+        contenedor.style.display="block";
+    });
+    
+    $(".atualizar-pendencia").click(function(e){
+        if (confirm('Confirma a atualização da pendência?')) {
+            id=$(e.currentTarget).attr('id');
+            var arrayid = id.split("_");
+            var params='id='+arrayid[1];
+            params=params+'&client_id='+$("#new_client_id_"+arrayid[1]).val();
+            params=params+'&pendence_text='+$("#new_text_"+arrayid[1]).val();
+            params=params+'&event_date='+$("#new_month_"+arrayid[1]).val()+'/'+$("#new_day_"+arrayid[1]).val()+'/'+$("#new_year_"+arrayid[1]).val();
+            params=params+'&pendence_closed_message='+$("#new_pendence_closed_message_"+arrayid[1]).val();
+            $(location).attr('href',base_url+'index.php/admin/update_pendence?'+params);
+        }
+    });
+    
+    $(".resolver-pendencia").click(function(e){
+        if (confirm('Confirma a resolução da pendência?')) {
+            id=$(e.currentTarget).attr('id');
+            var arrayid = id.split("_");
+            var params='id='+arrayid[1];
+            $(location).attr('href',base_url+'index.php/admin/resolve_pendence?'+params);
+        }
+    });
+    
     $('#admin_form').keypress(function (e) {
         if (e.which == 13) {
             $("#execute_query").click();
@@ -149,4 +220,10 @@ $(document).ready(function(){
         }
     });
     
+    $('#admin_form2').keypress(function (e) {
+        if (e.which == 13) {
+            $("#execute_query2").click();
+            return false;
+        }
+    });
 }); 
