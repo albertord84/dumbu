@@ -7,6 +7,7 @@ require_once '../class/system_config.php';
 require_once '../class/user_role.php';
 require_once '../class/user_status.php';
 require_once '../class/Gmail.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 echo "UNFOLLOW Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
@@ -26,17 +27,20 @@ $clients_data_db = $DB->get_unfollow_clients_data();
 // Before
 print '<br>\nBEFORE:<br>\n';
 $CN = 0;
-while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()) {
+while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object() && $CN < 5) {
 //    $clients_data[$CN] = $clients_data_db;
     $clients_data[$CN]->unfollows = 0;
     print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
+    
+    //get the white list
+               
     $login = $Robot->bot_login($clients_data[$CN]->login, $clients_data[$CN]->pass);
     if (isset($login->json_response->authenticated) && $login->json_response->authenticated) {
 //        $login_data = json_encode($login);
         $login_data = $login;
         $clients_data[$CN]->cookies = $login_data;
         $json_response = $Robot->get_insta_follows(// Respect firsts X users
-                $login_data, $clients_data[$CN]->insta_id, 30
+               $login_data, $clients_data[$CN]->insta_id, 30
         );
     } else {
         $Gmail->send_client_login_error($clients_data[$CN]->email, $clients_data[$CN]->name, $clients_data[$CN]->login);
@@ -47,6 +51,8 @@ while ($clients_data_db && $clients_data[$CN] = $clients_data_db->fetch_object()
     $CN++;
 }
 //var_dump($clients_data);
+
+
 
 for ($i = 0; $i < 100 && $CN; $i++) {
     // Process all UNFOLLOW clients
@@ -68,31 +74,36 @@ for ($i = 0; $i < 100 && $CN; $i++) {
             }
 //            var_dump($json_response);
             if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->data->user->edge_follow->edges)) { // if response is ok
-                // Get Users 
+                
+               // Get Users 
+                $white_list = $this->DB->get_white_list($clients_data[$CN]->id);
                 print '\n<br> Count: ' . count($json_response->data->user->edge_follow->edges) . '\n<br>';
                 $Profiles = $json_response->data->user->edge_follow->edges;
                 foreach ($Profiles as $rpkey => $Profile) {
-                    // Do unfollow request
-                    $Profile = $Profile->node;
-                    echo "Profil name: $Profile->username<br>\n";
-                    $json_response2 = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
-                    var_dump($json_response2);
-                    echo "<br>\n";
-                    if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
-                        $clients_data[$ckey]->unfollows++;
-                    } else { // Porcess error
-                        $Profile = new \dumbu\cls\Profile();
-                        $error = $Profile->parse_profile_follow_errors($json_response2); // TODO: Class for error messages
-                        if ($error == 6) {// Just empty message:
-                            $error = FALSE;
-                        } else if ($error == 7) { // To much request response string only
-                            $error = FALSE;
+                    // If profile is not in white list then do unfollow request
+                    if(!(isset($white_list) && str_binary_search($Profile->id,$white_list)))
+                    {   
+                        $Profile = $Profile->node;
+                        echo "Profil name: $Profile->username<br>\n";
+                        $json_response2 = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
+                        var_dump($json_response2);
+                        echo "<br>\n";
+                        if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
+                            $clients_data[$ckey]->unfollows++;
+                        } else { // Porcess error
+                            $Profile = new \dumbu\cls\Profile();
+                            $error = $Profile->parse_profile_follow_errors($json_response2); // TODO: Class for error messages
+                            if ($error == 6) {// Just empty message:
+                                $error = FALSE;
+                            } else if ($error == 7) { // To much request response string only
+                                $error = FALSE;
+                                break;
+                            } else if ($error) {
+                                unset($clients_data[$ckey]);
+                                break;
+                            }
                             break;
-                        } else if ($error) {
-                            unset($clients_data[$ckey]);
-                            break;
-                        }
-                        break;
+                        }                        
                     }
                 }
             } else {

@@ -555,7 +555,48 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-
+        
+        /*get the white list for the user with id = $id_user as an array
+         */
+        public function  get_white_list($id_user)
+        {
+            try {
+                $sql = ""
+                        . "SELECT insta_id "
+                        . "FROM black_and_white_list "
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 1 AND black_and_white_list.deleted = 0 "
+                        . "ORDER BY black_and_white_list.insta_id;";
+                $result = mysqli_query($this->connection, $sql);
+                $new_array = NULL;
+                while( $obj= $result->fetch_object()){
+                    $new_array[] = $obj->insta_id; // Inside while loop
+                }
+                return $new_array;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        /*get the black list for the user with id = $id_user as an array
+         */
+        public function get_black_list($id_user)
+        {
+            try {
+                $sql = ""
+                        . "SELECT insta_id "
+                        . "FROM black_and_white_list "
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 0 AND black_and_white_list.deleted = 0 "
+                        . "ORDER BY black_and_white_list.insta_id;";
+                $result = mysqli_query($this->connection, $sql);
+                $new_array = NULL;
+                while( $obj= $result->fetch_object()){
+                    $new_array[] = $obj->insta_id; // Inside while loop
+                }
+                return $new_array;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
     }
 
 }

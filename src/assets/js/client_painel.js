@@ -133,7 +133,15 @@ $(document).ready(function () {
     $("#dicas_geoloc").click(function(){
         url=base_url+"index.php/welcome/dicas_geoloc";
         window.open(url, '_blank');
-    });
+    });    
+    
+    $("#btn_add_new_profile").hover(
+            function () {
+                $('#btn_add_new_profile').css('cursor', 'pointer');
+            },
+            function () {
+                $('#btn_add_new_profile').css('cursor', 'default');
+        });
     
     
     $("#dicas_geoloc").hover(

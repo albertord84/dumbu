@@ -879,7 +879,7 @@
                 
                 <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
                     <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
-                    <h3 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></h3>
+                    <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array()); ?></h4>
                     <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
                                 processo onde deixará de seguir todos os perfis que segue no
                                 momento. Todos os perfis em sua lista de "Seguindo" serão deixados
@@ -900,7 +900,7 @@
                 </div>
                 <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
                     <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
-                    <h3 class="m-t10"><?php echo $CI->T("AUTOLIKE", array()); ?></h3>
+                    <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array()); ?></h4>
                     <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
                             automaticamente na primeira foto de todos os perfis que seguir, esse 
                             processo pode aumentar sua conversão de seguidores.', array()); ?>
@@ -1077,14 +1077,14 @@
                 </div>
             </div>
         
-            <!--
-            <div class="fleft100 m-t30">
-                <div class="col-md-1 col-sm-1 col-xs-12 no-pd"><br></div>
-                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-r15 m-t45">
+            
+            <div class="fleft100 m-t30">                
+                <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-r15 m-t45">
                     <div class="m-t10">
-                        <div>
-                            <p class=text-center><?php //echo $CI->T("GERENCIAR LISTA BRANCA", array()); ?></p> 
-                        </div>
+                        <h4 class="text-center"><b><?php echo $CI->T("SEGUIR SEMPRE", array()); ?></b></h4>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('A ferramenta nunca deixará de seguir perfis adicionados nesta lista <br>
+                               e que seguiu automaticamente' , array()); ?>
+                        </p>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">
                                 <button id="white_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
@@ -1094,23 +1094,23 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-5 col-sm-5 col-xs-12 bk text-center pd-l15 m-t45">
+                <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-l15 m-t45">
                     <div class="m-t10">
-                        <div>
-                            <p class=text-center><?php //echo $CI->T("GERENCIAR LISTA NEGRA", array()); ?></p> 
-                        </div>
+                        <h4 class="text-center" ><b><?php echo $CI->T("NUNCA SEGUIR", array()); ?></b></h4>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('Os perfis que adicione nesta lista nunca 
+                                serão seguidos <br> com a ferramenta.', array()); ?>
+                        </p>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">
                                 <button id="black_list" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php //echo $CI->T("GERENCIAR", array()); ?></div></span>
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("GERENCIAR", array()); ?></div></span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            -->
+            
             
             
             <div class="fleft100 m-t30">
