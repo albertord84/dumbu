@@ -43,8 +43,10 @@
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             //else
-            if($form_filter['signin_initial_date']!=='')
+            if($form_filter['signin_initial_date']!=='0/0/0'){
                 $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
+                $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date'].' 23:59:59'));
+            }
             //else
             if($form_filter['observations']!=='NAO')
                 $this->db->where('observation is NOT NULL', NULL, FALSE);

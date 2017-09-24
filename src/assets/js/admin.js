@@ -53,7 +53,7 @@ $(document).ready(function(){
     
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
-           $("#signin_initial_date").val()==='' &&
+           $("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
            $("#observations").val()==='NAO' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#client_id").val()=='' &&
@@ -62,12 +62,13 @@ $(document).ready(function(){
            $("#order_key_client").val()==='' &&
            $("#ds_user_id").val()==='' &&
            $("#credit_card_name").val()==='' &&
-           $("#plane").val()===0) 
+           $("#plane").val()<1) 
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
             params='client_status='+$("#client_status").val();
-                params=params+'&signin_initial_date='+$("#signin_initial_date").val();
+            //params=params+'&signin_initial_date='+$("#signin_initial_date").val();
+            params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
