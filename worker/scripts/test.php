@@ -158,7 +158,6 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-
 //$pay_day = strtotime('10/16/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
@@ -176,6 +175,10 @@ $Payment = new \dumbu\cls\Payment();
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 1, 20);
+//var_dump($resul);
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 
 //var_dump($pay_day);

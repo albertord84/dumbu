@@ -21,20 +21,44 @@
                         </select>
                     </div> 
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="center filters">
-                        <b>Assinatura (inic)</b>
-                        <input id = "signin_initial_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" >       
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="center filters">
-                        <b>Listar Observações</b>
-                        <select id="observations" class="form-control" >                            
-                            <option>NAO</option>
-                            <option>SIM</option>
-                        </select>
+                    <!--<b>Assinatura (inic)</b>
+                        <input id = "signin_initial_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" >-->
+                        <table>
+                            <tr>
+                                <th class="center filters" colspan="5">Data da assinatura</th>
+                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th class="center filters">Observações</th>
+                            </tr>
+                            <tr>
+                                <td><select id="day" class="form-control" style="min-width: 60px">
+                                    <option value="0">Dia</option>
+                                    <?php for ($day = 1; $day <= 31; $day++) { ?>
+                                    <option value="<?php echo strlen($day)==1 ? '0'.$day : $day; ?>"><?php echo strlen($day)==1 ? '0'.$day : $day; ?></option>
+                                    <?php } ?>
+                                    </select></td>
+                                    <td>&nbsp;<b>/</b>&nbsp;</td>
+                                <td><select id="month" class="form-control" style="min-width: 70px">
+                                    <option value="0">Mês</option>
+                                    <?php for ($month = 1; $month <= 12; $month++) { ?>
+                                    <option value="<?php echo strlen($month)==1 ? '0'.$month : $month; ?>"><?php echo strlen($month)==1 ? '0'.$month : $month; ?></option>
+                                    <?php } ?>
+                                    </select></td>
+                                <td>&nbsp;<b>/</b>&nbsp;</td>
+                                <td><select id="year" class="form-control" style="min-width: 75px">
+                                    <option value="0">Ano</option>
+                                    <?php for ($year = 2016; $year <= date('Y'); $year++) { ?>
+                                    <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+                                    <?php } ?>
+                                    </select></td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td><select id="observations" class="form-control" >                            
+                                    <option>NAO</option>
+                                    <option>SIM</option>
+                                </select></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -96,15 +120,31 @@
                     </div>
                 </div>
             </div>
-            <br><br>            
-            
+            <br>
 
-            <div class="row">        
-                <div class="center">
-                    <button  style="min-width:200px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                        <span class="ladda-label">Listar</span>
-                    </button>
-               </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Plano</b>   
+                        <select id="plane" class="form-control">
+                            <option value="0">--SELECT--</option>
+                            <option value="1">1</option>
+                            <option value="2">2 (LOW)</option>
+                            <option value="3">3 (MODERATED)</option>
+                            <option value="4">4 (FAST)</option>
+                            <option value="5">5 (TURBO)</option>
+                        </select>
+                    </div> 
+                </div>
+                <div class="col-md-8">
+                    <div class="center">
+                        <br>
+                        <button  style="min-width:200px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label">Listar</span>
+                        </button>
+                    </div>
+                </div>
             </div>        
         </div>
         <hr>
