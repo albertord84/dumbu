@@ -66,10 +66,10 @@ namespace dumbu\cls {
             $merchant = new Merchant('472a5d6b-6ba8-476c-9bd6-377e19eafe9d', 'Z87vM3TKvBfG4Zj2BgHGoYfkBqFJMcXTBuWZhJj1');
             //1077629602 estabelecimento
             // Crie uma instância de Sale informando o ID do pagamento
-            $sale = new Sale('777');
+            $sale = new Sale($payment_data['credit_card_number']);
 
             // Crie uma instância de Customer informando o nome do cliente
-            $customer = $sale->customer('ALBERTO REYES DIAZ');
+            $customer = $sale->customer($payment_data['credit_card_name']);
 
             // Crie uma instância de Payment informando o valor do pagamento
             $payment = $sale->payment(1000);

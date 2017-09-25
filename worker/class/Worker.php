@@ -185,6 +185,9 @@ namespace dumbu\cls {
                     }
                 }
 // Do the FOLLOW work
+                //Reuest for the black list in the data base
+                $daily_work->black_list = $this->DB->get_black_list($daily_work->users_id);
+                
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
 // Count unfollows
@@ -199,6 +202,25 @@ namespace dumbu\cls {
             }
             return FALSE;
         }
+
+        /*
+               
+        public function get_candidate_to_follow($daily_work)
+        {
+            $robot = new Robot();            
+            $black_list = $DB->get_black_list($daily_work->client_id); 
+            $page_info = NULL;
+            $error = FALSE;
+            $profiles = $robot->get_profiles_to_follow($daily_work, $error, $page_info);
+            //procurar os perfiles ue coinsiden para eliminarlos de profiles
+        }
+        */
+        
+        /*
+         */
+        public function get_candidate_to_unfollow($daily_work)
+        {}
+
 
         public function save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work) {
             try {
