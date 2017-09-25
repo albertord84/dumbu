@@ -138,6 +138,27 @@ class User_model extends CI_Model {
         }
     }
 
+    public function get_all_users() {
+        $this->db->select('id,status_id,plane_id');
+        $this->db->from('users');
+        $this->db->join('clients', 'clients.user_id = users.id');
+        $this->db->where('status_id <', 11);
+        $this->db->where('status_id <>', 8);
+        $this->db->order_by("plane_id","asc");        
+        $this->db->order_by("user_id","asc");        
+        $a = $this->db->get()->result_array();
+        return $a;
+    }
+    
+    public function get_daily_report($user_id) {
+        $this->db->select('followers,date');
+        $this->db->from('daily_report');
+        $this->db->where('client_id', $user_id);
+        $this->db->order_by("date","asc");
+        $a = $this->db->get()->result_array();
+        return $a;
+    }
+    
     public function get_user_role($user_login, $user_pass) {
         $this->db->select('role_id');
         $this->db->from('users');
@@ -164,27 +185,7 @@ class User_model extends CI_Model {
             echo $exc->getTraceAsString();
         }
     }
-
-    /* public function update_data_user($datas){
-      try {
-      $this->db->where('id', $datas['pk']);
-      $this->db->update('users',array(
-      'status_id' => $datas['status_id'],
-      'email' => $datas['client_email'],
-      ));
-      return true;
-      } catch (Exception $exc) {
-      echo $exc->getTraceAsString();
-      return false;
-      }
-      } */
-
-    /**
-     * 
-     *
-     * @return bool
-     * @access public
-     */
+   
     public function update_user($id, $datas) {
         try {
             $this->db->where('id', $id);
@@ -195,6 +196,18 @@ class User_model extends CI_Model {
             return false;
         }
     }
+    
+    public function get_all_dummbu_clients() {
+        try {
+            $this->db->select('*');
+            $this->db->from('users');
+            return $this->db->get()->result_array();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+    
+    
 
     /**
      * 
@@ -228,10 +241,16 @@ class User_model extends CI_Model {
      * @return bool
      * @access public
      */
-    public function disable_account() {
-        
+    public function insert_washdog($user_id,$cad) {
+        //$this->db->insert('washdog',array('user_id'=>$user_id,'action'=>$cad,'date'=>time()));
     }
     
+     public function get_status_by_id($status_id){
+        $this->db->select('name');
+        $this->db->from('user_status');
+        $this->db->where('id',$status_id);
+        return $this->db->get()->row_array();
+     }
        
     
     public function client_prevalence() {

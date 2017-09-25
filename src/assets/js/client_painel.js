@@ -126,12 +126,22 @@ $(document).ready(function () {
     autolike = parseInt(autolike);
     init_unfollow_type();
     init_autolike_type();
+    flag_black_list=false;
+    flag_white_list=false;
 
       
     $("#dicas_geoloc").click(function(){
         url=base_url+"index.php/welcome/dicas_geoloc";
         window.open(url, '_blank');
-    });
+    });    
+    
+    $("#btn_add_new_profile").hover(
+            function () {
+                $('#btn_add_new_profile').css('cursor', 'pointer');
+            },
+            function () {
+                $('#btn_add_new_profile').css('cursor', 'default');
+        });
     
     
     $("#dicas_geoloc").hover(
@@ -336,9 +346,43 @@ $(document).ready(function () {
         }
     });
 
-    $("#cancel_usser_account").click(function () {
-        if (confirm(T('Sugerimos entrar em contato com nosso Atendimento antes de cancelar sua assinatura. Deseja realmente iniciar o processo de cancelamento?')))
+    $("#accept_modal").click(function () {
+        if($('#aceita_desconto').prop("checked")){
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: base_url + 'index.php/welcome/client_acept_discont',   
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    if (response['success']) {
+                        alert(response['message']);
+                    } else {
+                        alert('Desconto erro');
+                    }
+                    l.stop();
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Erro encontrado. Informe para o atendimento seu caso.'));
+                    
+                }
+            });
+            l.stop();
+            $('#cancel_usser_account').modal('hide');
+        }
+        else 
+        if($('#nao_aceita_desconto').prop("checked")){
+            $('#cancel_usser_account').modal('hide');
             if(language==='PT')
+                window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
+            else
+                window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
+        }        
+    });
+    
+    $("#cancel_usser_account").click(function () {
+        //$('#modal_cancel_account_message').modal('show');
+        if(language==='PT')
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
             else
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
@@ -691,27 +735,7 @@ $(document).ready(function () {
         }
     });
 
-    function set_global_var(str, value) {
-        switch (str) {
-            case 'unfollow_total':
-                unfollow_total = value;
-                break;
-            case 'autolike':
-                autolike = value;
-                break;
-            case 'users_datas':
-                users_datas = value;
-                /*users_source = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.whitespace,
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    local: users_datas
-                    });*/
-                break;
-            case 'places':
-                places = value;
-                break;
-        }
-    }
+    
     
     init_icons_profiles(profiles);
     
@@ -982,6 +1006,245 @@ $(document).ready(function () {
             return false;
         }
     });
+    
+    
+    //black list funcionalities
+    $("#black_list").click(function(){
+        var l = Ladda.create(this); l.start();
+        $.ajax({
+                url: base_url + 'index.php/welcome/client_black_list',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        set_global_var('client_black_list',response['client_black_list']);
+                        aaa=response['client_black_list'];
+                        $("#table_black_list").empty();
+                        for(i=0;i<response['cnt'];i++){
+                            $("#table_black_list").append("<tr class='row_"+aaa[i].profile+"'>");
+                                $("#table_black_list").append("<td class='text-center row_"+aaa[i].profile+"'><a title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+aaa[i].profile+"'><img class='img_profile m-t20 row_"+aaa[i].profile+"' style='width:45px;height:45px;border-radius:25px' src='"+aaa[i].url_foto+"'></a></td>");
+                                $("#table_black_list").append("<td class='text-left row_"+aaa[i].profile+"'><a class='row_"+aaa[i].profile+"' title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+aaa[i].profile+"'><p class='m-t30 row_"+aaa[i].profile+"' style='color:black'>"+(aaa[i].profile)+"</p></a></td>");
+                                $("#table_black_list").append("<td class='text-right row_"+aaa[i].profile+"'>"
+                                        +"<button onclick='myFunction();' id='"+aaa[i].profile+"' type='button' class='btn btn-default ladda-button m-t30 delete-btn row_"+aaa[i].profile+"' data-style='expand-left' data-spinner-color='#ffffff'>"
+                                            +"<span class='ladda-label row_"+aaa[i].profile+"'>"+T('Eliminar')+"</span>"
+                                        +"</button></td>");
+                            $("#table_black_list").append("</tr>");                        
+                        }                        
+                        $("#table_black_list").on("click", ".delete-btn", function(e){
+                            delete_profile_from_black_list(e);
+                        });                   
+
+                        $('#modal_black_list').modal('show');
+                        l.stop();
+                    } 
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
+                }
+        });
+    });    
+           
+    $("#add_profile_in_black_list").click(function(){
+        var l = Ladda.create(this);l.start();
+        $.ajax({
+                url: base_url + 'index.php/welcome/insert_profile_in_black_list',
+                data:{'profile':$("#text_profile_black_list").val()},
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        $("#table_black_list").prepend(
+                                "<tr class='m-t20 row_"+$("#text_profile_black_list").val()+"'><td class='text-center row_"+$("#text_profile_black_list").val()+"'><a class='row_"+$("#text_profile_black_list").val()+"' title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+$("#text_profile_black_list").val()+"'><img class='img_profile m-t20 row_"+$("#text_profile_black_list").val()+"' style='width:45px;height:45px;border-radius:25px' src='"+response['url_foto']+"'></a></td>"
+                                    +"<td class='text-left row_"+$("#text_profile_black_list").val()+"'><a class='row_"+$("#text_profile_black_list").val()+"' title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+$("#text_profile_black_list").val()+"'><p class='m-t30 row_"+$("#text_profile_black_list").val()+"' style='color:black'>"+$("#text_profile_black_list").val()+"</p></a></td>"
+                                    +"<td class='text-right row_"+$("#text_profile_black_list").val()+"'>"
+                                        +"<button id='"+$("#text_profile_black_list").val()+"' type='button' class='btn btn-default ladda-button m-t30 delete-btn row_"+$("#text_profile_black_list").val()+"' data-style='expand-left' data-spinner-color='#ffffff'>"
+                                            +"<span class='ladda-label row_"+$("#text_profile_black_list").val()+"'>"+T('Eliminar')+"</span>"
+                                        +"</button></td>"
+                                +"</tr>");                            
+                        $("#text_profile_black_list").val('');
+                        $("#insert_black_list_msg_error").css({'visibility':'hidden',"display":"none"});
+                        $("#table_black_list").on("click", ".delete-btn", function(e){
+                            delete_profile_from_black_list(e);
+                        });                        
+                    } else{
+                        $("#insert_black_list_msg_error").text(response['message']);
+                        $("#insert_black_list_msg_error").css({"visibility":"visible","display":"block"});
+                    }
+                     l.stop();
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível realizar a operação'));
+                    l.stop();
+                }            
+        });
+    });
+    
+    function delete_profile_from_black_list(e){
+        profile=$(e.currentTarget).attr('id');
+        $.ajax({
+                url: base_url + 'index.php/welcome/delete_client_from_black_list',
+                type: 'POST',
+                dataType: 'json',
+                data: {'profile': profile},
+                success: function (response) {
+                    if (response['success']) {
+                        $(".row_"+profile).remove();
+                    }
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
+                    l.stop();
+                }
+        });
+    }
+    
+    $('#text_profile_black_list').keypress(function (e) {
+        if (e.which == 13) {
+            $("#add_profile_in_black_list").click();
+            return false;
+        }
+    });
+    
+    $('#add_profile_in_black_list').keypress(function (e) {
+        if (e.which == 13) {
+            $("#add_profile_in_black_list").click();
+            return false;
+        }
+    });
+    
+    
+    //white list funcionalities
+    $("#white_list").click(function(){
+        flag_white_list=false;
+        var l = Ladda.create(this); l.start();
+        $.ajax({
+                url: base_url + 'index.php/welcome/client_white_list',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        set_global_var('client_white_list',response['client_white_list']);
+                        aaa=response['client_white_list'];
+                        $("#table_white_list").empty();
+                        for(i=0;i<response['cnt'];i++){
+                            if(aaa[i].url_foto==='missing_profile')
+                                url_foto=base_url+'assets/images/profile_deleted.jpg';
+                            else
+                                url_foto=aaa[i].url_foto;
+                            $("#table_white_list").append("<tr class='row_"+aaa[i].profile+"'>");
+                                $("#table_white_list").append("<td class='text-center row_"+aaa[i].profile+"'><a title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+aaa[i].profile+"'><img class='img_profile m-t20 row_"+aaa[i].profile+"' style='width:45px;height:45px;border-radius:25px' src='"+url_foto+"'></a></td>");
+                                $("#table_white_list").append("<td class='text-left row_"+aaa[i].profile+"'><a class='row_"+aaa[i].profile+"' title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+aaa[i].profile+"'><p class='m-t30 row_"+aaa[i].profile+"' style='color:black'>"+(aaa[i].profile)+"</p></a></td>");
+                                $("#table_white_list").append("<td class='text-right row_"+aaa[i].profile+"'>"
+                                        +"<button onclick='myFunction();' id='"+aaa[i].profile+"' type='button' class='btn btn-default ladda-button m-t30 delete-btn row_"+aaa[i].profile+"' data-style='expand-left' data-spinner-color='#ffffff'>"
+                                            +"<span class='ladda-label row_"+aaa[i].profile+"'>"+T('Eliminar')+"</span>"
+                                        +"</button></td>");
+                            $("#table_white_list").append("</tr>");                        
+                        }                        
+                        $("#table_white_list").on("click", ".delete-btn", function(e){
+                            delete_profile_from_white_list(e);
+                        });                   
+
+                        $('#modal_white_list').modal('show');
+                        l.stop();
+                    } 
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
+                }
+        });
+    });    
+           
+    $("#add_profile_in_white_list").click(function(){
+        var l = Ladda.create(this);l.start();
+        $.ajax({
+                url: base_url + 'index.php/welcome/insert_profile_in_white_list',
+                data:{'profile':$("#text_profile_white_list").val()},
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        $("#table_white_list").prepend(
+                                "<tr class='m-t20 row_"+$("#text_profile_white_list").val()+"'><td class='text-center row_"+$("#text_profile_white_list").val()+"'><a class='row_"+$("#text_profile_white_list").val()+"' title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+$("#text_profile_white_list").val()+"'><img class='img_profile m-t20 row_"+$("#text_profile_white_list").val()+"' style='width:45px;height:45px;border-radius:25px' src='"+response['url_foto']+"'></a></td>"
+                                    +"<td class='text-left row_"+$("#text_profile_white_list").val()+"'><a class='row_"+$("#text_profile_white_list").val()+"' title='"+T("Ver no Instagram")+"' target='_blank' href='https://www.instagram.com/"+$("#text_profile_white_list").val()+"'><p class='m-t30 row_"+$("#text_profile_white_list").val()+"' style='color:black'>"+$("#text_profile_white_list").val()+"</p></a></td>"
+                                    +"<td class='text-right row_"+$("#text_profile_white_list").val()+"'>"
+                                        +"<button id='"+$("#text_profile_white_list").val()+"' type='button' class='btn btn-default ladda-button m-t30 delete-btn row_"+$("#text_profile_white_list").val()+"' data-style='expand-left' data-spinner-color='#ffffff'>"
+                                            +"<span class='ladda-label row_"+$("#text_profile_white_list").val()+"'>"+T('Eliminar')+"</span>"
+                                        +"</button></td>"
+                                +"</tr>");                            
+                        $("#text_profile_white_list").val('');
+                        $("#insert_white_list_msg_error").css({'visibility':'hidden',"display":"none"});
+                        $("#table_white_list").on("click", ".delete-btn", function(e){
+                            delete_profile_from_white_list(e);
+                        });                        
+                    } else{
+                        $("#insert_white_list_msg_error").text(response['message']);
+                        $("#insert_white_list_msg_error").css({"visibility":"visible","display":"block"});
+                    }
+                     l.stop();
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível realizar a operação'));
+                    l.stop();
+                }
+        });
+    });
+    
+    function delete_profile_from_white_list(e){
+        profile=$(e.currentTarget).attr('id');
+        $.ajax({
+                url: base_url + 'index.php/welcome/delete_client_from_white_list',
+                type: 'POST',
+                dataType: 'json',
+                data: {'profile': profile},
+                success: function (response) {
+                    if (response['success']) {
+                        $(".row_"+profile).remove();
+                    }
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Não foi possível conectar com o Instagram'));
+                    l.stop();
+                }
+        });
+    }
+    
+    $('#text_profile_white_list').keypress(function (e) {
+        if (e.which == 13) {
+            $("#add_profile_in_white_list").click();
+            return false;
+        }
+    });
+    
+    $('#add_profile_in_white_list').keypress(function (e) {
+        if (e.which == 13) {
+            $("#add_profile_in_white_list").click();
+            return false;
+        }
+    });
+    
+    function set_global_var(str, value) {
+        switch (str) {
+            case 'unfollow_total':
+                unfollow_total = value;
+                break;
+            case 'autolike':
+                autolike = value;
+                break;
+            case 'users_datas':
+                users_datas = value;
+                break;
+            case 'places':
+                places = value;
+                break;
+            case 'client_black_list':
+                client_black_list = value;
+                break;
+            case 'client_white_list':
+                client_white_list = value;
+                break;
+        }
+    }
+    
     
     init_icons_geolocalization(profiles);
 }); 

@@ -19,7 +19,12 @@ namespace dumbu\cls {
         public function connect($conf_file = NULL) {
             if (!$this->connection) {
                 // Connect to DB
+
+                //echo dirname(__FILE__) . "/../../../CONFIG.INI";
+                //$config = parse_ini_file(dirname(__FILE__) . "/../../../CONFIG.INI", true);
+
                 $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
+
                 $this->host = $config["database"]["host"];
                 $this->db = $config["database"]["db"];
                 //$this->port = $GLOBALS['sistem_config']->DB_PORT;
@@ -122,10 +127,33 @@ namespace dumbu\cls {
                         . "WHERE users.id = $client_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
-                if ($result)
-                    print "<br>Update client_status! status_date: $status_date <br>";
-                else
-                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
+//                if ($result)
+//                    print "<br>Update client_status! status_date: $status_date <br>";
+//                else
+//                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function set_client_status_by_login($login, $status_id) {
+            try {
+                $this->connect();
+                $status_date = time();
+                $sql = "UPDATE users "
+                        . "SET "
+                        . "      users.status_id   = $status_id, "
+                        . "      users.status_date = '$status_date' "
+                        . "WHERE users.login = '$login' "
+                        . "ORDER BY id DESC "
+                        . "LIMIT 1; ";
+
+                $result = mysqli_query($this->connection, $sql);
+//                if ($result)
+//                    print "<br>Update client_status! status_date: $status_date <br>";
+//                else
+//                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -230,6 +258,47 @@ namespace dumbu\cls {
                         //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
                         . "ORDER BY clients.last_access ASC, "
                         . "         daily_work.to_follow DESC "
+                        . "LIMIT 1;";
+
+                $result = mysqli_query($this->connection, $sql);
+                $object = $result->fetch_object();
+
+                // Update daily work time
+                if ($object) {
+                    //$ref_prof_id = $object->rp_insta_id;
+                    $time = time();
+                    $sql2 = ""
+                            . "UPDATE clients "
+                            . "SET clients.last_access = '$time' "
+                            . "WHERE clients.user_id = $object->users_id; ";
+                    $result2 = mysqli_query($this->connection, $sql2);
+                    if (!$result2) {
+                        var_dump($sql2);
+                    }
+                }
+                return $object;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function get_follow_work_by_id($reference_id) {
+            //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
+            try {
+                // Get daily work
+                $sql = ""
+                        . "SELECT *, "
+                        . "   daily_work.cookies as cookies, "
+                        . "   users.id as users_id, "
+                        . "   clients.cookies as client_cookies, "
+                        . "   reference_profile.insta_id as rp_insta_id, "
+                        . "   reference_profile.type as rp_type, "
+                        . "   reference_profile.id as rp_id "
+                        . "FROM daily_work "
+                        . "INNER JOIN reference_profile ON reference_profile.id = daily_work.reference_id "
+                        . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
+                        . "INNER JOIN users ON users.id = clients.user_id "
+                        . "WHERE daily_work.reference_id = $reference_id "
                         . "LIMIT 1;";
 
                 $result = mysqli_query($this->connection, $sql);
@@ -486,7 +555,48 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-
+        
+        /*get the white list for the user with id = $id_user as an array
+         */
+        public function  get_white_list($id_user)
+        {
+            try {
+                $sql = ""
+                        . "SELECT insta_id "
+                        . "FROM black_and_white_list "
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 1 AND black_and_white_list.deleted = 0 "
+                        . "ORDER BY black_and_white_list.insta_id;";
+                $result = mysqli_query($this->connection, $sql);
+                $new_array = NULL;
+                while( $obj= $result->fetch_object()){
+                    $new_array[] = $obj->insta_id; // Inside while loop
+                }
+                return $new_array;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        /*get the black list for the user with id = $id_user as an array
+         */
+        public function get_black_list($id_user)
+        {
+            try {
+                $sql = ""
+                        . "SELECT insta_id "
+                        . "FROM black_and_white_list "
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 0 AND black_and_white_list.deleted = 0 "
+                        . "ORDER BY black_and_white_list.insta_id;";
+                $result = mysqli_query($this->connection, $sql);
+                $new_array = NULL;
+                while( $obj= $result->fetch_object()){
+                    $new_array[] = $obj->insta_id; // Inside while loop
+                }
+                return $new_array;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
     }
 
 }

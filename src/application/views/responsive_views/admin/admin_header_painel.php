@@ -23,6 +23,6 @@
 
 
     <div class="center">
-        <a href="#"><img  style="width: 20%" src="<?php echo base_url().'assets/images/logo.png'?>"/></a>
+        <a href="#"><img  style="width: 10%" src="<?php echo base_url().'assets/images/logo.png'?>"/></a>
     </div>
    

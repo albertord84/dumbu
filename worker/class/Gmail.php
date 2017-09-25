@@ -194,6 +194,7 @@ namespace dumbu\cls {
             } else {
                 $result['success'] = true;
                 $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
+                //print "<b>Informações do erro:</b> " . $this->mail->ErrorInfo;
             }
             $this->mail->smtpClose();
             return $result;

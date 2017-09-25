@@ -170,24 +170,26 @@ namespace dumbu\cls {
          */
         public function do_follow_unfollow_work($daily_work) {
             if ($daily_work) {
-// Get new follows
-                //$DB = new \dumbu\cls\DB();
+               //Get new follows
                 $unfollow_work = NULL;
                 $Followeds_to_unfollow = array();
                 if ($daily_work->to_unfollow > 0) {
                     $unfollow_work = $this->DB->get_unfollow_work($daily_work->client_id);
-                    while ($Followed = $unfollow_work->fetch_object()) { //
-                        $To_Unfollow = new \dumbu\cls\Followed();
-// Update Ref Prof Data
+ 
+                     while ($Followed = $unfollow_work->fetch_object()) { //
+                        $To_Unfollow = new \dumbu\cls\Followed();// Update Ref Prof Data
                         $To_Unfollow->id = $Followed->id;
                         $To_Unfollow->followed_id = $Followed->followed_id;
                         array_push($Followeds_to_unfollow, $To_Unfollow);
+
                     }
                 }
-// Do the FOLLOW work
+                //Reuest for the black list in the data base
+                $daily_work->black_list = $this->DB->get_black_list($daily_work->users_id);
+                
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
-// Count unfollows
+                //Count unfollows
                 $unfollows = 0;
                 foreach ($Followeds_to_unfollow as $unfollowed) {
                     if ($unfollowed->unfollowed)
@@ -199,6 +201,25 @@ namespace dumbu\cls {
             }
             return FALSE;
         }
+
+        /*
+               
+        public function get_candidate_to_follow($daily_work)
+        {
+            $robot = new Robot();            
+            $black_list = $DB->get_black_list($daily_work->client_id); 
+            $page_info = NULL;
+            $error = FALSE;
+            $profiles = $robot->get_profiles_to_follow($daily_work, $error, $page_info);
+            //procurar os perfiles ue coinsiden para eliminarlos de profiles
+        }
+        */
+        
+        /*
+         */
+        public function get_candidate_to_unfollow($daily_work)
+        {}
+
 
         public function save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work) {
             try {
@@ -259,6 +280,25 @@ namespace dumbu\cls {
             return $daily_work;
         }
 
+        function get_work_by_id($reference_id) {
+            //$DB = new \dumbu\cls\DB();
+            $daily_work = $this->DB->get_follow_work_by_id($reference_id);
+            $daily_work->login_data = json_decode($daily_work->cookies);
+            $Followeds_to_unfollow = array();
+            if ($daily_work->to_unfollow > 0) {
+                $unfollow_work = $this->DB->get_unfollow_work($daily_work->client_id);
+                while ($Followed = $unfollow_work->fetch_object()) { //
+                    $To_Unfollow = new \dumbu\cls\Followed();
+// Update Ref Prof Data
+                    $To_Unfollow->id = $Followed->id;
+                    $To_Unfollow->followed_id = $Followed->followed_id;
+                    array_push($Followeds_to_unfollow, $To_Unfollow);
+                }
+            }
+            $daily_work->to_unfollow = $Followeds_to_unfollow;
+            return $daily_work;
+        }
+
         /**
          * 
          *
@@ -285,7 +325,7 @@ namespace dumbu\cls {
                             if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
                                 $now = \DateTime::createFromFormat('U', time());
                                 $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
-                                print "<br>_________ELAPSE TIME ($elapsed_time): ";
+                                print "<br>_________ELAPSED TIME ($elapsed_time): ";
 //                                print "<br>Last Access: " . $last_access->format('Y-m-d H:i:s') . "<br>";
 //                                print "\$last_access = " . $daily_work->last_access . "<br>";
 //                                print "\$elapsed_time = " . $elapsed_time . " min (" . intval(time() - intval($daily_work->last_access)) . " tics) <br>";

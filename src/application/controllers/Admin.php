@@ -25,7 +25,8 @@ class Admin extends CI_Controller {
     }
 
     public function list_filter_view() {
-        if ($this->session->userdata('id')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/admin_model');
             $form_filter = $this->input->get();
             $datas['result'] = $this->admin_model->view_clients_by_filter($form_filter);
@@ -34,11 +35,83 @@ class Admin extends CI_Controller {
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
+    public function list_filter_view_pendences() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->view_pendences_by_filter($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
+    public function create_pendence() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->create_pendence_by_form($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
+    public function update_pendence() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->update_pendence($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
+    public function resolve_pendence() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->resolve_pendence($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+            
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
 
     public function desactive_client() {
-        if ($this->session->userdata('id')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/user_model');
             $this->load->model('class/user_status');
             $id = $this->input->post()['id'];
@@ -57,14 +130,17 @@ class Admin extends CI_Controller {
                 $result['success'] = true;
                 $result['message'] = "Cliente desativado com sucesso!";
             }
+            echo json_encode($result);
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
-        echo json_encode($result);
     }
 
     public function recorrency_cancel() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        if ($this->session->userdata('id')) {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/client_model');
             $id = $this->input->post()['id'];
             $client = $this->client_model->get_client_by_id($id)[0];
@@ -97,43 +173,62 @@ class Admin extends CI_Controller {
                 $result['message'] = 'Initial_Order_Key e Recurrencia cancelados corretamente!!';
             }
             echo json_encode($result);
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
 
     public function reference_profile_view() {
-        if ($this->session->userdata('id')) {
+        $this->load->model('class/user_role');
+        //if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/client_model');
+            $this->load->model('class/user_model');
             $id = $this->input->get()['id'];
+            
+            $sql = 'SELECT plane_id FROM clients WHERE user_id='.$id;
+            $plane_id = $this->user_model->execute_sql_query($sql);
+            
+            $sql = 'SELECT * FROM plane WHERE id='.$plane_id[0]['plane_id'];
+            $plane_datas = $this->user_model->execute_sql_query($sql);
+            
             $active_profiles = $this->client_model->get_client_active_profiles($id);
             $canceled_profiles = $this->client_model->get_client_canceled_profiles($id);
             $datas['active_profiles'] = $active_profiles;
             $datas['canceled_profiles'] = $canceled_profiles;
             $datas['my_daily_work'] = $this->get_daily_work($active_profiles);
+            $datas['plane_datas'] = $plane_datas[0]['to_follow'];
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
-        }
+        //} else{
+            //echo "Não pode acessar a esse recurso, deve fazer login!!";
+        //}
     }
 
     public function pendences() {
-        if ($this->session->userdata('id')) {
-            $this->load->model('class/client_model');
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            /*$this->load->model('class/client_model');
             $id = $this->input->get()['id'];
             $active_profiles = $this->client_model->get_client_active_profiles($id);
             $canceled_profiles = $this->client_model->get_client_canceled_profiles($id);
             $datas['active_profiles'] = $active_profiles;
             $datas['canceled_profiles'] = $canceled_profiles;
-            $datas['my_daily_work'] = $this->get_daily_work($active_profiles);
+            $datas['my_daily_work'] = $this->get_daily_work($active_profiles);*/
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
-            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile', $datas, true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_pendences', '', true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
 
     public function change_ticket_peixe_urbano_status_id() {
-        if ($this->session->userdata('id')){
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
             $this->load->model('class/client_model');
             $datas=$this->input->post();
             if($this->client_model->update_cupom_peixe_urbano_status($datas)){
@@ -144,49 +239,40 @@ class Admin extends CI_Controller {
                 $result['message'] = 'Erro actualizando status do Cupom';
             }
             echo json_encode($result);
-        }        
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
     }
     
     public function get_daily_work($active_profiles) {
         $this->load->model('class/client_model');
+        $this->load->model('class/user_role');
         $n = count($active_profiles);
         $my_daily_work = array();
-        for ($i = 0; $i < $n; $i++){
-            $work = $this->client_model->get_daily_work_to_profile($active_profiles[$i]['id']);
-            if (count($work)) {
-                $work = $work[0];
+        //if($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
+            for ($i = 0; $i < $n; $i++){
+                $work = $this->client_model->get_daily_work_to_profile($active_profiles[$i]['id']);
+                if (count($work)) {
+                    $work = $work[0];
+                }
+                if (count($work)) {
+                    $to_follow = $work['to_follow'];
+                    $to_unfollow = $work['to_unfollow'];
+                } else {
+                    $to_follow = '----';
+                    $to_unfollow = '----';
+                }
+                $tmp = array('profile' => $active_profiles[$i]['insta_name'],
+                    'id' => $active_profiles[$i]['id'],
+                    'to_follow' => $to_follow,
+                    'to_unfollow' => $to_unfollow,
+                    'end_date' => $active_profiles[$i]['end_date']
+                );
+                $my_daily_work[$i] = $tmp;
             }
-            if (count($work)) {
-                $to_follow = $work['to_follow'];
-                $to_unfollow = $work['to_unfollow'];
-            } else {
-                $to_follow = '----';
-                $to_unfollow = '----';
-            }
-            $tmp = array('profile' => $active_profiles[$i]['insta_name'],
-                'id' => $active_profiles[$i]['id'],
-                'to_follow' => $to_follow,
-                'to_unfollow' => $to_unfollow,
-                'end_date' => $active_profiles[$i]['end_date']
-            );
-            $my_daily_work[$i] = $tmp;
-        }
-        return $my_daily_work;
+            return $my_daily_work;
+        //} else return 0;
+        
     }
-    
-    /*public function delete_daily_work_of_canceled_client($id_cliente){
-        if ($this->session->userdata('id')) {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            $this->load->model('class/client_model');
-            $active_profiles = $this->client_model->get_client_active_profiles($id_client);
-            $N=count($active_profiles);
-            for($i=0;$i<$N;$i++){
-                $this->client_model->desactive_profiles($id_client,$active_profiles[$i]['insta_name'],$active_profiles[$i]['id']);
-            }
-        }
-    }*/
-    
-
 
 }

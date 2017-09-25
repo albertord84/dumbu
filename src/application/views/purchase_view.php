@@ -6,11 +6,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
                 <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
-                <meta name="description" content="<?php echo $CI->T("Ganhar seguidores no Instagram. Aumente seus seguidores reais e qualificados de forma segmentada no Instagram. Followers, curtidas, geolocalizção, direct",array());?>">
+                <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.",array());?>">
                 <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
+                <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers",array());?></title>
                 
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<title>DUMBU</title>
@@ -26,9 +27,7 @@
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
                 
-                
-
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
 		<script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>
                 
@@ -42,7 +41,6 @@
                 <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
                 <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
                 
                 <?php //para SEO 
                     if($language=="EN"){
@@ -52,16 +50,20 @@
                 
                 <?php include_once("pixel_facebook.php")?>   
                 
-                <!-- Abandono de carrinho de Revanth --> 
+                <!-- Abandono de carrinho de Revanth -->
                     <script type="text/javascript" src="https://ga.getresponse.com/script/ga.js?grid=sBDcEXURffXoIBw%3D%3D" async></script> 
                 <!-- End Getresponse Analytics -->
 	</head>
 	<body>
 		<?php include_once("analyticstracking.php") ?>
+                <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?>
                 <?php include_once("adwords_conversion.php")?>
                 <?php include_once("retargeting.php")?>
                 <?php include_once("remarketing.php")?>
-                <?php echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id=#'.$Afilio_UNIQUE_ID.'#&order_price=#'.$Afilio_order_price.'#" border="0" width="1" height="1" />';?>
+                <?php 
+                    if($language==='PT')
+                        echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id='.$Afilio_UNIQUE_ID.'&order_price='.$Afilio_total_value.'" border="0" width="1" height="1" />';
+                ?>
                 
                 <!-- Abandono de carrinho de Revanth --> 
                     <?php                         
@@ -227,8 +229,10 @@
                 </div> 
                 
                 <!-- Afilio Master Tag Purchase Page-->
-                <?php 
-                    echo'<script type="text/javascript" src="https://v2.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount=#'.sprintf("%.2f", ($Afilio_total_value/100)).'#&transaction_id=#'.$Afilio_UNIQUE_ID.'#&customer_type=#'.$Afilio_UNIQUE_ID.'#&product_id1=#dumbu_'.$Afilio_product_id.'#&url_product=#https://dumbu.pro/dumbu/src/index.php/welcome/purchase#&order_date=#'.date("Y-m-d",time()).'#&order_status=#completed#&customer_id=#$Afilio_UNIQUE_ID#"></script>';
+                <?php
+                    if($language==='PT'){
+                        echo'<script type="text/javascript" src="https://secure.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount='.sprintf("%.2f", ($Afilio_total_value/100)).'&transaction_id='.$Afilio_UNIQUE_ID.'&customer_type='.$Afilio_UNIQUE_ID.'&url_product=https://dumbu.pro/dumbu/src/index.php/welcome/purchase&order_date='.date("Y-m-d",time()).'&order_status=completed"></script>';
+                    }
                 ?>
 	</body>
 </html>

@@ -92,6 +92,7 @@
             $data_user['pass']=$datas['client_pass'];               //desde el formulario de logueo
             $data_user['role_id']=$datas['role_id'];                //desde el controlador
             $data_user['status_id']=$datas['status_id'];            //desde el controlador            
+            $data_user['init_date']= time();
             $this->db->insert('users',$data_user);
             $id_user_table=$this->db->insert_id();
            
@@ -107,7 +108,22 @@
             return $id_user_table;
         }        
         
-        public function insert_client_in_strict_instagram_login($datas,$data_insta){
+        public function get_my_recent_followed_by_dumbu($client_id, $page_number=null){
+            $limit=100; //limit by page
+            if($page_number)
+                $start=$page_number*$quantity_by_page+1;
+            $this->db->select('*');
+            $this->db->from('followed'); 
+            $this->db->where('followed.client_id', $client_id);            
+            $this->db->order_by('id', 'asc');
+            if($page_number)
+                $this->db->limit($limit, $start);            
+            $followed_profiles = $this->db->get()->result_array();
+            
+            return $followed_profiles;
+        }
+
+                public function insert_client_in_strict_instagram_login($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta['insta_name'];           //desde instagram
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
@@ -263,15 +279,18 @@
         }
         
         public function insert_profile_in_daily_work($reference_id, $insta_datas, $N, $active_profiles, $DIALY_REQUESTS_BY_CLIENT){
-            $total_to_follow=0;
-            for($i=0;$i<$N;$i++){
-                $work=$this->get_daily_work_to_profile($active_profiles[$i]['id']);
-                if(count($work)){
-                    $total_to_follow=$total_to_follow+$work[0]['to_follow'];
+            $total_to_follow=0; 
+            if($N==0)
+                $total_to_follow=$DIALY_REQUESTS_BY_CLIENT;
+            else {
+                for($i=0;$i<$N;$i++){
+                    $work=$this->get_daily_work_to_profile($active_profiles[$i]['id']);
+                    if(count($work)){
+                        $total_to_follow=$total_to_follow+$work[0]['to_follow'];
+                    }
                 }
             }
-            if(!$total_to_follow)
-                $total_to_follow=$DIALY_REQUESTS_BY_CLIENT;
+           
             $cnt_to_follow=floor($total_to_follow/($N+1));
             try {
                 $this->db->insert('daily_work',array(
@@ -379,7 +398,6 @@
                 if(count($profile_work)){
                     $cnt_follow_of_profile=$profile_work[0]['to_follow'];
                     $cnt_to_add=floor($cnt_follow_of_profile/($N-1));
-
                     for($i=0;$i<$N;$i++){
                         if($i!=$index){
                             $query='SELECT * FROM daily_work WHERE reference_id="'.$active_profiles[$i]['id'].'"';
@@ -424,7 +442,88 @@
                 echo $exc->getTraceAsString();
                 return false;
             }
-        }   
-    // end of Client
+        }
+        
+         public function beginners_with_purchase_counter_less_value($value){
+            try {
+                $this->db->select('*');
+                $this->db->from('clients');
+                $this->db->join('users', 'users.id = clients.user_id');
+                $this->db->where('init_date >', '1505196600');
+                $this->db->where('purchase_counter <=', $value);
+                $this->db->where('purchase_counter <>', -100);
+                $this->db->where('status_id', 8);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function get_client_black_or_white_list_by_id($id,$type){
+            $this->db->select('profile');
+            $this->db->from('black_and_white_list');
+            $this->db->where('client_id',$id);
+            $this->db->where('deleted','0');
+            $this->db->where('black_or_white',$type);
+            $result=$this->db->get()->result_array();
+            return $result;
+        }
+        
+        public function insert_in_black_or_white_list_model($id,$ds_user_id,$profile,$type){
+            $this->db->select('*');
+            $this->db->from('black_and_white_list');
+            $this->db->where('client_id',$id);
+            $this->db->where('profile',$profile);
+            $this->db->where('deleted','0');
+            $a=$this->db->get()->result_array();
+            
+            if(count($a)==0){ //si no esta activo en la base de datos
+                $data_user=array(
+                    'client_id'=>$id,
+                    'insta_id'=>$ds_user_id,
+                    'profile'=>$profile,
+                    'init_date'=>time(),
+                    'black_or_white'=>$type
+                );
+                $this->db->insert('black_and_white_list',$data_user);
+                $result['message']='O perfil '.$profile.'foi inserifo';
+                $result['success']=true;
+            } else{
+                if($a[0]['black_or_white']==='0'){
+                    $result['message']='está na lista negra';
+                    $result['success']=false;
+                } else{
+                    $result['message']='está na lista branca';
+                    $result['success']=false;
+                }
+            }
+            return $result;
+        }
+        
+        public function select_white_list_model(){
+            $this->db->select('*');
+            $this->db->from('black_and_white_list');
+            $this->db->order_by('id', 'asc');
+            return $this->db->get()->result_array();            
+        }
+        
+        public function update_ds_user_id_white_list_model($id,$ds_user_id){
+            $this->db->where('id',$id);                    
+            $this->db->update('black_and_white_list',array('insta_id'=>$ds_user_id));
+        }
+        
+        public function delete_in_black_or_white_list_model($id,$profile,$type){
+            try {
+                $this->db->where('client_id',$id);
+                $this->db->where('profile',$profile);
+                $this->db->where('black_or_white',$type);
+                $this->db->update('black_and_white_list',array('end_date'=>time(),'deleted'=>'1'));
+                return true;
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
+        
 }
 ?>
