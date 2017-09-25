@@ -5,7 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     
-    
     public function update_ds_user_id() {
         $this->load->model('class/client_model');
         $resul=$this->client_model->select_white_list_model();
@@ -13,7 +12,7 @@ class Welcome extends CI_Controller {
             $data_insta = $this->check_insta_profile($value['profile']);
             $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
         }
-    }
+    }   
     
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -662,7 +661,9 @@ class Welcome extends CI_Controller {
         $origin_datas=$datas;
         if(!$datas)
             $datas = $this->input->post();
+
         $datas['utm_source'] = isset($datas['utm_source']) ? urldecode($datas['utm_source']) : "NULL";
+        
         $data_insta = $this->check_insta_profile($datas['client_login']);
         if ($data_insta) {
             if (!isset($data_insta->following))
@@ -2452,7 +2453,6 @@ class Welcome extends CI_Controller {
         }
     }
         
-        
     public function Pedro(){
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
@@ -2482,9 +2482,7 @@ class Welcome extends CI_Controller {
         fclose($file);
     }
     
-    
-    
-    public function test(){
+    public function login_all_clients(){
         $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
         $N=count($a);
@@ -2497,20 +2495,10 @@ class Welcome extends CI_Controller {
                 $datas['user_login']=$login;
                 $datas['user_pass']=$pass;
                 $result= $this->user_do_login($datas);
-                //print_r('Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>');
             }
         }
     }
 
-    public function block_hacker(){
-        $this->load->model('class/user_status');
-        $this->load->model('class/user_model');
-        $ids= array(1102,1169,1214,1242,1315,1332,1477,1496,1594,1693,1703,1747,1840,2129,2165,2168,2243,2270,2296,2361,2388,2431,2523,2549,2553,2559,2645,2800,2819,2907,2939,3112,3200,3360,3395,3539,3557,3713,3739,3741,3822,3826,3844,3867,3946,3971,3998,4307,4536,4716,4735,4832,4933,5000,5018,5083,5198,5207,5281,5295,5298,5312,5425,5456,5667,5719,5722,5735,5750,5764,5857,6042,6062,6185,6248,6284,6469,6514,6519,6560,6564,6635,6636,6671,6723,6776,6887,6948,6999,7042,7060,7117,7144,7190,7292,7301,7311,7370,7398,7439,7446,7602,7783,7797,7854,7883,7911,7970,8131,8133,8200,8363,8408,8426,8471,8477,8600,8773,8907,8999,9031,9033,9034,9153,9155,9187,9207,9226,9243,9256,9365,9435,9588,9597,9705,9740,9775,9784,9801,9878,9883,9987,9999,17026,17027,17170,17210,17212,17218,17246,17348,17374,17393,17483,17611,17623,17624,17641,17655,17656,17660,17661,17680,17813,17814,17815,17816,17856,17874,17884,17885,17907,17963,17966,18015,18026,18128,18173,18175,18182,18204,18220,18255,18268,18297,18298,18310,18311,18312,18313,18317,18318,18322,18332,18372,18378,18397,18413,18414,18421,18425,18469,18530,18532);
-        for($i=0; $i<count($ids); $i++) {
-            echo $this->user_model->update_user($ids[$i], array('status_id' => user_status::DELETED)) ;
-            echo '<br>';
-        }
-    }
 
     public function update_all_retry_clients(){            
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
