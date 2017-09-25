@@ -586,16 +586,15 @@ namespace dumbu\cls {
                 $json = json_decode($output[0]);
                 //var_dump($output);
                 if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
-                    if (($json->data->user->edge_followed_by->page_info->has_next_page === false)
-                      ||($json->data->user->edge_followed_by->page_info->end_cursor === null)) {
-                        echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    if ($json->data->user->edge_followed_by->page_info->has_next_page === false) {
+                        echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>\n ");
                         var_dump(json_encode($json));
                         //$DB = new DB();
                         $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
-                        echo ("<br>\n Updated Reference Cursor to NULL!!");
+                        echo ("<br>\n Updated Reference Cursor to NULL!!<br>\n ");
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         if ($result) {
-                            echo ("<br>\n Deleted Daily work!!");
+                            echo ("<br>\n Deleted Daily work!!<br>\n ");
                         }
                     }
                 } else {
@@ -606,7 +605,7 @@ namespace dumbu\cls {
                         //echo ("<br>\n Updated Reference Cursor to NULL!!");
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         if ($result) {
-                            echo ("<br>\n Deleted Daily work!!");
+                            echo ("<br>\n Deleted Daily work!!<br>\n ");
                         } else {
                             var_dump($result);
                         }
@@ -638,7 +637,7 @@ namespace dumbu\cls {
                     if (count($json->data->user->edge_follow->edges) == 0) {
                         var_dump($json);
 //                        var_dump($curl_str);
-                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        echo ("<br>\n No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>\n ");
                     }
                 } else {
                     //var_dump($output);
@@ -669,10 +668,16 @@ namespace dumbu\cls {
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
                     }
+                } else if (isset($json->data->location) && ($json->data->location === NULL)) {
+                    //var_dump($output);
+                    print_r($curl_str);
+                    $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                    echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
                 } else {
                     var_dump($output);
                     print_r($curl_str);
-                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    echo ("<br>\n Untrated error!!!");
                 }
                 return $json;
             } catch (\Exception $exc) {
