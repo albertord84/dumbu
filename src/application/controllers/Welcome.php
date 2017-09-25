@@ -7,8 +7,6 @@ class Welcome extends CI_Controller {
     
     
     public function update_ds_user_id() {
-        
-        
         $this->load->model('class/client_model');
         $resul=$this->client_model->select_white_list_model();
         foreach ($resul as $key => $value) {
@@ -815,7 +813,7 @@ class Welcome extends CI_Controller {
                     }
                     //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
 
-                    if ($response['flag_initial_payment']) {
+                    if($response['flag_initial_payment']) {
                         $this->load->model('class/user_model');
                         $this->user_model->insert_washdog('fez compra satisfatória');
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
@@ -1109,7 +1107,7 @@ class Welcome extends CI_Controller {
         if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
-                $datas['amount_in_cents'] = $recurrency_value/2;                
+                $datas['amount_in_cents'] = $recurrency_value/2;
                 $resp = $this->check_mundipagg_credit_card($datas);
                 if(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0){
                     $this->client_model->update_client(
