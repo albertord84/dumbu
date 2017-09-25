@@ -66,8 +66,10 @@ namespace dumbu\cls {
                 );
 
                 // Dados da transação de cartão de crédito
+                $paymentMethodCode = 42; //32 eRede, //20 Stone, //5 Cielo 1.5, // 42 Cielo 3.0, 
                 $creditCardTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\CreditCardTransaction();
                 $creditCardTransaction
+                        ->setPaymentMethodCode($paymentMethodCode)
                         ->setAmountInCents($payment_data['amount_in_cents'])
                         ->setInstallmentCount(1)
                         ->setCreditCard($creditCard)

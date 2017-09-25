@@ -8,7 +8,7 @@ namespace dumbu\cls {
         protected $db = 'dumbudb';
         //protected $port = '3128';
         protected $user = 'root';
-        protected $pass = 'csduo2004mysql';
+        protected $pass = '';
         
         private $connection = NULL;
 

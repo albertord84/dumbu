@@ -10,12 +10,19 @@ require_once '../class/Reference_profile.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
+ini_set('xdebug.var_display_max_depth', 7);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
+
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 
 
+//$content = @file_get_contents("https://www.instagram.com/padrefabiodemelooficial/", false);
+//var_dump($content);
 
+var_dump(strpos("Sorry, you're following the max limit of accounts. You'll need to unfollow some accounts to start following more.", ", you're following the max limit of accounts."));
 
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
@@ -132,13 +139,13 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4984425393696969';
-$payment_data['credit_card_name'] = 'MAHELI F SILVEIRA';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2019';
-$payment_data['credit_card_cvc'] = '319';
-$payment_data['amount_in_cents'] = 490;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '4590920085647557';
+//$payment_data['credit_card_name'] = 'FERNANDA HERMANNY';
+//$payment_data['credit_card_exp_month'] = '05';
+//$payment_data['credit_card_exp_year'] = '2023';
+//$payment_data['credit_card_cvc'] = '470';
+//$payment_data['amount_in_cents'] = 490;
+//$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0);
@@ -159,10 +166,12 @@ $payment_data['pay_day'] = $pay_day;
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+
+
 // GMAIL
 $Gmail = new dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-//$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
+//$result = $Gmail->send_client_payment_error("jangel.riveaux@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
 //$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
 //var_dump($result);
@@ -178,9 +187,7 @@ $Gmail = new dumbu\cls\Gmail();
 //var_dump($result);
 
 $Robot = new dumbu\cls\Robot();
-ini_set('xdebug.var_display_max_depth', 7);
-ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
+
 
 //var_dump($_SERVER['QUERY_STRING']);
 //$client = $Client->get_client(1);
