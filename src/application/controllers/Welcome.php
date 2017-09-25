@@ -5,15 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     
-    public function update_ds_user_id() {
-        $this->load->model('class/client_model');
-        $resul=$this->client_model->select_white_list_model();
-        foreach ($resul as $key => $value) {
-            $data_insta = $this->check_insta_profile($value['profile']);
-            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
-        }
-    }   
-    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2481,6 +2472,15 @@ class Welcome extends CI_Controller {
         echo 'fin';
         fclose($file);
     }
+    
+    public function update_ds_user_id() {
+        $this->load->model('class/client_model');
+        $resul=$this->client_model->select_white_list_model();
+        foreach ($resul as $key => $value) {
+            $data_insta = $this->check_insta_profile($value['profile']);
+            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
+        }
+    }   
     
     public function login_all_clients(){
         $this->load->model('class/user_model');
