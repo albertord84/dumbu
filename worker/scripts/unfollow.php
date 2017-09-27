@@ -77,7 +77,7 @@ if(isset($clients_data_db))
                 if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->data->user->edge_follow->edges)) { // if response is ok
 
                    // Get Users 
-                    $white_list = $DB->get_white_list($clients_data[$CN]->id);
+                    $white_list = $DB->get_white_list($client_data->id);
                     print '\n<br> Count: ' . count($json_response->data->user->edge_follow->edges) . '\n<br>';
                     $Profiles = $json_response->data->user->edge_follow->edges;
                     foreach ($Profiles as $rpkey => $Profile) {
