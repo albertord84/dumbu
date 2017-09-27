@@ -113,6 +113,31 @@ if(str_binary_search("347569",$array2))
 else{ echo "\n<br> DB search false </br>" ;
 }
 
+$white_list = $DB->get_white_list('45769');
+
+$Profiles[0] = 47711036;
+$Profiles[1] = 1342090624;
+$Profiles[2] = 27708066;
+foreach ($Profiles as $id_insta) {
+    // If profile is not in white list then do unfollow request
+    if(!(isset($white_list) && str_binary_search($id_insta, $white_list)))
+    {   
+        print '<br> sucess"' . $id_insta .'</br>';
+    }
+}
+    // Wait 20 minutes
+
+// AFTER
+print 'AFTER:<br>\n';
+print_r($clients_data);
+
+//Testing reports
+//$Client = new dumbu\cls\Client();
+
+//$result = $Client->insert_clients_daily_report();
+
+//print '<br>report : ' . $cnt->fetch_object() . '<\br>';
+
 
 
 //Testing Worker with black list
