@@ -13,6 +13,10 @@ class Welcome extends CI_Controller {
         $this->load->view('user_view', $param);
     }
     
+    public function paypal() {
+        $this->load->view('test_view');
+    }
+    
     public function languaje() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
