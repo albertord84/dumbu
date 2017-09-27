@@ -5,15 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     
-    public function update_ds_user_id() {
-        $this->load->model('class/client_model');
-        $resul=$this->client_model->select_white_list_model();
-        foreach ($resul as $key => $value) {
-            $data_insta = $this->check_insta_profile($value['profile']);
-            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
-        }
-    }   
-    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1017,6 +1008,8 @@ class Welcome extends CI_Controller {
                     $this->client_model->update_client($datas['pk'], array(
                         'order_key' => $resp->getData()->OrderResult->OrderKey,
                         'pay_day' => $datas['pay_day']));
+                    $this->client_model->update_client($datas['pk'], array(
+                        'actual_payment_value' => $datas['amount_in_cents']));
                     $response['flag_recurrency_payment'] = true;
                     $response['flag_initial_payment'] = true;
                 } else {
@@ -2064,7 +2057,7 @@ class Welcome extends CI_Controller {
     }
     
     
-    public function update_client_after_retry_payment_success($user_id) {        
+    public function update_client_after_retry_payment_success($user_id) {  
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
         $this->load->model('class/client_model');
@@ -2080,7 +2073,10 @@ class Welcome extends CI_Controller {
         $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
         $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
         $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-        $payment_data['amount_in_cents'] = $plane['normal_val'];
+        if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
+            $payment_data['amount_in_cents'] = $client['actual_payment_value'];
+        else
+            $payment_data['amount_in_cents'] = $plane['normal_val'];
         $payment_data['pay_day'] = strtotime("+1 month", time());
         $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
         //4. salvar nuevos pay_day e order_key
@@ -2481,6 +2477,15 @@ class Welcome extends CI_Controller {
         echo 'fin';
         fclose($file);
     }
+    
+    public function update_ds_user_id() {
+        $this->load->model('class/client_model');
+        $resul=$this->client_model->select_white_list_model();
+        foreach ($resul as $key => $value) {
+            $data_insta = $this->check_insta_profile($value['profile']);
+            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
+        }
+    }   
     
     public function login_all_clients(){
         $this->load->model('class/user_model');
