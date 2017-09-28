@@ -63,8 +63,8 @@ namespace dumbu\cls {
                 if ((strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) 
                  || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
                     $error = 1;
-                } else if (strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE
-                        || strpos($response->message, "you're following the max limit of accounts.") !== FALSE) {
+                } else if ((strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) 
+                       ||  (strpos($response->message, "Sorry, you're following the max limit of accounts.") !== FALSE)) {
                     $error = 2;
                 } else if (strpos($response->message, 'unauthorized') !== FALSE) {
                     $error = 3;                         

@@ -11,6 +11,10 @@ require_once '../class/PaymentCielo3.0.php';
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
+ini_set('xdebug.var_display_max_depth', 7);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
+
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
@@ -40,7 +44,10 @@ var_dump($sale);*/
 //$payment_data = NULL;
 //$PaymentCielo->create_payment_debit($payment_data);
 
+//$content = @file_get_contents("https://www.instagram.com/padrefabiodemelooficial/", false);
+//var_dump($content);
 
+//var_dump(strpos("Sorry, you're following the max limit of accounts. You'll need to unfollow some accounts to start following more.", ", you're following the max limit of accounts."));
 
 //print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
 //print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
@@ -151,26 +158,30 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('10/16/2017 00:42:27');
+//$pay_day = strtotime('10/16/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
+//$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4543590732899667';
-$payment_data['credit_card_name'] = 'AMIN JAFARI';
-$payment_data['credit_card_exp_month'] = '06';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '866';
-$payment_data['amount_in_cents'] = 9990;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '4590920085647557';
+//$payment_data['credit_card_name'] = 'FERNANDA HERMANNY';
+//$payment_data['credit_card_exp_month'] = '05';
+//$payment_data['credit_card_exp_year'] = '2023';
+//$payment_data['credit_card_cvc'] = '470';
+//$payment_data['amount_in_cents'] = 490;
+//$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
-var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 1, 20);
+//var_dump($resul);
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
+//var_dump($resul);
 
-var_dump($pay_day);
+//var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
@@ -187,10 +198,12 @@ var_dump($pay_day);
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+
+
 // GMAIL
 $Gmail = new \dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-//$result = $Gmail->send_client_payment_error("marinsmarcelo@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
+//$result = $Gmail->send_client_payment_error("jangel.riveaux@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
 //$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
 //var_dump($result);
@@ -215,7 +228,7 @@ $Robot = new \dumbu\cls\Robot();
 //    $result = $Robot->follow_me_myself(json_decode($client->cookies));
 //    var_dump($result);
 //}
-$client = $Client->get_client(1);
+//$client = $Client->get_client(1);
 //$profile = $Robot->get_insta_ref_prof_data('teatro-popular-oscar-niemeyer');
 //$profile = $Robot->get_insta_ref_prof_data_from_client(json_decode($client->cookies), "caminho-niemeyer");
 //$profiles = $Robot->get_insta_followers(json_decode($client->cookies), '5445947882', 2);

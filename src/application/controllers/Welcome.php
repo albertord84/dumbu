@@ -1008,8 +1008,8 @@ class Welcome extends CI_Controller {
                     $this->client_model->update_client($datas['pk'], array(
                         'order_key' => $resp->getData()->OrderResult->OrderKey,
                         'pay_day' => $datas['pay_day']));
-                    $this->client_model->update_real_payment($datas['pk'], array(
-                        'order_key' => $datas['amount_in_cents']));
+                    $this->client_model->update_client($datas['pk'], array(
+                        'actual_payment_value' => $datas['amount_in_cents']));
                     $response['flag_recurrency_payment'] = true;
                     $response['flag_initial_payment'] = true;
                 } else {
@@ -2057,7 +2057,7 @@ class Welcome extends CI_Controller {
     }
     
     
-    public function update_client_after_retry_payment_success($user_id) {        
+    public function update_client_after_retry_payment_success($user_id) {  
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
         $this->load->model('class/client_model');
@@ -2073,7 +2073,10 @@ class Welcome extends CI_Controller {
         $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
         $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
         $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-        $payment_data['amount_in_cents'] = $plane['normal_val'];
+        if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
+            $payment_data['amount_in_cents'] = $client['actual_payment_value'];
+        else
+            $payment_data['amount_in_cents'] = $plane['normal_val'];
         $payment_data['pay_day'] = strtotime("+1 month", time());
         $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
         //4. salvar nuevos pay_day e order_key
