@@ -1008,6 +1008,8 @@ class Welcome extends CI_Controller {
                     $this->client_model->update_client($datas['pk'], array(
                         'order_key' => $resp->getData()->OrderResult->OrderKey,
                         'pay_day' => $datas['pay_day']));
+                    $this->client_model->update_real_payment($datas['pk'], array(
+                        'order_key' => $datas['amount_in_cents']));
                     $response['flag_recurrency_payment'] = true;
                     $response['flag_initial_payment'] = true;
                 } else {
@@ -1291,7 +1293,7 @@ class Welcome extends CI_Controller {
             $now = time();
             if ($this->validate_post_credit_card_datas($datas)) {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                $kk=$client_data['ticket_peixe_urbano'];                
+                $kk=$client_data['ticket_peixe_urbano'];
                         
                 if($now<$client_data['pay_day'] && $client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20'){                    
                     $result['success'] = false;
