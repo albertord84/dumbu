@@ -185,7 +185,7 @@ namespace dumbu\cls {
                             $valid_profile = $posts_count >= $MIN_FOLLOWER_POSTS;
 
                             //check if the profile is in the black list
-                            if (isset($daily_work->black_list) && str_binary_search($Profile->insta_id, $daily_work->black_list)) {
+                            if (isset($daily_work->black_list) &&  isset($Profile->id) && str_binary_search($Profile->id, $daily_work->black_list)) {
                                 $valid_profile = false;
                             }
 
