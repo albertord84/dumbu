@@ -5,6 +5,22 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     
+    public function AAA(){
+        //creo una variable con una fecha
+      $fecha = "21/07/2010";
+      //cargo la librería para convertir fechas
+      //$this->load->library('conversor_fechas');
+      //cambio la fecha de formato
+     // $fecha_formato_mysql = $this->conversor_fechas->fecha_espanol_a_mysql($fecha);
+      //muestro la fecha (debería usar una vista)
+//      echo $fecha_formato_mysql;
+//      
+//      //convierto la fecha mysql a español
+//      $fecha_formato_espanol = $this->conversor_fechas->fecha_mysql_a_espanol($fecha_formato_mysql);
+//      //muestro la fecha (debería usar una vista)
+//      echo "<br>" . $fecha_formato_espanol;
+    }
+
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -752,7 +768,7 @@ class Welcome extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;
         if($datas==NULL)
-            $datas = $this->input->post(); 
+            $datas = $this->input->post();
         $this->load->model('class/client_model');
         $query='SELECT status_id FROM users WHERE id='.$datas['pk'];
         $aaa=$this->client_model->execute_sql_query($query);   
@@ -1348,11 +1364,18 @@ class Welcome extends CI_Controller {
                                 //Determinar valor inicial del pagamento
                                 if ($datas['client_update_plane'] == 1)
                                     $datas['client_update_plane'] = 4;
-                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] <= $this->session->userdata('plane_id'))) {
-                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);
+                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] == $this->session->userdata('plane_id'))) {
+                                    $value=$this->client_model->get_actual_pay_value($datas['client_update_plane']);
+                                    if($value)
+                                        $pay_values['normal_value']=$value;
+                                    else
+                                        $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);                                    
+                                }else
+                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] < $this->session->userdata('plane_id'))) {
+                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);                                    
                                     $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
                                 } else
-                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
+                                if($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
                                     $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
                                     $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
                                 } else
@@ -1406,16 +1429,16 @@ class Welcome extends CI_Controller {
                                         $datas['amount_in_cents'] = $pay_values['normal_value'];
                                     
                                     $resp_pay_day = $this->check_recurrency_mundipagg_credit_card($datas, 0);
-                                    if (is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
+                                    if(is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
                                         $flag_pay_day = true;
                                         try {
                                             $this->client_model->update_client($this->session->userdata('id'), array(
                                                 'plane_id' => $datas['client_update_plane'],
                                                 'pay_day' => $datas['pay_day'],
                                                 'order_key' => $resp_pay_day->getData()->OrderResult->OrderKey));
-                                            if ($client_data['order_key'])
+                                            if($client_data['order_key'])
                                                 $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
-                                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
+                                            if($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
                                                 $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
                                             } else
                                                 $datas['status_id'] = $this->session->userdata('status_id');

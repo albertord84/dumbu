@@ -162,6 +162,17 @@
             return $this->db->get()->row_array()['normal_val'];
         }
         
+        public function get_actual_pay_value($user_id){
+            $this->db->select('actual_payment_value');
+            $this->db->from('clients');
+            $this->db->where('user_id',$user_id);
+            $resp=$this->db->get()->row_array()['actual_payment_value'];
+            if($resp!='' && $resp!=null)
+                return $resp;
+            else 
+                return false;
+        }
+        
         public function get_promotional_pay_value($id_value){
             $this->db->select('initial_val');
             $this->db->from('plane');

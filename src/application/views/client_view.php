@@ -39,7 +39,7 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/jquery.canvasjs.min.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         
         <?php //para SEO 
