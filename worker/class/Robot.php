@@ -183,13 +183,12 @@ namespace dumbu\cls {
                             $posts_count = isset($Profile_data->user->media->count) ? $Profile_data->user->media->count : 0;
                             $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
                             $valid_profile = $posts_count >= $MIN_FOLLOWER_POSTS;
-                            
+
                             //check if the profile is in the black list
-                            if(isset($daily_work->black_list) && str_binary_search($Profile->insta_id, $daily_work->black_list))
-                            {
+                            if (isset($daily_work->black_list) && str_binary_search($Profile->insta_id, $daily_work->black_list)) {
                                 $valid_profile = false;
                             }
-                            
+
                             $following_me = (isset($Profile_data->user->follows_viewer)) ? $Profile_data->user->follows_viewer : false;
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
 //                            $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
@@ -237,58 +236,58 @@ namespace dumbu\cls {
         }
 
         /*
-        public function do_unfollow_work($Followeds_to_unfollow)
-        {      
-             $error = FALSE;
-             $limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
-             $has_next = count($Followeds_to_unfollow);
-             $login_data = $this->daily_work->login_data;
-            
-            for ($i = 0; $i < $limit && ($has_next); $i++) {
-                // Next profile to unfollow, not yet unfollwed
-                $Profile = array_shift($Followeds_to_unfollow);
-                $Profile->unfollowed = FALSE;
-                $json_response = $this->make_insta_friendships_command(
-                        $login_data, $Profile->followed_id, 'unfollow'
-                );
-                if (is_object($json_response) && $json_response->status == 'ok') { 
-                    // if unfollowed 
-                    $Profile->unfollowed = TRUE;
-                    var_dump(json_encode($json_response));
-                    echo "Followed ID: $Profile->followed_id<br>\n";
-                    // Mark it unfollowed and send back to queue
-                    // If have some Profile to unfollow
-                    $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
-                } else {
-                    echo "ID: $Profile->followed_id<br>\n";
-//                    var_dump($json_response);
-                    $error = $this->process_follow_error($json_response);
-                    // TODO: Class for error messages
-                    if ($error == 6) {// Just empty message:
-                        $error = FALSE;
-                        $Profile->unfollowed = TRUE;
-                    } else if ($error == 7 || $error == 9) { // To much request response string only
-                        $error = FALSE;
-                        break;
-                    } else {
-                        break;
-                    }
-                }
-                array_push($Followeds_to_unfollow, $Profile);
-            }
-        }
-        
-        public function do_follow_work($Followeds_to_unfollow)
-        {}
-        */
-        
+          public function do_unfollow_work($Followeds_to_unfollow)
+          {
+          $error = FALSE;
+          $limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
+          $has_next = count($Followeds_to_unfollow);
+          $login_data = $this->daily_work->login_data;
+
+          for ($i = 0; $i < $limit && ($has_next); $i++) {
+          // Next profile to unfollow, not yet unfollwed
+          $Profile = array_shift($Followeds_to_unfollow);
+          $Profile->unfollowed = FALSE;
+          $json_response = $this->make_insta_friendships_command(
+          $login_data, $Profile->followed_id, 'unfollow'
+          );
+          if (is_object($json_response) && $json_response->status == 'ok') {
+          // if unfollowed
+          $Profile->unfollowed = TRUE;
+          var_dump(json_encode($json_response));
+          echo "Followed ID: $Profile->followed_id<br>\n";
+          // Mark it unfollowed and send back to queue
+          // If have some Profile to unfollow
+          $has_next = count($Followeds_to_unfollow) && !$Followeds_to_unfollow[0]->unfollowed;
+          } else {
+          echo "ID: $Profile->followed_id<br>\n";
+          //                    var_dump($json_response);
+          $error = $this->process_follow_error($json_response);
+          // TODO: Class for error messages
+          if ($error == 6) {// Just empty message:
+          $error = FALSE;
+          $Profile->unfollowed = TRUE;
+          } else if ($error == 7 || $error == 9) { // To much request response string only
+          $error = FALSE;
+          break;
+          } else {
+          break;
+          }
+          }
+          array_push($Followeds_to_unfollow, $Profile);
+          }
+          }
+
+          public function do_follow_work($Followeds_to_unfollow)
+          {}
+         */
+
         public function get_profiles_to_follow($daily_work, &$error, &$page_info) {
             $Profiles = array();
             $error = TRUE;
             $login_data = json_decode($daily_work->cookies);
             $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME));
             $page_info = new \stdClass();
-                      
+
             if ($daily_work->rp_type == 0) {
                 $json_response = $this->get_insta_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
@@ -345,16 +344,16 @@ namespace dumbu\cls {
             }
             return $Profiles;
         }
-        
+
         function get_profiles_to_follow_without_BL($daily_work, &$error, &$page_info) {
             $Profiles = array();
             $error = TRUE;
             $login_data = json_decode($daily_work->cookies);
             $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME));
             $page_info = new \stdClass();
-            
-            
-            
+
+
+
             if ($daily_work->rp_type == 0) {
                 $json_response = $this->get_insta_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
@@ -588,8 +587,15 @@ namespace dumbu\cls {
                 //var_dump($output);
                 if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
                     if ($json->data->user->edge_followed_by->page_info->has_next_page === false) {
-                        echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>\n ");
                         var_dump(json_encode($json));
+                        //$DB = new DB();
+                        $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                        echo ("<br>\n Updated Reference Cursor to NULL!!<br>\n ");
+                        $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                        if ($result) {
+                            echo ("<br>\n Deleted Daily work!!<br>\n ");
+                        }
                     }
                 } else {
                     var_dump($output);
@@ -599,7 +605,7 @@ namespace dumbu\cls {
                         //echo ("<br>\n Updated Reference Cursor to NULL!!");
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         if ($result) {
-                            echo ("<br>\n Deleted Daily work!!");
+                            echo ("<br>\n Deleted Daily work!!<br>\n ");
                         } else {
                             var_dump($result);
                         }
@@ -631,7 +637,7 @@ namespace dumbu\cls {
                     if (count($json->data->user->edge_follow->edges) == 0) {
                         var_dump($json);
 //                        var_dump($curl_str);
-                        echo ("No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        echo ("<br>\n No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>\n ");
                     }
                 } else {
                     //var_dump($output);
@@ -662,10 +668,16 @@ namespace dumbu\cls {
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
                     }
+                } else if (isset($json->data->location) && ($json->data->location === NULL)) {
+                    //var_dump($output);
+                    print_r($curl_str);
+                    $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                    echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
                 } else {
                     var_dump($output);
                     print_r($curl_str);
-                    //$this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    echo ("<br>\n Untrated error!!!");
                 }
                 return $json;
             } catch (\Exception $exc) {
