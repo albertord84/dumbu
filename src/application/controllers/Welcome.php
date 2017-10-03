@@ -5,22 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     
-    public function AAA(){
-        //creo una variable con una fecha
-      $fecha = "21/07/2010";
-      //cargo la librería para convertir fechas
-      //$this->load->library('conversor_fechas');
-      //cambio la fecha de formato
-     // $fecha_formato_mysql = $this->conversor_fechas->fecha_espanol_a_mysql($fecha);
-      //muestro la fecha (debería usar una vista)
-//      echo $fecha_formato_mysql;
-//      
-//      //convierto la fecha mysql a español
-//      $fecha_formato_espanol = $this->conversor_fechas->fecha_mysql_a_espanol($fecha_formato_mysql);
-//      //muestro la fecha (debería usar una vista)
-//      echo "<br>" . $fecha_formato_espanol;
-    }
-
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
