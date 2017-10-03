@@ -5,43 +5,16 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
     
-    public function test(){
-        $security_code=rand(100000,999999);
-        echo $this->security_purchase_code=md5("$security_code");
-
-        $this->load->model('class/user_model');
-        $a=$this->user_model->get_all_dummbu_clients();
-        $N=count($a);
-        for($i=0;$i<$N;$i++){
-            $st=$a[$i]['status_id'];
-            if($st!=='4' && $st!=='8' && $st!=='11' && $a[$i]['role_id']==='2'){
-                echo $i;
-                $login=$a[$i]['login'];
-                $pass=$a[$i]['pass'];
-                $datas['user_login']=$login;
-                $datas['user_pass']=$pass;
-                $result= $this->user_do_login($datas);
-                //print_r('Cliente: '.$login.' --- autenticado: '.$result['authenticated'].' --- message: ' .$result['message'].'<br>');
-            }
-        }
-    }
-
-    public function block_hacker(){
-        $this->load->model('class/user_status');
-        $this->load->model('class/user_model');
-        $ids= array(1102,1169,1214,1242,1315,1332,1477,1496,1594,1693,1703,1747,1840,2129,2165,2168,2243,2270,2296,2361,2388,2431,2523,2549,2553,2559,2645,2800,2819,2907,2939,3112,3200,3360,3395,3539,3557,3713,3739,3741,3822,3826,3844,3867,3946,3971,3998,4307,4536,4716,4735,4832,4933,5000,5018,5083,5198,5207,5281,5295,5298,5312,5425,5456,5667,5719,5722,5735,5750,5764,5857,6042,6062,6185,6248,6284,6469,6514,6519,6560,6564,6635,6636,6671,6723,6776,6887,6948,6999,7042,7060,7117,7144,7190,7292,7301,7311,7370,7398,7439,7446,7602,7783,7797,7854,7883,7911,7970,8131,8133,8200,8363,8408,8426,8471,8477,8600,8773,8907,8999,9031,9033,9034,9153,9155,9187,9207,9226,9243,9256,9365,9435,9588,9597,9705,9740,9775,9784,9801,9878,9883,9987,9999,17026,17027,17170,17210,17212,17218,17246,17348,17374,17393,17483,17611,17623,17624,17641,17655,17656,17660,17661,17680,17813,17814,17815,17816,17856,17874,17884,17885,17907,17963,17966,18015,18026,18128,18173,18175,18182,18204,18220,18255,18268,18297,18298,18310,18311,18312,18313,18317,18318,18322,18332,18372,18378,18397,18413,18414,18421,18425,18469,18530,18532);
-        for($i=0; $i<count($ids); $i++) {
-            echo $this->user_model->update_user($ids[$i], array('status_id' => user_status::DELETED)) ;
-            echo '<br>';
-        } 
-    }
-    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
         $this->load->library('recaptcha');
         $this->load->view('user_view', $param);
+    }
+    
+    public function paypal() {
+        $this->load->view('test_view');
     }
     
     public function languaje() {
@@ -783,7 +756,7 @@ class Welcome extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;
         if($datas==NULL)
-            $datas = $this->input->post(); 
+            $datas = $this->input->post();
         $this->load->model('class/client_model');
         $query='SELECT status_id FROM users WHERE id='.$datas['pk'];
         $aaa=$this->client_model->execute_sql_query($query);   
@@ -836,7 +809,7 @@ class Welcome extends CI_Controller {
                     }
                     //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
 
-                    if ($response['flag_initial_payment']) {
+                    if($response['flag_initial_payment']) {
                         $this->load->model('class/user_model');
                         $this->user_model->insert_washdog('fez compra satisfatória');
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
@@ -925,7 +898,7 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         //Amigos de Pedro
-        if(isset($datas['ticket_peixe_urbano']) && ( strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO' || strtoupper($datas['ticket_peixe_urbano'])==='FITNESS' )){
+        if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'){
                 //1. recurrencia para un mes mas alante
                 $datas['amount_in_cents'] = $recurrency_value;
                 $datas['amount_in_cents'] = $recurrency_value;
@@ -1015,7 +988,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }else
-        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='AGENCIALUUK'){
+        if(isset($datas['ticket_peixe_urbano']) &&  $datas['ticket_peixe_urbano']==='DUMBUDF20'){
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
                 if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
@@ -1039,6 +1012,8 @@ class Welcome extends CI_Controller {
                     $this->client_model->update_client($datas['pk'], array(
                         'order_key' => $resp->getData()->OrderResult->OrderKey,
                         'pay_day' => $datas['pay_day']));
+                    $this->client_model->update_client($datas['pk'], array(
+                        'actual_payment_value' => $datas['amount_in_cents']));
                     $response['flag_recurrency_payment'] = true;
                     $response['flag_initial_payment'] = true;
                 } else {
@@ -1052,7 +1027,7 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            } else                
+            } else
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='INSTA-DIRECT' || $datas['ticket_peixe_urbano']==='MALADIRETA')){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1126,11 +1101,11 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
-            }else                 
-        if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
+            }else
+        if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
-                $datas['amount_in_cents'] = $recurrency_value/2;                
+                $datas['amount_in_cents'] = $recurrency_value/2;
                 $resp = $this->check_mundipagg_credit_card($datas);
                 if(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0){
                     $this->client_model->update_client(
@@ -1197,14 +1172,13 @@ class Welcome extends CI_Controller {
                         $response['flag_recurrency_payment'] = false;
                         $response['flag_initial_payment'] = false;
                         if(is_array($resp))
-                            $response['message'] = 'Error: '.$resp["message"]; 
+                            $response['message'] = 'Error: '.$resp["message"];
                         else
                             $response['message'] = 'Incorrect credit card datas!!';
-                        if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                        if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
                             $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                         }
                     }
-                
             }
          return $response;
     }
@@ -1308,36 +1282,243 @@ class Welcome extends CI_Controller {
         }
         echo json_encode($response);
     }
-        
+    
+    
+    
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         if ($this->session->userdata('id')) {
-            //1.TODO: recibir los datos que vienen en las cookies desde el navegador y verificar que sea el mismo usuario que se logueo en PASSO 1
-            //---despues de verificar datos bancarios correctos, pasar as user_status::UNFOLLOW o a ACTIVE
             $this->load->model('class/client_model');
             $this->load->model('class/user_model');
             $this->load->model('class/user_status');
             $this->load->model('class/credit_card_status');
             $datas = $this->input->post();
             $now = time();
-            if ($this->validate_post_credit_card_datas($datas)) {
+            if($this->validate_post_credit_card_datas($datas)) {
+                $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];                               
+                if($now<$client_data['pay_day'] && 
+                        (  $client_data['ticket_peixe_urbano']==='AGENCIALUUK'
+                        || $client_data['ticket_peixe_urbano']==='DUMBUDF20'
+                        || $client_data['ticket_peixe_urbano']==='AMIGOSDOPEDRO'
+                        || $client_data['ticket_peixe_urbano']==='BACKTODUMBU' 
+                        )){                    
+                    $result['success'] = false;
+                    $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
+                } else {
+                    if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
+                        if ($now < $client_data['pay_day']) {
+                            $payments_days['pay_day'] = strtotime("+30 days", $now);
+                            $payments_days['pay_now'] = true;
+                            $datas['pay_day'] = $payments_days['pay_day'];
+                        } else {
+                            $payments_days['pay_day'] = time();
+                            $payments_days['pay_now'] = false;
+                            $datas['pay_day'] = $payments_days['pay_day'];
+                        }
+                    } else {
+                        $payments_days = $this->get_pay_day($client_data['pay_day']);
+                        $datas['pay_day'] = $payments_days['pay_day'];
+                    }
+                    if ($payments_days['pay_day'] != null) { //dia de actualizacion diferente de dia de pagamento                    
+                        try {
+                            $this->user_model->update_user($this->session->userdata('id'), array(
+                                'email' => $datas['client_email']));
+                            $this->client_model->update_client($this->session->userdata('id'), array(
+                                'credit_card_number' => $datas['credit_card_number'],
+                                'credit_card_cvc' => $datas['credit_card_cvc'],
+                                'credit_card_name' => $datas['credit_card_name'],
+                                'credit_card_exp_month' => $datas['credit_card_exp_month'],
+                                'credit_card_exp_year' => $datas['credit_card_exp_year'],
+                                'pay_day' => $datas['pay_day']
+                            ));
+                        } catch (Exception $exc) {
+                            $result['success'] = false;
+                            $result['exception'] = $exc->getTraceAsString();
+                            $result['message'] = $this->T('Erro actualizando em banco de dados', array());
+                        } finally {
+                            $flag_pay_now = false;
+                            $flag_pay_day = false;
+
+                            //Determinar valor inicial del pagamento
+                            if ($datas['client_update_plane'] == 1)
+                                $datas['client_update_plane'] = 4;
+                            if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] <= $this->session->userdata('plane_id'))) {
+                                $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);
+                                $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                            } else
+                            if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
+                                $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
+                                $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                            } else
+                            if ($datas['client_update_plane'] > $this->session->userdata('plane_id')) {
+                                $promotional_time_range = $this->user_model->get_signin_date($this->session->userdata('id'));
+                                $promotional_time_range = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $promotional_time_range);
+                                $promotional_time_range = strtotime("+1 month", $promotional_time_range);
+                                if (time() < $promotional_time_range) {//mes promocional
+                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
+                                } else {
+                                    $pay_values['initial_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']) - $this->client_model->get_normal_pay_value($this->session->userdata('plane_id'));
+                                }
+                                $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                                $payments_days['pay_now'] = true;
+                            } else
+                            if ($datas['client_update_plane'] < $this->session->userdata('plane_id')) {
+                                $pay_values['initial_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                                $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
+                            } else {
+                                $pay_values['initial_value'] = $this->client_model->get_normal_pay_value($this->session->userdata('plane_id'));
+                                
+                                if($client_data['actual_payment_value']!=null)
+                                    $pay_values['normal_value'] = $client_data['actual_payment_value'];
+                                else
+                                    $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($this->session->userdata('plane_id'));
+                            }
+                            
+                            //si necesitara hacer un pagamento ahora
+                            if ($payments_days['pay_now']) {                                                    
+                                $datas['pay_day'] = time();
+                                if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20') 
+                                    $datas['amount_in_cents'] = round(($pay_values['initial_value']*8)/10);
+                                else
+                                if($client_data['ticket_peixe_urbano']==='OLX')
+                                    //$datas['amount_in_cents'] = round(($pay_values['initial_value']*5)/10);
+                                    if($now < $client_data['pay_day'])
+                                        $datas['amount_in_cents'] = $pay_values['normal_value']/2;
+                                    else
+                                        $datas['amount_in_cents'] = $pay_values['normal_value'];
+                                else
+                                    $datas['amount_in_cents'] = $pay_values['initial_value'];
+                                $resp_pay_now = $this->check_mundipagg_credit_card($datas);
+                                if (is_object($resp_pay_now) && $resp_pay_now->isSuccess() && $resp_pay_now->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0) {
+                                    $this->client_model->update_client($this->session->userdata('id'), array(
+                                        'pending_order_key' => $resp_pay_now->getData()->OrderResult->OrderKey));
+                                    $flag_pay_now = true;
+                                }
+                            }
+
+                            if (($payments_days['pay_now'] && $flag_pay_now) || !$payments_days['pay_now']) {
+                                $response_delete_early_payment = '';
+                                $datas['pay_day'] = $payments_days['pay_day'];
+                                if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20')
+                                    $datas['amount_in_cents'] = round(($pay_values['normal_value']*8)/10);
+                                else
+                                    $datas['amount_in_cents'] = $pay_values['normal_value'];
+
+                                $resp_pay_day = $this->check_recurrency_mundipagg_credit_card($datas, 0);
+                                if (is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
+                                    $flag_pay_day = true;
+                                    try {
+                                        $this->client_model->update_client($this->session->userdata('id'), array(
+                                            'plane_id' => $datas['client_update_plane'],
+                                            'pay_day' => $datas['pay_day'],
+                                            'order_key' => $resp_pay_day->getData()->OrderResult->OrderKey));
+                                        if ($client_data['order_key'])
+                                            $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
+                                        if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
+                                            $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
+                                        } else
+                                            $datas['status_id'] = $this->session->userdata('status_id');
+                                        $this->user_model->update_user($this->session->userdata('id'), array(
+                                            'status_id' => $datas['status_id']));
+                                        if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
+                                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                                            $N = count($active_profiles);
+                                            for ($i = 0; $i < $N; $i++) {
+                                                if($active_profiles[$i]['end_date']!=='NULL')
+                                                $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
+                                            }
+                                        }
+                                        $this->session->set_userdata('plane_id', $datas['client_update_plane']);
+                                        $this->session->set_userdata('status_id', $datas['status_id']);
+                                    } catch (Exception $exc) {
+                                        $this->user_model->update_user($datas['pk'], array(
+                                            'status_id' => $this->session->userdata('status_id'))); //the previous
+                                        $this->client_model->update_client($datas['pk'], array(
+                                            'pay_day' => $client_data['pay_day'], //the previous
+                                            'order_key' => $client_data['order_key'])); //the previous
+                                        $result['success'] = false;
+                                        $result['exception'] = $exc->getTraceAsString();
+                                        $result['message'] = $this->T('Erro actualizando em banco de dados', array());
+                                    } finally {
+                                        $result['success'] = true;
+                                        $result['resource'] = 'client';
+                                        $result['message'] = $this->T('Dados bancários atualizados corretamente', array());
+                                        $result['response_delete_early_payment'] = $response_delete_early_payment;
+                                    }
+                                }
+                            }
+
+                            if (($payments_days['pay_now'] && !$flag_pay_now) || (!$payments_days['pay_now'] && !$flag_pay_day)) {
+                                //restablecer en la base de datos los datos anteriores
+                                $this->client_model->update_client($this->session->userdata('id'), array(
+                                    'credit_card_number' => $client_data['credit_card_number'],
+                                    'credit_card_cvc' => $client_data['credit_card_cvc'],
+                                    'credit_card_name' => $client_data['credit_card_name'],
+                                    'credit_card_exp_month' => $client_data['credit_card_exp_month'],
+                                    'credit_card_exp_year' => $client_data['credit_card_exp_year'],
+                                    'pay_day' => $client_data['pay_day'],
+                                    'order_key' => $client_data['order_key']
+                                ));
+                                $result['success'] = false;
+                                $result['resource'] = 'client';
+                                if ($payments_days['pay_now'] && !$flag_pay_now)
+                                    $result['message'] = is_array($resp_pay_now) ? $resp_pay_now["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array());
+                                else
+                                    $result['message'] = is_array($resp_pay_day) ? $resp_pay_day["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array());
+                            } else
+                            if (($payments_days['pay_now'] && $flag_pay_now && !$flag_pay_day)) {
+                                //se hiso el primer pagamento bien, pero la recurrencia mal
+                                $result['success'] = true;
+                                $result['resource'] = 'client';
+                                $result['message'] = $this->T('Actualização bem sucedida, mas deve atualizar novamente até a data de pagamento ( @1 )', array(0 => $payments_days['pay_now']));
+                            }
+                        }
+                    } else {
+                        $result['success'] = false;
+                        $result['message'] = $this->T('Você não pode atualizar seu cartão no dia do pagamento', array());
+                    }
+                }
+                
+            } else {
+                $result['success'] = false;
+                $result['message'] = $this->T('Acesso não permitido', array());
+            }
+            
+            if($this->session->userdata('id') && $result['success'] == true){
+                $this->load->model('class/user_model');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'atualização de cartão correta');
+            } else{
+                if($this->session->userdata('id')){
+                    $this->load->model('class/user_model');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'atualização de cartão errada');                
+                }
+            }
+            
+            echo json_encode($result);
+        }
+    }
+
+    public function old_update_client_datas() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        if ($this->session->userdata('id')) {
+            $this->load->model('class/client_model');
+            $this->load->model('class/user_model');
+            $this->load->model('class/user_status');
+            $this->load->model('class/credit_card_status');
+            $datas = $this->input->post();
+            $now = time();
+            if($this->validate_post_credit_card_datas($datas)) {
                 $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                $kk=$client_data['ticket_peixe_urbano'];                
-                        
-                if($now<$client_data['pay_day'] &&$client_data['ticket_peixe_urbano']==='AGENCIALUUK'){                    
+                
+                if($now<$client_data['pay_day'] && $client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20'){                    
                     $result['success'] = false;
                     $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
                 } else
                     if($now<$client_data['pay_day'] && (
                             $client_data['ticket_peixe_urbano']==='AMIGOSDOPEDRO'
-                            ||$client_data['ticket_peixe_urbano']==='FITNESS'
-                            ||$client_data['ticket_peixe_urbano']==='BACKTODUMBU'
-                            ||$client_data['ticket_peixe_urbano']==='SHENIA'
-                            ||$client_data['ticket_peixe_urbano']==='VANESSA'
-                            ||$client_data['ticket_peixe_urbano']==='CAROL'
-                            ||$client_data['ticket_peixe_urbano']==='NICOLE'
-                            ||$client_data['ticket_peixe_urbano']==='NINA')){
+                            ||$client_data['ticket_peixe_urbano']==='BACKTODUMBU' )){
                         $result['success'] = false;
                         $result['message'] = 'Você não pode atualizar no mês promocional, entre em contato com nosso atendimento';
                     } else{
@@ -1378,11 +1559,18 @@ class Welcome extends CI_Controller {
                                 //Determinar valor inicial del pagamento
                                 if ($datas['client_update_plane'] == 1)
                                     $datas['client_update_plane'] = 4;
-                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] <= $this->session->userdata('plane_id'))) {
-                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);
+                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] == $this->session->userdata('plane_id'))) {
+                                    $value=$this->client_model->get_actual_pay_value($datas['client_update_plane']);
+                                    if($value)
+                                        $pay_values['normal_value']=$value;
+                                    else
+                                        $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);                                    
+                                }else
+                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] < $this->session->userdata('plane_id'))) {
+                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);                                    
                                     $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
                                 } else
-                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
+                                if($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
                                     $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
                                     $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
                                 } else
@@ -1408,7 +1596,7 @@ class Welcome extends CI_Controller {
 
                                 if ($payments_days['pay_now']) { //si necesitara hacer un pagamento ahora                                                   
                                     $datas['pay_day'] = time();
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
+                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20') 
                                         $datas['amount_in_cents'] = round(($pay_values['initial_value']*8)/10);
                                     else
                                     if($client_data['ticket_peixe_urbano']==='OLX')
@@ -1430,22 +1618,22 @@ class Welcome extends CI_Controller {
                                 if (($payments_days['pay_now'] && $flag_pay_now) || !$payments_days['pay_now']) {
                                     $response_delete_early_payment = '';
                                     $datas['pay_day'] = $payments_days['pay_day'];
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK')
+                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20')
                                         $datas['amount_in_cents'] = round(($pay_values['normal_value']*8)/10);
                                     else
                                         $datas['amount_in_cents'] = $pay_values['normal_value'];
                                     
                                     $resp_pay_day = $this->check_recurrency_mundipagg_credit_card($datas, 0);
-                                    if (is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
+                                    if(is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
                                         $flag_pay_day = true;
                                         try {
                                             $this->client_model->update_client($this->session->userdata('id'), array(
                                                 'plane_id' => $datas['client_update_plane'],
                                                 'pay_day' => $datas['pay_day'],
                                                 'order_key' => $resp_pay_day->getData()->OrderResult->OrderKey));
-                                            if ($client_data['order_key'])
+                                            if($client_data['order_key'])
                                                 $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
-                                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
+                                            if($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
                                                 $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
                                             } else
                                                 $datas['status_id'] = $this->session->userdata('status_id');
@@ -1529,6 +1717,7 @@ class Welcome extends CI_Controller {
         }
     }
 
+    
     public function get_pay_day($pay_day) {
         $this->load->model('class/user_status');
         $now = time();
@@ -2087,7 +2276,7 @@ class Welcome extends CI_Controller {
     }
     
     
-    public function update_client_after_retry_payment_success($user_id) {        
+    public function update_client_after_retry_payment_success($user_id) {  
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
         $this->load->model('class/client_model');
@@ -2103,7 +2292,10 @@ class Welcome extends CI_Controller {
         $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
         $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
         $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-        $payment_data['amount_in_cents'] = $plane['normal_val'];
+        if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
+            $payment_data['amount_in_cents'] = $client['actual_payment_value'];
+        else
+            $payment_data['amount_in_cents'] = $plane['normal_val'];
         $payment_data['pay_day'] = strtotime("+1 month", time());
         $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
         //4. salvar nuevos pay_day e order_key
@@ -2374,7 +2566,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,0);
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,0);
                 if($resp['success']){
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
@@ -2440,7 +2632,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post()['profile'];   
             $datas=$this->check_insta_profile($profile);
             if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$profile,1);
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,1);
                 if($resp['success']){
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
@@ -2504,6 +2696,33 @@ class Welcome extends CI_Controller {
         echo 'fin';
         fclose($file);
     }
+    
+    public function update_ds_user_id() {
+        $this->load->model('class/client_model');
+        $resul=$this->client_model->select_white_list_model();
+        foreach ($resul as $key => $value) {
+            $data_insta = $this->check_insta_profile($value['profile']);
+            $this->client_model->update_ds_user_id_white_list_model($value['id'],$data_insta->pk);
+        }
+    }   
+    
+    public function login_all_clients(){
+        $this->load->model('class/user_model');
+        $a=$this->user_model->get_all_dummbu_clients();
+        $N=count($a);
+        for($i=0;$i<$N;$i++){
+            $st=$a[$i]['status_id'];
+            if($st!=='4' && $st!=='8' && $st!=='11' && $a[$i]['role_id']==='2'){
+                echo $i;
+                $login=$a[$i]['login'];
+                $pass=$a[$i]['pass'];
+                $datas['user_login']=$login;
+                $datas['user_pass']=$pass;
+                $result= $this->user_do_login($datas);
+            }
+        }
+    }
+
 
     public function update_all_retry_clients(){            
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);

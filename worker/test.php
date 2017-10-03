@@ -46,11 +46,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //----------------------------------------------------------------
 // GMAIL
  
-//$Gmail = new dumbu\cls\Gmail();
+$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
-//$Gmail->send_new_client_payment_done("Test test", "test@email");
+$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 //$Robot = new dumbu\cls\Robot();
  	  		 	
@@ -113,13 +113,42 @@ if(str_binary_search("347569",$array2))
 else{ echo "\n<br> DB search false </br>" ;
 }
 
+$white_list = $DB->get_white_list('45769');
+
+$Profiles[0] = 47711036;
+$Profiles[1] = 1342090624;
+$Profiles[2] = 27708066;
+foreach ($Profiles as $id_insta) {
+    // If profile is not in white list then do unfollow request
+    if(!(isset($white_list) && str_binary_search($id_insta, $white_list)))
+    {   
+        print '<br> sucess"' . $id_insta .'</br>';
+    }
+}
+    // Wait 20 minutes
+
+// AFTER
+print 'AFTER:<br>\n';
+print_r($clients_data);
+
+//Testing reports
+//$Client = new dumbu\cls\Client();
+
+//$result = $Client->insert_clients_daily_report();
+
+//print '<br>report : ' . $cnt->fetch_object() . '<\br>';
+
+
+
 //Testing Worker with black list
-$worker = new \dumbu\cls\Worker();
+/*$worker = new \dumbu\cls\Worker();
+
+$worker->prepare_daily_work();
 $daily_work = $DB->get_follow_work();
 $daily_work->login_data = json_decode($daily_work->cookies);
 var_dump($daily_work);
 $worker->do_follow_unfollow_work($daily_work);
-
+*/
 //Testing white and black list 
 //    $DB = new \dumbu\cls\DB();
 //$result = $DB->insert_in_white_list(1,"407964088");

@@ -8,7 +8,7 @@ namespace dumbu\cls {
         protected $db = 'dumbudb';
         //protected $port = '3128';
         protected $user = 'root';
-        protected $pass = 'csduo2004mysql';
+        protected $pass = '';
         
         private $connection = NULL;
 
@@ -78,7 +78,32 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_clients_data_for_report() {
+            try {
+                $this->connect();
+                $CLIENT = user_role::CLIENT;
+                $DELETED = user_status::DELETED;
+                $BEGINNER = user_status::BEGINNER;
+                $DONT_DISTURB = user_status::DONT_DISTURB;
+                
+                //$UNFOLLOW = user_status::UNFOLLOW;
+                $sql = ""
+                        . "SELECT users.id, users.login FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND clients.unfollow_total <> 1 "
+                        . "     AND (users.status_id NOT IN ($DELETED, $BEGINNER, $DONT_DISTURB )) "
+                        . "ORDER BY users.id; ";
+                $result = mysqli_query($this->connection, $sql);
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
+        
         public function get_unfollow_clients_data() {
             try {
                 $this->connect();
@@ -564,7 +589,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "SELECT insta_id "
                         . "FROM black_and_white_list "
-                        . "WHERE black_and_white_list.user_id = $id_user AND black_and_white_list.black_or_white = 1"
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 1 AND black_and_white_list.deleted = 0 "
                         . "ORDER BY black_and_white_list.insta_id;";
                 $result = mysqli_query($this->connection, $sql);
                 $new_array = NULL;
@@ -585,7 +610,7 @@ namespace dumbu\cls {
                 $sql = ""
                         . "SELECT insta_id "
                         . "FROM black_and_white_list "
-                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 0 "
+                        . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 0 AND black_and_white_list.deleted = 0 "
                         . "ORDER BY black_and_white_list.insta_id;";
                 $result = mysqli_query($this->connection, $sql);
                 $new_array = NULL;

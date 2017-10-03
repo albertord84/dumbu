@@ -123,7 +123,7 @@
             return $followed_profiles;
         }
 
-                public function insert_client_in_strict_instagram_login($datas,$data_insta){
+        public function insert_client_in_strict_instagram_login($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta['insta_name'];           //desde instagram
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
@@ -155,11 +155,28 @@
             return $this->db->get()->result_array();
         }
         
+        public function get_pay_values($id_value){
+            $this->db->select('*');
+            $this->db->from('plane');
+            $this->db->where('id',$id_value);
+            return $this->db->get()->row_array();
+        }
         public function get_normal_pay_value($id_value){
             $this->db->select('normal_val');
             $this->db->from('plane');
             $this->db->where('id',$id_value);
             return $this->db->get()->row_array()['normal_val'];
+        }
+        
+        public function get_actual_pay_value($user_id){
+            $this->db->select('actual_payment_value');
+            $this->db->from('clients');
+            $this->db->where('user_id',$user_id);
+            $resp=$this->db->get()->row_array()['actual_payment_value'];
+            if($resp!='' && $resp!=null)
+                return $resp;
+            else 
+                return false;
         }
         
         public function get_promotional_pay_value($id_value){
@@ -469,7 +486,7 @@
             return $result;
         }
         
-        public function insert_in_black_or_white_list_model($id,$profile,$type){
+        public function insert_in_black_or_white_list_model($id,$ds_user_id,$profile,$type){
             $this->db->select('*');
             $this->db->from('black_and_white_list');
             $this->db->where('client_id',$id);
@@ -480,6 +497,7 @@
             if(count($a)==0){ //si no esta activo en la base de datos
                 $data_user=array(
                     'client_id'=>$id,
+                    'insta_id'=>$ds_user_id,
                     'profile'=>$profile,
                     'init_date'=>time(),
                     'black_or_white'=>$type
@@ -497,6 +515,18 @@
                 }
             }
             return $result;
+        }
+        
+        public function select_white_list_model(){
+            $this->db->select('*');
+            $this->db->from('black_and_white_list');
+            $this->db->order_by('id', 'asc');
+            return $this->db->get()->result_array();            
+        }
+        
+        public function update_ds_user_id_white_list_model($id,$ds_user_id){
+            $this->db->where('id',$id);                    
+            $this->db->update('black_and_white_list',array('insta_id'=>$ds_user_id));
         }
         
         public function delete_in_black_or_white_list_model($id,$profile,$type){
