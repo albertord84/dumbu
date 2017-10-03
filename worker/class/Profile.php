@@ -82,6 +82,11 @@ namespace dumbu\cls {
                 } else if ($response->message === '') {
                     $error = 6; // Empty message
                 }
+                else{
+                    $error = -1;
+                    var_dump($response);
+                    print 'Not message found!';
+                }
             } // If array
             else if (is_array($response) && count($response) == 1 && is_string($response[0]) && 
                     ((strpos($response[0], 'Tente novamente mais tarde') !== FALSE) || strpos($response[0], 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
