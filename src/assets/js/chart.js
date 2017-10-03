@@ -1,27 +1,42 @@
 $(document).ready(function () {
     for (var key in followings_data) {
-        followings_data[key].x = new Date(followings_data[key].yy, followings_data[key].mm, followings_data[key].dd);
+        followings_data[key].x = new Date(followings_data[key].yy, followings_data[key].mm - 1, followings_data[key].dd);
     }
     for (var key in followers_data) {
-        followers_data[key].x = new Date(followers_data[key].yy, followers_data[key].mm, followers_data[key].dd);
+        followers_data[key].x = new Date(followers_data[key].yy, followers_data[key].mm - 1, followers_data[key].dd);
     }
-
+    
+    if (language === 'PT') {
+        var name1 = "Perfis seguidos";
+        var name2 = "Seguidores ganhos";
+    }
+    else if (language === 'EN') {
+        name1 = "Followings";
+        name2 = "Followers";
+    }
+    
     chart = new CanvasJS.Chart("chartContainer", {
         /*title: {
          text: "Site Traffic",
          fontSize: 30
          },*/
+        zoomEnabled: true, 
         animationEnabled: true,
+        animationDuration: 2500,
         axisX: {
+            gridThickness: 0.5,
             gridColor: "Silver",
+            tickThickness: 5,
             tickColor: "silver",
-            valueFormatString: "DD/MM/YY"
-        },
+	    valueFormatString: "DD/MM/YY"		
+         },
         toolTip: {
             shared: true
         },
         theme: "theme2",
         axisY: {
+            gridThickness: 0.5,
+            tickThickness: 5,
             gridColor: "Silver",
             tickColor: "silver"
         },
@@ -34,7 +49,7 @@ $(document).ready(function () {
                 type: "line",
                 showInLegend: true,
                 lineThickness: 2,
-                name: "Perfis seguidos",
+                name: name1,
                 markerType: "square",
                 color: "#F08080",
                 dataPoints: followings_data
@@ -55,7 +70,7 @@ $(document).ready(function () {
             {
                 type: "line",
                 showInLegend: true,                
-                name: "Seguidores ganhos",
+                name: name2,
                 color: "#20B2AA",
                 lineThickness: 2,
                 dataPoints: followers_data
