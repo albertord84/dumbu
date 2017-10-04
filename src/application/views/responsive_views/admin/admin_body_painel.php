@@ -137,11 +137,31 @@
                         </select>
                     </div> 
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Mais de </b>   
+                        <select id="tentativas" class="form-control">
+                            <option value="0">--SELECT--</option>
+                            <?php for ($tentativas = 1; $tentativas <= 9; $tentativas++) { ?>
+                                    <option value="<?php echo $tentativas; ?>"><?php echo $tentativas; ?></option>
+                            <?php } ?>
+                        </select>
+                        <b>tentativas de compra</b> 
+                    </div> 
+                </div>
+                <div class="col-md-3">
                     <div class="center">
                         <br>
                         <button  style="min-width:200px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Listar</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="center">
+                        <br>
+                        <button  style="min-width:200px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label">Obter emails</span>
                         </button>
                     </div>
                 </div>
@@ -162,8 +182,8 @@
             </div>
             <div class="col-xs-1"></div>
         </div>
-
-        <div class="row">
+        <?php if (isset($form_filter) && $form_filter['query'] == 1) {
+        echo '<div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-10">
                 <table class="table">
@@ -177,8 +197,8 @@
                 </table>
             </div>
             <div class="col-xs-1"></div>
-        </div>
-    
+        </div>';
+        } ?>
         <?php 
             function get_name_status($val){
                 switch ($val){
@@ -201,7 +221,7 @@
         <div class="col-xs-10">
             <table class="table">
                 <?php                    
-                    if(isset($result)){                        
+                    if (isset($result) && $form_filter['query'] == 1) {                        
                         for($i=0;$i<$num_rows;$i++){
                             //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
                             echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block">';
@@ -359,7 +379,12 @@
                                 echo '</td>';
                             echo '</tr>';
                         }
-                    }               
+                    }
+                    else if ($form_filter['query'] == 2) {
+                        for ($i = 0; $i < $num_rows; $i++) {
+                            echo $result[$i]['email'].'<br>';
+                        }
+                    }
                 ?>
             </table>
         </div>

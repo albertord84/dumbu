@@ -286,8 +286,21 @@
                     </div>
                 </div>
                 
-                
-                
+                <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
+                        <p style="text-align:justify"> <?php echo $CI->T('Play/Pause do seguimento automático.', array()); ?>
+                        </p>
+                        <div class="container">
+                            <div class="player text-center" style="margin: 50px 0">
+                              <button type="button" id="button_play" class="btn" onclick='buttonPlayPress()'>
+                                <i class="fa fa-play"></i>
+                              </button>  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                </div>
                 
                 
                 <!--<div class="text-center m-t30">
