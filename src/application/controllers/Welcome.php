@@ -112,6 +112,7 @@ class Welcome extends CI_Controller {
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
             $datas1['autolike'] = $this->session->userdata('autolike');
+            $datas1['play_pause'] = (int) $init_client_datas[0]['paused'];
             $datas1['plane_id'] = $this->session->userdata('plane_id');
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
@@ -1283,7 +1284,25 @@ class Welcome extends CI_Controller {
         echo json_encode($response);
     }
     
-    
+    public function play_pause() {
+        $this->load->model('class/user_role');
+        $this->load->model('class/client_model');
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            $datas = $this->input->post();
+            $pp = (int) $datas['play_pause'];
+            $this->client_model->update_client($this->session->userdata('id'), array(
+                'paused' => $pp
+            ));
+            
+            $ut = ($pp == 0) ? 'pausado' : 'reativado';
+            $this->load->model('class/user_model');
+            $this->user_model->insert_washdog($this->session->userdata('id'),'seguimento '.$ut);
+            
+            $response['success'] = true;
+            $response['autolike'] = $datas['play_pause'];
+        }
+        echo json_encode($response);
+    }
     
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';

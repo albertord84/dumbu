@@ -204,10 +204,10 @@ $(document).ready(function () {
     
     $("#my_container_toggle_autolike").hover(
             function () {
-                $('#my_container_toggle').css('cursor', 'pointer');
+                $('#my_container_toggle_autolike').css('cursor', 'pointer');
             },
             function () {
-                $('#my_container_toggle').css('cursor', 'default');
+                $('#my_container_toggle_autolike').css('cursor', 'default');
             }
     );
 
