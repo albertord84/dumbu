@@ -291,14 +291,21 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
                     <div class="col-md-3 col-sm-3 col-xs-12"></div>
                     <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
-                        <p style="text-align:center"> <?php echo $CI->T('Play/Pause do seguimento automático.', array()); ?>
+                        <p style="text-align:center"> <?php echo $CI->T('Play/Pause da ferramenta.', array()); ?>
                         </p>
-                        <button type="button" id="button_play" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
-                            <i class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>
-                        </button>
-                        <button type="button" id="button_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
-                            <i class="fa fa-pause"></i><b style="color:black"> Pause</b>
-                        </button>
+                        <?php
+                        if ($play_pause) {
+                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
+                                    <i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>
+                                  </button>';
+                        }
+                        else {
+                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
+                                    <i id="iconChange" class="fa fa-pause"></i><b> Pause</b>
+                                  </button>';
+                        } ?>
+                        <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array()); ?>
+                        </p>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-12"></div>
                 </div>

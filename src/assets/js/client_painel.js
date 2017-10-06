@@ -124,8 +124,10 @@ $(document).ready(function () {
     var verify = false, flag_unfollow_request = false;
     unfollow_total = parseInt(unfollow_total);
     autolike = parseInt(autolike);
+    play_pause = parseInt(play_pause);
     init_unfollow_type();
     init_autolike_type();
+    init_play_pause_type();
     flag_black_list=false;
     flag_white_list=false;
 
@@ -487,6 +489,52 @@ $(document).ready(function () {
         } else{
             $('#left_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
             $('#right_toggle_buttom_autolike').css({'background-color': '#009CDE'});
+        }
+    }
+    
+    $("#button_play_pause").click(function () {
+        if (play_pause) {
+            confirm_message = 'Confirma reativar a ferramenta?';
+            tmp_play_pause = 0;
+        } else {
+            confirm_message = 'Confirma pausar a ferramenta?';
+            tmp_play_pause = 1;
+        }
+        if (confirm(T(confirm_message))) {
+            $.ajax({
+                url: base_url + 'index.php/welcome/play_pause',
+                data: {
+                    'play_pause': tmp_play_pause
+                },
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    if (response['success']) {
+                        //modal_alert_message(parseInt(response['unfollow_total']));
+                        set_global_var('play_pause', !play_pause);
+                        init_play_pause_type();
+                    } else {
+                        modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
+                    }
+                    //l.stop();
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
+                    //l.stop();
+                }
+            });
+        }
+    });
+
+    function init_play_pause_type() {
+        if (play_pause) {
+            $('#button_play_pause').css({'background-color': '#009CDE'});
+            $('#button_play_pause').html('<i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>');
+        }
+        else {
+            $('#button_play_pause').css({'background-color': '#DFDFDF'});
+            $('#button_play_pause').html('<i id="iconChange" class="fa fa-pause"></i><b> Pause</b>');
         }
     }
 
@@ -1229,6 +1277,9 @@ $(document).ready(function () {
                 break;
             case 'autolike':
                 autolike = value;
+                break;
+            case 'play_pause':
+                play_pause = value;
                 break;
             case 'users_datas':
                 users_datas = value;
