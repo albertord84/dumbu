@@ -118,6 +118,7 @@ class User_model extends CI_Model {
                     $session->set_userdata('cookies', $client_data['cookies']);
                     $session->set_userdata('unfollow_total', (int) $client_data['unfollow_total']);
                     $session->set_userdata('autolike', (int) $client_data['like_first']);
+                    $session->set_userdata('play_pause', (int) $client_data['paused']);
                 }
                 $session->set_userdata('id', $user_data['id']);
                 $session->set_userdata('name', $user_data['name']);

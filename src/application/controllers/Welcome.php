@@ -1294,12 +1294,28 @@ class Welcome extends CI_Controller {
                 'paused' => $pp
             ));
             
-            $ut = ($pp == 0) ? 'pausado' : 'reativado';
+            $ut = 'indefinida';
+            
+            if ($pp == 1) {
+                $ut = 'pausada';
+                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                $N = count($active_profiles);
+                //quitar trabajo si el cliente pauso la herramienta
+                for ($i = 0; $i < $N; $i++) {
+                    $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
+                }
+            }
+            else {
+                $ut = 'reativada';
+                //no hacer nada, el robot le pone trabajo al cliente al siguiente dia
+            }
+            
             $this->load->model('class/user_model');
-            $this->user_model->insert_washdog($this->session->userdata('id'),'seguimento '.$ut);
+            $this->user_model->insert_washdog($this->session->userdata('id'),'ferramenta '.$ut);
+
             
             $response['success'] = true;
-            $response['autolike'] = $datas['play_pause'];
+            $response['play_pause'] = $datas['play_pause'];
         }
         echo json_encode($response);
     }
