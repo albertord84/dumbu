@@ -159,6 +159,15 @@ class User_model extends CI_Model {
         return $a;
     }
     
+    public function time_of_live_model() {
+        $this->db->select('id,init_date,end_date');
+        $this->db->from('users');
+        $this->db->where('status_id', 4);
+        $this->db->where('init_date is NOT NULL', NULL, FALSE);
+        $this->db->where('end_date is NOT NULL', NULL, FALSE);
+        $a = $this->db->get()->result_array();
+        return $a;
+    }
     public function get_user_role($user_login, $user_pass) {
         $this->db->select('role_id');
         $this->db->from('users');

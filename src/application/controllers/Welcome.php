@@ -4,7 +4,6 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
-        
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2722,7 +2721,36 @@ class Welcome extends CI_Controller {
             }
         }
     }
-
+    
+    public function time_of_live() {
+        $this->load->model('class/user_model');
+        $result=$this->user_model->time_of_live_model();
+        $response=array('0-2-dias'=>0,'2-30-dias'=>0,'30-60-dias'=>0,'60-90-dias'=>0,'mais-90-dias'=>0);
+        foreach ($result as $user) {
+            $difference=$user['end_date']-$user['init_date'];
+            $second = 1;
+            $minute = 60*$second;
+            $hour   = 60*$minute;
+            $day    = 24*$hour;
+            
+            $num_days=floor($difference/$day);            
+            if ($num_days<=2) 
+                $response['0-2-dias']=$response['0-2-dias']+1;
+            else
+            if ($num_days>2 &&$num_days<=30) 
+                $response['2-30-dias']=$response['2-30-dias']+1;
+            else
+            if ($num_days>30 &&$num_days<=60) 
+                $response['30-60-dias']=$response['30-60-dias']+1;
+            else
+            if ($num_days>60 &&$num_days<=90) 
+                $response['60-90-dias']=$response['60-90-dias']+1;
+            else
+                if ($num_days>90 &&$num_days<=300) 
+                    $response['mais-90-dias']=$response['mais-90-dias']+1;
+        }        
+        var_dump($response);        
+    }
 
     public function update_all_retry_clients(){            
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
