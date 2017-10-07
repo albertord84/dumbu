@@ -160,8 +160,9 @@ class User_model extends CI_Model {
     }
     
     public function time_of_live_model() {
-        $this->db->select('id,init_date,end_date');
-        $this->db->from('users');
+        $this->db->select('id,init_date,end_date,plane_id');        
+        $this->db->from('clients');
+        $this->db->join('users', 'users.id = clients.user_id');        
         $this->db->where('status_id', 4);
         $this->db->where('init_date is NOT NULL', NULL, FALSE);
         $this->db->where('end_date is NOT NULL', NULL, FALSE);

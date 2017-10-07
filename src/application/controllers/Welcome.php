@@ -2726,17 +2726,17 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $result=$this->user_model->time_of_live_model();
         $response=array(
-            '0-2-dias'=>0,
-            '2-30-dias'=>0,
-            '30-60-dias'=>0,
-            '60-90-dias'=>0,
-            '90-120-dias'=>0, 
-            '120-150-dias'=>0, 
-            '150-180-dias'=>0, 
-            '180-210-dias'=>0,
-            '210-240-dias'=>0,
-            '240-270-dias'=>0,
-            'mais-270'=>0);
+            '0-2-dias'=>array(0,0,0,0,0),
+            '2-30-dias'=>array(0,0,0,0,0),
+            '30-60-dias'=>array(0,0,0,0,0),
+            '60-90-dias'=>array(0,0,0,0,0),
+            '90-120-dias'=>array(0,0,0,0,0),
+            '120-150-dias'=>array(0,0,0,0,0),
+            '150-180-dias'=>array(0,0,0,0,0),
+            '180-210-dias'=>array(0,0,0,0,0),
+            '210-240-dias'=>array(0,0,0,0,0),
+            '240-270-dias'=>array(0,0,0,0,0),
+            'mais-270'=>array(0,0,0,0,0));
         
         foreach ($result as $user) {
             $difference=$user['end_date']-$user['init_date'];
@@ -2745,38 +2745,40 @@ class Welcome extends CI_Controller {
             $hour   = 60*$minute;
             $day    = 24*$hour;
             
+            $plane=$user['plane_id'];
+            
             $num_days=floor($difference/$day);            
             if ($num_days<=2) 
-                $response['0-2-dias']=$response['0-2-dias']+1;
+                $response['0-2-dias'][$plane]=$response['0-2-dias'][$plane]+1;
             else
             if ($num_days>2 &&$num_days<=30) 
-                $response['2-30-dias']=$response['2-30-dias']+1;
+                $response['2-30-dias'][$plane]=$response['2-30-dias'][$plane]+1;
             else
             if ($num_days>30 &&$num_days<=60) 
-                $response['30-60-dias']=$response['30-60-dias']+1;
+                $response['30-60-dias'][$plane]=$response['30-60-dias'][$plane]+1;
             else
             if ($num_days>60 &&$num_days<=90) 
-                $response['60-90-dias']=$response['60-90-dias']+1;            
+                $response['60-90-dias'][$plane]=$response['60-90-dias'][$plane]+1;            
             else
             if ($num_days>90 &&$num_days<=120) 
-                $response['90-120-dias']=$response['90-120-dias']+1;
+                $response['90-120-dias'][$plane]=$response['90-120-dias'][$plane]+1;
             else
             if ($num_days>120 &&$num_days<=150) 
-                $response['120-150-dias']=$response['120-150-dias']+1;
+                $response['120-150-dias'][$plane]=$response['120-150-dias'][$plane]+1;
             else
             if ($num_days>150 &&$num_days<=180) 
-                $response['150-180-dias']=$response['150-180-dias']+1;
+                $response['150-180-dias'][$plane]=$response['150-180-dias'][$plane]+1;
             else
             if ($num_days>180 &&$num_days<=210) 
-                $response['180-210-dias']=$response['180-210-dias']+1;
+                $response['180-210-dias'][$plane]=$response['180-210-dias'][$plane]+1;
             else
             if ($num_days>210 &&$num_days<=240) 
-                $response['210-240-dias']=$response['210-240-dias']+1;
+                $response['210-240-dias'][$plane]=$response['210-240-dias'][$plane]+1;
             else
             if ($num_days>240 &&$num_days<=270) 
-                $response['240-270-dias']=$response['240-270-dias']+1;
+                $response['240-270-dias'][$plane]=$response['240-270-dias'][$plane]+1;
             else 
-                $response['mais-270']=$response['mais-270']+1;
+                $response['mais-270'][$plane]=$response['mais-270'][$plane]+1;
         }        
         var_dump($response);        
     }
