@@ -2724,7 +2724,7 @@ class Welcome extends CI_Controller {
     
     public function time_of_live() {
         $this->load->model('class/user_model');
-        $result=$this->user_model->time_of_live_model();
+        $result=$this->user_model->time_of_live_model(4);
         $response=array(
             '0-2-dias'=>array(0,0,0,0,0),
             '2-30-dias'=>array(0,0,0,0,0),
@@ -2781,6 +2781,24 @@ class Welcome extends CI_Controller {
                 $response['mais-270'][$plane]=$response['mais-270'][$plane]+1;
         }        
         var_dump($response);        
+    }
+    
+    public function users_by_month_and_plane() {
+        $status = $this->input->get()['status'];
+        $this->load->model('class/user_model');
+        $result=$this->user_model->time_of_live_model($status);
+                
+        foreach ($result as $user) {
+            $month=date("n", $user['init_date']);
+            $year=date("Y", $user['init_date']);
+            $cad=$month.'-'.$year.'<br>';
+            $plane_id=$user['plane_id'];
+            if(!isset($r[$cad][$plane_id] ))
+                $r[$cad][$plane_id]=0;
+            else
+                $r[$cad][$plane_id]=$r[$cad][$plane_id]+1;
+        }        
+        var_dump($r);        
     }
 
     public function update_all_retry_clients(){            
