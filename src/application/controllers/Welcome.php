@@ -4,7 +4,6 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
-    
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2757,7 +2756,85 @@ class Welcome extends CI_Controller {
             }
         }
     }
-
+    
+    public function time_of_live() {
+        $this->load->model('class/user_model');
+        $result=$this->user_model->time_of_live_model(4);
+        $response=array(
+            '0-2-dias'=>array(0,0,0,0,0),
+            '2-30-dias'=>array(0,0,0,0,0),
+            '30-60-dias'=>array(0,0,0,0,0),
+            '60-90-dias'=>array(0,0,0,0,0),
+            '90-120-dias'=>array(0,0,0,0,0),
+            '120-150-dias'=>array(0,0,0,0,0),
+            '150-180-dias'=>array(0,0,0,0,0),
+            '180-210-dias'=>array(0,0,0,0,0),
+            '210-240-dias'=>array(0,0,0,0,0),
+            '240-270-dias'=>array(0,0,0,0,0),
+            'mais-270'=>array(0,0,0,0,0));
+        
+        foreach ($result as $user) {
+            $difference=$user['end_date']-$user['init_date'];
+            $second = 1;
+            $minute = 60*$second;
+            $hour   = 60*$minute;
+            $day    = 24*$hour;
+            
+            $plane=$user['plane_id'];
+            
+            $num_days=floor($difference/$day);            
+            if ($num_days<=2) 
+                $response['0-2-dias'][$plane]=$response['0-2-dias'][$plane]+1;
+            else
+            if ($num_days>2 &&$num_days<=30) 
+                $response['2-30-dias'][$plane]=$response['2-30-dias'][$plane]+1;
+            else
+            if ($num_days>30 &&$num_days<=60) 
+                $response['30-60-dias'][$plane]=$response['30-60-dias'][$plane]+1;
+            else
+            if ($num_days>60 &&$num_days<=90) 
+                $response['60-90-dias'][$plane]=$response['60-90-dias'][$plane]+1;            
+            else
+            if ($num_days>90 &&$num_days<=120) 
+                $response['90-120-dias'][$plane]=$response['90-120-dias'][$plane]+1;
+            else
+            if ($num_days>120 &&$num_days<=150) 
+                $response['120-150-dias'][$plane]=$response['120-150-dias'][$plane]+1;
+            else
+            if ($num_days>150 &&$num_days<=180) 
+                $response['150-180-dias'][$plane]=$response['150-180-dias'][$plane]+1;
+            else
+            if ($num_days>180 &&$num_days<=210) 
+                $response['180-210-dias'][$plane]=$response['180-210-dias'][$plane]+1;
+            else
+            if ($num_days>210 &&$num_days<=240) 
+                $response['210-240-dias'][$plane]=$response['210-240-dias'][$plane]+1;
+            else
+            if ($num_days>240 &&$num_days<=270) 
+                $response['240-270-dias'][$plane]=$response['240-270-dias'][$plane]+1;
+            else 
+                $response['mais-270'][$plane]=$response['mais-270'][$plane]+1;
+        }        
+        var_dump($response);        
+    }
+    
+    public function users_by_month_and_plane() {
+        $status = $this->input->get()['status'];
+        $this->load->model('class/user_model');
+        $result=$this->user_model->time_of_live_model($status);
+                
+        foreach ($result as $user) {
+            $month=date("n", $user['init_date']);
+            $year=date("Y", $user['init_date']);
+            $cad=$month.'-'.$year.'<br>';
+            $plane_id=$user['plane_id'];
+            if(!isset($r[$cad][$plane_id] ))
+                $r[$cad][$plane_id]=0;
+            else
+                $r[$cad][$plane_id]=$r[$cad][$plane_id]+1;
+        }        
+        var_dump($r);        
+    }
 
     public function update_all_retry_clients(){            
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);

@@ -160,6 +160,19 @@ class User_model extends CI_Model {
         return $a;
     }
     
+    public function time_of_live_model($status_id=NULL) {
+        $this->db->select('id,init_date,end_date,plane_id');        
+        $this->db->from('clients');
+        $this->db->join('users', 'users.id = clients.user_id');        
+        $this->db->where('status_id', $status_id);
+        $this->db->where('init_date is NOT NULL', NULL, FALSE);
+        if($status_id=='4')
+            $this->db->where('end_date is NOT NULL', NULL, FALSE);
+        $this->db->order_by("plane_id","asc");
+        $this->db->order_by("init_date","asc");
+        $a = $this->db->get()->result_array();
+        return $a;
+    }
     public function get_user_role($user_login, $user_pass) {
         $this->db->select('role_id');
         $this->db->from('users');

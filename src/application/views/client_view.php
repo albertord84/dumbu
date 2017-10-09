@@ -227,38 +227,40 @@
 <!---------------------------------------------------------------------------------------->
 
                 <!-- Single button -->
-                <!--<div class="btn-group fleft100 m-tb20">
+                <div class="btn-group fleft100 m-tb20">
                     <button type="button" class="btn btn-drop fleft100 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b><?php //echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php //echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
+                        <b><?php echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
                     </button>
                     <ul class="dropdown-menu drop-lista bk-cinza fleft100">
-                        <li><?php //echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></li>
-                        <li><?php //echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></li>
-                        <li><?php //echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></li>
-                        <li><?php //echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></li>
-                        <li><?php //echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></li>
+                        <li><?php echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></li>
+                        <li><?php echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></li>
+                        <li><?php echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></li>
+                        <li><?php echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></li>
+                        <li><?php echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></li>
                     </ul>
                 </div>
-                -->
+                
                 
                 <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
                     <div class="col-md-1 col-sm-1 col-xs-12"></div>
-                    <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
-                        <span>
-                            <img src="<?php echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">
-                            <?php echo $CI->T('Novidades', array()); ?>
+                    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+                    
+                     <!--<<div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
+                       span>
+                            <img src="<?php //echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">
+                            <?php //echo $CI->T('Novidades', array()); ?>
                         </span>
                         <br>
                         <p >
-                            <?php echo $CI->T('Agora a Dumbu disponibiliza dois novos recursos: ', array()); ?><br>
+                            <?php //echo $CI->T('Agora a Dumbu disponibiliza dois novos recursos: ', array()); ?><br>
                         </p>
                         <p class="m-t10">
-                            <b><?php echo $CI->T('AutoLike - ', array()); ?></b> <?php echo $CI->T('Permite que sua conta, além de seguir, interaja com as contas através de um like na ultima foto postada.', array()); ?><br>
+                            <b><?php //echo $CI->T('AutoLike - ', array()); ?></b> <?php //echo $CI->T('Permite que sua conta, além de seguir, interaja com as contas através de um like na ultima foto postada.', array()); ?><br>
                         </p> 
                         <p class="m-t10">
-                            <b><?php echo $CI->T('Geolocalização - ', array()); ?></b> <?php echo $CI->T('Agora você pode captar seguidores a partir de qualquer região, é só adicionar um local e pronto!', array()); ?><br>
+                            <b><?php //echo $CI->T('Geolocalização - ', array()); ?></b> <?php //echo $CI->T('Agora você pode captar seguidores a partir de qualquer região, é só adicionar um local e pronto!', array()); ?><br>
                         </p>
-                    </div>                    
+                    </div>-->                    
                     <div class="col-md-2 col-sm-2 col-xs-12 text-center bloco m-t20">
                             <img id="my_img" src="<?php echo $my_img_profile; ?>" class="img50" alt="">
                             <b><p id="my_name" style="font-size:1.2em; font-family:sans-serif;"><?php echo $my_login_profile; ?></p></b> 
@@ -272,20 +274,50 @@
                                 ?>
                             </span>
                     </div>
-                    <div class="col-md-5 col-sm-5 col-xs-12 text-center bloco ">
-                         <div class="btn-group fleft100">
+                    <!--<div class="col-md-5 col-sm-5 col-xs-12 text-center bloco ">
+                        <div class="btn-group fleft100">
                             <button type="button" class="btn btn-drop fleft100 dropdown-toggle bk-cinza pf-novidades" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b><?php echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
+                                <b><?php //echo $CI->T("AVISOS IMPORTANTES", array()); ?></b> <img src="<?php //echo base_url() . 'assets/images/seta.png'; ?>" alt="" class="wauto fright">
                             </button>
                             <ul class="dropdown-menu drop-lista bk-cinza pf-novidades fleft100">
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></b></p>
-                                <p class="m-t10 text-justify pf-avisos"><b><?php echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></p>
+                                <p class="m-t10 text-justify pf-avisos"><b><?php //echo $CI->T("O Instagram só permite que você siga 7.500 perfis no total. Se você segue entre 6.000 e 7.500, precisarémos desseguir perfis para iniciar a ferramenta;", array()); ?></b></p>
+                                <p class="m-t10 text-justify pf-avisos"><b><?php //echo $CI->T("Nossa ferramenta é integrada ao instagram, por isso, pode sofrer variações no desempenho a cada atualização feita pelo instagram;", array()); ?></b></p>
+                                <p class="m-t10 text-justify pf-avisos"><b><?php //echo $CI->T("Caso altere sua senha ou usuário, não se preocupe, basta você efetuar login em nosso site e pronto! Sua conta será atualizada automatcamente;", array()); ?></b></p>
+                                <p class="m-t10 text-justify pf-avisos"><b><?php //echo $CI->T("Nunca deixe sua conta privada, você conseguirá captar mais seguidores se eles puderem ver seu conteúdo e se identificarem com seu perfil;", array()); ?></b></p>
+                                <p class="m-t10 text-justify pf-avisos"><b><?php //echo $CI->T("Nunca escolha perfis privados ou com poucos seguidores.", array()); ?></p>
                             </ul>
                         </div>
-                    </div>
+                    </div>-->
+                    <?php if($plane_id=='5' && $language=='PT'){?>
+                            <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
+                                <span>
+                                    <img src="<?php echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">
+                                    <?php echo $CI->T('Novidades', array()); ?>
+                                </span>
+                                <br>
+                                <p >
+                                    <b>Whatsapp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
+                                </p>
+                                <p class="text-center m-t10">                                
+                                    <b>(+55) 219737 50365</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
+                                </p> 
+                            </div>  
+                    <?php } else?>
+                    <?php if($plane_id=='5' && $language!='PT'){?>
+                            <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
+                                <span>
+                                    <img src="<?php echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">
+                                    <?php echo $CI->T('Novidades', array()); ?>
+                                </span>
+                                <br>
+                                <p >
+                                    <b>Whatsapp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
+                                </p>
+                                <p class="text-center m-t10">                                
+                                    <b>(+55) 219965 24969</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
+                                </p> 
+                            </div>  
+                    <?php }?>
                 </div>
                 
                 <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
@@ -1014,17 +1046,24 @@
                                 <div class="select"> 
                                     <select name="local" id="client_update_plane" class="btn-primeiro sel"> 
                                         <?php
+                                        $name_plane=array(
+                                            1=> $CI->T("VEL -",array()).' '.$CI->T("RÁPIDA",array()),
+                                            2=> $CI->T("VEL -",array()).' '.$CI->T("BAIXA",array()),
+                                            3=> $CI->T("VEL -",array()).' '.$CI->T("MODERADA",array()),
+                                            4=> $CI->T("VEL -",array()).' '.$CI->T("RÁPIDA",array()),
+                                            5=> $CI->T("VEL -",array()).' '.$CI->T("TURBO!",array())
+                                            );
                                         for ($i = 0; $i < count($all_planes); $i++) {
                                             if ($i + 2 == $plane_id){
                                                 $float = ($all_planes[$i]['normal_val']) / 100;
                                                 $string = sprintf("%.2f", $float);
                                                 $string=str_replace(array("."), ',', $string);                                                
-                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . $CI->T("R$",array()) . ' ' . $CI->T($string) . ' (' . $CI->T("Plano atual", array()) . ')</b></option>';
+                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '" title="(' . $CI->T("Plano atual", array()) . '" selected="true"><b>' . $CI->T("R$",array()) . ' ' . $CI->T($string) . ' (' . $CI->T("Plano atual", array()) . ') '.$name_plane[$i + 2].'</b></option>';
                                             } else{
                                                 $float = ($all_planes[$i]['normal_val']) / 100;
                                                 $string = sprintf("%.2f", $float);
                                                 $string=str_replace(array("."), ',', $string);                                                
-                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . $CI->T("R$",array()) . ' ' . $CI->T($string) . '</option>';                                                
+                                                echo '<option id="cbx_plane' . ($i + 2) . '" value="' . ($i + 2) . '">' . $CI->T("R$",array()) . ' ' . $CI->T($string) . ' '. $name_plane[$i + 2]. '</option>';                                                
                                             }
                                         }
                                         ?>
