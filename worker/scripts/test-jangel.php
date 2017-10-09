@@ -1,11 +1,11 @@
 <?PHP
-require_once 'class/Worker.php';
-require_once 'class/system_config.php';
-require_once 'class/Gmail.php';
-require_once 'class/Payment.php';
-require_once 'class/Client.php';
-require_once 'class/Reference_profile.php';
-require_once  'class/DB.php';
+require_once '../class/Worker.php';
+require_once '../class/system_config.php';
+require_once '../class/Gmail.php';
+require_once '../class/Payment.php';
+require_once '../class/Client.php';
+require_once '../class/Reference_profile.php';
+require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 echo "Worker Inited...!<br>\n";
@@ -46,11 +46,11 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //----------------------------------------------------------------
 // GMAIL
  
-$Gmail = new dumbu\cls\Gmail();
+//$Gmail = new dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
-$Gmail->send_new_client_payment_done("Test test", "test@email");
+//$Gmail->send_new_client_payment_done("Test test", "test@email");
 //var_dump($result);
 //$Robot = new dumbu\cls\Robot();
  	  		 	
@@ -89,7 +89,7 @@ $Gmail->send_new_client_payment_done("Test test", "test@email");
 //$Worker->do_work();
 //----------------------------------------------------------------
 //testing binary_search
-$array = array("011234","1020390","1123980","345532","354676","5646754","5765456","6565453");
+/*$array = array("011234","1020390","1123980","345532","354676","5646754","5765456","6565453");
 if(str_binary_search("1123980",$array))
     { echo "\n<br>  true </br>" ;}
 else{ echo "\n<br> false </br>"; }
@@ -100,19 +100,24 @@ if(str_binary_search("5765456",$array))
     { echo "\n<br> true </br>"; }
 else{ echo "\n<br> false </br>" ;
 }
-
+*/
 //Testing search om black list
-$DB = new \dumbu\cls\DB();
-$array2 = $DB->get_black_list('15644');
-if(str_binary_search("567569",$array2))
+/*$DB = new \dumbu\cls\DB();
+$array2 = $DB->get_white_list('20481');
+if(str_binary_search("204205888",$array2))
   { echo "\n<br>  DB search true </br>"; }
 else{ echo "\n<br> DB search  false </br>" ;
 }
-if(str_binary_search("347569",$array2))
+if(str_binary_search("410556064",$array2))
   { echo "\n<br> DB search true </br>"; }
 else{ echo "\n<br> DB search false </br>" ;
-}
+}*/
+$DB = new \dumbu\cls\DB();
+$result = $DB->InsertEventToWashdog(19356,'Error yo testando',1);
+var_dump($result);
 
+
+/*
 $white_list = $DB->get_white_list('45769');
 
 $Profiles[0] = 47711036;
@@ -124,12 +129,12 @@ foreach ($Profiles as $id_insta) {
     {   
         print '<br> sucess"' . $id_insta .'</br>';
     }
-}
+}*/
     // Wait 20 minutes
 
 // AFTER
 print 'AFTER:<br>\n';
-print_r($clients_data);
+//print_r($clients_data);
 
 //Testing reports
 //$Client = new dumbu\cls\Client();

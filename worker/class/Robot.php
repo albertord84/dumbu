@@ -622,7 +622,7 @@ namespace dumbu\cls {
          * @param type $login_data
          * @param type $user
          * @param type $N
-         * @param type $cursor
+         * @param type $cursor  
          * @return type
          */
         public function get_insta_follows($login_data, $user, $N, &$cursor = NULL) {
@@ -631,7 +631,7 @@ namespace dumbu\cls {
                 $curl_str = $this->make_curl_follows_str("$url", $login_data, $user, $N, $cursor);
                 exec($curl_str, $output, $status);
                 $json = json_decode($output[0]);
-                //var_dump($output);
+                //var_dump($json);
                 if (isset($json->data->user->edge_follow) && isset($json->data->user->edge_follow->page_info)) {
                     $cursor = $json->data->user->edge_follow->page_info->end_cursor;
                     if (count($json->data->user->edge_follow->edges) == 0) {

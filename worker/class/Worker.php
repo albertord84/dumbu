@@ -100,7 +100,7 @@ namespace dumbu\cls {
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
-                    $RPWC = $Client->rp_workable_count();
+                    $RPWC = $Client->rp_workable_count() && !$Client->paused ;
                     $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                     if ($RPWC > 0) {
                         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;

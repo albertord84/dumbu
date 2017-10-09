@@ -99,6 +99,12 @@ namespace dumbu\cls {
          * @access public
          */
         public $reference_profiles = array();
+        
+        /**
+         *
+         * @var type 
+         */
+        public $paused;
 
         public function get_clients() {
             try {
@@ -152,6 +158,7 @@ namespace dumbu\cls {
                 $Client->status_id = $client_data->status_id;
                 $Client->insta_following = $client_data->insta_following;
                 $Client->cookies = $client_data->cookies;
+                $Client->paused = $client_data->paused;
                 $Client->get_reference_profiles($Client->id);
             }
             return $Client;

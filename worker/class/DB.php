@@ -140,6 +140,21 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_client_login_data($client_id)
+        {
+            try {
+                    $this->connect();
+                    $result = mysqli_query($this->connection, ""
+                            . "SELECT id, login, pass, insta_id FROM users "
+                            . "     INNER JOIN clients ON clients.user_id = users.id "
+                            . "WHERE users.id = $client_id; "
+                    );
+                    return $result ? $result->fetch_object() : NULL;
+                } catch (\Exception $exc) {
+                    echo $exc->getTraceAsString();
+                }            
+        }
 
         public function set_client_status($client_id, $status_id) {
             try {
@@ -621,6 +636,46 @@ namespace dumbu\cls {
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
+        }
+        
+        public function get_client_with_white_list()
+        {
+            try {
+                $sql = "SELECT DISTINCT client_id FROM dumbudb.black_and_white_list WHERE  black_or_white = 1 AND client_id = 19356;" ;
+                $result = mysqli_query($this->connection, $sql);
+                $new_array = NULL;
+                while( $obj= $result->fetch_object()){
+                    $new_array[] = $obj->client_id; // Inside while loop
+                }
+                return $new_array;
+            }
+            catch(Exception $exc)
+            {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function InsertEventToWashdog($user_id, $action, $source )
+        {
+            try {
+                 $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
+                 $time = time();
+                 $result = mysqli_query($this->connection, $sql);
+                 if($result->num_rows == 0)
+                 {
+                     $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE ('$action', '$source');";
+                     $result =  mysqli_query($this->connection, $sql);
+                     var_dump($result);
+                 }
+                  $obj = $result->fetch_object();
+                  $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date) VALUE ('$user_id','$obj->id', '$time');";
+                  $result =  mysqli_query($this->connection, $sql);
+                  return $result;
+                 
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+              
         }
     }
 

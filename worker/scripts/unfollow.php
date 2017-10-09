@@ -82,7 +82,7 @@ if(isset($clients_data_db))
                     $Profiles = $json_response->data->user->edge_follow->edges;
                     foreach ($Profiles as $rpkey => $Profile) {
                         // If profile is not in white list then do unfollow request
-                        if(!(isset($white_list) && str_binary_search($Profile->id,$white_list)))
+                        if(!(isset($white_list) && !str_binary_search($Profile->id,$white_list)))
                         {   
                             $Profile = $Profile->node;
                             echo "Profil name: $Profile->username<br>\n";
