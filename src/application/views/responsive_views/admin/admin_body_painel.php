@@ -25,7 +25,26 @@
                     <div class="center filters">
                     <!--<b>Assinatura (inic)</b>
                         <input id = "signin_initial_date" type="text" class="form-control"  placeholder="MM/DD/YYYY" >-->
-                        <table>
+                        <b>Data da assinatura</b>
+                    </div>
+                    <div class="col-xs-1">
+                        <b>do</b>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" id="date_from" name="date_from" placeholder="mm/dd/yyyy" class="form-control">
+                    </div>
+                    <div class="col-xs-1">
+                        <b>até</b>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" id="date_to" name="date_to" placeholder="mm/dd/yyyy" class="form-control">
+                    </div>
+                    <!-- <div class="center">
+                        <input type="text" id="date_from" name="date_from" placeholder="mm/dd/yyyy" class="form-control" style="max-width:160px">
+                        <label for="date_to">até</label>
+                        <input type="text" id="date_to" name="date_to" placeholder="mm/dd/yyyy" class="form-control" style="max-width:160px">
+                    </div> -->
+                        <!-- <table>
                             <tr>
                                 <th class="center filters" colspan="5">Data da assinatura</th>
                                 <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -34,23 +53,23 @@
                             <tr>
                                 <td><select id="day" class="form-control" style="min-width: 60px">
                                     <option value="0">Dia</option>
-                                    <?php for ($day = 1; $day <= 31; $day++) { ?>
-                                    <option value="<?php echo strlen($day)==1 ? '0'.$day : $day; ?>"><?php echo strlen($day)==1 ? '0'.$day : $day; ?></option>
-                                    <?php } ?>
+                                    <?php //for ($day = 1; $day <= 31; $day++) { ?>
+                                    <option value="<?php //echo strlen($day)==1 ? '0'.$day : $day; ?>"><?php //echo strlen($day)==1 ? '0'.$day : $day; ?></option>
+                                    <?php //} ?>
                                     </select></td>
                                     <td>&nbsp;<b>/</b>&nbsp;</td>
                                 <td><select id="month" class="form-control" style="min-width: 70px">
                                     <option value="0">Mês</option>
-                                    <?php for ($month = 1; $month <= 12; $month++) { ?>
-                                    <option value="<?php echo strlen($month)==1 ? '0'.$month : $month; ?>"><?php echo strlen($month)==1 ? '0'.$month : $month; ?></option>
-                                    <?php } ?>
+                                    <?php //for ($month = 1; $month <= 12; $month++) { ?>
+                                    <option value="<?php //echo strlen($month)==1 ? '0'.$month : $month; ?>"><?php //echo strlen($month)==1 ? '0'.$month : $month; ?></option>
+                                    <?php //} ?>
                                     </select></td>
                                 <td>&nbsp;<b>/</b>&nbsp;</td>
                                 <td><select id="year" class="form-control" style="min-width: 75px">
                                     <option value="0">Ano</option>
-                                    <?php for ($year = 2016; $year <= date('Y'); $year++) { ?>
-                                    <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
-                                    <?php } ?>
+                                    <?php //for ($year = 2016; $year <= date('Y'); $year++) { ?>
+                                    <option value="<?php //echo $year; ?>"><?php //echo $year; ?></option>
+                                    <?php //} ?>
                                     </select></td>
                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td><select id="observations" class="form-control" >                            
@@ -59,7 +78,7 @@
                                 </select></td>
                             </tr>
                         </table>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-2">
                     <div class="center filters">
@@ -149,24 +168,32 @@
                         <b>tentativas de compra</b> 
                     </div> 
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Observações</b> 
+                        <select id="observations" class="form-control" >
+                            <option>NAO</option>
+                            <option>SIM</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-2">
                     <div class="center">
                         <br>
-                        <button  style="min-width:200px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <button  style="min-width:150px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Listar</span>
                         </button>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="center">
                         <br>
-                        <button  style="min-width:200px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Obter emails</span>
                         </button>
                     </div>
                 </div>
-            </div>        
-        </div>
+            </div>
         <hr>
         <br><br>
         
