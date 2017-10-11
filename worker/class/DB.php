@@ -670,9 +670,6 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-<<<<<<< HEAD
-
-=======
         
         public function get_client_with_white_list()
         {
@@ -713,7 +710,6 @@ namespace dumbu\cls {
             }
               
         }
->>>>>>> eedca992338fa800bd09cac32d1996d13c075b44
     }
 
 }

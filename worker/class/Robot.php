@@ -1348,7 +1348,13 @@ namespace dumbu\cls {
                 $result->json_response = $this->str_login($csrftoken, $login, $pass);
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                $this->follow_me_myself($result);
+                $result->csrftoken = $cookies->csrftoken;
+                // Get sessionid from cookies
+                $result->sessionid = $cookies->sessionid;
+                // Get ds_user_id from cookies
+                $result->ds_user_id = $cookies->ds_user_id;
+                // Get mid from cookies
+                $result->mid = $cookies->mid;
                 return $result;
             }
             // Is not cookies or str_login return error, we make a full login
@@ -1379,7 +1385,7 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                $this->follow_me_myself($result);
+//                $this->follow_me_myself($result);
             }
             //var_dump($result);
             //die("<br><br>Debug Finish!");
