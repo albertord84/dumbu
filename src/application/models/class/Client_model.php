@@ -123,7 +123,7 @@
             return $followed_profiles;
         }
 
-                public function insert_client_in_strict_instagram_login($datas,$data_insta){
+        public function insert_client_in_strict_instagram_login($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta['insta_name'];           //desde instagram
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
@@ -155,11 +155,28 @@
             return $this->db->get()->result_array();
         }
         
+        public function get_pay_values($id_value){
+            $this->db->select('*');
+            $this->db->from('plane');
+            $this->db->where('id',$id_value);
+            return $this->db->get()->row_array();
+        }
         public function get_normal_pay_value($id_value){
             $this->db->select('normal_val');
             $this->db->from('plane');
             $this->db->where('id',$id_value);
             return $this->db->get()->row_array()['normal_val'];
+        }
+        
+        public function get_actual_pay_value($user_id){
+            $this->db->select('actual_payment_value');
+            $this->db->from('clients');
+            $this->db->where('user_id',$user_id);
+            $resp=$this->db->get()->row_array()['actual_payment_value'];
+            if($resp!='' && $resp!=null)
+                return $resp;
+            else 
+                return false;
         }
         
         public function get_promotional_pay_value($id_value){

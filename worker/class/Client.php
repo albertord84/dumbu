@@ -99,6 +99,12 @@ namespace dumbu\cls {
          * @access public
          */
         public $reference_profiles = array();
+        
+        /**
+         *
+         * @var type 
+         */
+        public $paused;
 
         public function get_clients() {
             try {
@@ -119,11 +125,11 @@ namespace dumbu\cls {
             try {
                 $Clients = array();
                 $DB = new \dumbu\cls\DB();
-                $clients_data = $DB->get_clients_data();
+                $clients_data = $DB->get_clients_data_for_report();
                 while ($client_data = $clients_data->fetch_object()) {
                     $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login);
                     if ($profile_data) {
-                        $result = $DB->insert_client_daily_report($client_data->user_id, $profile_data);
+                        $result = $DB->insert_client_daily_report($client_data->id, $profile_data);
                         var_dump($client_data->login);
                     } else {
                         var_dump($client_data);
@@ -152,6 +158,7 @@ namespace dumbu\cls {
                 $Client->status_id = $client_data->status_id;
                 $Client->insta_following = $client_data->insta_following;
                 $Client->cookies = $client_data->cookies;
+                $Client->paused = $client_data->paused;
                 $Client->get_reference_profiles($Client->id);
             }
             return $Client;

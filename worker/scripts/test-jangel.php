@@ -1,11 +1,11 @@
 <?PHP
-require_once 'class/Worker.php';
-require_once 'class/system_config.php';
-require_once 'class/Gmail.php';
-require_once 'class/Payment.php';
-require_once 'class/Client.php';
-require_once 'class/Reference_profile.php';
-require_once  'class/DB.php';
+require_once '../class/Worker.php';
+require_once '../class/system_config.php';
+require_once '../class/Gmail.php';
+require_once '../class/Payment.php';
+require_once '../class/Client.php';
+require_once '../class/Reference_profile.php';
+require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 echo "Worker Inited...!<br>\n";
@@ -89,7 +89,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Worker->do_work();
 //----------------------------------------------------------------
 //testing binary_search
-$array = array("011234","1020390","1123980","345532","354676","5646754","5765456","6565453");
+/*$array = array("011234","1020390","1123980","345532","354676","5646754","5765456","6565453");
 if(str_binary_search("1123980",$array))
     { echo "\n<br>  true </br>" ;}
 else{ echo "\n<br> false </br>"; }
@@ -100,18 +100,55 @@ if(str_binary_search("5765456",$array))
     { echo "\n<br> true </br>"; }
 else{ echo "\n<br> false </br>" ;
 }
-
+*/
 //Testing search om black list
-$DB = new \dumbu\cls\DB();
-$array2 = $DB->get_black_list('15644');
-if(str_binary_search("567569",$array2))
+/*$DB = new \dumbu\cls\DB();
+$array2 = $DB->get_white_list('20481');
+if(str_binary_search("204205888",$array2))
   { echo "\n<br>  DB search true </br>"; }
 else{ echo "\n<br> DB search  false </br>" ;
 }
-if(str_binary_search("347569",$array2))
+if(str_binary_search("410556064",$array2))
   { echo "\n<br> DB search true </br>"; }
 else{ echo "\n<br> DB search false </br>" ;
-}
+}*//*
+$DB = new \dumbu\cls\DB();
+$result = $DB->InsertEventToWashdog(19356,'Error yo testando',1);
+var_dump($result);*/
+$client = (new \dumbu\cls\Client())->get_client(1);
+$daily_work = new \dumbu\cls\Day_client_work();
+$daily_work->rp_id = 2;
+$daily_work->client_id = 1;
+$Robot = new \dumbu\cls\Robot();
+$Robot->daily_work = $daily_work;
+$json_object = $obj = new stdClass();
+$json_object->message = 'unauthorized';
+$Robot-> process_follow_error($json_object);
+/*
+$white_list = $DB->get_white_list('45769');
+
+$Profiles[0] = 47711036;
+$Profiles[1] = 1342090624;
+$Profiles[2] = 27708066;
+foreach ($Profiles as $id_insta) {
+    // If profile is not in white list then do unfollow request
+    if(!(isset($white_list) && str_binary_search($id_insta, $white_list)))
+    {   
+        print '<br> sucess"' . $id_insta .'</br>';
+    }
+}*/
+    // Wait 20 minutes
+
+// AFTER
+print 'AFTER:<br>\n';
+//print_r($clients_data);
+
+//Testing reports
+//$Client = new dumbu\cls\Client();
+
+//$result = $Client->insert_clients_daily_report();
+
+//print '<br>report : ' . $cnt->fetch_object() . '<\br>';
 
 
 
