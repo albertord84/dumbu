@@ -9,7 +9,6 @@ namespace dumbu\cls {
         //protected $port = '3128';
         protected $user = 'root';
         protected $pass = '';
-        
         private $connection = NULL;
 
         public function __construct($conf_file = "/../../../CONFIG.INI") {
@@ -19,7 +18,6 @@ namespace dumbu\cls {
         public function connect($conf_file = NULL) {
             if (!$this->connection) {
                 // Connect to DB
-
                 //echo dirname(__FILE__) . "/../../../CONFIG.INI";
                 //$config = parse_ini_file(dirname(__FILE__) . "/../../../CONFIG.INI", true);
 
@@ -42,7 +40,7 @@ namespace dumbu\cls {
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.status_id = $user_status AND user_id > $uid; ";
-                
+
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
             } catch (\Exception $exc) {
@@ -78,7 +76,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-        
+
         public function get_clients_data_for_report() {
             try {
                 $this->connect();
@@ -86,7 +84,7 @@ namespace dumbu\cls {
                 $DELETED = user_status::DELETED;
                 $BEGINNER = user_status::BEGINNER;
                 $DONT_DISTURB = user_status::DONT_DISTURB;
-                
+
                 //$UNFOLLOW = user_status::UNFOLLOW;
                 $sql = ""
                         . "SELECT users.id, users.login FROM users "
@@ -103,7 +101,6 @@ namespace dumbu\cls {
             }
         }
 
-        
         public function get_unfollow_clients_data() {
             try {
                 $this->connect();
@@ -135,6 +132,22 @@ namespace dumbu\cls {
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "WHERE users.id = $client_id; "
                 );
+                return $result ? $result->fetch_object() : NULL;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
+        public function get_client_data_bylogin($login) {
+            try {
+                $this->connect();
+                $sql = ""
+                . "SELECT * FROM users "
+                . "     INNER JOIN clients ON clients.user_id = users.id "
+                . "WHERE users.login LIKE '$login' "
+                . "ORDER BY user_id DESC "
+                . "LIMIT 1; ";
+                $result = mysqli_query($this->connection, $sql);
                 return $result ? $result->fetch_object() : NULL;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -210,9 +223,9 @@ namespace dumbu\cls {
         public function set_client_cookies($client_id, $cookies) {
             try {
                 $this->connect();
-                $sql  = "UPDATE clients "
+                $sql = "UPDATE clients "
                         . "SET ";
-                $sql .= $cookies? " clients.cookies   = '$cookies' " : " clients.cookies   = NULL ";
+                $sql .= $cookies ? " clients.cookies   = '$cookies' " : " clients.cookies   = NULL ";
                 $sql .= "WHERE clients.user_id = $client_id; ";
 
                 $result = mysqli_query($this->connection, $sql);
@@ -379,9 +392,9 @@ namespace dumbu\cls {
         public function is_profile_followed($client_id, $followed_id) {
             try {
                 $result = mysqli_query($this->connection, ""
-                    . "SELECT * FROM followed "
-                    . "WHERE followed.client_id   = $client_id "
-                    . "  AND followed.followed_id = $followed_id; "
+                        . "SELECT * FROM followed "
+                        . "WHERE followed.client_id   = $client_id "
+                        . "  AND followed.followed_id = $followed_id; "
                 );
                 //print "\nClient: $followed_id " . mysqli_num_rows($result) . "  ";
                 return mysqli_num_rows($result);
@@ -580,11 +593,11 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-        
-        /*get the white list for the user with id = $id_user as an array
+
+        /* get the white list for the user with id = $id_user as an array
          */
-        public function  get_white_list($id_user)
-        {
+
+        public function get_white_list($id_user) {
             try {
                 $sql = ""
                         . "SELECT insta_id "
@@ -593,7 +606,7 @@ namespace dumbu\cls {
                         . "ORDER BY black_and_white_list.insta_id;";
                 $result = mysqli_query($this->connection, $sql);
                 $new_array = NULL;
-                while( $obj= $result->fetch_object()){
+                while ($obj = $result->fetch_object()) {
                     $new_array[] = $obj->insta_id; // Inside while loop
                 }
                 return $new_array;
@@ -601,11 +614,11 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
-        
-        /*get the black list for the user with id = $id_user as an array
+
+        /* get the black list for the user with id = $id_user as an array
          */
-        public function get_black_list($id_user)
-        {
+
+        public function get_black_list($id_user) {
             try {
                 $sql = ""
                         . "SELECT insta_id "
@@ -614,7 +627,7 @@ namespace dumbu\cls {
                         . "ORDER BY black_and_white_list.insta_id;";
                 $result = mysqli_query($this->connection, $sql);
                 $new_array = NULL;
-                while( $obj= $result->fetch_object()){
+                while ($obj = $result->fetch_object()) {
                     $new_array[] = $obj->insta_id; // Inside while loop
                 }
                 return $new_array;
@@ -622,6 +635,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
     }
 
 }
