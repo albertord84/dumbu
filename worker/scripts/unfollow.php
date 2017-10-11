@@ -81,10 +81,11 @@ if(isset($clients_data_db))
                     print '\n<br> Count: ' . count($json_response->data->user->edge_follow->edges) . '\n<br>';
                     $Profiles = $json_response->data->user->edge_follow->edges;
                     foreach ($Profiles as $rpkey => $Profile) {
+                        
+                        $Profile = $Profile->node;
                         // If profile is not in white list then do unfollow request
-                        if(!(isset($white_list) && !str_binary_search($Profile->id,$white_list)))
+                        if(!(isset($white_list) && str_binary_search($Profile->id,$white_list)))
                         {   
-                            $Profile = $Profile->node;
                             echo "Profil name: $Profile->username<br>\n";
                             $json_response2 = $Robot->make_insta_friendships_command($login_data, $Profile->id, 'unfollow');
                             var_dump($json_response2);

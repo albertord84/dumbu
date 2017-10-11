@@ -95,12 +95,12 @@ namespace dumbu\cls {
                         $Client->cookies = json_encode($login_data);
                     }
                 }
-                if ($Client->cookies) {
+                if ($Client->cookies && !$Client->paused) {
 //                    var_dump($Client->login);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
-                    $RPWC = $Client->rp_workable_count() && !$Client->paused ;
+                    $RPWC = $Client->rp_workable_count();
                     $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
                     if ($RPWC > 0) {
                         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
@@ -124,7 +124,7 @@ namespace dumbu\cls {
                         }
                         $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
-                } else {
+                } elseif(!$Client->paused){
 // TODO: do something in Client autentication error
                     // Send email to client
                     $now = new \DateTime("now");

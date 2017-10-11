@@ -31,68 +31,16 @@ $clients_data_db = $DB->get_client_with_white_list();
 
 if(isset($clients_data_db))
 {
+   $count= 0;
    foreach($clients_data_db as $client_id)
    {
        $current_client = $DB->get_client_login_data($client_id);
        
        try{
-           $login = $Robot->bot_login($current_client->login, $current_client->pass);
+           $login = $Robot->bot_login($current_client->login, $current_client->pass);          
            if (isset($login->json_response->authenticated) && $login->json_response->authenticated) {
-                $profile_data = $Robot->get_insta_ref_prof_data_from_client($login,$current_client->login);
-                var_dump($profile_data);
-                $following = $profile_data->following;
-                $cnt = 0;
-                $white_list = $DB->get_white_list($client_id);
-                $insta_follows = $Robot->get_insta_follows(
-                              $login, $current_client->insta_id, 15);
-                var_dump($insta_follows);
-                $cursor = $insta_follows->data->user->edge_follow->page_info->end_cursor;
-                while($cnt < $following)
-                {
-                  $cnt = $cnt + 15;
-                  $Profiles = $insta_follows->data->user->edge_follow->edges;
-                  echo '<br>';
-                  var_dump($Profiles);
-                  echo '</br><br>';
-                  var_dump($white_list);
-                  echo '</br>';
-                  $pos = 0;
-                  foreach ($white_list as $followed)
-                  {                     
-                      if(insta_follows_search($followed, $Profiles))
-                      {
-                          echo '<br>Success 1</br>';
-                          unset($white_list[$pos]);
-                          var_dump($white_list);
-                          $pos = $pos - 1;
-                      } 
-                      $pos = $pos+1;
-                  }
-                  
-                  sleep(10);
-                      
-                  $insta_follows = $Robot->get_insta_follows(
-                           $login, $current_client->insta_id, 15,$cursor);  
-                  $cursor = $insta_follows->data->user->edge_follow->page_info->end_cursor;
-                }
-                
-                foreach ($white_list as $followed)
-                {
-                    echo "<br>Profil id: $followed<\br>\n";
-                    echo "<br>";
-                    var_dump($login);
-                    echo "<\br>\n";
-                    $json_response = $Robot->make_insta_friendships_command($login, $followed, 'follow');
-                    var_dump($json_response);
-                    echo "<br>\n";
-                    if (!is_object($json_response) || $json_response->status != 'ok') { 
-                             $error = $Robot->process_follow_error($json_response);
-                                    var_dump($json_response);
-                                    $error = TRUE;                          
-                    }
-                    sleep(10);
-
-                }
+                $Clients_cookies[$client_id] = $login; 
+                $count = $count+1;
         } else {
             $Gmail->send_client_login_error($clients_data[$CN]->email, $clients_data[$CN]->name, $clients_data[$CN]->login);
             print "NOT AUTENTICATED!!!";
@@ -101,6 +49,45 @@ if(isset($clients_data_db))
        }
         catch (\Exception $exc){ echo $exc->getTraceAsString(); }
    }
+    $page = 0;
+    while(count($Clients_cookies) > 0)
+    {
+        foreach ($Clients_cookies as $client_id => $cookies)
+        {
+            $white_list = $DB->get_white_list_paged($client_id, $page);
+            
+            echo "<br>CLIENT id: $client_id   page $page <\br>\n";
+            echo "<br>";
+            
+            $page = $page + 1;
+            if(!isset($white_list))
+            {
+                unset($Clients_cookies[$client_id]);
+            }
+            else
+            {
+                foreach ($white_list as $followed)
+                {
+                    echo "<br>Profil id: $followed<\br>\n";
+                    echo "<br>";
+                    var_dump($login);
+                    echo "<\br>\n";
+                    $json_response = $Robot->make_insta_friendships_command($cookies, $followed, 'follow');
+                    var_dump($json_response);
+                    echo "<br>\n";
+                    if (!is_object($json_response) || $json_response->status != 'ok') { 
+                             $error = $Robot->process_follow_error($json_response);
+                             var_dump($json_response);
+                             $error = TRUE;                          
+                    }                  
+                    
+                }
+                
+                    sleep(20);
+            }
+            
+        }
+    }
 }
 //$clients_data_db = $Client->get_client(1);
 //
