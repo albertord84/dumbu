@@ -4,13 +4,16 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
 
-        
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
         $this->load->library('recaptcha');
         $this->load->view('user_view', $param);
+    }
+    
+    public function paypal() {
+        $this->load->view('test_view');
     }
     
     public function languaje() {
@@ -108,6 +111,7 @@ class Welcome extends CI_Controller {
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
             $datas1['autolike'] = $this->session->userdata('autolike');
+            $datas1['play_pause'] = (int) $init_client_datas[0]['paused'];
             $datas1['plane_id'] = $this->session->userdata('plane_id');
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
@@ -1279,7 +1283,41 @@ class Welcome extends CI_Controller {
         echo json_encode($response);
     }
     
-    
+    public function play_pause() {
+        $this->load->model('class/user_role');
+        $this->load->model('class/client_model');
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            $datas = $this->input->post();
+            $pp = (int) $datas['play_pause'];
+            $this->client_model->update_client($this->session->userdata('id'), array(
+                'paused' => $pp
+            ));
+            
+            $ut = 'indefinida';
+            
+            if ($pp == 1) {
+                $ut = 'pausada';
+                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                $N = count($active_profiles);
+                //quitar trabajo si el cliente pauso la herramienta
+                for ($i = 0; $i < $N; $i++) {
+                    $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
+                }
+            }
+            else {
+                $ut = 'reativada';
+                //no hacer nada, el robot le pone trabajo al cliente al siguiente dia
+            }
+            
+            $this->load->model('class/user_model');
+            $this->user_model->insert_washdog($this->session->userdata('id'),'ferramenta '.$ut);
+
+            
+            $response['success'] = true;
+            $response['play_pause'] = $datas['play_pause'];
+        }
+        echo json_encode($response);
+    }
     
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -2718,7 +2756,85 @@ class Welcome extends CI_Controller {
             }
         }
     }
-
+    
+    public function time_of_live() {
+        $this->load->model('class/user_model');
+        $result=$this->user_model->time_of_live_model(4);
+        $response=array(
+            '0-2-dias'=>array(0,0,0,0,0),
+            '2-30-dias'=>array(0,0,0,0,0),
+            '30-60-dias'=>array(0,0,0,0,0),
+            '60-90-dias'=>array(0,0,0,0,0),
+            '90-120-dias'=>array(0,0,0,0,0),
+            '120-150-dias'=>array(0,0,0,0,0),
+            '150-180-dias'=>array(0,0,0,0,0),
+            '180-210-dias'=>array(0,0,0,0,0),
+            '210-240-dias'=>array(0,0,0,0,0),
+            '240-270-dias'=>array(0,0,0,0,0),
+            'mais-270'=>array(0,0,0,0,0));
+        
+        foreach ($result as $user) {
+            $difference=$user['end_date']-$user['init_date'];
+            $second = 1;
+            $minute = 60*$second;
+            $hour   = 60*$minute;
+            $day    = 24*$hour;
+            
+            $plane=$user['plane_id'];
+            
+            $num_days=floor($difference/$day);            
+            if ($num_days<=2) 
+                $response['0-2-dias'][$plane]=$response['0-2-dias'][$plane]+1;
+            else
+            if ($num_days>2 &&$num_days<=30) 
+                $response['2-30-dias'][$plane]=$response['2-30-dias'][$plane]+1;
+            else
+            if ($num_days>30 &&$num_days<=60) 
+                $response['30-60-dias'][$plane]=$response['30-60-dias'][$plane]+1;
+            else
+            if ($num_days>60 &&$num_days<=90) 
+                $response['60-90-dias'][$plane]=$response['60-90-dias'][$plane]+1;            
+            else
+            if ($num_days>90 &&$num_days<=120) 
+                $response['90-120-dias'][$plane]=$response['90-120-dias'][$plane]+1;
+            else
+            if ($num_days>120 &&$num_days<=150) 
+                $response['120-150-dias'][$plane]=$response['120-150-dias'][$plane]+1;
+            else
+            if ($num_days>150 &&$num_days<=180) 
+                $response['150-180-dias'][$plane]=$response['150-180-dias'][$plane]+1;
+            else
+            if ($num_days>180 &&$num_days<=210) 
+                $response['180-210-dias'][$plane]=$response['180-210-dias'][$plane]+1;
+            else
+            if ($num_days>210 &&$num_days<=240) 
+                $response['210-240-dias'][$plane]=$response['210-240-dias'][$plane]+1;
+            else
+            if ($num_days>240 &&$num_days<=270) 
+                $response['240-270-dias'][$plane]=$response['240-270-dias'][$plane]+1;
+            else 
+                $response['mais-270'][$plane]=$response['mais-270'][$plane]+1;
+        }        
+        var_dump($response);        
+    }
+    
+    public function users_by_month_and_plane() {
+        $status = $this->input->get()['status'];
+        $this->load->model('class/user_model');
+        $result=$this->user_model->time_of_live_model($status);
+                
+        foreach ($result as $user) {
+            $month=date("n", $user['init_date']);
+            $year=date("Y", $user['init_date']);
+            $cad=$month.'-'.$year.'<br>';
+            $plane_id=$user['plane_id'];
+            if(!isset($r[$cad][$plane_id] ))
+                $r[$cad][$plane_id]=0;
+            else
+                $r[$cad][$plane_id]=$r[$cad][$plane_id]+1;
+        }        
+        var_dump($r);        
+    }
 
     public function update_all_retry_clients(){            
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);

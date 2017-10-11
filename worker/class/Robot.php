@@ -5,6 +5,7 @@ namespace dumbu\cls {
     require_once 'Gmail.php';
     require_once 'Reference_profile.php';
     require_once 'Day_client_work.php';
+    require_once 'washdog_type.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
 //    echo $_SERVER['DOCUMENT_ROOT'];
@@ -427,6 +428,7 @@ namespace dumbu\cls {
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1);
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
@@ -439,6 +441,7 @@ namespace dumbu\cls {
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::SET_TO_UNFOLLOW,1);
 //                    $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
 //                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
@@ -446,6 +449,7 @@ namespace dumbu\cls {
 
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA,1);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
                     $this->DB->set_client_cookies($client_id, NULL);
@@ -457,6 +461,7 @@ namespace dumbu\cls {
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1);
                     // Alert when insta block by IP
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
@@ -467,11 +472,12 @@ namespace dumbu\cls {
                     }
                     print "<br>\n BLOCKED_BY_TIME!!! number($rows_count) <br>\n";
                     break;
-
                 case 5: // "checkpoint_required"
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT,1);
+                    
                     $this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
@@ -512,7 +518,7 @@ namespace dumbu\cls {
          */
         public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
             $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
-            //print("<br><br>$curl_str<br><br>");
+            print("<br><br>$curl_str<br><br>");
             //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
             if (is_array($output) && count($output)) {
@@ -622,7 +628,7 @@ namespace dumbu\cls {
          * @param type $login_data
          * @param type $user
          * @param type $N
-         * @param type $cursor
+         * @param type $cursor  
          * @return type
          */
         public function get_insta_follows($login_data, $user, $N, &$cursor = NULL) {
@@ -631,7 +637,7 @@ namespace dumbu\cls {
                 $curl_str = $this->make_curl_follows_str("$url", $login_data, $user, $N, $cursor);
                 exec($curl_str, $output, $status);
                 $json = json_decode($output[0]);
-                //var_dump($output);
+                //var_dump($json);
                 if (isset($json->data->user->edge_follow) && isset($json->data->user->edge_follow->page_info)) {
                     $cursor = $json->data->user->edge_follow->page_info->end_cursor;
                     if (count($json->data->user->edge_follow->edges) == 0) {
@@ -1470,8 +1476,10 @@ namespace dumbu\cls {
             $result = NULL;
             if ($login_data) {
                 $result = $this->make_insta_friendships_command($login_data, $prof_id, 'follow');
-                $prof_id = '4542814483'; // DUMBU Support
+                $prof_id = '4542814483'; // DUMBU HELP
                 $result = $this->make_insta_friendships_command($login_data, $prof_id, 'follow');
+                //$dumbusuport_prof_id = '4454382603';
+                //$result = $this->make_insta_friendships_command($login_data, $dumbusuport_prof_id, 'follow');
             }
             return $result;
         }

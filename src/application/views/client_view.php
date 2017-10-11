@@ -20,7 +20,8 @@
         <link href="<?php echo base_url() . 'assets/css/style.css'; ?>" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css'; ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css'; ?>" />
-        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">        
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>"> 
+        <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
         
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
@@ -32,6 +33,7 @@
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
+        <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
         <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
@@ -318,9 +320,27 @@
                     <?php }?>
                 </div>
                 
-                
-                
-                
+                <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
+                        <p style="text-align:center"> <?php echo $CI->T('Play/Pause da ferramenta.', array()); ?>
+                        </p>
+                        <?php
+                        if ($play_pause) {
+                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
+                                    <i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>
+                                  </button>';
+                        }
+                        else {
+                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
+                                    <i id="iconChange" class="fa fa-pause"></i><b> Pause</b>
+                                  </button>';
+                        } ?>
+                        <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array()); ?>
+                        </p>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                </div>
                 
                 <!--<div class="text-center m-t30">
                     <img id="my_img" src="<?php //echo $my_img_profile; ?>" class="img50" alt="">
