@@ -43,9 +43,9 @@
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             //else
-            if($form_filter['signin_initial_date']!=='0/0/0'){
+            if($form_filter['signin_initial_date']!='' && $form_filter['signin_initial_date2']!=''){
                 $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
-                $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date'].' 23:59:59'));
+                $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date2'].' 23:59:59'));
             }
             //else
             if($form_filter['observations']!=='NAO')
@@ -108,9 +108,9 @@
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             //else
-            if($form_filter['signin_initial_date']!=='0/0/0'){
+            if($form_filter['signin_initial_date']!='' && $form_filter['signin_initial_date2']!=''){
                 $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
-                $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date'].' 23:59:59'));
+                $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date2'].' 23:59:59'));
             }
             //else
             if($form_filter['observations']!=='NAO')
