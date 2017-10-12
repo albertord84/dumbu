@@ -137,7 +137,19 @@ class User_model extends CI_Model {
             echo 'Error accediendo a la base de datos durante el login';
         }
     }
-
+    
+    public function get_languaje_of_client($user_id){
+        $this->db->select('languaje');
+        $this->db->from('users');
+        $this->db->where('id',$user_id);
+        return $this->db->get()->row_array();
+    }
+    
+    public function set_languaje_of_client($user_id,$languaje){        
+        $this->db->where('id', $user_id);
+        $this->db->update('users', $languaje);
+    }
+        
     public function get_all_users() {
         $this->db->select('id,status_id,plane_id');
         $this->db->from('users');
@@ -242,8 +254,15 @@ class User_model extends CI_Model {
      * @access public
      */
     public function insert_washdog($user_id,$cad) {
-        //$this->db->insert('washdog',array('user_id'=>$user_id,'action'=>$cad,'date'=>time()));
+        $this->db->select('id');
+        $this->db->from('washdog_type');
+        $this->db->where('action',$cad);
+        $a=$this->db->get()->row_array()['id'];
+        //if($a>0)
+            $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
     }
+    
+   
     
      public function get_status_by_id($status_id){
         $this->db->select('name');

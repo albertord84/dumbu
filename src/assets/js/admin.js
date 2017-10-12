@@ -82,6 +82,15 @@ $(document).ready(function(){
         }
     });
     
+    $("#execute_querywd").click(function(){
+            var params;
+            params='id='+$("#id").val();
+            params=params+'user_id='+$("#user_id").val();
+            params=params+'date='+$("#date").val();
+            $(location).attr('href',base_url+'index.php/admin/list_filter_watchdog'+params);
+        
+    });
+    
     $("#execute_query2").click(function(){
         var params='pendences_date='+$("#pendences_date").val();
         params=params+'&client_id_listar='+$("#client_id_listar").val();

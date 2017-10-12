@@ -1247,4 +1247,16 @@ $(document).ready(function () {
     
     
     init_icons_geolocalization(profiles);
+    
+    $("#lnk_languaje1").click(function () {
+        //alert($('#img_languaje1').attr('src'));
+    });
+    
+    $("#lnk_languaje2").click(function () {
+       $(location).attr("href",base_url+"index.php/welcome/client?languaje="+$("#txt_languaje2").text());
+        
+    });
+    $("#lnk_languaje3").click(function () {
+        $(location).attr("href",base_url+"index.php/welcome/client?languaje="+$("#txt_languaje3").text()); 
+    });
 }); 

@@ -164,26 +164,64 @@
 								</li>
 							</ul>
 						</li> 
-                                                <!--<li id="locales" class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                                        <img src="assets/images/en_flag.png" class="wauto us" alt="EN">
-                                                        EN
-                                                        <span class="caret"></span></a>
-                                                        <ul class="dropdown-menu" style="min-width: 50px">
+                                                <li id="locales" class="dropdown">
+                                                    <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <?php
+                                                            if($languaje==='EN')
+                                                                echo '<img id="img_languaje1" src="assets/images/en_flag.png" class="wauto us" alt="EN">
+                                                                <span id="txt_languaje1">EN</span>
+                                                                <span  class="caret"></span>';
+                                                            elseif($languaje==='PT') 
+                                                                echo '<img id="img_languaje1" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
+                                                                    <span id="txt_languaje1">PT</span>
+                                                                    <span  class="caret"></span>';
+                                                            else 
+                                                                echo '<img id="img_languaje1" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                                    <span id="txt_languaje1">ES</span>
+                                                                    <span  class="caret"></span>';
+                                                        ?>
+                                                    </a>
+                                                    <ul class="dropdown-menu" style="min-width: 50px">
                                                         <li>
-                                                            <a href="#">
-                                                                <img alt="PT" src="assets/images/pt_br_flag.png" class="wauto us"/>
-                                                                PT
-                                                            </a>
+                                                            <?php
+                                                            if($languaje==='EN')
+                                                                echo '<a id="lnk_languaje2" href="#">
+                                                                    <img id="img_languaje2" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
+                                                                    <span id="txt_languaje2">PT</span>
+                                                                </a>';
+                                                            elseif($languaje==='PT') 
+                                                                echo '<a id="lnk_languaje2" href="#">
+                                                                        <img id="img_languaje2" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                                        <span id="txt_languaje2">ES</span>
+                                                                    </a>';
+                                                            else 
+                                                                echo '<a id="lnk_languaje2" href="#">
+                                                                        <img id="img_languaje2" alt="EN" src="assets/images/en_flag.png" class="wauto us"/>
+                                                                        <span id="txt_languaje2">EN</span>
+                                                                    </a>';
+                                                            ?>
                                                         </li>
                                                         <li>
-                                                            <a href="#">
-                                                                <img alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
-                                                                ES
-                                                            </a>
+                                                             <?php
+                                                                if($languaje==='EN')
+                                                                    echo '<a id="lnk_languaje3" href="#">
+                                                                        <img id="img_languaje3" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                                        <span id="txt_languaje3">ES</span>
+                                                                    </a>';
+                                                                elseif($languaje==='PT') 
+                                                                    echo '<a id="lnk_languaje3" href="#">
+                                                                            <img id="img_languaje3" alt="EN" src="assets/images/en_flag.png" class="wauto us"/>
+                                                                            <span id="txt_languaje3">EN</span>
+                                                                        </a>';
+                                                                else 
+                                                                    echo '<a id="lnk_languaje3" href="#">
+                                                                            <img id="img_languaje3" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
+                                                                            <span id="txt_languaje3">PT</span>
+                                                                        </a>';
+                                                            ?>
                                                         </li>
                                                     </ul>
-						</li>-->
+						</li>
 					</ul>
 				</nav>
 			</div>
@@ -324,8 +362,9 @@
                                     <?php
                                             if($languaje=='PT')
                                                 echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                            else                                            
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';                                                                                     
+                                            else   if($languaje=='EN')                                         
+                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
+                                            else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
                                         ?>
                                 </div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
@@ -710,5 +749,7 @@
                 if($languaje==='PT'){?>
                     <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
             <?php }?>
+                    
+        
 	</body>
 </html>

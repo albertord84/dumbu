@@ -174,5 +174,13 @@
             $this->db->where('id', $form_filter['id']);
             $this->db->update('pendences');
         }
+        
+        public function list_watchdog($form_filter){
+            $this->db->select('*');
+            $this->db->from('washdog1');
+            $this->db->where('user_id', 'client_id');
+            return $this->db->get()->result_array();
+            
+        }
     }
 ?>
