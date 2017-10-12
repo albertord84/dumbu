@@ -530,11 +530,11 @@ $(document).ready(function () {
     function init_play_pause_type() {
         if (play_pause) {
             $('#button_play_pause').css({'background-color': '#009CDE'});
-            $('#button_play_pause').html('<i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>');
+            $('#button_play_pause').html('<span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>');
         }
         else {
             $('#button_play_pause').css({'background-color': '#DFDFDF'});
-            $('#button_play_pause').html('<i id="iconChange" class="fa fa-pause"></i><b> Pause</b>');
+            $('#button_play_pause').html('<span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>');
         }
     }
 

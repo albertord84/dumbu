@@ -20,8 +20,7 @@
         <link href="<?php echo base_url() . 'assets/css/style.css'; ?>" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css'; ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css'; ?>" />
-        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>"> 
-        <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">
         
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
@@ -328,12 +327,12 @@
                         <?php
                         if ($play_pause) {
                             echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
-                                    <i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>
+                                    <span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>
                                   </button>';
                         }
                         else {
                             echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
-                                    <i id="iconChange" class="fa fa-pause"></i><b> Pause</b>
+                                    <span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>
                                   </button>';
                         } ?>
                         <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array()); ?>
