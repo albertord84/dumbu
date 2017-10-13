@@ -13,6 +13,10 @@ img{width: 100%;}
 
 body{font-family: 'Lato', sans-serif;}
 
+.canvasjs-chart-credit{
+    display:none;
+}
+
 li{
 	display: inline-block;
 	list-style-type: none;
