@@ -272,11 +272,11 @@
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';
                                     echo '<b>Initial followers: </b>'.$result[$i]['insta_followers_ini'].'<br>';
-                                    echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br><br>';                                
+                                    echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br>';                                
                                     echo '<b>Actual followers: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
                                     echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
-                                    echo '<br><br>';
-                                    if($result[$i]['ticket_peixe_urbano']!=NULL){
+                                    echo '<br>';
+                                    if ($result[$i]['ticket_peixe_urbano']!=NULL && $result[$i]['ticket_peixe_urbano']!="") {
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='1'){
                                             echo '<button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success" alt="" data-toggle="modal" data-target="#myModal_1"> <span class="ladda-label">Peixe urbano</span></button><br><br>';
                                             echo '<div class="modal fade" style="top:30%" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -354,10 +354,37 @@
                                                               </div>
                                                           </div>                                                        
                                                     </div> '; 
+                                        }else
+                                        if($result[$i]['ticket_peixe_urbano_status_id']===NULL){
+                                            echo '<button style="width:160px" title="SEM STATUS" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_3"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog modal-sm" role="document">                                                          
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                      <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'                                                                      
+                                                                    <select id="select_option_ticket_peixe_urbano_status_id_3" class="form-control" disabled="true">
+                                                                        <option value="1" >CONFERIDO</option>
+                                                                        <option value="2" >PENDENTE</option>
+                                                                        <option value="3" selected="true">ERRADO</option>
+                                                                    </select>                                                                      
+                                                                  </div>
+                                                                  <div class="modal-footer">                                                                      
+                                                                      <button disabled="true" id="btn_change_ticket_peixe_urbano_status_id_3" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
+                                                                      </button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>                                                        
+                                                    </div> '; 
                                         }
                                     }
                                 
-                                echo '<br><br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas</a><br>';
+                                echo '<br>';
                                 if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
                                     echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
                                     echo '<p style="color:brown">'.$result[$i]['observation'].'</p>';                                    
