@@ -383,7 +383,10 @@
                                         }
                                     }
                                 
-                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas</a><br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas ou<br>criar pendências novas</a><br>';
+                                    echo '<b>Paused: </b>'.($result[$i]['paused'] ? 'Sim' : 'Não').'<br>';
+                                    echo '<b>Total Unfollow: </b>'.($result[$i]['unfollow_total'] ? 'Sim' : 'Não').'<br>';
+                                    echo '<b>Autolike: </b>'.($result[$i]['like_first'] ? 'Sim' : 'Não').'<br>';
                                 echo '<br>';
                                 if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
                                     echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
@@ -401,9 +404,13 @@
                                     else
                                         echo '<b>Payment day: </b>NULL<br>';                                    
                                     if($result[$i]['initial_val'])
-                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> '.$result[$i]['initial_val'].' | '.$result[$i]['normal_val'].'<br>';
+                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$result[$i]['initial_val'].' | '.$result[$i]['normal_val'].'<br>';
                                     else
-                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> *** | '.$result[$i]['normal_val'].'<br>';
+                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *** | '.$result[$i]['normal_val'].'<br>';
+                                    if ($result[$i]['actual_payment_value'] != NULL && $result[$i]['actual_payment_value'] != "")
+                                        echo '<b>Actual payment value: </b>'.$result[$i]['actual_payment_value'].'<br>';
+                                    else
+                                        echo '<b>Actual payment value: </b>'.$result[$i]['normal_val'].'<br>';
                                     
                                     //echo '<b>Initial order key: </b>'.$result[$i]['initial_order_key'].'<br>';
                                     echo '<b>Initial order key: </b><a href="https://dashboard.mundipagg.com/#/9d0703f8-98a6-4f61-a28f-6be3771f3510/live/transactions?currentTab=creditCardTransactions&pageNumber=1&sortField=CreateDate&sortMode=DESC&pageSize=20&identifier='.$result[$i]['initial_order_key'].'" target="_blank">'.$result[$i]['initial_order_key'].'</a><br>';

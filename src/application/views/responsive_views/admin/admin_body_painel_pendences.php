@@ -122,7 +122,7 @@
                                 </tr>
                             </table> -->
                             <b>ID do cliente</b>
-                            <input id="client_id" name="client_id" class="form-control" placeholder="ID do cliente" disabled>
+                            <input id="client_id" name="client_id" class="form-control" placeholder="ID do cliente" disabled value="<?php if (isset($form_filter) && $form_filter[client_id_listar] != "") { echo $form_filter[client_id_listar]; } ?>">
                         </div>
                     </div>
                     <div class="col-xs-6">
