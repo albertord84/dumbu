@@ -14,6 +14,10 @@ $(document).ready(function () {
         name1 = "Followings";
         name2 = "Followers";
     }
+    else if (language === 'ES') {
+        name1 = "Perfiles seguidos";
+        name2 = "Seguidores";
+    }
     
     chart = new CanvasJS.Chart("chartContainer", {
         /*title: {

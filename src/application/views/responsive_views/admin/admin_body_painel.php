@@ -217,7 +217,7 @@
                     <tr class="list-group-item-success">
                         <td style="max-width:240px; padding:5px"><b>No.</b></td>
                         <td style="max-width:240px; padding:5px"><b>Dados pessoais</b></td>
-                        <td style="max-width:240px; padding:5px"><b>Dados de Instagaram</b></td>
+                        <td style="max-width:240px; padding:5px"><b>Dados de Instagram</b></td>
                         <td style="max-width:240px; padding:5px"><b>Dados bancários</b></td>
                         <td style="max-width:240px; padding:5px"><b>Operações</b></td>
                     </tr>

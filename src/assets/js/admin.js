@@ -136,7 +136,8 @@ $(document).ready(function(){
     
     $("#execute_query3").click(function(){
         var params='client_id='+$("#client_id").val();
-        params=params+'&event_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
+        //params=params+'&event_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
+        params=params+'&event_date='+$("#event_date").val();
         params=params+'&pendence_text='+$("#pendence_text").val();
         params=params+'&frequency_option1='+$("#frequency_option1").prop("checked");
         params=params+'&frequency_option2='+$("#frequency_option2").prop("checked");

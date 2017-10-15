@@ -55,6 +55,8 @@
             .on( "change", function() {
               from.datepicker( "option", "maxDate", getDate( this ) );
             });
+            
+            $( "#event_date" ).datepicker();
 
           function getDate( element ) {
             var date;

@@ -295,10 +295,10 @@
                                 </span>
                                 <br>
                                 <p >
-                                    <b>Whatsapp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
+                                    <b>WhatsApp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
                                 </p>
                                 <p class="text-center m-t10">                                
-                                    <b>(+55) 219737 50365</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
+                                    <b>+55 (21) 97375-0365</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
                                 </p> 
                             </div>  
                     <?php } else?>
@@ -310,10 +310,10 @@
                                 </span>
                                 <br>
                                 <p >
-                                    <b>Whatsapp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
+                                    <b>WhatsApp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
                                 </p>
                                 <p class="text-center m-t10">                                
-                                    <b>(+55) 219965 24969</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
+                                    <b>+55 (21) 99652-4969</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
                                 </p> 
                             </div>  
                     <?php }?>
