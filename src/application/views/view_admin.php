@@ -13,6 +13,7 @@
         
         <link rel="shortcut icon" href="<?php echo base_url().'assets/img/icon.png'?>">    
         <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css'?>" rel="stylesheet">
+        
         <link href="<?php echo base_url().'assets/css/style1.css'?>" rel="stylesheet">
         
         <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
@@ -23,12 +24,50 @@
         <script src="<?php echo base_url().'assets/bootstrap/js/bootstrap.min.js'?>"></script>
         
         <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
-        <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script> 
+        <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
         
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
         <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js';?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
+        
+        <!-- jQuery UI Datepicker - Select a Date Range -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+        $( function() {
+          var dateFormat = "mm/dd/yy",
+            from = $( "#date_from" )
+              .datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1
+              })
+              .on( "change", function() {
+                to.datepicker( "option", "minDate", getDate( this ) );
+              }),
+            to = $( "#date_to" ).datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              from.datepicker( "option", "maxDate", getDate( this ) );
+            });
+
+          function getDate( element ) {
+            var date;
+            try {
+              date = $.datepicker.parseDate( dateFormat, element.value );
+            } catch( error ) {
+              date = null;
+            }
+
+            return date;
+          }
+        } );
+        </script>
         
         <?php include_once("pixel_facebook.php")?>
   </head>

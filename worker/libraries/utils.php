@@ -23,3 +23,15 @@ function str_binary_search($elem, $array)
    }
    return FALSE;
 }
+
+function insta_follows_search($insta_id, $Profiles) 
+{
+   foreach ($Profiles as $rpkey => $Profile) {
+        $Profile = $Profile->node;
+       if($insta_id == $Profile->id)
+       {
+           return TRUE;
+       }
+   }
+   return FALSE;
+}

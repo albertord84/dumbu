@@ -40,6 +40,22 @@ class Admin extends CI_Controller {
         }
     }
     
+    public function get_emails() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->get_emails_by_filter($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
     public function list_filter_view_pendences() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
@@ -289,12 +305,12 @@ class Admin extends CI_Controller {
         }
     }
     
-    public function list_filter_watchdog() {
+    public function list_filter_view_watchdog() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/admin_model');
             $form_filter = $this->input->get();
-            $datas['result'] = $this->admin_model->list_watchdog($form_filter);
+            $datas['result'] = $this->admin_model->view_watchdog_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_watchdog', $datas, true);
@@ -304,5 +320,4 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
-
 }

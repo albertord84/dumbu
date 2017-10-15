@@ -93,5 +93,17 @@ $(document).ready(function(){
             $(element_selector).css("border", "1px solid gray");
             return true;
         }
-    }  
+    }
+
+    $("#button_play").click(function(){
+        if(state==='play' || state==='resume'){
+          state = 'pause';
+          $("#button_play i").attr('class', "fa fa-play"); 
+        }
+        else if(state==='pause'){
+          state = 'resume';
+          $("#button_play i").attr('class', "fa fa-pause");        
+        }
+        console.log("button play pressed, play was "+state);
+    });
  }); 

@@ -282,8 +282,10 @@
                                             <?php
                                             if($languaje=='PT')
                                                 echo '<img src="assets/images/novo.png" style="width:40%" class="wauto" alt="novo">';
-                                            else
+                                            else if($languaje=='EN')
                                                 echo '<img src="assets/images/new_black.png" style="width:48px"  alt="new">';
+                                            else
+                                                echo '<img src="assets/images/nuevo.png" style="width:48px"  alt="new">';
                                             ?>
                                         </div>
                                     </div>
@@ -440,15 +442,15 @@
                                                     <?php echo $CI->T("99,90",array());?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-left m-l0">
+                                                <div class="text-center">
                                                     <spam >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
                                                         <?php
                                                             if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="new">';
+                                                                echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px" alt="new">';
                                                             else
-                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="new">';
+                                                                echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px"  alt="new">';
                                                         ?>
                                                     </spam>
                                                     <br>                                                   
@@ -474,18 +476,28 @@
                                                     <?php echo $CI->T("189,90",array());?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-left m-l0">
+                                                <div class="text-center">  
                                                     <spam >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização",array());?></b></a>
                                                         <?php
                                                             if($languaje=='PT')
-                                                                echo '<img src="assets/images/novo_black.jpg" style="width:40px" alt="">';
+                                                                echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px" alt="">';
                                                             else
-                                                                echo '<img src="assets/images/new_black.png" style="width:40px"  alt="new">';
+                                                                echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px"  alt="new">';
                                                         ?>
                                                     </spam>
                                                     <br>
+                                                    <spam>
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
+                                                        <a class="help"><b class="c-green">Whatsapp</b></a>
+                                                        <?php
+                                                            if($languaje=='PT')
+                                                                echo '<img src="assets/images/watsapp.png" style="width:40px" alt="">';
+                                                            else
+                                                                echo '<img src="assets/images/watsapp.png" style="width:40px"  alt="">';                                                             
+                                                        ?>
+                                                    </spam>
                                                     <!--<spam>
                                                         <img src="<?php //echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
                                                         <a class="help"><b class="c-green"><?php //echo $CI->T("Auto Like",array());?></b></a>

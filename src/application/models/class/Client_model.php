@@ -123,7 +123,7 @@
             return $followed_profiles;
         }
 
-                public function insert_client_in_strict_instagram_login($datas,$data_insta){
+        public function insert_client_in_strict_instagram_login($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta['insta_name'];           //desde instagram
             $data_user['login']=$datas['client_login'];             //desde el formulario de logueo
@@ -156,6 +156,12 @@
         }
          
         
+        public function get_pay_values($id_value){
+            $this->db->select('*');
+            $this->db->from('plane');
+            $this->db->where('id',$id_value);
+            return $this->db->get()->row_array();
+        }
         public function get_normal_pay_value($id_value){
             $this->db->select('normal_val');
             $this->db->from('plane');

@@ -53,7 +53,7 @@ $(document).ready(function(){
     
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
-           $("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
+           //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
            $("#observations").val()==='NAO' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#client_id").val()=='' &&
@@ -62,13 +62,17 @@ $(document).ready(function(){
            $("#order_key_client").val()==='' &&
            $("#ds_user_id").val()==='' &&
            $("#credit_card_name").val()==='' &&
-           $("#plane").val()<1) 
+           $("#plane").val()<1 && 
+           $("#tentativas").val()<1 &&
+           ($("#date_from").val()==='' || $("#date_to").val()===''))
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
             params='client_status='+$("#client_status").val();
             //params=params+'&signin_initial_date='+$("#signin_initial_date").val();
-            params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
+            //params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
+            params=params+'&signin_initial_date='+$("#date_from").val();
+            params=params+'&signin_initial_date2='+$("#date_to").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
@@ -78,17 +82,63 @@ $(document).ready(function(){
             params=params+'&ds_user_id='+$("#ds_user_id").val();
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             params=params+'&plane='+$("#plane").val();
+            params=params+'&tentativas='+$("#tentativas").val();
+            params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
     });
     
     $("#execute_querywd").click(function(){
+        if($("#client_status").val()<=0 && 
+            $("#user_id").val()=='' &&
+           ($("#date_from").val()==='' || $("#date_to").val()===''))
+            modal_alert_message('Deve preencher os critérios para filtrar a informação');
+        else{
             var params;
-            params='id='+$("#id").val();
-            params=params+'user_id='+$("#user_id").val();
-            params=params+'date='+$("#date").val();
-            $(location).attr('href',base_url+'index.php/admin/list_filter_watchdog'+params);
+            params='&date_from='+$("#date_from").val();
+            params=params+'&date_to='+$("#date_to").val();
+            params=params+'&user_id='+$("#user_id").val();
+            params=params+'&query=1';
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view_watchdog?'+params);
+        }
+            });
         
+    $("#execute_query_email").click(function(){
+        if($("#client_status").val()<=0 && 
+           //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
+           $("#observations").val()==='NAO' &&
+           $("#cod_promocional").val()==='--SELECT--' &&
+           $("#client_id").val()=='' &&
+           $("#profile_client").val()==='' &&
+           $("#email_client").val()==='' &&
+           $("#order_key_client").val()==='' &&
+           $("#ds_user_id").val()==='' &&
+           $("#credit_card_name").val()==='' &&
+           $("#plane").val()<1 && 
+           $("#tentativas").val()<1 &&
+           ($("#date_from").val()==='' || $("#date_to").val()===''))
+            modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
+        else{
+            var params;
+            params='client_status='+$("#client_status").val();
+            //params=params+'&signin_initial_date='+$("#signin_initial_date").val();
+            //params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
+            params=params+'&signin_initial_date='+$("#date_from").val();
+            params=params+'&signin_initial_date2='+$("#date_to").val();
+            params=params+'&observations='+$("#observations").val();
+            params=params+'&cod_promocional='+$("#cod_promocional").val();
+            params=params+'&client_id='+$("#client_id").val();
+            params=params+'&profile_client='+$("#profile_client").val();
+            params=params+'&email_client='+$("#email_client").val();
+            params=params+'&order_key_client='+$("#order_key_client").val();
+            params=params+'&ds_user_id='+$("#ds_user_id").val();
+            params=params+'&credit_card_name='+$("#credit_card_name").val();
+            params=params+'&plane='+$("#plane").val();
+            params=params+'&tentativas='+$("#tentativas").val();
+            params=params+'&query=2';
+            $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
+        }
+
     });
     
     $("#execute_query2").click(function(){
