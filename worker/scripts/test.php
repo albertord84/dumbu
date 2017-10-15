@@ -297,6 +297,8 @@ $Robot = new \dumbu\cls\Robot();
 //$result = $Robot->bot_login("lambaosbeicos", "75005310");
 //$result = $Robot->bot_login("alberto_dreyes", "albertord7");
 //var_dump($result);
+//$result = $Robot->bot_login("tompsonr", "sorvete6969");
+//var_dump($result);
 //----------------------------------------------------------------
 //
 // WORKER

@@ -3,8 +3,9 @@
 class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
+
     public $lang =NULL;
-    
+
     public function index() {
         $languaje=$this->input->get();        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';

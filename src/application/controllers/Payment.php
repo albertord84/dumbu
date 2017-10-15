@@ -195,7 +195,7 @@ class Payment extends CI_Controller {
             $pay_day->setTimestamp($client['init_date']);
             $diff_info = $pay_day->diff($now);
             $diff_days = $diff_info->days;
-            if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && $IOK_ok === TRUE && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
+            if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && ($IOK_ok === TRUE && $client['initial_order_key']) && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
                 print "\n<br> LastSaledData = NULL";
                 $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
                 print "\n<br>This client UNBLOQUED by payment just now: " . $client['user_id'];
