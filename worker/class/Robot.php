@@ -518,7 +518,7 @@ namespace dumbu\cls {
          */
         public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
             $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
-            print("<br><br>$curl_str<br><br>");
+            //print("<br><br>$curl_str<br><br>");
             //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
             if (is_array($output) && count($output)) {
