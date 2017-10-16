@@ -1140,8 +1140,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-r15 m-t45">
                     <div class="m-t10">
                         <h4 class="text-center"><b><?php echo $CI->T("SEGUIR SEMPRE", array()); ?></b></h4>
-                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('A ferramenta nunca deixará de seguir perfis adicionados nesta lista <br>
-                               e que seguiu automaticamente' , array()); ?>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('A ferramenta nunca deixará de seguir perfis adicionados nesta lista <br> e que seguiu automaticamente' , array()); ?>
                         </p>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">
