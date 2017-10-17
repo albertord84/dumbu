@@ -3,7 +3,7 @@
 class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
-   
+      
     public function index() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2837,10 +2837,15 @@ class Welcome extends CI_Controller {
     }
     
     public function capturer_and_recurrency_for_blcked_by_payment(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $result=$this->client_model->get_all_clients_by_status_id(2);        
         foreach ($result as $client) {
+            $aa=$client['login'];
+            $status_id=$client['status_id'];
+            echo $aa.'-----'.$status_id.'------';
             if($client['retry_payment_counter']<10){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
                         $client['credit_card_name']!=null && $client['credit_card_name']!='' && 
@@ -2862,7 +2867,7 @@ class Welcome extends CI_Controller {
                     $day    = 24*$hour;  
                     $num_days=floor($difference/$day); 
 
-                    $payment_data['amount_in_cents'] =0;                
+                    $payment_data['amount_in_cents'] =0;
                     if($client['ticket_peixe_urbano']==='AMIGOSDOPEDRO' || $client['ticket_peixe_urbano']==='INSTA15D'){
                         $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
                     } else
@@ -2892,7 +2897,7 @@ class Welcome extends CI_Controller {
                        $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
 
                     $resp = $this->check_mundipagg_credit_card($payment_data);
-                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                    if((is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
                         $this->update_client_after_retry_payment_success($client['user_id']);
                         $this->client_model->update_client($client['user_id'], array(
                             'retry_payment_counter' => 0));
@@ -2917,5 +2922,5 @@ class Welcome extends CI_Controller {
             $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
-    
+      
 }
