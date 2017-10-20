@@ -165,45 +165,50 @@
 								</li>
 							</ul>
 						</li> 
-                                                <li id="locales" class="dropdown">
-                                                    <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                                        <?php
-                                                            if($languaje==='EN')
-                                                                echo '<img id="img_languaje1" src="assets/images/en_flag.png" class="wauto us" alt="EN">
-                                                                <span id="txt_languaje1">EN</span>
-                                                                <span  class="caret"></span>';
-                                                            elseif($languaje==='PT') 
-                                                                echo '<img id="img_languaje1" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
-                                                                    <span id="txt_languaje1">PT</span>
-                                                                    <span  class="caret"></span>';
-                                                            else 
-                                                                echo '<img id="img_languaje1" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
-                                                                    <span id="txt_languaje1">ES</span>
-                                                                    <span  class="caret"></span>';
-                                                        ?>
-                                                    </a>
+                                                
+                                                
+                                                
+                                                <?php
+                                                if($SERVER_NAME==='ONE'){  
+                                                    echo    '<li id="locales" class="dropdown">
+                                                            <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                                                        
+                                                    if($languaje==='EN')
+                                                        echo '<img id="img_languaje1" src="assets/images/en_flag.png" class="wauto us" alt="EN">
+                                                        <span id="txt_languaje1">EN</span>
+                                                        <span  class="caret"></span>';
+                                                    elseif($languaje==='PT') 
+                                                        echo '<img id="img_languaje1" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
+                                                            <span id="txt_languaje1">PT</span>
+                                                            <span  class="caret"></span>';
+                                                    else 
+                                                        echo '<img id="img_languaje1" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                            <span id="txt_languaje1">ES</span>
+                                                            <span  class="caret"></span>';
+                                                        
+                                                    echo '</a>
                                                     <ul class="dropdown-menu" style="min-width: 50px">
-                                                        <li>
-                                                            <?php
-                                                            if($languaje==='EN')
-                                                                echo '<a id="lnk_languaje2" href="#">
-                                                                    <img id="img_languaje2" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
-                                                                    <span id="txt_languaje2">PT</span>
-                                                                </a>';
-                                                            elseif($languaje==='PT') 
-                                                                echo '<a id="lnk_languaje2" href="#">
-                                                                        <img id="img_languaje2" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
-                                                                        <span id="txt_languaje2">ES</span>
-                                                                    </a>';
-                                                            else 
-                                                                echo '<a id="lnk_languaje2" href="#">
-                                                                        <img id="img_languaje2" alt="EN" src="assets/images/en_flag.png" class="wauto us"/>
-                                                                        <span id="txt_languaje2">EN</span>
-                                                                    </a>';
-                                                            ?>
-                                                        </li>
-                                                        <li>
-                                                             <?php
+                                                        <li>';
+                                                            
+                                                    if($languaje==='EN')
+                                                        echo '<a id="lnk_languaje2" href="#">
+                                                            <img id="img_languaje2" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
+                                                            <span id="txt_languaje2">PT</span>
+                                                        </a>';
+                                                    elseif($languaje==='PT') 
+                                                        echo '<a id="lnk_languaje2" href="#">
+                                                                <img id="img_languaje2" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
+                                                                <span id="txt_languaje2">ES</span>
+                                                            </a>';
+                                                    else 
+                                                        echo '<a id="lnk_languaje2" href="#">
+                                                                <img id="img_languaje2" alt="EN" src="assets/images/en_flag.png" class="wauto us"/>
+                                                                <span id="txt_languaje2">EN</span>
+                                                            </a>';
+                                                            
+                                                    echo '</li>
+                                                        <li>';
+                                                            
                                                                 if($languaje==='EN')
                                                                     echo '<a id="lnk_languaje3" href="#">
                                                                         <img id="img_languaje3" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
@@ -219,10 +224,25 @@
                                                                             <img id="img_languaje3" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
                                                                             <span id="txt_languaje3">PT</span>
                                                                         </a>';
-                                                            ?>
-                                                        </li>
+                                                            
+                                                echo        '</li>
                                                     </ul>
-						</li>
+                                                </li>';}?>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
 					</ul>
 				</nav>
 			</div>
