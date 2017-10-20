@@ -88,6 +88,21 @@ $(document).ready(function(){
         }
     });
     
+    $("#execute_querywd").click(function(){
+        if($("#client_status").val()<=0 && 
+            $("#user_id").val()=='' &&
+           ($("#date_from").val()==='' || $("#date_to").val()===''))
+            modal_alert_message('Deve preencher os critérios para filtrar a informação');
+        else{
+            var params;
+            params='&date_from='+$("#date_from").val();
+            params=params+'&date_to='+$("#date_to").val();
+            params=params+'&user_id='+$("#user_id").val();
+            params=params+'&query=1';
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view_watchdog?'+params);
+        }
+            });
+        
     $("#execute_query_email").click(function(){
         if($("#client_status").val()<=0 && 
            //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
@@ -123,6 +138,7 @@ $(document).ready(function(){
             params=params+'&query=2';
             $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
         }
+
     });
     
     $("#execute_query2").click(function(){

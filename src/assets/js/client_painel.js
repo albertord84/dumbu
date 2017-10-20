@@ -134,7 +134,7 @@ $(document).ready(function () {
       
     $("#dicas_geoloc").click(function(){
         url=base_url+"index.php/welcome/dicas_geoloc";
-        window.open(url, '_blank');
+        window.open(url,'_blank');
     });    
     
     $("#btn_add_new_profile").hover(
@@ -1298,4 +1298,16 @@ $(document).ready(function () {
     
     
     init_icons_geolocalization(profiles);
+    
+    $("#lnk_languaje1").click(function () {
+        //alert($('#img_languaje1').attr('src'));
+    });
+    
+    $("#lnk_languaje2").click(function () {
+       $(location).attr("href",base_url+"index.php/welcome/client?languaje="+$("#txt_languaje2").text());
+        
+    });
+    $("#lnk_languaje3").click(function () {
+        $(location).attr("href",base_url+"index.php/welcome/client?languaje="+$("#txt_languaje3").text()); 
+    });
 }); 

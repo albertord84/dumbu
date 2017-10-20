@@ -154,6 +154,7 @@
             $this->db->where('id >=','2');
             return $this->db->get()->result_array();
         }
+         
         
         public function get_pay_values($id_value){
             $this->db->select('*');

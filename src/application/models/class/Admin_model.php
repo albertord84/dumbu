@@ -242,5 +242,23 @@
             $this->db->where('id', $form_filter['id']);
             $this->db->update('pendences');
         }
+        
+        public function view_watchdog_by_filter($form_filter) {
+            $this->db->select('date');
+            $this->db->from('washdog1');
+            $this->db->where('user_id', $form_filter['user_id']);
+            
+            $this->db->select('action');
+            $this->db->from('washdog_type');
+            $this->db->where('washdog_type.id= washdog1.type');
+            
+            if($form_filter['date_from']!='' && $form_filter['date_to']!=''){
+                $this->db->where('date >=',strtotime($form_filter['date_from'].' 00:00:01'));
+                $this->db->where('date <=',strtotime($form_filter['date_to'].' 23:59:59'));
+            }
+            
+                                 
+            return $this->db->get()->result_array();
+        }
     }
 ?>
