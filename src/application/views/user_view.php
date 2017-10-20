@@ -165,10 +165,10 @@
 								</li>
 							</ul>
 						</li> 
-                                                <li id="locales" class="dropdown">
+                                                <!--<li id="locales" class="dropdown">
                                                     <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                                         <?php
-                                                            if($languaje==='EN')
+                                                            /*if($languaje==='EN')
                                                                 echo '<img id="img_languaje1" src="assets/images/en_flag.png" class="wauto us" alt="EN">
                                                                 <span id="txt_languaje1">EN</span>
                                                                 <span  class="caret"></span>';
@@ -179,13 +179,13 @@
                                                             else 
                                                                 echo '<img id="img_languaje1" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
                                                                     <span id="txt_languaje1">ES</span>
-                                                                    <span  class="caret"></span>';
+                                                                    <span  class="caret"></span>';*/
                                                         ?>
                                                     </a>
                                                     <ul class="dropdown-menu" style="min-width: 50px">
                                                         <li>
                                                             <?php
-                                                            if($languaje==='EN')
+                                                           /* if($languaje==='EN')
                                                                 echo '<a id="lnk_languaje2" href="#">
                                                                     <img id="img_languaje2" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
                                                                     <span id="txt_languaje2">PT</span>
@@ -199,12 +199,12 @@
                                                                 echo '<a id="lnk_languaje2" href="#">
                                                                         <img id="img_languaje2" alt="EN" src="assets/images/en_flag.png" class="wauto us"/>
                                                                         <span id="txt_languaje2">EN</span>
-                                                                    </a>';
+                                                                    </a>';*/
                                                             ?>
                                                         </li>
                                                         <li>
                                                              <?php
-                                                                if($languaje==='EN')
+                                                                /*if($languaje==='EN')
                                                                     echo '<a id="lnk_languaje3" href="#">
                                                                         <img id="img_languaje3" alt="ES" src="assets/images/es_flag.png" class="wauto us"/>
                                                                         <span id="txt_languaje3">ES</span>
@@ -218,9 +218,9 @@
                                                                     echo '<a id="lnk_languaje3" href="#">
                                                                             <img id="img_languaje3" alt="PT" src="assets/images/pt_flag.png" class="wauto us"/>
                                                                             <span id="txt_languaje3">PT</span>
-                                                                        </a>';
+                                                                        </a>';*/
                                                             ?>
-                                                        </li>
+                                                        </li>-->
                                                     </ul>
 						</li>
 					</ul>
