@@ -143,7 +143,8 @@ class User_model extends CI_Model {
         $this->db->select('languaje');
         $this->db->from('users');
         $this->db->where('id',$user_id);
-        return $this->db->get()->row_array();
+        $xxx=$this->db->get()->row_array();
+        return $xxx;
     }
     
     public function set_languaje_of_client($user_id,$languaje){        

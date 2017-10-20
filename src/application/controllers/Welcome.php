@@ -3,7 +3,7 @@
 class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
-    public $lang =NULL;
+    public $languaje =NULL;
 
     public function index() {
         $languaje=$this->input->get();        
@@ -14,7 +14,7 @@ class Welcome extends CI_Controller {
         else
             $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
         $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
-        $this->lang=$param['languaje'];
+        $this->languaje=$param['languaje'];
         
         $this->load->library('recaptcha');
         $this->load->view('user_view', $param);
@@ -33,6 +33,7 @@ class Welcome extends CI_Controller {
     }
     
     public function purchase() {
+        $xxx=$this->session->userdata('id');
         if ($this->session->userdata('id')) {
             $datas = $this->input->get();
             $this->load->model('class/user_model');
@@ -42,8 +43,13 @@ class Welcome extends CI_Controller {
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
             $datas['profiles'] = $this->create_profiles_datas_to_display();
-            $datas['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-            
+            if(isset($datas['language'])&& $datas['language']!=''){
+                $this->languaje =  $datas['language'];
+            }
+            else{
+                $datas['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+                $this->languaje = $GLOBALS['sistem_config']->LANGUAGE;
+            }
             $datas['Afilio_UNIQUE_ID'] = $this->session->userdata('id');
             $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
             $result = $this->user_model->execute_sql_query($query);
@@ -70,12 +76,12 @@ class Welcome extends CI_Controller {
             $languaje=$this->input->get();
             
             if(isset($languaje['languaje'])){
-                $this->lang=$languaje['languaje'];
+                $this->languaje=$languaje['languaje'];
                 $this->user_model->set_languaje_of_client($this->session->userdata('id'),$languaje);
             }
             else
-                $this->lang=$this->user_model->get_languaje_of_client($this->session->userdata('id'))['languaje'];
-            
+                $this->languaje=$this->user_model->get_languaje_of_client($this->session->userdata('id'))['languaje'];
+            $xxx=$this->languaje;
             $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
@@ -134,7 +140,7 @@ class Welcome extends CI_Controller {
             $datas1['plane_id'] = $this->session->userdata('plane_id');
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
-            $datas1['language'] = $this->lang;
+            $datas1['language'] = $this->languaje;
 
             $daily_report = $this->get_daily_report($this->session->userdata('id'));
             $datas1['followings'] = $daily_report['followings'];
@@ -673,8 +679,10 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
         $origin_datas=$datas;
-        if(!$datas)
+        if(!$datas){
             $datas = $this->input->post();
+            $this->languaje=$datas['language'];
+        }
 
         $datas['utm_source'] = isset($datas['utm_source']) ? urldecode($datas['utm_source']) : "NULL";
         
@@ -729,6 +737,7 @@ class Welcome extends CI_Controller {
                         'email' => $datas['client_email'],
                         'login' => $datas['client_login'],
                         'pass' => $datas['client_pass'],
+                        'languaje' => $this->languaje,
                         'init_date' => time()));
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta->follower_count,
@@ -1935,6 +1944,7 @@ class Welcome extends CI_Controller {
     
     //functions for reference profiles
     public function client_insert_profile() {
+        $xxx=  $this->languaje;
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -1996,6 +2006,7 @@ class Welcome extends CI_Controller {
                     $result['message'] = $this->T('Você alcançou a quantidade máxima de perfis ativos', array());
                 }
             } else {
+                $xxx=  $this->languaje;
                 $result['success'] = false;                    
                 if($is_active_profile)
                     $result['message']=$this->T('O perfil informado ja está ativo', array());    
@@ -2480,7 +2491,7 @@ class Welcome extends CI_Controller {
 
     public function T($token, $array_params) {
         $this->load->model('class/translation_model');
-        $text = $this->translation_model->get_text_by_token($token, $this->lang);
+        $text = $this->translation_model->get_text_by_token($token, $this->languaje);
         $N = count($array_params);
         for ($i = 0; $i < $N; $i++) {
             $text = str_replace('@' . ($i + 1), $array_params[$i], $text);
