@@ -20,8 +20,7 @@
         <link href="<?php echo base_url() . 'assets/css/style.css'; ?>" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css'; ?>" />
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css'; ?>" />
-        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>"> 
-        <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">
         
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
@@ -31,6 +30,7 @@
         
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
+        <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME; ?>';</script>
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
@@ -45,7 +45,7 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
          
         <?php //para SEO 
-            if($language=="EN"){
+            if($SERVER_NAME=="ONE"){
                 echo '<link rel="canonical" href="https://www.dumbu.one" />';
             }                              
         ?>
@@ -55,7 +55,7 @@
 
     <body>
         <?php include_once("analyticstracking.php") ?>
-        <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?> 
+        <?php if($SERVER_NAME=='ONE'){  include_once("anlaytics_only_one.php"); }   ?> 
         <?php include_once("remarketing.php") ?>
         <?php include_once("retargeting.php") ?>
         <div class="windows8">
@@ -346,7 +346,7 @@
                             </ul>
                         </div>
                     </div>-->
-                    <?php if($plane_id=='5' && $language=='PT'){?>
+                        <?php if($plane_id=='5' && $language=='PT'){?>
                             <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
                                 <span>
                                     <img src="<?php echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">
@@ -354,10 +354,10 @@
                                 </span>
                                 <br>
                                 <p >
-                                    <b>Whatsapp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
+                                    <b>WhatsApp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
                                 </p>
                                 <p class="text-center m-t10">                                
-                                    <b>(+55) 219737 50365</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
+                                    <b>+55 (21) 97375-0365</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
                                 </p> 
                             </div>  
                     <?php } else?>
@@ -369,10 +369,10 @@
                                 </span>
                                 <br>
                                 <p >
-                                    <b>Whatsapp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
+                                    <b>WhatsApp - </b><?php echo $CI->T('A Dumbu oferece atendimento por Whatsapp para os assinante do plano TURBO', array()); ?><br>
                                 </p>
                                 <p class="text-center m-t10">                                
-                                    <b>(+55) 219965 24969</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
+                                    <b>+55 (21) 99652-4969</b> <img src="<?php echo base_url().'assets/images/watsapp.png'?>" style="width:30px" alt="">
                                 </p> 
                             </div>  
                     <?php }?>
@@ -386,12 +386,12 @@
                         <?php
                         if ($play_pause) {
                             echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
-                                    <i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>
+                                    <span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>
                                   </button>';
                         }
                         else {
                             echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
-                                    <i id="iconChange" class="fa fa-pause"></i><b> Pause</b>
+                                    <span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>
                                   </button>';
                         } ?>
                         <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array()); ?>

@@ -3,7 +3,6 @@
 class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
-
     public $lang =NULL;
 
     public function index() {
@@ -14,6 +13,7 @@ class Welcome extends CI_Controller {
             $param['languaje']=$languaje['languaje'];
         else
             $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
         $this->lang=$param['languaje'];
         
         $this->load->library('recaptcha');
@@ -76,6 +76,7 @@ class Welcome extends CI_Controller {
             else
                 $this->lang=$this->user_model->get_languaje_of_client($this->session->userdata('id'))['languaje'];
             
+            $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
@@ -2853,6 +2854,85 @@ class Welcome extends CI_Controller {
         }        
         var_dump($r);        
     }
+    
+    public function capturer_and_recurrency_for_blcked_by_payment(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
+        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        foreach ($result as $client) {
+            $aa=$client['login'];
+            $status_id=$client['status_id'];
+            echo $aa.'-----'.$status_id.'------';
+            if($client['retry_payment_counter']<10){
+                if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
+                        $client['credit_card_name']!=null && $client['credit_card_name']!='' && 
+                        $client['credit_card_exp_month']!=null && $client['credit_card_exp_month']!='' && 
+                        $client['credit_card_exp_year']!=null && $client['credit_card_exp_year']!='' && 
+                        $client['credit_card_cvc']!=null && $client['credit_card_cvc']!='' ){
+
+                    $pay_day = time();
+                    $payment_data['credit_card_number'] =$client['credit_card_number'];
+                    $payment_data['credit_card_name'] = $client['credit_card_name'];
+                    $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
+                    $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
+                    $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+                    
+                    $difference=$pay_day-$client['init_date'];
+                    $second = 1;
+                    $minute = 60*$second;
+                    $hour   = 60*$minute;
+                    $day    = 24*$hour;  
+                    $num_days=floor($difference/$day); 
+
+                    $payment_data['amount_in_cents'] =0;
+                    if($client['ticket_peixe_urbano']==='AMIGOSDOPEDRO' || $client['ticket_peixe_urbano']==='INSTA15D'){
+                        $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
+                    } else
+                    if( ($client['ticket_peixe_urbano']==='INSTA50P' ||
+                            $client['ticket_peixe_urbano']==='BACKTODUMBU' ||
+                            $client['ticket_peixe_urbano']==='BACKTODUMBU-DNLO' ||
+                            $client['ticket_peixe_urbano']==='BACKTODUMBU-EGBTO')){
+                        $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
+                        if($num_days<=33)
+                            $payment_data['amount_in_cents']=$payment_data['amount_in_cents']/2;
+                    } else
+                    if($client['ticket_peixe_urbano']==='DUMBUDF20'){
+                        $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
+                        $payment_data['amount_in_cents']=($payment_data['amount_in_cents']*8)/10;
+                    } else
+                    if($client['ticket_peixe_urbano']==='INSTA-DIRECT' || $client['ticket_peixe_urbano']==='MALADIRETA'){
+                        $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
+                    } else                
+                    if($client['actual_payment_value']!=null && 
+                            $client['actual_payment_value']!='null' && 
+                            $client['actual_payment_value']!='' && 
+                            $client['actual_payment_value']!=NULL
+                            && $payment_data['amount_in_cents'] ==0
+                            )
+                        $payment_data['amount_in_cents'] = $client['actual_payment_value'];
+                    else
+                       $payment_data['amount_in_cents']=$this->client_model->get_normal_pay_value($client['plane_id']);
+
+                    $resp = $this->check_mundipagg_credit_card($payment_data);
+                    if((is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $this->update_client_after_retry_payment_success($client['user_id']);
+                        $this->client_model->update_client($client['user_id'], array(
+                            'retry_payment_counter' => 0));
+                    }else{
+                        $this->client_model->update_client($client['user_id'], array(
+                        'retry_payment_counter' => $client['retry_payment_counter']+1));
+                    }
+                }
+            }else{
+                $this->delete_recurrency_payment($client['order_key']);
+                 $this->client_model->update_user($client, array(  
+                    'end_date' => time(),
+                    'status_id' => 4));
+            }
+        }
+    }
 
     public function buy_tester(){  
         
@@ -2864,5 +2944,5 @@ class Welcome extends CI_Controller {
             $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
-    
+      
 }

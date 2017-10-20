@@ -35,6 +35,7 @@
                     $this->db->where('ticket_peixe_urbano !=', 'MALADIRETA');
                     $this->db->where('ticket_peixe_urbano !=', 'INSTA15D');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
+                    $this->db->where('ticket_peixe_urbano !=', '');
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
                 }

@@ -268,6 +268,20 @@
             }
         }
         
+        
+        public function get_all_clients_by_status_id($status_id=NULL) {
+        $this->db->select('*');        
+        $this->db->from('clients');
+        $this->db->join('users', 'users.id = clients.user_id');        
+        $this->db->where('status_id', $status_id);
+        $this->db->where('order_key is NOT NULL', NULL, FALSE);
+        $this->db->order_by("user_id","asc");
+        $a = $this->db->get()->result_array();
+        return $a;
+    }
+        
+        
+        
         public function get_plane($plane_id) {
             try {    
                 $this->db->select('*');
