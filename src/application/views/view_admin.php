@@ -30,7 +30,8 @@
         <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
         <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js';?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
-        
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         <!-- jQuery UI Datepicker - Select a Date Range -->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="/resources/demos/style.css">

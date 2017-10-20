@@ -829,7 +829,7 @@ class Welcome extends CI_Controller {
 
                     if($response['flag_initial_payment']) {
                         $this->load->model('class/user_model');
-                        $this->user_model->insert_washdog('SUCCESSFUL PURCHASE');
+                        $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)

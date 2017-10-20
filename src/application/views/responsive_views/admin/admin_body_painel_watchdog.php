@@ -1,5 +1,7 @@
 <br><br>
 <form action="<?php echo base_url().'index.php/admin/list_filter_view'?>" method="post">  
+<script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>   
         <div id="login_container2">
             <div class="center filters">
                <b>WATCHDOG</b> 
@@ -49,7 +51,7 @@
         </div>
         
     <hr>
-                
+    
         <div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-10">
@@ -63,6 +65,8 @@
             </div>
             <div class="col-xs-1"></div>
         </div>
+        
+                
 
         <div class="row">
             <div class="col-xs-1"></div>
@@ -72,6 +76,7 @@
                     <tr class="list-group-item-success">
                         <td style="max-width:240px; padding:5px"><b>Action</b></td>
                         <td style="max-width:240px; padding:5px"><b>Data</b></td>
+                        <td style="max-width:240px; padding:5px"></td>
                     </tr>
                 </table>
                 
@@ -79,8 +84,8 @@
             <div class="col-xs-1"></div>
         </div>
         
-        
-    
+         
+     <div class="row">
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
             <table class="table">
@@ -110,9 +115,14 @@
                     }
                 ?>
             </table>
-            
+        <div class="col-xs-6"></div>
+            <b>"Gráfico de desempenho"</b>
+            <div class="grafico fleft100 m-tb20  text-center">
+                <div id="chartContainer" style="height: 300px; width: 90%;"></div>
+            </div>
             
         </div>
+    </div>
         
         
     
