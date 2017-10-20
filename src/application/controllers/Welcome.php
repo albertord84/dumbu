@@ -271,7 +271,7 @@ class Welcome extends CI_Controller {
                                 $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             }
                             if($st!=user_status::ACTIVE)
-                                $this->user_model->insert_washdog($this->session->userdata('id'),'FOR ACTIVE STATUS');                            
+                                $this->user_model->insert_washdog($user[$index]['id'],'FOR ACTIVE STATUS');                            
                             //quitar trabajo si contrasenhas son diferentes
                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                             if ($user[$index]['pass'] != $datas['user_pass']) {
@@ -607,7 +607,7 @@ class Welcome extends CI_Controller {
                             $status_id = $user[$index]['status_id'];
                             if ($user[$index]['status_id'] != user_status::BLOCKED_BY_PAYMENT && $user[$index]['status_id'] != user_status::PENDING) {
                                 $status_id = user_status::VERIFY_ACCOUNT;
-                                $this->user_model->insert_washdog($user[$index]['status_id'],'FOR VERIFY ACCOUNT STATUS');
+                                $this->user_model->insert_washdog($user[$index]['id'],'FOR VERIFY ACCOUNT STATUS');
                             }
                             $this->user_model->update_user($user[$index]['id'], array(
                                 'login' => $datas['user_login'],
@@ -616,7 +616,7 @@ class Welcome extends CI_Controller {
                             ));
                             $cad=$this->user_model->get_status_by_id($status_id)['name'];
                             if($st!=user_status::ACTIVE)
-                                $this->user_model->insert_washdog($user[$index]['status_id'],'FOR STATUS '.$cad);
+                                $this->user_model->insert_washdog($user[$index]['id'],'FOR STATUS '.$cad);
                             $result['resource'] = 'client';
                             $result['return_link'] = 'index';
                             $result['verify_link'] = '';
@@ -830,7 +830,6 @@ class Welcome extends CI_Controller {
 
                     if($response['flag_initial_payment']) {
                         $this->load->model('class/user_model');
-                        $this->user_model->insert_washdog('SUCCESSFUL PURCHASE');
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
@@ -845,6 +844,7 @@ class Welcome extends CI_Controller {
                                     'cookies' => json_encode($data_insta['insta_login_response'])));
                             }
                             $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
+                        $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');
                         } else
                         if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
                             $this->user_model->update_user($datas['pk'], array(
@@ -1540,11 +1540,11 @@ class Welcome extends CI_Controller {
             
             if($this->session->userdata('id') && $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'atualização de cartão correta');
+                 $this->user_model->insert_washdog($this->session->userdata('id'),'CORRECT CARD UPDATE');
             } else{
                 if($this->session->userdata('id')){
                     $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'atualização de cartão errada');                
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'INCORRECT CARD UPDATE');
                 }
             }
             
