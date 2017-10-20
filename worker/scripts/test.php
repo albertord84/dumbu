@@ -158,24 +158,24 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('10/20/2017 00:42:27');
+//$pay_day = strtotime('11/17/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-//$pay_day = time();
+$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '4634030115520010';
-$payment_data['credit_card_name'] = 'JUAN VASQUEZ V';
-$payment_data['credit_card_exp_month'] = '06';
-$payment_data['credit_card_exp_year'] = '2019';
-$payment_data['credit_card_cvc'] = '133';
-$payment_data['amount_in_cents'] = 2640;
+$payment_data['credit_card_number'] = '5549064023804803';
+$payment_data['credit_card_name'] = 'LIVIA SIMAN ALVES';
+$payment_data['credit_card_exp_month'] = '12';
+$payment_data['credit_card_exp_year'] = '2021';
+$payment_data['credit_card_cvc'] = '521';
+$payment_data['amount_in_cents'] = 9990;
 $payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+$resul = $Payment->create_payment($payment_data);
 var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
