@@ -73,6 +73,7 @@ class Admin extends CI_Controller {
         }
     }
     
+        
     public function create_pendence() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
@@ -241,7 +242,7 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
-
+        
     public function change_ticket_peixe_urbano_status_id() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN){
@@ -290,5 +291,33 @@ class Admin extends CI_Controller {
         //} else return 0;
         
     }
-
+    
+    public function watchdog() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_watchdog', '' , true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        }
+        else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
+    public function list_filter_view_watchdog() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $this->load->model('class/admin_model');
+            $form_filter = $this->input->get();
+            $datas['result'] = $this->admin_model->view_watchdog_by_filter($form_filter);
+            $datas['form_filter'] = $form_filter;
+            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_watchdog', $datas, true);
+            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
+            $this->load->view('view_admin', $data);
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
 }

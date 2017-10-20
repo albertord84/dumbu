@@ -30,6 +30,7 @@
         
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
+        <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME; ?>';</script>
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
@@ -42,9 +43,9 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
-        
+         
         <?php //para SEO 
-            if($language=="EN"){
+            if($SERVER_NAME=="ONE"){
                 echo '<link rel="canonical" href="https://www.dumbu.one" />';
             }                              
         ?>
@@ -54,7 +55,7 @@
 
     <body>
         <?php include_once("analyticstracking.php") ?>
-        <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?> 
+        <?php if($SERVER_NAME=='ONE'){  include_once("anlaytics_only_one.php"); }   ?> 
         <?php include_once("remarketing.php") ?>
         <?php include_once("retargeting.php") ?>
         <div class="windows8">
@@ -85,6 +86,64 @@
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="<?php echo base_url() . 'index.php/welcome/log_out' ?>"><img src="<?php echo base_url() . 'assets/images/user.png'; ?>" class="wauto us" alt=""><?php echo $CI->T("SAIR", array()); ?></a></li>
+                        <li id="locales" class="dropdown">
+                                                    <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                        <?php
+                                                            if($language==='EN')
+                                                                echo '<img id="img_languaje1" src="'.base_url().'assets/images/en_flag.png" class="wauto us" alt="EN">
+                                                                <span id="txt_languaje1">EN</span>
+                                                                <span  class="caret"></span>';
+                                                            elseif($language==='PT') 
+                                                                echo '<img id="img_languaje1" alt="PT" src="'.base_url().'assets/images/pt_flag.png" class="wauto us"/>
+                                                                    <span id="txt_languaje1">PT</span>
+                                                                    <span  class="caret"></span>';
+                                                            else 
+                                                                echo '<img id="img_languaje1" alt="ES" src="'.base_url().'assets/images/es_flag.png" class="wauto us"/>
+                                                                    <span id="txt_languaje1">ES</span>
+                                                                    <span  class="caret"></span>';
+                                                        ?>
+                                                    </a>
+                                                    <ul class="dropdown-menu" style="min-width: 50px">
+                                                        <li>
+                                                            <?php
+                                                            if($language==='EN')
+                                                                echo '<a id="lnk_languaje2" href="#">
+                                                                    <img id="img_languaje2" alt="PT" src="'.base_url().'assets/images/pt_flag.png" class="wauto us"/>
+                                                                    <span id="txt_languaje2">PT</span>
+                                                                </a>';
+                                                            elseif($language==='PT') 
+                                                                echo '<a id="lnk_languaje2" href="#">
+                                                                        <img id="img_languaje2" alt="ES" src="'.base_url().'assets/images/es_flag.png" class="wauto us"/>
+                                                                        <span id="txt_languaje2">ES</span>
+                                                                    </a>';
+                                                            else 
+                                                                echo '<a id="lnk_languaje2" href="#">
+                                                                        <img id="img_languaje2" alt="EN" src="'.base_url().'assets/images/en_flag.png" class="wauto us"/>
+                                                                        <span id="txt_languaje2">EN</span>
+                                                                    </a>';
+                                                            ?>
+                                                        </li>
+                                                        <li>
+                                                             <?php
+                                                                if($language==='EN')
+                                                                    echo '<a id="lnk_languaje3" href="#">
+                                                                        <img id="img_languaje3" alt="ES" src="'.base_url().'assets/images/es_flag.png" class="wauto us"/>
+                                                                        <span id="txt_languaje3">ES</span>
+                                                                    </a>';
+                                                                elseif($language==='PT') 
+                                                                    echo '<a id="lnk_languaje3" href="#">
+                                                                            <img id="img_languaje3" alt="EN" src="'.base_url().'assets/images/en_flag.png" class="wauto us"/>
+                                                                            <span id="txt_languaje3">EN</span>
+                                                                        </a>';
+                                                                else 
+                                                                    echo '<a id="lnk_languaje3" href="#">
+                                                                            <img id="img_languaje3" alt="PT" src="'.base_url().'assets/images/pt_flag.png" class="wauto us"/>
+                                                                            <span id="txt_languaje3">PT</span>
+                                                                        </a>';
+                                                            ?>
+                                                        </li>
+                                                    </ul>
+						</li>
                     </ul>
                 </nav>
             </div>
@@ -287,7 +346,7 @@
                             </ul>
                         </div>
                     </div>-->
-                    <?php if($plane_id=='5' && $language=='PT'){?>
+                        <?php if($plane_id=='5' && $language=='PT'){?>
                             <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
                                 <span>
                                     <img src="<?php echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">
