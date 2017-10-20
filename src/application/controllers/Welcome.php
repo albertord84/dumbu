@@ -13,6 +13,7 @@ class Welcome extends CI_Controller {
             $param['languaje']=$languaje['languaje'];
         else
             $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
         $this->lang=$param['languaje'];
         
         $this->load->library('recaptcha');
@@ -75,6 +76,7 @@ class Welcome extends CI_Controller {
             else
                 $this->lang=$this->user_model->get_languaje_of_client($this->session->userdata('id'))['languaje'];
             
+            $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;

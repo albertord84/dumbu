@@ -30,6 +30,7 @@
         
         <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
         <script type="text/javascript">var language = '<?php echo $language; ?>';</script>
+        <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME; ?>';</script>
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
@@ -44,7 +45,7 @@
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
          
         <?php //para SEO 
-            if($language=="EN"){
+            if($SERVER_NAME=="ONE"){
                 echo '<link rel="canonical" href="https://www.dumbu.one" />';
             }                              
         ?>
@@ -54,7 +55,7 @@
 
     <body>
         <?php include_once("analyticstracking.php") ?>
-        <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?> 
+        <?php if($SERVER_NAME=='ONE'){  include_once("anlaytics_only_one.php"); }   ?> 
         <?php include_once("remarketing.php") ?>
         <?php include_once("retargeting.php") ?>
         <div class="windows8">
@@ -345,7 +346,7 @@
                             </ul>
                         </div>
                     </div>-->
-                    <?php if($plane_id=='5' && $language=='PT'){?>
+                        <?php if($plane_id=='5' && $language=='PT'){?>
                             <div style="font-size:0.9rem" class="col-md-4 col-sm-4 col-xs-12 bk-cinza pf-novidades m-t20 text-justify">
                                 <span>
                                     <img src="<?php echo base_url() . 'assets/images/ESTRELA.png'; ?>" width="20px" class="wauto" alt="">

@@ -34,6 +34,7 @@
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>                
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var languaje = '<?php echo $languaje;?>';</script>
+                <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$languaje.'/internalization.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
@@ -41,7 +42,7 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
                 
                 <?php //para SEO 
-                    if($languaje=="EN"){
+                    if($SERVER_NAME=="ONE"){
                         echo '<link rel="canonical" href="https://www.dumbu.one" />';
                     }                              
                 ?>
@@ -52,11 +53,11 @@
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php"); ?>            
-                <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?>            
+                <?php if($SERVER_NAME=='ONE'){  include_once("anlaytics_only_one.php"); }   ?>            
                 <?php include_once("remarketing.php");?>
                 <?php include_once("retargeting.php");?>            
                 <?php
-                    /*if($languaje=='EN')
+                    /*if($SERVER_NAME=='ONE')
                         include_once("adroll.php");*/
                 ?>
             
