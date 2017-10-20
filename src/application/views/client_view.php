@@ -86,10 +86,13 @@
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="<?php echo base_url() . 'index.php/welcome/log_out' ?>"><img src="<?php echo base_url() . 'assets/images/user.png'; ?>" class="wauto us" alt=""><?php echo $CI->T("SAIR", array()); ?></a></li>
-                        <!--<li id="locales" class="dropdown">
-                                <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <?php
-                                        /*if($language==='EN')
+                        
+                        <?php
+                        if($SERVER_NAME==='ONE'){                           
+                        
+                            echo '<li id="locales" class="dropdown">
+                                <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+                                    if($language==='EN')
                                             echo '<img id="img_languaje1" src="'.base_url().'assets/images/en_flag.png" class="wauto us" alt="EN">
                                             <span id="txt_languaje1">EN</span>
                                             <span  class="caret"></span>';
@@ -100,13 +103,13 @@
                                         else 
                                             echo '<img id="img_languaje1" alt="ES" src="'.base_url().'assets/images/es_flag.png" class="wauto us"/>
                                                 <span id="txt_languaje1">ES</span>
-                                                <span  class="caret"></span>';*/
-                                    ?>
-                                </a>
+                                                <span  class="caret"></span>';
+                                 
+                                echo '</a>
                                 <ul class="dropdown-menu" style="min-width: 50px">
-                                    <li>
-                                        <?php
-                                        /*if($language==='EN')
+                                    <li>';
+                                       
+                                        if($language==='EN')
                                             echo '<a id="lnk_languaje2" href="#">
                                                 <img id="img_languaje2" alt="PT" src="'.base_url().'assets/images/pt_flag.png" class="wauto us"/>
                                                 <span id="txt_languaje2">PT</span>
@@ -120,12 +123,11 @@
                                             echo '<a id="lnk_languaje2" href="#">
                                                     <img id="img_languaje2" alt="EN" src="'.base_url().'assets/images/en_flag.png" class="wauto us"/>
                                                     <span id="txt_languaje2">EN</span>
-                                                </a>';*/
-                                        ?>
-                                    </li>
-                                    <li>
-                                         <?php
-                                            /*if($language==='EN')
+                                                </a>';
+                                       
+                                    echo '</li>
+                                    <li>';
+                                         if($language==='EN')
                                                 echo '<a id="lnk_languaje3" href="#">
                                                     <img id="img_languaje3" alt="ES" src="'.base_url().'assets/images/es_flag.png" class="wauto us"/>
                                                     <span id="txt_languaje3">ES</span>
@@ -139,11 +141,15 @@
                                                 echo '<a id="lnk_languaje3" href="#">
                                                         <img id="img_languaje3" alt="PT" src="'.base_url().'assets/images/pt_flag.png" class="wauto us"/>
                                                         <span id="txt_languaje3">PT</span>
-                                                    </a>';*/
-                                        ?>
-                                    </li>
+                                                    </a>';
+                                    echo '</li>
                                 </ul>
-                            </li>-->
+                            </li>';
+                        
+                        }
+                        ?>
+                        
+                        
                     </ul>
                 </nav>
             </div>

@@ -831,6 +831,7 @@ class Welcome extends CI_Controller {
                     if($response['flag_initial_payment']) {
                         $this->load->model('class/user_model');
                         $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
+                        //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
                                 $datas['status_id'] = user_status::UNFOLLOW;
@@ -844,7 +845,7 @@ class Welcome extends CI_Controller {
                                     'cookies' => json_encode($data_insta['insta_login_response'])));
                             }
                             $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
-                        $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');
+                        
                         } else
                         if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
                             $this->user_model->update_user($datas['pk'], array(
