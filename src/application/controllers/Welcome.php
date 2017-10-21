@@ -1322,10 +1322,10 @@ class Welcome extends CI_Controller {
                 'paused' => $pp
             ));
             
-            $ut = 'indefinida';
+            $ut = 'UNDEFINED';
             
             if ($pp == 1) {
-                $ut = 'pausada';
+                $ut = 'PAUSED';
                 $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                 $N = count($active_profiles);
                 //quitar trabajo si el cliente pauso la herramienta
@@ -1334,12 +1334,12 @@ class Welcome extends CI_Controller {
                 }
             }
             else {
-                $ut = 'reativada';
+                $ut = 'REACTIVATED';
                 //no hacer nada, el robot le pone trabajo al cliente al siguiente dia
             }
             
             $this->load->model('class/user_model');
-            $this->user_model->insert_washdog($this->session->userdata('id'),'ferramenta '.$ut);
+            $this->user_model->insert_washdog($this->session->userdata('id'),'TOOL '.$ut);
 
             
             $response['success'] = true;
