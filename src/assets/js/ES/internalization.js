@@ -86,7 +86,11 @@ var Translation={
     "Eliminar":
             "Eliminar",
     "Ver no Instagram":
-            "Ver en Instagram"
+            "Ver en Instagram",
+    "Confirma pausar a ferramenta?":
+            "Confirma pausar la herramienta?",
+    "Confirma reativar a ferramenta?":
+            "Confirma reactivar la herramienta?"
 };
 
 function T(token){
