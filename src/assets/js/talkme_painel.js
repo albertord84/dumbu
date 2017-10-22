@@ -13,7 +13,7 @@ $(document).ready(function(){
         name=validate_empty('#visitor_name');
         email=validate_element('#visitor_email',"^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$");
         message=validate_empty('#visitor_message');
-        if(name && email && message){
+          if(name && email && message){
             var l = Ladda.create(this);  l.start(); l.start();
             $.ajax({
                 url : base_url+'index.php/welcome/message',
@@ -31,23 +31,32 @@ $(document).ready(function(){
                     } else
                         modal_alert_message(response['message']);    
                     l.stop();
-                },
+                    },
                 error : function(xhr, status) {
                     modal_alert_message(T('Erro enviando a mensagem, tente depois...'));
                     l.stop();
                 }                
             });
         } else{
-            modal_alert_message(T('Alguns dados incorretos'));
+            modal_alert_message(T('Alguns dados incorretos'));            
         }
-    });
         
+        $("#visitor_name").val("");
+        $("#visitor_company").val("");
+        $("#visitor_email").val("");
+        $("#visitor_phone").val("");
+        $("#visitor_message").val("");                      
+    });
+    
+          
     $('#talkme_frm').keypress(function (e) {
         if (e.which == 13) {
             $("#btn_send_message").click();
             return false;
         }
     });
+    
+    
         
     function validate_element(element_selector,pattern){
         if(!$(element_selector).val().match(pattern)){

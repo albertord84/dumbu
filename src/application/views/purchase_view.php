@@ -36,7 +36,7 @@
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
-                <script type="text/javascript">var language = '<?php echo $language;?>';</script> 
+                <script type="text/javascript">var language = '<?php echo $language; var_dump($language)?>';</script> 
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
                 <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
                 <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
@@ -113,7 +113,10 @@
 					</div>				
 					<div class="fleft100 text-center pd-20 bk-cinza m-t30">
 						<p>
-							<b><?php echo $CI->T("Sua compra foi autorizada com sucesso",array());?>!</b>
+							<b><?php 
+                                                            $xxx= $CI->T("Sua compra foi autorizada com sucesso",array());
+                                                            echo $CI->T("Sua compra foi autorizada com sucesso",array());
+                                                            ?>!</b>
 							<br><br>
 							<?php echo $CI->T("Agora você precisa  escolher seus perfis de referência.",array());?> 
 							<?php echo $CI->T("Eles serão usados para captar os seguidores que deseja.  Perfis de referênci são todos os perfis que tem algo a ver com a sua conta, como um concorrente ou perfil similar, por exemplo.",array());?> 
