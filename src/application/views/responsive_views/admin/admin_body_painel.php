@@ -415,7 +415,11 @@
                                     
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
-                                    echo '<b>CC number: </b>'.$result[$i]['credit_card_number'].'<br>';
+                                    $tam = strlen($result[$i]['credit_card_number']);
+                                    if ($tam >= 6)
+                                        echo '<b>CC number: </b>'.substr($result[$i]['credit_card_number'], 0, 3).'***'.substr($result[$i]['credit_card_number'], -3).'<br>';
+                                    else
+                                        echo '<b>CC number: </b>'.$result[$i]['credit_card_number'].'<br>';
                                     echo '<b>CC name: </b>'.$result[$i]['credit_card_name'].'<br>';
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
