@@ -64,7 +64,8 @@ $(document).ready(function(){
            $("#credit_card_name").val()==='' &&
            $("#plane").val()<1 && 
            $("#tentativas").val()<1 &&
-           ($("#date_from").val()==='' || $("#date_to").val()===''))
+           ($("#date_from").val()==='' || $("#date_to").val()==='') &&
+           ($("#status_date_from").val()==='' || $("#status_date_to").val()===''))
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -73,6 +74,8 @@ $(document).ready(function(){
             //params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
             params=params+'&signin_initial_date='+$("#date_from").val();
             params=params+'&signin_initial_date2='+$("#date_to").val();
+            params=params+'&status_date='+$("#status_date_from").val();
+            params=params+'&status__date2='+$("#status_date_to").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
@@ -101,7 +104,7 @@ $(document).ready(function(){
             params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view_watchdog?'+params);
         }
-            });
+    });
         
     $("#execute_query_email").click(function(){
         if($("#client_status").val()<=0 && 
@@ -116,7 +119,8 @@ $(document).ready(function(){
            $("#credit_card_name").val()==='' &&
            $("#plane").val()<1 && 
            $("#tentativas").val()<1 &&
-           ($("#date_from").val()==='' || $("#date_to").val()===''))
+           ($("#date_from").val()==='' || $("#date_to").val()==='') &&
+           ($("#status_date_from").val()==='' || $("#status_date_to").val()===''))
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -125,6 +129,8 @@ $(document).ready(function(){
             //params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
             params=params+'&signin_initial_date='+$("#date_from").val();
             params=params+'&signin_initial_date2='+$("#date_to").val();
+            params=params+'&status_date='+$("#status_date_from").val();
+            params=params+'&status_date2='+$("#status_date_to").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();

@@ -49,6 +49,11 @@
                 $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date2'].' 23:59:59'));
             }
             //else
+            if($form_filter['status_date']!='' && $form_filter['status_date2']!=''){
+                $this->db->where('status_date >=',strtotime($form_filter['status_date'].' 00:00:01'));
+                $this->db->where('status_date <=',strtotime($form_filter['status_date2'].' 23:59:59'));
+            }
+            //else
             if($form_filter['observations']!=='NAO')
                 $this->db->where('observation is NOT NULL', NULL, FALSE);
             //else

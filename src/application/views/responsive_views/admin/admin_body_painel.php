@@ -80,29 +80,23 @@
                         </table>
                     </div> -->
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="center filters">
-                        <b>Cód. Promocional</b>
-                        <select id="cod_promocional" class="form-control" >                            
-                            <option>--SELECT--</option>
-                            <option>PEIXE URBANO</option>
-                            <option>AMIGOSDOPEDRO</option>
-                            <option>FITNESS</option>
-                            <option>BACKTODUMBU</option>
-                            <option>SHENIA</option>
-                            <option>VANESSA</option>
-                            <option>CAROL</option>
-                            <option>NINA</option>
-                            <option>NICOLE</option>
-                        </select>
+                        <b>Data do status</b>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="center filters">
-                        <b>ID do cliente</b>
-                        <input id="client_id" class="form-control" placeholder="ID do cliente">
+                    <div class="col-xs-1">
+                        <b>do</b>
                     </div>
-                </div>    
+                    <div class="col-xs-5">
+                        <input type="text" id="status_date_from" name="status_date_from" placeholder="mm/dd/yyyy" class="form-control">
+                    </div>
+                    <div class="col-xs-1">
+                        <b>até</b>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" id="status_date_to" name="status_date_to" placeholder="mm/dd/yyyy" class="form-control">
+                    </div>
+                </div>   
                 <div class="col-md-1"></div>
             </div>
             <br>
@@ -122,8 +116,8 @@
                 </div>
                 <div class="col-md-2">
                     <div class="center filters">
-                        <b>Order Key</b>
-                        <input id="order_key_client"  class="form-control" placeholder="Order Key">
+                        <b>ID do cliente</b>
+                        <input id="client_id" class="form-control" placeholder="ID do cliente">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -177,6 +171,32 @@
                         </select>    
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Cód. Promocional</b>
+                        <select id="cod_promocional" class="form-control" >                            
+                            <option>--SELECT--</option>
+                            <option>PEIXE URBANO</option>
+                            <option>AMIGOSDOPEDRO</option>
+                            <option>FITNESS</option>
+                            <option>BACKTODUMBU</option>
+                            <option>SHENIA</option>
+                            <option>VANESSA</option>
+                            <option>CAROL</option>
+                            <option>NINA</option>
+                            <option>NICOLE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Order Key</b>
+                        <input id="order_key_client"  class="form-control" placeholder="Order Key">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
                 <div class="col-md-2">
                     <div class="center">
                         <br>
