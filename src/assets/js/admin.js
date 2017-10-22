@@ -130,7 +130,7 @@ $(document).ready(function(){
             params=params+'&signin_initial_date='+$("#date_from").val();
             params=params+'&signin_initial_date2='+$("#date_to").val();
             params=params+'&status_date='+$("#status_date_from").val();
-            params=params+'&status_date2='+$("#status_date_to").val();
+            params=params+'&statusdate2='+$("#status_date_to").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
