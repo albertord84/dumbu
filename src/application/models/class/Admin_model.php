@@ -34,6 +34,10 @@
                     $this->db->where('ticket_peixe_urbano !=', 'INSTA-DIRECT');
                     $this->db->where('ticket_peixe_urbano !=', 'MALADIRETA');
                     $this->db->where('ticket_peixe_urbano !=', 'INSTA15D');
+                    $this->db->where('ticket_peixe_urbano !=', 'DUMBUDF20');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA50P');
+                    $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU-DNLO');
+                    $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU-EGBTO');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                     $this->db->where('ticket_peixe_urbano !=', '');
                 } else{
@@ -119,6 +123,10 @@
                     $this->db->where('ticket_peixe_urbano !=', 'INSTA-DIRECT');
                     $this->db->where('ticket_peixe_urbano !=', 'MALADIRETA');
                     $this->db->where('ticket_peixe_urbano !=', 'INSTA15D');
+                    $this->db->where('ticket_peixe_urbano !=', 'DUMBUDF20');
+                    $this->db->where('ticket_peixe_urbano !=', 'INSTA50P');
+                    $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU-DNLO');
+                    $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU-EGBTO');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
@@ -296,7 +304,6 @@
                 $this->db->where('date <=',strtotime($form_filter['date_to'].' 23:59:59'));
             }
             
-                                 
             return $this->db->get()->result_array();
         }
     }

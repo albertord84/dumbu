@@ -177,9 +177,16 @@
                         <select id="cod_promocional" class="form-control" >                            
                             <option>--SELECT--</option>
                             <option>PEIXE URBANO</option>
-                            <option>AMIGOSDOPEDRO</option>
+                            <option title="7 dias de graça">INSTA-DIRECT</option>
+                            <option title="7 dias de graça">MALADIRETA</option>
+                            <option title="15 dias de graça">INSTA15D</option>
+                            <option title="1 mês de graça">AMIGOSDOPEDRO</option>
+                            <option title="20% de desconto de por vida">DUMBUDF20</option>
+                            <option title="50% de desconto o primeiro mês">INSTA50P</option>
+                            <option title="50% de desconto o primeiro mês">BACKTODUMBU</option>
+                            <option title="50% de desconto o primeiro mês">BACKTODUMBU-DNLO</option>
+                            <option title="50% de desconto o primeiro mês">BACKTODUMBU-EGBTO</option>
                             <option>FITNESS</option>
-                            <option>BACKTODUMBU</option>
                             <option>SHENIA</option>
                             <option>VANESSA</option>
                             <option>CAROL</option>
@@ -446,10 +453,11 @@
                                         }
                                     }
                                 
-                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas ou<br>criar pendências novas</a><br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_watchdog?&date_from=10/12/2017&date_to='.date('m/d/Y').'&user_id='.$result[$i]['user_id'].'&query=1">Ver WATCHDOG</a><br>';
                                     echo '<b>Paused: </b>'.($result[$i]['paused'] ? 'Sim' : 'Não').'<br>';
                                     echo '<b>Total Unfollow: </b>'.($result[$i]['unfollow_total'] ? 'Sim' : 'Não').'<br>';
                                     echo '<b>Autolike: </b>'.($result[$i]['like_first'] ? 'Sim' : 'Não').'<br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas ou<br>criar pendências novas</a><br>';
                                 echo '<br>';
                                 if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
                                     echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
