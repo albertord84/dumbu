@@ -169,7 +169,7 @@
                                                 
                                                 
                                                 <?php
-                                                if($SERVER_NAME==='ONE'){  
+                                                if($SERVER_NAME==='ONE'){
                                                     echo    '<li id="locales" class="dropdown">
                                                             <a  id="lnk_languaje1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
                                                         
@@ -229,20 +229,6 @@
                                                     </ul>
                                                 </li>';}?>
                                                 
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
 					</ul>
 				</nav>
 			</div>
@@ -268,7 +254,7 @@
 						<spam class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.",array());?></spam>
 						<hr>
 						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de",array());?></spam>
-						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo $CI->T("29,90",array());?></b></p>
+						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$",array());?><b><?php echo ' '.$CI->T("29,90",array());?></b></p>
 						<!--<spam class="fleft100 cl-fff no-mg"><?php //echo $CI->T("no 1º mês",array());?></spam>-->
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR",array());?></button></div>
@@ -587,7 +573,7 @@
 					<div class="text-center fleft100 m-t20">
 						<img src="assets/images/pay.png" class="wauto" alt="Pay">
 						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento",array());?></spam>
-					</div> 
+					</div>
                                         
                                         <!--<label class="radio-inline">
                                             <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
@@ -737,16 +723,7 @@
 			</div>
 		</section>
             
-            <!--
-            
-            -->
-            
-            
-            
-
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-		<!-- Include all compiled plugins (below), or include individual files as needed -->
+           
 		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 		<script src="assets/js/jquery.dlmenu.js"></script>
 		<script>
@@ -779,7 +756,7 @@
                 
         <!-- Afilio Master Tag Home Page-->
             <?php
-                if($languaje==='PT'){?>
+                if($SERVER_NAME==='PRO'){?>
                     <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
             <?php }?>
                     

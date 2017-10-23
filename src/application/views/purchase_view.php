@@ -36,38 +36,42 @@
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
-                <script type="text/javascript">var language = '<?php echo $language; var_dump($language)?>';</script> 
+                <script type="text/javascript">var language = '<?php echo $language;?>';</script> 
+                <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME?>';</script>
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
                 <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
                 <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
                 
                 <?php //para SEO 
-                    if($language=="EN"){
+                    if($SERVER_NAME=="ONE"){
                         echo '<link rel="canonical" href="https://www.dumbu.one" />';
-                    }                              
+                    }
                 ?>
                 
                 <?php include_once("pixel_facebook.php")?>   
                 
                 <!-- Abandono de carrinho de Revanth -->
-                    <script type="text/javascript" src="https://ga.getresponse.com/script/ga.js?grid=sBDcEXURffXoIBw%3D%3D" async></script> 
+                <!--<script type="text/javascript" src="https://ga.getresponse.com/script/ga.js?grid=sBDcEXURffXoIBw%3D%3D" async></script> -->
                 <!-- End Getresponse Analytics -->
 	</head>
 	<body>
 		<?php include_once("analyticstracking.php") ?>
-                <?php if($languaje=='EN'){  include_once("anlaytics_only_one.php"); }   ?>
+                <?php 
+                    if($SERVER_NAME=="ONE")
+                        {  include_once("anlaytics_only_one.php"); }   
+                ?>
                 <?php include_once("adwords_conversion.php")?>
                 <?php include_once("retargeting.php")?>
                 <?php include_once("remarketing.php")?>
-                <?php 
-                    if($language==='PT')
+                <?php
+                   if($SERVER_NAME=="PRO")
                         echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id='.$Afilio_UNIQUE_ID.'&order_price='.$Afilio_total_value.'" border="0" width="1" height="1" />';
                 ?>
                 
                 <!-- Abandono de carrinho de Revanth --> 
                     <?php                         
-                        echo " <script type='text/javascript'>gaSetUserId('".$client_email."');</script>";                                             
+                       // echo " <script type='text/javascript'>gaSetUserId('".$client_email."');</script>";                                             
                     ?> 
                    
                 <div class="windows8">
@@ -233,7 +237,7 @@
                 
                 <!-- Afilio Master Tag Purchase Page-->
                 <?php
-                    if($language==='PT'){
+                    if($SERVER_NAME=="ONE"){
                         echo'<script type="text/javascript" src="https://secure.afilio.com.br/mastertag.php?progid=2289&type=transaction&id_partner=dumbupro&amount='.sprintf("%.2f", ($Afilio_total_value/100)).'&transaction_id='.$Afilio_UNIQUE_ID.'&customer_type='.$Afilio_UNIQUE_ID.'&url_product=https://dumbu.pro/dumbu/src/index.php/welcome/purchase&order_date='.date("Y-m-d",time()).'&order_status=completed"></script>';
                     }
                 ?>
