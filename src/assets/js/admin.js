@@ -65,7 +65,11 @@ $(document).ready(function(){
            $("#plane").val()<1 && 
            $("#tentativas").val()<1 &&
            ($("#date_from").val()==='' || $("#date_to").val()==='') &&
-           ($("#status_date_from").val()==='' || $("#status_date_to").val()===''))
+           ($("#status_date_from").val()==='' || $("#status_date_to").val()==='') &&
+           $("#days_no_work").val()==='' &&
+           $("#paused").val()<0 &&
+           $("#total_unfollow").val()<0 &&
+           $("#autolike").val()<0)
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -86,6 +90,10 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             params=params+'&plane='+$("#plane").val();
             params=params+'&tentativas='+$("#tentativas").val();
+            params=params+'&days_no_work='+$("#days_no_work").val();
+            params=params+'&paused='+$("#paused").val();
+            params=params+'&total_unfollow='+$("#total_unfollow").val();
+            params=params+'&autolike='+$("#autolike").val();
             params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
@@ -120,7 +128,11 @@ $(document).ready(function(){
            $("#plane").val()<1 && 
            $("#tentativas").val()<1 &&
            ($("#date_from").val()==='' || $("#date_to").val()==='') &&
-           ($("#status_date_from").val()==='' || $("#status_date_to").val()===''))
+           ($("#status_date_from").val()==='' || $("#status_date_to").val()==='') &&
+           $("#days_no_work").val()==='' &&
+           $("#paused").val()<0 &&
+           $("#total_unfollow").val()<0 &&
+           $("#autolike").val()<0)
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -141,6 +153,10 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             params=params+'&plane='+$("#plane").val();
             params=params+'&tentativas='+$("#tentativas").val();
+            params=params+'&days_no_work='+$("#days_no_work").val();
+            params=params+'&paused='+$("#paused").val();
+            params=params+'&total_unfollow='+$("#total_unfollow").val();
+            params=params+'&autolike='+$("#autolike").val();
             params=params+'&query=2';
             $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
         }

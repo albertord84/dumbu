@@ -198,6 +198,49 @@
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Não recebe trabalho há mais de</b>
+                        <input id="days_no_work"  class="form-control" placeholder="número de dias">
+                        <b>dias</b>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>Paused</b> 
+                        <select id="paused" class="form-control" >
+                            <option value="-1">--SELECT--</option>
+                            <option value="0">NAO</option>
+                            <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>Total Unfollow</b> 
+                        <select id="total_unfollow" class="form-control" >
+                            <option value="-1">--SELECT--</option>
+                            <option value="0">NAO</option>
+                            <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>Autolike</b> 
+                        <select id="autolike" class="form-control" >
+                            <option value="-1">--SELECT--</option>
+                            <option value="0">NAO</option>
+                            <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
@@ -205,7 +248,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-5">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
@@ -215,7 +258,6 @@
                 </div>
             </div>
         <hr>
-        <br><br>
         
         <div class="row">
             <div class="col-xs-1"></div>
@@ -273,7 +315,7 @@
                             //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
                             echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block">';
                                 echo '<td >';
-                                    echo '<br><br><br><br><b>'.($i+1).'</b>';
+                                    echo '<br><br><br><br><br><b>'.($i+1).'</b>';
                                 echo '</td>';                                
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>Dumbu ID: </b>'.$result[$i]['user_id'].'<br>';
@@ -288,6 +330,7 @@
                                         echo '<b>Sign-out date: </b>'.date('d-m-Y h:i:sa',$result[$i]['end_date']).'<br>';
                                     else
                                         echo '<b>Sign-out date: </b>----<br>';
+                                    echo '<b>Last access: </b>'.date('d-m-Y h:i:sa',$result[$i]['last_access']).'<br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';
