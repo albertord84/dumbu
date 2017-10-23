@@ -20,6 +20,25 @@ class Welcome extends CI_Controller {
         $this->load->view('user_view', $param);
     }
     
+    public function t1() {
+	$this->load->model('class/client_model');
+	$query="SELECT * FROM clients
+            INNER JOIN users ON clients.user_id = users.id
+            INNER JOIN plane ON clients.plane_id = plane.id
+            WHERE 
+                    users.role_id = 2
+            AND users.status_id <> 4
+            AND users.status_id <> 8
+            AND users.status_id < 11
+            AND (clients.actual_payment_value = '' OR clients.actual_payment_value is null)";
+	$result=$this->client_model->execute_sql_query($query);
+	foreach ($result as $row ) {
+		$this->client_model->update_client($row['user_id'], array(
+			'actual_payment_value' => $row['normal_val']));
+	}
+	echo count($result);
+}
+    
     public function paypal() {
         $this->load->view('test_view');
     }
@@ -42,7 +61,8 @@ class Welcome extends CI_Controller {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
-            $datas['profiles'] = $this->create_profiles_datas_to_display();
+            $datas['profiles'] = $this->create_profiles_datas_to_display();            
+            $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;            
             if(isset($datas['language'])&& $datas['language']!=''){
                 $this->languaje =  $datas['language'];
             }
@@ -929,7 +949,6 @@ class Welcome extends CI_Controller {
         //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'){
                 //1. recurrencia para un mes mas alante
-                $datas['amount_in_cents'] = $recurrency_value;
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
@@ -2340,7 +2359,6 @@ class Welcome extends CI_Controller {
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
-    
     public function update_client_after_retry_payment_success($user_id) {  
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
@@ -2601,8 +2619,6 @@ class Welcome extends CI_Controller {
             return 'missing_profile';
     }
         
-    
-    
     public function client_black_list(){
         if($this->session->userdata('id')){
             $this->load->model('class/client_model');
@@ -2666,8 +2682,6 @@ class Welcome extends CI_Controller {
             echo json_encode($result);
         }
     }
-    
-    
     
     public function client_white_list(){
         if($this->session->userdata('id')){
