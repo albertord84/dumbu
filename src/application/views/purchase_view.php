@@ -5,13 +5,13 @@
                 <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-                <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array()); ?>">
-                <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.",array());?>">
-                <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas",array());?>">
+                <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array(), $language); ?>">
+                <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language);?>">
+                <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array(), $language);?>">
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
-                <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers",array());?></title>
+                <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers", array(), $language);?></title>
                 
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<title>DUMBU</title>
@@ -100,9 +100,9 @@
 							<img alt="Brand" src="<?php echo base_url().'assets/images/logo.png';?>">
 						</a>
 					</div>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="<?php echo base_url().'assets/images/user.png';?>"><img src="<?php echo base_url().'assets/images/user.png';?>" class="wauto us" alt=""> SAIR</a></li>
-					</ul>
+					<!--<ul class="nav navbar-nav navbar-right">
+						<li><a href="<?php //echo base_url().'assets/images/user.png';?>"><img src="<?php //echo base_url().'assets/images/user.png';?>" class="wauto us" alt=""> SAIR</a></li>
+					</ul>-->
 				</nav>
 			</div>
 		</header>
@@ -113,20 +113,20 @@
 				<div class="col-md-6 col-sm-6 col-xs-12 no-pd">	
 					<div class="text-center fleft100 m-t45">
                                             <img src="<?php echo base_url().'assets/images/sim.png';?>" class="wauto" alt="">
-						<h2 class="cl-green"><b><?php echo $CI->T("Assinatura aprovada ",array());?><br><?php echo $CI->T("com sucesso",array());?>!</b></h2>
+						<h2 class="cl-green"><b><?php echo $CI->T("Assinatura aprovada ", array(), $language);?><br><?php echo $CI->T("com sucesso", array(), $language);?>!</b></h2>
 					</div>				
 					<div class="fleft100 text-center pd-20 bk-cinza m-t30">
 						<p>
 							<b><?php 
-                                                            $xxx= $CI->T("Sua compra foi autorizada com sucesso",array());
-                                                            echo $CI->T("Sua compra foi autorizada com sucesso",array());
+                                                            $xxx= $CI->T("Sua compra foi autorizada com sucesso", array(), $language);
+                                                            echo $CI->T("Sua compra foi autorizada com sucesso", array(), $language);
                                                             ?>!</b>
 							<br><br>
-							<?php echo $CI->T("Agora você precisa  escolher seus perfis de referência.",array());?> 
-							<?php echo $CI->T("Eles serão usados para captar os seguidores que deseja.  Perfis de referênci são todos os perfis que tem algo a ver com a sua conta, como um concorrente ou perfil similar, por exemplo.",array());?> 
+							<?php echo $CI->T("Agora você precisa  escolher seus perfis de referência.", array(), $language);?> 
+							<?php echo $CI->T("Eles serão usados para captar os seguidores que deseja.  Perfis de referênci são todos os perfis que tem algo a ver com a sua conta, como um concorrente ou perfil similar, por exemplo.", array(), $language);?> 
 						</p>
-						<span class="fleft100 m-tb30"><?php echo $CI->T("PASSO 4",array());?></span>
-						<span class="fleft100 m-b10"><b><?php echo $CI->T("Adicione 3 perfis de referência abaixo",array());?>:</b> <small class="fleft100 cl-red m-b10">*<?php echo $CI->T("Obrigatório",array());?></small></span>
+						<span class="fleft100 m-tb30"><?php echo $CI->T("PASSO 4", array(), $language);?></span>
+						<span class="fleft100 m-b10"><b><?php echo $CI->T("Adicione 3 perfis de referência abaixo", array(), $language);?>:</b> <small class="fleft100 cl-red m-b10">*<?php echo $CI->T("Obrigatório", array(), $language);?></small></span>
 						
                                                                                                    
                                                     <ul class="add-perfil">
@@ -135,7 +135,7 @@
                                                                     <img id="img_ref_prof0" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                                                     <br>
                                                                     <a id="lnk_ref_prof0" target="_blank" href="#">
-                                                                        <small id="name_ref_prof0" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100"></small>
+                                                                        <small id="name_ref_prof0" title="<?php echo $CI->T("Ver no Instagram", array(), $language);?>" style="color:black" class="fleft100"></small>
                                                                     </a>
                                                                 </div>                                                                
                                                             </li>
@@ -145,7 +145,7 @@
                                                                     <img id="img_ref_prof1" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>"> 
                                                                     <br>
                                                                     <a id="lnk_ref_prof1" target="_blank" href="#">
-                                                                        <small id="name_ref_prof1" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100"></small>
+                                                                        <small id="name_ref_prof1" title="<?php echo $CI->T("Ver no Instagram", array(), $language);?>" style="color:black" class="fleft100"></small>
                                                                     </a>
                                                                 </div>                                                                
                                                             </li>
@@ -155,7 +155,7 @@
                                                                     <img id="img_ref_prof2" class="img_profile" style="width:70px" src="<?php echo base_url().'assets/images/avatar.png';?>">
                                                                     <br>
                                                                     <a id="lnk_ref_prof2" target="_blank" href="#">
-                                                                        <small id="name_ref_prof2" title="<?php echo $CI->T("Ver no Instagram",array());?>" style="color:black" class="fleft100"></small>
+                                                                        <small id="name_ref_prof2" title="<?php echo $CI->T("Ver no Instagram", array(), $language);?>" style="color:black" class="fleft100"></small>
                                                                     </a>
                                                                 </div>                                                                
                                                             </li>
@@ -170,7 +170,7 @@
                                                                       <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                           <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
                                                                       </button>
-                                                                      <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência",array());?></h4>
+                                                                      <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array(), $language);?></h4>
                                                                   </div>
                                                                   <div class="modal-body">
                                                                       <input id = "login_profile" type="text" class="form-control" placeholder="Perfil" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
@@ -179,7 +179,7 @@
                                                                   <div class="modal-footer">
                                                                       <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
                                                                       <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar",array());?></div></span>
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar", array(), $language);?></div></span>
                                                                       </button>
                                                                   </div>
                                                               </div>
@@ -188,7 +188,7 @@
 
                                                     <div class="text-center">
                                                         <button id="continuar_purchase" class="btn-primary btn-green m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONTINUAR",array());?></div></span>
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CONTINUAR", array(), $language);?></div></span>
                                                         </button>
                                                     </div>
 					</div>
@@ -200,7 +200,7 @@
 		</section>
 				
 
-		<footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS",array());?></span></div></footer>
+		<footer class="text-center fleft100 m-t30 m-b10"><div class="container"><img src="<?php echo base_url().'assets/images/logo-footer.png';?>" class="wauto" alt=""> <span class="fleft100 text-center">DUMBU - 2017 - <?php echo $CI->T("TODOS OS DIREITOS RESERVADOS", array(), $language);?></span></div></footer>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
@@ -221,14 +221,14 @@
                                 <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
                                 </button>
-                                <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Mensagem", array()); ?></b></h5>                        
+                                <h5 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("Mensagem", array(), $language); ?></b></h5>                        
                             </div>
                             <div class="modal-body">                                            
                                 <p id="message_text"></p>                        
                             </div>
                             <div class="modal-footer text-center">
                                 <button id="accept_modal_alert_message" type="button" class="btn btn-default active text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array()); ?></div></span>
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ACEITAR", array(), $language); ?></div></span>
                                 </button>
                             </div>
                         </div>
