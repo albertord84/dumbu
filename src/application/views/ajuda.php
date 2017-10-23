@@ -14,7 +14,7 @@
     <?php include_once("analyticstracking.php") ?>
     <?php include_once("remarketing.php")?>
     <div class="container">
-        <img width="100%" src="<?php echo base_url().'assets/images/'.$languaje.'/ajuda.jpg';?>"/>
+        <img width="100%" src="<?php echo base_url().'assets/images/'.$language.'/ajuda.jpg';?>"/>
     </div>
 
     </body>
