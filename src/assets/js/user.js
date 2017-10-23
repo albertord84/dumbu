@@ -195,30 +195,30 @@ $(document).ready(function(){
     }    
     
     
-    $("#lnk_languaje1").click(function () {
-        //alert($('#img_languaje1').attr('src'));
+    $("#lnk_language1").click(function () {
+        //alert($('#img_language1').attr('src'));
     });
     
-    $("#lnk_languaje2").click(function () {
-//        img_tmp=$('#img_languaje1').attr('src');
-//        txt_tmp=$('#txt_languaje1').text();        
-//        $("#img_languaje1").attr("src",$("#img_languaje2").attr('src'));
-//        $("#txt_languaje1").text($("#txt_languaje2").text());        
-//        $("#img_languaje2").attr("src",img_tmp);
-//        $("#txt_languaje2").text(txt_tmp);
-//        $(location).attr("href",base_url+"index.php?languaje="+$("#txt_languaje1").text());
-       $(location).attr("href",base_url+"index.php?languaje="+$("#txt_languaje2").text());
+    $("#lnk_language2").click(function () {
+//        img_tmp=$('#img_language1').attr('src');
+//        txt_tmp=$('#txt_language1').text();        
+//        $("#img_language1").attr("src",$("#img_language2").attr('src'));
+//        $("#txt_language1").text($("#txt_language2").text());        
+//        $("#img_language2").attr("src",img_tmp);
+//        $("#txt_language2").text(txt_tmp);
+//        $(location).attr("href",base_url+"index.php?language="+$("#txt_language1").text());
+       $(location).attr("href",base_url+"index.php?language="+$("#txt_language2").text());
         
     });
-    $("#lnk_languaje3").click(function () {
-//        img_tmp=$('#img_languaje1').attr('src');
-//        txt_tmp=$('#txt_languaje1').text();        
-//        $("#img_languaje1").attr("src",$("#img_languaje3").attr('src'));
-//        $("#txt_languaje1").text($("#txt_languaje3").text());        
-//        $("#img_languaje3").attr("src",img_tmp);
-//        $("#txt_languaje3").text(txt_tmp);
-//        $(location).attr("href",base_url+"index.php?languaje="+$("#txt_languaje1").text()); 
-        $(location).attr("href",base_url+"index.php?languaje="+$("#txt_languaje3").text()); 
+    $("#lnk_language3").click(function () {
+//        img_tmp=$('#img_language1').attr('src');
+//        txt_tmp=$('#txt_language1').text();        
+//        $("#img_language1").attr("src",$("#img_language3").attr('src'));
+//        $("#txt_language1").text($("#txt_language3").text());        
+//        $("#img_language3").attr("src",img_tmp);
+//        $("#txt_language3").text(txt_tmp);
+//        $(location).attr("href",base_url+"index.php?language="+$("#txt_language1").text()); 
+        $(location).attr("href",base_url+"index.php?language="+$("#txt_language3").text()); 
     });
     
  }); 
