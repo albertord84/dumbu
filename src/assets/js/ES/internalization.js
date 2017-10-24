@@ -91,7 +91,7 @@ var Translation={
             "Confirma pausar la herramienta?",
     "Confirma reativar a ferramenta?":
             "Confirma reactivar la herramienta?"
-    
+
 };
 
 function T(token){

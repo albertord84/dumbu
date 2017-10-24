@@ -74,7 +74,7 @@ class User_model extends CI_Model {
      * 
      * @access public
      */
-    public $languaje;
+    public $language;
 
     /**
      * 
@@ -128,7 +128,7 @@ class User_model extends CI_Model {
                 $session->set_userdata('role_id', $user_data['role_id']);
                 $session->set_userdata('status_id', $user_data['status_id']);
                 $session->set_userdata('init_date', $user_data['init_date']);
-                $session->set_userdata('languaje', $user_data['languaje']);
+                $session->set_userdata('language', $user_data['language']);
                 $session->set_userdata('insta_datas', $datas);
                 return true;
             } else {
@@ -139,16 +139,17 @@ class User_model extends CI_Model {
         }
     }
     
-    public function get_languaje_of_client($user_id){
-        $this->db->select('languaje');
+    public function get_language_of_client($user_id){
+        $this->db->select('language');
         $this->db->from('users');
         $this->db->where('id',$user_id);
-        return $this->db->get()->row_array();
+        $xxx=$this->db->get()->row_array();
+        return $xxx;
     }
     
-    public function set_languaje_of_client($user_id,$languaje){        
+    public function set_language_of_client($user_id,$language){        
         $this->db->where('id', $user_id);
-        $this->db->update('users', $languaje);
+        $this->db->update('users', $language);
     }
         
     public function get_all_users() {

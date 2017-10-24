@@ -57,12 +57,42 @@
               from.datepicker( "option", "maxDate", getDate( this ) );
             });
             
+            var dateFormat2 = "mm/dd/yy",
+            from2 = $( "#status_date_from" )
+              .datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1
+              })
+              .on( "change", function() {
+                to2.datepicker( "option", "minDate", getDate2( this ) );
+              }),
+            to2 = $( "#status_date_to" ).datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              from2.datepicker( "option", "maxDate", getDate2( this ) );
+            });
+            
             $( "#event_date" ).datepicker();
 
           function getDate( element ) {
             var date;
             try {
               date = $.datepicker.parseDate( dateFormat, element.value );
+            } catch( error ) {
+              date = null;
+            }
+
+            return date;
+          }
+          
+          function getDate2( element ) {
+            var date;
+            try {
+              date = $.datepicker.parseDate( dateFormat2, element.value );
             } catch( error ) {
               date = null;
             }
