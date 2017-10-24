@@ -2328,6 +2328,17 @@ class Welcome extends CI_Controller {
     }
 
     public function T($token, $array_params=NULL, $lang=NULL) {
+        if(!$lang){
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+            $lang=$param['language'];
+        }
         $this->load->model('class/translation_model');
         $text = $this->translation_model->get_text_by_token($token,$lang);
         $N = count($array_params);
