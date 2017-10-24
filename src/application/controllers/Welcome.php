@@ -2136,10 +2136,10 @@ class Welcome extends CI_Controller {
     }
     
     public function message() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
-        $this->Gmail = new \dumbu\cls\Gmail();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->Gmail = new \dumbu\cls\Gmail();
         if(isset($language['language']))
             $param['language']=$language['language'];
         else

@@ -48,11 +48,11 @@
             if($form_filter['profile_client']!='')
                 $this->db->where('login', $form_filter['profile_client']);
             if($form_filter['signin_initial_date']!='' && $form_filter['signin_initial_date2']!=''){
-                $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
+                $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:00'));
                 $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date2'].' 23:59:59'));
             }
             if($form_filter['status_date']!='' && $form_filter['status_date2']!=''){
-                $this->db->where('status_date >=',strtotime($form_filter['status_date'].' 00:00:01'));
+                $this->db->where('status_date >=',strtotime($form_filter['status_date'].' 00:00:00'));
                 $this->db->where('status_date <=',strtotime($form_filter['status_date2'].' 23:59:59'));
             }
             //else
@@ -137,11 +137,11 @@
                 $this->db->where('login', $form_filter['profile_client']);
             //else
             if($form_filter['signin_initial_date']!='' && $form_filter['signin_initial_date2']!=''){
-                $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:01'));
+                $this->db->where('init_date >=',strtotime($form_filter['signin_initial_date'].' 00:00:00'));
                 $this->db->where('init_date <=',strtotime($form_filter['signin_initial_date2'].' 23:59:59'));
             }
             if($form_filter['status_date']!='' && $form_filter['status_date2']!=''){
-                $this->db->where('status_date >=',strtotime($form_filter['status_date'].' 00:00:01'));
+                $this->db->where('status_date >=',strtotime($form_filter['status_date'].' 00:00:00'));
                 $this->db->where('status_date <=',strtotime($form_filter['status_date2'].' 23:59:59'));
             }
             //else
@@ -300,7 +300,7 @@
             $this->db->where('washdog_type.id= washdog1.type');
                       
             if($form_filter['date_from']!='' && $form_filter['date_to']!=''){
-                $this->db->where('date >=',strtotime($form_filter['date_from'].' 00:00:01'));
+                $this->db->where('date >=',strtotime($form_filter['date_from'].' 00:00:00'));
                 $this->db->where('date <=',strtotime($form_filter['date_to'].' 23:59:59'));
             }
             
