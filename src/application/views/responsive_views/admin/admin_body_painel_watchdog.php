@@ -115,13 +115,7 @@
                     }
                 ?>
             </table>
-        <div class="col-xs-6"></div>
-            <b>"Gráfico de desempenho"</b>
-            <div class="grafico fleft100 m-tb20  text-center">
-                <div id="chartContainer" style="height: 300px; width: 90%;"></div>
-            </div>
-            
-        </div>
+        
     </div>
         
         

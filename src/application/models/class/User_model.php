@@ -268,22 +268,17 @@ class User_model extends CI_Model {
      * @access public
      */
     public function insert_washdog($user_id,$cad) {
-        $query="select('id')*FROM dumbudb.washdog_type WHERE action = '$cad';";
-        $result = mysqli_query($this->connection, $query);
-        if($result->num_rows > 0)
-        {
-            
-            }
-        //$this->db->select('id');
-       // $this->db->from('washdog_type');
-        //$this->db->where('action',$cad);
-       // $a=$this->db->get()->row_array()['id'];
-        //if($a>0)
-        //    $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        $this->db->select('id');
+        $this->db->from('washdog_type');
+        $this->db->where('action',$cad);
+        $a=$this->db->get()->row_array()['id'];
+        if($a>0)
+        $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        else 
+        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));   
+        
     }
-    
-   
-    
+       
      public function get_status_by_id($status_id){
         $this->db->select('name');
         $this->db->from('user_status');

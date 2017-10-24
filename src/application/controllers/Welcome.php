@@ -607,7 +607,7 @@ class Welcome extends CI_Controller {
                             $status_id = $user[$index]['status_id'];
                             if ($user[$index]['status_id'] != user_status::BLOCKED_BY_PAYMENT && $user[$index]['status_id'] != user_status::PENDING) {
                                 $status_id = user_status::VERIFY_ACCOUNT;
-                                $this->user_model->insert_washdog($user[$index]['status_id'],'FOR VERIFY ACCOUNT STATUS');
+                                $this->user_model->insert_washdog($user[$index]['id'],'FOR VERIFY ACCOUNT STATUS');
                             }
                             $this->user_model->update_user($user[$index]['id'], array(
                                 'login' => $datas['user_login'],
@@ -616,7 +616,7 @@ class Welcome extends CI_Controller {
                             ));
                             $cad=$this->user_model->get_status_by_id($status_id)['name'];
                             if($st!=user_status::ACTIVE)
-                                $this->user_model->insert_washdog($user[$index]['status_id'],'FOR STATUS '.$cad);
+                                $this->user_model->insert_washdog($user[$index]['id'],'FOR STATUS '.$cad);
                             $result['resource'] = 'client';
                             $result['return_link'] = 'index';
                             $result['verify_link'] = '';
@@ -639,7 +639,7 @@ class Welcome extends CI_Controller {
         }
         if($result['authenticated'] == true){
             $this->load->model('class/user_model');
-            $this->user_model->insert_washdog($this->session->userdata('id'),'DID LOGIN ');
+            $this->user_model->insert_washdog($this->session->userdata('id'),'DID LOGIN');
         }
         if($login_by_client)
             echo json_encode($result);
@@ -1329,7 +1329,7 @@ class Welcome extends CI_Controller {
             }
             
             $this->load->model('class/user_model');
-            $this->user_model->insert_washdog($this->session->userdata('id'),'ferramenta '.$ut);
+            $this->user_model->insert_washdog($this->session->userdata('id'),'TOOL '.$ut);
 
             
             $response['success'] = true;
@@ -1540,11 +1540,11 @@ class Welcome extends CI_Controller {
             
             if($this->session->userdata('id') && $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'atualização de cartão correta');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'CORRECT CARD UPDATE');
             } else{
                 if($this->session->userdata('id')){
                     $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'atualização de cartão errada');                
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'INCORRECT CARD UPDATE');                
                 }
             }
             
