@@ -12,7 +12,7 @@
                     <div class="center filters">
                     <div class="center filters">
                         <b>ID do cliente</b>
-                        <input id="user_id" class="form-control" placeholder="ID do cliente">
+                        <input id="user_id" class="form-control" placeholder="ID do cliente" value="<?php if (isset($form_filter) && $form_filter[user_id] != "") { echo $form_filter[user_id]; } ?>">
                     </div>
                         
                     </div> 
@@ -27,13 +27,13 @@
                         <b>do</b>
                     </div>
                     <div class="col-xs-5">
-                        <input id="date_from" type="text"  name="date_from" placeholder="mm/dd/yyyy" class="form-control">
+                        <input id="date_from" type="text"  name="date_from" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (isset($form_filter) && $form_filter[date_from] != "") { echo $form_filter[date_from]; } ?>">
                     </div>
                     <div class="col-xs-1">
                         <b>até</b>
                     </div>
                     <div class="col-xs-5">
-                        <input id="date_to" type="text" name="date_to" placeholder="mm/dd/yyyy" class="form-control">
+                        <input id="date_to" type="text" name="date_to" placeholder="mm/dd/yyyy" class="form-control" value="<?php if (isset($form_filter) && $form_filter[date_to] != "") { echo $form_filter[date_to]; } ?>">
                     </div>
                 </div>
                 
