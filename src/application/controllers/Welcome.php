@@ -2337,6 +2337,7 @@ class Welcome extends CI_Controller {
                 $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
             $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
             $GLOBALS['language']=$param['language'];
+            $lang=$param['language'];
         }
         $this->load->model('class/translation_model');
         $text = $this->translation_model->get_text_by_token($token,$lang);
