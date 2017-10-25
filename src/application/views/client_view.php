@@ -34,7 +34,7 @@
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
-        <script type="text/javascript">_data= jQuery.parseJSON('<?php echo $; ?>');</script>
+        <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
