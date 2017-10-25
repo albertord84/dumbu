@@ -27,8 +27,8 @@ namespace dumbu\cls {
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-   //         $this->mail->SMTPDebug = 0;
-         $this->mail->SMTPDebug = 2;
+         $this->mail->SMTPDebug = 0;
+//         $this->mail->SMTPDebug = 2;
 
 //Ask for HTML-friendly debug output
          $this->mail->Debugoutput = 'html';
