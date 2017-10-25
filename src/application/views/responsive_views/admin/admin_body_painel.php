@@ -332,13 +332,22 @@
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
                                     echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
                                     echo '<b>Status: </b><b id="label_status_'.$result[$i]['user_id'].'" style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
-                                    echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
-                                    echo '<b>Sign-in date: </b>'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'<br>';                                    
+                                    if($result[$i]['status_date'])
+                                        echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
+                                    else
+                                        echo '<b>Status date: </b>----<br>';
+                                    if($result[$i]['init_date'])
+                                        echo '<b>Sign-in date: </b>'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'<br>';                                    
+                                    else
+                                        echo '<b>Sign-in date: </b>----<br>';
                                     if($result[$i]['end_date'])
                                         echo '<b>Sign-out date: </b>'.date('d-m-Y h:i:sa',$result[$i]['end_date']).'<br>';
                                     else
                                         echo '<b>Sign-out date: </b>----<br>';
-                                    echo '<b>Last access: </b>'.date('d-m-Y h:i:sa',$result[$i]['last_access']).'<br>';
+                                    if($result[$i]['last_access'])
+                                        echo '<b>Last access: </b>'.date('d-m-Y h:i:sa',$result[$i]['last_access']).'<br>';
+                                    else
+                                        echo '<b>Last access: </b>----<br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';

@@ -149,9 +149,14 @@
                 $this->db->where('status_date >=',strtotime($form_filter['status_date'].' 00:00:00'));
                 $this->db->where('status_date <=',strtotime($form_filter['status_date2'].' 23:59:59'));
             }
-            //else
-            if($form_filter['observations']!=='NAO')
-                $this->db->where('observation is NOT NULL', NULL, FALSE);
+            
+            if($form_filter['observations']==='NAO') {
+                $this->db->where('(observation IS NULL OR observation = "")', NULL, FALSE);
+            }
+            else if($form_filter['observations']==='SIM') {
+                $this->db->where('observation IS NOT NULL');
+                $this->db->where('observation !=', '');
+            }
             //else
             if($form_filter['email_client']!='')
                 $this->db->where('email', $form_filter['email_client']);
