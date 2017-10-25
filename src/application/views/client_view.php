@@ -331,8 +331,16 @@
                             <!--<span class="fleft100 m-t10">@pedropetti</span>-->
                             <span class="fleft100 cl-green">
                                 <?php
-                                if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10)
-                                    echo '<b id="status_text" style="font-family:sans-serif">' . $CI->T($status["status_name"], array(), $language) . '</b>';
+                                if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) {
+                                    if ($play_pause) {
+                                        echo '<b id="status_text_paused" >' . $CI->T('PAUSADO', array(), $language) . '</b>';
+                                        echo '<b id="status_text" style="font-family:sans-serif; display:none">' . $CI->T($status["status_name"], array(), $language) . '</b>';
+                                    }
+                                    else {
+                                        echo '<b id="status_text" style="font-family:sans-serif">' . $CI->T($status["status_name"], array(), $language) . '</b>';
+                                        echo '<b id="status_text_paused" style="display:none">' . $CI->T('PAUSADO', array(), $language) . '</b>';
+                                    }
+                                }
                                 else
                                     echo '<b id="status_text" ">' . $CI->T($status["status_name"], array(), $language) . '</b>';
                                 ?>
@@ -369,27 +377,29 @@
                     <?php } ?>
                 </div>
                 
-                <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
-                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                    <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
-                        <p style="text-align:center"> <?php echo $CI->T('Play/Pause da ferramenta.', array(), $language); ?>
-                        </p>
-                        <?php
-                        if ($play_pause) {
-                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
-                                    <span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>
-                                  </button>';
-                        }
-                        else {
-                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
-                                    <span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>
-                                  </button>';
-                        } ?>
-                        <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array(), $language); ?>
-                        </p>
+                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) { ?>
+                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                        <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
+                            <p style="text-align:center"> <?php echo $CI->T('Play/Pause da ferramenta.', array(), $language); ?>
+                            </p>
+                            <?php
+                            if ($play_pause) {
+                                echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
+                                        <span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>
+                                      </button>';
+                            }
+                            else {
+                                echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
+                                        <span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>
+                                      </button>';
+                            } ?>
+                            <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array(), $language); ?>
+                            </p>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12"></div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                </div>
+                <?php } ?>
                 
                 <!--<div class="text-center m-t30">
                     <img id="my_img" src="<?php //echo $my_img_profile; ?>" class="img50" alt="">
@@ -977,46 +987,46 @@
                     </div>-->
                 </div>    
                 
-                
-                <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
-                    <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
-                    <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>
-                    <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
-                                processo onde deixará de seguir todos os perfis que segue no
-                                momento. Todos os perfis em sua lista de "Seguindo" serão deixados
-                                de seguir de manera aleatória. Ao desativar o recurso sua conta
-                                deixa de seguir apenas as contas que a Dumbu seguiu.', array(), $language); ?>
-                    </p>
+                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) { ?>
+                    <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
+                        <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
+                        <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>
+                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
+                                    processo onde deixará de seguir todos os perfis que segue no
+                                    momento. Todos os perfis em sua lista de "Seguindo" serão deixados
+                                    de seguir de manera aleatória. Ao desativar o recurso sua conta
+                                    deixa de seguir apenas as contas que a Dumbu seguiu.', array(), $language); ?>
+                        </p>
 
-                    <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
-                        <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
-                            <b style="color:white; margin-left: 25px"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></b>
-                        </div>
-                        <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
-                            <b style="color:white;margin-left: 25px"><?php echo $CI->T("UNFOLLOW NORMAL", array(), $language); ?></b>
+                        <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                            <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                                <b style="color:white; margin-left: 25px"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></b>
+                            </div>
+                            <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                                <b style="color:white;margin-left: 25px"><?php echo $CI->T("UNFOLLOW NORMAL", array(), $language); ?></b>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-12 m-t20 text-center">
-                </div>
-                <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
-                    <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
-                    <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array(), $language); ?></h4>
-                    <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
-                            automaticamente na primeira foto de todos os perfis que seguir, esse 
-                            processo pode aumentar sua conversão de seguidores.', array(), $language); ?>
-                    </p>
+                    <div class="col-md-2 col-sm-2 col-xs-12 m-t20 text-center">
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
+                        <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
+                        <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array(), $language); ?></h4>
+                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
+                                automaticamente na primeira foto de todos os perfis que seguir, esse 
+                                processo pode aumentar sua conversão de seguidores.', array(), $language); ?>
+                        </p>
 
-                    <div id='my_container_toggle_autolike' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
-                        <div id="left_toggle_buttom_autolike" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
-                            <b style="color:white; margin-left: 25px"><?php echo $CI->T("DESLIGADO", array(), $language); ?></b>
-                        </div>
-                        <div id="right_toggle_buttom_autolike" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
-                            <b style="color:white;margin-left: 25px"><?php echo $CI->T("LIGADO", array(), $language); ?></b>
+                        <div id='my_container_toggle_autolike' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                            <div id="left_toggle_buttom_autolike" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                                <b style="color:white; margin-left: 25px"><?php echo $CI->T("DESLIGADO", array(), $language); ?></b>
+                            </div>
+                            <div id="right_toggle_buttom_autolike" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                                <b style="color:white;margin-left: 25px"><?php echo $CI->T("LIGADO", array(), $language); ?></b>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
+                <?php } ?>
 
 
                 <div class="fleft100">
