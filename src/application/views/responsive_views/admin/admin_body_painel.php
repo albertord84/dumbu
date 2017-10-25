@@ -166,6 +166,7 @@
                     <div class="center filters">
                         <b>Observações</b> 
                         <select id="observations" class="form-control" >
+                            <option>--SELECT--</option>
                             <option>NAO</option>
                             <option>SIM</option>
                         </select>    
@@ -459,8 +460,8 @@
                                     echo '<b>Autolike: </b>'.($result[$i]['like_first'] ? 'Sim' : 'Não').'<br>';
                                     echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas ou<br>criar pendências novas</a><br>';
                                 echo '<br>';
-                                if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
-                                    echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
+                                if($result[$i]['observation']!=NULL && $result[$i]['observation']!==''){
+                                    echo '<b style="color:red">OBSERVAÇÂO!</b><br>';
                                     echo '<p style="color:brown">'.$result[$i]['observation'].'</p>';                                    
                                 }
                                     

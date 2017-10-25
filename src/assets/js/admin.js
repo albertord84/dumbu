@@ -54,7 +54,7 @@ $(document).ready(function(){
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
-           $("#observations").val()==='NAO' &&
+           $("#observations").val()==='--SELECT--' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&
@@ -117,7 +117,7 @@ $(document).ready(function(){
     $("#execute_query_email").click(function(){
         if($("#client_status").val()<=0 && 
            //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
-           $("#observations").val()==='NAO' &&
+           $("#observations").val()==='--SELECT--' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&

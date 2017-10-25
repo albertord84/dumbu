@@ -40,7 +40,6 @@
           var dateFormat = "mm/dd/yy",
             from = $( "#date_from" )
               .datepicker({
-                defaultDate: "+1w",
                 changeMonth: true,
                 numberOfMonths: 1
               })
@@ -48,7 +47,6 @@
                 to.datepicker( "option", "minDate", getDate( this ) );
               }),
             to = $( "#date_to" ).datepicker({
-              defaultDate: "+1w",
               changeMonth: true,
               numberOfMonths: 1
             })
@@ -59,7 +57,6 @@
             var dateFormat2 = "mm/dd/yy",
             from2 = $( "#status_date_from" )
               .datepicker({
-                defaultDate: "+1w",
                 changeMonth: true,
                 numberOfMonths: 1
               })
@@ -67,7 +64,6 @@
                 to2.datepicker( "option", "minDate", getDate2( this ) );
               }),
             to2 = $( "#status_date_to" ).datepicker({
-              defaultDate: "+1w",
               changeMonth: true,
               numberOfMonths: 1
             })
