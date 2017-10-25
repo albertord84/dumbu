@@ -34,7 +34,7 @@
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
-        <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
+        <script type="text/javascript">_data= jQuery.parseJSON('<?php echo $; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
@@ -730,7 +730,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 m-t20">
                         <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
                             <h3 class="fleft100 m-t10"><b>INÍCIO <?php //echo date("j", $my_sigin_date).'/'.date("n", $my_sigin_date); ?></b></h3>
-                            <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php //echo $my_initial_followings; ?></b></h3><small class="fleft100">Seguindo</small></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php //echo $my_initial_; ?></b></h3><small class="fleft100">Seguindo</small></div>
                             <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php //echo $my_initial_followers; ?></b></h3><small class="fleft100">Seguidores</small></div>
                         </div>
 
@@ -738,7 +738,7 @@
 
                         <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco cl-blue">
                             <h3 class="fleft100 m-t10"><b>AGORA</b></h3>
-                            <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php //echo $my_actual_followings; ?></b></h3><small class="fleft100">Seguindo</small></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php //echo $my_actual_; ?></b></h3><small class="fleft100">Seguindo</small></div>
                             <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php //echo $my_actual_followers; ?></b></h3><small class="fleft100">Seguidores</small></div>
                         </div>
 
@@ -887,7 +887,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 m-t40">                            
                     <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco">
                         <h3 class="fleft100 m-t10"><b><?php echo $CI->T("INÍCIO ", array(), $language); ?><?php echo date("j", $my_sigin_date) . '/' . date("n", $my_sigin_date); ?></b></h3>
-                        <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_followings; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo", array(), $language); ?></small></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_initial_; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo", array(), $language); ?></small></div>
                         <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_initial_followers; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguidores", array(), $language); ?></small></div>
                     </div>
 
@@ -895,7 +895,7 @@
 
                     <div class="col-md-5 col-sm-5 col-xs-12 bk-cinza text-center bloco cl-blue">
                         <h3 class="fleft100 m-t10"><b><?php echo $CI->T("AGORA", array(), $language); ?></b></h3>
-                        <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_actual_followings; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo", array(), $language); ?></small></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 border pd-r15"><h3 class="no-mg"><b><?php echo $my_actual_; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguindo", array(), $language); ?></small></div>
                         <div class="col-md-6 col-sm-6 col-xs-12 pd-l15"><h3 class="no-mg"><b><?php echo $my_actual_followers; ?></b></h3><small class="fleft100"><?php echo $CI->T("Seguidores", array(), $language); ?></small></div>
                     </div>
 

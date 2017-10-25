@@ -224,7 +224,7 @@ namespace dumbu\cls {
                 $this->connect();
                 $date = time();
                 $sql = "INSERT INTO daily_report "
-                        . "(client_id, followings, followers, date) "
+                        . "(client_id, , followers, date) "
                         . "VALUES "
                         . "($client_id, '$profile_data->following', '$profile_data->follower_count', '$date');";
 

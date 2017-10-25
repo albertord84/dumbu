@@ -312,7 +312,7 @@ class Admin extends CI_Controller {
             $form_filter = $this->input->get();
             $datas['result'] = $this->admin_model->view_watchdog_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
-            $datas['followings'] = $daily_report['follwings'];
+            $datas[''] = $daily_report['follwings'];
             $datas['followers']  = $daily_report['followers'];
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_watchdog', $datas, true);

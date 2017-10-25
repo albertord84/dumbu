@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    for (var key in followings_data) {
-        followings_data[key].x = new Date(followings_data[key].yy, followings_data[key].mm, followings_data[key].dd);
+    for (var key in _data) {
+        _data[key].x = new Date(_data[key].yy, _data[key].mm, _data[key].dd);
     }
     for (var key in followers_data) {
         followers_data[key].x = new Date(followers_data[key].yy, followers_data[key].mm, followers_data[key].dd);
@@ -37,7 +37,7 @@ $(document).ready(function () {
                 name: "Perfis seguidos",
                 markerType: "square",
                 color: "#F08080",
-                dataPoints: followings_data
+                dataPoints: _data
                         /*[
                          { x: new Date(2010, 0, 3), y: 650 },
                          { x: new Date(2010, 0, 5), y: 700 },
@@ -75,7 +75,7 @@ $(document).ready(function () {
     });
 
     chart.render();
-    console.log(followings_data);
+    console.log(_data);
     //alert(chart.data[0].dataPoints[0].y);
     //}
     //alert(char.data);

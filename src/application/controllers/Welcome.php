@@ -141,15 +141,15 @@ class Welcome extends CI_Controller {
                 $datas1['my_actual_followers']="Blocked";            
              
             if(isset($my_profile_datas->following))
-               $datas1['my_actual_followings'] = $my_profile_datas->following;
+               $datas1['my_actual_'] = $my_profile_datas->following;
             else
-                $datas1['my_actual_followings']="Blocked";
+                $datas1['my_actual_']="Blocked";
             
             $datas1['my_sigin_date'] = $this->session->userdata('init_date');
             date_default_timezone_set('Etc/UTC');
             $datas1['today'] = date('d-m-Y', time());
             $datas1['my_initial_followers'] = $init_client_datas[0]['insta_followers_ini'];
-            $datas1['my_initial_followings'] = $init_client_datas[0]['insta_following'];            
+            $datas1['my_initial_'] = $init_client_datas[0]['insta_following'];            
             
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
@@ -161,7 +161,7 @@ class Welcome extends CI_Controller {
             $datas1['language'] =  $GLOBALS['language'];
 
             $daily_report = $this->get_daily_report($this->session->userdata('id'));
-            $datas1['followings'] = $daily_report['followings'];
+            $datas1[''] = $daily_report[''];
             $datas1['followers']  = $daily_report['followers'];
 
             if ($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
@@ -771,7 +771,7 @@ class Welcome extends CI_Controller {
                     
                     $this->client_model->insert_initial_instagram_datas($client[$i]['id'], array(
                         'followers' => $data_insta->follower_count,
-                        'followings' => $data_insta->following,
+                        '' => $data_insta->following,
                         'date' => time()));
                     $response['datas'] = json_encode($data_insta);
                     if ($early_client_canceled)
@@ -2606,7 +2606,7 @@ class Welcome extends CI_Controller {
             $this->load->model('class/user_model');
             $sql = "SELECT * FROM daily_report WHERE client_id=" . $id . " ORDER BY date ASC;";  // LIMIT 30
             $result = $this->user_model->execute_sql_query($sql);
-            $followings = array();
+            $ = array();
             $followers = array();
             $N = count($result);
             for ($i = 0; $i < $N; $i++) {
@@ -2614,12 +2614,12 @@ class Welcome extends CI_Controller {
                 $dd = date("j", $result[$i]['date']);
                 $mm = date("n", $result[$i]['date']);
                 $yy = date("Y", $result[$i]['date']);
-                $followings[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
+                $[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
                 $followers[$i] = (object) array('x' => ($i + 1), 'y' => intval($result[$i]['followers']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
                 }
             }
             $response= array(
-                'followings' => json_encode($followings),
+                '' => json_encode($),
                 'followers' => json_encode($followers)
             );
             return $response;
