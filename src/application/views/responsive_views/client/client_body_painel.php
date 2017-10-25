@@ -161,8 +161,8 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div style="float:right;text-align: center"">
-                        <b id="initial_date_" style="text-align:center; width:100%; font-size:1.4em;">
-                            <?php echo $my_initial_;?>
+                        <b id="initial_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $my_initial_followings;?>
                         </b>
                         <br>
                         <b style="text-align:center; width:100%; font-size:1em;">
@@ -206,8 +206,8 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div style="float:right;text-align: center"">
-                        <b id="now_date_" style="text-align:center; width:100%; font-size:1.4em;">
-                            <?php echo $my_actual_;?>
+                        <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
+                            <?php echo $my_actual_followings;?>
                         </b>
                         <br>
                         <b style="text-align:center; width:100%; font-size:1em;">
@@ -258,7 +258,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div style="text-align: center"">
-                        <b id="now_date_" style="text-align:center; width:100%; font-size:1.4em;">
+                        <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
                             <?php echo $total_amount_reference_profile_today;?>
                         </b>
                         <br>
@@ -269,7 +269,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div style="text-align: center"">
-                        <b id="now_date_" style="text-align:center; width:100%; font-size:1.4em;">
+                        <b id="now_date_followings" style="text-align:center; width:100%; font-size:1.4em;">
                             <?php echo $total_amount_followers_today;?>
                         </b>
                         <br>

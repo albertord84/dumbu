@@ -298,7 +298,7 @@
             $this->db->select('action');
             $this->db->from('washdog_type');
             $this->db->where('washdog_type.id= washdog1.type');
-                      
+            
             if($form_filter['date_from']!='' && $form_filter['date_to']!=''){
                 $this->db->where('date >=',strtotime($form_filter['date_from'].' 00:00:00'));
                 $this->db->where('date <=',strtotime($form_filter['date_to'].' 23:59:59'));

@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    for (var key in _data) {
-        _data[key].x = new Date(_data[key].yy, _data[key].mm - 1, _data[key].dd);
+    for (var key in followings_data) {
+        followings_data[key].x = new Date(followings_data[key].yy, followings_data[key].mm - 1, followings_data[key].dd);
     }
     for (var key in followers_data) {
         followers_data[key].x = new Date(followers_data[key].yy, followers_data[key].mm - 1, followers_data[key].dd);
@@ -11,7 +11,7 @@ $(document).ready(function () {
         var name2 = "Seguidores ganhos";
     }
     else if (language === 'EN') {
-        name1 = "";
+        name1 = "Followings";
         name2 = "Followers";
     }
     else if (language === 'ES') {
@@ -56,7 +56,7 @@ $(document).ready(function () {
                 name: name1,
                 markerType: "square",
                 color: "#F08080",
-                dataPoints: _data
+                dataPoints: followings_data
                         /*[
                          { x: new Date(2010, 0, 3), y: 650 },
                          { x: new Date(2010, 0, 5), y: 700 },
@@ -94,7 +94,7 @@ $(document).ready(function () {
     });
 
     chart.render();
-    console.log(_data);
+    console.log(followings_data);
     //alert(chart.data[0].dataPoints[0].y);
     //}
     //alert(char.data);

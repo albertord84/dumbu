@@ -276,10 +276,11 @@ class User_model extends CI_Model {
         if($a>0)
         $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
         else 
-        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));   
-        
+        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));  
     }
-       
+    
+   
+    
      public function get_status_by_id($status_id){
         $this->db->select('name');
         $this->db->from('user_status');
