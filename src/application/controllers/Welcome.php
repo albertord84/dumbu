@@ -2442,36 +2442,45 @@ class Welcome extends CI_Controller {
             $data_insta = $this->is_insta_user($client['login'], $client['pass']);
             if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                 $this->user_model->update_user($user_id, array(
+                    'status_date' => time(),
                     'status_id' => user_status::ACTIVE
                 ));
                 echo ' STATUS = '.user_status::ACTIVE;
             } else
             if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']){
                 $this->user_model->update_user($user_id, array(
+                    'status_date' => time(),
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
                 echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
             }
             else{
                 $this->user_model->update_user($user_id, array(
+                    'status_date' => time(),
                     'status_id' => user_status::BLOCKED_BY_INSTA
                 ));
-                echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
+                echo ' STATUS = '.user_status::VERIFY_ACCOUNT;
             }
         } else{
             $this->client_model->update_user($user_id, array(            
+                'status_date' => time(),
                 'status_id' => 1)); 
+            $this->delete_recurrency_payment($client['order_key']);
+            $this->client_model->update_client($user_id, array(
+                'initial_order_key' => '',
+                'order_key' => '',
+                'observation' => 'NÂO CONEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
+                'pay_day' => $payment_data['pay_day']));
+            //TO-DO:Ruslan: inserta una pendencia automatica aqui
+            
             if (is_object($resp))
                 echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey;
             else 
                 echo '<br>Client '.$user_id.' DONT updated. Missing order key';
-            echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
         }
         
         $this->client_model->update_client($user_id, array(            
             'initial_order_key' => '')); 
-         
-        
     }
     
     public function prevalence(){
@@ -2978,7 +2987,7 @@ class Welcome extends CI_Controller {
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
-            echo $aa.'-----'.$status_id.'------';
+            //echo $aa.'-----'.$status_id.'------';
             if($client['retry_payment_counter']<10){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
                         $client['credit_card_name']!=null && $client['credit_card_name']!='' && 
