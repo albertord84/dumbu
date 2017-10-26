@@ -262,12 +262,9 @@ namespace dumbu\cls {
             $usermsg = urlencode($usermsg);
             $usercompany = urlencode($usercompany);
             $userphone = urlencode($userphone);
-            $url = "http://localhost/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg";
-            $content = file_get_contents("http://php.net/manual/en/function.file-get-contents.php");
-            //$this->mail->msgHTML($content, dirname(__FILE__));
-            //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            //$this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
-            $this->mail->Body = $usermsg;
+           
+            $this->mail->msgHTML(@file_get_contents("http://". $_SERVER['SERVER_NAME'] ."/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
+            //$this->mail->Body = $usermsg;
             //Replace the plain text body with one created manually
             $this->mail->AltBody = "User Contact: $username";
 
