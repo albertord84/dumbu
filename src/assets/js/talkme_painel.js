@@ -26,10 +26,17 @@ $(document).ready(function(){
                 type : 'POST',
                 dataType : 'json',
                 success : function(response){
+                    
+                    $("#visitor_name").val("");
+                    $("#visitor_company").val("");
+                    $("#visitor_email").val("");
+                    $("#visitor_phone").val("");
+                    $("#visitor_message").val(""); 
+                    
                     if(response['success']){                        
-                        modal_alert_message(response['message']);                        
+                        modal_alert_message(T(response['message']));                        
                     } else
-                        modal_alert_message(response['message']);    
+                        modal_alert_message(T(response['message']));    
                     l.stop();
                     },
                 error : function(xhr, status) {
@@ -40,12 +47,7 @@ $(document).ready(function(){
         } else{
             modal_alert_message(T('Alguns dados incorretos'));            
         }
-        
-        $("#visitor_name").val("");
-        $("#visitor_company").val("");
-        $("#visitor_email").val("");
-        $("#visitor_phone").val("");
-        $("#visitor_message").val("");                      
+                             
     });
     
           

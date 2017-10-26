@@ -2169,9 +2169,9 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-        $this->load->model('class/user_model');
-        $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT REFERENCE PROFILES TIPS');
-        $this->load->view('ajuda', $param);
+       // $this->load->model('class/user_model');
+       // $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT REFERENCE PROFILES TIPS');
+        $this->load->view('ES_dicas', $param);
     }
 
     public function create_profiles_datas_to_display_as_json() {
