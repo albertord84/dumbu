@@ -1301,7 +1301,7 @@ class Welcome extends CI_Controller {
                 
             }
             
-            ($datas['unfollow_total']==0)?$ut='desativado':$ut='ativado';
+            ($datas['unfollow_total']==0)?$ut='DISABLED':$ut='ACTIVATED';
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'TOTAL UNFOLLOW '.$ut);
             
@@ -1325,7 +1325,7 @@ class Welcome extends CI_Controller {
                 'like_first' => $al
             ));
             
-            ($al==0)?$ut='desativado':$ut='ativado';
+            ($al==0)?$ut='DISABLED':$ut='ACTIVATED';
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'AUTOLIKE '.$ut);
             
@@ -1345,7 +1345,7 @@ class Welcome extends CI_Controller {
                 'paused' => $pp
             ));
             
-            $ut = 'UNDEFINED';
+            $ut = 'PAUSED';
             
             if ($pp == 1) {
                 $ut = 'PAUSED';
@@ -1716,7 +1716,8 @@ class Welcome extends CI_Controller {
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION INSERTED '.$profile['geolocalization']);
+                // $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION INSERTED '.$profile['geolocalization']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION INSERTED');
             }
             echo json_encode($result);
         }
@@ -1744,7 +1745,8 @@ class Welcome extends CI_Controller {
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION ELIMINATED '.$profile['geolocalization']);
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION ELIMINATED '.$profile['geolocalization']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION ELIMINATED');
             }
             echo json_encode($result);
         }
@@ -1842,7 +1844,8 @@ class Welcome extends CI_Controller {
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED');
             }
             
             echo json_encode($result);
@@ -1872,7 +1875,8 @@ class Welcome extends CI_Controller {
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE ELIMINATED '.$profile['profile']);
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE ELIMINATED '.$profile['profile']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE ELIMINATED');
             }
             
             echo json_encode($result);
@@ -2385,7 +2389,7 @@ class Welcome extends CI_Controller {
     public function get_daily_report($id) {
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
-            $sql = "SELECT * FROM daily_report WHERE client_id=" . $id . " ORDER BY date ASC;";  // LIMIT 30
+            $sql = "SELECT * FROM daily_report WHERE followings != '0' AND followers != '0' AND client_id=" . $id . " ORDER BY date ASC;" ;  // LIMIT 30
             $result = $this->user_model->execute_sql_query($sql);
             $followings = array();
             $followers = array();
@@ -2498,7 +2502,8 @@ class Welcome extends CI_Controller {
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
                     $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN BLACK LIST');
+                    //$this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN BLACK LIST');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE IN BLACK LIST');
                 } else{
                     $result['success'] = false;
                     $result['message'] = $this->T('O perfil '.$resp['message'], array(), $GLOBALS['language']);
@@ -2527,7 +2532,8 @@ class Welcome extends CI_Controller {
             if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,0)){
                 $result['success'] = true;
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN BLACK LIST');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN BLACK LIST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE IN BLACK LIST');
             } else{
                 $result['success'] = false;
                 $result['message'] = $this->T('Erro eliminando da lista negra', array(), $GLOBALS['language']);
@@ -2575,7 +2581,8 @@ class Welcome extends CI_Controller {
                     $result['success'] = true;
                     $result['url_foto'] = $datas->profile_pic_url;    
                     $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN WHITE LIST ');
+                    //$this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN WHITE LIST ');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE IN WHITE LIST');
                 } else{
                     $result['success'] = false;
                     $result['message'] = $this->T('O perfil '.$resp['message'], array(), $GLOBALS['language']);
@@ -2603,7 +2610,8 @@ class Welcome extends CI_Controller {
             if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,1)){
                 $result['success'] = true;
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN WHITE LIST');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN WHITE LIST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE IN WHITE LIST');
             } else{
                 $result['success'] = false;
                 $result['message'] = $this->T('Erro eliminando da lista negra', array(), $GLOBALS['language']);
