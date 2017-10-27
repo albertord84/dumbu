@@ -497,7 +497,7 @@
                                                     <br>
                                                     <spam>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green">Whatsapp</b></a>
+                                                        <a class="help"><b class="c-green"><?php echo $CI->T("Whatsapp", array(),$language);?></b></a>
                                                         <?php
                                                             if($language=='PT')
                                                                 echo '<img src="assets/images/watsapp.png" style="width:40px" alt="">';
