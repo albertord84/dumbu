@@ -9,7 +9,7 @@ class Payment extends CI_Controller {
         $path = __dir__ . '/../../logs/';
         $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
         //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
-        $post = $post = file_get_contents('php://input');
+        $post = file_get_contents('php://input');
         $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
 //        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
         if ($result === FALSE) {
