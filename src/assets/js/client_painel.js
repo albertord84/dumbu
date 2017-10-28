@@ -134,7 +134,7 @@ $(document).ready(function () {
       
     $("#dicas_geoloc").click(function(){
         url=base_url+"index.php/welcome/dicas_geoloc";
-        window.open(url, '_blank');
+        window.open(url,'_blank');
     });    
     
     $("#btn_add_new_profile").hover(
@@ -467,7 +467,7 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response['success']) {
                         //modal_alert_message(parseInt(response['unfollow_total']));
-                        set_global_var('autolike', parseInt(response['autolike']));
+                        set_global_var('autolike', !autolike);
                         init_autolike_type();
                     } else {
                         modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
@@ -483,12 +483,12 @@ $(document).ready(function () {
     });
 
     function init_autolike_type() {
-        if (!autolike){
-            $('#left_toggle_buttom_autolike').css({'background-color': '#009CDE'});
-            $('#right_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
-        } else{
+        if (autolike){
             $('#left_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
             $('#right_toggle_buttom_autolike').css({'background-color': '#009CDE'});
+        } else{
+            $('#left_toggle_buttom_autolike').css({'background-color': '#009CDE'});
+            $('#right_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
         }
     }
     
@@ -530,11 +530,19 @@ $(document).ready(function () {
     function init_play_pause_type() {
         if (play_pause) {
             $('#button_play_pause').css({'background-color': '#009CDE'});
-            $('#button_play_pause').html('<i id="iconChange" class="fa fa-play" style="color:white"></i><b style="color:white"> Play</b>');
+            $('#button_play_pause').html('<span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>');
+            var contenedor=document.getElementById('status_text');
+            contenedor.style.display="none";
+            contenedor=document.getElementById('status_text_paused');
+            contenedor.style.display="inline";
         }
         else {
             $('#button_play_pause').css({'background-color': '#DFDFDF'});
-            $('#button_play_pause').html('<i id="iconChange" class="fa fa-pause"></i><b> Pause</b>');
+            $('#button_play_pause').html('<span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>');
+            var contenedor=document.getElementById('status_text_paused');
+            contenedor.style.display="none";
+            contenedor=document.getElementById('status_text');
+            contenedor.style.display="inline";
         }
     }
 
@@ -1298,4 +1306,16 @@ $(document).ready(function () {
     
     
     init_icons_geolocalization(profiles);
+    
+    $("#lnk_language1").click(function () {
+        //alert($('#img_language1').attr('src'));
+    });
+    
+    $("#lnk_language2").click(function () {
+       $(location).attr("href",base_url+"index.php/welcome/client?language="+$("#txt_language2").text());
+        
+    });
+    $("#lnk_language3").click(function () {
+        $(location).attr("href",base_url+"index.php/welcome/client?language="+$("#txt_language3").text()); 
+    });
 }); 

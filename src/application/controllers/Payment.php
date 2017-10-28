@@ -9,7 +9,11 @@ class Payment extends CI_Controller {
         $path = __dir__ . '/../../logs/';
         $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
         //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
+<<<<<<< HEAD
         $post =  file_get_contents('php://input');
+=======
+        $post = file_get_contents('php://input');
+>>>>>>> develop
         $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
 //        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
         if ($result === FALSE) {
@@ -195,7 +199,7 @@ class Payment extends CI_Controller {
             $pay_day->setTimestamp($client['init_date']);
             $diff_info = $pay_day->diff($now);
             $diff_days = $diff_info->days;
-            if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && $IOK_ok === TRUE && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
+            if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && ($IOK_ok === TRUE && $client['initial_order_key']) && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
                 print "\n<br> LastSaledData = NULL";
                 $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
                 print "\n<br>This client UNBLOQUED by payment just now: " . $client['user_id'];

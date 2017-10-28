@@ -74,7 +74,7 @@ class User_model extends CI_Model {
      * 
      * @access public
      */
-    public $languaje;
+    public $language;
 
     /**
      * 
@@ -128,7 +128,7 @@ class User_model extends CI_Model {
                 $session->set_userdata('role_id', $user_data['role_id']);
                 $session->set_userdata('status_id', $user_data['status_id']);
                 $session->set_userdata('init_date', $user_data['init_date']);
-                $session->set_userdata('languaje', $user_data['languaje']);
+                $session->set_userdata('language', $user_data['language']);
                 $session->set_userdata('insta_datas', $datas);
                 return true;
             } else {
@@ -138,7 +138,20 @@ class User_model extends CI_Model {
             echo 'Error accediendo a la base de datos durante el login';
         }
     }
-
+    
+    public function get_language_of_client($user_id){
+        $this->db->select('language');
+        $this->db->from('users');
+        $this->db->where('id',$user_id);
+        $xxx=$this->db->get()->row_array();
+        return $xxx;
+    }
+    
+    public function set_language_of_client($user_id,$language){        
+        $this->db->where('id', $user_id);
+        $this->db->update('users', $language);
+    }
+        
     public function get_all_users() {
         $this->db->select('id,status_id,plane_id');
         $this->db->from('users');
@@ -256,8 +269,17 @@ class User_model extends CI_Model {
      * @access public
      */
     public function insert_washdog($user_id,$cad) {
-        //$this->db->insert('washdog',array('user_id'=>$user_id,'action'=>$cad,'date'=>time()));
+        $this->db->select('id');
+        $this->db->from('washdog_type');
+        $this->db->where('action',$cad);
+        $a=$this->db->get()->row_array()['id'];
+        if($a>0)
+        $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        else 
+        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));  
     }
+    
+   
     
      public function get_status_by_id($status_id){
         $this->db->select('name');

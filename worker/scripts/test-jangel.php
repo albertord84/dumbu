@@ -54,11 +54,12 @@ echo $pay_date->diff($init_day);
 // GMAIL
  
 //$Gmail = new dumbu\cls\Gmail();
-//$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
+//$result = $Gmail->send_client_contact_form("Jose Angel", "jangel.riveaux@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-//var_dump($result);
+var_dump(time());
+var_dump(!0);
 //$Robot = new dumbu\cls\Robot();
  	  		 	
  	 	
@@ -121,9 +122,14 @@ else{ echo "\n<br> DB search false </br>" ;
 }*//*
 $DB = new \dumbu\cls\DB();
 $result = $DB->InsertEventToWashdog(19356,'Error yo testando',1);
+<<<<<<< HEAD
 var_dump($result);*
  * *$client = (new \dumbu\cls\Client())->get_client(1);
  
+=======
+var_dump($result);*/
+/*$client = (new \dumbu\cls\Client())->get_client(1);
+>>>>>>> develop
 $daily_work = new \dumbu\cls\Day_client_work();
 $daily_work->rp_id = 2;
 $daily_work->client_id = 1;
@@ -131,8 +137,13 @@ $Robot = new \dumbu\cls\Robot();
 $Robot->daily_work = $daily_work;
 $json_object = $obj = new stdClass();
 $json_object->message = 'unauthorized';
+<<<<<<< HEAD
 $Robot-> process_follow_error($json_object);*/
 /*
+=======
+$Robot-> process_follow_error($json_object);
+*//*
+>>>>>>> develop
 $white_list = $DB->get_white_list('45769');
 
 $Profiles[0] = 47711036;

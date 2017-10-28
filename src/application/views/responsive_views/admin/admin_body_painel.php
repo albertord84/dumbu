@@ -80,29 +80,23 @@
                         </table>
                     </div> -->
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="center filters">
-                        <b>Cód. Promocional</b>
-                        <select id="cod_promocional" class="form-control" >                            
-                            <option>--SELECT--</option>
-                            <option>PEIXE URBANO</option>
-                            <option>AMIGOSDOPEDRO</option>
-                            <option>FITNESS</option>
-                            <option>BACKTODUMBU</option>
-                            <option>SHENIA</option>
-                            <option>VANESSA</option>
-                            <option>CAROL</option>
-                            <option>NINA</option>
-                            <option>NICOLE</option>
-                        </select>
+                        <b>Data do status</b>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="center filters">
-                        <b>ID do cliente</b>
-                        <input id="client_id" class="form-control" placeholder="ID do cliente">
+                    <div class="col-xs-1">
+                        <b>do</b>
                     </div>
-                </div>    
+                    <div class="col-xs-5">
+                        <input type="text" id="status_date_from" name="status_date_from" placeholder="mm/dd/yyyy" class="form-control">
+                    </div>
+                    <div class="col-xs-1">
+                        <b>até</b>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" id="status_date_to" name="status_date_to" placeholder="mm/dd/yyyy" class="form-control">
+                    </div>
+                </div>   
                 <div class="col-md-1"></div>
             </div>
             <br>
@@ -122,8 +116,8 @@
                 </div>
                 <div class="col-md-2">
                     <div class="center filters">
-                        <b>Order Key</b>
-                        <input id="order_key_client"  class="form-control" placeholder="Order Key">
+                        <b>ID do cliente</b>
+                        <input id="client_id" class="form-control" placeholder="ID do cliente">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -178,6 +172,82 @@
                     </div>
                 </div>
                 <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Cód. Promocional</b>
+                        <select id="cod_promocional" class="form-control" >                            
+                            <option>--SELECT--</option>
+                            <option>PEIXE URBANO</option>
+                            <option title="7 dias de graça">INSTA-DIRECT</option>
+                            <option title="7 dias de graça">MALADIRETA</option>
+                            <option title="15 dias de graça">INSTA15D</option>
+                            <option title="1 mês de graça">AMIGOSDOPEDRO</option>
+                            <option title="20% de desconto de por vida">DUMBUDF20</option>
+                            <option title="50% de desconto o primeiro mês">INSTA50P</option>
+                            <option title="50% de desconto o primeiro mês">BACKTODUMBU</option>
+                            <option title="50% de desconto o primeiro mês">BACKTODUMBU-DNLO</option>
+                            <option title="50% de desconto o primeiro mês">BACKTODUMBU-EGBTO</option>
+                            <option>FITNESS</option>
+                            <option>SHENIA</option>
+                            <option>VANESSA</option>
+                            <option>CAROL</option>
+                            <option>NINA</option>
+                            <option>NICOLE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Order Key</b>
+                        <input id="order_key_client"  class="form-control" placeholder="Order Key">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Não recebe trabalho há mais de</b>
+                        <input id="days_no_work"  class="form-control" placeholder="número de dias">
+                        <b>dias</b>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>Paused</b> 
+                        <select id="paused" class="form-control" >
+                            <option value="-1">--SELECT--</option>
+                            <option value="0">NAO</option>
+                            <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>Total Unfollow</b> 
+                        <select id="total_unfollow" class="form-control" >
+                            <option value="-1">--SELECT--</option>
+                            <option value="0">NAO</option>
+                            <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>Autolike</b> 
+                        <select id="autolike" class="form-control" >
+                            <option value="-1">--SELECT--</option>
+                            <option value="0">NAO</option>
+                            <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
@@ -185,7 +255,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-5">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
@@ -195,7 +265,6 @@
                 </div>
             </div>
         <hr>
-        <br><br>
         
         <div class="row">
             <div class="col-xs-1"></div>
@@ -217,7 +286,7 @@
                     <tr class="list-group-item-success">
                         <td style="max-width:240px; padding:5px"><b>No.</b></td>
                         <td style="max-width:240px; padding:5px"><b>Dados pessoais</b></td>
-                        <td style="max-width:240px; padding:5px"><b>Dados de Instagaram</b></td>
+                        <td style="max-width:240px; padding:5px"><b>Dados de Instagram</b></td>
                         <td style="max-width:240px; padding:5px"><b>Dados bancários</b></td>
                         <td style="max-width:240px; padding:5px"><b>Operações</b></td>
                     </tr>
@@ -253,7 +322,7 @@
                             //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
                             echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block">';
                                 echo '<td >';
-                                    echo '<br><br><br><br><b>'.($i+1).'</b>';
+                                    echo '<br><br><br><br><br><b>'.($i+1).'</b>';
                                 echo '</td>';                                
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>Dumbu ID: </b>'.$result[$i]['user_id'].'<br>';
@@ -268,15 +337,16 @@
                                         echo '<b>Sign-out date: </b>'.date('d-m-Y h:i:sa',$result[$i]['end_date']).'<br>';
                                     else
                                         echo '<b>Sign-out date: </b>----<br>';
+                                    echo '<b>Last access: </b>'.date('d-m-Y h:i:sa',$result[$i]['last_access']).'<br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';
                                     echo '<b>Initial followers: </b>'.$result[$i]['insta_followers_ini'].'<br>';
-                                    echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br><br>';                                
+                                    echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br>';                                
                                     echo '<b>Actual followers: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
                                     echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
-                                    echo '<br><br>';
-                                    if($result[$i]['ticket_peixe_urbano']!=NULL){
+                                    echo '<br>';
+                                    if ($result[$i]['ticket_peixe_urbano']!=NULL && $result[$i]['ticket_peixe_urbano']!="") {
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='1'){
                                             echo '<button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success" alt="" data-toggle="modal" data-target="#myModal_1"> <span class="ladda-label">Peixe urbano</span></button><br><br>';
                                             echo '<div class="modal fade" style="top:30%" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -354,10 +424,41 @@
                                                               </div>
                                                           </div>                                                        
                                                     </div> '; 
+                                        }else
+                                        if($result[$i]['ticket_peixe_urbano_status_id']===NULL){
+                                            echo '<button style="width:160px" title="SEM STATUS" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_3"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog modal-sm" role="document">                                                          
+                                                              <div class="modal-content">
+                                                                  <div class="modal-header">
+                                                                      <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                      <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
+                                                                  </div>
+                                                                  <div class="modal-body">
+                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'                                                                      
+                                                                    <select id="select_option_ticket_peixe_urbano_status_id_3" class="form-control" disabled="true">
+                                                                        <option value="1" >CONFERIDO</option>
+                                                                        <option value="2" >PENDENTE</option>
+                                                                        <option value="3" selected="true">ERRADO</option>
+                                                                    </select>                                                                      
+                                                                  </div>
+                                                                  <div class="modal-footer">                                                                      
+                                                                      <button disabled="true" id="btn_change_ticket_peixe_urbano_status_id_3" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                          <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
+                                                                      </button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>                                                        
+                                                    </div> '; 
                                         }
                                     }
                                 
-                                echo '<br><br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_watchdog?&date_from=10/12/2017&date_to='.date('m/d/Y').'&user_id='.$result[$i]['user_id'].'&query=1">Ver WATCHDOG</a><br>';
+                                    echo '<b>Paused: </b>'.($result[$i]['paused'] ? 'Sim' : 'Não').'<br>';
+                                    echo '<b>Total Unfollow: </b>'.($result[$i]['unfollow_total'] ? 'Sim' : 'Não').'<br>';
+                                    echo '<b>Autolike: </b>'.($result[$i]['like_first'] ? 'Sim' : 'Não').'<br>';
+                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas ou<br>criar pendências novas</a><br>';
+                                echo '<br>';
                                 if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
                                     echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
                                     echo '<p style="color:brown">'.$result[$i]['observation'].'</p>';                                    
@@ -365,7 +466,11 @@
                                     
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
-                                    echo '<b>CC number: </b>'.$result[$i]['credit_card_number'].'<br>';
+                                    $tam = strlen($result[$i]['credit_card_number']);
+                                    if ($tam >= 6)
+                                        echo '<b>CC number: </b>'.substr($result[$i]['credit_card_number'], 0, 3).'***'.substr($result[$i]['credit_card_number'], -3).'<br>';
+                                    else
+                                        echo '<b>CC number: </b>'.$result[$i]['credit_card_number'].'<br>';
                                     echo '<b>CC name: </b>'.$result[$i]['credit_card_name'].'<br>';
                                     echo '<b>CC exp month: </b>'.$result[$i]['credit_card_exp_month'].'<br>';
                                     echo '<b>CC exp year: </b>'.$result[$i]['credit_card_exp_year'].'<br><br>';
@@ -374,9 +479,13 @@
                                     else
                                         echo '<b>Payment day: </b>NULL<br>';                                    
                                     if($result[$i]['initial_val'])
-                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> '.$result[$i]['initial_val'].' | '.$result[$i]['normal_val'].'<br>';
+                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$result[$i]['initial_val'].' | '.$result[$i]['normal_val'].'<br>';
                                     else
-                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') <br> *** | '.$result[$i]['normal_val'].'<br>';
+                                        echo '<b>Plane: </b> ('.$result[$i]["plane_id"].') &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *** | '.$result[$i]['normal_val'].'<br>';
+                                    if ($result[$i]['actual_payment_value'] != NULL && $result[$i]['actual_payment_value'] != "")
+                                        echo '<b>Actual payment value: </b>'.$result[$i]['actual_payment_value'].'<br>';
+                                    else
+                                        echo '<b>Actual payment value: </b>'.$result[$i]['normal_val'].'<br>';
                                     
                                     //echo '<b>Initial order key: </b>'.$result[$i]['initial_order_key'].'<br>';
                                     echo '<b>Initial order key: </b><a href="https://dashboard.mundipagg.com/#/9d0703f8-98a6-4f61-a28f-6be3771f3510/live/transactions?currentTab=creditCardTransactions&pageNumber=1&sortField=CreateDate&sortMode=DESC&pageSize=20&identifier='.$result[$i]['initial_order_key'].'" target="_blank">'.$result[$i]['initial_order_key'].'</a><br>';

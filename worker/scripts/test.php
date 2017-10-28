@@ -158,24 +158,24 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('11/07/2017 00:42:27');
+//$pay_day = strtotime('10/20/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-//$pay_day = time();
+$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
-$payment_data['credit_card_number'] = '5155901218513738';
-$payment_data['credit_card_name'] = 'RENATA A C MATOS';
-$payment_data['credit_card_exp_month'] = '02';
-$payment_data['credit_card_exp_year'] = '2023';
-$payment_data['credit_card_cvc'] = '714';
-$payment_data['amount_in_cents'] = 3992;
+$payment_data['credit_card_number'] = '5293230325454401';
+$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
+$payment_data['credit_card_exp_month'] = '04';
+$payment_data['credit_card_exp_year'] = '2024';
+$payment_data['credit_card_cvc'] = '617';
+$payment_data['amount_in_cents'] = 100;
 $payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+$resul = $Payment->create_payment($payment_data);
 var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
@@ -283,7 +283,7 @@ $Robot = new \dumbu\cls\Robot();
 //var_dump($output);
 //var_dump($return_var);
 //$Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("alberto_dreyes", "albertord5");
+//$result = $Robot->bot_login("alberto_dreyes", "albertord7");
 //var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
@@ -296,6 +296,8 @@ $Robot = new \dumbu\cls\Robot();
 //var_dump($result);
 //$result = $Robot->bot_login("lambaosbeicos", "75005310");
 //$result = $Robot->bot_login("alberto_dreyes", "albertord7");
+//var_dump($result);
+//$result = $Robot->bot_login("tompsonr", "sorvete6969");
 //var_dump($result);
 //----------------------------------------------------------------
 //

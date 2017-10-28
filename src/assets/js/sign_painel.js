@@ -54,6 +54,7 @@ $(document).ready(function () {
         }
     });
     
+    
     $("#signin_btn_insta_login").click(function () {           
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
@@ -68,6 +69,7 @@ $(document).ready(function () {
                                 'client_email': $('#client_email').val(),
                                 'client_login': $('#signin_clientLogin').val(),
                                 'client_pass': $('#signin_clientPassword').val(),
+                                'language': language,
                                 'utm_source': typeof getUrlVars()["utm_source"] !== 'undefined' ? getUrlVars()["utm_source"] : 'NULL'
                             },
                             type: 'POST',
@@ -172,7 +174,7 @@ $(document).ready(function () {
                         if (response['success']) {
                             //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
                             //$(location).attr('href',base_url+'index.php/welcome/client');
-                            $(location).attr('href', base_url + 'index.php/welcome/purchase');
+                            $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
                             //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
                         } else {
                             modal_alert_message(response['message']);
