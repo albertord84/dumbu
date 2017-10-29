@@ -81,10 +81,13 @@
             //else
             if($form_filter['client_status']>-1)
                 $this->db->where('status_id', $form_filter['client_status']);
+            
             if ($form_filter['plane'] > 0)
                 $this->db->where('plane_id', $form_filter['plane']);
+            
             if ($form_filter['tentativas'] > 0)
                 $this->db->where('purchase_counter <', (10 - $form_filter['tentativas']));
+            
             if($form_filter['days_no_work']!='') {
                 $this->db->where('last_access <', time() - ($form_filter['days_no_work'] * 24 * 60 * 60));
                 $this->db->where('role_id', 2); // CLIENT
@@ -95,12 +98,22 @@
                 $this->db->where('order_key !=', '');
                 $this->db->order_by("last_access", "desc");
             }
+            
             if ($form_filter['paused'] >= 0)
                 $this->db->where('paused', $form_filter['paused']);
+            
             if ($form_filter['total_unfollow'] >= 0)
                 $this->db->where('unfollow_total', $form_filter['total_unfollow']);
+            
             if ($form_filter['autolike'] >= 0)
                 $this->db->where('like_first', $form_filter['autolike']);
+            
+            if ($form_filter['utm_source'] != '--SELECT--') {
+                if ($form_filter['utm_source'] == '---')
+                    $this->db->where('utm_source IS NULL');
+                else
+                    $this->db->where('utm_source', $form_filter['utm_source']);
+            }
             
             return $this->db->get()->result_array();
         }
@@ -175,10 +188,13 @@
             //else
             if($form_filter['client_status']>-1)
                 $this->db->where('status_id', $form_filter['client_status']);
+            
             if ($form_filter['plane'] > 0)
                 $this->db->where('plane_id', $form_filter['plane']);
+            
             if ($form_filter['tentativas'] > 0)
                 $this->db->where('purchase_counter <', (10 - $form_filter['tentativas']));
+            
             if($form_filter['days_no_work']!='') {
                 $this->db->where('last_access <', time() - ($form_filter['days_no_work'] * 24 * 60 * 60));
                 $this->db->where('role_id', 2); // CLIENT
@@ -189,12 +205,22 @@
                 $this->db->where('order_key !=', '');
                 $this->db->order_by("last_access", "desc");
             }
+            
             if ($form_filter['paused'] >= 0)
                 $this->db->where('paused', $form_filter['paused']);
+            
             if ($form_filter['total_unfollow'] >= 0)
                 $this->db->where('unfollow_total', $form_filter['total_unfollow']);
+            
             if ($form_filter['autolike'] >= 0)
                 $this->db->where('like_first', $form_filter['autolike']);
+            
+            if ($form_filter['utm_source'] != '--SELECT--') {
+                if ($form_filter['utm_source'] == '---')
+                    $this->db->where('utm_source IS NULL');
+                else
+                    $this->db->where('utm_source', $form_filter['utm_source']);
+            }
             
             return $this->db->get()->result_array();
         }
