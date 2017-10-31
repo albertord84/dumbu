@@ -71,6 +71,23 @@
               from2.datepicker( "option", "maxDate", getDate2( this ) );
             });
             
+            var dateFormat3 = "mm/dd/yy",
+            from3 = $( "#creation_date_from" )
+              .datepicker({
+                changeMonth: true,
+                numberOfMonths: 1
+              })
+              .on( "change", function() {
+                to3.datepicker( "option", "minDate", getDate3( this ) );
+              }),
+            to3 = $( "#creation_date_to" ).datepicker({
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              from3.datepicker( "option", "maxDate", getDate3( this ) );
+            });
+            
             $( "#event_date" ).datepicker();
 
           function getDate( element ) {
@@ -88,6 +105,17 @@
             var date;
             try {
               date = $.datepicker.parseDate( dateFormat2, element.value );
+            } catch( error ) {
+              date = null;
+            }
+
+            return date;
+          }
+          
+          function getDate3( element ) {
+            var date;
+            try {
+              date = $.datepicker.parseDate( dateFormat3, element.value );
             } catch( error ) {
               date = null;
             }

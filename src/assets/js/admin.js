@@ -170,6 +170,8 @@ $(document).ready(function(){
     $("#execute_query2").click(function(){
         var params='pendences_date='+$("#pendences_date").val();
         params=params+'&client_id_listar='+$("#client_id_listar").val();
+        params=params+'&creation_date='+$("#creation_date_from").val();
+        params=params+'&creation_date2='+$("#creation_date_to").val();
         params=params+'&type_option1='+$("#type_option1").prop("checked");
         params=params+'&type_option2='+$("#type_option2").prop("checked");
         params=params+'&type_option3='+$("#type_option3").prop("checked");

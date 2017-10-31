@@ -53,9 +53,8 @@
         <?php include_once("pixel_facebook.php") ?>
         
         <!--Start of Zendesk Chat Script-->
-        <?php
-            if ($SERVER_NAME == "PRO") {
-                echo '<script type="text/javascript">
+        <?php if ($SERVER_NAME == "PRO") { ?>
+                <script type="text/javascript">
                 window.$zopim||(function(d,s){var z=$zopim=function(c){
                 z._.push(c)},$=z.s=
                 d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
@@ -65,9 +64,9 @@
 
                 $zopim(function() {
                     $zopim.livechat.departments.filter("");
-                    $zopim.livechat.departments.setVisitorDepartment("Atendimento ao cliente");
+                    $zopim.livechat.departments.setVisitorDepartment("Gerente de contas");
                     $zopim.livechat.setOnConnected(function() {
-                        var dep = $zopim.livechat.departments.getDepartment("Atendimento ao cliente");
+                        var dep = $zopim.livechat.departments.getDepartment("Gerente de contas");
                         if(dep.status=="offline"){
                             $zopim.livechat.setStatus("offline");
                         }
@@ -76,9 +75,8 @@
                         }
                     })
                 });
-                </script>';
-            }                              
-        ?>
+                </script>
+        <?php } ?>
         <!--End of Zendesk Chat Script-->
     </head>
 
@@ -1020,11 +1018,7 @@
                     <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
                         <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
                         <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>
-                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
-                                    processo onde deixará de seguir todos os perfis que segue no
-                                    momento. Todos os perfis em sua lista de "Seguindo" serão deixados
-                                    de seguir de manera aleatória. Ao desativar o recurso sua conta
-                                    deixa de seguir apenas as contas que a Dumbu seguiu.', array(), $language); ?>
+                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um processo onde deixará de seguir todos os perfis que segue no momento. Todos os perfis em sua lista de "Seguindo" serão deixados de seguir de manera aleatória. Ao desativar o recurso sua conta deixa de seguir apenas as contas que a Dumbu seguiu.', array(), $language); ?>
                         </p>
 
                         <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
@@ -1041,9 +1035,7 @@
                     <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
                         <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
                         <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array(), $language); ?></h4>
-                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
-                                automaticamente na primeira foto de todos os perfis que seguir, esse 
-                                processo pode aumentar sua conversão de seguidores.', array(), $language); ?>
+                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like automaticamente na primeira foto de todos os perfis que seguir, esse processo pode aumentar sua conversão de seguidores.', array(), $language); ?>
                         </p>
 
                         <div id='my_container_toggle_autolike' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
@@ -1243,8 +1235,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-l15 m-t45">
                     <div class="m-t10">
                         <h4 class="text-center" ><b><?php echo $CI->T("NUNCA SEGUIR", array(), $language); ?></b></h4>
-                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('Os perfis que adicione nesta lista nunca 
-                                serão seguidos <br> com a ferramenta.', array(), $language); ?>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('Os perfis que adicione nesta lista nunca serão seguidos <br> com a ferramenta.', array(), $language); ?>
                         </p>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">

@@ -257,6 +257,11 @@
                 $this->db->where('client_id', $form_filter['client_id_listar']);
             }
             
+            if($form_filter['creation_date']!='' && $form_filter['creation_date2']!=''){
+                $this->db->where('init_date >=', strtotime($form_filter['creation_date'].' 00:00:00'));
+                $this->db->where('init_date <=', strtotime($form_filter['creation_date2'].' 23:59:59'));
+            }
+            
             if ($form_filter['type_option1'] == 'true') { // pendencias abertas
                 $where = "resolved_date IS NULL";
                 $this->db->where($where);
