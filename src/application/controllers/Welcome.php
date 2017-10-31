@@ -2206,7 +2206,7 @@ class Welcome extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
        // $this->load->model('class/user_model');
-        $this->user_model->insert_wasdhog($this->session->userdata('id'),'LOOKING AT REFERENCE PROFILES TIPS');
+       // $this->user_model->insert_wasdhog($this->session->userdata('id'),'LOOKING AT REFERENCE PROFILES TIPS');
         $this->load->view('Dicas', $param);
     }
 
