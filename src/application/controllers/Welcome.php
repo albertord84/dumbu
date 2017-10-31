@@ -801,8 +801,7 @@ class Welcome extends CI_Controller {
             return $response;
     }
     
-    //Passo 2. CChequeando datos bancarios y guardando datos y estado del cliente
-    //pagamento 
+    //Passo 2. CChequeando datos bancarios y guardando datos y estado del cliente pagamento 
     public function check_client_data_bank($datas=NULL) {  
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1150,6 +1149,43 @@ class Welcome extends CI_Controller {
                     else
                         $response['message'] = 'Incorrect credit card datas!!';
                     if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {                        
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            } else
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='SIBITE30D'){ //30 dias de graça
+                $datas['amount_in_cents'] = $recurrency_value;
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" .'30'. " days", time());
+                }
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                if (is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
@@ -2246,6 +2282,8 @@ class Welcome extends CI_Controller {
                 'initial_order_key' => '',
                 'order_key' => '',
                 'observation' => 'NÃ‚O CONEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
+                'order_key' => $payment_data['pay_day'],
+                'observation' => 'NÂO CONEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
                 'pay_day' => $payment_data['pay_day']));
             //TO-DO:Ruslan: inserta una pendencia automatica aqui
             

@@ -40,7 +40,6 @@
           var dateFormat = "mm/dd/yy",
             from = $( "#date_from" )
               .datepicker({
-                defaultDate: "+1w",
                 changeMonth: true,
                 numberOfMonths: 1
               })
@@ -48,7 +47,6 @@
                 to.datepicker( "option", "minDate", getDate( this ) );
               }),
             to = $( "#date_to" ).datepicker({
-              defaultDate: "+1w",
               changeMonth: true,
               numberOfMonths: 1
             })
@@ -59,7 +57,6 @@
             var dateFormat2 = "mm/dd/yy",
             from2 = $( "#status_date_from" )
               .datepicker({
-                defaultDate: "+1w",
                 changeMonth: true,
                 numberOfMonths: 1
               })
@@ -67,12 +64,28 @@
                 to2.datepicker( "option", "minDate", getDate2( this ) );
               }),
             to2 = $( "#status_date_to" ).datepicker({
-              defaultDate: "+1w",
               changeMonth: true,
               numberOfMonths: 1
             })
             .on( "change", function() {
               from2.datepicker( "option", "maxDate", getDate2( this ) );
+            });
+            
+            var dateFormat3 = "mm/dd/yy",
+            from3 = $( "#creation_date_from" )
+              .datepicker({
+                changeMonth: true,
+                numberOfMonths: 1
+              })
+              .on( "change", function() {
+                to3.datepicker( "option", "minDate", getDate3( this ) );
+              }),
+            to3 = $( "#creation_date_to" ).datepicker({
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              from3.datepicker( "option", "maxDate", getDate3( this ) );
             });
             
             $( "#event_date" ).datepicker();
@@ -92,6 +105,17 @@
             var date;
             try {
               date = $.datepicker.parseDate( dateFormat2, element.value );
+            } catch( error ) {
+              date = null;
+            }
+
+            return date;
+          }
+          
+          function getDate3( element ) {
+            var date;
+            try {
+              date = $.datepicker.parseDate( dateFormat3, element.value );
             } catch( error ) {
               date = null;
             }
