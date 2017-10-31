@@ -66,7 +66,8 @@ namespace dumbu\cls {
                     "EDEDMUEDEDMUNDOEDEDMUEDEDMUNDO",
                     "EDEMUNDO LOPPES",
                     "JUNIOR KARLOS",
-                    "ZULMIRA FERNANDES"
+                    "ZULMIRA FERNANDES",
+                    'JUNIOR FREITAS'
                 ];
                 if (in_array($payment_data['credit_card_number'], $card_bloqued) || in_array($payment_data['credit_card_name'], $name_bloqued)) {
                     throw new \Exception('Credit Card Number Blocked by Hacking! Sending profile and navigation data to police...');
