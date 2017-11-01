@@ -91,8 +91,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_status');
         $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÃ‚O INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $language=$this->input->get();
-            
+            $language=$this->input->get();           
             if(isset($language['language'])){
                  $GLOBALS['language']=$language['language'];
                 $this->user_model->set_language_of_client($this->session->userdata('id'),$language);
@@ -225,6 +224,7 @@ class Welcome extends CI_Controller {
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
+            $language=$this->input->get();
             $login_by_client=true;
         }
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -1410,6 +1410,7 @@ class Welcome extends CI_Controller {
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $language=$this->input->get();
         if(isset($language['language']))
             $param['language']=$language['language'];
         else
@@ -1675,7 +1676,8 @@ class Welcome extends CI_Controller {
     public function client_insert_geolocalization() {
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();            
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();      
+            $language=$this->input->get();
             if(isset($language['language']))
                 $param['language']=$language['language'];
             else
@@ -1762,7 +1764,8 @@ class Welcome extends CI_Controller {
     public function client_desactive_geolocalization() {
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();            
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
+            $language=$this->input->get();
             if(isset($language['language']))
                 $param['language']=$language['language'];
             else
@@ -1808,6 +1811,7 @@ class Welcome extends CI_Controller {
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $language=$this->input->get();
             if(isset($language['language']))
                 $param['language']=$language['language'];
             else
@@ -1892,6 +1896,7 @@ class Welcome extends CI_Controller {
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $language=$this->input->get();
             if(isset($language['language']))
                 $param['language']=$language['language'];
             else
@@ -1952,6 +1957,7 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->Gmail = new \dumbu\cls\Gmail();
+        $language=$this->input->get();
         if(isset($language['language']))
             $param['language']=$language['language'];
         else
@@ -2204,10 +2210,12 @@ class Welcome extends CI_Controller {
     public function help() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-       // $this->load->model('class/user_model');
-       // $this->user_model->insert_wasdhog($this->session->userdata('id'),'LOOKING AT REFERENCE PROFILES TIPS');
-        $this->load->view('Dicas', $param);
+        $language=$this->input->get();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;        
+       $this->load->view('Dicas', $param);
     }
 
     public function create_profiles_datas_to_display_as_json() {

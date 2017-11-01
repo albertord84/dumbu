@@ -113,9 +113,9 @@ $(document).ready(function(){
         }
     });
     
-    
+        
     $(".help").click(function(){
-        url=base_url+"index.php/welcome/help";
+        url=base_url+"index.php/welcome/help?language="+language;
         window.open(url, '_blank');
     });
     
