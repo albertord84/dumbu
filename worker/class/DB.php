@@ -710,6 +710,19 @@ namespace dumbu\cls {
             }
               
         }
+        
+        public function get_client_with_orderkey($orderkey)
+        {
+
+            try {
+                $sql = "SELECT * FROM  clients " 
+                        ."WHERE  clients.order_key = '$orderkey';";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
     }
 
 }

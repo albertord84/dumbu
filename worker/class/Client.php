@@ -312,6 +312,7 @@ namespace dumbu\cls {
                     $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
                     $Ref_Prof->deleted = $prof_data->deleted;
                     $Ref_Prof->type = $prof_data->type;
+                    $Ref_Prof->end_date = $prof_data->end_date;
                     array_push($this->reference_profiles, $Ref_Prof);
 //                    }
                 }

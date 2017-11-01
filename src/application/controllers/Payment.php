@@ -9,11 +9,7 @@ class Payment extends CI_Controller {
         $path = __dir__ . '/../../logs/';
         $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
         //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
-<<<<<<< HEAD
-        $post =  file_get_contents('php://input');
-=======
         $post = file_get_contents('php://input');
->>>>>>> develop
         $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
 //        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
         if ($result === FALSE) {
@@ -22,7 +18,7 @@ class Payment extends CI_Controller {
         //var_dump($file);
         print 'OK';
     }
-
+    
     public function do_payment($payment_data) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
@@ -273,4 +269,5 @@ class Payment extends CI_Controller {
         $this->load->model('class/client_model');
     }
 
+    
 }
