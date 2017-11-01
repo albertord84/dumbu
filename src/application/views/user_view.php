@@ -483,7 +483,7 @@
                                                     <?php echo $CI->T("189,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-center">  
+                                                <div class="text-center">
                                                     <spam >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
