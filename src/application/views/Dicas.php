@@ -15,7 +15,7 @@
         <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png'?>"> 
         <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js';?>"></script>
         <script src="<?php echo base_url().assets/bootstrap/js/bootstrap.min.js;?>"></script>
-        <script type="text/javascript">var language = '<?php echo $language;?>'; alert(language);</script>
+        <script type="text/javascript">var language = '<?php echo $language;?>'; </script>
         <style type="text/css">
             .text-center{
                 padding-top:10px;
