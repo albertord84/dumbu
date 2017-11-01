@@ -192,8 +192,8 @@ namespace dumbu\cls {
 
                             $following_me = (isset($Profile_data->user->follows_viewer)) ? $Profile_data->user->follows_viewer : false;
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
-//                            $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
-                            $followed_in_db = NULL;
+                            $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
+                            //$followed_in_db = NULL;
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
