@@ -166,6 +166,7 @@
                     <div class="center filters">
                         <b>Observações</b> 
                         <select id="observations" class="form-control" >
+                            <option>--SELECT--</option>
                             <option>NAO</option>
                             <option>SIM</option>
                         </select>    
@@ -241,6 +242,26 @@
                             <option value="-1">--SELECT--</option>
                             <option value="0">NAO</option>
                             <option value="1">SIM</option>
+                        </select>    
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>UTM source</b> 
+                        <select id="utm_source" class="form-control" >
+                            <option>--SELECT--</option>
+                            <?php
+                                if (isset($utm_source_list)){
+                                    $num_rows = count($utm_source_list);
+                                    for ($i = 0; $i < $num_rows; $i++) {
+                                        if ($utm_source_list[$i]['utm_source'] === null)
+                                            echo '<option title="null in database">---</option>';
+                                        else
+                                            echo '<option>'.$utm_source_list[$i]['utm_source'].'</option>';
+                                    }
+                                }
+                            ?>
                         </select>    
                     </div>
                 </div>
@@ -331,20 +352,33 @@
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
                                     echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
                                     echo '<b>Status: </b><b id="label_status_'.$result[$i]['user_id'].'" style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
-                                    echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
-                                    echo '<b>Sign-in date: </b>'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'<br>';                                    
+                                    if($result[$i]['status_date'])
+                                        echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
+                                    else
+                                        echo '<b>Status date: </b>----<br>';
+                                    if($result[$i]['init_date'])
+                                        echo '<b>Sign-in date: </b>'.date('d-m-Y h:i:sa',$result[$i]['init_date']).'<br>';                                    
+                                    else
+                                        echo '<b>Sign-in date: </b>----<br>';
                                     if($result[$i]['end_date'])
                                         echo '<b>Sign-out date: </b>'.date('d-m-Y h:i:sa',$result[$i]['end_date']).'<br>';
                                     else
                                         echo '<b>Sign-out date: </b>----<br>';
-                                    echo '<b>Last access: </b>'.date('d-m-Y h:i:sa',$result[$i]['last_access']).'<br>';
+                                    if($result[$i]['last_access'])
+                                        echo '<b>Last access: </b>'.date('d-m-Y h:i:sa',$result[$i]['last_access']).'<br>';
+                                    else
+                                        echo '<b>Last access: </b>----<br>';
                                 echo '</td>';
                                 echo '<td style="width:240px; padding:5px">';
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';
                                     echo '<b>Initial followers: </b>'.$result[$i]['insta_followers_ini'].'<br>';
                                     echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br>';                                
-                                    echo '<b>Actual followers: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
-                                    echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
+                                    echo '<b>Actual values: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
+                                    //echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
+                                    if($result[$i]['utm_source'])
+                                        echo '<b>UTM source: </b>'.$result[$i]['utm_source'].'<br>';
+                                    else
+                                        echo '<b>UTM source: </b>---<br>';
                                     echo '<br>';
                                     if ($result[$i]['ticket_peixe_urbano']!=NULL && $result[$i]['ticket_peixe_urbano']!="") {
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='1'){
@@ -459,8 +493,8 @@
                                     echo '<b>Autolike: </b>'.($result[$i]['like_first'] ? 'Sim' : 'Não').'<br>';
                                     echo '<a target="_blank" href="'.base_url().'index.php/admin/list_filter_view_pendences?pendences_date=all&client_id_listar='.$result[$i]['user_id'].'&type_option1=true&type_option2=false&type_option3=false">Ver pendências abertas ou<br>criar pendências novas</a><br>';
                                 echo '<br>';
-                                if($result[$i]['observation']!=NULL && $result[$i]['observation']!=='null'){
-                                    echo '<b style="color:red">OBSERVAÇÂO!!</b><br>';
+                                if($result[$i]['observation']!=NULL && $result[$i]['observation']!==''){
+                                    echo '<b style="color:red">OBSERVAÇÂO!</b><br>';
                                     echo '<p style="color:brown">'.$result[$i]['observation'].'</p>';                                    
                                 }
                                     

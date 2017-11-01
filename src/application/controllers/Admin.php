@@ -17,8 +17,10 @@ class Admin extends CI_Controller {
         $user = $this->user_model->execute_sql_query($query);
 
         if ($this->user_model->set_sesion($user[0]['id'], $this->session, '')) {
+            $query = 'SELECT DISTINCT utm_source FROM clients';
+            $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
-            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', '', true);
+            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
         }
@@ -31,6 +33,9 @@ class Admin extends CI_Controller {
             $form_filter = $this->input->get();
             $datas['result'] = $this->admin_model->view_clients_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
+            $this->load->model('class/user_model');
+            $query = 'SELECT DISTINCT utm_source FROM clients';
+            $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
@@ -47,6 +52,9 @@ class Admin extends CI_Controller {
             $form_filter = $this->input->get();
             $datas['result'] = $this->admin_model->get_emails_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
+            $this->load->model('class/user_model');
+            $query = 'SELECT DISTINCT utm_source FROM clients';
+            $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);

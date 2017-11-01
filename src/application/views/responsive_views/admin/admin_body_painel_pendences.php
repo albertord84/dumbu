@@ -3,12 +3,14 @@
     <div class="row">
         <form id="form_listar_criar" name="form_listar_criar">
             <div class="col-xs-1"></div>
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <div class="left">
                     <div class="row">
                         <input type="radio" id="pendence_option_listar" name="pendence_option" value="1" checked="checked" 
                                onchange="document.form_listar_criar.pendences_date.disabled=false;
                                          document.form_listar_criar.client_id_listar.disabled=false;
+                                         document.form_listar_criar.creation_date_from.disabled=false;
+                                         document.form_listar_criar.creation_date_to.disabled=false;
                                          document.form_listar_criar.type_option1.disabled=false;
                                          document.form_listar_criar.type_option2.disabled=false;
                                          document.form_listar_criar.type_option3.disabled=false;
@@ -28,47 +30,66 @@
                     <br>
                     <div class="row">
                         <div class="col-xs-6">
-                            <select id="pendences_date" name="pendences_date" class="form-control" style="width: 120px">
-                                <option value="all" <?php if (isset($form_filter) && $form_filter[pendences_date] == "all") { echo ' selected'; } ?> >Todas</option>
-                                <option value="before" <?php if (isset($form_filter) && $form_filter[pendences_date] == "before") { echo ' selected'; } ?> >Anteriores</option>
-                                <option value="-30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-30") { echo ' selected'; } ?> >-30 dias</option>
-                                <option value="-7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-7") { echo ' selected'; } ?> >-7 dias</option>
-                                <option value="-1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-1") { echo ' selected'; } ?> >Ontem</option>
-                                <option value="0" <?php if (isset($form_filter)) { if ($form_filter[pendences_date] == "0") { echo ' selected'; } } else { echo ' selected'; } ?> >Hoje</option>
-                                <option value="1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "1") { echo ' selected'; } ?> >Amanhã</option>
-                                <option value="7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "7") { echo ' selected'; } ?> >+7 dias</option>
-                                <option value="30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "30") { echo ' selected'; } ?> >+30 dias</option>
-                                <option value="after" <?php if (isset($form_filter) && $form_filter[pendences_date] == "after") { echo ' selected'; } ?> >Posteriores</option>
-                            </select>
+                            <div class="center filters">
+                                <b>Data da execução</b>
+                                <select id="pendences_date" name="pendences_date" class="form-control">
+                                    <option value="all" <?php if (isset($form_filter) && $form_filter[pendences_date] == "all") { echo ' selected'; } ?> >Todas</option>
+                                    <option value="before" <?php if (isset($form_filter) && $form_filter[pendences_date] == "before") { echo ' selected'; } ?> >Anteriores</option>
+                                    <option value="-30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-30") { echo ' selected'; } ?> >-30 dias</option>
+                                    <option value="-7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-7") { echo ' selected'; } ?> >-7 dias</option>
+                                    <option value="-1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "-1") { echo ' selected'; } ?> >Ontem</option>
+                                    <option value="0" <?php if (isset($form_filter)) { if ($form_filter[pendences_date] == "0") { echo ' selected'; } } else { echo ' selected'; } ?> >Hoje</option>
+                                    <option value="1" <?php if (isset($form_filter) && $form_filter[pendences_date] == "1") { echo ' selected'; } ?> >Amanhã</option>
+                                    <option value="7" <?php if (isset($form_filter) && $form_filter[pendences_date] == "7") { echo ' selected'; } ?> >+7 dias</option>
+                                    <option value="30" <?php if (isset($form_filter) && $form_filter[pendences_date] == "30") { echo ' selected'; } ?> >+30 dias</option>
+                                    <option value="after" <?php if (isset($form_filter) && $form_filter[pendences_date] == "after") { echo ' selected'; } ?> >Posteriores</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-xs-6">
-                            <input id="client_id_listar" name="client_id_listar" class="form-control" placeholder="ID do cliente">
+                            <div class="center filters">
+                                <b>ID do cliente</b>
+                                <input id="client_id_listar" name="client_id_listar" class="form-control" placeholder="ID do cliente">
+                            </div>
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-xs-6">
-                            <label><input type="radio" id="type_option1" name="type_option" value="1" checked="checked" /> Abertas</label>
-                            <label><input type="radio" id="type_option2" name="type_option" value="2" <?php if (isset($form_filter) && $form_filter[type_option2] == "true") { echo 'checked'; } ?> /> Resolvidas</label>
-                            <label><input type="radio" id="type_option3" name="type_option" value="3" <?php if (isset($form_filter) && $form_filter[type_option3] == "true") { echo 'checked'; } ?> /> Ambas</label>
+                        <div class="center filters">
+                            <b>Data da criação</b>
                         </div>
-                        <div class="col-xs-6">
-                            <br>
-                            <br>
-                            <br>
-                            <button  style="min-width:100px" id="execute_query2" name="execute_query2" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                                <span class="ladda-label">Listar</span>
-                            </button>
+                        <div class="col-xs-1">
+                            <b>do</b>
                         </div>
+                        <div class="col-xs-5">
+                            <input type="text" id="creation_date_from" name="creation_date_from" placeholder="mm/dd/yyyy" class="form-control">
+                        </div>
+                        <div class="col-xs-1">
+                            <b>até</b>
+                        </div>
+                        <div class="col-xs-5">
+                            <input type="text" id="creation_date_to" name="creation_date_to" placeholder="mm/dd/yyyy" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label><input type="radio" id="type_option1" name="type_option" value="1" checked="checked" /> Abertas</label>
+                        <label><input type="radio" id="type_option2" name="type_option" value="2" <?php if (isset($form_filter) && $form_filter[type_option2] == "true") { echo 'checked'; } ?> /> Resolvidas</label>
+                        <label><input type="radio" id="type_option3" name="type_option" value="3" <?php if (isset($form_filter) && $form_filter[type_option3] == "true") { echo 'checked'; } ?> /> Ambas</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button  style="min-width:100px" id="execute_query2" name="execute_query2" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label">Listar</span>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-1"></div>
             <div class="col-xs-4">
                 <div class="row">
                     <input type="radio" id="pendence_option_criar" name="pendence_option" value="2"
                            onchange="document.form_listar_criar.pendences_date.disabled=true;
                                      document.form_listar_criar.client_id_listar.disabled=true;
+                                     document.form_listar_criar.creation_date_from.disabled=true;
+                                         document.form_listar_criar.creation_date_to.disabled=true;
                                      document.form_listar_criar.type_option1.disabled=true;
                                      document.form_listar_criar.type_option2.disabled=true;
                                      document.form_listar_criar.type_option3.disabled=true;
