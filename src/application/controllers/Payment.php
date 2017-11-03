@@ -27,6 +27,15 @@ class Payment extends CI_Controller {
         // Save Order Key
         var_dump($response->Data->OrderResult->OrderKey);
     }
+    
+    public function do_bilhete_payment($payment_data) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        // Check client payment in mundipagg
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment($payment_data);
+        // Save Order Key
+        var_dump($response->Data->OrderResult->OrderKey);
+    }
 
     public function check_payment() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
