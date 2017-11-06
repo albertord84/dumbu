@@ -279,7 +279,7 @@ class Scripts extends CI_Controller {
         var_dump($r);        
     }
     
-    public function capturer_and_recurrency_for_blcked_by_payment(){
+    public function capturer_and_recurrency_for_blocked_by_payment(){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
@@ -288,8 +288,7 @@ class Scripts extends CI_Controller {
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
-            //echo $aa.'-----'.$status_id.'------';
-            if($client['retry_payment_counter']<10){
+            if($client['retry_payment_counter']<13){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
                         $client['credit_card_name']!=null && $client['credit_card_name']!='' && 
                         $client['credit_card_exp_month']!=null && $client['credit_card_exp_month']!='' && 
@@ -349,20 +348,29 @@ class Scripts extends CI_Controller {
                         'retry_payment_counter' => $client['retry_payment_counter']+1));
                     }
                 }
-            }else{
-                $this->delete_recurrency_payment($client['order_key']);
-                 $this->client_model->update_user($client, array(  
-                    'end_date' => time(),
-                    'status_id' => 4));
+            } else{
+                try{
+                    $this->delete_recurrency_payment($client['initial_order_key']);                
+                    $this->delete_recurrency_payment($client['order_key']);                
+                    $this->client_model->update_user($client['user_id'], array(  
+                        'end_date' => time(),
+                        'status_date' => time(),
+                        'status_id' => 4));
+                    $this->client_model->update_client($client['user_id'], array(
+                            'observation' => 'Cancelado automaticamente por mais te 10 retentativas de pagamento sem sucessso'));
+                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                } catch (Exception $e){
+                    echo 'Error deleting cliente '.$client['user_id'].' in database';
+                }
             }
         }
     }
 
-    public function buy_tester(){  
+    public function buy_tester(){
         
-    }  
+    }
     
-    public function update_all_retry_clients(){            
+    public function update_all_retry_clients(){
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
