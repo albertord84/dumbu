@@ -377,5 +377,8 @@ class Scripts extends CI_Controller {
             $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
+    
+    
+    //end
       
 }

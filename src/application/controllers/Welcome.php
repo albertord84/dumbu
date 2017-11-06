@@ -2517,6 +2517,9 @@ class Welcome extends CI_Controller {
             }
             echo json_encode($result);
         }
-    }       
+    }  
+    
+    
+    //end welcome
       
 }
