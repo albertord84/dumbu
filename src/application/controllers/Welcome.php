@@ -1319,7 +1319,7 @@ class Welcome extends CI_Controller {
             $this->user_model->insert_washdog($this->session->userdata('id'),'TOTAL UNFOLLOW '.$ut);
             
             $this->client_model->update_client($this->session->userdata('id'), array(
-                'unfollow_total' => $datas['TOTAL UNFOLLOW']
+                'unfollow_total' => $datas['unfollow_total']
             ));
             $response['success'] = true;
             $response['unfollow_total'] = $datas['unfollow_total'];
