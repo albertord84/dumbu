@@ -2519,7 +2519,6 @@ class Welcome extends CI_Controller {
         }
     }  
     
-    
-    //end welcome
+    //end
       
 }
