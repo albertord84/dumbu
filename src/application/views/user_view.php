@@ -146,6 +146,21 @@
 								</li>
 							</ul>
 						</li>
+                                               <!-- <li>
+							<a href="#"><?//php echo $CI->T("IDIOMA", array(),$language);?></a>
+							<ul class="dl-submenu">
+								<li>
+                                                                    <div id="login_container1">
+                                                                        <nav class="navbar navbar-default navbar-static-top">
+                                                                           <?php
+                                                                           
+                                                                           ?> 
+                                                                        </nav>
+                                                                    </div>
+								</li>
+							</ul>
+						</li>-->
+                                               
                                                 
 					</ul>
 				</div><!-- /dl-menuwrapper -->
@@ -396,6 +411,7 @@
 			<div class="container">				
                             <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                    
                                     <?php
                                             if($language=='PT')
                                                 echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
@@ -403,6 +419,7 @@
                                                 echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
                                             else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
                                         ?>
+                                        
                                 </div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
 			</div>
@@ -511,7 +528,7 @@
                                                     <?php echo $CI->T("189,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-center">  
+                                                <div class="text-center">
                                                     <spam >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
