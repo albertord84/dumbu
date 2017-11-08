@@ -2600,7 +2600,7 @@ class Welcome extends CI_Controller {
                 echo ' STATUS = '.user_status::VERIFY_ACCOUNT;
             }
         } else{
-            $this->client_model->update_user($user_id, array(            
+            $this->user_model->update_user($user_id, array(            
                 'status_date' => time(),
                 'status_id' => 1)); 
             $this->delete_recurrency_payment($client['order_key']);
@@ -2872,12 +2872,37 @@ class Welcome extends CI_Controller {
                 try{
                     $this->delete_recurrency_payment($client['initial_order_key']);                
                     $this->delete_recurrency_payment($client['order_key']);                
-                    $this->client_model->update_user($client['user_id'], array(  
+                    $this->user_model->update_user($client['user_id'], array(  
                         'end_date' => time(),
                         'status_date' => time(),
                         'status_id' => 4));
                     $this->client_model->update_client($client['user_id'], array(
                             'observation' => 'Cancelado automaticamente por mais te 10 retentativas de pagamento sem sucessso'));
+                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                } catch (Exception $e){
+                    echo 'Error deleting cliente '.$client['user_id'].' in database';
+                }
+            }
+        }
+    }
+    
+    public function cancel_blocked_by_payment_by_max_retry_payment(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
+        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        foreach ($result as $client) {
+            if($client['retry_payment_counter']>9){
+                try{
+                    $this->delete_recurrency_payment($client['initial_order_key']);                
+                    $this->delete_recurrency_payment($client['order_key']);                
+                    $this->user_model->update_user($client['user_id'], array(  
+                        'end_date' => time(),
+                        'status_date' => time(),
+                        'status_id' => 4));
+                    $this->client_model->update_client($client['user_id'], array(
+                            'observation' => 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso'));
                     echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
                 } catch (Exception $e){
                     echo 'Error deleting cliente '.$client['user_id'].' in database';
