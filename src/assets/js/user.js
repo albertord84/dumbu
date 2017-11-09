@@ -113,6 +113,9 @@ $(document).ready(function(){
         }
     });
     
+    $('.dropdown').on('shown.bs.dropdown', function(){
+        document.getElementById("userLogin2").focus();
+    });
         
     $(".help").click(function(){
         url=base_url+"index.php/welcome/help?language="+language;
