@@ -95,7 +95,7 @@ $(document).ready(function(){
             params=params+'&paused='+$("#paused").val();
             params=params+'&total_unfollow='+$("#total_unfollow").val();
             params=params+'&autolike='+$("#autolike").val();
-            params=params+'&utm_source='+$("#utm_source").val();
+            params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
@@ -160,7 +160,7 @@ $(document).ready(function(){
             params=params+'&paused='+$("#paused").val();
             params=params+'&total_unfollow='+$("#total_unfollow").val();
             params=params+'&autolike='+$("#autolike").val();
-            params=params+'&utm_source='+$("#utm_source").val();
+            params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&query=2';
             $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
         }
