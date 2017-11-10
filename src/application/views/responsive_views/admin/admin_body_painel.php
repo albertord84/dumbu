@@ -245,6 +245,26 @@
                         </select>    
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <br>
+                        <b>UTM source</b> 
+                        <select id="utm_source" class="form-control" >
+                            <option>--SELECT--</option>
+                            <?php
+                                if (isset($utm_source_list)){
+                                    $num_rows = count($utm_source_list);
+                                    for ($i = 0; $i < $num_rows; $i++) {
+                                        if ($utm_source_list[$i]['utm_source'] === null)
+                                            echo '<option title="null in database">---</option>';
+                                        else
+                                            echo '<option>'.$utm_source_list[$i]['utm_source'].'</option>';
+                                    }
+                                }
+                            ?>
+                        </select>    
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-1"></div>
@@ -353,8 +373,12 @@
                                     echo '<b>InstaG ID: </b>'.$result[$i]['insta_id'].'<br>';
                                     echo '<b>Initial followers: </b>'.$result[$i]['insta_followers_ini'].'<br>';
                                     echo '<b>Initial following: </b>'.$result[$i]['insta_following'].'<br>';                                
-                                    echo '<b>Actual followers: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
-                                    echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
+                                    echo '<b>Actual values: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';
+                                    //echo '<b>Actual following: </b> <a target="_blank"href="https://www.instagram.com/'.$result[$i]['login'].'/">View in IG</a><br>';                                
+                                    if($result[$i]['utm_source'])
+                                        echo '<b>UTM source: </b>'.$result[$i]['utm_source'].'<br>';
+                                    else
+                                        echo '<b>UTM source: </b>---<br>';
                                     echo '<br>';
                                     if ($result[$i]['ticket_peixe_urbano']!=NULL && $result[$i]['ticket_peixe_urbano']!="") {
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='1'){

@@ -158,19 +158,19 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-//$pay_day = strtotime('10/20/2017 00:42:27');
+$pay_day = strtotime('12/06/2017 11:55:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 $pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5337281640523022';
-$payment_data['credit_card_name'] = 'LUIS ANTONIO TOBIAS';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '435';
-$payment_data['amount_in_cents'] = 7990;
+$payment_data['credit_card_number'] = '5406910148120362';
+$payment_data['credit_card_name'] = 'MANUELA CALLE C';
+$payment_data['credit_card_exp_month'] = '08';
+$payment_data['credit_card_exp_year'] = '2024';
+$payment_data['credit_card_cvc'] = '198';
+$payment_data['amount_in_cents'] = 24000;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);

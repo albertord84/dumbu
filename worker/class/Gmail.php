@@ -18,23 +18,23 @@ namespace dumbu\cls {
 
         public function __construct() {
 //Create a new PHPMailer instance
-            $this->mail = new \PHPMailer;
+        $this->mail = new \PHPMailer;
 
 //Tell PHPMailer to use SMTP
-            $this->mail->isSMTP();
+        $this->mail->isSMTP();
 
 //Enable SMTP debugging
 // 0 = off (for production use)
 // 1 = client messages
 // 2 = client and server messages
-            $this->mail->SMTPDebug = 0;
-//            $this->mail->SMTPDebug = 2;
+         $this->mail->SMTPDebug = 0;
+//         $this->mail->SMTPDebug = 2;
 
 //Ask for HTML-friendly debug output
-            $this->mail->Debugoutput = 'html';
+         $this->mail->Debugoutput = 'html';
 
 //Set the hostname of the mail server
-            $this->mail->Host = 'smtp.gmail.com'; // dumbu.system
+         $this->mail->Host = 'smtp.gmail.com'; // dumbu.system
 //            $this->mail->Host = 'imap.gmail.com'; // atendimento
 // use
 // $mail->Host = gethostbyname('smtp.gmail.com');
@@ -67,7 +67,8 @@ namespace dumbu\cls {
 //            $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL, 'DUMBU');
 //            $this->mail->setFrom($GLOBALS['sistem_config']->ATENDENT_EMAIL, 'DUMBU');
 //            $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL3, 'DUMBU');
-            $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL, 'DUMBU');
+           
+            $result = $this->mail->setFrom($GLOBALS['sistem_config']->SYSTEM_EMAIL, 'DUMBU');
         }
 
         public function send_client_login_error($useremail, $username, $instaname, $instapass = NULL) {
@@ -245,13 +246,13 @@ namespace dumbu\cls {
         public function send_client_contact_form($username, $useremail, $usermsg, $usercompany = NULL, $userphone = NULL) {
             //Set an alternative reply-to address
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
-            //Set who the message is to be sent to
+            //Set who the message is to be sent to           
             $this->mail->clearAddresses();
             $this->mail->addAddress($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
             $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
             $this->mail->clearReplyTos();
             $this->mail->addReplyTo($useremail, $username);
-
+            $this->mail->isHTML(true);
             //Set the subject line
             $this->mail->Subject = "User Contact: $username";
 
@@ -261,10 +262,11 @@ namespace dumbu\cls {
             $usermsg = urlencode($usermsg);
             $usercompany = urlencode($usercompany);
             $userphone = urlencode($userphone);
-            //$this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
-            //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
-            $this->mail->msgHTML(file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
-
+           
+           // $this->mail->msgHTML(@file_get_contents("http://dumbu.one/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
+            
+            $this->mail->msgHTML(@file_get_contents("http://". $_SERVER['SERVER_NAME'] ."/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
+            //$this->mail->Body = $usermsg;
             //Replace the plain text body with one created manually
             $this->mail->AltBody = "User Contact: $username";
 

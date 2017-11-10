@@ -273,8 +273,10 @@ class User_model extends CI_Model {
         $this->db->from('washdog_type');
         $this->db->where('action',$cad);
         $a=$this->db->get()->row_array()['id'];
-        //if($a>0)
-            $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        if($a>0)
+        $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        else 
+        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));  
     }
     
    

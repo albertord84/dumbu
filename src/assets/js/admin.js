@@ -69,7 +69,8 @@ $(document).ready(function(){
            $("#days_no_work").val()==='' &&
            $("#paused").val()<0 &&
            $("#total_unfollow").val()<0 &&
-           $("#autolike").val()<0)
+           $("#autolike").val()<0 &&
+           $("#utm_source").val()==='--SELECT--')
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -94,6 +95,7 @@ $(document).ready(function(){
             params=params+'&paused='+$("#paused").val();
             params=params+'&total_unfollow='+$("#total_unfollow").val();
             params=params+'&autolike='+$("#autolike").val();
+            params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
         }
@@ -132,7 +134,8 @@ $(document).ready(function(){
            $("#days_no_work").val()==='' &&
            $("#paused").val()<0 &&
            $("#total_unfollow").val()<0 &&
-           $("#autolike").val()<0)
+           $("#autolike").val()<0 &&
+           $("#utm_source").val()==='--SELECT--')
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -157,6 +160,7 @@ $(document).ready(function(){
             params=params+'&paused='+$("#paused").val();
             params=params+'&total_unfollow='+$("#total_unfollow").val();
             params=params+'&autolike='+$("#autolike").val();
+            params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&query=2';
             $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
         }
@@ -166,6 +170,8 @@ $(document).ready(function(){
     $("#execute_query2").click(function(){
         var params='pendences_date='+$("#pendences_date").val();
         params=params+'&client_id_listar='+$("#client_id_listar").val();
+        params=params+'&creation_date='+$("#creation_date_from").val();
+        params=params+'&creation_date2='+$("#creation_date_to").val();
         params=params+'&type_option1='+$("#type_option1").prop("checked");
         params=params+'&type_option2='+$("#type_option2").prop("checked");
         params=params+'&type_option3='+$("#type_option3").prop("checked");
