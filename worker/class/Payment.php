@@ -350,6 +350,13 @@ namespace dumbu\cls {
             }
             return $result;
         }
+        
+        public function get_paymment_data($order_key) {
+            if ($order_key) {
+                $result = $this->queryOrder($order_key);
+            }
+            return $result;
+        }
 
         // end of member function update_payment
 
