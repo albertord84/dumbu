@@ -69,8 +69,7 @@ namespace dumbu\cls {
                         . "          users.status_id = $PENDING OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
                         . "          users.status_id = $BLOCKED_BY_INSTA OR "
-                        . "          users.status_id = $BLOCKED_BY_TIME OR "
-                        . "          users.status_id = $BEGINNER )"
+                        . "          users.status_id = $BLOCKED_BY_TIME OR )"
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;

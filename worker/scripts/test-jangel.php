@@ -54,7 +54,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //var_dump(time());
 //var_dump(!0);
 //$Robot = new dumbu\cls\Robot();
- 
+/*
 $Gmail = new dumbu\cls\Gmail();
 $Robot = new dumbu\cls\Robot();
 $DB = new \dumbu\cls\DB();
@@ -113,7 +113,7 @@ foreach ($Clients as $Client) { // for each CLient
     }
 }
 
- 	 	
+ */	 	
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("urpia", "romeus33");
