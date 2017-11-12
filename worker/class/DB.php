@@ -56,7 +56,8 @@ namespace dumbu\cls {
                 $PENDING = user_status::PENDING;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
                 $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
-                $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;
+                $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;                
+                $BEGINNER = user_status::BEGINNER;
                 //$UNFOLLOW = user_status::UNFOLLOW;
                 $sql = ""
                         . "SELECT * FROM users "
@@ -70,6 +71,26 @@ namespace dumbu\cls {
                         . "          users.status_id = $BLOCKED_BY_INSTA OR "
                         . "          users.status_id = $BLOCKED_BY_TIME OR "
                         . "          users.status_id = $BEGINNER )"
+                        . "ORDER BY users.id; ";
+                $result = mysqli_query($this->connection, $sql);
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function get_biginner_data() {
+            try {
+                $this->connect();
+                $BEGINNER = user_status::BEGINNER;
+                //$UNFOLLOW = user_status::UNFOLLOW;
+                $sql = ""
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND (clients.unfollow_total IS NULL OR clients.unfollow_total <> 1) "
+                        . "     AND  users.status_id = $BEGINNER "
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
