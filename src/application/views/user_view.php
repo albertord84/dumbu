@@ -115,7 +115,7 @@
 						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>
 						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li>
-							<a href="#"><?php echo $CI->T("ENTRAR", array(),$language);?></a>
+                                                    <a href="#"><?php echo $CI->T("ENTRAR", array(),$language);?></a>
 							<ul class="dl-submenu">
 								<li>
                                                                     <div id="login_container1">
@@ -146,6 +146,21 @@
 								</li>
 							</ul>
 						</li>
+                                               <!-- <li>
+							<a href="#"><?//php echo $CI->T("IDIOMA", array(),$language);?></a>
+							<ul class="dl-submenu">
+								<li>
+                                                                    <div id="login_container1">
+                                                                        <nav class="navbar navbar-default navbar-static-top">
+                                                                           <?php
+                                                                           
+                                                                           ?> 
+                                                                        </nav>
+                                                                    </div>
+								</li>
+							</ul>
+						</li>-->
+                                               
                                                 
 					</ul>
 				</div><!-- /dl-menuwrapper -->
@@ -174,7 +189,7 @@
                                                                                                     <?php echo $CI->T("Use login e senha de Instagram", array(),$language);?>
 												</div>
 												<div class="form-group">
-													<input id="userLogin2" type="text" class="form-control" placeholder="<?php echo $CI->T("Usuário", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;" required="">
+                                                                                                    <input id="userLogin2" type="text" class="form-control" placeholder="<?php echo $CI->T("Usuário", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;" required="">
 												</div>
 												<div class="form-group">
 													<input id="userPassword2" type="password" class="form-control" placeholder="<?php echo $CI->T("Senha", array(),$language);?>" required="">
@@ -396,6 +411,7 @@
 			<div class="container">				
                             <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                    
                                     <?php
                                             if($language=='PT')
                                                 echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
@@ -403,6 +419,7 @@
                                                 echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
                                             else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
                                         ?>
+                                        
                                 </div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
 			</div>

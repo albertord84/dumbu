@@ -158,13 +158,12 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('11/01/2017 01:50:00');
+$pay_day = strtotime('12/06/2017 11:55:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
-//$pay_day = strtotime("+1 days", time());
-
+$pay_day = strtotime("+30 days", time());
 
 $payment_data['credit_card_number'] = '5406910148120362';
 $payment_data['credit_card_name'] = 'MANUELA CALLE C';
@@ -186,9 +185,12 @@ var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
-//$result = $Payment->delete_payment(NULL);
+//$result = $Payment->delete_payment('e15cb727-0e3d-4699-a129-acbc1004fce7');
 //header('Content-Type: application/json');
-//print_r($resul);
+//print_r($result);
+//echo '\n***************************************\n';
+//$a=json_decode($result);
+//var_dump($a->success);
 //$order_key = "4942e0ac-fb5b-41fa-87a8-cb1f80d81d32";
 //$transaction_key = "79c28bd0-d0c8-47aa-be07-67d81202ed6dd";
 //$result = $Payment->retry_payment_recurrency($order_key, $transaction_key);

@@ -13,6 +13,7 @@
                     </div>
                     <div  class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">           
                          <ul class="nav navbar-nav navbar-left">
+                            <li><a  href="#lnk_faq_function">FAQ</a></li> <!--style="color:white"-->
                             <li><a  href="#lnk_how_function">COMO FUNCIONA</a></li> <!--style="color:white"-->
                             <li><a  href="#lnk_sign_in_now">ASSINAR AGORA</a></li> <!--style="color:white"-->
                             <li class="dropdown" >
