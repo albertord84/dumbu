@@ -112,7 +112,6 @@ namespace dumbu\cls {
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND clients.unfollow_total <> 1 "
                         . "     AND (users.status_id NOT IN ($DELETED, $BEGINNER, $DONT_DISTURB )) "
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
