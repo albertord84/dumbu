@@ -50,6 +50,34 @@
                 <?php include_once("pixel_facebook.php")?>
                 
                 <script src='https://www.google.com/recaptcha/api.js'></script>
+                
+                <!--Start of Zendesk Chat Script-->
+                <?php
+                    if ($SERVER_NAME == "PRO") { ?>
+                        <script type="text/javascript">
+                        window.$zopim||(function(d,s){var z=$zopim=function(c){
+                        z._.push(c)},$=z.s=
+                        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+                        _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+                        $.src="https://v2.zopim.com/?4QMQc3y0X75kW162SosdvI6XoWRNlUzo";z.t=+new Date;$.
+                        type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+
+                        $zopim(function() {
+                            $zopim.livechat.departments.filter("");
+                            $zopim.livechat.departments.setVisitorDepartment("Atendimento ao cliente");
+                            $zopim.livechat.setOnConnected(function() {
+                                var dep = $zopim.livechat.departments.getDepartment("Atendimento ao cliente");
+                                if(dep.status=="offline"){
+                                    $zopim.livechat.setStatus("offline");
+                                }
+                                else{
+                                    $zopim.livechat.button.show();
+                                }
+                            })
+                        });
+                        </script>
+                <?php } ?>
+                <!--End of Zendesk Chat Script-->
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php"); ?>            
@@ -87,7 +115,7 @@
 						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>
 						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li>
-							<a href="#"><?php echo $CI->T("ENTRAR", array(),$language);?></a>
+                                                    <a href="#"><?php echo $CI->T("ENTRAR", array(),$language);?></a>
 							<ul class="dl-submenu">
 								<li>
                                                                     <div id="login_container1">
@@ -118,6 +146,21 @@
 								</li>
 							</ul>
 						</li>
+                                               <!-- <li>
+							<a href="#"><?//php echo $CI->T("IDIOMA", array(),$language);?></a>
+							<ul class="dl-submenu">
+								<li>
+                                                                    <div id="login_container1">
+                                                                        <nav class="navbar navbar-default navbar-static-top">
+                                                                           <?php
+                                                                           
+                                                                           ?> 
+                                                                        </nav>
+                                                                    </div>
+								</li>
+							</ul>
+						</li>-->
+                                               
                                                 
 					</ul>
 				</div><!-- /dl-menuwrapper -->
@@ -146,7 +189,7 @@
                                                                                                     <?php echo $CI->T("Use login e senha de Instagram", array(),$language);?>
 												</div>
 												<div class="form-group">
-													<input id="userLogin2" type="text" class="form-control" placeholder="<?php echo $CI->T("Usuário", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;" required="">
+                                                                                                    <input id="userLogin2" type="text" class="form-control" placeholder="<?php echo $CI->T("Usuário", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;" required="">
 												</div>
 												<div class="form-group">
 													<input id="userPassword2" type="password" class="form-control" placeholder="<?php echo $CI->T("Senha", array(),$language);?>" required="">
@@ -368,6 +411,7 @@
 			<div class="container">				
                             <div class="col-md-3 col-sm-3 col-xs-12"></div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                    
                                     <?php
                                             if($language=='PT')
                                                 echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
@@ -375,6 +419,7 @@
                                                 echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
                                             else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
                                         ?>
+                                        
                                 </div>
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
 			</div>
@@ -483,7 +528,7 @@
                                                     <?php echo $CI->T("189,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-center">  
+                                                <div class="text-center">
                                                     <spam >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>

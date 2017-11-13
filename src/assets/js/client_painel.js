@@ -375,7 +375,7 @@ $(document).ready(function () {
         else 
         if($('#nao_aceita_desconto').prop("checked")){
             $('#cancel_usser_account').modal('hide');
-            if(language==='PT')
+            if(SERVER_NAME==='PRO')
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
             else
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
@@ -384,7 +384,7 @@ $(document).ready(function () {
     
     $("#cancel_usser_account").click(function () {
         //$('#modal_cancel_account_message').modal('show');
-        if(language==='PT')
+        if(SERVER_NAME==='PRO')
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
             else
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
