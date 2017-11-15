@@ -37,6 +37,12 @@
                 font-weight: bold;
                 font-family: inherit;
             }
+            
+            .text-normal{
+                padding: 10px;
+                font-size: 15px;
+                font-family: inherit;
+            }
             .col-md-4 {
                 margin-left:0px;
                 background: white;
@@ -45,7 +51,7 @@
             .col-md-12{
                 margin-top:20px;
                 margin-bottom: 20px;
-
+                background: whitesmoke;
              }
              .container-fuid{
                  left: 15px;
@@ -55,132 +61,44 @@
                  background: whitesmoke; 
              }
              body{
-               background: whitesmoke;        
+               background: white;        
              }
         </style>
     </head>
 <body>
-    
-	<!-- Open the output in a new blank tab (Click the arrow next to "Show Output" button) and resize the window to understand how the Bootstrap responsive grid system works. -->
     <div class="container">
-        <div class="row" style="text-align: center; margin-top: 25px">
-            <h3 ><strong><?php echo $CI->T("DICAS PARA MELHORAR O DESEMPENHO", array(),$language);?></strong></h3>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-4">
+        <div class="col-md-12">
+                 
+            <div class="row">
                     <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("O perfil de referência ideal para você", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Antes de escolher um perfil de referência, lembre-se de verificar quem o segue, se há interação dos usuários na conta do seu perfil de referência e se ele recebe muitos likes. Às vezes, nos enganamos pela quantidade de perfis que seguem uma conta, mas em uma análise rápida vemos que a conta é seguida por perfis estrangeiros ou tem um baixo engajamento", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/07.png'; ?>" class="img-responsive center-block" width="150" height="250">
+                        <div class="col-md-12">
+                            <div class="text-center"><img src="<?php echo base_url() . 'assets/images/dumbu.png'; ?>" class="img-responsive center-block" width="100" height="10"></div>
+                        </div>
                     </div>
-                </div>
-            
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Minha conta segue muitos perfis", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Se a sua conta segue mais de 6.000 seguidores em média, você provavelmente já está bloqueado para seguir novas contas. O Instagram impõe um limite na quantidade de perfis que você pode seguir, então precisamos parar de seguir uma parte das contas que você segue. Isso é feito automaticamente pelo nosso sistema", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/15.png'; ?>" class="img-responsive center-block" width="90" height="50">
-                    </div>
-                </div>
-            
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Quando alterar meus perfis de referência?", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Se você notar que seu desempenho não é muito bom, tente alterar o perfil de referência que tem menos engajamento, ou seja, aqueles perfis que têm muitos seguidores, mas poucos gostam. Quando se deparar com um perfil assim, opte por outros menores, mas com muito mais engajamento", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/13.png'; ?>" class="img-responsive center-block" width="200" height="250">
-                    </div>
-                </div>
-            </div>    
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Seguidores próximos de mim", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Se o assinante procura seguidores nas proximidades, sugerimos que você escolha perfis de referência de sua cidade, como shopping, escolas, empresas locais, clubes, restaurantes, etc", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/14.png'; ?>" class="img-responsive center-block" width="90" height="150">
-                    </div>
-                </div>    
-            
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("De onde são meus seguidores?", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Se você procura seguidores nacionais, indicamos que escolha perfis de referência que são do seu país e não são muito famosos fora dele. Se você escolher perfis de celebridades internacionais, você receberá muitos seguidores estrangeiros", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/03.png'; ?>" class="img-responsive center-block" width="90" height="150">
-                    </div>
-                </div>
-            
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Quais perfis de referência não escolher?", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Nunca escolha perfis pequenos ou conta privada (Contas que você precisa de aprovação para seguir). Nós indicamos que você sempre escolha perfis com mais de 5 mil seguidores", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/16.png'; ?>" class="img-responsive center-block" width="90" height="50">
+            </div>
+             
+            <div class="container">
+                <div class="col-lg-12 text-center">
+                    <span class="text-justify text-center"><?php echo $CI->T("Ficou com alguma dúvida", array(),$language);?></span>
+                    <div class="row">
+                        <div class="col-lg-4 text-center"></div>
+                         <div class="col-lg-4 text-center">
+                            <h class="text-normal"><?php echo $CI->T("Confira abaixo as perguntas mais frequentes", array(),$language);?></h>
+                            <div class="input-group">
+                                <input type="text" class="form-control">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default glyphicon glyphicon-search" type="button"</button>
+                                </span>
+                            </div>
+                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Hashtags", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Use hashtags que tem que ver com o assunto do seu Instagram, evite usar hashtags genéricos como #followme", array(),$language);?></h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/02.png'; ?>" class="img-responsive center-block" width="150" height="150">
-                    </div>
-                </div>
             
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Horários nobres", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("No Instagram, os dias de maior interação dos usuários são sábado e domingo, especialmente domingo entre as 13h e as 18h. Nos dias úteis, das 17h às 18h", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/04.png'; ?>" class="img-responsive center-block" width="90" height="25">
-                    </div>
-                </div>
             
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Qualidade das imagens", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Preste atenção aos detalhes de suas fotos, como luz, fundo e harmonia entre cores. Fotos que agradam ao olhar alcançam mais curtidas", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/06.png'; ?>" class="img-responsive center-block" width="100" height="150">
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Publique com regularidade", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Publicar fotos com alguma regularidade mantém seus seguidores interessados no seu perfil. Ficar muitos dias sem postar ou postar várias fotos em um intervalo de tempo muito curto pode afastar seguidores", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/10.png'; ?>" class="img-responsive center-block" width="100" height="100">
-                    </div>
-                </div>
             
-                <div class="col-md-4">
-                    <div class="container-fuid">
-                        <h4 class="text-success text-center"><?php echo $CI->T("Temas", array(),$language);?></h4>
-                        <h6 class="text-center"><?php echo $CI->T("Procure sempre abordar o tema do seu perfil, sem repetir fotos semelhantes. Seus seguidores procuram você justamente porque querem ver postagens sobre o seu assunto", array(),$language);?>.</h6>
-                        <img src="<?php echo base_url() . 'assets/images/dicas/11.png'; ?>" class="img-responsive center-block" width="150" height="150">
-                    </div>
-                </div>
-            </div>
+            
         </div>
-        
-        <div class="row">
-            <div class="container-fuid">
-                <div class="col-md-12">
-                    <div class="marca-de-agua"><img src="<?php echo base_url() . 'assets/images/dicas/dumbu.png'; ?>" class="img-responsive center-block" width="100" height="10"></div>
-                </div>
-            </div>
-        </div>
-        
-        
-        
     </div>
 </body>
 </html>    

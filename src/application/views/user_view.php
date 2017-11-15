@@ -112,6 +112,7 @@
 				<div id="dl-menu" class="dl-menuwrapper">
 					<button class="dl-trigger">Open Menu</button>
 					<ul class="dl-menu">
+                                                <li><a href="#lnk_faq_function"><?php echo $CI->T("FAQ", array(),$language);?></a></li>
 						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>
 						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li>
@@ -172,7 +173,8 @@
 						</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right menu-principal">
-						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>                                                 
+						<li><a href="#lnk_faq_function"><?php echo $CI->T("FAQ", array(),$language);?></a></li>
+                                                <li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>                                                 
                                                 <li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt="User"><?php echo $CI->T("ENTRAR", array(),$language);?><spam class="caret"></spam></a>
@@ -609,7 +611,7 @@
 				</div>
                             
                             <!--PASSO 2-->
-                                    <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
+                                <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                             <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
                                             <div class="row">
                                                 <div class="col-md-2 col-sm-2">
@@ -619,15 +621,10 @@
                                                         <spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
                                                         </div>
                                                     </div>
-                                                <div class="text-center">
-                                                    <div class="col-md-4">
-                                                        <button id="btn_boleto" type="button" class="btn-primary btn-green m-t10 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff" data-toggle="modal" data-target="#myModal">
-                                                        <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Gerar boleto", array(),$language);?></div></spam>
-                                                        </button> 
-                                                    </div>
-                                                </div>
+                                                
                                                 </div>
                                             </div>
+                                               
                                         
                                         <!--<label class="radio-inline">
                                             <input id="credit_function" type="radio" name="optradio" checked="true">Crédito

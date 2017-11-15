@@ -369,5 +369,11 @@ class Scripts extends CI_Controller {
             $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
+    
+    public function do_bilhete_payment() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/src/application/controllers/Welcome.php';
+        $this->check_mundipagg_boleto();
+        
+    }
       
 }

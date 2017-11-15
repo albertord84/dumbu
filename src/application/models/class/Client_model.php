@@ -557,5 +557,18 @@
             }
         }
         
+        public function get_FAQ($id,$profile,$type){
+            try {
+                $this->db->where('client_id',$id);
+                $this->db->where('profile',$profile);
+                $this->db->where('black_or_white',$type);
+                $this->db->update('black_and_white_list',array('end_date'=>time(),'deleted'=>'1'));
+                return true;
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
+        
 }
 ?>

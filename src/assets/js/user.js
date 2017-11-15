@@ -221,4 +221,10 @@ $(document).ready(function(){
         $(location).attr("href",base_url+"index.php?language="+$("#txt_language3").text()); 
     });
     
+    $("#lnk_faq_function").click(function(){
+        $('#form-control').text(pergunta);
+        url=base_url+"index.php/welcome/FAQ_function="+language+pergunta;
+        window.open(url, '_blank');
+    });
+    
  }); 
