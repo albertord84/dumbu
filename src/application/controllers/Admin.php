@@ -26,12 +26,12 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function list_filter_view() {
+    public function list_filter_view_or_get_emails() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/admin_model');
             $form_filter = $this->input->get();
-            $datas['result'] = $this->admin_model->view_clients_by_filter($form_filter);
+            $datas['result'] = $this->admin_model->view_clients_or_get_emails_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
             $this->load->model('class/user_model');
             $query = 'SELECT DISTINCT utm_source FROM clients';
@@ -45,7 +45,7 @@ class Admin extends CI_Controller {
         }
     }
     
-    public function get_emails() {
+    /*public function get_emails() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/admin_model');
@@ -62,7 +62,7 @@ class Admin extends CI_Controller {
         } else{
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
-    }
+    }*/
     
     public function list_filter_view_pendences() {
         $this->load->model('class/user_role');
