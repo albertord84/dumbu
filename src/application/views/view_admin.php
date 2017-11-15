@@ -32,9 +32,9 @@
         <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
         
         <!-- jQuery UI Datepicker - Select a Date Range -->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="<?php echo base_url().'assets/jquery-ui-1.12.1/jquery-ui.css';?>">
+        <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
+        <script src="<?php echo base_url().'assets/jquery-ui-1.12.1/jquery-ui.js';?>"></script>
         <script>
         $( function() {
           var dateFormat = "mm/dd/yy",
