@@ -320,6 +320,11 @@ class Admin extends CI_Controller {
             $form_filter = $this->input->get();
             $datas['result'] = $this->admin_model->view_watchdog_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
+            
+            $daily_report = $this->get_daily_report($form_filter['user_id']);
+            $datas['followings'] = $daily_report['followings'];
+            $datas['followers']  = $daily_report['followers'];
+            
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_watchdog', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
@@ -327,5 +332,28 @@ class Admin extends CI_Controller {
         } else{
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
+    }
+    
+    public function get_daily_report($id) {
+        $this->load->model('class/user_model');
+        $sql = "SELECT * FROM daily_report WHERE followings != '0' AND followers != '0' AND client_id=" . $id . " ORDER BY date ASC;" ;  // LIMIT 30
+        $result = $this->user_model->execute_sql_query($sql);
+        $followings = array();
+        $followers = array();
+        $N = count($result);
+        for ($i = 0; $i < $N; $i++) {
+            if(isset($result[$i]['date'])){
+            $dd = date("j", $result[$i]['date']);
+            $mm = date("n", $result[$i]['date']);
+            $yy = date("Y", $result[$i]['date']);
+            $followings[$i] = (object) array('x' => ($i+1), 'y' => intval($result[$i]['followings']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
+            $followers[$i] = (object) array('x' => ($i + 1), 'y' => intval($result[$i]['followers']), "yy" => $yy, "mm" => $mm, "dd" => $dd);
+            }
+        }
+        $response= array(
+            'followings' => json_encode($followings),
+            'followers' => json_encode($followers)
+        );
+        return $response;
     }
 }
