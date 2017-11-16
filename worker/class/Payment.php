@@ -354,8 +354,44 @@ namespace dumbu\cls {
         public function get_paymment_data($order_key) {
             if ($order_key) {
                 $result = $this->queryOrder($order_key);
+                if (is_object($result) && $result->isSuccess())
+                {
+                     $data = $result->getData();
+                    //var_dump($data);
+                    $SaleDataCollection = $data->SaleDataCollection[0];
+                    $LastSaledData = NULL;
+                    // Get last client payment
+                    $now = DateTime::createFromFormat('U', time());
+                    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                        return  new DateTime($SaleData->CreateDate);
+                    }                    
+                }
             }
-            return $result;
+            return null;
+        }
+        
+        public function get_last_paymment_data($order_key) {
+            if ($order_key) {
+                $result = $this->queryOrder($order_key);
+                if (is_object($result) && $result->isSuccess())
+                {
+                     $data = $result->getData();
+                    //var_dump($data);
+                    $SaleDataCollection = $data->SaleDataCollection[0];
+                    $LastSaledData = NULL;
+                    // Get last client payment
+                    $now = DateTime::createFromFormat('U', time());
+                    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                        $SaleDataDate = new DateTime($SaleData->DueDate);
+        //                $LastSaleDataDate = new DateTime($LastSaledData->DueDate);
+                        //$last_payed_date = DateTime($LastSaledData->DueDate);
+                        if ($SaleData->CapturedAmountInCents != NULL && ($LastSaledData == NULL || $SaleDataDate > new DateTime($LastSaledData->DueDate))) {
+                            $LastSaledData = $SaleData;
+                        }
+                     }                    
+                }
+            }
+            return null;
         }
 
         // end of member function update_payment
