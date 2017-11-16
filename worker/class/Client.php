@@ -174,6 +174,17 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_begginer_client($client_id) {
+            try {
+                $DB = new DB();
+                $client_data = $DB->get_biginner_data($client_id);
+                $Client = $this->fill_client_data($client_data);
+                return $Client;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
         public function create_daily_work($client_id) {
             $DB = new DB();

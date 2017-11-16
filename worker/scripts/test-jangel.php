@@ -51,11 +51,69 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_client_login_error("josergm86@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Test test", "test@email");
-var_dump(time());
-var_dump(!0);
+//var_dump(time());
+//var_dump(!0);
 //$Robot = new dumbu\cls\Robot();
- 	  		 	
- 	 	
+/*
+$Gmail = new dumbu\cls\Gmail();
+$Robot = new dumbu\cls\Robot();
+$DB = new \dumbu\cls\DB();
+ $Clients = (new Client())->get_begginer_clients();
+//$DB = new DB();
+$Client = new Client();
+foreach ($Clients as $Client) { // for each CLient
+        if (!$Client->cookies) {
+        // Log user with curl in istagram to get needed session data
+        $login_data = $Client->sign_in($Client);
+        if ($login_data !== NULL) {
+            $Client->cookies = json_encode($login_data);
+        }
+    }
+    if ($Client->cookies && !$Client->paused) {
+//                    var_dump($Client->login);
+        print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
+        $Client->set_client_status($Client->id, user_status::ACTIVE);
+// Distribute work between clients
+        $RPWC = $Client->rp_workable_count();
+        $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+        if ($RPWC > 0) {
+            $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
+//                        $to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
+            // If User status = UNFOLLOW he do 0 follows
+            $to_follow = $Client->status_id != user_status::DUMBU_UNFOLLOW ? $to_follow_unfollow : 0;
+            $to_unfollow = $to_follow_unfollow;
+            foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
+//$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
+                if (!$Ref_Prof->deleted && $Ref_Prof->end_date == NULL) {
+                    $valid_geo = ($Ref_Prof->type == 1 && ($Client->plane_id == 1 || $Client->plane_id > 3));
+                    if ($Ref_Prof->type == 0 || $valid_geo) {
+                        $DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
+                    }
+                }
+            }
+        } else {
+            echo "Not reference profiles: $Client->login <br>\n<br>\n";
+            if (count($Client->reference_profiles)) { // To keep unfollow
+                $DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
+            }
+            $Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+        }
+    } elseif(!$Client->paused){
+// TODO: do something in Client autentication error
+        // Send email to client
+        $now = new \DateTime("now");
+        $status_date = new \DateTime();
+        $status_date->setTimestamp($Client->status_date ? $Client->status_date : 0);
+        $diff_info = $status_date->diff($now);
+        var_dump($diff_info->days);
+//                    if ($diff_info->days <= 3) {
+        // TODO, UNCOMMENT
+        $Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
+//                    }
+    }
+}
+
+ */	 	
 //$result = $Robot->bot_login("iclothesbsb", "brasilusa87");
 //print_r(json_encode($result));
 //$result = $Robot->bot_login("urpia", "romeus33");
