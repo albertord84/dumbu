@@ -254,42 +254,48 @@ $(document).ready(function () {
         if (validate_element('#login_profile', '^[a-zA-Z0-9\._]{1,300}$')) {
             if (num_profiles < MAX_NUM_PROFILES) {
                 if ($('#login_profile').val() != '') {
-                    //$("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
-                    var l = Ladda.create(this);
-                    l.start();
-                    $.ajax({
-                        url: base_url + 'index.php/welcome/client_insert_profile',
-                        data: {'profile': $('#login_profile').val()},
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response['success']) {
-                                inser_icons_profiles(response);
-                                $('#login_profile').val('');
-                                $("#insert_profile_form").fadeOut();
-                                $("#insert_profile_form").css({"visibility": "hidden", "display": "none"});
-                                $('#reference_profile_message').text('');
-                                $('#reference_profile_message').css('visibility', 'hidden');
-                                if (num_profiles == MAX_NUM_PROFILES) {
-                                    $('#btn_modal_close').click();
+                    if ($('#login_profile').val() != my_login_profile) {
+                        //$("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
+                        var l = Ladda.create(this);
+                        l.start();
+                        $.ajax({
+                            url: base_url + 'index.php/welcome/client_insert_profile',
+                            data: {'profile': $('#login_profile').val()},
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response['success']) {
+                                    inser_icons_profiles(response);
+                                    $('#login_profile').val('');
+                                    $("#insert_profile_form").fadeOut();
+                                    $("#insert_profile_form").css({"visibility": "hidden", "display": "none"});
+                                    $('#reference_profile_message').text('');
+                                    $('#reference_profile_message').css('visibility', 'hidden');
+                                    if (num_profiles == MAX_NUM_PROFILES) {
+                                        $('#btn_modal_close').click();
+                                    }
+                                } else {
+                                    $('#reference_profile_message').text(response['message']);
+                                    $('#reference_profile_message').css('visibility', 'visible');
+                                    $('#reference_profile_message').css('color', 'red')
+                                    //modal_alert_message(response['message']);                        
                                 }
-                            } else {
-                                $('#reference_profile_message').text(response['message']);
+                                $("#waiting_inser_profile").css({"visibility": "hidden", "display": "none"});
+                                l.stop();
+                            },
+                            error: function (xhr, status) {
+                                $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
                                 $('#reference_profile_message').css('visibility', 'visible');
-                                $('#reference_profile_message').css('color', 'red')
-                                //modal_alert_message(response['message']);                        
+                                $('#reference_profile_message').css('color', 'red');
+                                //modal_alert_message('Não foi possível conectar com o Instagram');
+                                l.stop();
                             }
-                            $("#waiting_inser_profile").css({"visibility": "hidden", "display": "none"});
-                            l.stop();
-                        },
-                        error: function (xhr, status) {
-                            $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
-                            $('#reference_profile_message').css('visibility', 'visible');
-                            $('#reference_profile_message').css('color', 'red');
-                            //modal_alert_message('Não foi possível conectar com o Instagram');
-                            l.stop();
-                        }
-                    });
+                        });
+                    } else {
+                        $('#reference_profile_message').text(T('Não pode escolher seu próprio perfil como referência.'));
+                        $('#reference_profile_message').css('visibility', 'visible');
+                        $('#reference_profile_message').css('color', 'red');
+                    }
                 }
             } else {
                 $('#reference_profile_message').text(T('Alcançou a quantidade máxima.'));

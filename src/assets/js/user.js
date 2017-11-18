@@ -125,10 +125,10 @@ $(document).ready(function(){
     
     $(".help").hover(
         function(){
-            $('#help').css('cursor', 'pointer');
+            $('.help').css('cursor', 'pointer');
         },
         function(){
-            $('#help').css('cursor', 'default');
+            $('.help').css('cursor', 'default');
         }
     );
     

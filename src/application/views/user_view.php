@@ -35,7 +35,7 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script>
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.0';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?1.0.0';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                

@@ -34,11 +34,12 @@
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
+        <script type="text/javascript">var my_login_profile = '<?php echo $my_login_profile; ?>';</script>
         <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js?1.0.0'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js?1.0.0'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
