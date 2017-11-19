@@ -34,7 +34,8 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // WORKER
 
-$Worker = new dumbu\cls\Worker();
+$id = filter_input(INPUT_GET, 'id',FILTER_VALIDATE_INT);
+$Worker = new dumbu\cls\Worker(NULL,$id);
 
 //$Worker->check_daily_work();
 //$Worker->truncate_daily_work();

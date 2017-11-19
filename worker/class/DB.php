@@ -708,7 +708,7 @@ namespace dumbu\cls {
             }
         }
         
-        public function InsertEventToWashdog($user_id, $action, $source )
+        public function InsertEventToWashdog($user_id, $action, $source, $robot_id = NULL)
         {
             try {
                  $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
@@ -721,7 +721,7 @@ namespace dumbu\cls {
                      var_dump($result);
                  }
                   $obj = $result->fetch_object();
-                  $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date) VALUE ('$user_id','$obj->id', '$time');";
+                  $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', $robot_id);";
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  
@@ -729,6 +729,19 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
               
+        }
+        
+        public function get_client_with_orderkey($orderkey)
+        {
+
+            try {
+                $sql = "SELECT * FROM  clients " 
+                        ."WHERE  clients.order_key = '$orderkey';";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
         }
     }
 
