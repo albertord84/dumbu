@@ -83,7 +83,7 @@ var Translation={
     "Seguidores: ":
             "Followers: ",
     "Seguindo: ":
-            "Follwing: ",
+            "Following: ",
     "Eliminar":
             "Delete",  
     "Ver no Instagram":
