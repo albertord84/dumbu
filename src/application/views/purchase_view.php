@@ -35,13 +35,16 @@
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.0';?>"></script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script> 
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME?>';</script>
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
                 <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
-                <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
+                <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script> 
+                <script type="text/javascript">var client_login_profile = '<?php echo $client_login_profile; ?>';</script>                
+                <script type="text/javascript">var total_value = '<?php echo ($Afilio_total_value / 100);?>';</script>
+                <script type="text/javascript">var plane_id = '<?php echo $Afilio_product_id;?>';</script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js?1.0.0';?>"></script>
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
@@ -68,6 +71,7 @@
                    if($SERVER_NAME=="PRO")
                         echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id='.$Afilio_UNIQUE_ID.'&order_price='.$Afilio_total_value.'" border="0" width="1" height="1" />';
                 ?>
+                <?php include_once("ecommerce.php") ?>
                 
                 <!-- Abandono de carrinho de Revanth --> 
                     <?php                         
