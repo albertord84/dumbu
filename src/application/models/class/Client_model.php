@@ -557,13 +557,29 @@
             }
         }
         
-        public function get_FAQ($id,$profile,$type){
+        public function geting_FAQ($result){
             try {
-                $this->db->where('client_id',$id);
-                $this->db->where('profile',$profile);
-                $this->db->where('black_or_white',$type);
-                $this->db->update('black_and_white_list',array('end_date'=>time(),'deleted'=>'1'));
-                return true;
+                
+                if ($result['language'] === EN){
+                        $Pergunta= Pregunta_EN;
+                        $Resposta= Respuesta_EN;
+                        
+                }                        
+                elseif ($result['language'] == ES){
+                        $Pergunta= Pregunta_ES;
+                        $Resposta= Respuesta_ES;
+                }
+                else {   $Pergunta= Pregunta_PT;
+                         $Resposta= Respuesta_PT;
+                }
+                
+                $sql=$this->db->select([$Pergunta,$Resposta])->from('faq')->where( $Pergunta.' IS NOT NULL');
+               
+                //$this->db->where('id'<'10');
+                $resulta= $this->db->get()->result_array($sql);
+                //var_dump($resulta) ; 
+                return $resulta;
+                
             } catch (Exception $exc) {                
                 echo $exc->getTraceAsString();
                 return false;

@@ -113,6 +113,9 @@ $(document).ready(function(){
         }
     });
     
+    $('.dropdown').on('shown.bs.dropdown', function(){
+        document.getElementById("userLogin2").focus();
+    });
         
     $(".help").click(function(){
         url=base_url+"index.php/welcome/help?language="+language;
@@ -222,8 +225,7 @@ $(document).ready(function(){
     });
     
     $("#lnk_faq_function").click(function(){
-        $('#form-control').text(pergunta);
-        url=base_url+"index.php/welcome/FAQ_function="+language+pergunta;
+        url=base_url+"index.php/Welcome/FAQ_function="+language;
         window.open(url, '_blank');
     });
     

@@ -72,7 +72,7 @@ namespace dumbu\cls {
                     $error = 4;
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
-                } else if ((strpos($response->message, 'Há solicitações demais. Tente novamente mais tarde') !== FALSE) 
+                } else if ((strpos($response->message, 'Tente novamente mais tarde') !== FALSE) 
                        ||  (strpos($response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
                     $error = 7;
                 } else if (strpos($response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
