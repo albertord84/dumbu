@@ -67,7 +67,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $this->load->model('class/user_status');
-        $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÃ‚O INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
+        $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             $language=$this->input->get();           
             if(isset($language['language'])){
@@ -240,7 +240,7 @@ class Welcome extends CI_Controller {
                 //Is an actually Instagram user?
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                 if($data_insta==NULL){
-                    $result['message'] = $this->T('NÃ£o foi possÃ­vel conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 } else
@@ -301,7 +301,7 @@ class Welcome extends CI_Controller {
                                 }
                             }
                             $result['resource'] = 'client';
-                            $result['message'] = $this->T('UsuÃ¡rio @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);
+                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
@@ -347,7 +347,7 @@ class Welcome extends CI_Controller {
                             if($st!=user_status::ACTIVE)
                                 $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
                             $result['resource'] = 'client';
-                            $result['message'] = $this->T('UsuÃ¡rio @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);                            
+                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);                            
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
@@ -359,13 +359,13 @@ class Welcome extends CI_Controller {
                         } else
                         if ($st == user_status::DELETED || $st == user_status::INACTIVE) {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = $this->T('Falha no login! VocÃª deve assinar novamente para receber o serviÃ§o', array(), $GLOBALS['language']);
+                            $result['message'] = $this->T('Falha no login! Você deve assinar novamente para receber o serviço', array(), $GLOBALS['language']);
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         }
                     } else {
                         $result['resource'] = 'index#lnk_sign_in_now';
-                        $result['message'] = $this->T('Falha no login! VocÃª deve assinar para receber o serviÃ§o', array(), $GLOBALS['language']);
+                        $result['message'] = $this->T('Falha no login! Você deve assinar novamente para receber o serviço', array(), $GLOBALS['language']);
                         $result['cause'] = 'signin_required';
                         $result['authenticated'] = false;
                     }
@@ -401,7 +401,7 @@ class Welcome extends CI_Controller {
                             $result['authenticated'] = false;
                         } else {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = $this->T('VocÃª deve assinar novamente para receber o serviÃ§o.', array(), $GLOBALS['language']);
+                            $result['message'] = $this->T('Você deve assinar novamente para receber o serviço.', array(), $GLOBALS['language']);
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         }
@@ -442,7 +442,7 @@ class Welcome extends CI_Controller {
                             }
                         } else {
                             //nombre de usuario informado no existe en instagram
-                            $result['message'] = $this->T('Falha no login! O nome de usuÃ¡rio fornecido nÃ£o existe no Instagram.', array(), $GLOBALS['language']);
+                            $result['message'] = $this->T('Falha no login! O nome de usuário fornecido não existe no Instagram.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
                             $result['authenticated'] = false;
                         }
@@ -532,7 +532,7 @@ class Welcome extends CI_Controller {
                             $this->user_model->set_sesion($user[$index]['id'], $this->session);
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
                             $result['return_link'] = 'index';
-                            $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram com cÃ³digo enviado ao numero de telefone que comtÃªnm os digitos ', array(0 => $data_insta['obfuscated_phone_number']), $GLOBALS['language']);
+                            $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram com código enviado ao numero de telefone que comtênm os digitos ', array(0 => $data_insta['obfuscated_phone_number']), $GLOBALS['language']);
                             $result['cause'] = 'phone_verification_settings';
                             $result['verify_link'] = '';
                             $result['obfuscated_phone_number'] = $data_insta['obfuscated_phone_number'];
@@ -760,7 +760,7 @@ class Welcome extends CI_Controller {
                     $response['success'] = true;
                 } else {
                     $response['success'] = false;
-                    $response['message'] = $this->T('O usuario informado jÃ¡ tem cadastro no sistema.', array(), $GLOBALS['language']);
+                    $response['message'] = $this->T('O usuario informado já tem cadastro no sistema.', array(), $GLOBALS['language']);
                 }
             }
             if ($response['success'] == true) {
@@ -771,7 +771,7 @@ class Welcome extends CI_Controller {
         } else {
             $response['success'] = false;
             $response['cause'] = 'missing_user';
-            $response['message'] = $this->T('O nome de usuario informado nÃ£o Ã© um perfil do Instagram.', array(), $GLOBALS['language']);
+            $response['message'] = $this->T('O nome de usuario informado não é um perfil do Instagram.', array(), $GLOBALS['language']);
         }
         if(!$origin_datas)
             echo json_encode($response);
@@ -897,7 +897,7 @@ class Welcome extends CI_Controller {
                         $result['success'] = true;
                         $result['flag_initial_payment'] = $response['flag_initial_payment'];
                         $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
-                        $result['message'] = $this->T('UsuÃ¡rio cadastrado com sucesso', array(), $GLOBALS['language']);
+                        $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
                     } else {
                         $value['purchase_counter']=$purchase_counter-1;
                         $this->client_model->decrement_purchase_retry($datas['pk'],$value);
@@ -906,15 +906,15 @@ class Welcome extends CI_Controller {
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('Acesso nÃ£o permitido', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
                 } 
             }else{
                 $result['success'] = false;
-                $result['message'] = $this->T('AlcanÃ§Ãµu a quantidade mÃ¡xima de retentativa de compra, por favor, entre en contato con o atendimento', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('Alcançõu a quantidade máxima de retentativa de compra, por favor, entre en contato con o atendimento', array(), $GLOBALS['language']);
             }
         }else{
             $result['success'] = false;
-            $result['message'] = $this->T('Acesso nÃ£o permitido', array(), $GLOBALS['language']);
+            $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
         }
         
         if(!$origin_datas)
@@ -954,7 +954,7 @@ class Welcome extends CI_Controller {
                 } else {
                     $response['flag_recurrency_payment'] = false;
                     $response['flag_initial_payment'] = false;
-                    $response['message'] = $this->T('Compra nÃ£o sucedida. Problemas com o pagamento', array(), $GLOBALS['language']);
+                    $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array(), $GLOBALS['language']);
                 } 
         } else 
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='OLX' || $datas['ticket_peixe_urbano']==='INSTA50P')){
@@ -1412,7 +1412,7 @@ class Welcome extends CI_Controller {
                         || $client_data['ticket_peixe_urbano']==='BACKTODUMBU' 
                         )){                    
                     $result['success'] = false;
-                    $result['message'] = 'VocÃª nÃ£o pode atualizar no primeiro mÃªs, entre em contato com nosso atendimento';
+                    $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
                 } else {
                     if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
                         if ($now < $client_data['pay_day']) {
@@ -1551,7 +1551,7 @@ class Welcome extends CI_Controller {
                                     } finally {
                                         $result['success'] = true;
                                         $result['resource'] = 'client';
-                                        $result['message'] = $this->T('Dados bancÃ¡rios atualizados corretamente', array(), $GLOBALS['language']);
+                                        $result['message'] = $this->T('Dados bancários atualizados corretamente', array(), $GLOBALS['language']);
                                         $result['response_delete_early_payment'] = $response_delete_early_payment;
                                     }
                                 }
@@ -1571,26 +1571,26 @@ class Welcome extends CI_Controller {
                                 $result['success'] = false;
                                 $result['resource'] = 'client';
                                 if ($payments_days['pay_now'] && !$flag_pay_now)
-                                    $result['message'] = is_array($resp_pay_now) ? $resp_pay_now["message"] : $this->T("Erro inesperado! ProvÃ¡velmente CartÃ£o invÃ¡lido, entre em contato com o atendimento.", array(), $GLOBALS['language']);
+                                    $result['message'] = is_array($resp_pay_now) ? $resp_pay_now["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array(), $GLOBALS['language']);
                                 else
-                                    $result['message'] = is_array($resp_pay_day) ? $resp_pay_day["message"] : $this->T("Erro inesperado! ProvÃ¡velmente CartÃ£o invÃ¡lido, entre em contato com o atendimento.", array(), $GLOBALS['language']);
+                                    $result['message'] = is_array($resp_pay_day) ? $resp_pay_day["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array(), $GLOBALS['language']);
                             } else
                             if (($payments_days['pay_now'] && $flag_pay_now && !$flag_pay_day)) {
                                 //se hiso el primer pagamento bien, pero la recurrencia mal
                                 $result['success'] = true;
                                 $result['resource'] = 'client';
-                                $result['message'] = $this->T('ActualizaÃ§Ã£o bem sucedida, mas deve atualizar novamente atÃ© a data de pagamento ( @1 )', array(0 => $payments_days['pay_now']));
+                                $result['message'] = $this->T('Actualização bem sucedida, mas deve atualizar novamente até a data de pagamento ( @1 )', array(0 => $payments_days['pay_now']));
                             }
                         }
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $this->T('VocÃª nÃ£o pode atualizar seu cartÃ£o no dia do pagamento', array(), $GLOBALS['language']);
+                        $result['message'] = $this->T('Você não pode atualizar seu cartão no dia do pagamento', array(), $GLOBALS['language']);
                     }
                 }
                 
             } else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Acesso nÃ£o permitido', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
             }
             
             if($this->session->userdata('id') && $result['success'] == true){
@@ -1702,9 +1702,9 @@ class Welcome extends CI_Controller {
                                 $result['geolocalization_pk'] = $profile_datas->location->pk;
                                 $result['follows_from_profile'] = 0;
                                 if ($q) {
-                                    $result['message'] = $this->T('GeolocalizaÃ§Ã£o adicionada corretamente', array(), $GLOBALS['language']);
+                                    $result['message'] = $this->T('Geolocalização adicionada corretamente', array(), $GLOBALS['language']);
                                 } else {
-                                    $result['message'] = $this->T('O trabalho com a geolocalizaÃ§Ã£o comeÃ§ara depois', array(), $GLOBALS['language']);
+                                    $result['message'] = $this->T('O trabalho com a geolocalização começara depois', array(), $GLOBALS['language']);
                                 }
                             } else {
                                 $result['success'] = false;
@@ -1712,22 +1712,22 @@ class Welcome extends CI_Controller {
                             }
                         /*} else {
                             $result['success'] = false;
-                            $result['message'] = $this->T('A geolocalizaÃ§Ã£o @1 Ã© um perfil privado', array(0 => $profile['geolocalization']));
+                            $result['message'] = $this->T('A geolocalização @1 é um perfil privado', array(0 => $profile['geolocalization']));
                         }*/
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $this->T('@1 nÃ£o Ã© uma geolocalizaÃ§Ã£o do Instagram', array(0 => $profile['geolocalization']));
+                        $result['message'] = $this->T('@1 não é uma geolocalização do Instagram', array(0 => $profile['geolocalization']));
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('VocÃª alcanÃ§ou a quantidade mÃ¡xima de geolocalizaÃ§Ãµes ativas', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Você alcançou a quantidade máxima de geolocalizações ativas', array(), $GLOBALS['language']);
                 }
             } else {
                 $result['success'] = false;                    
                 if($is_active_profile)
-                    $result['message'] = $this->T('A geolocalizaÃ§Ã£o informada Ã© um perfil ativo', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('A geolocalização informada é um perfil ativo', array(), $GLOBALS['language']);
                 else
-                    $result['message']=$this->T('A geolocalizaÃ§ao informada ja estÃ¡ ativa', array(), $GLOBALS['language']);                
+                    $result['message']=$this->T('A geolocalizaçao informada ja está ativa', array(), $GLOBALS['language']);                
             }
             
             if( $result['success'] == true){
@@ -1754,7 +1754,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post();
             if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['geolocalization'])) {
                 $result['success'] = true;
-                $result['message'] = $this->T('GeolocalizaÃ§Ã£o eliminada', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('Geolocalização eliminada', array(), $GLOBALS['language']);
             } else {
                 $result['success'] = false;
                 $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
@@ -1834,7 +1834,7 @@ class Welcome extends CI_Controller {
                                 if ($q) {
                                     $result['message'] = $this->T('Perfil adicionado corretamente', array(), $GLOBALS['language']);
                                 } else {
-                                    $result['message'] = $this->T('O trabalho com o perfil comeÃ§ara depois', array(), $GLOBALS['language']);
+                                    $result['message'] = $this->T('O trabalho com o perfil começara depois', array(), $GLOBALS['language']);
                                 }
                             } else {
                                 $result['success'] = false;
@@ -1842,22 +1842,22 @@ class Welcome extends CI_Controller {
                             }
                         } else {
                             $result['success'] = false;
-                            $result['message'] = $this->T('O perfil @1 Ã© um perfil privado', array(0 => $profile['profile']),$GLOBALS['language']);
+                            $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']),$GLOBALS['language']);
                         }                    
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $this->T('Confira que o perfil @1 existe no Instagram e nÃ£o tem bloqueado vocÃª', array(0 => $profile['profile']),$GLOBALS['language']);
+                        $result['message'] = $this->T('Confira que o perfil @1 existe no Instagram e não tem bloqueado você', array(0 => $profile['profile']),$GLOBALS['language']);
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('VocÃª alcanÃ§ou a quantidade mÃ¡xima de perfis ativos', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Você alcançou a quantidade máxima de perfis ativos', array(), $GLOBALS['language']);
                 }
             } else {
                 $result['success'] = false;                    
                 if($is_active_profile)
-                    $result['message']=$this->T('O perfil informado ja estÃ¡ ativo', array(), $GLOBALS['language']);    
+                    $result['message']=$this->T('O perfil informado ja está ativo', array(), $GLOBALS['language']);    
                 else
-                    $result['message'] = $this->T('O perfil informado Ã© uma geolocalizaÃ§Ã£o ativa', array(), $GLOBALS['language']);                
+                    $result['message'] = $this->T('O perfil informado é uma geolocalização ativa', array(), $GLOBALS['language']);                
             }
             
             if( $result['success'] == true){
@@ -2410,7 +2410,7 @@ class Welcome extends CI_Controller {
                 }
             } else{
                 $result['success'] = false;
-                $result['message'] = $this->T('O perfil nÃ£o existe no Instagram', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('O perfil não existe no Instagram', array(), $GLOBALS['language']);
             }            
             echo json_encode($result);
         }
@@ -2489,7 +2489,7 @@ class Welcome extends CI_Controller {
                 }
             } else{
                 $result['success'] = false;
-                $result['message'] = $this->T('O perfil nÃ£o existe no Instagram', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('O perfil não existe no Instagram', array(), $GLOBALS['language']);
             }            
             echo json_encode($result);
         }
@@ -2608,9 +2608,9 @@ class Welcome extends CI_Controller {
             $this->client_model->update_client($user_id, array(
                 'initial_order_key' => '',
                 'order_key' => '',
-                'observation' => 'NÃ‚O CONEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
+                'observation' => 'NÃO CONSEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
                 'order_key' => $payment_data['pay_day'],
-                'observation' => 'NÂO CONEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
+                'observation' => 'NÃO CONSEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
                 'pay_day' => $payment_data['pay_day']));
             //TO-DO:Ruslan: inserta una pendencia automatica aqui
             
@@ -2661,7 +2661,7 @@ class Welcome extends CI_Controller {
             } else{
                 $this->client_model->update_client($clients['user_id'], array(
                         'purchase_counter' => -100 ));
-                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nÃ£ passou passo 1\n<br>';
+                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'não passou passo 1\n<br>';
             }
         }
     }
