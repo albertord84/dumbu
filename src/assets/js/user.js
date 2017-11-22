@@ -125,10 +125,10 @@ $(document).ready(function(){
     
     $(".help").hover(
         function(){
-            $('#help').css('cursor', 'pointer');
+            $('.help').css('cursor', 'pointer');
         },
         function(){
-            $('#help').css('cursor', 'default');
+            $('.help').css('cursor', 'default');
         }
     );
     
@@ -213,6 +213,7 @@ $(document).ready(function(){
        $(location).attr("href",base_url+"index.php?language="+$("#txt_language2").text());
         
     });
+    
     $("#lnk_language3").click(function () {
 //        img_tmp=$('#img_language1').attr('src');
 //        txt_tmp=$('#txt_language1').text();        
@@ -224,4 +225,11 @@ $(document).ready(function(){
         $(location).attr("href",base_url+"index.php?language="+$("#txt_language3").text()); 
     });
     
+    $("#lnk_language2_cell").click(function () {
+       $(location).attr("href",base_url+"index.php?language="+$("#txt_language2").text());
+    });
+    
+    $("#lnk_language3_cell").click(function () {
+       $(location).attr("href",base_url+"index.php?language="+$("#txt_language3").text());
+    });
  }); 
