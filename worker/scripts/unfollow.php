@@ -113,10 +113,7 @@ if(isset($clients_data_db))
                     unset($clients_data[$ckey]);
                     echo "<br>\n DELETED FROM UNFOLLOW!! NOT CLIENT DATA: $client_data->login ($client_data->id) <br>\n";
                 }
-            } else {
-                unset($clients_data[$ckey]);
-                echo "<br>\n DELETED FROM UNFOLLOW!! NOT CLIENT DATA: $client_data->login ($client_data->id) <br>\n";
-            }
+            } 
         }
         // Wait 20 minutes
         sleep(20 * 60);
