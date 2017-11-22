@@ -69,7 +69,7 @@ namespace dumbu\cls {
                         . "          users.status_id = $PENDING OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
                         . "          users.status_id = $BLOCKED_BY_INSTA OR "
-                        . "          users.status_id = $BLOCKED_BY_TIME OR )"
+                        . "          users.status_id = $BLOCKED_BY_TIME) "
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
@@ -112,7 +112,7 @@ namespace dumbu\cls {
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND (users.status_id NOT IN ($DELETED, $BEGINNER, $DONT_DISTURB )) "
+                        . "     AND (users.status_id NOT IN ($DELETED, $BEGINNER, $DONT_DISTURB)) "
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
