@@ -35,8 +35,8 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script>
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.0';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?1.0.0';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
@@ -146,24 +146,76 @@
 								</li>
 							</ul>
 						</li>
-                                               <!-- <li>
-							<a href="#"><?//php echo $CI->T("IDIOMA", array(),$language);?></a>
-							<ul class="dl-submenu">
-								<li>
-                                                                    <div id="login_container1">
-                                                                        <nav class="navbar navbar-default navbar-static-top">
-                                                                           <?php
-                                                                           
-                                                                           ?> 
-                                                                        </nav>
-                                                                    </div>
-								</li>
-							</ul>
-						</li>-->
-                                               
                                                 
+                                            <?php if ($SERVER_NAME === 'ONE') { ?>
+                                                <li id="locales_cell">
+                                                <a  id="lnk_language1_cell" href="#">
+                                                        
+                                                <?php if ($language === 'EN') { ?>
+                                                    <img id="img_language1" src="assets/images/en_flag.png" alt="EN" class="wauto us">
+                                                    <span id="txt_language1" style="color: white">EN</span>
+                                                <?php }
+                                                elseif ($language === 'PT') { ?> 
+                                                    <img id="img_language1" src="assets/images/pt_flag.png" alt="PT" class="wauto us">
+                                                    <span id="txt_language1" style="color: white">PT</span>
+                                                <?php }
+                                                else { ?>
+                                                    <img id="img_language1" src="assets/images/es_flag.png" alt="ES" class="wauto us">
+                                                    <span id="txt_language1" style="color: white">ES</span>
+                                                <?php } ?>
+                                                
+                                                </a>
+                                                    <ul class="dl-submenu">
+                                                        <li>
+
+                                                        <?php if ($language === 'EN') { ?>
+                                                            <a id="lnk_language2_cell" href="#">
+                                                            <img id="img_language2" src="assets/images/pt_flag.png" alt="PT" class="wauto us"/>
+                                                            <span id="txt_language2" style="color: black">PT</span>
+                                                            </a>
+                                                        <?php }
+                                                        elseif ($language === 'PT') { ?>
+                                                            <a id="lnk_language2_cell" href="#">
+                                                            <img id="img_language2" src="assets/images/es_flag.png" alt="ES" class="wauto us"/>
+                                                            <span id="txt_language2" style="color: black">ES</span>
+                                                            </a>
+                                                        <?php }
+                                                        else { ?>
+                                                            <a id="lnk_language2_cell" href="#">
+                                                            <img id="img_language2" src="assets/images/en_flag.png" alt="EN" class="wauto us"/>
+                                                            <span id="txt_language2" style="color: black">EN</span>
+                                                            </a>
+                                                        <?php } ?>
+
+                                                        </li>
+                                                        <li>
+
+                                                        <?php if ($language === 'EN') { ?>
+                                                            <a id="lnk_language3_cell" href="#">
+                                                            <img id="img_language3" src="assets/images/es_flag.png" alt="ES" class="wauto us"/>
+                                                            <span id="txt_language3" style="color: black">ES</span>
+                                                            </a>
+                                                        <?php }
+                                                        elseif ($language === 'PT') { ?>
+                                                            <a id="lnk_language3_cell" href="#">
+                                                            <img id="img_language3" src="assets/images/en_flag.png" alt="EN" class="wauto us"/>
+                                                            <span id="txt_language3" style="color: black">EN</span>
+                                                            </a>
+                                                        <?php }
+                                                        else { ?>
+                                                            <a id="lnk_language3_cell" href="#">
+                                                            <img id="img_language3" src="assets/images/pt_flag.png" alt="PT" class="wauto us"/>
+                                                            <span id="txt_language3" style="color: black">PT</span>
+                                                            </a>
+                                                        <?php } ?>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            <?php } ?>
 					</ul>
 				</div><!-- /dl-menuwrapper -->
+                                
 				<nav class="navbar navbar-default navbar-static-top">
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="logo pabsolute fleft100 text-center">
@@ -298,7 +350,7 @@
 						<hr>
 						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de", array(),$language);?></spam>
 						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$", array(),$language);?><b><?php echo ' '.$CI->T("29,90", array(),$language);?></b></p>
-						<!--<spam class="fleft100 cl-fff no-mg"><?php //echo $CI->T("no 1º mês", array(),$language);?></spam>-->
+						<!--<spam class="fleft100 cl-fff no-mg">--><?php //echo $CI->T("no 1º mês", array(),$language);?><!--</spam>-->
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR", array(),$language);?></button></div>
                                                 </a>
@@ -409,19 +461,27 @@
                 
 		<section id="funciona" class="fleft100">
 			<div class="container">				
-                            <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                    
-                                    <?php
-                                            if($language=='PT')
-                                                echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                            else   if($language=='EN')                                         
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
+                            <!--<div class="col-md-3 col-sm-3 col-xs-12"></div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">-->
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-8">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                        <?php
+                                            if ($language == 'PT') {
+                                                //echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
+                                                echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/Eo2Lr1trSKs" allowfullscreen></iframe>';
+                                            }
+                                            else if($language == 'EN') {                                         
+                                                //echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
+                                                echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/GSrr_UD8PN4" allowfullscreen></iframe>';
+                                            }
                                             else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
                                         ?>
-                                        
-                                </div>
-				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                            <!--</div>
+				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
 			</div>
 		</section>
 

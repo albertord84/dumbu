@@ -65,9 +65,11 @@ namespace dumbu\cls {
          */
         public $Gmail;
 
-        public function __construct($DB = NULL) {
+        public function __construct($DB = NULL, $id = -1) {
             $this->Robot = new Robot($DB);
             $this->Robot->config = $GLOBALS['sistem_config'];
+            $this->Robot->id = $id;
+            $this->id = $id;
             $this->Gmail = new Gmail();
             $this->DB = $DB? $DB : new \dumbu\cls\DB();
         }
