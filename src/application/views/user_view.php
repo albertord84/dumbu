@@ -460,28 +460,22 @@
                 
                 
 		<section id="funciona" class="fleft100">
-			<div class="container">				
-                            <!--<div class="col-md-3 col-sm-3 col-xs-12"></div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">-->
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-8">
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                        <?php
-                                            if ($language == 'PT') {
-                                                //echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/Eo2Lr1trSKs" allowfullscreen></iframe>';
-                                            }
-                                            else if($language == 'EN') {                                         
-                                                //echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/GSrr_UD8PN4" allowfullscreen></iframe>';
-                                            }
-                                            else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
-                                        ?>
-                                        </div>
+			<div class="container">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-8">
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                    <?php
+                                        if ($language == 'PT') {
+                                            echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/Eo2Lr1trSKs" allowfullscreen></iframe>';
+                                        }
+                                        else if($language == 'EN') {
+                                            echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/GSrr_UD8PN4" allowfullscreen></iframe>';
+                                        }
+                                        else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
+                                    ?>
                                     </div>
-                                    <div class="col-sm-2"></div>
-                            <!--</div>
-				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>-->
+                                </div>
+                                <div class="col-sm-2"></div>
 			</div>
 		</section>
 
