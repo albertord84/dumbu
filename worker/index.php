@@ -34,7 +34,8 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 // WORKER
 $Worker = new dumbu\cls\Worker(NULL,999);
-
+$Worker->truncate_daily_work();
+$Worker->prepare_daily_work();
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";
