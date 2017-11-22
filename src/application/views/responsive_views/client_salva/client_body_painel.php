@@ -68,7 +68,7 @@
                         <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                             <b id="message_status1" style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">ATIVE SUA CONTA</b>
                             <b id="message_status2" style="margin:1%; font-family:sans-serif; font-size:0.8em;"><BR>PRECISAMOS QUE VOCÊ SIGA MÁXIMO 6000 PERFIS NO INSTAGRAM</b>  <BR>           
-                            <b id="message_status3" style="margin:1%; font-family:sans-serif; font-size:0.8em;">DESEJA QUE O DUMBU DESSIGA ALEATORIAMENTE OS PERFIS NECESSÃ?RIOS?</b>  <BR>                                       
+                            <b id="message_status3" style="margin:1%; font-family:sans-serif; font-size:0.8em;">DESEJA QUE O DUMBU DESSIGA ALEATORIAMENTE OS PERFIS NECESSÁRIOS?</b>  <BR>                                       
                             <button id="btn_unfollow_permition" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                                     DESSEGIR
                                 </button>                            

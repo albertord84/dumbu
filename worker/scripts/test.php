@@ -158,26 +158,29 @@ $Payment = new \dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-//$pay_day = strtotime('12/06/2017 11:55:00');
+
+//$pay_day = strtotime('11/29/2017 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '4392520202463423';
-$payment_data['credit_card_name'] = 'CARLOS EDUARDO E R ARAKAKI';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2021';
-$payment_data['credit_card_cvc'] = '269';
-$payment_data['amount_in_cents'] = 4990;
+
+$payment_data['credit_card_number'] = '4057841100407213';
+$payment_data['credit_card_name'] = 'I DIMAKOPOULOU';
+$payment_data['credit_card_exp_month'] = '08';
+$payment_data['credit_card_exp_year'] = '2018';
+$payment_data['credit_card_cvc'] = '182';
+$payment_data['amount_in_cents'] = 3000;
 $payment_data['pay_day'] = $pay_day;
-
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-
+$resul = $Payment->create_payment($payment_data);
+var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 //var_dump($resul);
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 
 $resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 var_dump($resul);

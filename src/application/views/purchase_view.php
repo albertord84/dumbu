@@ -6,8 +6,8 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
                 <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array(), $language); ?>">
-                <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language);?>">
-                <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array(), $language);?>">
+                <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language); ?>">
+                <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array(), $language); ?>">
                 <meta name="revisit-after" content="7 days">
                 <meta name="robots" content="index,follow">
                 <meta name="distribution" content="global">
@@ -17,10 +17,10 @@
 		<title>DUMBU</title>
 
                 
-                <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png'?>"> 
+                <link rel="shortcut icon" href="<?php echo base_url().'assets/images/icon.png' ?>"> 
                          
                 <!-- jQuery -->
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.js'; ?>"></script>
                 
 		<!-- Bootstrap -->
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
@@ -35,13 +35,16 @@
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
-                <script type="text/javascript">var language = '<?php echo $language;?>';</script> 
-                <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME?>';</script>
-                <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script> 
-                <script type="text/javascript">var user_id = '<?php echo $user_id;?>';</script>                 
-                <script type="text/javascript">var profiles = '<?php echo $profiles;?>';</script>                 
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.0'; ?>"></script>
+                <script type="text/javascript">var language = '<?php echo $language; ?>';</script> 
+                <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME; ?>';</script>
+                <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
+                <script type="text/javascript">var user_id = '<?php echo $user_id; ?>';</script>                 
+                <script type="text/javascript">var profiles = '<?php echo $profiles; ?>';</script> 
+                <script type="text/javascript">var client_login_profile = '<?php echo $client_login_profile; ?>';</script>                
+                <script type="text/javascript">var total_value = '<?php echo ($Afilio_total_value / 100); ?>';</script>
+                <script type="text/javascript">var plane_id = '<?php echo $Afilio_product_id; ?>';</script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js?1.0.0'; ?>"></script>
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
@@ -68,6 +71,7 @@
                    if($SERVER_NAME=="PRO")
                         echo '<img src="https://secure.afilio.com.br/sale.php?pid=2289&order_id='.$Afilio_UNIQUE_ID.'&order_price='.$Afilio_total_value.'" border="0" width="1" height="1" />';
                 ?>
+                <?php include_once("ecommerce.php") ?>
                 
                 <!-- Abandono de carrinho de Revanth --> 
                     <?php                         

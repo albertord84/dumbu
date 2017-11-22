@@ -15,6 +15,7 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
 $Robot = new \dumbu\cls\Robot();
+$Robot->id = -2;
 
 $DB = new \dumbu\cls\DB();
 

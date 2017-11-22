@@ -97,7 +97,7 @@ $(document).ready(function(){
             params=params+'&autolike='+$("#autolike").val();
             params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&query=1';
-            $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view_or_get_emails?'+params);
         }
     });
     
@@ -162,7 +162,7 @@ $(document).ready(function(){
             params=params+'&autolike='+$("#autolike").val();
             params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&query=2';
-            $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view_or_get_emails?'+params);
         }
 
     });
