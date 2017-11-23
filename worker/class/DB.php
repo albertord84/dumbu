@@ -719,9 +719,15 @@ namespace dumbu\cls {
                      $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE ('$action', '$source');";
                      $result =  mysqli_query($this->connection, $sql);
                      var_dump($result);
+                     $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
+                     $time = time();
+                     $result = mysqli_query($this->connection, $sql);
                  }
+                 
                   $obj = $result->fetch_object();
-                  $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', $robot_id);";
+                  if(isset($robot_id) == true)
+                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', $robot_id);";}
+                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', NULL);"; }            
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  

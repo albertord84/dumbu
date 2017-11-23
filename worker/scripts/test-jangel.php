@@ -11,9 +11,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-//$init_day = new DateTime();
-//$init_day->setTimestamp('1507266805');
-//var_dump($init_day);
+$init_day = new DateTime();
+$init_day->setTimestamp('1511413162');
+var_dump($init_day);
+
+$DB = new \dumbu\cls\DB();
+$DB->InsertEventToWashdog(1, 'BLOQUED BY PAYMENT', 0);
+               
 //$pay_date = new DateTime();
 //$pay_date->setTimestamp('1507439601');
 //var_dump($pay_date);
