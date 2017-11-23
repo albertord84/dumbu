@@ -2845,7 +2845,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $params=$this->input->get();
-        $result=$this->client_model->get_all_clients_by_status_id(20); //20        
+        $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
@@ -2919,7 +2919,7 @@ class Welcome extends CI_Controller {
                         'status_id' => 4));
                     $this->client_model->update_client($client['user_id'], array(
                             'observation' => 'Cancelado automaticamente por mais te 10 retentativas de pagamento sem sucessso'));
-                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                    echo '<br>------->Client '.$client['user_id'].' cancelado por maxima de retentativas';
                 } catch (Exception $e){
                     echo 'Error deleting cliente '.$client['user_id'].' in database';
                 }
