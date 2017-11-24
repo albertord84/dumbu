@@ -52,6 +52,7 @@ class Welcome extends CI_Controller {
             $datas['Afilio_total_value']=$result[0]['normal_val'];
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');
             
+            $datas['client_login_profile'] = $this->session->userdata('login');
             $datas['client_email']= $this->session->userdata('email');            
             
             $this->load->view('purchase_view', $datas);
@@ -1292,7 +1293,7 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);
-            return $response;
+        return $response;
     }
     
 
@@ -2232,6 +2233,7 @@ class Welcome extends CI_Controller {
     public function FAQ_function($language) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $result['SERVER_NAME']= $GLOBALS['sistem_config']->SERVER_NAME;
         $language=$this->input->get();
         if(isset($language['language']))
             $result['language']=$language['language'];
@@ -2239,12 +2241,12 @@ class Welcome extends CI_Controller {
             $result['language'] = $GLOBALS['sistem_config']->LANGUAGE;
         $this->load->model('class/client_model');       
         $cuestions =$this->client_model->geting_FAQ($result);
-        //$this->load->model('class/user_model');
-        //$this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT FAQ');
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT FAQ');
         $result['info']=$cuestions;
         $this->load->view('FAQ',$result);
     }
-
+   
     public function create_profiles_datas_to_display_as_json() {
         echo($this->create_profiles_datas_to_display());
     }

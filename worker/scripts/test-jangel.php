@@ -11,6 +11,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa");
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+$init_day = new DateTime();
+$init_day->setTimestamp('1507266805');
+var_dump($init_day);
+$pay_date = new DateTime();
+$pay_date->setTimestamp('1507439601');
+var_dump($pay_date);
+echo $pay_date->diff($init_day);
 // Ref Prof
 //$RP = new \dumbu\cls\Reference_profile();
 //$RP->get_insta_ref_prof_data($ref_prof);
@@ -173,8 +180,14 @@ else{ echo "\n<br> DB search false </br>" ;
 }*//*
 $DB = new \dumbu\cls\DB();
 $result = $DB->InsertEventToWashdog(19356,'Error yo testando',1);
+<<<<<<< HEAD
+var_dump($result);*
+ * *$client = (new \dumbu\cls\Client())->get_client(1);
+ 
+=======
 var_dump($result);*/
 /*$client = (new \dumbu\cls\Client())->get_client(1);
+>>>>>>> develop
 $daily_work = new \dumbu\cls\Day_client_work();
 $daily_work->rp_id = 2;
 $daily_work->client_id = 1;
@@ -182,8 +195,13 @@ $Robot = new \dumbu\cls\Robot();
 $Robot->daily_work = $daily_work;
 $json_object = $obj = new stdClass();
 $json_object->message = 'unauthorized';
+<<<<<<< HEAD
+$Robot-> process_follow_error($json_object);*/
+/*
+=======
 $Robot-> process_follow_error($json_object);
 *//*
+>>>>>>> develop
 $white_list = $DB->get_white_list('45769');
 
 $Profiles[0] = 47711036;

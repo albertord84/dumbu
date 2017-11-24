@@ -68,7 +68,7 @@ namespace dumbu\cls {
          */
         public $csrftoken = NULL;
 
-        function __construct($DB = NULL, $conf_file = "/../../../CONFIG.INI") {
+        function __construct($DB = NULL, $conf_file = "/../../../CONFIG.INI", $id = -1) {
             $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
 
             $this->IPS = $config["IPS"];
@@ -428,7 +428,7 @@ namespace dumbu\cls {
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1,$this->id);
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
@@ -441,7 +441,7 @@ namespace dumbu\cls {
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::SET_TO_UNFOLLOW,1);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::SET_TO_UNFOLLOW,1,$this->id);
 //                    $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
 //                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
@@ -449,7 +449,7 @@ namespace dumbu\cls {
 
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA,1);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA,1,$this->id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
                     $this->DB->set_client_cookies($client_id, NULL);
@@ -461,7 +461,7 @@ namespace dumbu\cls {
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1,$this->id);
                     // Alert when insta block by IP
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
@@ -476,7 +476,7 @@ namespace dumbu\cls {
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT,1);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT,1,$this->id);
                     
                     $this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
@@ -492,6 +492,7 @@ namespace dumbu\cls {
 
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1,$this->id);                   
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //var_dump($result);
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
@@ -1386,7 +1387,7 @@ namespace dumbu\cls {
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
 
-             // $this->follow_me_myself($result);
+             $this->follow_me_myself($result);
 
 
 

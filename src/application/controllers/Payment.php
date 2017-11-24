@@ -18,7 +18,7 @@ class Payment extends CI_Controller {
         //var_dump($file);
         print 'OK';
     }
-
+    
     public function do_payment($payment_data) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
@@ -278,4 +278,5 @@ class Payment extends CI_Controller {
         $this->load->model('class/client_model');
     }
 
+    
 }

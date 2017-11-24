@@ -52,69 +52,63 @@
                 
         <div class="row">
             <div class="col-xs-1"></div>
-            <div class="col-xs-10">
+            <div class="col-xs-5">
                 <?php
                     if(isset($result)){
                         $num_rows=count($result);
-                        echo '<br><b style="color:green">User id: </b><b>'.$form_filter['user_id'].'</b>';
-                        echo '<br><p><b style="color:green">No de acciones: </b><b>'.$num_rows.'</b></p><br>';
+                        echo '<br><b style="color:green">ID do cliente: </b><b>'.$form_filter['user_id'].'</b>';
+                        echo '<br><p><b style="color:green">Número de ações: </b><b>'.$num_rows.'</b></p><br>';
                     }
                 ?>
-            </div>
-            <div class="col-xs-1"></div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-4">
-              <div class="row"></div>
+                <div class="row">
+                    <table class="table">
+                        <tr class="list-group-item-success">
+                            <td style="max-width:240px; padding:5px"><b>No.</b></td>
+                            <td style="max-width:240px; padding:5px"><b>Ação</b></td>
+                            <td style="max-width:240px; padding:5px"><b>Data</b></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
                 <table class="table">
-                    <tr class="list-group-item-success">
-                        <td style="max-width:240px; padding:5px"><b>Action</b></td>
-                        <td style="max-width:240px; padding:5px"><b>Data</b></td>
-                    </tr>
+                    <?php 
+                        if (isset($result) && $form_filter['query'] == 1) {                        
+                            for($i=0;$i<$num_rows;$i++){
+                                //if ($result[$i]['date'] >= strtotime('date_from'.'00:00:01') && $result[$i]['date'] <= strtotime('date_to'.'23:59:59')&& $form_filter['query'] == 1) { 
+                                //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
+                                echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible; display: block">';
+                                    echo '<td style="width: 40px; text-align: center">';
+                                        echo '<b>'.($i+1).'</b>';
+                                    echo '</td>';
+                                
+                                    echo '<td style="width:300px; padding:5px">';
+                                        echo $result[$i]['action'].'<br>';
+                                    echo '</td>';
+
+                                    echo '<td style="width:200px; padding:5px">';
+                                        echo date('d-m-Y h:i:sa',$result[$i]['date']).'<br>';                                    
+                                    echo '</td>';
+
+                               echo '</tr>';
+                                //}
+                            }
+                        }
+                        else if ($form_filter['query'] == 2) {
+                            for ($i = 0; $i < $num_rows; $i++) {
+                                echo $result[$i]['email'].'<br>';
+                            }
+                        }
+                    ?>
                 </table>
-                
+                </div>
+            </div>
+            <div class="col-xs-5 center filters">
+                <div style="position: fixed">
+                    <div class="cl-black fleft100"><b>Gráfico de desempenho</b></div>
+                    <div class="grafico fleft100 m-tb20  text-center">
+                        <div id="chartContainer" style="height: 300px; width: 560px"></div>
+                    </div>
+                </div>
             </div>
             <div class="col-xs-1"></div>
         </div>
-        
-        
-    
-        <div class="col-xs-1"></div>
-        <div class="col-xs-10">
-            <table class="table">
-                <?php 
-                    if (isset($result) && $form_filter['query'] == 1) {                        
-                        for($i=0;$i<$num_rows;$i++){
-                            //if ($result[$i]['date'] >= strtotime('date_from'.'00:00:01') && $result[$i]['date'] <= strtotime('date_to'.'23:59:59')&& $form_filter['query'] == 1) { 
-                            //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
-                            echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block">';
-                                
-                                echo '<td style="width:240px; padding:5px">';
-                                    echo $result[$i]['action'].'<br>';
-                                echo '</td>';
-                                
-                                echo '<td style="width:240px; padding:5px">';
-                                    echo date('d-m-Y h:i:sa',$result[$i]['date']).'<br>';                                    
-                                echo '</td>';
-                                                              
-                           echo '</tr>';
-                            //}
-                        }
-                   }
-                    else if ($form_filter['query'] == 2) {
-                        for ($i = 0; $i < $num_rows; $i++) {
-                            echo $result[$i]['email'].'<br>';
-                        }
-                    }
-                ?>
-            </table>
-            
-            
-        </div>
-        
-        
-    
-    
-    

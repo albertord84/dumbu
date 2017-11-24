@@ -141,10 +141,9 @@ namespace dumbu\cls {
             try
             {
             // Carrega dependências
-            //  require_once(dirname(__FILE__) . '\vendor\autoload.php');
-
-             // Define a url utilizada
-            \Gateway\ApiClient::setBaseUrl("https://transaction.stone.com.br"); 
+            require_once $_SERVER['DOCUMENT_ROOT'] . '\dumbu\worker\libraries\MundiAPI-PHP\vendor\autoload.php';
+            // Define a url utilizada
+            \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com/"); 
 
             // Define a chave de loja
             \Gateway\ApiClient::setMerchantKey("BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6");
@@ -192,38 +191,39 @@ namespace dumbu\cls {
             ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
 
             // Cria um objeto ApiClient
-            $client = new Gateway\ApiClient();
-            var_dump($client);
+            $client = new \Gateway\ApiClient();
+            //var_dump($client);
             // Faz a chamada para a criação da transação
             $response = $client->createSale($createSaleRequest);
 
             // Mapeia resposta
             $httpStatusCode = $response->isSuccess() ? 201 : 401;
-            var_dump($response);
-        }
-        catch (\Gateway\One\DataContract\Report\ApiError $error)
-        {
-            $httpStatusCode = 400;
-            $response = array("message" => $error->getMessage());
-        }
-        catch (Exception $ex)
-        {
-            $httpStatusCode = 500;
-            $response = array("message" => "Ocorreu um erro inesperado.");
-        }
-        finally {
-            // Devolve resposta
-            http_response_code($httpStatusCode);
-            header('Content-Type: application/json');
-            print json_encode($response->getData());
-        }   
+            //var_dump($response);
+            }
+            catch (\Gateway\One\DataContract\Report\ApiError $error)
+            {
+                $httpStatusCode = 400;
+                $response = array("message" => $error->getMessage());
+                //var_dump($response);
+            }
+            catch (Exception $ex)
+            {
+                $httpStatusCode = 500;
+                $response = array("message" => "Ocorreu um erro inesperado.");
+            }
+            finally {
+                // Devolve resposta
+               http_response_code($httpStatusCode);
+               header('Content-Type: application/json');
+               print json_encode($response->getData());
+            }   
              
         }
 
         public function create_debit_payment($payment_data) {
             try {
                 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);D
 
                 // Define a chave da loja
                 \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
@@ -438,8 +438,44 @@ namespace dumbu\cls {
         public function get_paymment_data($order_key) {
             if ($order_key) {
                 $result = $this->queryOrder($order_key);
+                if (is_object($result) && $result->isSuccess())
+                {
+                     $data = $result->getData();
+                    //var_dump($data);
+                    $SaleDataCollection = $data->SaleDataCollection[0];
+                    $LastSaledData = NULL;
+                    // Get last client payment
+                    $now = DateTime::createFromFormat('U', time());
+                    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                        return  new DateTime($SaleData->CreateDate);
+                    }                    
+                }
             }
-            return $result;
+            return null;
+        }
+        
+        public function get_last_paymment_data($order_key) {
+            if ($order_key) {
+                $result = $this->queryOrder($order_key);
+                if (is_object($result) && $result->isSuccess())
+                {
+                     $data = $result->getData();
+                    //var_dump($data);
+                    $SaleDataCollection = $data->SaleDataCollection[0];
+                    $LastSaledData = NULL;
+                    // Get last client payment
+                    $now = DateTime::createFromFormat('U', time());
+                    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                        $SaleDataDate = new DateTime($SaleData->DueDate);
+        //                $LastSaleDataDate = new DateTime($LastSaledData->DueDate);
+                        //$last_payed_date = DateTime($LastSaledData->DueDate);
+                        if ($SaleData->CapturedAmountInCents != NULL && ($LastSaledData == NULL || $SaleDataDate > new DateTime($LastSaledData->DueDate))) {
+                            $LastSaledData = $SaleData;
+                        }
+                     }                    
+                }
+            }
+            return null;
         }
 
         // end of member function update_payment
