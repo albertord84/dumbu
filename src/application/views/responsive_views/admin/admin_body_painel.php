@@ -268,7 +268,7 @@
             </div>
             <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
@@ -276,7 +276,22 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-2">
+                    <?php if ($SERVER_NAME == "ONE") { ?>
+                        <div class="center filters">
+                            <b>Idioma</b> 
+                            <select id="idioma" class="form-control" >
+                                <option>--SELECT--</option>
+                                <option value="EN">EN - English</option>
+                                <option value="PT">PT - Português</option>
+                                <option value="ES">ES - Español</option>
+                            </select>    
+                        </div>
+                    <?php } else { ?>
+                        <input id="idioma" name="idioma" type="hidden" value="--SELECT--">
+                    <?php } ?>
+                </div>
+                <div class="col-md-4">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
@@ -350,7 +365,10 @@
                                     echo '<b>Insta name: </b>'.$result[$i]['name'].'<br>';
                                     echo '<b>Profile: </b>'.$result[$i]['login'].'<br>';
                                     echo '<b>Password: </b>'.$result[$i]['pass'].'<br>';
-                                    echo '<b>Email: </b>'.$result[$i]['email'].'<br><br>';
+                                    echo '<b>Email: </b>'.$result[$i]['email'].'<br>';
+                                    if ($SERVER_NAME == "ONE")
+                                        echo '<b>Idioma: </b>'.$result[$i]['language'].'<br><br>';
+                                    else echo '<br>';
                                     echo '<b>Status: </b><b id="label_status_'.$result[$i]['user_id'].'" style="color:red">'.get_name_status($result[$i]['status_id']).'</b><br>';
                                     if($result[$i]['status_date'])
                                         echo '<b>Status date: </b>'.date('d-m-Y h:i:sa',$result[$i]['status_date']).'<br>';                                
