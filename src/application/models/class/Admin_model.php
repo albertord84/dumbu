@@ -49,6 +49,7 @@
                     $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU-EGBTO');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                     $this->db->where('ticket_peixe_urbano !=', '');
+                    $this->db->where('LENGTH(ticket_peixe_urbano) >', 10, FALSE);
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
                 }
@@ -126,7 +127,9 @@
                     $this->db->where('utm_source', $form_filter['utm_source']);
             }
             
-            return $this->db->get()->result_array();
+            
+            $result= $this->db->get()->result_array();
+            return $result;
         }
         
         /*public function get_emails_by_filter($form_filter) {

@@ -1,5 +1,6 @@
 $(document).ready(function () {
     
+    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
@@ -134,6 +135,7 @@ $(document).ready(function () {
     
     $("#btn_sing_in").click(function () {
        //pagamento por credito
+                
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);
@@ -147,7 +149,9 @@ $(document).ready(function () {
             var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
             var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
             var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
-            if (name && number && cvv && month && year) {
+            var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());            
+            if (date) {
+                if (name && number && cvv && month && year) {
                     datas={
                         'user_login': login,
                         'user_pass': pass,
@@ -165,38 +169,46 @@ $(document).ready(function () {
                         //'card_type': ($("#credit_function").is(":checked")==true)?'credit':'debit'
                     };
                     datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
-                $.ajax({
-                    url: base_url + 'index.php/welcome/check_client_data_bank',
-                    data: datas,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response['success']) {
-                            //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
-                            //$(location).attr('href',base_url+'index.php/welcome/client');
-                            $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
-                            //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
-                        } else {
-                            modal_alert_message(response['message']);
+                    $.ajax({
+                        url: base_url + 'index.php/welcome/check_client_data_bank',
+                        data: datas,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response['success']) {
+                                //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
+                                //$(location).attr('href',base_url+'index.php/welcome/client');
+                                $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
+                                //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
+                            } else {
+                                modal_alert_message(response['message']);
+                                set_global_var('flag', true);
+                                $('#btn_sing_in').attr('disabled', false);
+                                $('#btn_sing_in').css('cursor', 'pointer');
+                                $('#my_body').css('cursor', 'auto');
+                                l.stop();
+                            }
+                        },
+                        error: function (xhr, status) {
                             set_global_var('flag', true);
-                            $('#btn_sing_in').attr('disabled', false);
-                            $('#btn_sing_in').css('cursor', 'pointer');
-                            $('#my_body').css('cursor', 'auto');
-                            l.stop();
                         }
-                    },
-                    error: function (xhr, status) {
-                        set_global_var('flag', true);
-                    }
-                });
-            } else {
-                modal_alert_message('Verifique os dados fornecidos');
+                    });
+                } else {
+                    modal_alert_message(T('Verifique os dados fornecidos'));
+                    set_global_var('flag', true);
+                    $('#btn_sing_in').attr('disabled', false);
+                    $('#btn_sing_in').css('cursor', 'pointer');
+                    $('#my_body').css('cursor', 'auto');
+                    l.stop();
+                }   
+            } else{
+                modal_alert_message(T('Data errada'));
                 set_global_var('flag', true);
                 $('#btn_sing_in').attr('disabled', false);
                 $('#btn_sing_in').css('cursor', 'pointer');
                 $('#my_body').css('cursor', 'auto');
                 l.stop();
-            }            
+            }
         } else {
             console.log('paymet working');
         }            
@@ -341,6 +353,14 @@ $(document).ready(function () {
             $(element_selector).css("border", "1px solid gray");
             return true;
         }
+    }
+    
+    function validate_date(month, year) {
+        var d=new Date();        
+        if (year < d.getFullYear() || (year == d.getFullYear() && month <= d.getMonth()+1)){
+            return false;
+        }
+        return true;
     }
 
     function set_global_var(str, value) {

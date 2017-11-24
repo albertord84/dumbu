@@ -56,6 +56,8 @@ var Translation={
             "Alguns dados incorretos",
     "Erro nos dados fornecidos":
             "Erro nos dados fornecidos",
+    "Verifique os dados fornecidos":
+            "Verifique os dados fornecidos",
     "Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente":
             "Não foi possível comunicar com o Instagram. Confira sua conexão com Internet e tente novamente",
     "Ver ":
@@ -93,7 +95,9 @@ var Translation={
     "Confirma reativar a ferramenta?":
             "Confirma reativar a ferramenta?",
     "Não pode escolher seu próprio perfil como referência.":
-            "Não pode escolher seu próprio perfil como referência."
+            "Não pode escolher seu próprio perfil como referência.",
+    "Data errada":
+            "Data errada"
 };
 
 function T(token){

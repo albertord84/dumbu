@@ -337,7 +337,7 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
             <table class="table">
-                <?php                    
+                <?php 
                     if (isset($result) && $form_filter['query'] == 1) {                        
                         for($i=0;$i<$num_rows;$i++){
                             //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
@@ -380,10 +380,11 @@
                                     else
                                         echo '<b>UTM source: </b>---<br>';
                                     echo '<br>';
-                                    if ($result[$i]['ticket_peixe_urbano']!=NULL && $result[$i]['ticket_peixe_urbano']!="") {
-                                        if($result[$i]['ticket_peixe_urbano_status_id']==='1'){
-                                            echo '<button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success" alt="" data-toggle="modal" data-target="#myModal_1"> <span class="ladda-label">Peixe urbano</span></button><br><br>';
-                                            echo '<div class="modal fade" style="top:30%" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    if ($result[$i]['ticket_peixe_urbano']!=NULL && $result[$i]['ticket_peixe_urbano']!="" &&  is_numeric ( $result[$i]['ticket_peixe_urbano'])) {
+                                        
+                                        if($result[$i]['ticket_peixe_urbano_status_id']==='1' ){
+                                            echo '<button style="width:160px" title="CONFERIDO" type="button" class="btn btn-success" alt="" data-toggle="modal" data-target="#myModal_1'.$i.'"> <span class="ladda-label">Peixe urbano</span></button><br><br>';
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_1'.$i.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                         <div class="modal-dialog modal-sm" role="document">                                                          
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
@@ -406,10 +407,10 @@
                                                               </div>
                                                           </div>                                                        
                                                     </div> '; 
-                                        }else
+                                        }else                                            
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='2'){
-                                            echo '<button id="btn_cupom_'.$result[$i]['user_id'].'" style="width:160px" title="PENDENTE" type="button" class="btn btn-primary" alt="" data-toggle="modal" data-target="#myModal_2"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                            
-                                            echo '<div class="modal" style="top:30%" id="myModal_2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            echo '<button id="btn_cupom_'.$result[$i]['user_id'].'" style="width:160px" title="PENDENTE" type="button" class="btn btn-primary" alt="" data-toggle="modal" data-target="#myModal_2'.$i.'"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                            
+                                            echo '<div class="modal" style="top:30%" id="myModal_2'.$i.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                         <div class="modal-dialog modal-sm" role="document">                                                          
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
@@ -432,10 +433,10 @@
                                                               </div>
                                                         </div>                                                        
                                                   </div> ';                                           
-                                        }else
+                                        } else                                            
                                         if($result[$i]['ticket_peixe_urbano_status_id']==='3'){
-                                            echo '<button style="width:160px" title="ERRADO" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_3"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
-                                            echo '<div class="modal fade" style="top:30%" id="myModal_3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            echo '<button style="width:160px" title="ERRADO" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_3'.$i.'"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_3'.$i.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                         <div class="modal-dialog modal-sm" role="document">                                                          
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
@@ -443,25 +444,25 @@
                                                                       <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
                                                                   </div>
                                                                   <div class="modal-body">
-                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'                                                                      
-                                                                    <select id="select_option_ticket_peixe_urbano_status_id_3" class="form-control" disabled="true">
+                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'<select id="select_option_ticket_peixe_urbano_status_id_3" class="form-control" >
                                                                         <option value="1" >CONFERIDO</option>
                                                                         <option value="2" >PENDENTE</option>
                                                                         <option value="3" selected="true">ERRADO</option>
                                                                     </select>                                                                      
                                                                   </div>
                                                                   <div class="modal-footer">                                                                      
-                                                                      <button disabled="true" id="btn_change_ticket_peixe_urbano_status_id_3" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                                      <button id="btn_change_ticket_peixe_urbano_status_id_3" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                                                           <span class="ladda-label"><div style="color:white; font-weight:bold">Mudar Status</div></span>
                                                                       </button>
                                                                   </div>
                                                               </div>
                                                           </div>                                                        
                                                     </div> '; 
+                                            
                                         }else
                                         if($result[$i]['ticket_peixe_urbano_status_id']===NULL){
-                                            echo '<button style="width:160px" title="SEM STATUS" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_3"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
-                                            echo '<div class="modal fade" style="top:30%" id="myModal_3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            echo '<button style="width:160px" title="SEM STATUS" type="button" class="btn btn-danger" alt="" data-toggle="modal" data-target="#myModal_4'.$i.'"> <span class="ladda-label">Peixe urbano</span></button><br><br>';                                                                                        
+                                            echo '<div class="modal fade" style="top:30%" id="myModal_4'.$i.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                         <div class="modal-dialog modal-sm" role="document">                                                          
                                                               <div class="modal-content">
                                                                   <div class="modal-header">
@@ -469,7 +470,7 @@
                                                                       <h4 class="modal-title" id="myModalLabel">CUPOM Peixe Urbano</h4>
                                                                   </div>
                                                                   <div class="modal-body">
-                                                                        CUPOM: '.$result[$i]['ticket_peixe_urbano'].'                                                                      
+                                                                        CUPOM: '.($result[$i]['ticket_peixe_urbano']).'                                                                      
                                                                     <select id="select_option_ticket_peixe_urbano_status_id_3" class="form-control" disabled="true">
                                                                         <option value="1" >CONFERIDO</option>
                                                                         <option value="2" >PENDENTE</option>

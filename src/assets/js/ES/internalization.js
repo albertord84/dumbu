@@ -92,7 +92,11 @@ var Translation={
     "Confirma reativar a ferramenta?":
             "Confirma reactivar la herramienta?",
     "Não pode escolher seu próprio perfil como referência.":
-            "No puede escoger su propio perfil como referencia."
+            "No puede escoger su propio perfil como referencia.",
+    "Verifique os dados fornecidos":
+            "Verifique los datos suministrados",
+    "Data errada":
+            "Fecha incorrecta"
 };
 
 function T(token){
