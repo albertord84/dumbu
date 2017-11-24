@@ -26,104 +26,15 @@
         <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
         <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
         
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?1.0.0';?>"></script>
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
-        
         <!-- jQuery UI Datepicker - Select a Date Range -->
         <link rel="stylesheet" href="<?php echo base_url().'assets/jquery-ui-1.12.1/jquery-ui.css';?>">
         <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
         <script src="<?php echo base_url().'assets/jquery-ui-1.12.1/jquery-ui.js';?>"></script>
-        <script>
-        $( function() {
-          var dateFormat = "mm/dd/yy",
-            from = $( "#date_from" )
-              .datepicker({
-                changeMonth: true,
-                numberOfMonths: 1
-              })
-              .on( "change", function() {
-                to.datepicker( "option", "minDate", getDate( this ) );
-              }),
-            to = $( "#date_to" ).datepicker({
-              changeMonth: true,
-              numberOfMonths: 1
-            })
-            .on( "change", function() {
-              from.datepicker( "option", "maxDate", getDate( this ) );
-            });
-            
-            var dateFormat2 = "mm/dd/yy",
-            from2 = $( "#status_date_from" )
-              .datepicker({
-                changeMonth: true,
-                numberOfMonths: 1
-              })
-              .on( "change", function() {
-                to2.datepicker( "option", "minDate", getDate2( this ) );
-              }),
-            to2 = $( "#status_date_to" ).datepicker({
-              changeMonth: true,
-              numberOfMonths: 1
-            })
-            .on( "change", function() {
-              from2.datepicker( "option", "maxDate", getDate2( this ) );
-            });
-            
-            var dateFormat3 = "mm/dd/yy",
-            from3 = $( "#creation_date_from" )
-              .datepicker({
-                changeMonth: true,
-                numberOfMonths: 1
-              })
-              .on( "change", function() {
-                to3.datepicker( "option", "minDate", getDate3( this ) );
-              }),
-            to3 = $( "#creation_date_to" ).datepicker({
-              changeMonth: true,
-              numberOfMonths: 1
-            })
-            .on( "change", function() {
-              from3.datepicker( "option", "maxDate", getDate3( this ) );
-            });
-            
-            $( "#event_date" ).datepicker();
-
-          function getDate( element ) {
-            var date;
-            try {
-              date = $.datepicker.parseDate( dateFormat, element.value );
-            } catch( error ) {
-              date = null;
-            }
-
-            return date;
-          }
-          
-          function getDate2( element ) {
-            var date;
-            try {
-              date = $.datepicker.parseDate( dateFormat2, element.value );
-            } catch( error ) {
-              date = null;
-            }
-
-            return date;
-          }
-          
-          function getDate3( element ) {
-            var date;
-            try {
-              date = $.datepicker.parseDate( dateFormat3, element.value );
-            } catch( error ) {
-              date = null;
-            }
-
-            return date;
-          }
-        } );
-        </script>
+        
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?1.0.1';?>"></script>
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
         
         <!-- Performance Chart -->
         <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
