@@ -462,22 +462,6 @@
                 
                 
 		<section id="funciona" class="fleft100">
-<<<<<<< HEAD
-			<div class="container">				
-                            <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                    
-                                    <?php
-                                            if($language=='PT')
-                                                echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                            else   if($language=='EN')                                         
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
-                                            else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
-                                        ?>
-                                        
-                                </div>
-				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
-=======
 			<div class="container">
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-8">
@@ -494,7 +478,6 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-2"></div>
->>>>>>> develop
 			</div>
 		</section>
 
@@ -682,19 +665,11 @@
                             
                             <!--PASSO 2-->
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
-                                            <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
-                                            <div class="row">
-                                                <div class="col-md-2 col-sm-2">
-                                                    <div class="text-center fleft100 m-t20">
-                                                        <div class="col-md-4">
-                                                        <img src="assets/images/pay.png" class="wauto" alt="Pay">
-                                                        <spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
-                                                        </div>
-                                                    </div>
-                                                
-                                                </div>
-                                            </div>
-                                               
+                                        <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
+					<div class="text-center fleft100 m-t20">
+						<img src="assets/images/pay.png" class="wauto" alt="Pay">
+						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
+					</div>
                                         
                                         <!--<label class="radio-inline">
                                             <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
