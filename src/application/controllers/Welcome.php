@@ -2800,12 +2800,52 @@ class Welcome extends CI_Controller {
         var_dump($r);        
     }
     
+    
+    
+    /*public function cancel_blocked_by_payment_by_max_retry_payment(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');        
+        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        foreach ($result as $client) {
+            if($client['retry_payment_counter']>9){
+                try{
+                    $this->delete_recurrency_payment($client['initial_order_key']);                
+                    $this->delete_recurrency_payment($client['order_key']);                
+                    $this->user_model->update_user($client['user_id'], array(  
+                        'end_date' => time(),
+                        'status_date' => time(),
+                        'status_id' => 4));
+                    $this->client_model->update_client($client['user_id'], array(
+                            'observation' => 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso'));
+                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                } catch (Exception $e){
+                    echo 'Error deleting cliente '.$client['user_id'].' in database';
+                }
+            }
+        }
+    }
+
+    public function buy_tester(){
+        
+    }
+    
+    public function update_all_retry_clients(){
+        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
+        $N=count($array_ids);
+        for($i=0;$i<$N;$i++){
+            $this->update_client_after_retry_payment_success($array_ids[$i]);
+        }
+    }*/
+    
     public function capturer_and_recurrency_for_blocked_by_payment(){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
-        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        $params=$this->input->get();
+        $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
@@ -2879,7 +2919,7 @@ class Welcome extends CI_Controller {
                         'status_id' => 4));
                     $this->client_model->update_client($client['user_id'], array(
                             'observation' => 'Cancelado automaticamente por mais te 10 retentativas de pagamento sem sucessso'));
-                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                    echo '<br>------->Client '.$client['user_id'].' cancelado por maxima de retentativas';
                 } catch (Exception $e){
                     echo 'Error deleting cliente '.$client['user_id'].' in database';
                 }
@@ -2887,6 +2927,7 @@ class Welcome extends CI_Controller {
         }
     }
     
+
     public function cancel_blocked_by_payment_by_max_retry_payment(){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2911,6 +2952,30 @@ class Welcome extends CI_Controller {
             }
         }
     }
+    
+    public function ranking(){ //10 clientes activos que mas han ganado con dumbu
+               
+        $this->load->model('class/user_model');
+        $result=$this->user_model->get_ranking();
+        $N=count($result);
+        for ($i=0;$i<$N;$i++) {
+            $actual_followers=$this->user_model->get_last_daily_report($result[$i]['user_id']);
+            if($actual_followers)
+                $result[$i]['gain_followers']= $actual_followers['followers'] - $result[$i]['insta_followers_ini'];
+            else 
+                $result[$i]['gain_followers']=0;
+        } 
+        
+        foreach ($result as $key => $row) {
+            $aux[$key] = $row['gain_followers'];
+        }
+        array_multisort($aux, SORT_DESC, $result);
+        
+        foreach ($result as $key => $row) {
+            echo $row['login'].'---->'.$row['gain_followers'].'<br/>';
+        }
+    }
+  
 
     public function buy_tester(){
         

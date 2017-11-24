@@ -468,7 +468,7 @@
                                         if ($language == 'PT') {
                                             echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/Eo2Lr1trSKs" allowfullscreen></iframe>';
                                         }
-                                        else if($language == 'EN') {
+                                        else if($language == 'EN') {                                         
                                             echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/GSrr_UD8PN4" allowfullscreen></iframe>';
                                         }
                                         else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
