@@ -97,7 +97,9 @@ var Translation={
     "Não pode escolher seu próprio perfil como referência.":
             "Não pode escolher seu próprio perfil como referência.",
     "Data errada":
-            "Data errada"
+            "Data errada",
+    "Informe seu nome no cartão e não a bandeira dele. Deseja continuar?":
+            "Informe seu nome no cartão e não a bandeira dele. Deseja continuar?"
 };
 
 function T(token){

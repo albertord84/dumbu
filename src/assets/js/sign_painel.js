@@ -144,71 +144,77 @@ $(document).ready(function () {
             var l = Ladda.create(this);
             l.start();
             l.start();
-            var name = validate_element('#credit_card_name', "^[A-Z ]{4,50}$");
-            var number = validate_element('#credit_card_number', "^[0-9]{10,20}$");
-            var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
-            var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
-            var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
-            var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());            
-            if (date) {
+//            if( 
+//                    ((($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD')  && confirm(T("Informe seu nome no cartão e não a bandeira dele. Deseja continuar?")))
+//                    || 
+//                    ((($('#credit_card_name').val()).toUpperCase()!=='VISA' || ($('#credit_card_name').val()).toUpperCase()!=='MASTERCARD'))){
+                       
+                var name = validate_element('#credit_card_name', "^[A-Z ]{4,50}$");
+                var number = validate_element('#credit_card_number', "^[0-9]{10,20}$");
+                var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
+                var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
+                var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
+                var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());            
                 if (name && number && cvv && month && year) {
-                    datas={
-                        'user_login': login,
-                        'user_pass': pass,
-                        'user_email': email,
-                        'credit_card_number': $('#credit_card_number').val(),
-                        'credit_card_cvc': $('#credit_card_cvc').val(),
-                        'credit_card_name': $('#credit_card_name').val(),
-                        'credit_card_exp_month': $('#credit_card_exp_month').val(),
-                        'credit_card_exp_year': $('#credit_card_exp_year').val(),
-                        'need_delete': need_delete,
-                        'early_client_canceled': early_client_canceled,
-                        'plane_type': plane,
-                        'pk': pk,
-                        'datas': datas,
-                        //'card_type': ($("#credit_function").is(":checked")==true)?'credit':'debit'
-                    };
-                    datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
-                    $.ajax({
-                        url: base_url + 'index.php/welcome/check_client_data_bank',
-                        data: datas,
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response['success']) {
-                                //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
-                                //$(location).attr('href',base_url+'index.php/welcome/client');
-                                $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
-                                //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
-                            } else {
-                                modal_alert_message(response['message']);
+                    if (date) {
+                        datas={
+                            'user_login': login,
+                            'user_pass': pass,
+                            'user_email': email,
+                            'credit_card_number': $('#credit_card_number').val(),
+                            'credit_card_cvc': $('#credit_card_cvc').val(),
+                            'credit_card_name': $('#credit_card_name').val(),
+                            'credit_card_exp_month': $('#credit_card_exp_month').val(),
+                            'credit_card_exp_year': $('#credit_card_exp_year').val(),
+                            'need_delete': need_delete,
+                            'early_client_canceled': early_client_canceled,
+                            'plane_type': plane,
+                            'pk': pk,
+                            'datas': datas,
+                            //'card_type': ($("#credit_function").is(":checked")==true)?'credit':'debit'
+                        };
+                        datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
+                        $.ajax({
+                            url: base_url + 'index.php/welcome/check_client_data_bank',
+                            data: datas,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response['success']) {
+                                    //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
+                                    //$(location).attr('href',base_url+'index.php/welcome/client');
+                                    $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
+                                    //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
+                                } else {
+                                    modal_alert_message(response['message']);
+                                    set_global_var('flag', true);
+                                    $('#btn_sing_in').attr('disabled', false);
+                                    $('#btn_sing_in').css('cursor', 'pointer');
+                                    $('#my_body').css('cursor', 'auto');
+                                    l.stop();
+                                }
+                            },
+                            error: function (xhr, status) {
                                 set_global_var('flag', true);
-                                $('#btn_sing_in').attr('disabled', false);
-                                $('#btn_sing_in').css('cursor', 'pointer');
-                                $('#my_body').css('cursor', 'auto');
-                                l.stop();
                             }
-                        },
-                        error: function (xhr, status) {
-                            set_global_var('flag', true);
-                        }
-                    });
-                } else {
+                        });
+                    } else {
+                        modal_alert_message(T('Data errada'));
+                        set_global_var('flag', true);
+                        $('#btn_sing_in').attr('disabled', false);
+                        $('#btn_sing_in').css('cursor', 'pointer');
+                        $('#my_body').css('cursor', 'auto');
+                        l.stop();
+                    }   
+                } else{
                     modal_alert_message(T('Verifique os dados fornecidos'));
                     set_global_var('flag', true);
                     $('#btn_sing_in').attr('disabled', false);
                     $('#btn_sing_in').css('cursor', 'pointer');
                     $('#my_body').css('cursor', 'auto');
                     l.stop();
-                }   
-            } else{
-                modal_alert_message(T('Data errada'));
-                set_global_var('flag', true);
-                $('#btn_sing_in').attr('disabled', false);
-                $('#btn_sing_in').css('cursor', 'pointer');
-                $('#my_body').css('cursor', 'auto');
-                l.stop();
-            }
+                }
+//            }
         } else {
             console.log('paymet working');
         }            

@@ -96,7 +96,9 @@ var Translation={
     "Verifique os dados fornecidos":
             "Verifique los datos suministrados",
     "Data errada":
-            "Fecha incorrecta"
+            "Fecha incorrecta",
+    "Informe seu nome no cartão e não a bandeira dele. Deseja continuar?":
+            "Informe su nombre en la tarjeta de crédito e não la bandera. Desea continuar?"
 };
 
 function T(token){
