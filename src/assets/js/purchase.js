@@ -100,7 +100,7 @@ $(document).ready(function(){
             $('#reference_profile_message').text(T('* O nome do perfil só pode conter letras, números, sublinhados e pontos.'));
             $('#reference_profile_message').css({'visibility':'visible','display':'block'});
             $('#reference_profile_message').css('color','red');
-            //modal_alert_message('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
+            //modal_alert_message('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
         }        
     });
         

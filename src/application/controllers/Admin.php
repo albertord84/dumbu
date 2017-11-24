@@ -6,6 +6,9 @@ class Admin extends CI_Controller {
 
     public function index() {
         $datas1 = $this->input->get();
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
         $datas['login'] = urldecode($datas1['login']);
         $datas['pass'] = urldecode($datas1['pass']);
         $this->load->model('class/user_model');
@@ -31,6 +34,9 @@ class Admin extends CI_Controller {
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $this->load->model('class/admin_model');
             $form_filter = $this->input->get();
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             $datas['result'] = $this->admin_model->view_clients_or_get_emails_by_filter($form_filter);
             $datas['form_filter'] = $form_filter;
             $this->load->model('class/user_model');
@@ -44,25 +50,6 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
-    
-    /*public function get_emails() {
-        $this->load->model('class/user_role');
-        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
-            $this->load->model('class/admin_model');
-            $form_filter = $this->input->get();
-            $datas['result'] = $this->admin_model->get_emails_by_filter($form_filter);
-            $datas['form_filter'] = $form_filter;
-            $this->load->model('class/user_model');
-            $query = 'SELECT DISTINCT utm_source FROM clients';
-            $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
-            $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
-            $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
-            $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
-            $this->load->view('view_admin', $data);
-        } else{
-            echo "Não pode acessar a esse recurso, deve fazer login!!";
-        }
-    }*/
     
     public function list_filter_view_pendences() {
         $this->load->model('class/user_role');
@@ -80,7 +67,6 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
-    
         
     public function create_pendence() {
         $this->load->model('class/user_role');

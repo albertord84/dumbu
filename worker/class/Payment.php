@@ -52,6 +52,7 @@ namespace dumbu\cls {
                     "JUNIOR SUMA",
                     "JUNIOR LIMA",
                     "JUNIOR SANTOS",
+                    "JUNIOR S SILVA",
                     "LUCAS BORSATTO22",
                     "LUCAS BORSATTO",
                     "GABRIEL CASTELLI",

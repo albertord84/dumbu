@@ -269,11 +269,18 @@
         }
         
         
-        public function get_all_clients_by_status_id($status_id=NULL) {
+        public function get_all_clients_by_status_id($status_id) {
         $this->db->select('*');        
         $this->db->from('clients');
-        $this->db->join('users', 'users.id = clients.user_id');        
-        $this->db->where('status_id', $status_id);
+        $this->db->join('users', 'users.id = clients.user_id');   
+        if($status_id!=20){
+            $this->db->where('status_id', $status_id);
+            echo 'Retentando los de estatus 2';
+        }
+        else{
+            $this->db->where('observation', 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso');
+            echo 'Retentando los de estatus 20';
+        }
         $this->db->where('order_key is NOT NULL', NULL, FALSE);
         $this->db->order_by("user_id","asc");
         $a = $this->db->get()->result_array();
