@@ -478,7 +478,7 @@
                                 <div class="col-sm-2"></div>
 			</div>
 		</section>
-
+            
 		<section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
@@ -709,7 +709,7 @@
                                                     <fieldset>
                                                             <div class="select">
                                                                 <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option>2017</option><option>2018</option>
+                                                                    <option>2018</option>
                                                                     <option>2019</option><option>2020</option><option>2021</option>
                                                                     <option>2022</option><option>2023</option><option>2024</option>
                                                                     <option>2025</option><option>2026</option><option>2027</option>

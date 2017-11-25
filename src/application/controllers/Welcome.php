@@ -1279,10 +1279,10 @@ class Welcome extends CI_Controller {
         if (is_object($response) && $response->isSuccess()){
             return $response;
         } else{
-            $response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
+            /*$response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
             if (is_object($response) && $response->isSuccess()){
                 return $response;
-            } else{
+            } else{*/
                 $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
                 return $response;
                 /*if (is_object($response) && $response->isSuccess()){
@@ -1290,7 +1290,7 @@ class Welcome extends CI_Controller {
                 } else{
                     $response = $Payment->create_recurrency_payment($payment_data, $cnt, 32);*/
                 //}
-            }
+            //}
         }
         
     }
@@ -2953,29 +2953,46 @@ class Welcome extends CI_Controller {
         }
     }
     
-    public function ranking(){ //10 clientes activos que mas han ganado con dumbu
-               
+    public function ranking(){ //10 clientes activos que mas han ganado con dumbu               
+        //Funcion que deve estimar el ranking general, segun el ranking diario.
+        //retorna un array con el ranking, sendo que o clliente na pocisão 0 é o mais ranquado
+    }
+    
+    
+    public function daily_ranking(){
         $this->load->model('class/user_model');
+        $this->load->model('class/ranking_model');
         $result=$this->user_model->get_ranking();
         $N=count($result);
-        for ($i=0;$i<$N;$i++) {
+        for($i=0;$i<$N;$i++) {
             $actual_followers=$this->user_model->get_last_daily_report($result[$i]['user_id']);
-            if($actual_followers)
-                $result[$i]['gain_followers']= $actual_followers['followers'] - $result[$i]['insta_followers_ini'];
-            else 
-                $result[$i]['gain_followers']=0;
-        } 
+            if($actual_followers){
+                $ndays=time()-$result[$i]['init_date'];
+                $ndays=$ndays/(24*60*60);
+                $result[$i]['ranking_score']= ($actual_followers['followers'] - $result[$i]['insta_followers_ini'])/$ndays;
+            }
+            else
+                $result[$i]['ranking_score']=0;
+        }
         
         foreach ($result as $key => $row) {
-            $aux[$key] = $row['gain_followers'];
+            $aux[$key] = $row['ranking_score'];
         }
         array_multisort($aux, SORT_DESC, $result);
         
+        $i=0;
         foreach ($result as $key => $row) {
-            echo $row['login'].'---->'.$row['gain_followers'].'<br/>';
-        }
+            $datas=array(
+                'client_id'=>$result[$i]['user_id'],
+                'position'=>($i+1),
+                'date'=>time()
+            );
+            $this->ranking_model->insert_into_ranking($datas);            
+            $i++;
+            if($i==10)
+                break;
+        }        
     }
-  
 
     public function buy_tester(){
         
