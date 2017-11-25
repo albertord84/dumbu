@@ -309,9 +309,7 @@ class User_model extends CI_Model {
             return $client_data;
         else 
             return null;
-    }
-     
-      
+    } 
     
     public function client_prevalence() {
         $prevalence=array('in'=>array(),'out'=>array());
