@@ -165,7 +165,7 @@ namespace dumbu\cls {
 
             //Define dados do pedido
             $createSaleRequest->getOrder()
-            ->setOrderReference('NumeroDoPedido');//	string Identificador do pedido na sua base
+            ->setOrderReference('789456129');//	string Identificador do pedido na sua base
             
             // Dados do comprador
             $createSaleRequest->getBuyer()
@@ -216,6 +216,7 @@ namespace dumbu\cls {
                 // Devolve resposta
                http_response_code($httpStatusCode);
                header('Content-Type: application/json');
+               var_dump($response);
                print json_encode($response->getData());
             }   
              

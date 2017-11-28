@@ -25,6 +25,7 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/stylenew.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
                 <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
@@ -480,6 +481,104 @@
                                 <div class="col-sm-2"></div>
 			</div>
 		</section>
+            
+              <!--  <section id="ranking" class="fleft100">
+                    <div class="container">
+                        <div class="row">
+                                <div class="col-sm-1"></div>
+                                <b/>
+                                <b/>
+                                <b/>
+                                <h2 class="text-center"><?php echo $CI->T("Ranking de melhores desempenhos", array(),$language);?></h2>
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p id="profile_ranking1">@natural_instagram</p>
+                                                            <p>SEGUIDORES</p>
+                                                            <div class="col-xs-4">
+                                                                <p id="follo_initial_ranking1">Initial 102</p>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <p id="follo_today_ranking1">4000 Hoje</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <div class="row">
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>  
+                 </section> -->
 
                 <section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>

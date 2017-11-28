@@ -19,6 +19,21 @@ class Payment extends CI_Controller {
         print 'OK';
     }
     
+    public function mundi_notif_post_boleto() {
+        // Write the contents back to the file
+        $path = __dir__ . '/../../logs/';
+        $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
+        //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
+        $post = file_get_contents('php://input');
+        $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
+//        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
+        if ($result === FALSE) {
+            var_dump($file);
+        }
+        //var_dump($file);
+        print 'OK';
+    }
+    
     public function do_payment($payment_data) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
