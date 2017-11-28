@@ -54,7 +54,7 @@ $(document).ready(function(){
                              
     });
     
-          
+              
     $('#talkme_frm').keypress(function (e) {
         if (e.which == 13) {
             $("#btn_send_message").click();

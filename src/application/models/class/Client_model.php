@@ -564,5 +564,35 @@
             }
         }
         
+        public function geting_FAQ($result){
+            try {
+                
+                if ($result['language'] === EN){
+                        $Pergunta= Pregunta_EN;
+                        $Resposta= Respuesta_EN;
+                        
+                }                        
+                elseif ($result['language'] == ES){
+                        $Pergunta= Pregunta_ES;
+                        $Resposta= Respuesta_ES;
+                }
+                else {   $Pergunta= Pregunta_PT;
+                         $Resposta= Respuesta_PT;
+                }
+                
+                $sql=$this->db->select([$Pergunta,$Resposta])->from('faq')->where( $Pergunta.' IS NOT NULL');
+               
+                //$this->db->where('id'<'10');
+                $resulta= $this->db->get()->result_array($sql);
+                //var_dump($resulta) ; 
+                return $resulta;
+                
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
+        
+               
 }
 ?>
