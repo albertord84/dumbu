@@ -27,6 +27,15 @@ class Payment extends CI_Controller {
         // Save Order Key
         var_dump($response->Data->OrderResult->OrderKey);
     }
+    
+    public function do_bilhete_payment($payment_data) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        // Check client payment in mundipagg
+        //$Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment($payment_data);
+        // Save Order Key
+        var_dump($response->Data->OrderResult->OrderKey);
+    }
 
     public function check_payment() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -87,7 +96,11 @@ class Payment extends CI_Controller {
                 print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
             }            
         }
-
+    try{
+        $Gmail = new dumbu\cls\Gmail();
+        $Gmail->send_mail("josergm86@gmail.com", "Jose Ramon ",'DUMBU payment checked!!! ','DUMBU payment checked!!! ');
+        $Gmail->send_mail("jangel.riveaux@gmail.com", "Jose Angel Riveaux ",'DUMBU payment checked!!! ','DUMBU payment checked!!! ');
+    } catch (Exception $ex){  echo 'Emails was not send';}
         echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
     }
 
@@ -97,6 +110,7 @@ class Payment extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
+        $DB = new \dumbu\cls\DB();
         // Check outhers payments
         $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE; // Deixar para um mes de graça
         $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : FALSE;
@@ -169,8 +183,7 @@ class Payment extends CI_Controller {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
                     print "\n<br>Set to PENDING<br>\n";
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING, 'status_date' => time()));
-                    $DB = new \dumbu\cls\DB(); 
-                    $DB->InsertEventToWashdog($client['user_id'], 'SET TO PENDING',0);
+                   $DB->InsertEventToWashdog($client['user_id'], 'SET TO PENDING',0);
                
                     // TODO: limit email by days diff
                     //$diff_days = 6;
@@ -182,7 +195,6 @@ class Payment extends CI_Controller {
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
                             //Block client by paiment
                             $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
-                            $DB = new \dumbu\cls\DB(); 
                             $DB->InsertEventToWashdog($client['user_id'], 'BLOQUED BY PAYMENT', 0);
  
                             ///////////////////////////////////////$this->send_payment_email($client);
@@ -194,7 +206,6 @@ class Payment extends CI_Controller {
                     //Block client by paiment
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                     $this->send_payment_email($client, 0);
-                    $DB = new \dumbu\cls\DB(); 
                     $DB->InsertEventToWashdog($client['user_id'], 'BLOQUED BY PAYMENT', 0);
                
                     ///////////////////////////////////////$this->send_payment_email($client);
@@ -209,7 +220,6 @@ class Payment extends CI_Controller {
             if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && ($IOK_ok === TRUE && $client['initial_order_key']) && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
                 print "\n<br> LastSaledData = NULL";
                 $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
-                $DB = new \dumbu\cls\DB(); 
                 $DB->InsertEventToWashdog($client['user_id'], 'UNBLOQUED BY PAYMENT', 0);
                
                 print "\n<br>This client UNBLOQUED by payment just now: " . $client['user_id'];
