@@ -44,7 +44,7 @@
                 <script type="text/javascript">var client_login_profile = '<?php echo $client_login_profile; ?>';</script>                
                 <script type="text/javascript">var total_value = '<?php echo ($Afilio_total_value / 100); ?>';</script>
                 <script type="text/javascript">var plane_id = '<?php echo $Afilio_product_id; ?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js?1.0.0'; ?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js?1.0.1'; ?>"></script>
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){

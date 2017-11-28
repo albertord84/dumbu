@@ -49,6 +49,7 @@
                     $this->db->where('ticket_peixe_urbano !=', 'BACKTODUMBU-EGBTO');
                     $this->db->where('ticket_peixe_urbano IS NOT NULL');
                     $this->db->where('ticket_peixe_urbano !=', '');
+                    $this->db->where('LENGTH(ticket_peixe_urbano) >', 10, FALSE);
                 } else{
                     $this->db->where('ticket_peixe_urbano', $form_filter['cod_promocional']);
                 }
@@ -125,12 +126,12 @@
                 else
                     $this->db->where('utm_source', $form_filter['utm_source']);
             }
-            
+
             if($form_filter['idioma'] != '--SELECT--') {
                 $this->db->where('language', $form_filter['idioma']);
             }
             
-            return $this->db->get()->result_array();
+            return $this->db->get()->result_array();        
         }
            
         public function view_pendences_by_filter($form_filter) {

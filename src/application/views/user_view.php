@@ -36,9 +36,9 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script>
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.0';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.1';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?1.0.0';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js?1.0.0';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
                 
@@ -481,6 +481,7 @@
                                 <div class="col-sm-2"></div>
 			</div>
 		</section>
+<<<<<<< HEAD
             
               <!--  <section id="ranking" class="fleft100">
                     <div class="container">
@@ -581,6 +582,10 @@
                  </section> -->
 
                 <section id="assinar" class="fleft100">
+=======
+   
+		<section id="assinar" class="fleft100">
+>>>>>>> develop
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
 				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>
@@ -810,7 +815,7 @@
                                                     <fieldset>
                                                             <div class="select">
                                                                 <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option>2017</option><option>2018</option>
+                                                                    <option>2018</option>
                                                                     <option>2019</option><option>2020</option><option>2021</option>
                                                                     <option>2022</option><option>2023</option><option>2024</option>
                                                                     <option>2025</option><option>2026</option><option>2027</option>
