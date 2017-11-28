@@ -749,6 +749,19 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+       public function set_cookies_to_null($client_id)
+       {
+           try {
+                $sql = "UPDATE dumbudb.clients SET cookies=NULL WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+           
+       }
+       
     }
 
 }
