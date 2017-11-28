@@ -86,7 +86,7 @@ $(document).ready(function(){
                         });
                     } else {
                         $('#reference_profile_message').text(T('Não pode escolher seu próprio perfil como referência.'));
-                        $('#reference_profile_message').css('visibility', 'visible');
+                        $('#reference_profile_message').css({'visibility':'visible','display':'block'});
                         $('#reference_profile_message').css('color', 'red');
                     }
                 }
@@ -273,7 +273,7 @@ $(document).ready(function(){
             modal_alert_message(T('Deve adicionar pelo menos um Perfil de Referência para continuar.'));
         else{
             var l = Ladda.create(this);  l.start();
-            $(location).attr('href',base_url+'index.php/welcome/client'); 
+            $(location).attr('href',base_url+'index.php/welcome/client?language='+language); 
         }
     });
     

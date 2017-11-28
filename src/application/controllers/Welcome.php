@@ -1250,18 +1250,52 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_credit_card($datas) {
-        $payment_data['credit_card_number'] = $datas['credit_card_number'];
-        $payment_data['credit_card_name'] = $datas['credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
-        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
-        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
-        $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
-        $payment_data['pay_day'] = time();
+        //$payment_data['credit_card_number'] = $datas['credit_card_number'];
+       // $payment_data['credit_card_name'] = $datas['credit_card_name'];
+       // $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+       // $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+       // $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
+      //  $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
+       // $payment_data['pay_day'] = time();
+        $payment_data['credit_card_number'] = "5401056012196917";
+        $payment_data['credit_card_name'] = "YANEXIS PUPO TOLEDO";
+       $payment_data['credit_card_exp_month'] = "08";
+       $payment_data['credit_card_exp_year'] = "2023";
+       $payment_data['credit_card_cvc'] ="625";
+      $payment_data['amount_in_cents'] = "100";
+       $payment_data['pay_day'] = time();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_payment($payment_data);
         return $response;
     }
+    public function check_mundipagg_boleto() {
+        
+        $payment_data['payment_method'] = "boleto";
+        $payment_data['amount_in_cents'] = "5000000";
+        $payment_data['name'] = "Yanexis Pupo Toledo";
+        $payment_data['email'] = "yptoledoarg@gmail.com";
+        $payment_data['street'] =   "Av. General Castrioto";
+        $payment_data['number'] = "380";
+        $payment_data['complement'] = "30B";
+        $payment_data['zip_code'] = "24110256";
+        $payment_data['doc_number'] = "1245";
+        $payment_data['neighborhood'] = "Barreto";
+        $payment_data['city'] = "Niteroi";
+        $payment_data['state'] = "RJ";
+        $payment_data['country'] = "BR";
+        $payment_data['days_to_pay'] = "2";
+        $payment_data['payment_method'] = "boleto";
+        $payment_data['bank'] = "341";
+        $payment_data['instructions'] = "Pagar até o vencimento";
+        $payment_data['due_at'] = "2017-11-20T00:00:00Z";
+        $payment_data['pay_day'] = time();
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment( $payment_data);
+        return $response;
+    }
+    
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
@@ -1279,10 +1313,10 @@ class Welcome extends CI_Controller {
         if (is_object($response) && $response->isSuccess()){
             return $response;
         } else{
-            $response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
+            /*$response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
             if (is_object($response) && $response->isSuccess()){
                 return $response;
-            } else{
+            } else{*/
                 $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
                 return $response;
                 /*if (is_object($response) && $response->isSuccess()){
@@ -1290,7 +1324,7 @@ class Welcome extends CI_Controller {
                 } else{
                     $response = $Payment->create_recurrency_payment($payment_data, $cnt, 32);*/
                 //}
-            }
+            //}
         }
         
     }
@@ -2195,7 +2229,24 @@ class Welcome extends CI_Controller {
             $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;        
        $this->load->view('Dicas', $param);
     }
-
+    
+    public function FAQ_function($language) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $result['SERVER_NAME']= $GLOBALS['sistem_config']->SERVER_NAME;
+        $language=$this->input->get();
+        if(isset($language['language']))
+            $result['language']=$language['language'];
+        else
+            $result['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $this->load->model('class/client_model');       
+        $cuestions =$this->client_model->geting_FAQ($result);
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT FAQ');
+        $result['info']=$cuestions;
+        $this->load->view('FAQ',$result);
+    }
+   
     public function create_profiles_datas_to_display_as_json() {
         echo($this->create_profiles_datas_to_display());
     }
@@ -2953,29 +3004,46 @@ class Welcome extends CI_Controller {
         }
     }
     
-    public function ranking(){ //10 clientes activos que mas han ganado con dumbu
-               
+    public function ranking(){ //10 clientes activos que mas han ganado con dumbu               
+        //Funcion que deve estimar el ranking general, segun el ranking diario.
+        //retorna un array con el ranking, sendo que o clliente na pocisão 0 é o mais ranquado
+    }
+    
+    
+    public function daily_ranking(){
         $this->load->model('class/user_model');
+        $this->load->model('class/ranking_model');
         $result=$this->user_model->get_ranking();
         $N=count($result);
-        for ($i=0;$i<$N;$i++) {
+        for($i=0;$i<$N;$i++) {
             $actual_followers=$this->user_model->get_last_daily_report($result[$i]['user_id']);
-            if($actual_followers)
-                $result[$i]['gain_followers']= $actual_followers['followers'] - $result[$i]['insta_followers_ini'];
-            else 
-                $result[$i]['gain_followers']=0;
-        } 
+            if($actual_followers){
+                $ndays=time()-$result[$i]['init_date'];
+                $ndays=$ndays/(24*60*60);
+                $result[$i]['ranking_score']= ($actual_followers['followers'] - $result[$i]['insta_followers_ini'])/$ndays;
+            }
+            else
+                $result[$i]['ranking_score']=0;
+        }
         
         foreach ($result as $key => $row) {
-            $aux[$key] = $row['gain_followers'];
+            $aux[$key] = $row['ranking_score'];
         }
         array_multisort($aux, SORT_DESC, $result);
         
+        $i=0;
         foreach ($result as $key => $row) {
-            echo $row['login'].'---->'.$row['gain_followers'].'<br/>';
-        }
+            $datas=array(
+                'client_id'=>$result[$i]['user_id'],
+                'position'=>($i+1),
+                'date'=>time()
+            );
+            $this->ranking_model->insert_into_ranking($datas);            
+            $i++;
+            if($i==10)
+                break;
+        }        
     }
-  
 
     public function buy_tester(){
         
