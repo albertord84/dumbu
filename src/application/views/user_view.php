@@ -481,8 +481,7 @@
                                 <div class="col-sm-2"></div>
 			</div>
 		</section>
-<<<<<<< HEAD
-            
+           
               <!--  <section id="ranking" class="fleft100">
                     <div class="container">
                         <div class="row">
@@ -581,11 +580,7 @@
                     </div>  
                  </section> -->
 
-                <section id="assinar" class="fleft100">
-=======
-   
-		<section id="assinar" class="fleft100">
->>>>>>> develop
+               <section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
 				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>
