@@ -38,7 +38,7 @@ class Admin extends CI_Controller {
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
         $query = 'SELECT * FROM users'.
-                ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
+                ' WHERE login="' . $datas['user_login'] . '" AND pass="' . md5($datas['user_pass']) .
                 '" AND role_id=' . user_role::ADMIN . ' AND status_id=' . user_status::ACTIVE;
         $user = $this->user_model->execute_sql_query($query);
         if(count($user)){
