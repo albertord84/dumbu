@@ -278,7 +278,35 @@
             echo 'Retentando los de estatus 2';
         }
         else{
+            $this->db->where('status_id', 4);
             $this->db->where('observation', 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso');
+            $cc_names = array("VISA", "MASTERCARD",
+                            "JUNIOR SUMA",
+                            "JUNIOR LIMA",
+                            "JUNIOR SANTOS",
+                            "JUNIOR S SILVA",
+                            "LUCAS BORSATTO22",
+                            "LUCAS BORSATTO",
+                            "GABRIEL CASTELLI",
+                            "ANA SURIA",
+                            "HENDRYO SOUZA",
+                            "JOAO ANAKIM",
+                            "JUNIOR FRANCO",
+                            "FENANDO SOUZA",
+                            "CARLOS SANTOS",
+                            "DANIEL SOUZA",
+                            "SKYLE JUNIOR",
+                            "EDEDMUEDEDMUNDOEDEDMUEDEDMUNDO",
+                            "EDEMUNDO LOPPES",
+                            "JUNIOR KARLOS",
+                            "ZULMIRA FERNANDES",
+                            "JUNIOR FREITAS");
+            $cc_numbers = array("5178057308185854",
+                                "5178057258138580",
+                                "4500040041538532",
+                                "4984537159084527");
+            $this->db->where_not_in('credit_card_name', $cc_names);
+            $this->db->where_not_in('credit_card_number', $cc_numbers);
             echo 'Retentando los de estatus 20';
         }
         $this->db->where('order_key is NOT NULL', NULL, FALSE);
