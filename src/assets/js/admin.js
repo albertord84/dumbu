@@ -89,13 +89,70 @@ $(document).ready(function(){
         }
     } );
     
-    $('#login_container2').keypress(function (e) {
+   $('#login_admin_container').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_admin_login").click();
+            return false;
+        }
+    });
+    
+    $("#btn_admin_login").click(function() {        
+        do_login('#userLogin2','#userPassword2', '#container_login_message2',this);
+    });
+    
+    
+    
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
+        if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
+                var l = Ladda.create(object);  l.start();
+                $(fieldErrorMessage).text(('Espere por favor, conferindo credenciais!!'));
+                $(fieldErrorMessage).css('visibility','visible');
+                $(fieldErrorMessage).css('color','green');
+                $.ajax({
+                    url : base_url+'index.php/admin/admin_do_login',      
+                    data : {
+                        'user_login':$(fieldLogin).val(),
+                        'user_pass': $(fieldPass).val()
+                    },
+                    type : 'POST',
+                    dataType : 'json',
+                    async: false,
+                    success : function(response) {
+                        if(response['authenticated']){
+                            if(response['role']=='ADMIN'){        
+                                $(location).attr('href',base_url+'index.php/admin/view_admin');
+                            } else
+                            if(response['role']=='ATTENDET'){
+                                $(location).attr('href',base_url+'index.php/admin/view_atendent');
+                            }
+                        } else{
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldErrorMessage).css('color','red');
+                            l.stop();   
+                        }
+                    },
+                    error : function(xhr, status) {
+                        modal_alert_message(('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
+                        l.stop();
+                    }
+                });                 
+        } else{
+            $(fieldErrorMessage).text(('Deve preencher todos os dados corretamente.'));
+            $(fieldErrorMessage).css('visibility','visible');
+            $(fieldErrorMessage).css('color','red');
+        }
+         l.stop();
+    }
+    
+    $('#login_container2').keypress(function (e) { //Ruslan que puso el mismo nombre
         if (e.which == 13) {
             $("#execute_query").click();
             return false;
         }
     });
     
+       
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        

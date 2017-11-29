@@ -174,7 +174,7 @@
 				<nav class="navbar navbar-default navbar-static-top">
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="logo pabsolute fleft100 text-center">
-						<a class="navbar-brand i-block" href="#">
+						<a class="navbar-brand i-block" href="<?php echo base_url() . 'index.php';?>">
                                                     <img alt="Brand" src="<?php echo base_url().'assets/images/logo.png'?>">
 						</a>
 					</div>
