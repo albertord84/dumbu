@@ -1262,6 +1262,7 @@ class Welcome extends CI_Controller {
         $response = $Payment->create_payment($payment_data);
         return $response;
     }
+    
     public function check_mundipagg_boleto() {
         
         $payment_data['payment_method'] = "boleto";
