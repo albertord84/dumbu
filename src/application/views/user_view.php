@@ -35,9 +35,9 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script>
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.1';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?1.0.0';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js?1.0.0';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
                 
@@ -112,6 +112,7 @@
 				<div id="dl-menu" class="dl-menuwrapper">
 					<button class="dl-trigger">Open Menu</button>
 					<ul class="dl-menu">
+                                                <li><a id="lnk_faq_function1" title="<?php echo $CI->T("Perguntas mais frequentes", array(),$language);?>">FAQ</a></li>
 						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>
 						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li>
@@ -224,7 +225,8 @@
 						</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right menu-principal">
-						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>                                                 
+                                                <li><a id="lnk_faq_function2" title="<?php echo $CI->T("Perguntas mais frequentes", array(),$language);?>">FAQ</a></li>
+                                                <li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>                                                 
                                                 <li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt="User"><?php echo $CI->T("ENTRAR", array(),$language);?><spam class="caret"></spam></a>
@@ -460,23 +462,25 @@
                 
                 
 		<section id="funciona" class="fleft100">
-			<div class="container">				
-                            <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                                    
+			<div class="container">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-8">
+                                    <div class="embed-responsive embed-responsive-16by9">
                                     <?php
-                                            if($language=='PT')
-                                                echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                            else   if($language=='EN')                                         
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
-                                            else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
-                                        ?>
-                                        
+                                        if ($language == 'PT') {
+                                            echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/Eo2Lr1trSKs" allowfullscreen></iframe>';
+                                        }
+                                        else if($language == 'EN') {                                         
+                                            echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/GSrr_UD8PN4" allowfullscreen></iframe>';
+                                        }
+                                        else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
+                                    ?>
+                                    </div>
                                 </div>
-				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
+                                <div class="col-sm-2"></div>
 			</div>
 		</section>
-
+   
 		<section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
@@ -707,7 +711,7 @@
                                                     <fieldset>
                                                             <div class="select">
                                                                 <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option>2017</option><option>2018</option>
+                                                                    <option>2018</option>
                                                                     <option>2019</option><option>2020</option><option>2021</option>
                                                                     <option>2022</option><option>2023</option><option>2024</option>
                                                                     <option>2025</option><option>2026</option><option>2027</option>

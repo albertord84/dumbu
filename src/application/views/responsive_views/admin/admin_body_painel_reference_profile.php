@@ -20,7 +20,10 @@
                         }
                         echo '<tr>';
                             echo '<td>'. $plane_datas.'</td>';
-                            echo '<td>'.($plane_datas-$ainda_faltam_por_seguir).'</td>';
+                            echo '<td>';
+                                if ($ainda_faltam_por_seguir != 0) echo ($plane_datas - $ainda_faltam_por_seguir);
+                                else echo '???';
+                            echo '</td>';
                             echo '<td>'.$ainda_faltam_por_seguir.'</td>';                                    
                         echo '</tr>';
                     ?>

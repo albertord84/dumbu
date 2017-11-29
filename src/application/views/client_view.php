@@ -6,12 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array(), $language); ?>">
-        <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language);?>">
+        <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language); ?>">
         <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array(), $language); ?>">
         <meta name="revisit-after" content="7 days">
         <meta name="robots" content="index,follow">
         <meta name="distribution" content="global">        
-        <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers", array(), $language);?></title>
+        <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers", array(), $language); ?></title>
         
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
         <link href="<?php echo base_url() . 'assets/css/typeahead.css'; ?>" rel="stylesheet">
@@ -34,11 +34,12 @@
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
+        <script type="text/javascript">var my_login_profile = '<?php echo $my_login_profile; ?>';</script>
         <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js?1.0.0'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js?1.0.0'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
@@ -1110,8 +1111,8 @@
                         <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
                             <fieldset>
                                 <div class="select">
-                                    <select name="local" id="credit_card_exp_year" class="btn-primeiro sel">
-                                        <option>2017</option><option>2018</option><option>2019</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option><option>2037</option><option>2038</option><option>2039</option>
+                                    <select name="local" id="credit_card_exp_year" class="btn-primeiro sel">                                        
+                                        <option>2018</option><option>2019</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option><option>2037</option><option>2038</option><option>2039</option>
                                     </select>
                                 </div>
                             </fieldset>

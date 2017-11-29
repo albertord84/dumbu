@@ -15,7 +15,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 $DB = new \dumbu\cls\DB("/../../../config-pro.ini");
 
 // WORKER
-$Worker = new dumbu\cls\Worker($DB);
+$Worker = new dumbu\cls\Worker($DB,0);
 
 $Worker->do_work();
 
