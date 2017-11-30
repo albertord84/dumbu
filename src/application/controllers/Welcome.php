@@ -1250,25 +1250,19 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_credit_card($datas) {
-        //$payment_data['credit_card_number'] = $datas['credit_card_number'];
-       // $payment_data['credit_card_name'] = $datas['credit_card_name'];
-       // $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
-       // $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
-       // $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
-      //  $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
-       // $payment_data['pay_day'] = time();
-        $payment_data['credit_card_number'] = "5401056012196917";
-        $payment_data['credit_card_name'] = "YANEXIS PUPO TOLEDO";
-       $payment_data['credit_card_exp_month'] = "08";
-       $payment_data['credit_card_exp_year'] = "2023";
-       $payment_data['credit_card_cvc'] ="625";
-      $payment_data['amount_in_cents'] = "100";
-       $payment_data['pay_day'] = time();
+        $payment_data['credit_card_number'] = $datas['credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
+        $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
+        $payment_data['pay_day'] = time();        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_payment($payment_data);
         return $response;
     }
+    
     public function check_mundipagg_boleto() {
         
         $payment_data['payment_method'] = "boleto";
@@ -2896,7 +2890,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $params=$this->input->get();
-        $result=$this->client_model->get_all_clients_by_status_id(2);
+        $result=$this->client_model->get_all_clients_by_status_id(20);
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
