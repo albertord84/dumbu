@@ -4,29 +4,79 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
-    public function index() {
-        $datas1 = $this->input->get();
+    public function index() {        
+        $this->load->view('admin_login_view');
+    }
+       
+    public function T($token, $array_params=NULL, $lang=NULL) {
+        if(!$lang){
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+            $lang=$param['language'];
+        }
+        $this->load->model('class/translation_model');
+        $text = $this->translation_model->get_text_by_token($token,$lang);
+        $N = count($array_params);
+        for ($i = 0; $i < $N; $i++) {
+            $text = str_replace('@' . ($i + 1), $array_params[$i], $text);
+        }
+        return $text;
+    }
+    
+    public function admin_do_login() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
-        $datas['login'] = urldecode($datas1['login']);
-        $datas['pass'] = urldecode($datas1['pass']);
+        $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $datas = $this->input->post();        
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
         $this->load->model('class/user_role');
-        $query = 'SELECT * FROM users' .
-                ' WHERE login="' . $datas['login'] . '" AND pass="' . $datas['pass'] .
+        $query = 'SELECT * FROM users'.
+                ' WHERE login="' . $datas['user_login'] . '" AND pass="' . md5($datas['user_pass']) .
                 '" AND role_id=' . user_role::ADMIN . ' AND status_id=' . user_status::ACTIVE;
         $user = $this->user_model->execute_sql_query($query);
-
-        if ($this->user_model->set_sesion($user[0]['id'], $this->session, '')) {
+        if(count($user)){
+            $this->user_model->set_sesion($user[0]['id'], $this->session, '');
+            $result['role'] = 'ADMIN';
+            $result['authenticated'] = true;
+            echo json_encode($result);
+        } else{
+            $result['resource'] = 'index#lnk_sign_in_now';
+            $result['message'] = 'Credenciais incorretas';
+            $result['cause'] = 'signin_required';
+            $result['authenticated'] = false;
+            echo json_encode($result);
+        }
+    }
+    
+    public function log_out() {
+        $data['user_active'] = false;
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog($this->session->userdata('id'),'CLOSING SESSION');
+        $this->session->sess_destroy();
+        header('Location: ' . base_url() . 'index.php/admin/');
+    }    
+    
+    public function view_admin(){
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             $query = 'SELECT DISTINCT utm_source FROM clients';
             $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
-        }
+        }        
     }
 
     public function list_filter_view_or_get_emails() {
