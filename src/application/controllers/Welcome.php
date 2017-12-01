@@ -5,6 +5,9 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
 
+    public function md() {
+        echo md5('');
+    }
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -217,7 +220,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_role');
         $this->load->model('class/user_status');
-        //Is an active Administrator?
+        /*//Is an active Administrator?
         $query = 'SELECT * FROM users' .
                 ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
                 '" AND role_id=' . user_role::ADMIN.' AND status_id=' . user_status::ACTIVE;
@@ -236,7 +239,7 @@ class Welcome extends CI_Controller {
                 $result['role'] = 'ATTENDET';
                 $result['str'] = urlencode('login=' . $datas['user_login'] . '&pass=' . $datas['user_pass']);
                 $result['authenticated'] = true;
-            } else {
+            } else {*/
                 //Is an actually Instagram user?
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                 if($data_insta==NULL){
@@ -643,8 +646,9 @@ class Welcome extends CI_Controller {
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 }
-            }
-        }
+            //}
+        //}
+        
         if($result['authenticated'] == true){
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'DID LOGIN ');
@@ -1250,25 +1254,19 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_credit_card($datas) {
-        //$payment_data['credit_card_number'] = $datas['credit_card_number'];
-       // $payment_data['credit_card_name'] = $datas['credit_card_name'];
-       // $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
-       // $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
-       // $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
-      //  $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
-       // $payment_data['pay_day'] = time();
-        $payment_data['credit_card_number'] = "5401056012196917";
-        $payment_data['credit_card_name'] = "YANEXIS PUPO TOLEDO";
-       $payment_data['credit_card_exp_month'] = "08";
-       $payment_data['credit_card_exp_year'] = "2023";
-       $payment_data['credit_card_cvc'] ="625";
-      $payment_data['amount_in_cents'] = "100";
-       $payment_data['pay_day'] = time();
+        $payment_data['credit_card_number'] = $datas['credit_card_number'];
+        $payment_data['credit_card_name'] = $datas['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
+        $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
+        $payment_data['pay_day'] = time();        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_payment($payment_data);
         return $response;
     }
+    
     public function check_mundipagg_boleto() {
         
         $payment_data['payment_method'] = "boleto";
@@ -2118,7 +2116,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->user_model->insert_washdog($this->session->userdata('id'),'CLOSING SESSION');
         $this->session->sess_destroy();
-        header('Location: ' . base_url() . 'index.php');
+        header('Location: ' . base_url());
     }
 
     public function create_profiles_datas_to_display() {
