@@ -131,6 +131,13 @@
                 $this->db->where('language', $form_filter['idioma']);
             }
             
+            if($form_filter['pr_ativos']==='NAO') {
+                $this->db->where('user_id NOT IN (SELECT DISTINCT client_id FROM dumbudb.reference_profile WHERE deleted = 0)', NULL, FALSE);
+            }
+            else if($form_filter['pr_ativos']==='SIM') {
+                $this->db->where('user_id IN (SELECT DISTINCT client_id FROM dumbudb.reference_profile WHERE deleted = 0)', NULL, FALSE);
+            }
+            
             return $this->db->get()->result_array();        
         }
            
