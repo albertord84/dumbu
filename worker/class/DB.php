@@ -762,6 +762,16 @@ namespace dumbu\cls {
            
        }
        
+       public function Add_Observation($client_id, $observation)
+       {
+            try {
+                $sql = "UPDATE dumbudb.clients SET observation='$observation' WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }           
+       }
     }
 
 }
