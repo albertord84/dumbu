@@ -67,6 +67,9 @@ class Admin extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             $query = 'SELECT DISTINCT utm_source FROM clients';
             $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);

@@ -33,7 +33,7 @@
         
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?1.0.1';?>"></script>
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?1.0.2';?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
         
         <!-- Performance Chart -->

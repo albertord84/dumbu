@@ -578,7 +578,7 @@ namespace dumbu\cls {
                 exec($curl_str, $output, $status);
                 //print_r($output);
                 //print("-> $status<br><br>");                
-                
+                $json = json_decode($output[0]);
                 //var_dump($output);
                 if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
                     if ($json->data->user->edge_followed_by->page_info->has_next_page === false) {

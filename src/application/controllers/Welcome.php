@@ -2895,7 +2895,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $params=$this->input->get();
-        $result=$this->client_model->get_all_clients_by_status_id(20);
+        $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
