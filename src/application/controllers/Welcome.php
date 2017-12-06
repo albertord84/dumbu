@@ -6,8 +6,9 @@ class Welcome extends CI_Controller {
     public $language =NULL;
 
     public function md() {
-        echo md5('');
+        echo md5('86909114');
     }
+    
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
