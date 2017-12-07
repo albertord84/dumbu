@@ -47,7 +47,7 @@ class Welcome extends CI_Controller {
             }
         }
         if ($this->session->userdata('id')){
-            $datas = $this->input->get();
+            //$datas = $this->input->get();
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
