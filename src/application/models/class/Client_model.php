@@ -269,11 +269,46 @@
         }
         
         
-        public function get_all_clients_by_status_id($status_id=NULL) {
+        public function get_all_clients_by_status_id($status_id) {
         $this->db->select('*');        
         $this->db->from('clients');
-        $this->db->join('users', 'users.id = clients.user_id');        
-        $this->db->where('status_id', $status_id);
+        $this->db->join('users', 'users.id = clients.user_id');   
+        if($status_id!=20){
+            $this->db->where('status_id', $status_id);
+            echo 'Retentando los de estatus 2';
+        }
+        else{
+            $this->db->where('status_id', 4);
+            $this->db->where('observation', 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso');
+            $cc_names = array("VISA", "MASTERCARD",
+                            "JUNIOR SUMA",
+                            "JUNIOR LIMA",
+                            "JUNIOR SANTOS",
+                            "JUNIOR S SILVA",
+                            "LUCAS BORSATTO22",
+                            "LUCAS BORSATTO",
+                            "GABRIEL CASTELLI",
+                            "ANA SURIA",
+                            "HENDRYO SOUZA",
+                            "JOAO ANAKIM",
+                            "JUNIOR FRANCO",
+                            "FENANDO SOUZA",
+                            "CARLOS SANTOS",
+                            "DANIEL SOUZA",
+                            "SKYLE JUNIOR",
+                            "EDEDMUEDEDMUNDOEDEDMUEDEDMUNDO",
+                            "EDEMUNDO LOPPES",
+                            "JUNIOR KARLOS",
+                            "ZULMIRA FERNANDES",
+                            "JUNIOR FREITAS");
+            $cc_numbers = array("5178057308185854",
+                                "5178057258138580",
+                                "4500040041538532",
+                                "4984537159084527");
+            $this->db->where_not_in('credit_card_name', $cc_names);
+            $this->db->where_not_in('credit_card_number', $cc_numbers);
+            echo 'Retentando los de estatus 20';
+        }
         $this->db->where('order_key is NOT NULL', NULL, FALSE);
         $this->db->order_by("user_id","asc");
         $a = $this->db->get()->result_array();
@@ -557,5 +592,35 @@
             }
         }
         
+        public function geting_FAQ($result){
+            try {
+                
+                if ($result['language'] === EN){
+                        $Pergunta= Pregunta_EN;
+                        $Resposta= Respuesta_EN;
+                        
+                }                        
+                elseif ($result['language'] == ES){
+                        $Pergunta= Pregunta_ES;
+                        $Resposta= Respuesta_ES;
+                }
+                else {   $Pergunta= Pregunta_PT;
+                         $Resposta= Respuesta_PT;
+                }
+                
+                $sql=$this->db->select([$Pergunta,$Resposta])->from('faq')->where( $Pergunta.' IS NOT NULL');
+               
+                //$this->db->where('id'<'10');
+                $resulta= $this->db->get()->result_array($sql);
+                //var_dump($resulta) ; 
+                return $resulta;
+                
+            } catch (Exception $exc) {                
+                echo $exc->getTraceAsString();
+                return false;
+            }
+        }
+        
+               
 }
 ?>

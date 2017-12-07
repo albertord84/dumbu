@@ -52,6 +52,8 @@ namespace dumbu\cls {
                     "JUNIOR SUMA",
                     "JUNIOR LIMA",
                     "JUNIOR SANTOS",
+                    "JUNIOR S SILVA",
+                    "FERNANDO ALVES",
                     "LUCAS BORSATTO22",
                     "LUCAS BORSATTO",
                     "GABRIEL CASTELLI",
@@ -66,7 +68,8 @@ namespace dumbu\cls {
                     "EDEDMUEDEDMUNDOEDEDMUEDEDMUNDO",
                     "EDEMUNDO LOPPES",
                     "JUNIOR KARLOS",
-                    "ZULMIRA FERNANDES"
+                    "ZULMIRA FERNANDES",
+                    'JUNIOR FREITAS'
                 ];
                 if (in_array($payment_data['credit_card_number'], $card_bloqued) || in_array($payment_data['credit_card_name'], $name_bloqued)) {
                     throw new \Exception('Credit Card Number Blocked by Hacking! Sending profile and navigation data to police...');
@@ -136,12 +139,95 @@ namespace dumbu\cls {
          * @return string
          */
         
+        public function create_boleto_payment() {
+            try
+            {
+            // Carrega dependências
+            require_once $_SERVER['DOCUMENT_ROOT'] . '\dumbu\worker\libraries\MundiAPI-PHP\vendor\autoload.php';
+            // Define a url utilizada
+            \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com/"); 
+
+            // Define a chave de loja
+            \Gateway\ApiClient::setMerchantKey("BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6");
+
+            // Cria a requisição
+            $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
+
+            // Cria objeto de transação de boleto
+            $boletoTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\BoletoTransaction();
+            $createSaleRequest->addBoletoTransaction($boletoTransaction);
+            $boletoTransaction
+            ->setAmountInCents(500)
+            ->setBankNumber(\Gateway\One\DataContract\Enum\BankEnum::SANTANDER)
+            ->setDocumentNumber("12345678901") //string Número do documento no boleto
+            ->setInstructions("Pagar antes do vencimento")
+            ->getOptions()
+            ->setDaysToAddInBoletoExpirationDate(5);
+
+            //Define dados do pedido
+            $createSaleRequest->getOrder()
+            ->setOrderReference('NumeroDoPedido');//	string Identificador do pedido na sua base
+            
+            // Dados do comprador
+            $createSaleRequest->getBuyer()
+            ->setName("Yanexis Pupo")
+            ->setPersonType(\Gateway\One\DataContract\Enum\PersonTypeEnum::PERSON)
+            ->setBuyerReference("C3PO") // esto seria como el id de un cliente para identificarlo rapidamente
+            ->setDocumentNumber("07638815114")
+            ->setDocumentType(\Gateway\One\DataContract\Enum\DocumentTypeEnum::CPF)
+            ->setEmail("yptoledoarg@gmail.com")
+            ->setEmailType(\Gateway\One\DataContract\Enum\EmailTypeEnum::PERSONAL)
+            ->setGender(\Gateway\One\DataContract\Enum\GenderEnum::FEMALE)
+            ->setMobilePhone("(21)972596272")
+            ->setBirthDate(\DateTime::createFromFormat('d/m/Y', '20/08/1990'))
+            ->setCreateDateInMerchant(new \DateTime())
+            ->addAddress()
+            ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
+            ->setStreet("Rua General Castrioto")
+            ->setNumber("380")
+            ->setComplement("30B")
+            ->setDistrict("Barreto")
+            ->setCity("Niteroi")
+            ->setState("RJ")
+            ->setZipCode("24110256")
+            ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
+
+            // Cria um objeto ApiClient
+            $client = new \Gateway\ApiClient();
+            //var_dump($client);
+            // Faz a chamada para a criação da transação
+            $response = $client->createSale($createSaleRequest);
+
+            // Mapeia resposta
+            $httpStatusCode = $response->isSuccess() ? 201 : 401;
+            //var_dump($response);
+            }
+            catch (\Gateway\One\DataContract\Report\ApiError $error)
+            {
+                $httpStatusCode = 400;
+                $response = array("message" => $error->getMessage());
+                //var_dump($response);
+            }
+            catch (Exception $ex)
+            {
+                $httpStatusCode = 500;
+                $response = array("message" => "Ocorreu um erro inesperado.");
+            }
+            finally {
+                // Devolve resposta
+               http_response_code($httpStatusCode);
+               header('Content-Type: application/json');
+               print json_encode($response->getData());
+            }   
+             
+        }
+
         public function create_debit_payment($payment_data) {
             try {
                 // Define a url utilizada
-                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+                \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);D
 
-// Define a chave da loja
+                // Define a chave da loja
                 \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
                 // Cria objeto requisição
@@ -186,9 +272,10 @@ namespace dumbu\cls {
                 $response = array("message" => $ex->getMessage());
             } finally {
                 // Devolve resposta
-//                http_response_code($httpStatusCode);
-//                header('Content-Type: application/json');
-                return $response;
+                http_response_code($httpStatusCode);
+                header('Content-Type: application/json');
+                print json_encode($response->getData());
+               
             }
         }
         
@@ -349,6 +436,49 @@ namespace dumbu\cls {
                 $result = $this->queryOrder($order_key);
             }
             return $result;
+        }
+        
+        public function get_paymment_data($order_key) {
+            if ($order_key) {
+                $result = $this->queryOrder($order_key);
+                if (is_object($result) && $result->isSuccess())
+                {
+                     $data = $result->getData();
+                    //var_dump($data);
+                    $SaleDataCollection = $data->SaleDataCollection[0];
+                    $LastSaledData = NULL;
+                    // Get last client payment
+                    $now = DateTime::createFromFormat('U', time());
+                    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                        return  new DateTime($SaleData->CreateDate);
+                    }                    
+                }
+            }
+            return null;
+        }
+        
+        public function get_last_paymment_data($order_key) {
+            if ($order_key) {
+                $result = $this->queryOrder($order_key);
+                if (is_object($result) && $result->isSuccess())
+                {
+                     $data = $result->getData();
+                    //var_dump($data);
+                    $SaleDataCollection = $data->SaleDataCollection[0];
+                    $LastSaledData = NULL;
+                    // Get last client payment
+                    $now = DateTime::createFromFormat('U', time());
+                    foreach ($SaleDataCollection->CreditCardTransactionDataCollection as $SaleData) {
+                        $SaleDataDate = new DateTime($SaleData->DueDate);
+        //                $LastSaleDataDate = new DateTime($LastSaledData->DueDate);
+                        //$last_payed_date = DateTime($LastSaledData->DueDate);
+                        if ($SaleData->CapturedAmountInCents != NULL && ($LastSaledData == NULL || $SaleDataDate > new DateTime($LastSaledData->DueDate))) {
+                            $LastSaledData = $SaleData;
+                        }
+                     }                    
+                }
+            }
+            return null;
         }
 
         // end of member function update_payment

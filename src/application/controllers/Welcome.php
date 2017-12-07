@@ -3,37 +3,34 @@
 class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
-    public $languaje =NULL;
+    public $language =NULL;
 
+    public function md() {
+        echo md5('');
+    }
     public function index() {
-        $languaje=$this->input->get();        
+        $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        if(isset($languaje['languaje']))
-            $param['languaje']=$languaje['languaje'];
+        if(isset($language['language']))
+            $param['language']=$language['language'];
         else
-            $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
-        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
-        $this->languaje=$param['languaje'];
-        
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $GLOBALS['language']=$param['language'];
         $this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
     
-    public function paypal() {
-        $this->load->view('test_view');
-    }
-    
-    public function languaje() {
+    public function language() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
         $this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
     
     public function purchase() {
-        $xxx=$this->session->userdata('id');
         if ($this->session->userdata('id')) {
             $datas = $this->input->get();
             $this->load->model('class/user_model');
@@ -42,13 +39,14 @@ class Welcome extends CI_Controller {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
-            $datas['profiles'] = $this->create_profiles_datas_to_display();
+            $datas['profiles'] = $this->create_profiles_datas_to_display();            
+            $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;            
             if(isset($datas['language'])&& $datas['language']!=''){
-                $this->languaje =  $datas['language'];
+                 $GLOBALS['language'] =  $datas['language'];
             }
             else{
                 $datas['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-                $this->languaje = $GLOBALS['sistem_config']->LANGUAGE;
+                 $GLOBALS['language'] = $GLOBALS['sistem_config']->LANGUAGE;
             }
             $datas['Afilio_UNIQUE_ID'] = $this->session->userdata('id');
             $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
@@ -57,6 +55,7 @@ class Welcome extends CI_Controller {
             $datas['Afilio_total_value']=$result[0]['normal_val'];
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');
             
+            $datas['client_login_profile'] = $this->session->userdata('login');
             $datas['client_email']= $this->session->userdata('email');            
             
             $this->load->view('purchase_view', $datas);
@@ -73,16 +72,15 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_status');
         $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $languaje=$this->input->get();
-            
-            if(isset($languaje['languaje'])){
-                $this->languaje=$languaje['languaje'];
-                $this->user_model->set_languaje_of_client($this->session->userdata('id'),$languaje);
+            $language=$this->input->get();           
+            if(isset($language['language'])){
+                 $GLOBALS['language']=$language['language'];
+                $this->user_model->set_language_of_client($this->session->userdata('id'),$language);
             }
             else
-                $this->languaje=$this->user_model->get_languaje_of_client($this->session->userdata('id'))['languaje'];
-            $xxx=$this->languaje;
+                 $GLOBALS['language']=$this->user_model->get_language_of_client($this->session->userdata('id'))['language'];
             $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+            $datas1['WHATSAPP_PHONE'] = $GLOBALS['sistem_config']->WHATSAPP_PHONE;
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
@@ -140,7 +138,7 @@ class Welcome extends CI_Controller {
             $datas1['plane_id'] = $this->session->userdata('plane_id');
             $datas1['all_planes'] = $this->client_model->get_all_planes();
             $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
-            $datas1['language'] = $this->languaje;
+            $datas1['language'] =  $GLOBALS['language'];
 
             $daily_report = $this->get_daily_report($this->session->userdata('id'));
             $datas1['followings'] = $daily_report['followings'];
@@ -207,15 +205,22 @@ class Welcome extends CI_Controller {
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
+            $language=$this->input->get();
             $login_by_client=true;
         }
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $GLOBALS['language']=$param['language'];
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
         $this->load->model('class/user_role');
         $this->load->model('class/user_status');
-        //Is an active Administrator?
+        /*//Is an active Administrator?
         $query = 'SELECT * FROM users' .
                 ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
                 '" AND role_id=' . user_role::ADMIN.' AND status_id=' . user_status::ACTIVE;
@@ -234,11 +239,11 @@ class Welcome extends CI_Controller {
                 $result['role'] = 'ATTENDET';
                 $result['str'] = urlencode('login=' . $datas['user_login'] . '&pass=' . $datas['user_pass']);
                 $result['authenticated'] = true;
-            } else {
+            } else {*/
                 //Is an actually Instagram user?
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                 if($data_insta==NULL){
-                    $result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array());
+                    $result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 } else
@@ -299,7 +304,7 @@ class Welcome extends CI_Controller {
                                 }
                             }
                             $result['resource'] = 'client';
-                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']));
+                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
@@ -345,25 +350,25 @@ class Welcome extends CI_Controller {
                             if($st!=user_status::ACTIVE)
                                 $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
                             $result['resource'] = 'client';
-                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']));                            
+                            $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);                            
                             $result['role'] = 'CLIENT';
                             $result['authenticated'] = true;
                         } else
                         if ($st == user_status::BEGINNER) {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = $this->T('Falha no login! Seu cadastro esta incompleto. Por favor, termine sua assinatura.', array());
+                            $result['message'] = $this->T('Falha no login! Seu cadastro esta incompleto. Por favor, termine sua assinatura.', array(), $GLOBALS['language']);
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         } else
                         if ($st == user_status::DELETED || $st == user_status::INACTIVE) {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = $this->T('Falha no login! Você deve assinar novamente para receber o serviço', array());
+                            $result['message'] = $this->T('Falha no login! Você deve assinar novamente para receber o serviço', array(), $GLOBALS['language']);
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         }
                     } else {
                         $result['resource'] = 'index#lnk_sign_in_now';
-                        $result['message'] = $this->T('Falha no login! Você deve assinar para receber o serviço', array());
+                        $result['message'] = $this->T('Falha no login! Você deve assinar novamente para receber o serviço', array(), $GLOBALS['language']);
                         $result['cause'] = 'signin_required';
                         $result['authenticated'] = false;
                     }
@@ -394,12 +399,12 @@ class Welcome extends CI_Controller {
                     if ($real_status > 0) {
                         if ($user[$index]['status_id'] != user_status::DELETED && $user[$index]['status_id'] != user_status::INACTIVE) {
                             $result['resource'] = 'index';
-                            $result['message'] = $this->T('Falha no login! Entre com suas credenciais do Instagram.', array());
+                            $result['message'] = $this->T('Falha no login! Entre com suas credenciais do Instagram.', array(), $GLOBALS['language']);
                             $result['cause'] = 'credentials_update_required';
                             $result['authenticated'] = false;
                         } else {
                             $result['resource'] = 'index#lnk_sign_in_now';
-                            $result['message'] = $this->T('Você deve assinar novamente para receber o serviço.', array());
+                            $result['message'] = $this->T('Você deve assinar novamente para receber o serviço.', array(), $GLOBALS['language']);
                             $result['cause'] = 'signin_required';
                             $result['authenticated'] = false;
                         }
@@ -429,18 +434,18 @@ class Welcome extends CI_Controller {
                             }
                             if ($real_status > 0) {
                                 //perfil exite en instagram y en la base de datos, senha incorrecta           
-                                $result['message'] = $this->T('Senha incorreta!. Entre com sua senha de Instagram.', array());
+                                $result['message'] = $this->T('Senha incorreta!. Entre com sua senha de Instagram.', array(), $GLOBALS['language']);
                                 $result['cause'] = 'error_login';
                                 $result['authenticated'] = false;
                             } else {
                                 //el perfil existe en instagram pero no en la base de datos
-                                $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array());
+                                $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                                 $result['cause'] = 'error_login';
                                 $result['authenticated'] = false;
                             }
                         } else {
                             //nombre de usuario informado no existe en instagram
-                            $result['message'] = $this->T('Falha no login! O nome de usuário fornecido não existe no Instagram.', array());
+                            $result['message'] = $this->T('Falha no login! O nome de usuário fornecido não existe no Instagram.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
                             $result['authenticated'] = false;
                         }
@@ -484,12 +489,12 @@ class Welcome extends CI_Controller {
                         $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
-                        $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram', array());
+                        $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram', array(), $GLOBALS['language']);
                         $result['cause'] = 'checkpoint_required';
                         $result['authenticated'] = true;
                     } else {
                         //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                        $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array());
+                        $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                         $result['cause'] = 'error_login';
                         $result['authenticated'] = false;
                     }
@@ -530,14 +535,14 @@ class Welcome extends CI_Controller {
                             $this->user_model->set_sesion($user[$index]['id'], $this->session);
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
                             $result['return_link'] = 'index';
-                            $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram com código enviado ao numero de telefone que comtênm os digitos ', array(0 => $data_insta['obfuscated_phone_number']));
+                            $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram com código enviado ao numero de telefone que comtênm os digitos ', array(0 => $data_insta['obfuscated_phone_number']), $GLOBALS['language']);
                             $result['cause'] = 'phone_verification_settings';
                             $result['verify_link'] = '';
                             $result['obfuscated_phone_number'] = $data_insta['obfuscated_phone_number'];
                             $result['authenticated'] = false;
                         } else {
                             //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array());
+                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
                             $result['authenticated'] = false;
                         }
@@ -579,12 +584,12 @@ class Welcome extends CI_Controller {
                             $result['resource'] = 'client';
                             $result['return_link'] = 'index';
                             $result['verify_link'] = '';
-                            $result['message'] = $this->T('Sua conta esta presentando problemas temporalmente no Instagram. Entre em contato conosco para resolver o problema', array());
+                            $result['message'] = $this->T('Sua conta esta presentando problemas temporalmente no Instagram. Entre em contato conosco para resolver o problema', array(), $GLOBALS['language']);
                             $result['cause'] = 'empty_message';
                             $result['authenticated'] = false;
                         } else {
                             //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array());
+                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
                             $result['authenticated'] = false;
                         }
@@ -631,18 +636,19 @@ class Welcome extends CI_Controller {
                             $result['authenticated'] = false;
                         } else {
                             //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array());
+                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
                             $result['authenticated'] = false;
                         }
                     }
                 } else {
-                    $result['message'] = $this->T('Se o problema no login continua, por favor entre em contato com o Atendimento', array());
+                    $result['message'] = $this->T('Se o problema no login continua, por favor entre em contato com o Atendimento', array(), $GLOBALS['language']);
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 }
-            }
-        }
+            //}
+        //}
+        
         if($result['authenticated'] == true){
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'DID LOGIN ');
@@ -681,7 +687,7 @@ class Welcome extends CI_Controller {
         $origin_datas=$datas;
         if(!$datas){
             $datas = $this->input->post();
-            $this->languaje=$datas['language'];
+             $GLOBALS['language']=$datas['language'];
         }
 
         $datas['utm_source'] = isset($datas['utm_source']) ? urldecode($datas['utm_source']) : "NULL";
@@ -737,7 +743,7 @@ class Welcome extends CI_Controller {
                         'email' => $datas['client_email'],
                         'login' => $datas['client_login'],
                         'pass' => $datas['client_pass'],
-                        'languaje' => $this->languaje,
+                        'language' =>  $GLOBALS['language'],
                         'init_date' => time()));
                     $this->client_model->update_client($client[$i]['id'], array(
                         'insta_followers_ini' => $data_insta->follower_count,
@@ -758,7 +764,7 @@ class Welcome extends CI_Controller {
                     $response['success'] = true;
                 } else {
                     $response['success'] = false;
-                    $response['message'] = $this->T('O usuario informado já tem cadastro no sistema.', array());
+                    $response['message'] = $this->T('O usuario informado já tem cadastro no sistema.', array(), $GLOBALS['language']);
                 }
             }
             if ($response['success'] == true) {
@@ -769,7 +775,7 @@ class Welcome extends CI_Controller {
         } else {
             $response['success'] = false;
             $response['cause'] = 'missing_user';
-            $response['message'] = $this->T('O nome de usuario informado não é um perfil do Instagram.', array());
+            $response['message'] = $this->T('O nome de usuario informado não é um perfil do Instagram.', array(), $GLOBALS['language']);
         }
         if(!$origin_datas)
             echo json_encode($response);
@@ -777,8 +783,7 @@ class Welcome extends CI_Controller {
             return $response;
     }
     
-    //Passo 2. CChequeando datos bancarios y guardando datos y estado del cliente
-    //pagamento 
+    //Passo 2. CChequeando datos bancarios y guardando datos y estado del cliente pagamento 
     public function check_client_data_bank($datas=NULL) {  
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -823,7 +828,7 @@ class Welcome extends CI_Controller {
                     } catch (Exception $exc) {
                         $result['success'] = false;
                         $result['exception'] = $exc->getTraceAsString();
-                        $result['message'] = $this->T('Error actualizando en base de datos', array());
+                        $result['message'] = $this->T('Error actualizando en base de datos', array(), $GLOBALS['language'], $GLOBALS['language']);
                         //2. hacel el pagamento segun el plano
                     } finally {
                         // TODO: Hacer clase Plane
@@ -896,7 +901,7 @@ class Welcome extends CI_Controller {
                         $result['success'] = true;
                         $result['flag_initial_payment'] = $response['flag_initial_payment'];
                         $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
-                        $result['message'] = $this->T('Usuário cadastrado com sucesso', array());
+                        $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
                     } else {
                         $value['purchase_counter']=$purchase_counter-1;
                         $this->client_model->decrement_purchase_retry($datas['pk'],$value);
@@ -905,15 +910,15 @@ class Welcome extends CI_Controller {
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('Acesso não permitido', array());
+                    $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
                 } 
             }else{
                 $result['success'] = false;
-                $result['message'] = $this->T('Alcançõu a quantidade máxima de retentativa de compra, por favor, entre en contato con o atendimento', array());
+                $result['message'] = $this->T('Alcançõu a quantidade máxima de retentativa de compra, por favor, entre en contato con o atendimento', array(), $GLOBALS['language']);
             }
         }else{
             $result['success'] = false;
-            $result['message'] = $this->T('Acesso não permitido', array());
+            $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
         }
         
         if(!$origin_datas)
@@ -929,7 +934,6 @@ class Welcome extends CI_Controller {
         //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'){
                 //1. recurrencia para un mes mas alante
-                $datas['amount_in_cents'] = $recurrency_value;
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
                     $resp = $this->check_mundipagg_credit_card($datas);
@@ -954,7 +958,7 @@ class Welcome extends CI_Controller {
                 } else {
                     $response['flag_recurrency_payment'] = false;
                     $response['flag_initial_payment'] = false;
-                    $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array());
+                    $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array(), $GLOBALS['language']);
                 } 
         } else 
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='OLX' || $datas['ticket_peixe_urbano']==='INSTA50P')){
@@ -1130,6 +1134,43 @@ class Welcome extends CI_Controller {
                         $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
                     }
                 }
+            } else
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='SIBITE30D'){ //30 dias de graça
+                $datas['amount_in_cents'] = $recurrency_value;
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" .'30'. " days", time());
+                }
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                if (is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
             }else
         if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
@@ -1219,12 +1260,40 @@ class Welcome extends CI_Controller {
         $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
         $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
         $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
-        $payment_data['pay_day'] = time();
+        $payment_data['pay_day'] = time();        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_payment($payment_data);
         return $response;
     }
+    
+    public function check_mundipagg_boleto() {
+        
+        $payment_data['payment_method'] = "boleto";
+        $payment_data['amount_in_cents'] = "5000000";
+        $payment_data['name'] = "Yanexis Pupo Toledo";
+        $payment_data['email'] = "yptoledoarg@gmail.com";
+        $payment_data['street'] =   "Av. General Castrioto";
+        $payment_data['number'] = "380";
+        $payment_data['complement'] = "30B";
+        $payment_data['zip_code'] = "24110256";
+        $payment_data['doc_number'] = "1245";
+        $payment_data['neighborhood'] = "Barreto";
+        $payment_data['city'] = "Niteroi";
+        $payment_data['state'] = "RJ";
+        $payment_data['country'] = "BR";
+        $payment_data['days_to_pay'] = "2";
+        $payment_data['payment_method'] = "boleto";
+        $payment_data['bank'] = "341";
+        $payment_data['instructions'] = "Pagar até o vencimento";
+        $payment_data['due_at'] = "2017-11-20T00:00:00Z";
+        $payment_data['pay_day'] = time();
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment( $payment_data);
+        return $response;
+    }
+    
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
@@ -1242,10 +1311,10 @@ class Welcome extends CI_Controller {
         if (is_object($response) && $response->isSuccess()){
             return $response;
         } else{
-            $response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
+            /*$response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
             if (is_object($response) && $response->isSuccess()){
                 return $response;
-            } else{
+            } else{*/
                 $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
                 return $response;
                 /*if (is_object($response) && $response->isSuccess()){
@@ -1253,7 +1322,7 @@ class Welcome extends CI_Controller {
                 } else{
                     $response = $Payment->create_recurrency_payment($payment_data, $cnt, 32);*/
                 //}
-            }
+            //}
         }
         
     }
@@ -1278,12 +1347,12 @@ class Welcome extends CI_Controller {
                 
             }
             
-            ($datas['unfollow_total']==0)?$ut='desativado':$ut='ativado';
+            ($datas['unfollow_total']==0)?$ut='DISABLED':$ut='ACTIVATED';
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'TOTAL UNFOLLOW '.$ut);
             
             $this->client_model->update_client($this->session->userdata('id'), array(
-                'unfollow_total' => $datas['TOTAL UNFOLLOW']
+                'unfollow_total' => $datas['unfollow_total']
             ));
             $response['success'] = true;
             $response['unfollow_total'] = $datas['unfollow_total'];
@@ -1302,7 +1371,7 @@ class Welcome extends CI_Controller {
                 'like_first' => $al
             ));
             
-            ($al==0)?$ut='desativado':$ut='ativado';
+            ($al==0)?$ut='DISABLED':$ut='ACTIVATED';
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'AUTOLIKE '.$ut);
             
@@ -1322,10 +1391,10 @@ class Welcome extends CI_Controller {
                 'paused' => $pp
             ));
             
-            $ut = 'indefinida';
+            $ut = 'PAUSED';
             
             if ($pp == 1) {
-                $ut = 'pausada';
+                $ut = 'PAUSED';
                 $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                 $N = count($active_profiles);
                 //quitar trabajo si el cliente pauso la herramienta
@@ -1334,12 +1403,12 @@ class Welcome extends CI_Controller {
                 }
             }
             else {
-                $ut = 'reativada';
+                $ut = 'REACTIVATED';
                 //no hacer nada, el robot le pone trabajo al cliente al siguiente dia
             }
             
             $this->load->model('class/user_model');
-            $this->user_model->insert_washdog($this->session->userdata('id'),'ferramenta '.$ut);
+            $this->user_model->insert_washdog($this->session->userdata('id'),'TOOL '.$ut);
 
             
             $response['success'] = true;
@@ -1351,6 +1420,14 @@ class Welcome extends CI_Controller {
     public function update_client_datas() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $language=$this->input->get();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $GLOBALS['language']=$param['language'];
+        
         if ($this->session->userdata('id')) {
             $this->load->model('class/client_model');
             $this->load->model('class/user_model');
@@ -1398,7 +1475,7 @@ class Welcome extends CI_Controller {
                         } catch (Exception $exc) {
                             $result['success'] = false;
                             $result['exception'] = $exc->getTraceAsString();
-                            $result['message'] = $this->T('Erro actualizando em banco de dados', array());
+                            $result['message'] = $this->T('Erro actualizando em banco de dados', array(), $GLOBALS['language']);
                         } finally {
                             $flag_pay_now = false;
                             $flag_pay_day = false;
@@ -1502,11 +1579,11 @@ class Welcome extends CI_Controller {
                                             'order_key' => $client_data['order_key'])); //the previous
                                         $result['success'] = false;
                                         $result['exception'] = $exc->getTraceAsString();
-                                        $result['message'] = $this->T('Erro actualizando em banco de dados', array());
+                                        $result['message'] = $this->T('Erro actualizando em banco de dados', array(), $GLOBALS['language']);
                                     } finally {
                                         $result['success'] = true;
                                         $result['resource'] = 'client';
-                                        $result['message'] = $this->T('Dados bancários atualizados corretamente', array());
+                                        $result['message'] = $this->T('Dados bancários atualizados corretamente', array(), $GLOBALS['language']);
                                         $result['response_delete_early_payment'] = $response_delete_early_payment;
                                     }
                                 }
@@ -1526,9 +1603,9 @@ class Welcome extends CI_Controller {
                                 $result['success'] = false;
                                 $result['resource'] = 'client';
                                 if ($payments_days['pay_now'] && !$flag_pay_now)
-                                    $result['message'] = is_array($resp_pay_now) ? $resp_pay_now["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array());
+                                    $result['message'] = is_array($resp_pay_now) ? $resp_pay_now["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array(), $GLOBALS['language']);
                                 else
-                                    $result['message'] = is_array($resp_pay_day) ? $resp_pay_day["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array());
+                                    $result['message'] = is_array($resp_pay_day) ? $resp_pay_day["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array(), $GLOBALS['language']);
                             } else
                             if (($payments_days['pay_now'] && $flag_pay_now && !$flag_pay_day)) {
                                 //se hiso el primer pagamento bien, pero la recurrencia mal
@@ -1539,13 +1616,13 @@ class Welcome extends CI_Controller {
                         }
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $this->T('Você não pode atualizar seu cartão no dia do pagamento', array());
+                        $result['message'] = $this->T('Você não pode atualizar seu cartão no dia do pagamento', array(), $GLOBALS['language']);
                     }
                 }
                 
             } else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Acesso não permitido', array());
+                $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
             }
             
             if($this->session->userdata('id') && $result['success'] == true){
@@ -1562,225 +1639,6 @@ class Welcome extends CI_Controller {
         }
     }
 
-    public function old_update_client_datas() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        if ($this->session->userdata('id')) {
-            $this->load->model('class/client_model');
-            $this->load->model('class/user_model');
-            $this->load->model('class/user_status');
-            $this->load->model('class/credit_card_status');
-            $datas = $this->input->post();
-            $now = time();
-            if($this->validate_post_credit_card_datas($datas)) {
-                $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-                
-                if($now<$client_data['pay_day'] && $client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20'){                    
-                    $result['success'] = false;
-                    $result['message'] = 'Você não pode atualizar no primeiro mês, entre em contato com nosso atendimento';
-                } else
-                    if($now<$client_data['pay_day'] && (
-                            $client_data['ticket_peixe_urbano']==='AMIGOSDOPEDRO'
-                            ||$client_data['ticket_peixe_urbano']==='BACKTODUMBU' )){
-                        $result['success'] = false;
-                        $result['message'] = 'Você não pode atualizar no mês promocional, entre em contato com nosso atendimento';
-                    } else{
-                        if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                            if ($now < $client_data['pay_day']) {
-                                $payments_days['pay_day'] = strtotime("+30 days", $now);
-                                $payments_days['pay_now'] = true;
-                                $datas['pay_day'] = $payments_days['pay_day'];
-                            } else {
-                                $payments_days['pay_day'] = time();
-                                $payments_days['pay_now'] = false;
-                                $datas['pay_day'] = $payments_days['pay_day'];
-                            }
-                        } else {
-                            $payments_days = $this->get_pay_day($client_data['pay_day']);
-                            $datas['pay_day'] = $payments_days['pay_day'];
-                        }
-                        if ($payments_days['pay_day'] != null) { //dia de actualizacion diferente de dia de pagamento                    
-                            try {
-                                $this->user_model->update_user($this->session->userdata('id'), array(
-                                    'email' => $datas['client_email']));
-                                $this->client_model->update_client($this->session->userdata('id'), array(
-                                    'credit_card_number' => $datas['credit_card_number'],
-                                    'credit_card_cvc' => $datas['credit_card_cvc'],
-                                    'credit_card_name' => $datas['credit_card_name'],
-                                    'credit_card_exp_month' => $datas['credit_card_exp_month'],
-                                    'credit_card_exp_year' => $datas['credit_card_exp_year'],
-                                    'pay_day' => $datas['pay_day']
-                                ));
-                            } catch (Exception $exc) {
-                                $result['success'] = false;
-                                $result['exception'] = $exc->getTraceAsString();
-                                $result['message'] = $this->T('Erro actualizando em banco de dados', array());
-                            } finally {
-                                $flag_pay_now = false;
-                                $flag_pay_day = false;
-                                
-                                //Determinar valor inicial del pagamento
-                                if ($datas['client_update_plane'] == 1)
-                                    $datas['client_update_plane'] = 4;
-                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] == $this->session->userdata('plane_id'))) {
-                                    $value=$this->client_model->get_actual_pay_value($datas['client_update_plane']);
-                                    if($value)
-                                        $pay_values['normal_value']=$value;
-                                    else
-                                        $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);                                    
-                                }else
-                                if ($now < $client_data['pay_day'] && ($datas['client_update_plane'] < $this->session->userdata('plane_id'))) {
-                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']);                                    
-                                    $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
-                                } else
-                                if($now < $client_data['pay_day'] && ($datas['client_update_plane'] > $this->session->userdata('plane_id'))) {
-                                    $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
-                                    $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
-                                } else
-                                if ($datas['client_update_plane'] > $this->session->userdata('plane_id')) {
-                                    $promotional_time_range = $this->user_model->get_signin_date($this->session->userdata('id'));
-                                    $promotional_time_range = strtotime("+" . $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS . " days", $promotional_time_range);
-                                    $promotional_time_range = strtotime("+1 month", $promotional_time_range);
-                                    if (time() < $promotional_time_range) {//mes promocional
-                                        $pay_values['initial_value'] = $this->client_model->get_promotional_pay_value($datas['client_update_plane']) - $this->client_model->get_promotional_pay_value($this->session->userdata('plane_id'));
-                                    } else {
-                                        $pay_values['initial_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']) - $this->client_model->get_normal_pay_value($this->session->userdata('plane_id'));
-                                    }
-                                    $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
-                                    $payments_days['pay_now'] = true;
-                                } else
-                                if ($datas['client_update_plane'] < $this->session->userdata('plane_id')) {
-                                    $pay_values['initial_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
-                                    $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($datas['client_update_plane']);
-                                } else {
-                                    $pay_values['initial_value'] = $this->client_model->get_normal_pay_value($this->session->userdata('plane_id'));
-                                    $pay_values['normal_value'] = $this->client_model->get_normal_pay_value($this->session->userdata('plane_id'));
-                                }
-
-                                if ($payments_days['pay_now']) { //si necesitara hacer un pagamento ahora                                                   
-                                    $datas['pay_day'] = time();
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20') 
-                                        $datas['amount_in_cents'] = round(($pay_values['initial_value']*8)/10);
-                                    else
-                                    if($client_data['ticket_peixe_urbano']==='OLX')
-                                        //$datas['amount_in_cents'] = round(($pay_values['initial_value']*5)/10);
-                                        if($now < $client_data['pay_day'])
-                                            $datas['amount_in_cents'] = $pay_values['normal_value']/2;
-                                        else
-                                            $datas['amount_in_cents'] = $pay_values['normal_value'];
-                                    else
-                                        $datas['amount_in_cents'] = $pay_values['initial_value'];
-                                    $resp_pay_now = $this->check_mundipagg_credit_card($datas);
-                                    if (is_object($resp_pay_now) && $resp_pay_now->isSuccess() && $resp_pay_now->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0) {
-                                        $this->client_model->update_client($this->session->userdata('id'), array(
-                                            'pending_order_key' => $resp_pay_now->getData()->OrderResult->OrderKey));
-                                        $flag_pay_now = true;
-                                    }
-                                }
-
-                                if (($payments_days['pay_now'] && $flag_pay_now) || !$payments_days['pay_now']) {
-                                    $response_delete_early_payment = '';
-                                    $datas['pay_day'] = $payments_days['pay_day'];
-                                    if($client_data['ticket_peixe_urbano']==='AGENCIALUUK' || $client_data['ticket_peixe_urbano']==='DUMBUDF20')
-                                        $datas['amount_in_cents'] = round(($pay_values['normal_value']*8)/10);
-                                    else
-                                        $datas['amount_in_cents'] = $pay_values['normal_value'];
-                                    
-                                    $resp_pay_day = $this->check_recurrency_mundipagg_credit_card($datas, 0);
-                                    if(is_object($resp_pay_day) && $resp_pay_day->isSuccess()) {
-                                        $flag_pay_day = true;
-                                        try {
-                                            $this->client_model->update_client($this->session->userdata('id'), array(
-                                                'plane_id' => $datas['client_update_plane'],
-                                                'pay_day' => $datas['pay_day'],
-                                                'order_key' => $resp_pay_day->getData()->OrderResult->OrderKey));
-                                            if($client_data['order_key'])
-                                                $response_delete_early_payment = $this->delete_recurrency_payment($client_data['order_key']);
-                                            if($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT || $this->session->userdata('status_id') == user_status::PENDING) {
-                                                $datas['status_id'] = user_status::ACTIVE; //para que Payment intente hacer el pagamento y si ok entonces lo active y le ponga trabajo
-                                            } else
-                                                $datas['status_id'] = $this->session->userdata('status_id');
-                                            $this->user_model->update_user($this->session->userdata('id'), array(
-                                                'status_id' => $datas['status_id']));
-                                            if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                                                $N = count($active_profiles);
-                                                for ($i = 0; $i < $N; $i++) {
-                                                    if($active_profiles[$i]['end_date']!=='NULL')
-                                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
-                                                }
-                                            }
-                                            $this->session->set_userdata('plane_id', $datas['client_update_plane']);
-                                            $this->session->set_userdata('status_id', $datas['status_id']);
-                                        } catch (Exception $exc) {
-                                            $this->user_model->update_user($datas['pk'], array(
-                                                'status_id' => $this->session->userdata('status_id'))); //the previous
-                                            $this->client_model->update_client($datas['pk'], array(
-                                                'pay_day' => $client_data['pay_day'], //the previous
-                                                'order_key' => $client_data['order_key'])); //the previous
-                                            $result['success'] = false;
-                                            $result['exception'] = $exc->getTraceAsString();
-                                            $result['message'] = $this->T('Erro actualizando em banco de dados', array());
-                                        } finally {
-                                            $result['success'] = true;
-                                            $result['resource'] = 'client';
-                                            $result['message'] = $this->T('Dados bancários atualizados corretamente', array());
-                                            $result['response_delete_early_payment'] = $response_delete_early_payment;
-                                        }
-                                    }
-                                }
-
-                                if (($payments_days['pay_now'] && !$flag_pay_now) || (!$payments_days['pay_now'] && !$flag_pay_day)) {
-                                    //restablecer en la base de datos los datos anteriores
-                                    $this->client_model->update_client($this->session->userdata('id'), array(
-                                        'credit_card_number' => $client_data['credit_card_number'],
-                                        'credit_card_cvc' => $client_data['credit_card_cvc'],
-                                        'credit_card_name' => $client_data['credit_card_name'],
-                                        'credit_card_exp_month' => $client_data['credit_card_exp_month'],
-                                        'credit_card_exp_year' => $client_data['credit_card_exp_year'],
-                                        'pay_day' => $client_data['pay_day'],
-                                        'order_key' => $client_data['order_key']
-                                    ));
-                                    $result['success'] = false;
-                                    $result['resource'] = 'client';
-                                    if ($payments_days['pay_now'] && !$flag_pay_now)
-                                        $result['message'] = is_array($resp_pay_now) ? $resp_pay_now["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array());
-                                    else
-                                        $result['message'] = is_array($resp_pay_day) ? $resp_pay_day["message"] : $this->T("Erro inesperado! Provávelmente Cartão inválido, entre em contato com o atendimento.", array());
-                                } else
-                                if (($payments_days['pay_now'] && $flag_pay_now && !$flag_pay_day)) {
-                                    //se hiso el primer pagamento bien, pero la recurrencia mal
-                                    $result['success'] = true;
-                                    $result['resource'] = 'client';
-                                    $result['message'] = $this->T('Actualização bem sucedida, mas deve atualizar novamente até a data de pagamento ( @1 )', array(0 => $payments_days['pay_now']));
-                                }
-                            }
-                        } else {
-                            $result['success'] = false;
-                            $result['message'] = $this->T('Você não pode atualizar seu cartão no dia do pagamento', array());
-                        }
-                    }
-                
-            } else {
-                $result['success'] = false;
-                $result['message'] = $this->T('Acesso não permitido', array());
-            }
-            
-            if($this->session->userdata('id') && $result['success'] == true){
-                $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'CORRECT CARD UPDATE');
-            } else{
-                if($this->session->userdata('id')){
-                    $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'INCORRECT CARD UPDATE');                
-                }
-            }
-            
-            echo json_encode($result);
-        }
-    }
-
-    
     public function get_pay_day($pay_day) {
         $this->load->model('class/user_status');
         $now = time();
@@ -1826,10 +1684,16 @@ class Welcome extends CI_Controller {
     
     //functions for geolocalizations
     public function client_insert_geolocalization() {
-        $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();      
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;  
+            $GLOBALS['language']=$param['language'];            
             $this->load->model('class/client_model');
             $this->load->model('class/user_status');
             $profile = $this->input->post();
@@ -1870,13 +1734,13 @@ class Welcome extends CI_Controller {
                                 $result['geolocalization_pk'] = $profile_datas->location->pk;
                                 $result['follows_from_profile'] = 0;
                                 if ($q) {
-                                    $result['message'] = $this->T('Geolocalização adicionada corretamente', array());
+                                    $result['message'] = $this->T('Geolocalização adicionada corretamente', array(), $GLOBALS['language']);
                                 } else {
-                                    $result['message'] = $this->T('O trabalho com a geolocalização começara depois', array());
+                                    $result['message'] = $this->T('O trabalho com a geolocalização começara depois', array(), $GLOBALS['language']);
                                 }
                             } else {
                                 $result['success'] = false;
-                                $result['message'] = $this->T('Erro no sistema, tente novamente', array());
+                                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
                             }
                         /*} else {
                             $result['success'] = false;
@@ -1888,19 +1752,20 @@ class Welcome extends CI_Controller {
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('Você alcançou a quantidade máxima de geolocalizações ativas', array());
+                    $result['message'] = $this->T('Você alcançou a quantidade máxima de geolocalizações ativas', array(), $GLOBALS['language']);
                 }
             } else {
                 $result['success'] = false;                    
                 if($is_active_profile)
-                    $result['message'] = $this->T('A geolocalização informada é um perfil ativo', array());
+                    $result['message'] = $this->T('A geolocalização informada é um perfil ativo', array(), $GLOBALS['language']);
                 else
-                    $result['message']=$this->T('A geolocalizaçao informada ja está ativa', array());                
+                    $result['message']=$this->T('A geolocalizaçao informada ja está ativa', array(), $GLOBALS['language']);                
             }
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION INSERTED '.$profile['geolocalization']);
+                // $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION INSERTED '.$profile['geolocalization']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION INSERTED');
             }
             echo json_encode($result);
         }
@@ -1909,20 +1774,28 @@ class Welcome extends CI_Controller {
     public function client_desactive_geolocalization() {
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+            $GLOBALS['language']=$param['language'];
             $this->load->model('class/client_model');
             $profile = $this->input->post();
             if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['geolocalization'])) {
                 $result['success'] = true;
-                $result['message'] = $this->T('Geolocalização eliminada', array());
+                $result['message'] = $this->T('Geolocalização eliminada', array(), $GLOBALS['language']);
             } else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Erro no sistema, tente novamente', array());
+                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
             }
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION ELIMINATED '.$profile['geolocalization']);
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION ELIMINATED '.$profile['geolocalization']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'GEOCALIZATION ELIMINATED');
             }
             echo json_encode($result);
         }
@@ -1944,11 +1817,17 @@ class Welcome extends CI_Controller {
     
     //functions for reference profiles
     public function client_insert_profile() {
-        $xxx=  $this->languaje;
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;  
+            $GLOBALS['language']=$param['language'];
             $this->load->model('class/client_model');
             $this->load->model('class/user_status');
             $profile = $this->input->post();
@@ -1985,38 +1864,38 @@ class Welcome extends CI_Controller {
                                 $result['profile'] = $profile['profile'];
                                 $result['follows_from_profile'] = $profile_datas->follows;
                                 if ($q) {
-                                    $result['message'] = $this->T('Perfil adicionado corretamente', array());
+                                    $result['message'] = $this->T('Perfil adicionado corretamente', array(), $GLOBALS['language']);
                                 } else {
-                                    $result['message'] = $this->T('O trabalho com o perfil começara depois', array());
+                                    $result['message'] = $this->T('O trabalho com o perfil começara depois', array(), $GLOBALS['language']);
                                 }
                             } else {
                                 $result['success'] = false;
-                                $result['message'] = $this->T('Erro no sistema, tente novamente', array());
+                                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
                             }
                         } else {
                             $result['success'] = false;
-                            $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']));
+                            $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']),$GLOBALS['language']);
                         }                    
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $this->T('Confira que o perfil @1 existe no Instagram e não tem bloqueado você', array(0 => $profile['profile']));
+                        $result['message'] = $this->T('Confira que o perfil @1 existe no Instagram e não tem bloqueado você', array(0 => $profile['profile']),$GLOBALS['language']);
                     }
                 } else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('Você alcançou a quantidade máxima de perfis ativos', array());
+                    $result['message'] = $this->T('Você alcançou a quantidade máxima de perfis ativos', array(), $GLOBALS['language']);
                 }
             } else {
-                $xxx=  $this->languaje;
                 $result['success'] = false;                    
                 if($is_active_profile)
-                    $result['message']=$this->T('O perfil informado ja está ativo', array());    
+                    $result['message']=$this->T('O perfil informado ja está ativo', array(), $GLOBALS['language']);    
                 else
-                    $result['message'] = $this->T('O perfil informado é uma geolocalização ativa', array());                
+                    $result['message'] = $this->T('O perfil informado é uma geolocalização ativa', array(), $GLOBALS['language']);                
             }
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED');
             }
             
             echo json_encode($result);
@@ -2027,19 +1906,28 @@ class Welcome extends CI_Controller {
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;  
+            $GLOBALS['language']=$param['language'];
+            
             $this->load->model('class/client_model');
             $profile = $this->input->post();
             if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['profile'])) {
                 $result['success'] = true;
-                $result['message'] = $this->T('Perfil eliminado', array());
+                $result['message'] = $this->T('Perfil eliminado', array(), $GLOBALS['language']);
             } else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Erro no sistema, tente novamente', array());
+                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
             }
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE ELIMINATED '.$profile['profile']);
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE ELIMINATED '.$profile['profile']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE ELIMINATED');
             }
             
             echo json_encode($result);
@@ -2075,14 +1963,21 @@ class Welcome extends CI_Controller {
     }
     
     public function message() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->Gmail = new \dumbu\cls\Gmail();
+        $language=$this->input->get();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;  
+        $GLOBALS['language']=$param['language'];
         $datas = $this->input->post();
         $result = $this->Gmail->send_client_contact_form($datas['name'], $datas['email'], $datas['message'], $datas['company'], $datas['telf']);
         if ($result['success']) {
-            $result['message'] = $this->T('Mensagem enviada, agradecemos seu contato', array());
+            $result['message'] = $this->T('Mensagem enviada, agradecemos seu contato', array(), $GLOBALS['language']);
         }
         echo json_encode($result);
     }
@@ -2221,7 +2116,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/user_model');
         $this->user_model->insert_washdog($this->session->userdata('id'),'CLOSING SESSION');
         $this->session->sess_destroy();
-        header('Location: ' . base_url() . 'index.php');
+        header('Location: ' . base_url());
     }
 
     public function create_profiles_datas_to_display() {
@@ -2316,7 +2211,7 @@ class Welcome extends CI_Controller {
     public function dicas_geoloc() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;        
+        $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;        
         $this->load->model('class/user_model');
         $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT GEOCALIZATION TIPS');
         $this->load->view('dicas_geoloc', $param);
@@ -2325,12 +2220,31 @@ class Welcome extends CI_Controller {
     public function help() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        $param['languaje'] = $GLOBALS['sistem_config']->LANGUAGE;
-        $this->load->model('class/user_model');
-        $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT REFERENCE PROFILES TIPS');
-        $this->load->view('ajuda', $param);
+        $language=$this->input->get();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;        
+       $this->load->view('Dicas', $param);
     }
-
+    
+    public function FAQ_function($language) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $result['SERVER_NAME']= $GLOBALS['sistem_config']->SERVER_NAME;
+        $language=$this->input->get();
+        if(isset($language['language']))
+            $result['language']=$language['language'];
+        else
+            $result['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $this->load->model('class/client_model');       
+        $cuestions =$this->client_model->geting_FAQ($result);
+        $this->load->model('class/user_model');
+        $this->user_model->insert_washdog($this->session->userdata('id'),'LOOKING AT FAQ');
+        $result['info']=$cuestions;
+        $this->load->view('FAQ',$result);
+    }
+   
     public function create_profiles_datas_to_display_as_json() {
         echo($this->create_profiles_datas_to_display());
     }
@@ -2338,78 +2252,6 @@ class Welcome extends CI_Controller {
     public function display_access_error() {
         $this->session->sess_destroy();
         header('Location: ' . base_url().'index.php/welcome/');
-    }
-    
-    
-    public function update_client_after_retry_payment_success($user_id) {  
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
-        $this->load->model('class/client_model');
-        $this->load->model('class/user_model');
-        $this->load->model('class/user_status');
-        //1. recuperar el cliente y su plano
-        $client = $this->client_model->get_all_data_of_client($user_id)[0];
-        $plane = $this->client_model->get_plane($client['plane_id'])[0];
-        //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
-        date_default_timezone_set('Etc/UTC');
-        $payment_data['credit_card_number'] = $client['credit_card_number'];
-        $payment_data['credit_card_name'] = $client['credit_card_name'];
-        $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
-        $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
-        if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
-            $payment_data['amount_in_cents'] = $client['actual_payment_value'];
-        else
-            $payment_data['amount_in_cents'] = $plane['normal_val'];
-        $payment_data['pay_day'] = strtotime("+1 month", time());
-        $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
-        //4. salvar nuevos pay_day e order_key
-        if (is_object($resp) && $resp->isSuccess()) {
-            //2. eliminar recurrencia actual en la Mundipagg
-            $this->delete_recurrency_payment($client['order_key']);
-            $this->client_model->update_client($user_id, array(
-                'initial_order_key' => '',
-                'order_key' => $resp->getData()->OrderResult->OrderKey,
-                'pay_day' => $payment_data['pay_day']));
-            echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey;
-            //5. actualizar status del cliente
-            $data_insta = $this->is_insta_user($client['login'], $client['pass']);
-            if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                $this->user_model->update_user($user_id, array(
-                    'status_id' => user_status::ACTIVE
-                ));
-                echo ' STATUS = '.user_status::ACTIVE;
-            } else
-            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']){
-                $this->user_model->update_user($user_id, array(
-                    'status_id' => user_status::BLOCKED_BY_INSTA
-                ));
-                echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
-            }
-            else{
-                $this->user_model->update_user($user_id, array(
-                    'status_id' => user_status::BLOCKED_BY_INSTA
-                ));
-                echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
-            }
-        } else{
-            $this->client_model->update_user($user_id, array(            
-                'status_id' => 1)); 
-            if (is_object($resp))
-                echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey;
-            else 
-                echo '<br>Client '.$user_id.' DONT updated. Missing order key';
-            echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
-        }
-        
-        $this->client_model->update_client($user_id, array(            
-            'initial_order_key' => '')); 
-         
-        
-    }
-    
-    public function prevalence(){
-        $this->load->model('class/user_model');
     }
     
     public function client_acept_discont(){
@@ -2489,9 +2331,20 @@ class Welcome extends CI_Controller {
             echo 'Esse cliente deve ter senha errada ou mudou suas credenciais no IG';
     }
 
-    public function T($token, $array_params) {
+    public function T($token, $array_params=NULL, $lang=NULL) {
+        if(!$lang){
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+            $lang=$param['language'];
+        }
         $this->load->model('class/translation_model');
-        $text = $this->translation_model->get_text_by_token($token, $this->languaje);
+        $text = $this->translation_model->get_text_by_token($token,$lang);
         $N = count($array_params);
         for ($i = 0; $i < $N; $i++) {
             $text = str_replace('@' . ($i + 1), $array_params[$i], $text);
@@ -2527,7 +2380,7 @@ class Welcome extends CI_Controller {
     public function get_daily_report($id) {
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
-            $sql = "SELECT * FROM daily_report WHERE client_id=" . $id . " ORDER BY date ASC;";  // LIMIT 30
+            $sql = "SELECT * FROM daily_report WHERE followings != '0' AND followers != '0' AND client_id=" . $id . " ORDER BY date ASC;" ;  // LIMIT 30
             $result = $this->user_model->execute_sql_query($sql);
             $followings = array();
             $followers = array();
@@ -2548,7 +2401,278 @@ class Welcome extends CI_Controller {
             return $response;
         }
     }
+    
+    public function get_img_profile($profile){
+        $this->load->model('class/client_model');
+        $datas= $this->check_insta_profile($profile);
+        if($datas)
+            return $datas->profile_pic_url;
+        else
+            return 'missing_profile';
+    }
         
+    public function client_black_list(){
+        if($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            try {
+                $bl=$this->client_model->get_client_black_or_white_list_by_id($this->session->userdata('id'),0);                
+                $dados=array();
+                $N=count($bl);
+                for($i=0;$i<$N;$i++){
+                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
+                }
+                $response['client_black_list'] = $dados;
+                $response['success'] = true;
+                $response['cnt'] = $N;
+            } catch (Exception $ex) {
+                $response['success'] = false;
+            }
+            echo json_encode($response);
+        }
+    }
+        
+    public function insert_profile_in_black_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();            
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+        
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];   
+            $datas=$this->check_insta_profile($profile);
+            if($datas){
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,0);
+                if($resp['success']){
+                    $result['success'] = true;
+                    $result['url_foto'] = $datas->profile_pic_url;    
+                    $this->load->model('class/user_model');
+                    //$this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN BLACK LIST');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE IN BLACK LIST');
+                } else{
+                    $result['success'] = false;
+                    $result['message'] = $this->T('O perfil '.$resp['message'], array(), $GLOBALS['language']);
+                }
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('O perfil não existe no Instagram', array(), $GLOBALS['language']);
+            }            
+            echo json_encode($result);
+        }
+    }
+    
+    public function delete_client_from_black_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];
+            if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,0)){
+                $result['success'] = true;
+                $this->load->model('class/user_model');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN BLACK LIST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE IN BLACK LIST');
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro eliminando da lista negra', array(), $GLOBALS['language']);
+            }
+            echo json_encode($result);
+        }
+    }
+    
+    public function client_white_list(){
+        if($this->session->userdata('id')){
+            $this->load->model('class/client_model');
+            try {
+                $bl=$this->client_model->get_client_black_or_white_list_by_id($this->session->userdata('id'),1);                
+                $dados=array();
+                $N=count($bl);
+                for($i=0;$i<$N;$i++){
+                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
+                }
+                $response['client_white_list'] = $dados;
+                $response['success'] = true;
+                $response['cnt'] = $N;   
+            } catch (Exception $ex) {
+                $response['success'] = false;
+            }
+            echo json_encode($response);
+        }
+    }
+    
+    public function insert_profile_in_white_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];   
+            $datas=$this->check_insta_profile($profile);
+            if($datas){
+                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,1);
+                if($resp['success']){
+                    $result['success'] = true;
+                    $result['url_foto'] = $datas->profile_pic_url;    
+                    $this->load->model('class/user_model');
+                    //$this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN WHITE LIST ');
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE IN WHITE LIST');
+                } else{
+                    $result['success'] = false;
+                    $result['message'] = $this->T('O perfil '.$resp['message'], array(), $GLOBALS['language']);
+                }
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('O perfil não existe no Instagram', array(), $GLOBALS['language']);
+            }            
+            echo json_encode($result);
+        }
+    }
+    
+    public function delete_client_from_white_list(){
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+            $GLOBALS['language']=$param['language'];
+            $this->load->model('class/client_model');
+            $profile = $this->input->post()['profile'];
+            if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,1)){
+                $result['success'] = true;
+                $this->load->model('class/user_model');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN WHITE LIST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE IN WHITE LIST');
+            } else{
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro eliminando da lista negra', array(), $GLOBALS['language']);
+            }
+            echo json_encode($result);
+        }
+    }  
+    
+    
+
+    //tests optional functions
+    public function t1() {
+	$this->load->model('class/client_model');
+	$query="SELECT * FROM clients
+            INNER JOIN users ON clients.user_id = users.id
+            INNER JOIN plane ON clients.plane_id = plane.id
+            WHERE 
+                    users.role_id = 2
+            AND users.status_id <> 4
+            AND users.status_id <> 8
+            AND users.status_id < 11
+            AND (clients.actual_payment_value = '' OR clients.actual_payment_value is null)";
+	$result=$this->client_model->execute_sql_query($query);
+	foreach ($result as $row ) {
+		$this->client_model->update_client($row['user_id'], array(
+			'actual_payment_value' => $row['normal_val']));
+	}
+	echo count($result);
+}
+    
+    public function paypal() {
+        $this->load->view('test_view');
+    }
+    
+    public function update_client_after_retry_payment_success($user_id) {  
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        //1. recuperar el cliente y su plano
+        $client = $this->client_model->get_all_data_of_client($user_id)[0];
+        $plane = $this->client_model->get_plane($client['plane_id'])[0];
+        //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
+        date_default_timezone_set('Etc/UTC');
+        $payment_data['credit_card_number'] = $client['credit_card_number'];
+        $payment_data['credit_card_name'] = $client['credit_card_name'];
+        $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
+        $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
+        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+        if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
+            $payment_data['amount_in_cents'] = $client['actual_payment_value'];
+        else
+            $payment_data['amount_in_cents'] = $plane['normal_val'];
+        $payment_data['pay_day'] = strtotime("+1 month", time());
+        $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
+        //4. salvar nuevos pay_day e order_key
+        if (is_object($resp) && $resp->isSuccess()) {
+            //2. eliminar recurrencia actual en la Mundipagg
+            $this->delete_recurrency_payment($client['order_key']);
+            $this->client_model->update_client($user_id, array(
+                'initial_order_key' => '',
+                'order_key' => $resp->getData()->OrderResult->OrderKey,
+                'pay_day' => $payment_data['pay_day']));
+            echo '<br>Client '.$user_id.' updated correctly. New order key is:  '.$resp->getData()->OrderResult->OrderKey;
+            //5. actualizar status del cliente
+            $data_insta = $this->is_insta_user($client['login'], $client['pass']);
+            if($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                $this->user_model->update_user($user_id, array(
+                    'status_date' => time(),
+                    'status_id' => user_status::ACTIVE
+                ));
+                echo ' STATUS = '.user_status::ACTIVE;
+            } else
+            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']){
+                $this->user_model->update_user($user_id, array(
+                    'status_date' => time(),
+                    'status_id' => user_status::BLOCKED_BY_INSTA
+                ));
+                echo ' STATUS = '.user_status::BLOCKED_BY_INSTA;
+            }
+            else{
+                $this->user_model->update_user($user_id, array(
+                    'status_date' => time(),
+                    'status_id' => user_status::BLOCKED_BY_INSTA
+                ));
+                echo ' STATUS = '.user_status::VERIFY_ACCOUNT;
+            }
+        } else{
+            $this->user_model->update_user($user_id, array(            
+                'status_date' => time(),
+                'status_id' => 1)); 
+            $this->delete_recurrency_payment($client['order_key']);
+            $this->client_model->update_client($user_id, array(
+                'initial_order_key' => '',
+                'order_key' => '',
+                'observation' => 'NÃO CONSEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
+                'order_key' => $payment_data['pay_day'],
+                'observation' => 'NÃO CONSEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
+                'pay_day' => $payment_data['pay_day']));
+            //TO-DO:Ruslan: inserta una pendencia automatica aqui
+            
+            if (is_object($resp))
+                echo '<br>Client '.$user_id.' DONT updated. Wrong order key is:  '.$resp->getData()->OrderResult->OrderKey;
+            else 
+                echo '<br>Client '.$user_id.' DONT updated. Missing order key';
+        }
+        
+        $this->client_model->update_client($user_id, array(            
+            'initial_order_key' => '')); 
+    }
+           
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
         $this->load->model('class/client_model');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(9);
@@ -2577,7 +2701,6 @@ class Welcome extends CI_Controller {
                 );            
                 $resp=$this->check_client_data_bank($datas);
                 if($resp['success']){
-                    $xxx=$clients['login'];
                     echo 'Cliente ('.$clients['login'].')   '.$clients['login'].'comprou satisfatoriamente\n<br>';
                 } else{
                     $this->client_model->update_client($clients['user_id'], array(
@@ -2587,149 +2710,8 @@ class Welcome extends CI_Controller {
             } else{
                 $this->client_model->update_client($clients['user_id'], array(
                         'purchase_counter' => -100 ));
-                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'nã passou passo 1\n<br>';
+                echo 'Cliente ('.$clients['login'].') '.$clients['login'].'não passou passo 1\n<br>';
             }
-        }
-    }
-    
-    public function get_img_profile($profile){
-        $this->load->model('class/client_model');
-        $datas= $this->check_insta_profile($profile);
-        if($datas)
-            return $datas->profile_pic_url;
-        else
-            return 'missing_profile';
-    }
-        
-    
-    
-    public function client_black_list(){
-        if($this->session->userdata('id')){
-            $this->load->model('class/client_model');
-            try {
-                $bl=$this->client_model->get_client_black_or_white_list_by_id($this->session->userdata('id'),0);                
-                $dados=array();
-                $N=count($bl);
-                for($i=0;$i<$N;$i++){
-                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
-                }
-                $response['client_black_list'] = $dados;
-                $response['success'] = true;
-                $response['cnt'] = $N;
-            } catch (Exception $ex) {
-                $response['success'] = false;
-            }
-            echo json_encode($response);
-        }
-    }
-        
-    public function insert_profile_in_black_list(){
-        if ($this->session->userdata('id')) {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            $this->load->model('class/client_model');
-            $profile = $this->input->post()['profile'];   
-            $datas=$this->check_insta_profile($profile);
-            if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,0);
-                if($resp['success']){
-                    $result['success'] = true;
-                    $result['url_foto'] = $datas->profile_pic_url;    
-                    $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN BLACK LIST');
-                } else{
-                    $result['success'] = false;
-                    $result['message'] = $this->T('O perfil '.$resp['message'], array());
-                }
-            } else{
-                $result['success'] = false;
-                $result['message'] = $this->T('O perfil não existe no Instagram', array());
-            }            
-            echo json_encode($result);
-        }
-    }
-    
-    public function delete_client_from_black_list(){
-        if ($this->session->userdata('id')) {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            $this->load->model('class/client_model');
-            $profile = $this->input->post()['profile'];
-            if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,0)){
-                $result['success'] = true;
-                $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN BLACK LIST');
-            } else{
-                $result['success'] = false;
-                $result['message'] = $this->T('Erro eliminando da lista negra', array());
-            }
-            echo json_encode($result);
-        }
-    }
-    
-    
-    
-    public function client_white_list(){
-        if($this->session->userdata('id')){
-            $this->load->model('class/client_model');
-            try {
-                $bl=$this->client_model->get_client_black_or_white_list_by_id($this->session->userdata('id'),1);                
-                $dados=array();
-                $N=count($bl);
-                for($i=0;$i<$N;$i++){
-                    $dados[$i]=(object)array('profile'=>$bl[$i]['profile'],'url_foto'=> $this->get_img_profile($bl[$i]['profile']));
-                }
-                $response['client_white_list'] = $dados;
-                $response['success'] = true;
-                $response['cnt'] = $N;   
-            } catch (Exception $ex) {
-                $response['success'] = false;
-            }
-            echo json_encode($response);
-        }
-    }
-    
-    public function insert_profile_in_white_list(){
-        if ($this->session->userdata('id')) {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            $this->load->model('class/client_model');
-            $profile = $this->input->post()['profile'];   
-            $datas=$this->check_insta_profile($profile);
-            if($datas){
-                $resp=$this->client_model->insert_in_black_or_white_list_model($this->session->userdata('id'),$datas->pk,$profile,1);
-                if($resp['success']){
-                    $result['success'] = true;
-                    $result['url_foto'] = $datas->profile_pic_url;    
-                    $this->load->model('class/user_model');
-                    $this->user_model->insert_washdog($this->session->userdata('id'),'INSERTING PROFILE '.$profile.'IN WHITE LIST ');
-                } else{
-                    $result['success'] = false;
-                    $result['message'] = $this->T('O perfil '.$resp['message'], array());
-                }
-            } else{
-                $result['success'] = false;
-                $result['message'] = $this->T('O perfil não existe no Instagram', array());
-            }            
-            echo json_encode($result);
-        }
-    }
-    
-    public function delete_client_from_white_list(){
-        if ($this->session->userdata('id')) {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            $this->load->model('class/client_model');
-            $profile = $this->input->post()['profile'];
-            if($this->client_model->delete_in_black_or_white_list_model($this->session->userdata('id'),$profile,1)){
-                $result['success'] = true;
-                $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'DELETING PROFILE '.$profile.' IN WHITE LIST');
-            } else{
-                $result['success'] = false;
-                $result['message'] = $this->T('Erro eliminando da lista negra', array());
-            }
-            echo json_encode($result);
         }
     }
         
@@ -2867,17 +2849,56 @@ class Welcome extends CI_Controller {
         var_dump($r);        
     }
     
-    public function capturer_and_recurrency_for_blcked_by_payment(){
+    
+    
+    /*public function cancel_blocked_by_payment_by_max_retry_payment(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');        
+        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        foreach ($result as $client) {
+            if($client['retry_payment_counter']>9){
+                try{
+                    $this->delete_recurrency_payment($client['initial_order_key']);                
+                    $this->delete_recurrency_payment($client['order_key']);                
+                    $this->user_model->update_user($client['user_id'], array(  
+                        'end_date' => time(),
+                        'status_date' => time(),
+                        'status_id' => 4));
+                    $this->client_model->update_client($client['user_id'], array(
+                            'observation' => 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso'));
+                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                } catch (Exception $e){
+                    echo 'Error deleting cliente '.$client['user_id'].' in database';
+                }
+            }
+        }
+    }
+
+    public function buy_tester(){
+        
+    }
+    
+    public function update_all_retry_clients(){
+        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
+        $N=count($array_ids);
+        for($i=0;$i<$N;$i++){
+            $this->update_client_after_retry_payment_success($array_ids[$i]);
+        }
+    }*/
+    
+    public function capturer_and_recurrency_for_blocked_by_payment(){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
-        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        $params=$this->input->get();
+        $result=$this->client_model->get_all_clients_by_status_id(20);
         foreach ($result as $client) {
             $aa=$client['login'];
             $status_id=$client['status_id'];
-            echo $aa.'-----'.$status_id.'------';
-            if($client['retry_payment_counter']<10){
+            if($client['retry_payment_counter']<13){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
                         $client['credit_card_name']!=null && $client['credit_card_name']!='' && 
                         $client['credit_card_exp_month']!=null && $client['credit_card_exp_month']!='' && 
@@ -2937,19 +2958,96 @@ class Welcome extends CI_Controller {
                         'retry_payment_counter' => $client['retry_payment_counter']+1));
                     }
                 }
-            }else{
-                $this->delete_recurrency_payment($client['order_key']);
-                 $this->client_model->update_user($client, array(  
-                    'end_date' => time(),
-                    'status_id' => 4));
+            } else{
+                try{
+                    $this->delete_recurrency_payment($client['initial_order_key']);                
+                    $this->delete_recurrency_payment($client['order_key']);                
+                    $this->user_model->update_user($client['user_id'], array(  
+                        'end_date' => time(),
+                        'status_date' => time(),
+                        'status_id' => 4));
+                    $this->client_model->update_client($client['user_id'], array(
+                            'observation' => 'Cancelado automaticamente por mais te 10 retentativas de pagamento sem sucessso'));
+                    echo '<br>------->Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                } catch (Exception $e){
+                    echo 'Error deleting cliente '.$client['user_id'].' in database';
+                }
             }
         }
     }
+    
 
-    public function buy_tester(){  
+    public function cancel_blocked_by_payment_by_max_retry_payment(){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
+        $result=$this->client_model->get_all_clients_by_status_id(2);        
+        foreach ($result as $client) {
+            if($client['retry_payment_counter']>9){
+                try{
+                    $this->delete_recurrency_payment($client['initial_order_key']);                
+                    $this->delete_recurrency_payment($client['order_key']);                
+                    $this->user_model->update_user($client['user_id'], array(  
+                        'end_date' => time(),
+                        'status_date' => time(),
+                        'status_id' => 4));
+                    $this->client_model->update_client($client['user_id'], array(
+                            'observation' => 'Cancelado automaticamente por mais de 10 retentativas de pagamento sem sucessso'));
+                    echo 'Client '.$client['user_id'].' cancelado por maxima de retentativas';
+                } catch (Exception $e){
+                    echo 'Error deleting cliente '.$client['user_id'].' in database';
+                }
+            }
+        }
+    }
+    
+    public function ranking(){ //10 clientes activos que mas han ganado con dumbu               
+        //Funcion que deve estimar el ranking general, segun el ranking diario.
+        //retorna un array con el ranking, sendo que o clliente na pocisão 0 é o mais ranquado
+    }
+    
+    
+    public function daily_ranking(){
+        $this->load->model('class/user_model');
+        $this->load->model('class/ranking_model');
+        $result=$this->user_model->get_ranking();
+        $N=count($result);
+        for($i=0;$i<$N;$i++) {
+            $actual_followers=$this->user_model->get_last_daily_report($result[$i]['user_id']);
+            if($actual_followers){
+                $ndays=time()-$result[$i]['init_date'];
+                $ndays=$ndays/(24*60*60);
+                $result[$i]['ranking_score']= ($actual_followers['followers'] - $result[$i]['insta_followers_ini'])/$ndays;
+            }
+            else
+                $result[$i]['ranking_score']=0;
+        }
         
-    }          
-    public function update_all_retry_clients(){            
+        foreach ($result as $key => $row) {
+            $aux[$key] = $row['ranking_score'];
+        }
+        array_multisort($aux, SORT_DESC, $result);
+        
+        $i=0;
+        foreach ($result as $key => $row) {
+            $datas=array(
+                'client_id'=>$result[$i]['user_id'],
+                'position'=>($i+1),
+                'date'=>time()
+            );
+            $this->ranking_model->insert_into_ranking($datas);            
+            $i++;
+            if($i==10)
+                break;
+        }        
+    }
+
+    public function buy_tester(){
+        
+    }
+    
+    public function update_all_retry_clients(){
         $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){

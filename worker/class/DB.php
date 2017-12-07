@@ -56,19 +56,40 @@ namespace dumbu\cls {
                 $PENDING = user_status::PENDING;
                 $VERIFY_ACCOUNT = user_status::VERIFY_ACCOUNT;
                 $BLOCKED_BY_INSTA = user_status::BLOCKED_BY_INSTA;
-                $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;
+                $BLOCKED_BY_TIME = user_status::BLOCKED_BY_TIME;                
+                $BEGINNER = user_status::BEGINNER;
                 //$UNFOLLOW = user_status::UNFOLLOW;
                 $sql = ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND clients.unfollow_total <> 1 "
+                        . "     AND (clients.unfollow_total IS NULL OR clients.unfollow_total <> 1) "
                         . "     AND (users.status_id = $ACTIVE OR "
                         . "          users.status_id = $PENDING OR "
                         . "          users.status_id = $VERIFY_ACCOUNT OR "
                         . "          users.status_id = $BLOCKED_BY_INSTA OR "
-                        . "          users.status_id = $BLOCKED_BY_TIME)"
+                        . "          users.status_id = $BLOCKED_BY_TIME) "
+                        . "ORDER BY users.id; ";
+                $result = mysqli_query($this->connection, $sql);
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function get_biginner_data() {
+            try {
+                $this->connect();
+                $BEGINNER = user_status::BEGINNER;
+                //$UNFOLLOW = user_status::UNFOLLOW;
+                $sql = ""
+                        . "SELECT * FROM users "
+                        . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
+                        . "WHERE users.role_id = $CLIENT "
+                        . "     AND (clients.unfollow_total IS NULL OR clients.unfollow_total <> 1) "
+                        . "     AND  users.status_id = $BEGINNER "
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
@@ -91,8 +112,7 @@ namespace dumbu\cls {
                         . "     INNER JOIN clients ON clients.user_id = users.id "
                         . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.role_id = $CLIENT "
-                        . "     AND clients.unfollow_total <> 1 "
-                        . "     AND (users.status_id NOT IN ($DELETED, $BEGINNER, $DONT_DISTURB )) "
+                        . "     AND (users.status_id NOT IN ($DELETED, $BEGINNER, $DONT_DISTURB)) "
                         . "ORDER BY users.id; ";
                 $result = mysqli_query($this->connection, $sql);
                 return $result;
@@ -688,7 +708,7 @@ namespace dumbu\cls {
             }
         }
         
-        public function InsertEventToWashdog($user_id, $action, $source )
+        public function InsertEventToWashdog($user_id, $action, $source, $robot_id = NULL)
         {
             try {
                  $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
@@ -699,9 +719,15 @@ namespace dumbu\cls {
                      $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE ('$action', '$source');";
                      $result =  mysqli_query($this->connection, $sql);
                      var_dump($result);
+                     $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
+                     $time = time();
+                     $result = mysqli_query($this->connection, $sql);
                  }
+                 
                   $obj = $result->fetch_object();
-                  $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date) VALUE ('$user_id','$obj->id', '$time');";
+                  if(isset($robot_id) == true)
+                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', $robot_id);";}
+                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', NULL);"; }            
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  
@@ -710,6 +736,32 @@ namespace dumbu\cls {
             }
               
         }
+        
+        public function get_client_with_orderkey($orderkey)
+        {
+
+            try {
+                $sql = "SELECT * FROM  clients " 
+                        ."WHERE  clients.order_key = '$orderkey';";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+       public function set_cookies_to_null($client_id)
+       {
+           try {
+                $sql = "UPDATE dumbudb.clients SET cookies=NULL WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+           
+       }
+       
     }
 
 }

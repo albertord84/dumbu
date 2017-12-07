@@ -1,12 +1,158 @@
 $(document).ready(function(){
     
-    $('#login_container2').keypress(function (e) {
+    // jQuery UI Datepicker - Select a Date Range
+    $( function() {
+        var dateFormat = "mm/dd/yy",
+          from = $( "#date_from" )
+            .datepicker({
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              to.datepicker( "option", "minDate", getDate( this ) );
+            }),
+          to = $( "#date_to" ).datepicker({
+            changeMonth: true,
+            numberOfMonths: 1
+          })
+          .on( "change", function() {
+            from.datepicker( "option", "maxDate", getDate( this ) );
+          });
+
+          var dateFormat2 = "mm/dd/yy",
+          from2 = $( "#status_date_from" )
+            .datepicker({
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              to2.datepicker( "option", "minDate", getDate2( this ) );
+            }),
+          to2 = $( "#status_date_to" ).datepicker({
+            changeMonth: true,
+            numberOfMonths: 1
+          })
+          .on( "change", function() {
+            from2.datepicker( "option", "maxDate", getDate2( this ) );
+          });
+
+          var dateFormat3 = "mm/dd/yy",
+          from3 = $( "#creation_date_from" )
+            .datepicker({
+              changeMonth: true,
+              numberOfMonths: 1
+            })
+            .on( "change", function() {
+              to3.datepicker( "option", "minDate", getDate3( this ) );
+            }),
+          to3 = $( "#creation_date_to" ).datepicker({
+            changeMonth: true,
+            numberOfMonths: 1
+          })
+          .on( "change", function() {
+            from3.datepicker( "option", "maxDate", getDate3( this ) );
+          });
+
+          $( "#event_date" ).datepicker();
+
+        function getDate( element ) {
+          var date;
+          try {
+            date = $.datepicker.parseDate( dateFormat, element.value );
+          } catch( error ) {
+            date = null;
+          }
+
+          return date;
+        }
+
+        function getDate2( element ) {
+          var date;
+          try {
+            date = $.datepicker.parseDate( dateFormat2, element.value );
+          } catch( error ) {
+            date = null;
+          }
+
+          return date;
+        }
+
+        function getDate3( element ) {
+          var date;
+          try {
+            date = $.datepicker.parseDate( dateFormat3, element.value );
+          } catch( error ) {
+            date = null;
+          }
+
+          return date;
+        }
+    } );
+    
+   $('#login_admin_container').keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn_admin_login").click();
+            return false;
+        }
+    });
+    
+    $("#btn_admin_login").click(function() {        
+        do_login('#userLogin2','#userPassword2', '#container_login_message2',this);
+    });
+    
+    
+    
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
+        if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
+                var l = Ladda.create(object);  l.start();
+                $(fieldErrorMessage).text(('Espere por favor, conferindo credenciais!!'));
+                $(fieldErrorMessage).css('visibility','visible');
+                $(fieldErrorMessage).css('color','green');
+                $.ajax({
+                    url : base_url+'index.php/admin/admin_do_login',      
+                    data : {
+                        'user_login':$(fieldLogin).val(),
+                        'user_pass': $(fieldPass).val()
+                    },
+                    type : 'POST',
+                    dataType : 'json',
+                    async: false,
+                    success : function(response) {
+                        if(response['authenticated']){
+                            if(response['role']=='ADMIN'){        
+                                $(location).attr('href',base_url+'index.php/admin/view_admin');
+                            } else
+                            if(response['role']=='ATTENDET'){
+                                $(location).attr('href',base_url+'index.php/admin/view_atendent');
+                            }
+                        } else{
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldErrorMessage).css('color','red');
+                            l.stop();   
+                        }
+                    },
+                    error : function(xhr, status) {
+                        modal_alert_message(('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
+                        l.stop();
+                    }
+                });                 
+        } else{
+            $(fieldErrorMessage).text(('Deve preencher todos os dados corretamente.'));
+            $(fieldErrorMessage).css('visibility','visible');
+            $(fieldErrorMessage).css('color','red');
+        }
+         l.stop();
+    }
+    
+    $('#login_container2').keypress(function (e) { //Ruslan que puso el mismo nombre
         if (e.which == 13) {
             $("#execute_query").click();
             return false;
         }
     });
     
+       
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
@@ -54,7 +200,7 @@ $(document).ready(function(){
     $("#execute_query").click(function(){
         if($("#client_status").val()<=0 && 
            //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
-           $("#observations").val()==='NAO' &&
+           $("#observations").val()==='--SELECT--' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&
@@ -64,7 +210,14 @@ $(document).ready(function(){
            $("#credit_card_name").val()==='' &&
            $("#plane").val()<1 && 
            $("#tentativas").val()<1 &&
-           ($("#date_from").val()==='' || $("#date_to").val()===''))
+           ($("#date_from").val()==='' || $("#date_to").val()==='') &&
+           ($("#status_date_from").val()==='' || $("#status_date_to").val()==='') &&
+           $("#days_no_work").val()==='' &&
+           $("#paused").val()<0 &&
+           $("#total_unfollow").val()<0 &&
+           $("#autolike").val()<0 &&
+           $("#utm_source").val()==='--SELECT--' &&
+           $("#idioma").val()==='--SELECT--')
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -73,6 +226,8 @@ $(document).ready(function(){
             //params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
             params=params+'&signin_initial_date='+$("#date_from").val();
             params=params+'&signin_initial_date2='+$("#date_to").val();
+            params=params+'&status_date='+$("#status_date_from").val();
+            params=params+'&status_date2='+$("#status_date_to").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
@@ -83,8 +238,14 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             params=params+'&plane='+$("#plane").val();
             params=params+'&tentativas='+$("#tentativas").val();
+            params=params+'&days_no_work='+$("#days_no_work").val();
+            params=params+'&paused='+$("#paused").val();
+            params=params+'&total_unfollow='+$("#total_unfollow").val();
+            params=params+'&autolike='+$("#autolike").val();
+            params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
+            params=params+'&idioma='+$("#idioma").val();
             params=params+'&query=1';
-            $(location).attr('href',base_url+'index.php/admin/list_filter_view?'+params);
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view_or_get_emails?'+params);
         }
     });
     
@@ -101,12 +262,12 @@ $(document).ready(function(){
             params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view_watchdog?'+params);
         }
-            });
+    });
         
     $("#execute_query_email").click(function(){
         if($("#client_status").val()<=0 && 
            //$("#day").val()==='0' && $("#month").val()==='0' && $("#year").val()==='0' &&
-           $("#observations").val()==='NAO' &&
+           $("#observations").val()==='--SELECT--' &&
            $("#cod_promocional").val()==='--SELECT--' &&
            $("#client_id").val()=='' &&
            $("#profile_client").val()==='' &&
@@ -116,7 +277,14 @@ $(document).ready(function(){
            $("#credit_card_name").val()==='' &&
            $("#plane").val()<1 && 
            $("#tentativas").val()<1 &&
-           ($("#date_from").val()==='' || $("#date_to").val()===''))
+           ($("#date_from").val()==='' || $("#date_to").val()==='') &&
+           ($("#status_date_from").val()==='' || $("#status_date_to").val()==='') &&
+           $("#days_no_work").val()==='' &&
+           $("#paused").val()<0 &&
+           $("#total_unfollow").val()<0 &&
+           $("#autolike").val()<0 &&
+           $("#utm_source").val()==='--SELECT--' &&
+           $("#idioma").val()==='--SELECT--')
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -125,6 +293,8 @@ $(document).ready(function(){
             //params=params+'&signin_initial_date='+$("#month").val()+'/'+$("#day").val()+'/'+$("#year").val();
             params=params+'&signin_initial_date='+$("#date_from").val();
             params=params+'&signin_initial_date2='+$("#date_to").val();
+            params=params+'&status_date='+$("#status_date_from").val();
+            params=params+'&status_date2='+$("#status_date_to").val();
             params=params+'&observations='+$("#observations").val();
             params=params+'&cod_promocional='+$("#cod_promocional").val();
             params=params+'&client_id='+$("#client_id").val();
@@ -135,8 +305,14 @@ $(document).ready(function(){
             params=params+'&credit_card_name='+$("#credit_card_name").val();
             params=params+'&plane='+$("#plane").val();
             params=params+'&tentativas='+$("#tentativas").val();
+            params=params+'&days_no_work='+$("#days_no_work").val();
+            params=params+'&paused='+$("#paused").val();
+            params=params+'&total_unfollow='+$("#total_unfollow").val();
+            params=params+'&autolike='+$("#autolike").val();
+            params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
+            params=params+'&idioma='+$("#idioma").val();
             params=params+'&query=2';
-            $(location).attr('href',base_url+'index.php/admin/get_emails?'+params);
+            $(location).attr('href',base_url+'index.php/admin/list_filter_view_or_get_emails?'+params);
         }
 
     });
@@ -144,6 +320,8 @@ $(document).ready(function(){
     $("#execute_query2").click(function(){
         var params='pendences_date='+$("#pendences_date").val();
         params=params+'&client_id_listar='+$("#client_id_listar").val();
+        params=params+'&creation_date='+$("#creation_date_from").val();
+        params=params+'&creation_date2='+$("#creation_date_to").val();
         params=params+'&type_option1='+$("#type_option1").prop("checked");
         params=params+'&type_option2='+$("#type_option2").prop("checked");
         params=params+'&type_option3='+$("#type_option3").prop("checked");

@@ -9,7 +9,7 @@ class Payment extends CI_Controller {
         $path = __dir__ . '/../../logs/';
         $file = $path . "mundi_notif_post-" . date("d-m-Y") . ".log";
         //$result = file_put_contents($file, "Albert Test... I trust God!\n", FILE_APPEND);
-        $post = $post = file_get_contents('php://input');
+        $post = file_get_contents('php://input');
         $result = file_put_contents($file, serialize($post) . "\n\n", FILE_APPEND);
 //        $result = file_put_contents($file, serialize($_POST['OrderStatus']), FILE_APPEND);
         if ($result === FALSE) {
@@ -18,12 +18,21 @@ class Payment extends CI_Controller {
         //var_dump($file);
         print 'OK';
     }
-
+    
     public function do_payment($payment_data) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_recurrency_payment($payment_data);
+        // Save Order Key
+        var_dump($response->Data->OrderResult->OrderKey);
+    }
+    
+    public function do_bilhete_payment($payment_data) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        // Check client payment in mundipagg
+        //$Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment($payment_data);
         // Save Order Key
         var_dump($response->Data->OrderResult->OrderKey);
     }
@@ -95,9 +104,13 @@ class Payment extends CI_Controller {
                 $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
             } else {
                 print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
-            }
+            }            
         }
-
+    try{
+        $Gmail = new dumbu\cls\Gmail();
+        $Gmail->send_mail("josergm86@gmail.com", "Jose Ramon ",'DUMBU payment checked!!! ','DUMBU payment checked!!! ');
+        $Gmail->send_mail("jangel.riveaux@gmail.com", "Jose Angel Riveaux ",'DUMBU payment checked!!! ','DUMBU payment checked!!! ');
+    } catch (Exception $ex){  echo 'Emails was not send';}
         echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
     }
 
@@ -107,6 +120,7 @@ class Payment extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
+        $DB = new \dumbu\cls\DB();
         // Check outhers payments
         $IOK_ok = $client['initial_order_key'] ? $Payment->check_client_order_paied($client['initial_order_key']) : TRUE; // Deixar para um mes de graça
         $POK_ok = $client['pending_order_key'] ? $Payment->check_client_order_paied($client['pending_order_key']) : FALSE;
@@ -162,6 +176,8 @@ class Payment extends CI_Controller {
 //                    print_r($client);
                     if ($client['status_id'] == user_status::PENDING || $client['status_id'] == user_status::BLOCKED_BY_PAYMENT) {
                         $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
+                        $DB->InsertEventToWashdog($client['user_id'], 'SET TO ATIVE', 0);
+               
                     }
                     return TRUE;
                 }
@@ -177,6 +193,8 @@ class Payment extends CI_Controller {
                     print "\n<br>This client has not payment since '$diff_days' days (PROMOTIONAL?): " . $client['name'] . "<br>\n";
                     print "\n<br>Set to PENDING<br>\n";
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::PENDING, 'status_date' => time()));
+                   $DB->InsertEventToWashdog($client['user_id'], 'SET TO PENDING',0);
+               
                     // TODO: limit email by days diff
                     //$diff_days = 6;
                     if ($diff_days >= 0) {
@@ -187,6 +205,8 @@ class Payment extends CI_Controller {
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
                             //Block client by paiment
                             $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
+                            $DB->InsertEventToWashdog($client['user_id'], 'BLOQUED BY PAYMENT', 0);
+ 
                             ///////////////////////////////////////$this->send_payment_email($client);
                             print "This client was blocked by payment just now: " . $client['user_id'];
                             // TODO: Put 31 in system_config    
@@ -196,6 +216,8 @@ class Payment extends CI_Controller {
                     //Block client by paiment
                     $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
                     $this->send_payment_email($client, 0);
+                    $DB->InsertEventToWashdog($client['user_id'], 'BLOQUED BY PAYMENT', 0);
+               
                     ///////////////////////////////////////$this->send_payment_email($client);
                     print "This client was blocked by payment just now: " . $client['user_id'];
                 }
@@ -208,6 +230,8 @@ class Payment extends CI_Controller {
             if ($client['status_id'] == user_status::BLOCKED_BY_PAYMENT && ($IOK_ok === TRUE && $client['initial_order_key']) && $diff_days < 33) { // Si está en fecha de promocion del mes y initial order key
                 print "\n<br> LastSaledData = NULL";
                 $this->user_model->update_user($client['user_id'], array('status_id' => user_status::ACTIVE, 'status_date' => time()));
+                $DB->InsertEventToWashdog($client['user_id'], 'UNBLOQUED BY PAYMENT', 0);
+               
                 print "\n<br>This client UNBLOQUED by payment just now: " . $client['user_id'];
             }
         } else {
@@ -279,4 +303,5 @@ class Payment extends CI_Controller {
         $this->load->model('class/client_model');
     }
 
+    
 }

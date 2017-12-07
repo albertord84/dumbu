@@ -33,15 +33,13 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //----------------------------------------------------------------
 
 // WORKER
-
-$Worker = new dumbu\cls\Worker();
-
-//$Worker->check_daily_work();
+$Worker = new dumbu\cls\Worker(NULL,999);
 $Worker->truncate_daily_work();
 $Worker->prepare_daily_work();
-//die("tested");
-//$Worker->do_work();
-
+$Gmail = new dumbu\cls\Gmail();
+$Gmail->send_mail("josergm86@gmail.com", "Jose Ramon ",'DUMBU prepare daily work done!!! ','DUMBU prepare daily work done!!! ');
+$Gmail->send_mail("jangel.riveaux@gmail.com", "Jose Angel Riveaux ",'DUMBU prepare daily work done!!! ','DUMBU prepare daily work done!!! ');
+                        
 //----------------------------------------------------------------
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";
