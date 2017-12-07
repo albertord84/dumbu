@@ -765,48 +765,44 @@
                             <!--PASSO 2-->
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
-					<div class="text-center fleft100 m-t20">
-						<img src="assets/images/pay.png" class="wauto" alt="Pay">
-						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
-					</div>
-                                        
-                                        <!--<label class="radio-inline">
-                                            <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input id="debit_function" type="radio" name="optradio">Débito
-                                        </label>-->
-                                        
-                                        <div class="pay fleft100 input-form">
-                                            <fieldset>
-                                                    <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
-                                            </fieldset>
-                                            <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
-                                                <fieldset>
-                                                    <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20" required>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
-                                                    <fieldset>
-                                                        <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
-                                                    </fieldset>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
-                                                    <spam class="val"><?php echo $CI->T("Validade", array(),$language);?></spam>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
-                                                    <fieldset>
-                                                            <div class="select">
-                                                                <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option>01</option><option>02</option><option>03</option>
-                                                                    <option>04</option><option>05</option><option>06</option>
-                                                                    <option>07</option><option>08</option><option>09</option>
-                                                                    <option>10</option><option>11</option><option>12</option>
-                                                                </select>
-                                                            </div>
-                                                    </fieldset>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
+					<div id="exTab2" class="container">	
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a  href="#tab_credito" data-toggle="tab"><img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito</a></li>
+                                                <li><a href="#tab_boleto" data-toggle="tab"><img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto</a></li>
+                                            </ul>
+
+                                            <div class="tab-content ">
+                                                <div class="tab-pane active" id="tab_credito">
+                                                    <div class="pay fleft100 input-form">
+                                                        <fieldset>
+                                                                <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                        </fieldset>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20" required>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
+                                                                <fieldset>
+                                                                    <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
+                                                                </fieldset>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                                                <spam class="val"><?php echo $CI->T("Validade", array(),$language);?></spam>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
+                                                            <fieldset>
+                                                                    <div class="select">
+                                                                        <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
+                                                                            <option>01</option><option>02</option><option>03</option>
+                                                                            <option>04</option><option>05</option><option>06</option>
+                                                                            <option>07</option><option>08</option><option>09</option>
+                                                                            <option>10</option><option>11</option><option>12</option>
+                                                                        </select>
+                                                                    </div>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
                                                     <fieldset>
                                                             <div class="select">
                                                                 <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
@@ -822,20 +818,72 @@
                                                             </div>
                                                     </fieldset>
                                             </div>
-                                           <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
+                                                        <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
                                                     <spam class="val"><?php echo $CI->T("CUPOM", array(),$language);?> (*)</spam>
                                                 </div>
-                                                <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                     <fieldset>
                                                         <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
                                                     </fieldset>
                                                 </div>                                                    
-                                                <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
                                                     <fieldset>
                                                             <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados", array(),$language);?></spam>
                                                     </fieldset>
                                                 </div>
-                                        </div>                                           
+                                                    </div>     
+                                                </div>
+                                                <div class="tab-pane" id="tab_boleto">
+                                                    <form action="#" class="credit-card-div">
+                                                        <div class="panel panel-default" >
+                                                            <div class="panel-heading">
+                                                                <label for="sel1">Selecione um dos seguintes planos:</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                      <select class="form-control" id="sel1">
+                                                                        <option id="plano3meses">3 meses 15% de desconto</option>
+                                                                        <option id="plano6meses">6 meses 25% de desconto</option>
+                                                                        <option id="plano1ano">1 ano 40% de desconto</option>
+                                                                      </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br>        
+                                                                <div class="row">
+                                                                          <div class="col-md-12">
+                                                                              <input id="nome_boleto" type="text" class="form-control" placeholder="Nome completo" />
+                                                                          </div>
+                                                                 </div>
+
+                                                                 <div class="row">
+                                                                          <div class="col-md-12 pad-adjust">
+
+                                                                              <input id="cpf_boleto" type="text" class="form-control" placeholder="CPF" />
+                                                                          </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        
+                                        <!--<div class="text-center fleft100 m-t20">
+						<img src="assets/images/pay.png" class="wauto" alt="Pay">
+						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
+					</div>
+                                        -->
+                                        <!--<label class="radio-inline">
+                                            <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input id="debit_function" type="radio" name="optradio">Débito
+                                        </label>-->
+                                        
+                                                                             
 				</div>
                             
                             <!--PASSO 3-->
