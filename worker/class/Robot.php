@@ -1381,7 +1381,7 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                 $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->user_id, $cookies);
+                 $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, $cookies);
             }
             
             //var_dump($result);
