@@ -273,10 +273,10 @@ namespace dumbu\cls {
                 $sql .= "WHERE clients.user_id = '$client_id'; ";
 
                 $result = mysqli_query($this->connection, $sql);
-                if ($result)
-                    print "<br>Update client_cookies! <br>";
-                else
-                    print "<br>NOT UPDATED client_cookies!!!<br> $sql <br>";
+                //if ($result)
+                   // print "<br>Update client_cookies! <br>";
+                //else
+                   // print "<br>NOT UPDATED client_cookies!!!<br> $sql <br>";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
