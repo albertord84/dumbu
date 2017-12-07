@@ -97,7 +97,7 @@ $Client = new \dumbu\cls\Client();
 
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
-var_dump(date('d-m-Y',1384023285));
+//var_dump(date('d-m-Y',1384023285));
 
 //$result = $Payment->check_payment(NULL);
 //var_dump($result);
@@ -152,8 +152,8 @@ var_dump(date('d-m-Y',1384023285));
 //$m_pay_day = date("n", $pay_day);
 //$y_pay_day = date("Y", $pay_day);
 //
-//$data = strtotime("+20 min +1 day + 2hour", time());
-//var_dump($data);
+$data = strtotime("+31 day", time());
+var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
@@ -177,8 +177,8 @@ var_dump(date('d-m-Y',1384023285));
 //var_dump($resul);
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 
