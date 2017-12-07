@@ -6,7 +6,7 @@ class Welcome extends CI_Controller {
     public $language =NULL;
 
     public function md() {
-        echo md5('86909114');
+        header("Location: ".base_url());
     }
     
     public function index() {
@@ -32,11 +32,24 @@ class Welcome extends CI_Controller {
     }
     
     public function purchase() {
-        if ($this->session->userdata('id')) {
+        $datas = $this->input->get();
+        if(isset($datas['access_token'])){
+            $this->load->model('class/client_model');
+            $client = $this->client_model->get_client_by_access_token($datas['access_token']); 
+            if(count($client)){
+                $this->client_model->update_client($client['user_id'], 
+                        array('access_token' =>'---***###!!!---'.$client['user_id']));
+                $this->user_model->set_sesion($client['user_id'], $this->session);
+                $this->user_model->insert_washdog($client['user_id'],'REDIRECTED FROM TICKET-BANK EMAIL LINK');
+            } else{
+                header("Location: ".base_url());
+                die();
+            }
+        }
+        if ($this->session->userdata('id')){
             $datas = $this->input->get();
             $this->load->model('class/user_model');
-            $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');
-            
+            $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
@@ -54,11 +67,9 @@ class Welcome extends CI_Controller {
             $result = $this->user_model->execute_sql_query($query);
             $datas['Afilio_order_price']=$result[0]['initial_val'];
             $datas['Afilio_total_value']=$result[0]['normal_val'];
-            $datas['Afilio_product_id']= $this->session->userdata('plane_id');
-            
+            $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
             $datas['client_login_profile'] = $this->session->userdata('login');
-            $datas['client_email']= $this->session->userdata('email');            
-            
+            $datas['client_email']= $this->session->userdata('email');   
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
@@ -221,26 +232,17 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_role');
         $this->load->model('class/user_status');
-        /*//Is an active Administrator?
-        $query = 'SELECT * FROM users' .
-                ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
-                '" AND role_id=' . user_role::ADMIN.' AND status_id=' . user_status::ACTIVE;
-        $user = $this->user_model->execute_sql_query($query);
-        if (count($user)) {
-            $result['role'] = 'ADMIN';
-            $result['str'] = 'login=' . urlencode($datas['user_login']) . '&pass=' . urlencode($datas['user_pass']);
-            $result['authenticated'] = true;
-        } else {
-            //Is an active Attendent?
-            $query = 'SELECT * FROM users' .
-                    ' WHERE login="' . $datas['user_login'] . '" AND pass="' . $datas['user_pass'] .
-                    '" AND role_id=' . user_role::ATTENDET . ' AND status_id=' . user_status::ACTIVE;
+        //Is an active Administrator?        
+            /*$query = 'SELECT * FROM users' .
+                    ' WHERE login="' . $datas['user_login'] . '" AND pass="' .mad5($datas['user_pass']) .
+                    '" AND role_id=' . user_role::ADMIN.' AND status_id=' . user_status::ACTIVE;
             $user = $this->user_model->execute_sql_query($query);
-            if (count($user)) {
-                $result['role'] = 'ATTENDET';
-                $result['str'] = urlencode('login=' . $datas['user_login'] . '&pass=' . $datas['user_pass']);
+            if(count($user)){
+                $result['resource'] = 'client';
+                $result['message'] = base_url().'index.php/admin/';
+                $result['role'] = 'ADMIN';
                 $result['authenticated'] = true;
-            } else {*/
+            } else{     */   
                 //Is an actually Instagram user?
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
                 if($data_insta==NULL){
@@ -647,9 +649,7 @@ class Welcome extends CI_Controller {
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 }
-            //}
-        //}
-        
+            //
         if($result['authenticated'] == true){
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'DID LOGIN ');
@@ -784,8 +784,99 @@ class Welcome extends CI_Controller {
             return $response;
     }
     
-    //Passo 2. CChequeando datos bancarios y guardando datos y estado del cliente pagamento 
-    public function check_client_data_bank($datas=NULL) {  
+    
+    //Passo 2.1 Pagamento por boleto bancario
+    public function check_client_ticket_bank($datas=NULL) {  
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $origin_datas=$datas;        
+        $datas = $this->input->post();
+        
+        //1. analisar se é possivel gerar boleto para esse cliente ()
+        if(!true){
+            $result['success'] = false;
+            $result['message'] = $this->T('Número de tentativas esgotadas. Contate nosso atendimento', array(), $GLOBALS['language']);
+        }else
+            
+        //2. conferir los datos recebidos
+        if(!$this->validaCPF($datas['cpf'])){
+            $result['success'] = false;
+            $result['message'] = 'CPF incorreto';
+        } else
+        if( !( $datas['plane_id']>1 && $datas['plane_id']<=5 )){
+            $result['success'] = false;
+            $result['message'] = 'Plano informado incorreto';
+        } else
+        if( !( $datas['ticket_bank_option']>=1 && $datas['ticket_bank_option']<=3 )){
+            $result['success'] = false;
+            $result['message'] = 'Plano informado incorreto';
+        } else{
+
+        //3. gerar boleto bancario e salvar dados
+        $this->load->model('class/user_model');
+        $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
+        $plane_datas = $this->user_model->execute_sql_query($query)[0];
+        if($datas['ticket_bank_option']==1)
+            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.85);
+        else
+        if($datas['ticket_bank_option']==2)
+            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.75);
+        else
+        if($datas['ticket_bank_option']==3)
+            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.60);
+                
+        $this->load->model('class/client_model');
+        $query="SELECT value FROM dumbu_system_config WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
+        $DocumentNumber = $this->client_model->execute_sql_query($query)[0];
+        $datas['DocumentNumber'] = $DocumentNumber+1;
+        $query="SELECT value FROM dumbu_system_config WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
+        $DocumentNumber = $this->user_model->execute_sql_query($query)[0];
+        
+        $datas['OrderReference'];
+        $datas['user_id'];
+        $datas['name'];
+        $datas['cpf'];
+        $response = $this->check_mundipagg_boleto($datas);
+
+        //4. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5
+
+
+            //5. retornar response e tomar decisão no cliente
+
+        //OBS: o cliente ainda continua em BEGINNER
+        }
+        echo json_encode($result);
+    }
+    
+    public function  validaCPF($cpf = null) {
+        $cpf='06266544750';
+        if(empty($cpf)) 
+            return false; 
+        $cpf = preg_replace('[^0-9]', '', $cpf);
+        $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+        if (strlen($cpf) != 11)
+            return false;    
+        else if ($cpf == '00000000000' || 
+            $cpf == '11111111111' || $cpf == '22222222222' || $cpf == '33333333333' || 
+            $cpf == '44444444444' || $cpf == '55555555555' || $cpf == '66666666666' || 
+            $cpf == '77777777777' || $cpf == '88888888888' || $cpf == '99999999999') {
+            return false;
+         } else {   
+            for ($t = 9; $t < 11; $t++) {
+                for ($d = 0, $c = 0; $c < $t; $c++) {
+                    $d += $cpf{$c} * (($t + 1) - $c);
+                }
+                $d = ((10 * $d) % 11) % 10;
+                if ($cpf{$c} != $d) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
+    public function check_client_data_bank($datas=NULL) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;
@@ -1268,27 +1359,13 @@ class Welcome extends CI_Controller {
         return $response;
     }
     
-    public function check_mundipagg_boleto() {
-        
-        $payment_data['payment_method'] = "boleto";
-        $payment_data['amount_in_cents'] = "5000000";
-        $payment_data['name'] = "Yanexis Pupo Toledo";
-        $payment_data['email'] = "yptoledoarg@gmail.com";
-        $payment_data['street'] =   "Av. General Castrioto";
-        $payment_data['number'] = "380";
-        $payment_data['complement'] = "30B";
-        $payment_data['zip_code'] = "24110256";
-        $payment_data['doc_number'] = "1245";
-        $payment_data['neighborhood'] = "Barreto";
-        $payment_data['city'] = "Niteroi";
-        $payment_data['state'] = "RJ";
-        $payment_data['country'] = "BR";
-        $payment_data['days_to_pay'] = "2";
-        $payment_data['payment_method'] = "boleto";
-        $payment_data['bank'] = "341";
-        $payment_data['instructions'] = "Pagar até o vencimento";
-        $payment_data['due_at'] = "2017-11-20T00:00:00Z";
-        $payment_data['pay_day'] = time();
+    public function check_mundipagg_boleto($datas) {        
+        $payment_data['AmountInCents']=$datas['AmountInCents'];
+        $payment_data['DocumentNumber']=$datas['DocumentNumber']; //'3';
+        $payment_data['OrderReference']=$datas['OrderReference']; //'3';
+        $payment_data['id']=$datas['user_id']; 
+        $payment_data['name']=$datas['name'];
+        $payment_data['cpf']=$datas['cpf'];        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);
@@ -2658,8 +2735,6 @@ class Welcome extends CI_Controller {
             $this->client_model->update_client($user_id, array(
                 'initial_order_key' => '',
                 'order_key' => '',
-                'observation' => 'NÃO CONSEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
-                'order_key' => $payment_data['pay_day'],
                 'observation' => 'NÃO CONSEGUIDO DURANTE RETENTATIVA - TENTAR CRIAR ANTES DE DATA DE PAGAMENTO',
                 'pay_day' => $payment_data['pay_day']));
             //TO-DO:Ruslan: inserta una pendencia automatica aqui

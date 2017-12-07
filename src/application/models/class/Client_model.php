@@ -154,6 +154,18 @@
             $this->db->where('id >=','2');
             return $this->db->get()->result_array();
         }
+        
+        public function get_client_by_access_token($access_token){
+            try {    
+                $this->db->select('*');
+                $this->db->from('clients'); 
+                $this->db->join('users', 'users.id = clients.user_id');
+                $this->db->where('clients.access_token', $access_token);
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
          
         
         public function get_pay_values($id_value){
