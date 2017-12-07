@@ -208,8 +208,7 @@
                 <div class="col-md-2">
                     <div class="center filters">
                         <b>Não recebe trabalho há mais de</b>
-                        <input id="days_no_work"  class="form-control" placeholder="número de dias">
-                        <b>dias</b>
+                        <input id="days_no_work"  class="form-control" placeholder="Número de dias">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -266,14 +265,17 @@
                     </div>
                 </div>
             </div>
+            <br>
             <div class="row">
                 <div class="col-md-1"></div>
-                <div class="col-md-4">
-                    <div class="center">
-                        <br>
-                        <button  style="min-width:150px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
-                            <span class="ladda-label">Listar</span>
-                        </button>
+                <div class="col-md-2">
+                    <div class="center filters">
+                        <b>Perfis de Ref. ativos</b> 
+                        <select id="pr_ativos" class="form-control" >
+                            <option>--SELECT--</option>
+                            <option>NAO</option>
+                            <option>SIM</option>
+                        </select>    
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -291,7 +293,15 @@
                         <input id="idioma" name="idioma" type="hidden" value="--SELECT--">
                     <?php } ?>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="center">
+                        <br>
+                        <button  style="min-width:150px" id = "execute_query" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                            <span class="ladda-label">Listar</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="center">
                         <br>
                         <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">

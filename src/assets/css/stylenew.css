@@ -8,7 +8,14 @@
             font-size: 1.8em;
             font-family: inherit;
         }
-        
+	#lnk_faq_function1{
+	cursor:pointer; cursor: hand;
+	}
+
+	#lnk_faq_function2{
+	cursor:pointer; cursor: hand;
+	}
+	        
 	#contato{
             background: white;
         }
