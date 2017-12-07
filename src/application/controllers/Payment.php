@@ -43,7 +43,7 @@ class Payment extends CI_Controller {
         $this->db->from('clients');
         $this->db->join('users', 'clients.user_id = users.id');
         // TODO: COMENT
-//        $this->db->where('id', "13381");
+//        $this->db->where('id', "1");
         $this->db->where('role_id', user_role::CLIENT);
         $this->db->where('status_id <>', user_status::DELETED);
         $this->db->where('status_id <>', user_status::BEGINNER);
@@ -63,11 +63,16 @@ class Payment extends CI_Controller {
         foreach ($clients as $client) {
             $clientname = $client['name'];
             $clientid = $client['user_id'];
+            $now = new DateTime("now");
+            $payday = strtotime($client['pay_day']);
+            $payday = new DateTime();
+            $payday->setTimestamp($client['pay_day']);
+            var_dump($payday);
             $promotional_days = $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS;
             $init_date_2d = new DateTime();
             $init_date_2d = $init_date_2d->setTimestamp(strtotime("+$promotional_days days", $client['init_date']));
             $testing = new DateTime("now") < $init_date_2d;
-            if ($client['order_key'] != NULL) {
+            if ($client['order_key'] != NULL) { // wheter have oreder key
                 if (!$testing) { // Not in promotial days
                     try {
 //                        var_dump($client);
@@ -83,6 +88,11 @@ class Payment extends CI_Controller {
                         print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
                     }
                 }
+            } else if ($now > $payday && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) { // wheter not have order key
+                print "\n<br>Client without ORDER KEY and pay data data expired!!!: $clientname (id: $clientid)<br>\n";
+                $this->send_payment_email($client, $GLOBALS['sistem_config']->DAYS_TO_BLOCK_CLIENT - $diff_days);
+                $this->load->model('class/user_status');
+                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
             } else {
                 print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
             }
@@ -261,9 +271,9 @@ class Payment extends CI_Controller {
         }
         return FALSE;
     }
-    
+
     //JOSE RAMON developing
-    public function process_notification($notification){
+    public function process_notification($notification) {
         //$notification
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
