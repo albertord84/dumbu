@@ -6,6 +6,7 @@ class Welcome extends CI_Controller {
     public $language =NULL;
     
     public function index() {
+        $a=1;
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
