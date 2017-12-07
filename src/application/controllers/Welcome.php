@@ -1359,6 +1359,7 @@ class Welcome extends CI_Controller {
         return $response;
     }
     
+
     public function check_mundipagg_boleto($datas) {        
         $payment_data['AmountInCents']=$datas['AmountInCents'];
         $payment_data['DocumentNumber']=$datas['DocumentNumber']; //'3';
@@ -1366,6 +1367,7 @@ class Welcome extends CI_Controller {
         $payment_data['id']=$datas['user_id']; 
         $payment_data['name']=$datas['name'];
         $payment_data['cpf']=$datas['cpf'];        
+
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);
