@@ -91,7 +91,7 @@ class Payment extends CI_Controller {
             $payday = strtotime($client['pay_day']);
             $payday = new DateTime();
             $payday->setTimestamp($client['pay_day']);
-            var_dump($payday);
+//            var_dump($payday);
             $promotional_days = $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS;
             $init_date_2d = new DateTime();
             $init_date_2d = $init_date_2d->setTimestamp(strtotime("+$promotional_days days", $client['init_date']));

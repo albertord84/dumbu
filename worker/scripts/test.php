@@ -97,7 +97,7 @@ $Client = new \dumbu\cls\Client();
 
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
-//var_dump(date('d-m-Y',1384023285));
+var_dump(date('d-m-Y',1484023285));
 
 //$result = $Payment->check_payment(NULL);
 //var_dump($result);
