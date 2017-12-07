@@ -840,7 +840,7 @@
                                                                 <label for="sel1">Selecione um dos seguintes planos:</label>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                      <select class="form-control" id="sel1">
+                                                                      <select id="ticket_bank_option" class="form-control" id="sel1">
                                                                         <option id="plano3meses">3 meses 15% de desconto</option>
                                                                         <option id="plano6meses">6 meses 25% de desconto</option>
                                                                         <option id="plano1ano">1 ano 40% de desconto</option>
@@ -850,15 +850,16 @@
                                                                 <br>        
                                                                 <div class="row">
                                                                           <div class="col-md-12">
-                                                                              <input id="nome_boleto" type="text" class="form-control" placeholder="Nome completo" />
+                                                                              <input id="ticket_bank_client_name" type="text" class="form-control" placeholder="Nome completo" />
                                                                           </div>
                                                                  </div>
 
                                                                  <div class="row">
-                                                                          <div class="col-md-12 pad-adjust">
-
-                                                                              <input id="cpf_boleto" type="text" class="form-control" placeholder="CPF" />
-                                                                          </div>
+                                                                        <div class="col-md-12 pad-adjust">
+                                                                                <form name=form>
+                                                                                    <input id="cpf" type=text name=cpf maxlength=14 class="form-control" placeholder="CPF"><br>
+                                                                                </form>
+                                                                        </div>
                                                                 </div>
 
 
