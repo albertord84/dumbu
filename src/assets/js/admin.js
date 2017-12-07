@@ -217,7 +217,8 @@ $(document).ready(function(){
            $("#total_unfollow").val()<0 &&
            $("#autolike").val()<0 &&
            $("#utm_source").val()==='--SELECT--' &&
-           $("#idioma").val()==='--SELECT--')
+           $("#idioma").val()==='--SELECT--' &&
+           $("#pr_ativos").val()==='--SELECT--')
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -244,6 +245,7 @@ $(document).ready(function(){
             params=params+'&autolike='+$("#autolike").val();
             params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&idioma='+$("#idioma").val();
+            params=params+'&pr_ativos='+$("#pr_ativos").val();
             params=params+'&query=1';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view_or_get_emails?'+params);
         }
@@ -284,7 +286,8 @@ $(document).ready(function(){
            $("#total_unfollow").val()<0 &&
            $("#autolike").val()<0 &&
            $("#utm_source").val()==='--SELECT--' &&
-           $("#idioma").val()==='--SELECT--')
+           $("#idioma").val()==='--SELECT--' &&
+           $("#pr_ativos").val()==='--SELECT--')
             modal_alert_message('Deve selecionar pelo menos um critério para filtrar a informação');
         else{
             var params;
@@ -311,6 +314,7 @@ $(document).ready(function(){
             params=params+'&autolike='+$("#autolike").val();
             params=params+'&utm_source='+encodeURIComponent($("#utm_source").val());
             params=params+'&idioma='+$("#idioma").val();
+            params=params+'&pr_ativos='+$("#pr_ativos").val();
             params=params+'&query=2';
             $(location).attr('href',base_url+'index.php/admin/list_filter_view_or_get_emails?'+params);
         }

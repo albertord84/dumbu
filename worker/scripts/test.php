@@ -157,24 +157,13 @@ var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-//$pay_day = strtotime('11/29/2017 05:00:00');
+$pay_day = strtotime('12/27/2017 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-//$payment_data['credit_card_number'] = '5293230325454401';
-//$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
-//$payment_data['credit_card_exp_month'] = '04';
-//$payment_data['credit_card_exp_year'] = '2024';
-//$payment_data['credit_card_cvc'] = '617';
-//$payment_data['amount_in_cents'] = 100;
-//$payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-//var_dump($resul);
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);

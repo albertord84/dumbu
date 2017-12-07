@@ -139,7 +139,7 @@ namespace dumbu\cls {
          * @return string
          */
         
-        public function create_boleto_payment() {
+        public function create_boleto_payment($payment_data) {
             try
             {
             // Carrega dependências
@@ -157,41 +157,41 @@ namespace dumbu\cls {
             $boletoTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\BoletoTransaction();
             $createSaleRequest->addBoletoTransaction($boletoTransaction);
             $boletoTransaction
-            ->setAmountInCents(500)
+            ->setAmountInCents($payment_data['AmountInCents'])
             ->setBankNumber(\Gateway\One\DataContract\Enum\BankEnum::SANTANDER)
-            ->setDocumentNumber("12345678901") //string Número do documento no boleto
+            ->setDocumentNumber($payment_data['DocumentNumber']) //string Número do documento no boleto
             ->setInstructions("Pagar antes do vencimento")
             ->getOptions()
             ->setDaysToAddInBoletoExpirationDate(5);
 
             //Define dados do pedido
             $createSaleRequest->getOrder()
-            ->setOrderReference('NumeroDoPedido');//	string Identificador do pedido na sua base
+            ->setOrderReference($payment_data['OrderReference']);//	string Identificador do pedido na sua base
             
             // Dados do comprador
             $createSaleRequest->getBuyer()
-            ->setName("Yanexis Pupo")
+            ->setName($payment_data['name'])
             ->setPersonType(\Gateway\One\DataContract\Enum\PersonTypeEnum::PERSON)
-            ->setBuyerReference("C3PO") // esto seria como el id de un cliente para identificarlo rapidamente
-            ->setDocumentNumber("07638815114")
+            ->setBuyerReference($payment_data['id']) // esto seria como el id de un cliente para identificarlo rapidamente
+            ->setDocumentNumber($payment_data['cpf'])
             ->setDocumentType(\Gateway\One\DataContract\Enum\DocumentTypeEnum::CPF)
-            ->setEmail("yptoledoarg@gmail.com")
-            ->setEmailType(\Gateway\One\DataContract\Enum\EmailTypeEnum::PERSONAL)
-            ->setGender(\Gateway\One\DataContract\Enum\GenderEnum::FEMALE)
-            ->setMobilePhone("(21)972596272")
-            ->setBirthDate(\DateTime::createFromFormat('d/m/Y', '20/08/1990'))
+            //->setEmail("yptoledoarg@gmail.com")
+            //->setEmailType(\Gateway\One\DataContract\Enum\EmailTypeEnum::PERSONAL)
+            //->setGender(\Gateway\One\DataContract\Enum\GenderEnum::FEMALE)
+            //->setMobilePhone("(21)972596272")
+            //->setBirthDate(\DateTime::createFromFormat('d/m/Y', '20/08/1990'))
             ->setCreateDateInMerchant(new \DateTime())
-            ->addAddress()
-            ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
-            ->setStreet("Rua General Castrioto")
-            ->setNumber("380")
-            ->setComplement("30B")
-            ->setDistrict("Barreto")
-            ->setCity("Niteroi")
-            ->setState("RJ")
-            ->setZipCode("24110256")
-            ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
-
+           // ->addAddress()
+           // ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
+           // ->setStreet("Rua General Castrioto")
+           // ->setNumber("380")
+           // ->setComplement("30B")
+           // ->setDistrict("Barreto")
+           // ->setCity("Niteroi")
+           // ->setState("RJ")
+           // ->setZipCode("24110256")
+           // ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
+            ;
             // Cria um objeto ApiClient
             $client = new \Gateway\ApiClient();
             //var_dump($client);
@@ -217,6 +217,7 @@ namespace dumbu\cls {
                 // Devolve resposta
                http_response_code($httpStatusCode);
                header('Content-Type: application/json');
+               var_dump($response);
                print json_encode($response->getData());
             }   
              
