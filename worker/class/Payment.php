@@ -346,7 +346,7 @@ namespace dumbu\cls {
                 "discover" => "/^6(?:011|5[0-9]{2})[0-9]{12}$/",
                 "diners" => "/^3[068]\d{12}$/",
                 "elo" => "/^((((636368)|(438935)|(504175)|(451416)|(636297))\d{0,10})|((5067)|(4576)|(4011))\d{0,12})$/",
-                "hipercard" => "/^(606282\d{10}(\d{3})?)|(3841\d{15})$/",
+                "hipercard" => "/^(606282\d{10}(\d{3})?)|(3841\d{15})$/"
             );
 
             if (preg_match($re['visa'], $num)) {
@@ -359,6 +359,8 @@ namespace dumbu\cls {
                 return 'Discover';
             } else if (preg_match($re['diners'], $num)) {
                 return 'Diners';
+            } else if (preg_match($re['elo'], $num)) {
+                return 'Elo';
             } else if (preg_match($re['hipercard'], $num)) {
                 return 'Hipercard';
             } else {

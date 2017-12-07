@@ -680,7 +680,7 @@
                                         
                                         <div class="pay fleft100 input-form">
                                             <fieldset>
-                                                    <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                    <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" maxlength="50" required>
                                             </fieldset>
                                             <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                                                 <fieldset>
@@ -689,7 +689,7 @@
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
                                                     <fieldset>
-                                                        <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
+                                                        <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="4" required>
                                                     </fieldset>
                                             </div>
                                             <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
