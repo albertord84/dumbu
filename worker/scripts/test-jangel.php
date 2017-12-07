@@ -16,7 +16,7 @@ $init_day->setTimestamp('1511413162');
 var_dump($init_day);
 
 $DB = new \dumbu\cls\DB();
-$DB->InsertEventToWashdog(1, 'BLOQUED BY PAYMENT', 0);
+//$DB->Create_Followed(12345);
                
 //$pay_date = new DateTime();
 //$pay_date->setTimestamp('1507439601');
@@ -29,8 +29,19 @@ $DB->InsertEventToWashdog(1, 'BLOQUED BY PAYMENT', 0);
 //var_dump($follows_count);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
 //var_dump($follows_count);
-//$Worker = new dumbu\cls\Worker();
-//$Robot = new dumbu\cls\Robot();
+
+$Robot = new dumbu\cls\Robot();
+$Worker = new dumbu\cls\Worker();
+
+$Worker->prepare_daily_work();
+$daily_work = $DB->get_follow_work();
+$Profiles = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
+$Profiles2 = array();
+foreach ($Profiles as $P)
+{
+    array_push($Profiles2,  $P->node);   
+}
+$DB->save_follow_work($Profiles2, $daily_work);
 //$DB = new \dumbu\cls\DB();
 //$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
