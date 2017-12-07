@@ -480,7 +480,7 @@ namespace dumbu\cls {
                         $result = mysqli_query($this->fConnection, ""
                                 . "UPDATE `dumbudb.followed`.`$client_id` "
                                 . "SET unfollowed = TRUE "
-                                . "WHERE id = $unfollowed->id; "
+                                . "WHERE followed_id = $unfollowed->followed_id; "
                         );
                     }
                 }
