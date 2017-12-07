@@ -1343,7 +1343,7 @@ namespace dumbu\cls {
                 exec($curl_str, $output, $status);          
                 
             }
-            if (count($output[0]) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+            if (count($output) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
                 $result->csrftoken = $cookies->csrftoken;
                 // Get sessionid from cookies
                 $result->sessionid = $cookies->sessionid;
