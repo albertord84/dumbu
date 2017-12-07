@@ -270,7 +270,7 @@ namespace dumbu\cls {
                 $sql = "UPDATE clients "
                         . "SET ";
                 $sql .= $cookies ? " clients.cookies   = '$cookies' " : " clients.cookies   = NULL ";
-                $sql .= "WHERE clients.user_id = $client_id; ";
+                $sql .= "WHERE clients.user_id = '$client_id'; ";
 
                 $result = mysqli_query($this->connection, $sql);
                 if ($result)
