@@ -168,6 +168,9 @@
                                                     </ul>
                                                 </li>
                                             <?php } ?>
+                                                <li>
+                                                    <a id="fechar_faq" href="#"><?php echo $CI->T("FECHAR", array(),$language);?></a>
+                                                </li>
 					</ul>
 				</div><!-- /dl-menuwrapper -->
                                 
@@ -273,7 +276,9 @@
                                                 echo        '</li>
                                                     </ul>
                                                 </li>';}?>
-                                                
+                                                <li>
+                                                    <a id="fechar_faq2" href="#"><?php echo $CI->T("FECHAR", array(),$language);?><img src="<?php echo base_url().'assets/images/EXIT.jpg'?>" class="wauto us" alt="User"></a>
+                                                </li>
 					</ul>
 				</nav>
 			</div>

@@ -1269,25 +1269,13 @@ class Welcome extends CI_Controller {
     
     public function check_mundipagg_boleto() {
         
-        $payment_data['payment_method'] = "boleto";
-        $payment_data['amount_in_cents'] = "5000000";
-        $payment_data['name'] = "Yanexis Pupo Toledo";
-        $payment_data['email'] = "yptoledoarg@gmail.com";
-        $payment_data['street'] =   "Av. General Castrioto";
-        $payment_data['number'] = "380";
-        $payment_data['complement'] = "30B";
-        $payment_data['zip_code'] = "24110256";
-        $payment_data['doc_number'] = "1245";
-        $payment_data['neighborhood'] = "Barreto";
-        $payment_data['city'] = "Niteroi";
-        $payment_data['state'] = "RJ";
-        $payment_data['country'] = "BR";
-        $payment_data['days_to_pay'] = "2";
-        $payment_data['payment_method'] = "boleto";
-        $payment_data['bank'] = "341";
-        $payment_data['instructions'] = "Pagar até o vencimento";
-        $payment_data['due_at'] = "2017-11-20T00:00:00Z";
-        $payment_data['pay_day'] = time();
+        $payment_data['AmountInCents']='20390';
+        $payment_data['DocumentNumber']='3';
+        $payment_data['OrderReference']='3';
+        $payment_data['id']='3';
+        $payment_data['name']='Hamora Akemi Wagner';
+        $payment_data['cpf']='01041660537';
+        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);

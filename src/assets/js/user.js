@@ -132,7 +132,18 @@ $(document).ready(function(){
         window.open(url, '_blank');
     });
     
-   
+    $("#lnk_voltar").click(function(){
+        url=base_url+"?language="+language;
+        window.open(url, '_blank');
+    });
+    
+     $("#fechar_faq").click(function(){
+        window.close();
+    });
+    
+    $("#fechar_faq2").click(function(){
+        window.close();
+    });
     
     $(".help").hover(
         function(){
@@ -293,5 +304,7 @@ $(document).ready(function(){
         }
 
       });
-
+      
+   
+    
  }); 
