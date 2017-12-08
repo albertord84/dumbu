@@ -772,11 +772,11 @@
                                                         <img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito
                                                     </a>
                                                 </li>
-                                                <li id="tab_ticket_bank">
+                                                <!--<li id="tab_ticket_bank">
                                                     <a href="#tab_boleto" data-toggle="tab">
                                                         <img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto
                                                     </a>
-                                                </li>
+                                                </li>-->
                                             </ul>
 
                                             <div class="tab-content ">
@@ -843,7 +843,7 @@
                                                 </div>
                                                 
                                                 
-                                                <div class="tab-pane" id="tab_boleto">
+                                                <!--<div class="tab-pane" id="tab_boleto">
                                                     <form action="#" class="credit-card-div">
                                                         <div class="panel panel-default" >
                                                             <div class="panel-heading">
@@ -873,7 +873,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                </div>
+                                                </div>-->
 
                                             </div>
                                         </div>                             
