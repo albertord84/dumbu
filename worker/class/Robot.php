@@ -1380,8 +1380,9 @@ namespace dumbu\cls {
 //                if (!$login_response)
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
+            
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result->json_response->cookies));
                 // $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, $cookies);
             }
             
@@ -1490,6 +1491,7 @@ namespace dumbu\cls {
         
         public function checkpoint_requested($login, $pass, $Client = NULL) 
         {
+             (new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);             
              if (!$Client)
                  $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
             $url = "https://www.instagram.com/";
@@ -1543,29 +1545,32 @@ namespace dumbu\cls {
         {
              if (!$Client)
                  $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);    
-            global $cookies;
-            $csrftoken = $cookies->csrftoken;
-            $urlgen = $cookies->urlgen;
-            $mid = $cookies->mid;
+            $csrftoken = $this->get_cookies_value('csrftoken');
+            $urlgen = $this->get_cookies_value('urlgen');
+            $mid = $this->get_cookies_value('mid');
+            $rur = $this->get_cookies_value('rur');
+            $ig_vw = $this->get_cookies_value('ig_vw');
+            $ig_pr = $this->get_cookies_value('ig_pr');
+            $ig_vh = $this->get_cookies_value('ig_vh');
+            $ig_or = $this->get_cookies_value('ig_or');
            
-            if($login_response->message == 'checkpoint_required' && isset($result->json_response->checkpoint_url))
-            {
-                $url = "https://www.instagram.com";
-                $url .= $result->json_response->checkpoint_url;
-                $curl_str = "curl '$url' ";
-                $curl_str .= "-H 'origin: https://www.instagram.com' ";
-                $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-                $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed " ;
-                $curl_str .= "-H 'Referer: $url' ";
-                $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-                $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
-                $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
-                $curl_str .= "mid=$mid; ";
-                $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
-                $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
-                exec($curl_str, $output, $status);
-                return json_decode($output[0]);                
-            }            
+            $url = "https://www.instagram.com";
+            $url .= $result->json_response->checkpoint_url;
+            $curl_str = "curl '$url' ";
+            $curl_str .= "-H 'origin: https://www.instagram.com' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed " ;
+            $curl_str .= "-H 'Referer: $url' ";
+            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+            $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+            $curl_str .= "mid=$mid; ";
+            $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+            $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
+            exec($curl_str, $output, $status);
+            
+            //return json_decode($output[0]);                
+
         }
 
     }

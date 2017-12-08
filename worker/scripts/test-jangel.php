@@ -52,8 +52,13 @@ $DB = new \dumbu\cls\DB();
 //var_dump($follows_count);
 
 $Robot = new dumbu\cls\Robot();
+$var = $Robot->checkpoint_requested('ruslan.guerra88', '*R5sl@n#');
 
 $var = $Robot->make_checkpoint('ruslan.guerra88', '324068');
+var_dump($var);
+$var = $Robot->bot_login('ruslan.guerra88', '*R5sl@n#');
+
+
 /*
 $Worker = new dumbu\cls\Worker();
 
