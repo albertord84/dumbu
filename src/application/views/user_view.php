@@ -45,7 +45,7 @@
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
                         echo '<link rel="canonical" href="https://www.dumbu.one" />';
-                    }                              
+                    }
                 ?>
                 
                 <?php include_once("pixel_facebook.php")?>
@@ -766,14 +766,22 @@
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
 					<div id="exTab2" class="container">	
-                                            <!--<ul class="nav nav-tabs">-->
-                                                <li class="active"><a  href="#tab_credito" data-toggle="tab"><img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito</a></li>
-                                                <!--<li><a href="#tab_boleto" data-toggle="tab"><img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto</a></li>
-                                            </ul>-->
+                                            <ul class="nav nav-tabs">
+                                                <li  class="active" >
+                                                    <a id="tab_credit_card" href="#tab_credito" data-toggle="tab">
+                                                        <img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito
+                                                    </a>
+                                                </li>
+                                                <li id="tab_ticket_bank">
+                                                    <a href="#tab_boleto" data-toggle="tab">
+                                                        <img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto
+                                                    </a>
+                                                </li>
+                                            </ul>
 
                                             <div class="tab-content ">
                                                 <div class="tab-pane active" id="tab_credito">
-                                                    <div class="pay fleft100 input-form">
+                                                    <div class="pay fleft100 input-form">   
                                                         <fieldset>
                                                                 <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
                                                         </fieldset>
@@ -835,7 +843,7 @@
                                                 </div>
                                                 
                                                 
-                                                <!--<div class="tab-pane" id="tab_boleto">
+                                                <div class="tab-pane" id="tab_boleto">
                                                     <form action="#" class="credit-card-div">
                                                         <div class="panel panel-default" >
                                                             <div class="panel-heading">
@@ -855,7 +863,6 @@
                                                                               <input id="ticket_bank_client_name" type="text" class="form-control" placeholder="Nome completo" />
                                                                           </div>
                                                                  </div>
-
                                                                  <div class="row">
                                                                         <div class="col-md-12 pad-adjust">
                                                                                 <form name=form>
@@ -866,7 +873,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                </div>-->
+                                                </div>
 
                                             </div>
                                         </div>                             

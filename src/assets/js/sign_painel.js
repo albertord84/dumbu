@@ -1,16 +1,17 @@
 $(document).ready(function () {
     
-    
+    active_by_steep(1);
+    payment_option=0;
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
-        $('#message_text').text(text_message);        
+        $('#message_text').text(text_message);
     }
     
     $("#accept_modal_alert_message").click(function () {
         $('#modal_alert_message').modal('hide');
     });
 
-    active_by_steep(1);
+    
 
     $('#palno_mensal').prop('disabled', true);
 
@@ -56,7 +57,7 @@ $(document).ready(function () {
     });
     
     
-    $("#signin_btn_insta_login").click(function () {           
+    $("#signin_btn_insta_login").click(function () {
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {                   
@@ -144,6 +145,8 @@ $(document).ready(function () {
             var l = Ladda.create(this);
             l.start();
             l.start();
+            
+            if(payment_option==0){
 //            if( 
 //                    ((($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD')  && confirm(T("Informe seu nome no cartão e não a bandeira dele. Deseja continuar?")))
 //                    || 
@@ -215,9 +218,25 @@ $(document).ready(function () {
                     l.stop();
                 }
 //            }
+            } else if(payment_option==1){
+                var cpf = validate_cpf('#cpf', "^[A-Z ]{4,50}$");
+                var ticket_bank_client_name = validate_cpf('#ticket_bank_client_name', "^[A-Z ]{4,50}$");
+                if (cpf && ticket_bank_client_name) {
+                    datas={
+                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),,                        
+                        'cpf': $('#cpf').val(),
+                        'ticket_bank_option': $('#credit_card_name').val(),                        
+                        'need_delete': need_delete,
+                        'early_client_canceled': early_client_canceled,
+                        'plane_type': plane,
+                        'pk': pk,
+                        'datas': datas
+                    };
+                }
+            }
         } else {
             console.log('paymet working');
-        }            
+        }
         
     });
     
@@ -269,7 +288,7 @@ $(document).ready(function () {
 
     function active_by_steep(steep) {
         switch (steep) {
-            case 1:               
+            case 1:
                 $('#container_login_panel').css('visibility', 'visible');
                 $('#container_login_panel').css('display', 'block');
                 $('#signin_profile').css({'visibility':'hidden','display':'none'});                
@@ -315,6 +334,14 @@ $(document).ready(function () {
         }
     }
 
+    $("#tab_credit_card").click(function () {
+        payment_option=0;
+    });
+    
+    $("#tab_ticket_bank").click(function () {
+        payment_option=0;
+    });
+    
     $("#show_login").click(function () {
         $("#loginform").fadeIn();
         $("#loginform").css({"visibility": "visible", "display": "block"});
@@ -408,4 +435,5 @@ $(document).ready(function () {
 
     var plane, pk, datas,cupao_number_checked=false, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
     plane = '4';
+    
 }); 
