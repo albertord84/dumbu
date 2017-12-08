@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    
     active_by_steep(1);
     payment_option=0;
+    alert(payment_option);
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);
@@ -255,20 +255,20 @@ $(document).ready(function () {
                 }
 //            }
             } else if(payment_option==1){
-                var cpf = validate_cpf('#cpf', "^[A-Z ]{4,50}$");
-                var ticket_bank_client_name = validate_cpf('#ticket_bank_client_name', "^[A-Z ]{4,50}$");
-                if (cpf && ticket_bank_client_name) {
-                    datas={
-                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),,                        
-                        'cpf': $('#cpf').val(),
-                        'ticket_bank_option': $('#credit_card_name').val(),                        
-                        'need_delete': need_delete,
-                        'early_client_canceled': early_client_canceled,
-                        'plane_type': plane,
-                        'pk': pk,
-                        'datas': datas
-                    };
-                }
+//                var cpf = validate_cpf('#cpf', "^[A-Z ]{4,50}$");
+//                var ticket_bank_client_name = validate_cpf('#ticket_bank_client_name', "^[A-Z ]{4,50}$");
+//                if (cpf && ticket_bank_client_name) {
+//                    datas={
+//                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),,                        
+//                        'cpf': $('#cpf').val(),
+//                        'ticket_bank_option': $('#credit_card_name').val(),                        
+//                        'need_delete': need_delete,
+//                        'early_client_canceled': early_client_canceled,
+//                        'plane_type': plane,
+//                        'pk': pk,
+//                        'datas': datas
+//                    };
+//                }
             }
         } else {
             console.log('paymet working');
