@@ -25,6 +25,7 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/stylenew.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
                 <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
@@ -480,8 +481,106 @@
                                 <div class="col-sm-2"></div>
 			</div>
 		</section>
-   
-		<section id="assinar" class="fleft100">
+           
+              <!--  <section id="ranking" class="fleft100">
+                    <div class="container">
+                        <div class="row">
+                                <div class="col-sm-1"></div>
+                                <b/>
+                                <b/>
+                                <b/>
+                                <h2 class="text-center"><?php echo $CI->T("Ranking de melhores desempenhos", array(),$language);?></h2>
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p id="profile_ranking1">@natural_instagram</p>
+                                                            <p>SEGUIDORES</p>
+                                                            <div class="col-xs-4">
+                                                                <p id="follo_initial_ranking1">Initial 102</p>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <p id="follo_today_ranking1">4000 Hoje</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <div class="row">
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>  
+                 </section> -->
+
+               <section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
 				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>
@@ -723,20 +822,73 @@
                                                             </div>
                                                     </fieldset>
                                             </div>
-                                           <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
+                                                        <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
                                                     <spam class="val"><?php echo $CI->T("CUPOM", array(),$language);?> (*)</spam>
                                                 </div>
-                                                <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                     <fieldset>
                                                         <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
                                                     </fieldset>
                                                 </div>                                                    
-                                                <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
                                                     <fieldset>
                                                             <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados", array(),$language);?></spam>
                                                     </fieldset>
                                                 </div>
-                                        </div>                                           
+                                                    </div>     
+                                                </div>
+                                                <div class="tab-pane" id="tab_boleto">
+                                                    <form action="#" class="credit-card-div">
+                                                        <div class="panel panel-default" >
+                                                            <div class="panel-heading">
+                                                                <label for="sel1">Selecione um dos seguintes planos:</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                      <select id="ticket_bank_option" class="form-control" id="sel1">
+                                                                        <option id="plano3meses">3 meses 15% de desconto</option>
+                                                                        <option id="plano6meses">6 meses 25% de desconto</option>
+                                                                        <option id="plano1ano">1 ano 40% de desconto</option>
+                                                                      </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br>        
+                                                                <div class="row">
+                                                                          <div class="col-md-12">
+                                                                              <input id="ticket_bank_client_name" type="text" class="form-control" placeholder="Nome completo" />
+                                                                          </div>
+                                                                 </div>
+
+                                                                 <div class="row">
+                                                                        <div class="col-md-12 pad-adjust">
+                                                                                <form name=form>
+                                                                                    <input id="cpf" type=text name=cpf maxlength=14 class="form-control" placeholder="CPF"><br>
+                                                                                </form>
+                                                                        </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        
+                                        <!--<div class="text-center fleft100 m-t20">
+						<img src="assets/images/pay.png" class="wauto" alt="Pay">
+						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
+					</div>
+                                        -->
+                                        <!--<label class="radio-inline">
+                                            <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input id="debit_function" type="radio" name="optradio">Débito
+                                        </label>-->
+                                        
+                                                                             
 				</div>
                             
                             <!--PASSO 3-->

@@ -578,7 +578,7 @@ namespace dumbu\cls {
                 exec($curl_str, $output, $status);
                 //print_r($output);
                 //print("-> $status<br><br>");                
-                
+                $json = json_decode($output[0]);
                 //var_dump($output);
                 if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
                     if ($json->data->user->edge_followed_by->page_info->has_next_page === false) {
@@ -1330,6 +1330,7 @@ namespace dumbu\cls {
         public function bot_login($login, $pass, $Client = NULL) {
             // Is client with cookies, we try to login with str_login
             $result = new \stdClass();
+            $output = array();
             if (!$Client) 
                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
             if (isset($Client->cookies) && $Client->cookies != NULL) {
@@ -1339,16 +1340,10 @@ namespace dumbu\cls {
                 $url = "https://www.instagram.com/graphql/query/";
                 $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                 //print("<br><br>$curl_str<br><br>");
-                exec($curl_str, $output, $status);
-                
-                if(count($output[0]) == 0)
-                {
-                    $this->DB->set_cookies_to_null($Client->id);
-                    $result->json_response->authenticated  = FALSE;
-                }
+                exec($curl_str, $output, $status);          
                 
             }
-            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+            if (count($output) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
                 $result->csrftoken = $cookies->csrftoken;
                 // Get sessionid from cookies
                 $result->sessionid = $cookies->sessionid;
@@ -1386,8 +1381,9 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-             // $this->follow_me_myself($result);
+                 $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, $cookies);
             }
+            
             //var_dump($result);
             //die("<br><br>Debug Finish!");
             return $result;

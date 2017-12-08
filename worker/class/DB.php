@@ -6,10 +6,14 @@ namespace dumbu\cls {
 
         protected $host = 'localhost';
         protected $db = 'dumbudb';
+        protected $db_followed = 'dumbudb_followed';
         //protected $port = '3128';
         protected $user = 'root';
         protected $pass = '';
         private $connection = NULL;
+        private $fConnection = NULL;
+        
+        
 
         public function __construct($conf_file = "/../../../CONFIG.INI") {
             $this->connect($conf_file);
@@ -29,6 +33,11 @@ namespace dumbu\cls {
                 $this->user = $config["database"]["user"];
                 $this->pass = $config["database"]["pass"];
                 $this->connection = mysqli_connect($this->host, $this->user, $this->pass, $this->db) or die("Cannot connect to database.");
+            }
+            if(!$this->fConnection)
+            {
+                $this->db_followed = $config["database"]["follow"];
+                $this->fConnection = mysqli_connect($this->host, $this->user, $this->pass, $this->db_followed) or die("Cannot connect to database.");
             }
         }
 
@@ -261,13 +270,13 @@ namespace dumbu\cls {
                 $sql = "UPDATE clients "
                         . "SET ";
                 $sql .= $cookies ? " clients.cookies   = '$cookies' " : " clients.cookies   = NULL ";
-                $sql .= "WHERE clients.user_id = $client_id; ";
+                $sql .= "WHERE clients.user_id = '$client_id'; ";
 
                 $result = mysqli_query($this->connection, $sql);
-                if ($result)
-                    print "<br>Update client_cookies! <br>";
-                else
-                    print "<br>NOT UPDATED client_cookies!!!<br> $sql <br>";
+                //if ($result)
+                   // print "<br>Update client_cookies! <br>";
+                //else
+                   // print "<br>NOT UPDATED client_cookies!!!<br> $sql <br>";
                 return $result;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -462,6 +471,31 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function save_unfollow_work_db2($Followeds_to_unfollow, $client_id) {
+            try {
+                foreach ($Followeds_to_unfollow as $unfollowed) {
+                    if ($unfollowed->unfollowed) {
+                        $this->connect();
+                        $result = mysqli_query($this->fConnection, ""
+                                . "UPDATE `dumbudb.followed`.`$client_id` "
+                                . "SET unfollowed = TRUE "
+                                . "WHERE followed_id = $unfollowed->followed_id; "
+                        );
+                    }
+                }
+
+                // TODO: UNCOMMENT
+//                $sql = ""
+//                        . "DELETE FROM followed "
+//                        . "WHERE id = $unfollowed->id; ";
+//                $result = mysqli_query($this->connection, $sql);
+
+                return TRUE;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
         public function save_follow_work($Ref_profile_follows, $daily_work) {
             try {
@@ -476,7 +510,13 @@ namespace dumbu\cls {
                             . "VALUES "
                             . "($follow->id, $daily_work->client_id, $daily_work->reference_id, $requested, $time, FALSE);";
 
+                    $sql2 = ""
+                            . "INSERT INTO `dumbudb.followed`.`$daily_work->client_id`"
+                            . "(followed_id, reference_id, date, unfollowed) "
+                            . "VALUES "
+                            . "($follow->id, $daily_work->reference_id, $time, FALSE);";
                     $result = mysqli_query($this->connection, $sql);
+                    $result2 =  mysqli_query($this->fConnection, $sql2);
                 }
 
                 $f_count = count($Ref_profile_follows);
@@ -762,6 +802,39 @@ namespace dumbu\cls {
            
        }
        
+       public function Add_Observation($client_id, $observation)
+       {
+            try {
+                $sql = "UPDATE dumbudb.clients SET observation='$observation' WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }           
+       }
+       
+       public function Create_Followed($client_id)
+       {
+          try {
+                $sql = "CREATE TABLE IF NOT EXISTS `dumbudb.followed`.`$client_id` (
+                                `id` INT NOT NULL AUTO_INCREMENT,
+                                `followed_id` VARCHAR(20) NULL,
+                                `reference_id` INT(1) NOT NULL,
+                                `date` VARCHAR(20) NULL,
+                                `unfollowed` TINYINT(1) NULL,
+                                PRIMARY KEY (`id`, `reference_id`),
+                                INDEX `fk__1_idx` (`reference_id` ASC),
+                                CONSTRAINT `fk__$client_id`
+                                  FOREIGN KEY (`reference_id`)
+                                  REFERENCES `dumbudb`.`reference_profile` (`id`)
+                                  ON DELETE NO ACTION
+                                  ON UPDATE NO ACTION);";
+                $result =  mysqli_query($this->fConnection, $sql);
+                return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            } 
+       }
     }
 
 }

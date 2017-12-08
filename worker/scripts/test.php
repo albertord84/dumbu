@@ -94,17 +94,16 @@ $Client = new \dumbu\cls\Client();
 //var_dump(date('d-m-Y',1486247776));
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 //var_dump(date('d-m-Y',1482951226));
+
 // MUNDIPAGG
-//$Payment = new dumbu\cls\Payment();
+$Payment = new dumbu\cls\Payment();
+var_dump(date('d-m-Y',1484023285));
+
+//$result = $Payment->check_payment(NULL);
+//var_dump($result);
 //$response=$Payment->delete_payment('0b0759c7-2c28-4c3c-aee9-07d1aae581a9');
 //$a=json_decode($response);
 //var_dump($a->success);
-//
-//
-//
-//
-// MUNDIPAGG
-$Payment = new \dumbu\cls\Payment();
 //
 //$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
 //$result = $Payment->check_payment($order_key);
@@ -153,8 +152,8 @@ $Payment = new \dumbu\cls\Payment();
 //$m_pay_day = date("n", $pay_day);
 //$y_pay_day = date("Y", $pay_day);
 //
-//$data = strtotime("+20 min +1 day + 2hour", time());
-//var_dump($data);
+$data = strtotime("+31 day", time());
+var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
@@ -172,14 +171,14 @@ $payment_data['credit_card_exp_year'] = '2020';
 $payment_data['credit_card_cvc'] = '011';
 $payment_data['amount_in_cents'] = 2990;
 $payment_data['pay_day'] = $pay_day;
-$resul = $Payment->create_payment($payment_data);
-var_dump($resul);
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 
-var_dump($pay_day);
+//var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
