@@ -1,7 +1,6 @@
 $(document).ready(function () {
     active_by_steep(1);
     payment_option=0;
-    alert(payment_option);
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);
@@ -10,8 +9,6 @@ $(document).ready(function () {
     $("#accept_modal_alert_message").click(function () {
         $('#modal_alert_message').modal('hide');
     });
-
-    
 
     $('#palno_mensal').prop('disabled', true);
 
@@ -135,8 +132,7 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
-       //pagamento por credito
-                
+       //pagamento por credito                
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);
@@ -174,7 +170,6 @@ $(document).ready(function () {
                             'plane_type': plane,
                             'pk': pk,
                             'datas': datas,
-                            //'card_type': ($("#credit_function").is(":checked")==true)?'credit':'debit'
                         };
                         datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
                         $.ajax({
@@ -184,11 +179,8 @@ $(document).ready(function () {
                             dataType: 'json',
                             success: function (response) {
                                 if (response['success']) {
-                                    //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
-                                    //$(location).attr('href',base_url+'index.php/welcome/client');
                                     $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
-                                    //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
-                                } else {
+                                    } else {
                                     modal_alert_message(response['message']);
                                     set_global_var('flag', true);
                                     $('#btn_sing_in').attr('disabled', false);
@@ -219,25 +211,50 @@ $(document).ready(function () {
                 }
 //            }
             } else if(payment_option==1){
-//                var cpf = validate_cpf('#cpf', "^[A-Z ]{4,50}$");
-//                var ticket_bank_client_name = validate_cpf('#ticket_bank_client_name', "^[A-Z ]{4,50}$");
-//                if (cpf && ticket_bank_client_name) {
+//                var cpf = validate_cpf('#cpf', "^[0-9]{4,50}$");
+//                var ticket_bank_client_name = validate_element('#ticket_bank_client_name', "^[0-9]{4,50}$");
+//                var ticket_bank_option = $('#ticket_bank_option').val();
+//                if(cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
 //                    datas={
-//                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),,                        
+//                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
 //                        'cpf': $('#cpf').val(),
-//                        'ticket_bank_option': $('#credit_card_name').val(),                        
+//                        'ticket_bank_option': ticket_bank_option,
+//                        
 //                        'need_delete': need_delete,
 //                        'early_client_canceled': early_client_canceled,
 //                        'plane_type': plane,
 //                        'pk': pk,
 //                        'datas': datas
 //                    };
-//                }
+//                } else
+//                if(!cpf){
+//                    modal_alert_message(T('CPF inválido'));
+//                    set_global_var('flag', true);
+//                    $('#btn_sing_in').attr('disabled', false);
+//                    $('#btn_sing_in').css('cursor', 'pointer');
+//                    $('#my_body').css('cursor', 'auto');
+//                    l.stop();
+//                } else
+//                if(!ticket_bank_client_name){
+//                    modal_alert_message(T('CPF inválido'));
+//                    set_global_var('flag', true);
+//                    $('#btn_sing_in').attr('disabled', false);
+//                    $('#btn_sing_in').css('cursor', 'pointer');
+//                    $('#my_body').css('cursor', 'auto');
+//                    l.stop();
+//                } else
+//                if(!()){
+//                    modal_alert_message(T('CPF inválido'));
+//                    set_global_var('flag', true);
+//                    $('#btn_sing_in').attr('disabled', false);
+//                    $('#btn_sing_in').css('cursor', 'pointer');
+//                    $('#my_body').css('cursor', 'auto');
+//                    l.stop();
+//                }            
             }
         } else {
             console.log('paymet working');
         }
-        
     });
     
     $('#container_login_panel').keypress(function (e) {
@@ -394,6 +411,10 @@ $(document).ready(function () {
             return false;
         }
         return true;
+    }
+    
+    function validate_cpf(month, year) {
+        
     }
 
     function set_global_var(str, value) {
