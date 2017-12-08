@@ -4,10 +4,6 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
-
-    public function md() {
-        header("Location: ".base_url());
-    }
     
     public function index() {
         $language=$this->input->get();
@@ -47,7 +43,7 @@ class Welcome extends CI_Controller {
             }
         }
         if ($this->session->userdata('id')){
-            $datas = $this->input->get();
+            //$datas = $this->input->get();
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -2690,27 +2686,7 @@ class Welcome extends CI_Controller {
         }
     }  
     
-    
 
-    //tests optional functions
-    public function t1() {
-	$this->load->model('class/client_model');
-	$query="SELECT * FROM clients
-            INNER JOIN users ON clients.user_id = users.id
-            INNER JOIN plane ON clients.plane_id = plane.id
-            WHERE 
-                    users.role_id = 2
-            AND users.status_id <> 4
-            AND users.status_id <> 8
-            AND users.status_id < 11
-            AND (clients.actual_payment_value = '' OR clients.actual_payment_value is null)";
-	$result=$this->client_model->execute_sql_query($query);
-	foreach ($result as $row ) {
-		$this->client_model->update_client($row['user_id'], array(
-			'actual_payment_value' => $row['normal_val']));
-	}
-	echo count($result);
-}
     
     public function paypal() {
         $this->load->view('test_view');
@@ -2967,9 +2943,7 @@ class Welcome extends CI_Controller {
         }        
         var_dump($r);        
     }
-    
-    
-    
+        
     /*public function cancel_blocked_by_payment_by_max_retry_payment(){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -3093,8 +3067,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }
-    }
-    
+    }    
 
     public function cancel_blocked_by_payment_by_max_retry_payment(){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -3124,8 +3097,7 @@ class Welcome extends CI_Controller {
     public function ranking(){ //10 clientes activos que mas han ganado con dumbu               
         //Funcion que deve estimar el ranking general, segun el ranking diario.
         //retorna un array con el ranking, sendo que o clliente na pocisão 0 é o mais ranquado
-    }
-    
+    }    
     
     public function daily_ranking(){
         $this->load->model('class/user_model');
@@ -3167,7 +3139,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_all_retry_clients(){
-        $array_ids=array(176, 192, 419, 1290, 1921, 3046, 3179, 3218, 3590, 12707, 564, 3486, 671, 2300, 4123, 4466, 12356, 12373, 12896, 13786, 23410,25073, 15746, 23636, 24426, 15745);
+        $array_ids=array();
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
             $this->update_client_after_retry_payment_success($array_ids[$i]);
