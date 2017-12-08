@@ -1336,7 +1336,8 @@ namespace dumbu\cls {
             if (isset($Client->cookies) && $Client->cookies != NULL) {
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
-                $result->json_response = $this->str_login($csrftoken, $login, $pass);
+                $mid = $cookies->mid;
+                $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
                 $url = "https://www.instagram.com/graphql/query/";
                 $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                 //print("<br><br>$curl_str<br><br>");
@@ -1456,13 +1457,13 @@ namespace dumbu\cls {
             return NULL;
         }
 
-        public function str_login($csrftoken, $user, $pass) {
+        public function str_login($mid, $csrftoken, $user, $pass) {
             $url = "https://www.instagram.com/accounts/login/ajax/";
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept: */*' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
             $curl_str .= "-H 'Accept-Language: en-US;en;q=0.5' ";
-            $curl_str .= "-H 'Cookie: csrftoken=$csrftoken' ";
+            $curl_str .= "-H 'Cookie: mid=$mid; csrftoken=$csrftoken' ";
             $curl_str .= "-H 'Host: www.instagram.com' ";
             $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
