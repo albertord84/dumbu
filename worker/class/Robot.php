@@ -919,7 +919,7 @@ namespace dumbu\cls {
             $headers[] = "Accept-Language: en-US,en;q=0.5, ";
             $headers[] = "Accept-Encoding: gzip, deflate, br";
             $headers[] = "Referer: https://www.instagram.com/";
-            $headers[] = "X-CSRFToken: $csrftoken";
+            $headers[] = "X-CSRFToken: UttOfNUtDHQheexciIT7Tr13QIRzoP6g";
             $headers[] = "X-Instagram-AJAX: 1";
 
 //            $ip = $_SERVER['REMOTE_ADDR'];
@@ -927,14 +927,15 @@ namespace dumbu\cls {
 //                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
 //                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
 //            }
-            $ip = "127.0.0.1";
-            $headers[] = "REMOTE_ADDR: $ip";
-            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+//            $ip = "127.0.0.1";
+//            $headers[] = "REMOTE_ADDR: $ip";
+//            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
 
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
-            $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken; ";
+//            $headers[] = "Cookie: mid=Wfn9vgAEAAGIFNZei4F0gwnH4M6j; csrftoken=UttOfNUtDHQheexciIT7Tr13QIRzoP6g; ";
+            $headers[] = "Cookie: mid='$mid'; csrftoken='$csrftoken'; ";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
 //            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
@@ -960,9 +961,10 @@ namespace dumbu\cls {
             //
             $login_data = new \stdClass();
             $login_data->json_response = $json_response;
+//            var_dump($cookies);
             if (curl_errno($ch)) {
                 //print curl_error($ch);
-            } else if (count($cookies) >= 5) {
+            } else if (count($cookies) >= 2) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
@@ -1367,6 +1369,7 @@ namespace dumbu\cls {
 //                else
 //                    $this->csrftoken = "1HiIEyzMQMOcKhFaXWuxQd2oVkgj8L4u";
                 $this->csrftoken = $this->get_insta_csrftoken($ch);
+                $this->mid = $this->get_cookies_value("mid");
                 if ($this->csrftoken != NULL && $this->csrftoken != "") {
                     $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
                     $login_response = is_object($result->json_response);
@@ -1382,8 +1385,9 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
+                //(new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
                 // $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, $cookies);
+                 $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, json_encode($result));
             }
             
             //var_dump($result);
