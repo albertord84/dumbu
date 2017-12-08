@@ -276,8 +276,8 @@ $Robot = new \dumbu\cls\Robot();
 //var_dump($output);
 //var_dump($return_var);
 //$Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("alberto_dreyes", "albertord7");
-//var_dump($result);
+$result = $Robot->bot_login("alberto_dreyes", "albertord7");
+var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
