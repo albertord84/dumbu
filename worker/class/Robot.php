@@ -1340,7 +1340,7 @@ namespace dumbu\cls {
                 $url = "https://www.instagram.com/graphql/query/";
                 $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                 //print("<br><br>$curl_str<br><br>");
-                exec($curl_str, $output, $status);          
+                exec($curl_str, $output, $status);        
                 
             }
             if (count($output) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
@@ -1381,7 +1381,8 @@ namespace dumbu\cls {
 //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
             }
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                 $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, $cookies);
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
+                // $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, $cookies);
             }
             
             //var_dump($result);
@@ -1485,6 +1486,86 @@ namespace dumbu\cls {
                 //$result = $this->make_insta_friendships_command($login_data, $dumbusuport_prof_id, 'follow');
             }
             return $result;
+        }
+        
+        public function checkpoint_requested($login, $pass, $Client = NULL) 
+        {
+             if (!$Client)
+                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
+            $url = "https://www.instagram.com/";
+            $login_response = false;
+            // 'cookie: ; rur=ATN; urlgen="{\"time\": 1512592838}:1eMgYc:UcN0E0daepL7D27JcgNpyhZAgQA"' -H 'x-csrftoken: zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'authority: www.instagram.com' --data 'choice=0' --compressed
+            //global $cookies;
+            $ch = curl_init($url);
+            $csrftoken = $this->get_insta_csrftoken($ch);
+            $urlgen = $this->get_cookies_value('urlgen');
+            $mid = $this->get_cookies_value('mid');
+            $rur = $this->get_cookies_value('rur');
+            $ig_vw = $this->get_cookies_value('ig_vw');
+            $ig_pr = $this->get_cookies_value('ig_pr');
+            $ig_vh = $this->get_cookies_value('ig_vh');
+            $ig_or = $this->get_cookies_value('ig_or');
+            //rur=FTW; ig_vw=1301; ig_pr=1; ig_vh=353; ig_or=landscape-primary
+            
+            
+           
+            $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client);
+            $login_response = is_object($result->json_response);
+            
+            
+            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {                
+                 (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
+                 return $login_response;
+            }
+            
+                        
+            if($result->json_response->message == 'checkpoint_required' && isset($result->json_response->checkpoint_url))
+            {
+                $url = "https://www.instagram.com";
+                $url .= $result->json_response->checkpoint_url;
+                $curl_str = "curl '$url' ";
+                $curl_str .= "-H 'origin: https://www.instagram.com' ";
+                $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+                $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed " ;
+                $curl_str .= "-H 'Referer: $url' ";
+                $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+                $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+                $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+                $curl_str .= "mid=$mid; ";
+                $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+                $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
+                exec($curl_str, $output, $status);
+                return json_decode($output[0]);
+            }            
+        }
+        
+        public function make_checkpoint($login, $code) 
+        {
+             if (!$Client)
+                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);    
+            global $cookies;
+            $csrftoken = $cookies->csrftoken;
+            $urlgen = $cookies->urlgen;
+            $mid = $cookies->mid;
+           
+            if($login_response->message == 'checkpoint_required' && isset($result->json_response->checkpoint_url))
+            {
+                $url = "https://www.instagram.com";
+                $url .= $result->json_response->checkpoint_url;
+                $curl_str = "curl '$url' ";
+                $curl_str .= "-H 'origin: https://www.instagram.com' ";
+                $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+                $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed " ;
+                $curl_str .= "-H 'Referer: $url' ";
+                $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+                $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+                $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+                $curl_str .= "mid=$mid; ";
+                $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+                $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
+                exec($curl_str, $output, $status);
+                return json_decode($output[0]);                
+            }            
         }
 
     }

@@ -9,6 +9,8 @@ require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 
+
+
 // Verify Account:
 // 
 // 1. By Code
@@ -34,6 +36,7 @@ $init_day->setTimestamp('1511413162');
 var_dump($init_day);
 
 $DB = new \dumbu\cls\DB();
+
 //$DB->Create_Followed(12345);
                
 //$pay_date = new DateTime();
@@ -49,6 +52,9 @@ $DB = new \dumbu\cls\DB();
 //var_dump($follows_count);
 
 $Robot = new dumbu\cls\Robot();
+
+$var = $Robot->make_checkpoint('ruslan.guerra88', '324068');
+/*
 $Worker = new dumbu\cls\Worker();
 
 $Worker->prepare_daily_work();
