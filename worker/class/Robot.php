@@ -905,8 +905,8 @@ namespace dumbu\cls {
             return $csrftoken;
         }
 
-        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client = NULL) {
-            $mid = $this->get_cookies_value("mid");
+        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $mid, $Client = NULL) {
+            //$mid = $this->get_cookies_value("mid");
             //var_dump($mid);
             $pass = urlencode($pass);
             $postinfo = "username=$login&password=$pass";
@@ -928,9 +928,9 @@ namespace dumbu\cls {
 //                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
 //                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
 //            }
-//            $ip = "127.0.0.1";
-//            $headers[] = "REMOTE_ADDR: $ip";
-//            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            $ip = "127.0.0.1";
+            $headers[] = "REMOTE_ADDR: $ip";
+            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
 
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
@@ -1017,7 +1017,7 @@ namespace dumbu\cls {
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
-            $headers[] = "Cookie: csrftoken=$csrftoken";
+            $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
             //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
@@ -1044,7 +1044,7 @@ namespace dumbu\cls {
             $login_data->json_response = $json_response;
             if (curl_errno($ch)) {
                 //print curl_error($ch);
-            } else if (count($cookies) >= 5) {
+            } else if (count($cookies) >= 2) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
@@ -1342,10 +1342,12 @@ namespace dumbu\cls {
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
                 $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
-                $url = "https://www.instagram.com/graphql/query/";
-                $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                // TODO: Jose Angel revisar
+//                $url = "https://www.instagram.com/graphql/query/";
+//                $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                 //print("<br><br>$curl_str<br><br>");
-                exec($curl_str, $output, $status);  
+//                exec($curl_str, $output, $status);  
+                $output = array(0);
                 // TODO: Si esta en checpoint required no hacer mas nada
                 //
                 //
@@ -1375,7 +1377,7 @@ namespace dumbu\cls {
                 $this->csrftoken = $this->get_insta_csrftoken($ch);
                 $this->mid = $this->get_cookies_value("mid");
                 if ($this->csrftoken != NULL && $this->csrftoken != "") {
-                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
+                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
                     $login_response = is_object($result->json_response);
                 }
                 $try_count++;
