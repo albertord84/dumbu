@@ -1377,7 +1377,7 @@ namespace dumbu\cls {
                 $this->csrftoken = $this->get_insta_csrftoken($ch);
                 $this->mid = $this->get_cookies_value("mid");
                 if ($this->csrftoken != NULL && $this->csrftoken != "") {
-                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $Client);
+                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
                     $login_response = is_object($result->json_response);
                 }
                 $try_count++;

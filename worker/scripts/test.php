@@ -281,7 +281,7 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
 
-//$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
+$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
 //var_dump($result);
 
 $url = "https://www.instagram.com/";
@@ -289,7 +289,7 @@ $ch = curl_init($url);
 $mid = "Wh8j7wAEAAFI8PVD2LfNQan_fx9D";
 $csrftoken = "77G4HebOUjsq7NZ1ChYR3sphL219KWmV";
 
-$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
+//$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
 //$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
 var_dump($result);
 
