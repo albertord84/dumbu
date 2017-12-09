@@ -278,6 +278,8 @@ $Robot = new \dumbu\cls\Robot();
 //$Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
+$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
+var_dump($result);
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
@@ -288,8 +290,8 @@ $Robot = new \dumbu\cls\Robot();
 //$result = $Robot->bot_login("vaniapetti", "202020");
 //var_dump($result);
 //$result = $Robot->bot_login("lambaosbeicos", "75005310");
-$result = $Robot->bot_login("alberto_dreyes", "albertord7");
-var_dump($result);
+//$result = $Robot->bot_login("alberto_dreyes", "albertord7");
+//var_dump($result);
 //$result = $Robot->bot_login("tompsonr", "sorvete6969");
 //var_dump($result);
 //----------------------------------------------------------------
