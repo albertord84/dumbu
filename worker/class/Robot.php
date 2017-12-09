@@ -1479,7 +1479,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
             $curl_str .= "-H 'X-Instagram-AJAX: 1' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
-            //$curl_str .= "-H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'";
+            $curl_str .= "-H 'REMOTE_ADDR: 127.0.0.1' -H 'HTTP_X_FORWARDED_FOR: 127.0.0.1'";
             $curl_str .= " --data 'username=$user&password=$pass' ";
             exec($curl_str, $output, $status);
             return json_decode($output[0]);
