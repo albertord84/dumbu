@@ -55,28 +55,7 @@
         
         <!--Start of Zendesk Chat Script-->
         <?php if ($SERVER_NAME == "PRO") { ?>
-                <script type="text/javascript">
-                window.$zopim||(function(d,s){var z=$zopim=function(c){
-                z._.push(c)},$=z.s=
-                d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-                _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-                $.src="https://v2.zopim.com/?4QMQc3y0X75kW162SosdvI6XoWRNlUzo";z.t=+new Date;$.
-                type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-
-                $zopim(function() {
-                    $zopim.livechat.departments.filter("");
-                    $zopim.livechat.departments.setVisitorDepartment("Gerente de contas");
-                    $zopim.livechat.setOnConnected(function() {
-                        var dep = $zopim.livechat.departments.getDepartment("Gerente de contas");
-                        if(dep.status=="offline"){
-                            $zopim.livechat.setStatus("offline");
-                        }
-                        else{
-                            $zopim.livechat.button.show();
-                        }
-                    })
-                });
-                </script>
+                <script type="text/javascript" src="<?php echo base_url() . 'assets/js/zendesk_chat_client.js'; ?>"></script>
         <?php } ?>
         <!--End of Zendesk Chat Script-->
     </head>
@@ -264,9 +243,21 @@
                             break;
                         case 9:
                             if (isset($verify_account_datas) && is_array($verify_account_datas)) {
-                                if ($verify_account_datas['verify_account_url'] != "")
+                                if ($verify_account_datas['verify_account_url'] != "") {
                                     echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><br>
+                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA", array(), $language) . '</b> <br><br>
+                                                <label>' . $CI->T("PASSO 1: Solicite seu código de segurança ", array(), $language) . '</label>
+                                                <a id="lnk_security_code_request" style="color:blue;font-size:1em;">' . $CI->T("AQUÍ", array(), $language) . '</a>
+                                                <label>' . $CI->T("PASSO 2: Agora insira o código de 6 dígitos que foi enviado ao seu email cadastrado em Instagram", array(), $language) . '</label> <br>
+                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="123456"> <br>
+                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                                    ' . $CI->T("CONFIRMAR", array(), $language) . '
+                                                </button>
+                                            </div>';
+
+                                    /*echo '  <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><BR>
                                                 <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array(), $language) . '</b>  <br>           
                                                 <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="' . $verify_account_datas['verify_account_url'] . '">
@@ -274,8 +265,8 @@
                                                         ' . $CI->T("ATIVAR AGORA", array(), $language) . '
                                                     </button>
                                                 </a>
-                                            </div>';
-                                else
+                                            </div>';*/
+                                } else
                                     echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><BR>

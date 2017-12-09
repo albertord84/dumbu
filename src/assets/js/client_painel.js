@@ -538,17 +538,17 @@ $(document).ready(function () {
             $('#button_play_pause').css({'background-color': '#009CDE'});
             $('#button_play_pause').html('<span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>');
             var contenedor=document.getElementById('status_text');
-            contenedor.style.display="none";
+            if (contenedor !== null) { contenedor.style.display="none"; }
             contenedor=document.getElementById('status_text_paused');
-            contenedor.style.display="inline";
+            if (contenedor !== null) { contenedor.style.display="inline"; }
         }
         else {
             $('#button_play_pause').css({'background-color': '#DFDFDF'});
             $('#button_play_pause').html('<span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>');
             var contenedor=document.getElementById('status_text_paused');
-            contenedor.style.display="none";
+            if (contenedor !== null) { contenedor.style.display="none"; }
             contenedor=document.getElementById('status_text');
-            contenedor.style.display="inline";
+            if (contenedor !== null) { contenedor.style.display="inline"; }
         }
     }
 
@@ -1323,5 +1323,66 @@ $(document).ready(function () {
     });
     $("#lnk_language3").click(function () {
         $(location).attr("href",base_url+"index.php/welcome/client?language="+$("#txt_language3").text()); 
+    });
+    
+    $("#lnk_security_code_request").hover(
+            function () {
+                $('#lnk_security_code_request').css('cursor', 'pointer');
+            },
+            function () {
+                $('#lnk_security_code_request').css('cursor', 'default');
+            }
+    );
+    
+    $("#lnk_security_code_request").click(function () {
+        $.ajax({
+            url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+            data: {
+                'cupao_number': $('#cupao_number').val(),
+                'pk': pk
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response['success']) {
+                    set_global_var('cupao_number_checked', true);  
+                }
+                modal_alert_message(response['message']);
+                l.stop();
+            },
+            error: function (xhr, status) {
+                modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
+                l.stop();
+            }
+        });
+    });
+    
+    $("#btn_confirm_new").click(function () {
+        if ($("#security_code").val()!=='') {
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+                data: {
+                    'cupao_number': $('#cupao_number').val(),
+                    'pk': pk
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        set_global_var('cupao_number_checked', true);  
+                    }
+                    modal_alert_message(response['message']);
+                    l.stop();
+                },
+                error: function (xhr, status) {
+                    modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
+                    l.stop();
+                }
+            });
+        } else {
+            modal_alert_message('Deve preencher o campo com o código de segurança de 6 dígitos.');  
+        }
     });
 }); 

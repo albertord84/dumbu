@@ -1,7 +1,7 @@
 $(document).ready(function () {
     active_by_steep(1);
     payment_option=0;
-    alert(payment_option);
+    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);
