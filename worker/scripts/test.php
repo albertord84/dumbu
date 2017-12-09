@@ -278,8 +278,17 @@ $Robot = new \dumbu\cls\Robot();
 //$Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
+
 $result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
 var_dump($result);
+
+$mid = "Wh8j7wAEAAFI8PVD2LfNQan_fx9D";
+$csrftoken = "77G4HebOUjsq7NZ1ChYR3sphL219KWmV";
+//$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
+//var_dump($result);
+
+
+
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));
