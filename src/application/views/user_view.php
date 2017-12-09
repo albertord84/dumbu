@@ -489,7 +489,7 @@
                                 <b/>
                                 <b/>
                                 <b/>
-                                <h2 class="text-center"><?php echo $CI->T("Ranking de melhores desempenhos", array(),$language);?></h2>
+                                <h2 class="text-center"><?php// echo $CI->T("Ranking de melhores desempenhos", array(),$language);?></h2>
                                 <div class="container">
                                     <div class="col-sm-6">
                                             <div class="fleft100 bk-cinza pf-painel">
@@ -772,7 +772,7 @@
                                                         <img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito
                                                     </a>
                                                 </li>
-                                                <!--<li id="tab_ticket_bank">
+                                                <!--li id="tab_ticket_bank">
                                                     <a href="#tab_boleto" data-toggle="tab">
                                                         <img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto
                                                     </a>
@@ -851,9 +851,9 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                       <select id="ticket_bank_option" class="form-control" id="sel1">
-                                                                        <option id="plano3meses">3 meses 15% de desconto</option>
-                                                                        <option id="plano6meses">6 meses 25% de desconto</option>
-                                                                        <option id="plano1ano">1 ano 40% de desconto</option>
+                                                                        <option id="plano3meses" value="1">3 meses 15% de desconto</option>
+                                                                        <option id="plano6meses" value="2">6 meses 25% de desconto</option>
+                                                                        <option id="plano1ano" value="3">1 ano 40% de desconto</option>
                                                                       </select>
                                                                     </div>
                                                                 </div>
