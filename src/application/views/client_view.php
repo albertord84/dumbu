@@ -18,9 +18,9 @@
         <link href="<?php echo base_url() . 'assets/bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/loading.css'; ?>" rel="stylesheet">
         <link href="<?php echo base_url() . 'assets/css/style.css'; ?>" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css'; ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css'; ?>" />
-        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css' ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/default.css?'.$SCRIPT_VERSION; ?>" />
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/component.css?'.$SCRIPT_VERSION; ?>" />
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/ladda-themeless.min.css?'.$SCRIPT_VERSION; ?>">
         
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.js'; ?>"></script>      
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/typeahead.js'; ?>"></script>      
@@ -38,12 +38,12 @@
         <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js?1.0.0'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js?1.0.0'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js?'.$SCRIPT_VERSION; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js?'.$SCRIPT_VERSION; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js?'.$SCRIPT_VERSION; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js?'.$SCRIPT_VERSION; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js?'.$SCRIPT_VERSION; ?>"></script>
          
         <?php //para SEO 
             if($SERVER_NAME=="ONE"){
