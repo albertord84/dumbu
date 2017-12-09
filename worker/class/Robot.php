@@ -905,8 +905,8 @@ namespace dumbu\cls {
             return $csrftoken;
         }
 
-        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client = NULL) {
-            $mid = $this->get_cookies_value("mid");
+        public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $mid, $Client = NULL) {
+            //$mid = $this->get_cookies_value("mid");
             //var_dump($mid);
             $pass = urlencode($pass);
             $postinfo = "username=$login&password=$pass";
@@ -1017,7 +1017,7 @@ namespace dumbu\cls {
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
-            $headers[] = "Cookie: csrftoken=$csrftoken";
+            $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
             //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
@@ -1044,7 +1044,7 @@ namespace dumbu\cls {
             $login_data->json_response = $json_response;
             if (curl_errno($ch)) {
                 //print curl_error($ch);
-            } else if (count($cookies) >= 5) {
+            } else if (count($cookies) >= 2) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
