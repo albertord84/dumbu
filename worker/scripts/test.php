@@ -275,7 +275,9 @@ $Robot = new \dumbu\cls\Robot();
 //var_dump($str_curl);
 //var_dump($output);
 //var_dump($return_var);
-//$Robot = new dumbu\cls\Robot();
+
+
+$Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
 
