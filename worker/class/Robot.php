@@ -916,10 +916,11 @@ namespace dumbu\cls {
             $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
             //            $headers[] = "Accept: application/json";
             $headers[] = "Accept: */*";
-            $headers[] = "Accept-Language: en-US,en;q=0.5, ";
+            $headers[] = "Accept-Language: en-US;en;q=0.9";
             $headers[] = "Accept-Encoding: gzip, deflate, br";
             $headers[] = "Referer: https://www.instagram.com/";
-            $headers[] = "X-CSRFToken: UttOfNUtDHQheexciIT7Tr13QIRzoP6g";
+//            $headers[] = "X-CSRFToken: 77G4HebOUjsq7NZ1ChYR3sphL219KWmV";
+            $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
 
 //            $ip = $_SERVER['REMOTE_ADDR'];
@@ -934,8 +935,8 @@ namespace dumbu\cls {
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
-//            $headers[] = "Cookie: mid=Wfn9vgAEAAGIFNZei4F0gwnH4M6j; csrftoken=UttOfNUtDHQheexciIT7Tr13QIRzoP6g; ";
-            $headers[] = "Cookie: mid='$mid'; csrftoken='$csrftoken'; ";
+//            $headers[] = "Cookie: mid=Wh8j7wAEAAFI8PVD2LfNQan_fx9D; csrftoken=77G4HebOUjsq7NZ1ChYR3sphL219KWmV; ";
+            $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken; ";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
 //            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
@@ -951,6 +952,7 @@ namespace dumbu\cls {
             global $cookies;
             $cookies = array();
             $html = curl_exec($ch);
+//            var_dump($html);
             $info = curl_getinfo($ch);
 
             // LOGIN WITH CURL TO TEST
@@ -971,7 +973,7 @@ namespace dumbu\cls {
                 // Get ds_user_id from cookies
                 $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
                 // Get mid from cookies
-                $login_data->mid = $this->get_cookies_value("mid");
+                $login_data->mid = $this->get_cookies_value("mid") ? $this->get_cookies_value("mid") : $mid;
             }
             curl_close($ch);
 //            var_dump($login_data);
@@ -1343,8 +1345,10 @@ namespace dumbu\cls {
                 $url = "https://www.instagram.com/graphql/query/";
                 $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                 //print("<br><br>$curl_str<br><br>");
-                exec($curl_str, $output, $status);        
-                
+                exec($curl_str, $output, $status);  
+                // TODO: Si esta en checpoint required no hacer mas nada
+                //
+                //
             }
             if (count($output) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
                 $result->csrftoken = $cookies->csrftoken;
