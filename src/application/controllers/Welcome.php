@@ -787,9 +787,12 @@ class Welcome extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;        
         $datas = $this->input->post();
+        $datas['plane_id']=intval($datas['plane_type']);
+        $datas['ticket_bank_option']=intval($datas['ticket_bank_option']);
         
         //1. analisar se é possivel gerar boleto para esse cliente ()
-        if(!true){
+        if(!true){ 
+            //TODO YANETXY
             $result['success'] = false;
             $result['message'] = $this->T('Número de tentativas esgotadas. Contate nosso atendimento', array(), $GLOBALS['language']);
         }else
@@ -805,40 +808,38 @@ class Welcome extends CI_Controller {
         } else
         if( !( $datas['ticket_bank_option']>=1 && $datas['ticket_bank_option']<=3 )){
             $result['success'] = false;
-            $result['message'] = 'Plano informado incorreto';
+            $result['message'] = 'Selecione um periodo de tempo válido pra ganhar desconto';
         } else{
 
         //3. gerar boleto bancario e salvar dados
         $this->load->model('class/user_model');
-        $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
+        $query='SELECT * FROM plane WHERE id='.$datas['plane_id'];
         $plane_datas = $this->user_model->execute_sql_query($query)[0];
         if($datas['ticket_bank_option']==1)
-            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.85);
+            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.85*3);
         else
         if($datas['ticket_bank_option']==2)
-            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.75);
+            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.75*6);
         else
         if($datas['ticket_bank_option']==3)
-            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.60);
+            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.60*12);
                 
         $this->load->model('class/client_model');
         $query="SELECT value FROM dumbu_system_config WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-        $DocumentNumber = $this->client_model->execute_sql_query($query)[0];
-        $datas['DocumentNumber'] = $DocumentNumber+1;
-        $query="SELECT value FROM dumbu_system_config WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-        $DocumentNumber = $this->user_model->execute_sql_query($query)[0];
+        $DocumentNumber = $this->client_model->execute_sql_query($query)[0]['value'];
         
-        $datas['OrderReference'];
-        $datas['user_id'];
-        $datas['name'];
-        $datas['cpf'];
-        $response = $this->check_mundipagg_boleto($datas);
-
+        $datas['DocumentNumber'] = $DocumentNumber+1;
+        $datas['OrderReference']=$DocumentNumber+1;
+        $datas['user_id'] = $datas['pk'];
+        $datas['name']=$datas['ticket_bank_client_name'];
+        //$response = $this->check_mundipagg_boleto($datas);
+        
+        
         //4. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5
 
-
-            //5. retornar response e tomar decisão no cliente
-
+        //5. retornar response e tomar decisão no cliente
+            
+            
         //OBS: o cliente ainda continua em BEGINNER
         }
         echo json_encode($result);
