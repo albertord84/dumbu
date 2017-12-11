@@ -178,9 +178,9 @@ $Gmail = new \dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("jangel.riveaux@gmail.com", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-$Gmail->mail->Username = "admin@dumbu.one";
-$Gmail->mail->Password = "Sorvete69@";
-$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
+//$Gmail->mail->Username = "admin@dumbu.one";
+//$Gmail->mail->Password = "Sorvete69@";
+//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
 //var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result)
@@ -276,8 +276,8 @@ $csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
 
 //$result = $Robot->login_insta_with_csrftoken($ch, "alberto_dreyes", "albertord8", $csrftoken, $mid, $Client);
-//$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
-$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
+$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
+//$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
 var_dump($result);
 var_dump(json_encode($result));
 
