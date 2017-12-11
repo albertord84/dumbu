@@ -155,18 +155,6 @@ $pay_day = strtotime('12/27/2017 05:00:00');
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
-<<<<<<< HEAD
-
-
-=======
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-//var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
-//var_dump($resul);
-//var_dump($pay_day);
->>>>>>> production
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment('e15cb727-0e3d-4699-a129-acbc1004fce7');
