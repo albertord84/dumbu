@@ -159,6 +159,7 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM users "
                         . "     INNER JOIN clients ON clients.user_id = users.id "
+                        . "     INNER JOIN plane ON plane.id = clients.plane_id "
                         . "WHERE users.id = $client_id; "
                 );
                 return $result ? $result->fetch_object() : NULL;
@@ -289,9 +290,9 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM reference_profile "
                         . "WHERE "
-                        . "  (reference_profile.client_id = $client_id); "
+                        . "  (reference_profile.client_id = $client_id) AND "
+                        . "(reference_profile.deleted <> TRUE)"               
 //                        . "  (reference_profile.client_id = $client_id) AND "
-//                        . "  (reference_profile.deleted <> TRUE);"
                 );
                 return $result;
             } catch (\Exception $exc) {
