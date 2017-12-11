@@ -31,24 +31,30 @@ $(document).ready(function(){
                     } else
                         modal_alert_message(response['message']);    
                     l.stop();
-                    },
+                    $("#visitor_name").val("");
+                    $("#visitor_company").val("");
+                    $("#visitor_email").val("");
+                    $("#visitor_phone").val("");
+                    $("#visitor_message").val(""); 
+                },
                 error : function(xhr, status) {
                     modal_alert_message(T('Erro enviando a mensagem, tente depois...'));
                     l.stop();
+                    
+                    $("#visitor_name").val("");
+                    $("#visitor_company").val("");
+                    $("#visitor_email").val("");
+                    $("#visitor_phone").val("");
+                    $("#visitor_message").val(""); 
                 }                
             });
         } else{
             modal_alert_message(T('Alguns dados incorretos'));            
         }
-        
-        $("#visitor_name").val("");
-        $("#visitor_company").val("");
-        $("#visitor_email").val("");
-        $("#visitor_phone").val("");
-        $("#visitor_message").val("");                      
+                             
     });
     
-          
+              
     $('#talkme_frm').keypress(function (e) {
         if (e.which == 13) {
             $("#btn_send_message").click();

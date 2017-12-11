@@ -14,8 +14,8 @@
                          <ul class="nav navbar-nav navbar-left">
                             <!--<li><a href="#lnk_talkme">FALE CONOSCO</a></li>-->
                             <li><a id="lnk_washdog" target="_blank" href="<?php echo base_url().'index.php/admin/watchdog'?>">WATCHDOG</a></li>
-                            <li><a id="lnk_pendences" target="_blank" href="<?php echo base_url().'index.php/admin/pendences'?>">PENDENÇAS</a></li>
-                            <li><a href="<?php echo base_url().'index.php/welcome/log_out'?>" >SAIR</a></li>
+                            <li><a id="lnk_pendences" target="_blank" href="<?php echo base_url().'index.php/admin/pendences'?>">PENDÊNCIAS</a></li>
+                            <li><a href="<?php echo base_url().'index.php/admin/log_out'?>" >SAIR</a></li>
                          </ul>
                     </div>
                 </nav> 

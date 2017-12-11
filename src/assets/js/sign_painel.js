@@ -1,15 +1,14 @@
 $(document).ready(function () {
-    
+    active_by_steep(1);
+    payment_option=0;
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
-        $('#message_text').text(text_message);        
+        $('#message_text').text(text_message);
     }
     
     $("#accept_modal_alert_message").click(function () {
         $('#modal_alert_message').modal('hide');
     });
-
-    active_by_steep(1);
 
     $('#palno_mensal').prop('disabled', true);
 
@@ -23,6 +22,53 @@ $(document).ready(function () {
             vars[hash[0]] = hash[1];
         }
         return vars;
+    }
+        
+    function validate_cpf(element_selector, pattern) {
+        var cpf=$(element_selector).val();
+        if(cpf.match(pattern)){
+            cpf = cpf.replace(/[^\d]+/g,'');    
+            if(cpf == '') {
+                $(element_selector).css("border", "1px solid red");
+                return false;
+            }
+            // Elimina CPFs invalidos conhecidos    
+            if (cpf.length != 11 || 
+                cpf == "00000000000" || cpf == "11111111111" || cpf == "22222222222" 
+                || cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" 
+                || cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" 
+                || cpf == "99999999999"){
+                    $(element_selector).css("border", "1px solid red");
+                    return false;
+                }
+            // Valida 1o digito 
+            add = 0;
+            for (i=0; i < 9; i ++)       
+                add += parseInt(cpf.charAt(i)) * (10 - i);  
+                rev = 11 - (add % 11);  
+                if(rev == 10 || rev == 11)     
+                    rev = 0;    
+                if(rev != parseInt(cpf.charAt(9))){
+                    $(element_selector).css("border", "1px solid red");
+                    return false;
+                }
+            // Valida 2o digito 
+            add = 0;
+            for (i = 0; i < 10; i ++)
+                add += parseInt(cpf.charAt(i)) * (11 - i);  
+            rev = 11 - (add % 11);
+            if (rev == 10 || rev == 11)
+                rev = 0;
+            if (rev != parseInt(cpf.charAt(10))){
+                $(element_selector).css("border", "1px solid red");
+                return false;
+            }            
+            $(element_selector).css("border", "1px solid gray");
+            return true;
+        }else{
+            $(element_selector).css("border", "1px solid red");
+            return false;
+        }
     }
                 
     $("#check_cupao").click(function () {
@@ -55,7 +101,7 @@ $(document).ready(function () {
     });
     
     
-    $("#signin_btn_insta_login").click(function () {           
+    $("#signin_btn_insta_login").click(function () {
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {                   
@@ -133,7 +179,7 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
-       //pagamento por credito
+       //pagamento por credito                
         if (flag == true) {
             flag = false;
             $('#btn_sing_in').attr('disabled', true);
@@ -142,65 +188,144 @@ $(document).ready(function () {
             var l = Ladda.create(this);
             l.start();
             l.start();
-            var name = validate_element('#credit_card_name', "^[A-Z ]{4,50}$");
-            var number = validate_element('#credit_card_number', "^[0-9]{10,20}$");
-            var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
-            var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
-            var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
-            if (name && number && cvv && month && year) {
+            
+            if(payment_option==0){
+//            if( 
+//                    ((($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD')  && confirm(T("Informe seu nome no cartão e não a bandeira dele. Deseja continuar?")))
+//                    || 
+//                    ((($('#credit_card_name').val()).toUpperCase()!=='VISA' || ($('#credit_card_name').val()).toUpperCase()!=='MASTERCARD'))){
+                       
+                var name = validate_element('#credit_card_name', "^[A-Z ]{4,50}$");
+                var number = validate_element('#credit_card_number', "^[0-9]{10,20}$");
+                var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
+                var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
+                var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
+                var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());            
+                if (name && number && cvv && month && year) {
+                    if (date) {
+                        datas={
+                            'user_login': login,
+                            'user_pass': pass,
+                            'user_email': email,
+                            'credit_card_number': $('#credit_card_number').val(),
+                            'credit_card_cvc': $('#credit_card_cvc').val(),
+                            'credit_card_name': $('#credit_card_name').val(),
+                            'credit_card_exp_month': $('#credit_card_exp_month').val(),
+                            'credit_card_exp_year': $('#credit_card_exp_year').val(),
+                            'need_delete': need_delete,
+                            'early_client_canceled': early_client_canceled,
+                            'plane_type': plane,
+                            'pk': pk,
+                            'datas': datas,
+                        };
+                        datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
+                        $.ajax({
+                            url: base_url + 'index.php/welcome/check_client_data_bank',
+                            data: datas,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response['success']) {
+                                    $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
+                                } else {
+                                    modal_alert_message(response['message']);
+                                    set_global_var('flag', true);
+                                    $('#btn_sing_in').attr('disabled', false);
+                                    $('#btn_sing_in').css('cursor', 'pointer');
+                                    $('#my_body').css('cursor', 'auto');
+                                    l.stop();
+                                }
+                            },
+                            error: function (xhr, status) {
+                                set_global_var('flag', true);
+                            }
+                        });
+                    } else {
+                        modal_alert_message(T('Data errada'));
+                        set_global_var('flag', true);
+                        $('#btn_sing_in').attr('disabled', false);
+                        $('#btn_sing_in').css('cursor', 'pointer');
+                        $('#my_body').css('cursor', 'auto');
+                        l.stop();
+                    }   
+                } else{
+                    modal_alert_message(T('Verifique os dados fornecidos'));
+                    set_global_var('flag', true);
+                    $('#btn_sing_in').attr('disabled', false);
+                    $('#btn_sing_in').css('cursor', 'pointer');
+                    $('#my_body').css('cursor', 'auto');
+                    l.stop();
+                }
+            } else if(payment_option==1){
+                var ticket_bank_option = parseInt($('#ticket_bank_option').val());
+                var ticket_bank_client_name = validate_element('#ticket_bank_client_name', "^[A-Za-z ]{4,50}$");
+                var cpf = validate_cpf('#cpf', "^[0-9]{2,11}$");
+                
+                if(cpf /*&& ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)*/  ) {
                     datas={
-                        'user_login': login,
-                        'user_pass': pass,
-                        'user_email': email,
-                        'credit_card_number': $('#credit_card_number').val(),
-                        'credit_card_cvc': $('#credit_card_cvc').val(),
-                        'credit_card_name': $('#credit_card_name').val(),
-                        'credit_card_exp_month': $('#credit_card_exp_month').val(),
-                        'credit_card_exp_year': $('#credit_card_exp_year').val(),
+                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
+                        'cpf': $('#cpf').val(),
+                        'ticket_bank_option': ticket_bank_option,
+                        
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
                         'pk': pk,
-                        'datas': datas,
-                        //'card_type': ($("#credit_function").is(":checked")==true)?'credit':'debit'
-                    };
-                    datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
-                $.ajax({
-                    url: base_url + 'index.php/welcome/check_client_data_bank',
-                    data: datas,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response['success']) {
-                            //modal_alert_message("Sua compra foi realizada corretamente. Você sera redirecionado ...");
-                            //$(location).attr('href',base_url+'index.php/welcome/client');
-                            $(location).attr('href', base_url + 'index.php/welcome/purchase?language='+language);
-                            //$(location).attr('href', base_url + 'index.php/welcome/purchase?client_email='.$("#client_email").val());
-                        } else {
-                            modal_alert_message(response['message']);
+                        //'datas': datas /////ojo, revisar se precisa
+                    };                    
+                    $.ajax({
+                        url: base_url + 'index.php/welcome/check_client_ticket_bank',
+                        data: datas,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response['success']) {
+                                var text = "Compra realizada com sucesso!!<br>"+
+                                         "Agora acesse ao seu email cadastrado no Passo 1 e "+
+                                                "continue com as instruções"
+                                modal_alert_message(text);
+                            } else{
+                                modal_alert_message(response['message']);
+                                set_global_var('flag', true);
+                                $('#btn_sing_in').attr('disabled', false);
+                                $('#btn_sing_in').css('cursor', 'pointer');
+                                $('#my_body').css('cursor', 'auto');
+                                l.stop();
+                            }
+                        },
+                        error: function (xhr, status) {
                             set_global_var('flag', true);
-                            $('#btn_sing_in').attr('disabled', false);
-                            $('#btn_sing_in').css('cursor', 'pointer');
-                            $('#my_body').css('cursor', 'auto');
-                            l.stop();
                         }
-                    },
-                    error: function (xhr, status) {
-                        set_global_var('flag', true);
-                    }
-                });
-            } else {
-                modal_alert_message('Verifique os dados fornecidos');
-                set_global_var('flag', true);
-                $('#btn_sing_in').attr('disabled', false);
-                $('#btn_sing_in').css('cursor', 'pointer');
-                $('#my_body').css('cursor', 'auto');
-                l.stop();
-            }            
+                    });                    
+                } else
+                if(!cpf){
+                    modal_alert_message('CPF inválido');
+                    set_global_var('flag', true);
+                    $('#btn_sing_in').attr('disabled', false);
+                    $('#btn_sing_in').css('cursor', 'pointer');
+                    $('#my_body').css('cursor', 'auto');
+                    l.stop();
+                } else
+                if(!ticket_bank_client_name){
+                    modal_alert_message('Número de cartão de crédito inválido');
+                    set_global_var('flag', true);
+                    $('#btn_sing_in').attr('disabled', false);
+                    $('#btn_sing_in').css('cursor', 'pointer');
+                    $('#my_body').css('cursor', 'auto');
+                    l.stop();
+                } else
+                if(!( !(ticket_bank_option>=1 && ticket_bank_option<=3) )){
+                    modal_alert_message('Selecione um periodo de tempo válido pra ganhar desconto');
+                    set_global_var('flag', true);
+                    $('#btn_sing_in').attr('disabled', false);
+                    $('#btn_sing_in').css('cursor', 'pointer');
+                    $('#my_body').css('cursor', 'auto');
+                    l.stop();
+                }
+            }
         } else {
             console.log('paymet working');
-        }            
-        
+        }
     });
     
     $('#container_login_panel').keypress(function (e) {
@@ -251,7 +376,7 @@ $(document).ready(function () {
 
     function active_by_steep(steep) {
         switch (steep) {
-            case 1:               
+            case 1:
                 $('#container_login_panel').css('visibility', 'visible');
                 $('#container_login_panel').css('display', 'block');
                 $('#signin_profile').css({'visibility':'hidden','display':'none'});                
@@ -297,6 +422,14 @@ $(document).ready(function () {
         }
     }
 
+    $("#tab_credit_card").click(function () {
+        payment_option=0;
+    });
+    
+    $("#tab_ticket_bank").click(function () {
+        payment_option=1;
+    });
+    
     $("#show_login").click(function () {
         $("#loginform").fadeIn();
         $("#loginform").css({"visibility": "visible", "display": "block"});
@@ -322,6 +455,8 @@ $(document).ready(function () {
             return true;
         }
     }
+    
+
 
     function validate_month(element_selector, pattern) {
         if (!$(element_selector).val().match(pattern) || Number($(element_selector).val()) > 12) {
@@ -342,7 +477,15 @@ $(document).ready(function () {
             return true;
         }
     }
-
+    
+    function validate_date(month, year) {
+        var d=new Date();        
+        if (year < d.getFullYear() || (year == d.getFullYear() && month <= d.getMonth()+1)){
+            return false;
+        }
+        return true;
+    }
+      
     function set_global_var(str, value) {
         switch (str) {
             case 'pk':
@@ -382,4 +525,5 @@ $(document).ready(function () {
 
     var plane, pk, datas,cupao_number_checked=false, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
     plane = '4';
+    
 }); 

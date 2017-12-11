@@ -174,6 +174,17 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_begginer_client($client_id) {
+            try {
+                $DB = new DB();
+                $client_data = $DB->get_biginner_data($client_id);
+                $Client = $this->fill_client_data($client_data);
+                return $Client;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
         public function create_daily_work($client_id) {
             $DB = new DB();
@@ -224,7 +235,7 @@ namespace dumbu\cls {
          * @return logindata or NULL
          */
         public function sign_in($Client) {
-            $login_data = (new Robot)->bot_login($Client->login, $Client->pass, $Client);
+            $login_data = (new Robot())->bot_login($Client->login, $Client->pass, $Client);
             if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
                 $this->set_client_cookies($Client->id, json_encode($login_data));
                 echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login <br>\n<br>\n";
@@ -312,6 +323,7 @@ namespace dumbu\cls {
                     $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
                     $Ref_Prof->deleted = $prof_data->deleted;
                     $Ref_Prof->type = $prof_data->type;
+                    $Ref_Prof->end_date = $prof_data->end_date;
                     array_push($this->reference_profiles, $Ref_Prof);
 //                    }
                 }

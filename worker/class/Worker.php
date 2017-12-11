@@ -65,9 +65,11 @@ namespace dumbu\cls {
          */
         public $Gmail;
 
-        public function __construct($DB = NULL) {
+        public function __construct($DB = NULL, $id = -1) {
             $this->Robot = new Robot($DB);
             $this->Robot->config = $GLOBALS['sistem_config'];
+            $this->Robot->id = $id;
+            $this->id = $id;
             $this->Gmail = new Gmail();
             $this->DB = $DB? $DB : new \dumbu\cls\DB();
         }
@@ -96,7 +98,8 @@ namespace dumbu\cls {
                     }
                 }
                 if ($Client->cookies && !$Client->paused) {
-//                    var_dump($Client->login);
+//                    var_dump($Client->login);                    
+                    $this->DB->Create_Followed($Client->id);
                     print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
                     $Client->set_client_status($Client->id, user_status::ACTIVE);
 // Distribute work between clients
@@ -225,6 +228,7 @@ namespace dumbu\cls {
             try {
                 //$DB = new \dumbu\cls\DB();
                 $this->DB->save_unfollow_work($Followeds_to_unfollow);
+                $this->DB->save_unfollow_work_db2($Followeds_to_unfollow, $daily_work->client_id);
                 $this->DB->save_follow_work($Ref_profile_follows, $daily_work);
                 return TRUE;
             } catch (\Exception $exc) {

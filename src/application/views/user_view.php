@@ -25,6 +25,7 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/stylenew.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
                 <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
@@ -35,21 +36,49 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script>
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.1';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?1.0.0';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js?1.0.0';?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
                         echo '<link rel="canonical" href="https://www.dumbu.one" />';
-                    }                              
+                    }
                 ?>
                 
                 <?php include_once("pixel_facebook.php")?>
                 
                 <script src='https://www.google.com/recaptcha/api.js'></script>
+                
+                <!--Start of Zendesk Chat Script-->
+                <?php
+                    if ($SERVER_NAME == "PRO") { ?>
+                        <script type="text/javascript">
+                        window.$zopim||(function(d,s){var z=$zopim=function(c){
+                        z._.push(c)},$=z.s=
+                        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+                        _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+                        $.src="https://v2.zopim.com/?4QMQc3y0X75kW162SosdvI6XoWRNlUzo";z.t=+new Date;$.
+                        type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+
+                        $zopim(function() {
+                            $zopim.livechat.departments.filter("");
+                            $zopim.livechat.departments.setVisitorDepartment("Atendimento ao cliente");
+                            $zopim.livechat.setOnConnected(function() {
+                                var dep = $zopim.livechat.departments.getDepartment("Atendimento ao cliente");
+                                if(dep.status=="offline"){
+                                    $zopim.livechat.setStatus("offline");
+                                }
+                                else{
+                                    $zopim.livechat.button.show();
+                                }
+                            })
+                        });
+                        </script>
+                <?php } ?>
+                <!--End of Zendesk Chat Script-->
 	</head>
 	<body id="my_body">
                 <?php include_once("analyticstracking.php"); ?>            
@@ -84,10 +113,11 @@
 				<div id="dl-menu" class="dl-menuwrapper">
 					<button class="dl-trigger">Open Menu</button>
 					<ul class="dl-menu">
+                                                <li><a id="lnk_faq_function1" title="<?php echo $CI->T("Perguntas mais frequentes", array(),$language);?>">FAQ</a></li>
 						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>
 						<li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li>
-							<a href="#"><?php echo $CI->T("ENTRAR", array(),$language);?></a>
+                                                    <a href="#"><?php echo $CI->T("ENTRAR", array(),$language);?></a>
 							<ul class="dl-submenu">
 								<li>
                                                                     <div id="login_container1">
@@ -119,8 +149,75 @@
 							</ul>
 						</li>
                                                 
+                                            <?php if ($SERVER_NAME === 'ONE') { ?>
+                                                <li id="locales_cell">
+                                                <a  id="lnk_language1_cell" href="#">
+                                                        
+                                                <?php if ($language === 'EN') { ?>
+                                                    <img id="img_language1" src="assets/images/en_flag.png" alt="EN" class="wauto us">
+                                                    <span id="txt_language1" style="color: white">EN</span>
+                                                <?php }
+                                                elseif ($language === 'PT') { ?> 
+                                                    <img id="img_language1" src="assets/images/pt_flag.png" alt="PT" class="wauto us">
+                                                    <span id="txt_language1" style="color: white">PT</span>
+                                                <?php }
+                                                else { ?>
+                                                    <img id="img_language1" src="assets/images/es_flag.png" alt="ES" class="wauto us">
+                                                    <span id="txt_language1" style="color: white">ES</span>
+                                                <?php } ?>
+                                                
+                                                </a>
+                                                    <ul class="dl-submenu">
+                                                        <li>
+
+                                                        <?php if ($language === 'EN') { ?>
+                                                            <a id="lnk_language2_cell" href="#">
+                                                            <img id="img_language2" src="assets/images/pt_flag.png" alt="PT" class="wauto us"/>
+                                                            <span id="txt_language2" style="color: black">PT</span>
+                                                            </a>
+                                                        <?php }
+                                                        elseif ($language === 'PT') { ?>
+                                                            <a id="lnk_language2_cell" href="#">
+                                                            <img id="img_language2" src="assets/images/es_flag.png" alt="ES" class="wauto us"/>
+                                                            <span id="txt_language2" style="color: black">ES</span>
+                                                            </a>
+                                                        <?php }
+                                                        else { ?>
+                                                            <a id="lnk_language2_cell" href="#">
+                                                            <img id="img_language2" src="assets/images/en_flag.png" alt="EN" class="wauto us"/>
+                                                            <span id="txt_language2" style="color: black">EN</span>
+                                                            </a>
+                                                        <?php } ?>
+
+                                                        </li>
+                                                        <li>
+
+                                                        <?php if ($language === 'EN') { ?>
+                                                            <a id="lnk_language3_cell" href="#">
+                                                            <img id="img_language3" src="assets/images/es_flag.png" alt="ES" class="wauto us"/>
+                                                            <span id="txt_language3" style="color: black">ES</span>
+                                                            </a>
+                                                        <?php }
+                                                        elseif ($language === 'PT') { ?>
+                                                            <a id="lnk_language3_cell" href="#">
+                                                            <img id="img_language3" src="assets/images/en_flag.png" alt="EN" class="wauto us"/>
+                                                            <span id="txt_language3" style="color: black">EN</span>
+                                                            </a>
+                                                        <?php }
+                                                        else { ?>
+                                                            <a id="lnk_language3_cell" href="#">
+                                                            <img id="img_language3" src="assets/images/pt_flag.png" alt="PT" class="wauto us"/>
+                                                            <span id="txt_language3" style="color: black">PT</span>
+                                                            </a>
+                                                        <?php } ?>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            <?php } ?>
 					</ul>
 				</div><!-- /dl-menuwrapper -->
+                                
 				<nav class="navbar navbar-default navbar-static-top">
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="logo pabsolute fleft100 text-center">
@@ -129,7 +226,8 @@
 						</a>
 					</div>
 					<ul class="nav navbar-nav navbar-right menu-principal">
-						<li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>                                                 
+                                                <li><a id="lnk_faq_function2" title="<?php echo $CI->T("Perguntas mais frequentes", array(),$language);?>">FAQ</a></li>
+                                                <li><a href="#lnk_how_function"><?php echo $CI->T("COMO FUNCIONA", array(),$language);?></a></li>                                                 
                                                 <li><a href="#lnk_sign_in_now"><?php echo $CI->T("ASSINAR AGORA", array(),$language);?></a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/images/user.png" class="wauto us" alt="User"><?php echo $CI->T("ENTRAR", array(),$language);?><spam class="caret"></spam></a>
@@ -146,7 +244,7 @@
                                                                                                     <?php echo $CI->T("Use login e senha de Instagram", array(),$language);?>
 												</div>
 												<div class="form-group">
-													<input id="userLogin2" type="text" class="form-control" placeholder="<?php echo $CI->T("Usuário", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;" required="">
+                                                                                                    <input id="userLogin2" type="text" class="form-control" placeholder="<?php echo $CI->T("Usuário", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;" required="">
 												</div>
 												<div class="form-group">
 													<input id="userPassword2" type="password" class="form-control" placeholder="<?php echo $CI->T("Senha", array(),$language);?>" required="">
@@ -255,7 +353,7 @@
 						<hr>
 						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de", array(),$language);?></spam>
 						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$", array(),$language);?><b><?php echo ' '.$CI->T("29,90", array(),$language);?></b></p>
-						<!--<spam class="fleft100 cl-fff no-mg"><?php //echo $CI->T("no 1º mês", array(),$language);?></spam>-->
+						<!--<spam class="fleft100 cl-fff no-mg">--><?php //echo $CI->T("no 1º mês", array(),$language);?><!--</spam>-->
                                                 <a href="#lnk_sign_in_now">
                                                     <div class="text-center"><button class="btn-primary btn-green m-t20"><?php echo $CI->T("ASSINAR", array(),$language);?></button></div>
                                                 </a>
@@ -365,22 +463,124 @@
                 
                 
 		<section id="funciona" class="fleft100">
-			<div class="container">				
-                            <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+			<div class="container">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-8">
+                                    <div class="embed-responsive embed-responsive-16by9">
                                     <?php
-                                            if($language=='PT')
-                                                echo '<iframe class="embed-responsive-item" src="https://www.powtoon.com/embed/gtk29HlORyG/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>';
-                                            else   if($language=='EN')                                         
-                                                echo '<iframe  class="embed-responsive-item" src="https://www.powtoon.com/embed/bc9vXx9Uxv3/" frameborder="0" width="640px" height="360px" allowfullscreen></iframe>'; 
-                                            else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
-                                        ?>
+                                        if ($language == 'PT') {
+                                            echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/Eo2Lr1trSKs" allowfullscreen></iframe>';
+                                        }
+                                        else if($language == 'EN') {                                         
+                                            echo '<iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/GSrr_UD8PN4" allowfullscreen></iframe>';
+                                        }
+                                        else echo '<iframe  class="embed-responsive-item" width="854" height="480" src="https://www.youtube.com/embed/9hwWI7eKjVk?ecver=1" frameborder="0" allowfullscreen></iframe>';
+                                    ?>
+                                    </div>
                                 </div>
-				<div class="col-md-3 col-sm-3 col-xs-12 text-center"></div>
+                                <div class="col-sm-2"></div>
 			</div>
 		</section>
+           
+              <!--  <section id="ranking" class="fleft100">
+                    <div class="container">
+                        <div class="row">
+                                <div class="col-sm-1"></div>
+                                <b/>
+                                <b/>
+                                <b/>
+                                <h2 class="text-center"><?php// echo $CI->T("Ranking de melhores desempenhos", array(),$language);?></h2>
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p id="profile_ranking1">@natural_instagram</p>
+                                                            <p>SEGUIDORES</p>
+                                                            <div class="col-xs-4">
+                                                                <p id="follo_initial_ranking1">Initial 102</p>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <p id="follo_today_ranking1">4000 Hoje</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <div class="row">
+                                <div class="container">
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                            <div class="fleft100 bk-cinza pf-painel">
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <div class="col-xs-2">
+                                                            <p class="text-left">1</p>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <p>@natural_instagram</p>
+                                                            <p>seguidores</p>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <p>ver mais</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>  
+                 </section> -->
 
-		<section id="assinar" class="fleft100">
+               <section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
 				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>
@@ -483,7 +683,7 @@
                                                     <?php echo $CI->T("189,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-center">  
+                                                <div class="text-center">
                                                     <spam >
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
@@ -497,13 +697,8 @@
                                                     <br>
                                                     <spam>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
-                                                        <a class="help"><b class="c-green">Whatsapp</b></a>
-                                                        <?php
-                                                            if($language=='PT')
-                                                                echo '<img src="assets/images/watsapp.png" style="width:40px" alt="">';
-                                                            else
-                                                                echo '<img src="assets/images/watsapp.png" style="width:40px"  alt="">';                                                             
-                                                        ?>
+                                                        <b class="c-green"><?php echo $CI->T("Whatsapp", array(),$language);?></b>
+                                                        <img title="WhatsApp" src="assets/images/watsapp.png" style="width:40px" alt="">
                                                     </spam>
                                                     <!--<spam>
                                                         <img src="<?php //echo base_url().'assets/images/seta-ok.png'; ?>" class="wauto" alt="">
@@ -570,77 +765,118 @@
                             <!--PASSO 2-->
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
-					<div class="text-center fleft100 m-t20">
-						<img src="assets/images/pay.png" class="wauto" alt="Pay">
-						<spam class="fleft100"><?php echo $CI->T("Informações de pagamento", array(),$language);?></spam>
-					</div>
-                                        
-                                        <!--<label class="radio-inline">
-                                            <input id="credit_function" type="radio" name="optradio" checked="true">Crédito
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input id="debit_function" type="radio" name="optradio">Débito
-                                        </label>-->
-                                        
-                                        <div class="pay fleft100 input-form">
-                                            <fieldset>
-                                                    <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
-                                            </fieldset>
-                                            <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
-                                                <fieldset>
-                                                    <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20" required>
-                                                </fieldset>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
-                                                    <fieldset>
-                                                        <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
-                                                    </fieldset>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
-                                                    <spam class="val"><?php echo $CI->T("Validade", array(),$language);?></spam>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
-                                                    <fieldset>
-                                                            <div class="select">
-                                                                <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option>01</option><option>02</option><option>03</option>
-                                                                    <option>04</option><option>05</option><option>06</option>
-                                                                    <option>07</option><option>08</option><option>09</option>
-                                                                    <option>10</option><option>11</option><option>12</option>
-                                                                </select>
-                                                            </div>
-                                                    </fieldset>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
-                                                    <fieldset>
-                                                            <div class="select">
-                                                                <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option>2017</option><option>2018</option>
-                                                                    <option>2019</option><option>2020</option><option>2021</option>
-                                                                    <option>2022</option><option>2023</option><option>2024</option>
-                                                                    <option>2025</option><option>2026</option><option>2027</option>
-                                                                    <option>2028</option><option>2029</option><option>2030</option>
-                                                                    <option>2031</option><option>2032</option><option>2033</option>
-                                                                    <option>2034</option><option>2035</option><option>2036</option>
-                                                                    <option>2037</option><option>2038</option><option>2039</option>
-                                                                </select>
-                                                            </div>
-                                                    </fieldset>
-                                            </div>
-                                           <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
-                                                    <spam class="val"><?php echo $CI->T("CUPOM", array(),$language);?> (*)</spam>
+					<div id="exTab2" class="container">	
+                                            <ul class="nav nav-tabs">
+                                                <li  class="active" >
+                                                    <a id="tab_credit_card" href="#tab_credito" data-toggle="tab">
+                                                        <img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito
+                                                    </a>
+                                                </li>
+                                                <!--li id="tab_ticket_bank">
+                                                    <a href="#tab_boleto" data-toggle="tab">
+                                                        <img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto
+                                                    </a>
+                                                </li>-->
+                                            </ul>
+
+                                            <div class="tab-content ">
+                                                <div class="tab-pane active" id="tab_credito">
+                                                    <div class="pay fleft100 input-form">   
+                                                        <fieldset>
+                                                                <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                        </fieldset>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20" required>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
+                                                                <fieldset>
+                                                                    <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
+                                                                </fieldset>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                                                <spam class="val"><?php echo $CI->T("Validade", array(),$language);?></spam>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 pd-r15 m-t10">
+                                                            <fieldset>
+                                                                    <div class="select">
+                                                                        <select id="credit_card_exp_month" name="local" class="btn-primeiro sel" id="local">
+                                                                            <option>01</option><option>02</option><option>03</option>
+                                                                            <option>04</option><option>05</option><option>06</option>
+                                                                            <option>07</option><option>08</option><option>09</option>
+                                                                            <option>10</option><option>11</option><option>12</option>
+                                                                        </select>
+                                                                    </div>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
+                                                            <fieldset>
+                                                                <div class="select">
+                                                                    <select id="credit_card_exp_year" name="local" class="btn-primeiro sel" id="local">
+                                                                        <option>2018</option>
+                                                                        <option>2019</option><option>2020</option><option>2021</option>
+                                                                        <option>2022</option><option>2023</option><option>2024</option>
+                                                                        <option>2025</option><option>2026</option><option>2027</option>
+                                                                        <option>2028</option><option>2029</option><option>2030</option>
+                                                                        <option>2031</option><option>2032</option><option>2033</option>
+                                                                        <option>2034</option><option>2035</option><option>2036</option>
+                                                                        <option>2037</option><option>2038</option><option>2039</option>
+                                                                    </select>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
+                                                            <spam class="val"><?php echo $CI->T("CUPOM", array(),$language);?> (*)</spam>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
+                                                            <fieldset>
+                                                                <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
+                                                            <fieldset>
+                                                                    <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados", array(),$language);?></spam>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>     
                                                 </div>
-                                                <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
-                                                    <fieldset>
-                                                        <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
-                                                    </fieldset>
-                                                </div>                                                    
-                                                <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
-                                                    <fieldset>
-                                                            <spam class="val">(*) <?php echo $CI->T("Só pra usuários requisitados", array(),$language);?></spam>
-                                                    </fieldset>
-                                                </div>
-                                        </div>                                           
+                                                
+                                                
+                                                <!--<div class="tab-pane" id="tab_boleto">
+                                                    <form action="#" class="credit-card-div">
+                                                        <div class="panel panel-default" >
+                                                            <div class="panel-heading">
+                                                                <label for="sel1">Selecione um dos seguintes planos:</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                      <select id="ticket_bank_option" class="form-control" id="sel1">
+                                                                        <option id="plano3meses" value="1">3 meses 15% de desconto</option>
+                                                                        <option id="plano6meses" value="2">6 meses 25% de desconto</option>
+                                                                        <option id="plano1ano" value="3">1 ano 40% de desconto</option>
+                                                                      </select>
+                                                                    </div>
+                                                                </div>
+                                                                <br>        
+                                                                <div class="row">
+                                                                          <div class="col-md-12">
+                                                                              <input id="ticket_bank_client_name" type="text" class="form-control" placeholder="Nome completo" />
+                                                                          </div>
+                                                                 </div>
+                                                                 <div class="row">
+                                                                        <div class="col-md-12 pad-adjust">
+                                                                                <form name=form>
+                                                                                    <input id="cpf" type=text name=cpf maxlength=14 class="form-control" placeholder="CPF"><br>
+                                                                                </form>
+                                                                        </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>-->
+
+                                            </div>
+                                        </div>                             
 				</div>
                             
                             <!--PASSO 3-->

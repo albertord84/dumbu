@@ -1,5 +1,16 @@
 $(document).ready(function () {   
-
+    var num_profiles, flag = false;
+    var verify = false, flag_unfollow_request = false;
+    unfollow_total = parseInt(unfollow_total);
+    autolike = parseInt(autolike);
+    play_pause = parseInt(play_pause);
+    init_unfollow_type();
+    init_autolike_type();
+    init_play_pause_type();
+    flag_black_list=false;
+    flag_white_list=false;
+    
+        
     //typeahead INIT
     /*
     var users_source = new Bloodhound({
@@ -120,18 +131,7 @@ $(document).ready(function () {
         5: {'ptr_img_obj': $('#img_ref_prof5'), 'ptr_p_obj': $('#name_ref_prof5'), 'ptr_label_obj': $('#cnt_follows_prof5'), 'ptr_panel_obj': $('#reference_profile5'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof5')},
     };
     
-    var num_profiles, flag = false;
-    var verify = false, flag_unfollow_request = false;
-    unfollow_total = parseInt(unfollow_total);
-    autolike = parseInt(autolike);
-    play_pause = parseInt(play_pause);
-    init_unfollow_type();
-    init_autolike_type();
-    init_play_pause_type();
-    flag_black_list=false;
-    flag_white_list=false;
-
-      
+    
     $("#dicas_geoloc").click(function(){
         url=base_url+"index.php/welcome/dicas_geoloc";
         window.open(url,'_blank');
@@ -254,42 +254,48 @@ $(document).ready(function () {
         if (validate_element('#login_profile', '^[a-zA-Z0-9\._]{1,300}$')) {
             if (num_profiles < MAX_NUM_PROFILES) {
                 if ($('#login_profile').val() != '') {
-                    //$("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
-                    var l = Ladda.create(this);
-                    l.start();
-                    $.ajax({
-                        url: base_url + 'index.php/welcome/client_insert_profile',
-                        data: {'profile': $('#login_profile').val()},
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response['success']) {
-                                inser_icons_profiles(response);
-                                $('#login_profile').val('');
-                                $("#insert_profile_form").fadeOut();
-                                $("#insert_profile_form").css({"visibility": "hidden", "display": "none"});
-                                $('#reference_profile_message').text('');
-                                $('#reference_profile_message').css('visibility', 'hidden');
-                                if (num_profiles == MAX_NUM_PROFILES) {
-                                    $('#btn_modal_close').click();
+                    if ($('#login_profile').val() != my_login_profile) {
+                        //$("#waiting_inser_profile").css({"visibility":"visible","display":"block"});
+                        var l = Ladda.create(this);
+                        l.start();
+                        $.ajax({
+                            url: base_url + 'index.php/welcome/client_insert_profile',
+                            data: {'profile': $('#login_profile').val()},
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response['success']) {
+                                    inser_icons_profiles(response);
+                                    $('#login_profile').val('');
+                                    $("#insert_profile_form").fadeOut();
+                                    $("#insert_profile_form").css({"visibility": "hidden", "display": "none"});
+                                    $('#reference_profile_message').text('');
+                                    $('#reference_profile_message').css('visibility', 'hidden');
+                                    if (num_profiles == MAX_NUM_PROFILES) {
+                                        $('#btn_modal_close').click();
+                                    }
+                                } else {
+                                    $('#reference_profile_message').text(response['message']);
+                                    $('#reference_profile_message').css('visibility', 'visible');
+                                    $('#reference_profile_message').css('color', 'red')
+                                    //modal_alert_message(response['message']);                        
                                 }
-                            } else {
-                                $('#reference_profile_message').text(response['message']);
+                                $("#waiting_inser_profile").css({"visibility": "hidden", "display": "none"});
+                                l.stop();
+                            },
+                            error: function (xhr, status) {
+                                $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
                                 $('#reference_profile_message').css('visibility', 'visible');
-                                $('#reference_profile_message').css('color', 'red')
-                                //modal_alert_message(response['message']);                        
+                                $('#reference_profile_message').css('color', 'red');
+                                //modal_alert_message('Não foi possível conectar com o Instagram');
+                                l.stop();
                             }
-                            $("#waiting_inser_profile").css({"visibility": "hidden", "display": "none"});
-                            l.stop();
-                        },
-                        error: function (xhr, status) {
-                            $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
-                            $('#reference_profile_message').css('visibility', 'visible');
-                            $('#reference_profile_message').css('color', 'red');
-                            //modal_alert_message('Não foi possível conectar com o Instagram');
-                            l.stop();
-                        }
-                    });
+                        });
+                    } else {
+                        $('#reference_profile_message').text(T('Não pode escolher seu próprio perfil como referência.'));
+                        $('#reference_profile_message').css('visibility', 'visible');
+                        $('#reference_profile_message').css('color', 'red');
+                    }
                 }
             } else {
                 $('#reference_profile_message').text(T('Alcançou a quantidade máxima.'));
@@ -301,7 +307,7 @@ $(document).ready(function () {
             $('#reference_profile_message').text(T('* O nome do perfil só pode conter letras, números, sublinhados e pontos.'));
             $('#reference_profile_message').css('visibility', 'visible');
             $('#reference_profile_message').css('color', 'red');
-            //modal_alert_message('O nome de um perfil só pode conter combinações de letras, nÃºmeros, sublinhados e pontos.');
+            //modal_alert_message('O nome de um perfil só pode conter combinações de letras, números, sublinhados e pontos.');
         }
     });
 
@@ -375,7 +381,7 @@ $(document).ready(function () {
         else 
         if($('#nao_aceita_desconto').prop("checked")){
             $('#cancel_usser_account').modal('hide');
-            if(language==='PT')
+            if(SERVER_NAME==='PRO')
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
             else
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
@@ -384,7 +390,7 @@ $(document).ready(function () {
     
     $("#cancel_usser_account").click(function () {
         //$('#modal_cancel_account_message').modal('show');
-        if(language==='PT')
+        if(SERVER_NAME==='PRO')
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSejGY19wxZXEmMy_E9zcD-vODoimwpFAt4qQ-lN7TGYjbxYjw/viewform?c=0&w=1', '_blank');
             else
                 window.open('https://docs.google.com/a/dumbu.pro/forms/d/e/1FAIpQLSfHZZ-hNlUHnmsyOvRM7zDM6aMSoBk1iwxJNA0Dt_cGQKxBTw/viewform', '_blank');
@@ -467,7 +473,7 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response['success']) {
                         //modal_alert_message(parseInt(response['unfollow_total']));
-                        set_global_var('autolike', parseInt(response['autolike']));
+                        set_global_var('autolike', !autolike);
                         init_autolike_type();
                     } else {
                         modal_alert_message(T('Erro ao processar sua requisição. Tente depois...'));
@@ -483,12 +489,12 @@ $(document).ready(function () {
     });
 
     function init_autolike_type() {
-        if (!autolike){
-            $('#left_toggle_buttom_autolike').css({'background-color': '#009CDE'});
-            $('#right_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
-        } else{
+        if (autolike){
             $('#left_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
             $('#right_toggle_buttom_autolike').css({'background-color': '#009CDE'});
+        } else{
+            $('#left_toggle_buttom_autolike').css({'background-color': '#009CDE'});
+            $('#right_toggle_buttom_autolike').css({'background-color': '#DFDFDF'});
         }
     }
     
@@ -531,10 +537,18 @@ $(document).ready(function () {
         if (play_pause) {
             $('#button_play_pause').css({'background-color': '#009CDE'});
             $('#button_play_pause').html('<span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>');
+            var contenedor=document.getElementById('status_text');
+            contenedor.style.display="none";
+            contenedor=document.getElementById('status_text_paused');
+            contenedor.style.display="inline";
         }
         else {
             $('#button_play_pause').css({'background-color': '#DFDFDF'});
             $('#button_play_pause').html('<span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>');
+            var contenedor=document.getElementById('status_text_paused');
+            contenedor.style.display="none";
+            contenedor=document.getElementById('status_text');
+            contenedor.style.display="inline";
         }
     }
 

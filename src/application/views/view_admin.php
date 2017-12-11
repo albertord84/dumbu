@@ -26,50 +26,22 @@
         <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
         <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
         
+        <!-- jQuery UI Datepicker - Select a Date Range -->
+        <link rel="stylesheet" href="<?php echo base_url().'assets/jquery-ui-1.12.1/jquery-ui.css';?>">
+        <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
+        <script src="<?php echo base_url().'assets/jquery-ui-1.12.1/jquery-ui.js';?>"></script>
+        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script type="text/javascript">var base_url = '<?php echo base_url();?>'; </script>    
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js';?>"></script>
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?1.0.2';?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/js/modal_alert_message.js';?>"></script>
         
-        <!-- jQuery UI Datepicker - Select a Date Range -->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script>
-        $( function() {
-          var dateFormat = "mm/dd/yy",
-            from = $( "#date_from" )
-              .datepicker({
-                defaultDate: "+1w",
-                changeMonth: true,
-                numberOfMonths: 1
-              })
-              .on( "change", function() {
-                to.datepicker( "option", "minDate", getDate( this ) );
-              }),
-            to = $( "#date_to" ).datepicker({
-              defaultDate: "+1w",
-              changeMonth: true,
-              numberOfMonths: 1
-            })
-            .on( "change", function() {
-              from.datepicker( "option", "maxDate", getDate( this ) );
-            });
-            
-            $( "#event_date" ).datepicker();
-
-          function getDate( element ) {
-            var date;
-            try {
-              date = $.datepicker.parseDate( dateFormat, element.value );
-            } catch( error ) {
-              date = null;
-            }
-
-            return date;
-          }
-        } );
-        </script>
+        <!-- Performance Chart -->
+        <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
+        <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
+        <script type="text/javascript">var language = 'PT';</script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/chart.js'; ?>"></script>
         
         <?php include_once("pixel_facebook.php")?>
   </head>

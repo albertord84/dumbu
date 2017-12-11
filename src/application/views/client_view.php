@@ -6,12 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="<?php echo $CI->T("Ganhar seguidores no Instagram | Ganhar ou Comprar Seguidores Reais e Ativos no Instagram", array(), $language); ?>">
-        <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language);?>">
+        <meta name="description" content="<?php echo $CI->T("Ganhe seguidores no Instagram. www.dumbu.pro te permite ganhar seguidores no Instagram 100% reais e qualificados. Ganhe mais seguidores.", array(), $language); ?>">
         <meta name="keywords" content="<?php echo $CI->T("ganhar, seguidores, Instagram, seguidores segmentados, curtidas, followers, geolocalizção, direct, vendas", array(), $language); ?>">
         <meta name="revisit-after" content="7 days">
         <meta name="robots" content="index,follow">
         <meta name="distribution" content="global">        
-        <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers", array(), $language);?></title>
+        <title><?php echo $CI->T("Get Followers on Instagram | Gain or Buy Real & Active Instagram Followers", array(), $language); ?></title>
         
         <link rel="shortcut icon" href="<?php echo base_url() . 'assets/images/icon.png' ?>"> 
         <link href="<?php echo base_url() . 'assets/css/typeahead.css'; ?>" rel="stylesheet">
@@ -34,11 +34,12 @@
         <script type="text/javascript">var unfollow_total = '<?php echo $unfollow_total; ?>';</script>        
         <script type="text/javascript">var autolike = '<?php echo $autolike; ?>';</script>
         <script type="text/javascript">var play_pause = '<?php echo $play_pause; ?>';</script>
+        <script type="text/javascript">var my_login_profile = '<?php echo $my_login_profile; ?>';</script>
         <script type="text/javascript">followings_data= jQuery.parseJSON('<?php echo $followings; ?>');</script>
         <script type="text/javascript">followers_data= jQuery.parseJSON('<?php echo $followers; ?>'); </script>
         
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/' . $language . '/internalization.js?1.0.0'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/client_painel.js?1.0.0'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/talkme_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/update_client_painel.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url() . 'assets/canvasjs-1.9.6/canvasjs.min.js'; ?>"></script>
@@ -51,6 +52,33 @@
         ?>
         
         <?php include_once("pixel_facebook.php") ?>
+        
+        <!--Start of Zendesk Chat Script-->
+        <?php if ($SERVER_NAME == "PRO") { ?>
+                <script type="text/javascript">
+                window.$zopim||(function(d,s){var z=$zopim=function(c){
+                z._.push(c)},$=z.s=
+                d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+                _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+                $.src="https://v2.zopim.com/?4QMQc3y0X75kW162SosdvI6XoWRNlUzo";z.t=+new Date;$.
+                type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+
+                $zopim(function() {
+                    $zopim.livechat.departments.filter("");
+                    $zopim.livechat.departments.setVisitorDepartment("Gerente de contas");
+                    $zopim.livechat.setOnConnected(function() {
+                        var dep = $zopim.livechat.departments.getDepartment("Gerente de contas");
+                        if(dep.status=="offline"){
+                            $zopim.livechat.setStatus("offline");
+                        }
+                        else{
+                            $zopim.livechat.button.show();
+                        }
+                    })
+                });
+                </script>
+        <?php } ?>
+        <!--End of Zendesk Chat Script-->
     </head>
 
     <body>
@@ -331,8 +359,16 @@
                             <!--<span class="fleft100 m-t10">@pedropetti</span>-->
                             <span class="fleft100 cl-green">
                                 <?php
-                                if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10)
-                                    echo '<b id="status_text" style="font-family:sans-serif">' . $CI->T($status["status_name"], array(), $language) . '</b>';
+                                if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) {
+                                    if ($play_pause) {
+                                        echo '<b id="status_text_paused" >' . $CI->T('PAUSADO', array(), $language) . '</b>';
+                                        echo '<b id="status_text" style="font-family:sans-serif; display:none">' . $CI->T($status["status_name"], array(), $language) . '</b>';
+                                    }
+                                    else {
+                                        echo '<b id="status_text" style="font-family:sans-serif">' . $CI->T($status["status_name"], array(), $language) . '</b>';
+                                        echo '<b id="status_text_paused" style="display:none">' . $CI->T('PAUSADO', array(), $language) . '</b>';
+                                    }
+                                }
                                 else
                                     echo '<b id="status_text" ">' . $CI->T($status["status_name"], array(), $language) . '</b>';
                                 ?>
@@ -369,27 +405,29 @@
                     <?php } ?>
                 </div>
                 
-                <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
-                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                    <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
-                        <p style="text-align:center"> <?php echo $CI->T('Play/Pause da ferramenta.', array(), $language); ?>
-                        </p>
-                        <?php
-                        if ($play_pause) {
-                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
-                                    <span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>
-                                  </button>';
-                        }
-                        else {
-                            echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
-                                    <span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>
-                                  </button>';
-                        } ?>
-                        <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array(), $language); ?>
-                        </p>
+                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) { ?>
+                    <div class="col-md-12 col-sm-12 col-xs-12 m-t20">
+                        <div class="col-md-3 col-sm-3 col-xs-12"></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 text-center bloco m-t20">
+                            <p style="text-align:center"> <?php echo $CI->T('Play/Pause da ferramenta.', array(), $language); ?>
+                            </p>
+                            <?php
+                            if ($play_pause) {
+                                echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#009CDE; border-radius:20px; padding-top:5px">
+                                        <span id="playIcon" class="glyphicon glyphicon-play" style="color:white"></span><b style="color:white"> Play</b>
+                                      </button>';
+                            }
+                            else {
+                                echo '<button type="button" id="button_play_pause" class="btn" style="width:80px; height:40px; background-color:#DFDFDF; border-radius:20px; padding-top:5px">
+                                        <span id="pauseIcon" class="glyphicon glyphicon-pause"></span><b> Pause</b>
+                                      </button>';
+                            } ?>
+                            <p style="text-align:center"> <?php echo $CI->T('ATENÇÃO: A reativação da ferramenta pode demorar até 24 horas no máximo.', array(), $language); ?>
+                            </p>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-12"></div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12"></div>
-                </div>
+                <?php } ?>
                 
                 <!--<div class="text-center m-t30">
                     <img id="my_img" src="<?php //echo $my_img_profile; ?>" class="img50" alt="">
@@ -977,46 +1015,40 @@
                     </div>-->
                 </div>    
                 
-                
-                <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
-                    <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
-                    <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>
-                    <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um 
-                                processo onde deixará de seguir todos os perfis que segue no
-                                momento. Todos os perfis em sua lista de "Seguindo" serão deixados
-                                de seguir de manera aleatória. Ao desativar o recurso sua conta
-                                deixa de seguir apenas as contas que a Dumbu seguiu.', array(), $language); ?>
-                    </p>
+                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) { ?>
+                    <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
+                        <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
+                        <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>
+                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso UNFOLLOW TOTAL sua conta iniciará um processo onde deixará de seguir todos os perfis que segue no momento. Todos os perfis em sua lista de "Seguindo" serão deixados de seguir de manera aleatória. Ao desativar o recurso sua conta deixa de seguir apenas as contas que a Dumbu seguiu.', array(), $language); ?>
+                        </p>
 
-                    <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
-                        <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
-                            <b style="color:white; margin-left: 25px"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></b>
-                        </div>
-                        <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
-                            <b style="color:white;margin-left: 25px"><?php echo $CI->T("UNFOLLOW NORMAL", array(), $language); ?></b>
+                        <div id='my_container_toggle' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                            <div id="left_toggle_buttom" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                                <b style="color:white; margin-left: 25px"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></b>
+                            </div>
+                            <div id="right_toggle_buttom" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                                <b style="color:white;margin-left: 25px"><?php echo $CI->T("UNFOLLOW NORMAL", array(), $language); ?></b>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-12 m-t20 text-center">
-                </div>
-                <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
-                    <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
-                    <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array(), $language); ?></h4>
-                    <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like
-                            automaticamente na primeira foto de todos os perfis que seguir, esse 
-                            processo pode aumentar sua conversão de seguidores.', array(), $language); ?>
-                    </p>
+                    <div class="col-md-2 col-sm-2 col-xs-12 m-t20 text-center">
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-12 m-t20  text-center">                               
+                        <img src="<?php echo base_url().'assets/images/AUTOLIKE.png'; ?>" class="wauto" alt="">
+                        <h4 class="m-t10"><?php echo $CI->T("AUTOLIKE", array(), $language); ?></h4>
+                        <p style="text-align:justify"> <?php echo $CI->T('Ao ativar o recurso AUTOLIKE sua conta dará like automaticamente na primeira foto de todos os perfis que seguir, esse processo pode aumentar sua conversão de seguidores.', array(), $language); ?>
+                        </p>
 
-                    <div id='my_container_toggle_autolike' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
-                        <div id="left_toggle_buttom_autolike" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
-                            <b style="color:white; margin-left: 25px"><?php echo $CI->T("DESLIGADO", array(), $language); ?></b>
-                        </div>
-                        <div id="right_toggle_buttom_autolike" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
-                            <b style="color:white;margin-left: 25px"><?php echo $CI->T("LIGADO", array(), $language); ?></b>
+                        <div id='my_container_toggle_autolike' style="width:400px;height:40px;background-color:#DFDFDF;border-radius:20px;padding:2px">                               
+                            <div id="left_toggle_buttom_autolike" style="width:196px;height:36px;background-color:#009CDE;border-radius:20px;float:left; padding-top: 7px">
+                                <b style="color:white; margin-left: 25px"><?php echo $CI->T("DESLIGADO", array(), $language); ?></b>
+                            </div>
+                            <div id="right_toggle_buttom_autolike" style="width:196px;height:36px;border-radius:20px;float:right; padding-top: 7px">
+                                <b style="color:white;margin-left: 25px"><?php echo $CI->T("LIGADO", array(), $language); ?></b>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
+                <?php } ?>
 
 
                 <div class="fleft100">
@@ -1079,8 +1111,8 @@
                         <div class="col-md-4 col-sm-4 col-xs-12 no-pd m-t10">
                             <fieldset>
                                 <div class="select">
-                                    <select name="local" id="credit_card_exp_year" class="btn-primeiro sel">
-                                        <option>2017</option><option>2018</option><option>2019</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option><option>2037</option><option>2038</option><option>2039</option>
+                                    <select name="local" id="credit_card_exp_year" class="btn-primeiro sel">                                        
+                                        <option>2018</option><option>2019</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option><option>2032</option><option>2033</option><option>2034</option><option>2035</option><option>2036</option><option>2037</option><option>2038</option><option>2039</option>
                                     </select>
                                 </div>
                             </fieldset>
@@ -1204,8 +1236,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 text-center pd-l15 m-t45">
                     <div class="m-t10">
                         <h4 class="text-center" ><b><?php echo $CI->T("NUNCA SEGUIR", array(), $language); ?></b></h4>
-                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('Os perfis que adicione nesta lista nunca 
-                                serão seguidos <br> com a ferramenta.', array(), $language); ?>
+                        <p class="text-center pd-l15 pd-r15"> <?php echo $CI->T('Os perfis que adicione nesta lista nunca serão seguidos <br> com a ferramenta.', array(), $language); ?>
                         </p>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">

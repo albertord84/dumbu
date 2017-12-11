@@ -8,7 +8,7 @@ $(document).ready(function(){
     $("#accept_modal_alert_message").click(function () {
         $('#modal_alert_message').modal('hide');
     });
-        
+    
     $("#btn_dumbu_login1").click(function() {
         $("#btn_dumbu_login1").css({'cursor':'wait'});
         do_login('#userLogin1','#userPassword1', '#container_login_message1',this);
@@ -113,19 +113,44 @@ $(document).ready(function(){
         }
     });
     
-    
+    $('.dropdown').on('shown.bs.dropdown', function(){
+        document.getElementById("userLogin2").focus();
+    });
+        
     $(".help").click(function(){
-        url=base_url+"index.php/welcome/help";
+        url=base_url+"index.php/welcome/help?language="+language;
         window.open(url, '_blank');
     });
     
+    $("#lnk_faq_function1").click(function(){
+        url=base_url+"index.php/welcome/FAQ_function?language="+language;
+        window.open(url, '_blank');
+    });
+    
+     $("#lnk_faq_function2").click(function(){
+        url=base_url+"index.php/welcome/FAQ_function?language="+language;
+        window.open(url, '_blank');
+    });
+    
+    $("#lnk_voltar").click(function(){
+        url=base_url+"?language="+language;
+        window.open(url, '_blank');
+    });
+    
+     $("#fechar_faq").click(function(){
+        window.close();
+    });
+    
+    $("#fechar_faq2").click(function(){
+        window.close();
+    });
     
     $(".help").hover(
         function(){
-            $('#help').css('cursor', 'pointer');
+            $('.help').css('cursor', 'pointer');
         },
         function(){
-            $('#help').css('cursor', 'default');
+            $('.help').css('cursor', 'default');
         }
     );
     
@@ -220,5 +245,66 @@ $(document).ready(function(){
 //        $(location).attr("href",base_url+"index.php?language="+$("#txt_language1").text()); 
         $(location).attr("href",base_url+"index.php?language="+$("#txt_language3").text()); 
     });
+    
+
+    $("#lnk_language2_cell").click(function () {
+       $(location).attr("href",base_url+"index.php?language="+$("#txt_language2").text());
+    });
+    
+    $("#lnk_language3_cell").click(function () {
+       $(location).attr("href",base_url+"index.php?language="+$("#txt_language3").text());
+    });
+    
+    $("#lnk_language1faq").click(function () {
+        //alert($('#img_language1').attr('src'));
+    });
+    
+    
+    $("#lnk_language2faq").click(function () {
+//        img_tmp=$('#img_language1').attr('src');
+//        txt_tmp=$('#txt_language1').text();        
+//        $("#img_language1").attr("src",$("#img_language2").attr('src'));
+//        $("#txt_language1").text($("#txt_language2").text());        
+//        $("#img_language2").attr("src",img_tmp);
+//        $("#txt_language2").text(txt_tmp);
+//        $(location).attr("href",base_url+"index.php?language="+$("#txt_language1").text());
+       $(location).attr("href",base_url+"index.php/welcome/FAQ_function?language="+$("#txt_language2").text());
+        
+    });
+    $("#lnk_language3faq").click(function () {
+//        img_tmp=$('#img_language1').attr('src');
+//        txt_tmp=$('#txt_language1').text();        
+//        $("#img_language1").attr("src",$("#img_language3").attr('src'));
+//        $("#txt_language1").text($("#txt_language3").text());        
+//        $("#img_language3").attr("src",img_tmp);
+//        $("#txt_language3").text(txt_tmp);
+//        $(location).attr("href",base_url+"index.php?language="+$("#txt_language1").text()); 
+        $(location).attr("href",base_url+"index.php/welcome/FAQ_function?language="+$("#txt_language3").text()); 
+    });
+    $("#lnk_language2_cellfaq").click(function () {
+       $(location).attr("href",base_url+"index.php/welcome/FAQ_function?language="+$("#txt_language2").text());
+    });
+    $("#lnk_language3_cellfaq").click(function () {
+       $(location).attr("href",base_url+"index.php/welcome/FAQ_function?language="+$("#txt_language3").text());
+    });
+    
+    $(".accordion-titulo").click(function(e){
+           
+        e.preventDefault();
+    
+        var contenido=$(this).next(".accordion-content");
+
+        if(contenido.css("display")=="none"){ //open        
+          contenido.slideDown(250);         
+          $(this).addClass("open");
+        }
+        else{ //close       
+          contenido.slideUp(250);
+          $(this).removeClass("open");  
+        }
+
+      });
+      
+   
     
  }); 

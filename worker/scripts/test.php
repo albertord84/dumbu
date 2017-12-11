@@ -94,17 +94,16 @@ $Client = new \dumbu\cls\Client();
 //var_dump(date('d-m-Y',1486247776));
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 //var_dump(date('d-m-Y',1482951226));
+
 // MUNDIPAGG
-//$Payment = new dumbu\cls\Payment();
+$Payment = new dumbu\cls\Payment();
+//var_dump(date('d-m-Y',1484023285));
+
+//$result = $Payment->check_payment(NULL);
+//var_dump($result);
 //$response=$Payment->delete_payment('0b0759c7-2c28-4c3c-aee9-07d1aae581a9');
 //$a=json_decode($response);
 //var_dump($a->success);
-//
-//
-//
-//
-// MUNDIPAGG
-$Payment = new \dumbu\cls\Payment();
 //
 //$order_key = "f853c228-aa35-4bb0-9ef6-18da7dd33d70";
 //$result = $Payment->check_payment($order_key);
@@ -153,43 +152,27 @@ $Payment = new \dumbu\cls\Payment();
 //$m_pay_day = date("n", $pay_day);
 //$y_pay_day = date("Y", $pay_day);
 //
-//$data = strtotime("+20 min +1 day + 2hour", time());
-//var_dump($data);
+$data = strtotime("+31 day", time());
+var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-
-//$pay_day = strtotime('10/20/2017 00:42:27');
+$pay_day = strtotime('12/27/2017 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
-//$pay_day = strtotime("+1 days", time());
+//$pay_day = strtotime("+30 days", time());
 
-
-//$payment_data['credit_card_number'] = '5293230325454401';
-//$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
-//$payment_data['credit_card_exp_month'] = '04';
-//$payment_data['credit_card_exp_year'] = '2024';
-//$payment_data['credit_card_cvc'] = '617';
-//$payment_data['amount_in_cents'] = 100;
-//$payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-//var_dump($resul);
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
-//var_dump($resul);
-
-//var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
-//$result = $Payment->delete_payment(NULL);
+//$result = $Payment->delete_payment('e15cb727-0e3d-4699-a129-acbc1004fce7');
 //header('Content-Type: application/json');
-//print_r($resul);
+//print_r($result);
+//echo '\n***************************************\n';
+//$a=json_decode($result);
+//var_dump($a->success);
 //$order_key = "4942e0ac-fb5b-41fa-87a8-cb1f80d81d32";
 //$transaction_key = "79c28bd0-d0c8-47aa-be07-67d81202ed6dd";
 //$result = $Payment->retry_payment_recurrency($order_key, $transaction_key);
@@ -286,9 +269,34 @@ $Robot = new \dumbu\cls\Robot();
 //var_dump($str_curl);
 //var_dump($output);
 //var_dump($return_var);
-//$Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("alberto_dreyes", "albertord7");
+
+
+$Robot = new dumbu\cls\Robot();
+//$result = $Robot->bot_login("josergm86", "josergm2");
 //var_dump($result);
+
+//$result = $Robot->bot_login("riveauxmerino", "Notredame88");
+//var_dump($result);
+
+//$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
+//var_dump($result);
+
+$url = "https://www.instagram.com/";
+$ch = curl_init($url);
+//Ruslan
+//$mid = "Wh8j7wAEAAFI8PVD2LfNQan_fx9D";
+//$csrftoken = "77G4HebOUjsq7NZ1ChYR3sphL219KWmV";
+//Jose
+$mid = "WixubQALAAFCj-hRLf243Sxoi7hn";
+$csrftoken = "CKk3SQXqiQSTJVy3nd7XT7VYIEHPWu3b";
+
+$result = $Robot->login_insta_with_csrftoken($ch, "vida_no_pedal", "ypt*24/2014", $csrftoken, $mid, $Client);
+//$result = $Robot->str_login($mid, $csrftoken, "vida_no_pedal", "ypt*24/2014");
+var_dump($result);
+var_dump(json_encode($result));
+
+
+
 //print_r(json_encode($result));
 //$result = $Robot->bot_login('amourzinah','reda1997');  //'julianabaraldi83','tininha1712'   'guilfontes','persian'
 //print_r(json_encode($result));

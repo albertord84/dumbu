@@ -273,19 +273,43 @@ class User_model extends CI_Model {
         $this->db->from('washdog_type');
         $this->db->where('action',$cad);
         $a=$this->db->get()->row_array()['id'];
-        //if($a>0)
-            $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        if($a>0)
+        $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        else 
+        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));  
     }
     
    
     
-     public function get_status_by_id($status_id){
-        $this->db->select('name');
-        $this->db->from('user_status');
-        $this->db->where('id',$status_id);
-        return $this->db->get()->row_array();
-     }
-       
+    public function get_status_by_id($status_id){
+       $this->db->select('name');
+       $this->db->from('user_status');
+       $this->db->where('id',$status_id);
+       return $this->db->get()->row_array();
+    }
+     
+     
+    public function get_ranking(){
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->join('clients', 'users.id = clients.user_id');
+        $this->db->join('plane', 'plane.id = clients.plane_id');
+        $this->db->where(array('users.status_id' => 1));
+        $client_data = $this->db->get()->result_array();
+        return $client_data;
+    }
+    
+    public function get_last_daily_report($client_id){
+        $this->db->select('*');
+        $this->db->from('daily_report');
+        $this->db->where('client_id' , $client_id);
+        $this->db->order_by("date","desc");
+        $client_data = $this->db->get()->row_array();
+        if(count($client_data))
+            return $client_data;
+        else 
+            return null;
+    } 
     
     public function client_prevalence() {
         $prevalence=array('in'=>array(),'out'=>array());
