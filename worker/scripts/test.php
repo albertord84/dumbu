@@ -162,20 +162,20 @@ $Payment = new \dumbu\cls\Payment();
 //$pay_day = strtotime('10/20/2017 00:42:27');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
+//$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+1 days", time());
 
 
-$payment_data['credit_card_number'] = '5293230325454401';
-$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
-$payment_data['credit_card_exp_month'] = '04';
-$payment_data['credit_card_exp_year'] = '2024';
-$payment_data['credit_card_cvc'] = '617';
-$payment_data['amount_in_cents'] = 100;
-$payment_data['pay_day'] = $pay_day;
-$resul = $Payment->create_payment($payment_data);
-var_dump($resul);
+//$payment_data['credit_card_number'] = '5293230325454401';
+//$payment_data['credit_card_name'] = 'JOSE R G MONTERO';
+//$payment_data['credit_card_exp_month'] = '04';
+//$payment_data['credit_card_exp_year'] = '2024';
+//$payment_data['credit_card_cvc'] = '617';
+//$payment_data['amount_in_cents'] = 100;
+//$payment_data['pay_day'] = $pay_day;
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 //var_dump($resul);
 //$resul = $Payment->create_payment($payment_data);
@@ -183,7 +183,7 @@ var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 
-var_dump($pay_day);
+//var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
@@ -205,9 +205,11 @@ var_dump($pay_day);
 // GMAIL
 $Gmail = new \dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
-//$result = $Gmail->send_client_payment_error("jangel.riveaux@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
+//$result = $Gmail->send_client_payment_error("jangel.riveaux@gmail.com", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);
-//$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
+$Gmail->mail->Username = "admin@dumbu.one";
+$Gmail->mail->Password = "Sorvete69@";
+$result = $Gmail->send_client_payment_success("albertord84@gmail.com", "albertotest", "albertotest", "albertotest");
 //var_dump($result);
 //$Gmail->send_client_payment_error("albertord84@gmail.com", "Alberto R", "albertord84", "albertord");
 //var_dump($result)
@@ -218,7 +220,7 @@ $Gmail = new \dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
-//var_dump($result);
+var_dump($result);
 
 $Robot = new \dumbu\cls\Robot();
 //var_dump($Robot->IPS);
