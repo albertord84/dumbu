@@ -35,7 +35,12 @@ $init_day = new DateTime();
 $init_day->setTimestamp('1511413162');
 var_dump($init_day);
 
-$DB = new \dumbu\cls\DB();
+//$DB = new \dumbu\cls\DB();
+
+
+$Client = new \dumbu\cls\Client();
+//$Robot = new \dumbu\cls\Robot();
+$Client->create_daily_work(1);
 
 //$DB->Create_Followed(12345);
                
