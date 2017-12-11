@@ -1332,9 +1332,65 @@ namespace dumbu\cls {
             }
             return intval($substr2) ? intval($substr2) : 0;
         }
-
-        public function bot_login($login, $pass, $Client = NULL) {
-            // Is client with cookies, we try to login with str_login
+        
+         public function bot_login($login, $pass, $Client = NULL)
+        {
+             // Is client with cookies, we try to login with str_login
+            $result = new \stdClass();
+            $output = array();
+            if (!$Client) 
+                $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
+            if (isset($Client->cookies) && $Client->cookies != NULL) {
+                $cookies = json_decode($Client->cookies);
+                $csrftoken = $cookies->csrftoken;
+                $mid = $cookies->mid;
+                $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
+                // TODO: Jose Angel revisar
+//                $url = "https://www.instagram.com/graphql/query/";
+//                $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                //print("<br><br>$curl_str<br><br>");
+//                exec($curl_str, $output, $status);  
+                //$output = array(0);
+                // TODO: Si esta en checpoint required no hacer mas nada
+                //
+                //
+            }
+            if (/*count($output) > 0*/ && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+                $result->csrftoken = $cookies->csrftoken;
+                // Get sessionid from cookies
+                $result->sessionid = $cookies->sessionid;
+                // Get ds_user_id from cookies
+                $result->ds_user_id = $cookies->ds_user_id;
+                // Get mid from cookies
+                $result->mid = $cookies->mid;
+                return $result;
+            }
+            // Is not cookies or str_login return error, we make a full login
+            /*$url = "http:://localhost/";
+            //$url = "http:://vps4633.publiccloud.com.br/";
+            $url .= "dumbu/worker/scripts/make_login.php";
+            $curl_str = "curl $url?login=$login&pass=$pass";
+            
+            exec($curl_str, $output, $status);
+            try {                
+                 $object = json_decode($output[0]);
+                  if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+                        $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, json_encode($result));
+                   }
+            } catch (Exception $ex) {
+                
+            }  */  
+           
+            
+            //var_dump($result);
+            //die("<br><br>Debug Finish!");
+            return $result;
+            
+        }
+        
+  /*      public function bot_login($login, $pass, $Client = NULL)
+        {
+             // Is client with cookies, we try to login with str_login
             $result = new \stdClass();
             $output = array();
             if (!$Client) 
@@ -1399,6 +1455,25 @@ namespace dumbu\cls {
             
             //var_dump($result);
             //die("<br><br>Debug Finish!");
+            return $result;
+            
+*/        
+        
+        public function make_login($login, $pass) {
+            $url = "https://www.instagram.com/";
+            $login_response = false;
+            $try_count = 0;
+            while (!$login_response && $try_count < 2) {
+                $ch = curl_init($url);
+                $this->csrftoken = $this->get_insta_csrftoken($ch);
+                $this->mid = $this->get_cookies_value("mid");
+                if ($this->csrftoken != NULL && $this->csrftoken != "" && $this->mid) {
+                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
+                    $login_response = is_object($result->json_response);
+                }
+                $try_count++;
+            }
+            
             return $result;
         }
 
