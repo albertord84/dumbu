@@ -115,7 +115,7 @@ namespace dumbu\cls {
                 );
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     $Profile->unfollowed = TRUE;
-                    var_dump(json_encode($json_response));
+                    var_dump($json_response);
                     echo "Followed ID: $Profile->followed_id<br>\n";
                     // Mark it unfollowed and send back to queue
                     // If have some Profile to unfollow
@@ -1335,15 +1335,29 @@ namespace dumbu\cls {
         
          public function bot_login($login, $pass, $Client = NULL)
         {
+             $myDB = new \dumbu\cls\DB();
              // Is client with cookies, we try to login with str_login
             $result = new \stdClass();
             $output = array();
             if (!$Client) 
-                $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
+                $Client = $myDB->get_client_data_bylogin($login);
             if (isset($Client->cookies) && $Client->cookies != NULL) {
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
+                if(!isset($mid) && $mid == NULL)
+                {                   
+                  $url = "https://www.instagram.com/graphql/query/";
+                  $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                  exec($curl_str, $output, $status);  
+                    if(count($output[0]) == 0)
+                    {
+                       $myDB->InsertEventToWashdog($Client->id, "MID NULL", 1);
+                       $myDB->set_client_status_by_login($login, user_status::VERIFY_ACCOUNT);
+                       return null;
+                    } 
+                  return $cookies;
+                }
                 $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
                 // TODO: Jose Angel revisar
 //                $url = "https://www.instagram.com/graphql/query/";
