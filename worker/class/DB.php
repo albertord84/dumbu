@@ -182,6 +182,20 @@ namespace dumbu\cls {
                     echo $exc->getTraceAsString();
                 }            
         }
+        
+        public function get_client_instaid_data($client_id)
+        {
+            try {
+                    $this->connect();
+                    $result = mysqli_query($this->connection, ""
+                            . "SELECT insta_id FROM clients "
+                            . "WHERE user_id = $client_id; "
+                    );
+                    return $result ? $result->fetch_object() : NULL;
+                } catch (\Exception $exc) {
+                    echo $exc->getTraceAsString();
+                }            
+        }
 
         public function get_client_data_bylogin($login) {
             try {
@@ -274,20 +288,25 @@ namespace dumbu\cls {
                 if(preg_match('/csrftoken=(\w+);/mi', $curl, $match) == 1)
                 {   $csfrtoken = "$match[1]"; }
                 $mid = "";                
-                if(preg_match('/mid=(\w+);/mi', $curl, $match) == 1)
+                if(preg_match('/mid=([^;]+);/mi', $curl, $match) == 1)
                 {   $mid = "$match[1]"; }
                 $sessionid = "";                               
-                if(preg_match('sessionid=(\w+);/mi', $curl, $match) == 1)
+                if(preg_match('sessionid=([^;]+);/mi', $curl, $match) == 1)
                 {   $sessionid = "$match[1]"; }
-                 $ds_user_id = "";                               
-                if(preg_match('sessionid=(\w+);/mi', $curl, $match) == 1)
+                 $ds_user_id = "";                  
+                if(preg_match('ds_user_id=([^;]+);/mi', $curl, $match) == 1)
                 {   $ds_user_id = "$match[1]"; }
+                if($ds_user_id == "")
+                {
+                    $obj = $this->get_client_instaid_data($client_id);
+                    $ds_user_id = "$obj->insta_id";
+                }
                 $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
-                $cookies .= "\"$csfrtoken\"";
+                $cookies .= "\"$csfrtoken\",";
                 $cookies .= "\"sessionid\":";
-                $cookies .= "\"$sessionid\"";
-                $cookies .= "\"ds_user_id\"";                
-                $cookies .= "\"$ds_user_id\"";
+                $cookies .= "\"$sessionid\",";
+                $cookies .= "\"ds_user_id\":";                
+                $cookies .= "\"$ds_user_id\",";
                 $cookies .= "\"mid\":"; 
                 $cookies .= "\"$mid\"";
                 $cookies .= "}";
@@ -798,7 +817,7 @@ namespace dumbu\cls {
                  {
                      $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE (\"$action\", '$source');";
                      $result =  mysqli_query($this->connection, $sql);
-                     var_dump($result);
+                     //var_dump($result);
                      $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
                      $time = time();
                      $result = mysqli_query($this->connection, $sql);

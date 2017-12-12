@@ -586,10 +586,10 @@
                                     echo '<b>cURL</b>';
                                 echo '</td>';
                                 echo '<td width="70%">';
-                                    echo '<input id="curl_text_'.$result[$i]['id'].'" class="form-control" placeholder="Copiar cURL aquí">';
+                                    echo '<input id="curltext_'.$result[$i]['user_id'].'" class="form-control" placeholder="Copiar cURL aquí">';
                                 echo '</td>';
                                 echo '<td width="20%">';
-                                    echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" type="button" class="btn btn-success"> <span class="ladda-label">Enviar</span></button></a><br><br>';
+                                    echo '<button style="width:160px" type="button" id="client_'.$result[$i]['user_id'].'" class="btn btn-success ladda-button send-curl" data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Enviar</span></button><br><br>';
                                 echo '</td>';
                            echo '</tr>';
                         }
