@@ -1,5 +1,16 @@
 $(document).ready(function () {   
-
+    var num_profiles, flag = false;
+    var verify = false, flag_unfollow_request = false;
+    unfollow_total = parseInt(unfollow_total);
+    autolike = parseInt(autolike);
+    play_pause = parseInt(play_pause);
+    init_unfollow_type();
+    init_autolike_type();
+    init_play_pause_type();
+    flag_black_list=false;
+    flag_white_list=false;
+    
+        
     //typeahead INIT
     /*
     var users_source = new Bloodhound({
@@ -120,18 +131,7 @@ $(document).ready(function () {
         5: {'ptr_img_obj': $('#img_ref_prof5'), 'ptr_p_obj': $('#name_ref_prof5'), 'ptr_label_obj': $('#cnt_follows_prof5'), 'ptr_panel_obj': $('#reference_profile5'), 'img_profile': '', 'login_profile': '', 'status_profile': '', 'follows_from_profile': '', 'ptr_lnk_ref_prof': $('#lnk_ref_prof5')},
     };
     
-    var num_profiles, flag = false;
-    var verify = false, flag_unfollow_request = false;
-    unfollow_total = parseInt(unfollow_total);
-    autolike = parseInt(autolike);
-    play_pause = parseInt(play_pause);
-    init_unfollow_type();
-    init_autolike_type();
-    init_play_pause_type();
-    flag_black_list=false;
-    flag_white_list=false;
-
-      
+    
     $("#dicas_geoloc").click(function(){
         url=base_url+"index.php/welcome/dicas_geoloc";
         window.open(url,'_blank');
