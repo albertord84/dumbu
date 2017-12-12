@@ -1350,7 +1350,7 @@ namespace dumbu\cls {
                   $url = "https://www.instagram.com/graphql/query/";
                   $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                   exec($curl_str, $output, $status);  
-                    if(count($output[0]) == 0)
+                    if(count($output) == 0)
                     {
                        $myDB->InsertEventToWashdog($Client->id, "MID NULL", 1);
                        $myDB->set_client_status_by_login($login, user_status::VERIFY_ACCOUNT);
