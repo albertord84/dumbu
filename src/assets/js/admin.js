@@ -471,4 +471,33 @@ $(document).ready(function(){
             return false;
         }
     });
+    
+    $(".send-curl").click(function(e) {
+        id=$(e.currentTarget).attr('id');
+        var arrayid = id.split("_");
+        if ($("#curltext_"+arrayid[1]).val()=='') {
+            modal_alert_message('ERROR! El campo cURL está vazio!');
+        } else {
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url : base_url+'index.php/admin/send_curl',
+                data : {'client_id': arrayid[1],
+                        'curl': encodeURIComponent($("#curltext_"+arrayid[1]).val())},
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    if(response['success']){
+                        modal_alert_message(response['message']);
+                        $("#curltext_"+arrayid[1]).val("");
+                    } else
+                        modal_alert_message(response['message']);
+                },
+                error : function(xhr, status) {
+                    modal_alert_message('Não foi possível enviar a cURL para o servidor!');
+                }
+            });
+            l.stop();
+        }
+    });
 }); 

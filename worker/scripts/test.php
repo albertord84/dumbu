@@ -7,20 +7,30 @@ require_once '../class/Payment.php';
 require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
+require_once '../class/InstaAPI.php';
 
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
 
-ini_set('xdebug.var_display_max_depth', 7);
+ini_set('xdebug.var_display_max_depth', 17);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-//ini_set('xdebug.var_display_max_depth', 7);
-//ini_set('xdebug.var_display_max_children', 256);
-//ini_set('xdebug.var_display_max_data', 1024);
+$InstaAPI = new \dumbu\cls\InstaAPI();
+
+//$username = "alberto_test";
+//$password = "alberto7";
+//$username = "riveauxmerino";
+//$password = "Notredame88";
+$username = "alberto_dreyes";
+$password = "albertord8";
+$result = $InstaAPI->login($username, $password);
+var_dump($result->Cookies);
+var_dump($result);
+
 //DEBIT CIELO
 /* $PaymentCielo = new \dumbu\cls\PaymentCielo();
 
@@ -150,11 +160,29 @@ var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('12/27/2017 05:00:00');
+//$pay_day = strtotime('12/29/2017 20:18:37');
 //$pay_day = strtotime("+30 days", $pay_day);
-//$pay_day = time();
+
+$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
+
+$payment_data['credit_card_number'] = '5523051002422236';
+$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
+$payment_data['credit_card_exp_month'] = '11';
+$payment_data['credit_card_exp_year'] = '2020';
+$payment_data['credit_card_cvc'] = '011';
+$payment_data['amount_in_cents'] = 2990;
+$payment_data['pay_day'] = $pay_day;
+//$resul = $Payment->create_payment($payment_data);
+//var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
+//var_dump($resul);
+
+//var_dump($pay_day);
+
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
 //$result = $Payment->delete_payment('e15cb727-0e3d-4699-a129-acbc1004fce7');
@@ -191,7 +219,7 @@ $Gmail = new \dumbu\cls\Gmail();
 //$result = $Gmail->send_client_contact_form("Alberto Reyes", "albertord84@gmail.com", "Test contact formm msg NEW2!", "DUMBU", "555-777-777");
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
-var_dump($result);
+//var_dump($result);
 
 $Robot = new \dumbu\cls\Robot();
 //var_dump($Robot->IPS);
@@ -265,21 +293,21 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
 //var_dump($result);
 
-$url = "https://www.instagram.com/";
-$ch = curl_init($url);
+//$url = "https://www.instagram.com/";
+//$ch = curl_init($url);
 
-$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
-$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
+//$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
+//$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
 //$csrftoken = $Robot->get_insta_csrftoken($ch);
 //$mid = $Robot->get_cookies_value("mid");
 
 
 //$result = $Robot->login_insta_with_csrftoken($ch, "alberto_dreyes", "albertord8", $csrftoken, $mid, $Client);
-$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
+//$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
 //$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
-var_dump($result);
-var_dump(json_encode($result));
+//var_dump($result);
+//var_dump(json_encode($result));
 
 
 

@@ -1,6 +1,7 @@
 $(document).ready(function () {
     active_by_steep(1);
     payment_option=0;
+
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);
@@ -189,15 +190,50 @@ $(document).ready(function () {
             l.start();
             l.start();
             
-            if(payment_option==0){
-//            if( 
-//                    ((($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD')  && confirm(T("Informe seu nome no cartão e não a bandeira dele. Deseja continuar?")))
-//                    || 
-//                    ((($('#credit_card_name').val()).toUpperCase()!=='VISA' || ($('#credit_card_name').val()).toUpperCase()!=='MASTERCARD'))){
+            if (payment_option==0) {
+                if (($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD') {
+                    alert(T("Informe seu nome no cartão e não a bandeira dele."));
+                }
                        
                 var name = validate_element('#credit_card_name', "^[A-Z ]{4,50}$");
                 var number = validate_element('#credit_card_number', "^[0-9]{10,20}$");
-                var cvv = validate_element('#credit_card_cvc', "^[0-9 ]{3,5}$");
+                
+                if (number) {
+                    // Validating a Visa card starting with 4, length 13 or 16 digits.
+                    number = validate_element('#credit_card_number', "^(?:4[0-9]{12}(?:[0-9]{3})?)$");
+                    
+                    if (!number) {
+                        // Validating a MasterCard starting with 51 through 55, length 16 digits.
+                        number = validate_element('#credit_card_number', "^(?:5[1-5][0-9]{14})$");
+                        
+                        if (!number) {
+                            // Validating a American Express credit card starting with 34 or 37, length 15 digits.
+                            number = validate_element('#credit_card_number', "^(?:3[47][0-9]{13})$");
+                            
+                            if (!number) {
+                                // Validating a Discover card starting with 6011, length 16 digits or starting with 5, length 15 digits.
+                                number = validate_element('#credit_card_number', "^(?:6(?:011|5[0-9][0-9])[0-9]{12})$");
+                                
+                                if (!number) {
+                                    // Validating a Diners Club card starting with 300 through 305, 36, or 38, length 14 digits.
+                                    number = validate_element('#credit_card_number', "^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$");
+                                    
+                                    if (!number) {
+                                        // Validating a Elo credit card
+                                        number = validate_element('#credit_card_number', "^(?:((((636368)|(438935)|(504175)|(451416)|(636297))[0-9]{0,10})|((5067)|(4576)|(4011))[0-9]{0,12}))$");
+                                        
+                                        if (!number) {
+                                            // Validating a Hypercard
+                                            number = validate_element('#credit_card_number', "^(?:(606282[0-9]{10}([0-9]{3})?)|(3841[0-9]{15}))$");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                var cvv = validate_element('#credit_card_cvc', "^[0-9]{3,4}$");
                 var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
                 var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
                 var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());            

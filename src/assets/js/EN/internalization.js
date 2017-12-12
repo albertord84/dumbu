@@ -98,8 +98,8 @@ var Translation={
             "Check provided datas",
     "Data errada":
             "Incorrect date",
-    "Informe seu nome no cartão e não a bandeira dele. Deseja continuar?":
-            "Enter your name on the card and not his flag. Do you wish to continue?"
+    "Informe seu nome no cartão e não a bandeira dele.":
+            "Enter your name on the card and not his flag."
 };
 
 function T(token){
