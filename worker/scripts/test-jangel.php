@@ -15,10 +15,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // 
 // 1. By Code
 // Request Code
-$str = "curl 'https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'x-requested-with: XMLHttpRequest' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36' -H 'cookie: mid=Wfn9vgAEAAGIFNZei4F0gwnH4M6j; ig_pr=1; ig_vw=1855; ig_vh=990; ig_or=landscape-primary; csrftoken=zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK; rur=ATN; urlgen=\"{\\\"time\\\": 1512592838}:1eMgYc:UcN0E0daepL7D27JcgNpyhZAgQA\"' -H 'x-csrftoken: zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'authority: www.instagram.com' --data 'choice=0' --compressed";
-    
-$DB = new \dumbu\cls\DB();
-$DB->set_client_cookies_by_curl(1,$str);
+$Client = new \dumbu\cls\Client();
+$Robot = new \dumbu\cls\Robot();
+//$Client->create_daily_work(1);
+$Client = $Client->get_client(1);
+$login_data = $Client->sign_in($Client);
+var_dump($login_data);
+$json_response = $Robot->make_insta_friendships_command($login_data, 2023444583, 'follow');
+var_dump($json_response);
+
 //
 // URL Post Codigo
 //curl 'https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'x-requested-with: XMLHttpRequest' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36' -H 'cookie: mid=Wfn9vgAEAAGIFNZei4F0gwnH4M6j; ig_pr=1; ig_vw=1855; ig_vh=990; ig_or=landscape-primary; csrftoken=zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK; rur=ATN; urlgen="{\"time\": 1512592838}:1eMgZJ:eORZY6EGnW3aUXmLURPibgB79IU"' -H 'x-csrftoken: zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'authority: www.instagram.com' --data 'security_code=015486' --compressed
