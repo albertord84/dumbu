@@ -33,12 +33,12 @@ $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5523051002422236';
-$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2020';
-$payment_data['credit_card_cvc'] = '011';
-$payment_data['amount_in_cents'] = 2990;
+$payment_data['credit_card_number'] = '5399832655978884';
+$payment_data['credit_card_name'] = 'OLUBUNMI LADENIKA';
+$payment_data['credit_card_exp_month'] = '07';
+$payment_data['credit_card_exp_year'] = '2019';
+$payment_data['credit_card_cvc'] = '856';
+$payment_data['amount_in_cents'] = 24000;
 $payment_data['pay_day'] = $pay_day;
 $resul = $Payment->create_payment($payment_data);
 var_dump($resul);
@@ -50,7 +50,7 @@ var_dump($resul);
 var_dump($pay_day);
 
 // GMAIL
-$Gmail = new \dumbu\cls\Gmail();
+//$Gmail = new \dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
 //$result = $Gmail->send_client_payment_error("jangel.riveaux@gmail.comm", "marcelomarins.art", "marcelomarins.art", "");
 //var_dump($result);

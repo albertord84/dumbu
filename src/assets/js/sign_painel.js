@@ -146,11 +146,10 @@ $(document).ready(function () {
             l.start();
             l.start();
             
-            if(payment_option==0){
-//            if( 
-//                    ((($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD')  && confirm(T("Informe seu nome no cartão e não a bandeira dele. Deseja continuar?")))
-//                    || 
-//                    ((($('#credit_card_name').val()).toUpperCase()!=='VISA' || ($('#credit_card_name').val()).toUpperCase()!=='MASTERCARD'))){
+            if (payment_option==0) {
+                if (($('#credit_card_name').val()).toUpperCase()==='VISA' || ($('#credit_card_name').val()).toUpperCase()==='MASTERCARD') {
+                    alert(T("Informe seu nome no cartão e não a bandeira dele."));
+                }
                        
                 var name = validate_element('#credit_card_name', "^[A-Z ]{4,50}$");
                 var number = validate_element('#credit_card_number', "^[0-9]{10,20}$");
