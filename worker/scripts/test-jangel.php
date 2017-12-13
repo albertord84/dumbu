@@ -17,12 +17,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // Request Code
 $Client = new \dumbu\cls\Client();
 $Robot = new \dumbu\cls\Robot();
-//$Client->create_daily_work(1);
-$Client = $Client->get_client(1);
-$login_data = $Client->sign_in($Client);
-var_dump($login_data);
-$json_response = $Robot->make_insta_friendships_command($login_data, 2023444583, 'follow');
-var_dump($json_response);
+$Robot->make_login("alberto_dreyes", "albertord8");
 
 //
 // URL Post Codigo
