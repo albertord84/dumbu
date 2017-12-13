@@ -25,9 +25,9 @@
                 <link href="<?php echo base_url().'assets/bootstrap/css/bootstrap.min.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/loading.css';?>" rel="stylesheet">
 		<link href="<?php echo base_url().'assets/css/style.css';?>" rel="stylesheet">
-                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/stylenew.css';?>" />
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css';?>" />
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css';?>" />
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/stylenew.css?'.$SCRIPT_VERSION;?>" />
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/default.css?'.$SCRIPT_VERSION;?>" />
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/component.css?'.$SCRIPT_VERSION;?>" />
                 <link rel="stylesheet" href="<?php echo base_url().'assets/css/ladda-themeless.min.css'?>">
 		
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/modernizr.custom.js';?>"></script>                
@@ -36,11 +36,11 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script type="text/javascript">var language = '<?php echo $language;?>';</script>
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME;?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.1';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?1.0.0';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js?1.0.0';?>"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js';?>"></script>                
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js';?>"></script>                
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?'.$SCRIPT_VERSION;?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?'.$SCRIPT_VERSION;?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js?'.$SCRIPT_VERSION;?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js?'.$SCRIPT_VERSION;?>"></script>                
+                <!--<script type="text/javascript" src="<?php //echo base_url().'assets/js/controllers.js?'.$SCRIPT_VERSION;?>"></script>-->               
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
@@ -55,28 +55,7 @@
                 <!--Start of Zendesk Chat Script-->
                 <?php
                     if ($SERVER_NAME == "PRO") { ?>
-                        <script type="text/javascript">
-                        window.$zopim||(function(d,s){var z=$zopim=function(c){
-                        z._.push(c)},$=z.s=
-                        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-                        _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-                        $.src="https://v2.zopim.com/?4QMQc3y0X75kW162SosdvI6XoWRNlUzo";z.t=+new Date;$.
-                        type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-
-                        $zopim(function() {
-                            $zopim.livechat.departments.filter("");
-                            $zopim.livechat.departments.setVisitorDepartment("Atendimento ao cliente");
-                            $zopim.livechat.setOnConnected(function() {
-                                var dep = $zopim.livechat.departments.getDepartment("Atendimento ao cliente");
-                                if(dep.status=="offline"){
-                                    $zopim.livechat.setStatus("offline");
-                                }
-                                else{
-                                    $zopim.livechat.button.show();
-                                }
-                            })
-                        });
-                        </script>
+                        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/zendesk_chat_home.js'; ?>"></script>
                 <?php } ?>
                 <!--End of Zendesk Chat Script-->
 	</head>
@@ -765,6 +744,7 @@
                             <!--PASSO 2-->
                                 <div id="coniner_data_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">
                                         <h5 class="no-mg text-center"><b><?php echo $CI->T("PASSO 2", array(),$language);?></b></h5>
+
 					<div id="exTab2" class="container">	
                                             <ul class="nav nav-tabs">
                                                 <li  class="active" >
@@ -826,6 +806,7 @@
                                                                 </div>
                                                             </fieldset>
                                                         </div>
+
                                                         <div class="col-md-3 col-sm-3 col-xs-12 no-pd m-t10">
                                                             <spam class="val"><?php echo $CI->T("CUPOM", array(),$language);?> (*)</spam>
                                                         </div>

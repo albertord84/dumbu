@@ -72,6 +72,7 @@ class Admin extends CI_Controller {
             $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             $query = 'SELECT DISTINCT utm_source FROM clients';
             $datas['utm_source_list'] = $this->user_model->execute_sql_query($query);
+            $data['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
@@ -394,5 +395,29 @@ class Admin extends CI_Controller {
             'followers' => json_encode($followers)
         );
         return $response;
+    }
+    
+    public function send_curl() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $client_id = $this->input->post()['client_id'];
+            $curl = urldecode($this->input->post()['curl']);
+            
+            try {
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
+                $DB = new \dumbu\cls\DB();
+                $DB->set_client_cookies_by_curl($client_id, $curl, NULL);
+            } catch (Exception $exc) {
+                //echo $exc->getTraceAsString();
+                $result['success'] = false;
+                $result['message'] = "Erro no banco de dados. Contate o grupo de desenvolvimento!";
+            } finally {
+                $result['success'] = true;
+                $result['message'] = "cURL enviada com sucesso!";
+            }
+            echo json_encode($result);
+        } else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
     }
 }

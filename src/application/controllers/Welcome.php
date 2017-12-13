@@ -5,11 +5,11 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
-    public function md(){
-        echo md5('192.168.25.50 192.168.25.255');
-    }
+//    public function md(){
+//        echo md5('192.168.25.50 192.168.25.255');
+//    }
 
-        public function index() {
+    public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -17,9 +17,10 @@ class Welcome extends CI_Controller {
             $param['language']=$language['language'];
         else
             $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+        $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
         $GLOBALS['language']=$param['language'];
-        $this->load->library('recaptcha');
+        //$this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
     
@@ -93,6 +94,7 @@ class Welcome extends CI_Controller {
                  $GLOBALS['language']=$this->user_model->get_language_of_client($this->session->userdata('id'))['language'];
             $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
             $datas1['WHATSAPP_PHONE'] = $GLOBALS['sistem_config']->WHATSAPP_PHONE;
+            $datas1['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
             $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
@@ -213,7 +215,10 @@ class Welcome extends CI_Controller {
         }
     }
 
+    
+    
     public function user_do_login($datas=NULL) {
+    //public function md($datas=NULL) {
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
@@ -1346,6 +1351,36 @@ class Welcome extends CI_Controller {
          return $response;
     }
     
+    public function detectCardType($num) {
+        $re = array(
+            "visa" => "/^4[0-9]{12}(?:[0-9]{3})?$/",
+            "mastercard" => "/^5[1-5][0-9]{14}$/",
+            "amex" => "/^3[47][0-9]{13}$/",
+            "discover" => "/^6(?:011|5[0-9]{2})[0-9]{12}$/",
+            "diners" => "/^3[068]\d{12}$/",
+            "elo" => "/^((((636368)|(438935)|(504175)|(451416)|(636297))\d{0,10})|((5067)|(4576)|(4011))\d{0,12})$/",
+            "hipercard" => "/^(606282\d{10}(\d{3})?)|(3841\d{15})$/"
+        );
+
+        if (preg_match($re['visa'], $num)) {
+            return 'Visa';
+        } else if (preg_match($re['mastercard'], $num)) {
+            return 'Mastercard';
+        } else if (preg_match($re['amex'], $num)) {
+            return 'Amex';
+        } else if (preg_match($re['discover'], $num)) {
+            return 'Discover';
+        } else if (preg_match($re['diners'], $num)) {
+            return 'Diners';
+        } else if (preg_match($re['elo'], $num)) {
+            return 'Elo';
+        } else if (preg_match($re['hipercard'], $num)) {
+            return 'Hipercard';
+        } else {
+            return false;
+        }
+    }
+    
     public function check_mundipagg_credit_card($datas) {
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
         $payment_data['credit_card_name'] = $datas['credit_card_name'];
@@ -1356,7 +1391,13 @@ class Welcome extends CI_Controller {
         $payment_data['pay_day'] = time();        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
-        $response = $Payment->create_payment($payment_data);
+        $bandeira = $this->detectCardType($payment_data['credit_card_number']);
+        
+        if ($bandeira)
+            $response = $Payment->create_payment($payment_data);
+        else
+            $response = array("message" => $this->T("Confira seu número de cartão e se está certo entre em contato com o atendimento.", array(), $GLOBALS['language']));
+        
         return $response;
     }
     
@@ -1386,26 +1427,31 @@ class Welcome extends CI_Controller {
         $payment_data['pay_day'] = $datas['pay_day'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
+        $bandeira = $this->detectCardType($payment_data['credit_card_number']);
         
-        //5 Cielo -> 1.5 | 32 -> eRede | 20 -> Stone | 42 -> Cielo 3.0 | 0 -> Auto;        
-        $response = $Payment->create_recurrency_payment($payment_data, $cnt, 20);
-        if (is_object($response) && $response->isSuccess()){
-            return $response;
-        } else{
-            /*$response = $Payment->create_recurrency_payment($payment_data, $cnt, 5);
-            if (is_object($response) && $response->isSuccess()){
-                return $response;
-            } else{*/
-                $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
-                return $response;
-                /*if (is_object($response) && $response->isSuccess()){
+        if ($bandeira) {
+            if ($bandeira == "Visa" || $bandeira == "Mastercard") {
+                //5 Cielo -> 1.5 | 32 -> eRede | 20 -> Stone | 42 -> Cielo 3.0 | 0 -> Auto;        
+                $response = $Payment->create_recurrency_payment($payment_data, $cnt, 20);
+                
+                if (is_object($response) && $response->isSuccess()) {
                     return $response;
-                } else{
-                    $response = $Payment->create_recurrency_payment($payment_data, $cnt, 32);*/
-                //}
-            //}
+                } else {
+                    $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
+                }
+            }
+            else if ($bandeira == "Hipercard") {
+                $response = $Payment->create_recurrency_payment($payment_data, $cnt, 20);
+            }
+            else {
+                $response = $Payment->create_recurrency_payment($payment_data, $cnt, 42);
+            }
+        }
+        else {
+            $response = array("message" => $this->T("Confira seu número de cartão e se está certo entre em contato com o atendimento.", array(), $GLOBALS['language']));
         }
         
+        return $response;
     }
 
     public function delete_recurrency_payment($order_key) {

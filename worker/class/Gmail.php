@@ -14,7 +14,7 @@ namespace dumbu\cls {
 
     class Gmail {
 
-        protected $mail = NULL;
+        public $mail = NULL;
 
         public function __construct() {
 //Create a new PHPMailer instance
