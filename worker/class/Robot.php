@@ -1370,8 +1370,16 @@ namespace dumbu\cls {
                 return $result;
             }
             
-            $result = $this->make_login($login, $pass);
-            $myDB->set_client_cookies($Client->id, $result);
+            try{
+                $result = $this->make_login($login, $pass);
+                $myDB->set_client_cookies($Client->id, $result);
+            }
+             catch (\Exception $e) {
+                 $result = json_decode($result);
+                 $result->json_response->authenticated = false;
+                return result;
+//                echo 'Something went wrong: ' . $e->getMessage() . "\n";
+            }
             return json_decode($result);
             
         }

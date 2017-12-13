@@ -29,9 +29,9 @@ namespace dumbu\cls {
             $truncatedDebug = true;
             //////////////////////
 
-            $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
-
             try {
+                $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
+                
                 $loginResponse = $ig->login($username, $password, true);
 
                 $ig->client->loadCookieJar();
