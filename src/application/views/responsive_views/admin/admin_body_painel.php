@@ -304,9 +304,9 @@
                 <div class="col-md-3">
                     <div class="center">
                         <br>
-                        <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <!-- <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Obter emails</span>
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -366,7 +366,9 @@
                     if (isset($result) && $form_filter['query'] == 1) {                        
                         for($i=0;$i<$num_rows;$i++){
                             //echo '<tr id="'.$result[$i]['id'].'" class="my_row">';
-                            echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block">';
+                            echo '<tr id="row-client-'.$result[$i]['id'].'" style="visibility: visible;display: block'; 
+                            if ($i % 2) {echo '; background-color: #dff0d8';}
+                            echo '">';
                                 echo '<td >';
                                     echo '<br><br><br><br><br><b>'.($i+1).'</b>';
                                 echo '</td>';                                
@@ -577,6 +579,19 @@
                                     
                                 echo '</td>';
                             echo '</tr>';
+                            echo '<tr id="row-2-client-'.$result[$i]['id'].'" style="display: block'; 
+                            if ($i % 2) {echo '; background-color: #dff0d8';}
+                            echo '">';
+                                echo '<td width="10%" align="right">';
+                                    echo '<b>cURL</b>';
+                                echo '</td>';
+                                echo '<td width="70%">';
+                                    echo '<input id="curltext_'.$result[$i]['user_id'].'" class="form-control" placeholder="Copiar cURL aquí">';
+                                echo '</td>';
+                                echo '<td width="20%">';
+                                    echo '<button style="width:160px" type="button" id="client_'.$result[$i]['user_id'].'" class="btn btn-success ladda-button send-curl" data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Enviar</span></button><br><br>';
+                                echo '</td>';
+                           echo '</tr>';
                         }
                     }
                     else if ($form_filter['query'] == 2) {
