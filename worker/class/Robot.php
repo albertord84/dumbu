@@ -1339,6 +1339,7 @@ namespace dumbu\cls {
              $myDB = new \dumbu\cls\DB();
              // Is client with cookies, we try to login with str_login
             $result = new \stdClass();
+            $result->json_response->authenticated = FALSE;
             $output = array();
             if (!$Client) 
                 $Client = $myDB->get_client_data_bylogin($login);
@@ -1346,19 +1347,18 @@ namespace dumbu\cls {
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
-                if(!isset($mid) && $mid == NULL)
-                {                   
-                  $url = "https://www.instagram.com/graphql/query/";
-                  $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
-                  exec($curl_str, $output, $status);  
-                  if(!count($output) > 0)
-                  {                        
-                    return $cookies;
-                  } 
-                }                
-                       
-                 $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);              
+                if($mid !== null && $mid !== ''){
+                     $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass); 
+                     $url = "https://www.instagram.com/graphql/query/";
+                      $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                      exec($curl_str, $output, $status);  
+                      if(!count($output) ==  0)
+                      {                        
+                        $result->json_response->authenticated = FALSE;
+                      } 
+                  }
             }
+            
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
                 $result->csrftoken = $cookies->csrftoken;
                 // Get sessionid from cookies
@@ -1373,14 +1373,13 @@ namespace dumbu\cls {
             try{
                 $result = $this->make_login($login, $pass);
                 $myDB->set_client_cookies($Client->id, $result);
+                return json_decode($result);
             }
-             catch (\Exception $e) {
-                 $result = json_decode($result);
-                 $result->json_response->authenticated = false;
+             catch (\Exception $e) {                 
+                 $myDB->InsertEventToWashdog($Client->id, $e->message, $this->id);                 
                 return result;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
-            return json_decode($result);
             
         }
         
@@ -1479,7 +1478,10 @@ namespace dumbu\cls {
         public function make_login($login, $pass) {            
             $instaAPI = new \dumbu\cls\InstaAPI();
             //TODO: capturar excepcion e dar tratamiento cuando usuario y senha no existe en IG
-            $result = $instaAPI->login($login, $pass);
+            try{
+                $result = $instaAPI->login($login, $pass);
+            }
+            catch(\Exception $exc){ throw $exc; }
             $cookies = $result->Cookies;
             $mid = "";
             $csrftoken = "";

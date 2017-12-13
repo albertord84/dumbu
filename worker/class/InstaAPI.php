@@ -49,7 +49,7 @@ namespace dumbu\cls {
                 }
                 return $loginResponse;
             } catch (\Exception $e) {
-                return $e;
+                throw $e;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }
