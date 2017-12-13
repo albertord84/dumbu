@@ -1478,6 +1478,7 @@ namespace dumbu\cls {
         
         public function make_login($login, $pass) {            
             $instaAPI = new \dumbu\cls\InstaAPI();
+            //TODO: capturar excepcion e dar tratamiento cuando usuario y senha no existe en IG
             $result = $instaAPI->login($login, $pass);
             $cookies = $result->Cookies;
             $mid = "";

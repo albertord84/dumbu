@@ -5,6 +5,10 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
+//    public function md(){
+//        echo md5('192.168.25.50 192.168.25.255');
+//    }
+
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -16,7 +20,7 @@ class Welcome extends CI_Controller {
         $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
         $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
         $GLOBALS['language']=$param['language'];
-        $this->load->library('recaptcha');
+        //$this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
     
@@ -211,7 +215,10 @@ class Welcome extends CI_Controller {
         }
     }
 
+    
+    
     public function user_do_login($datas=NULL) {
+    //public function md($datas=NULL) {
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
