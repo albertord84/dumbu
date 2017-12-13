@@ -23,7 +23,7 @@ $(document).ready(function(){
         $('#google_conversion_frame').css({"float": "none","display":"none"});
     });
         
-    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){        
         if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
             if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
                 var l = Ladda.create(object);  l.start();
@@ -40,6 +40,7 @@ $(document).ready(function(){
                     dataType : 'json',
                     async: false,
                     success : function(response) {
+                        alert(1);
                         if(response['authenticated']){
                             if(response['role']=='ADMIN'){
                                 var cad=base_url+'index.php/admin/index?'+response['str'];              
@@ -83,6 +84,7 @@ $(document).ready(function(){
                         }
                     },                
                     error : function(xhr, status) {
+                        alert(0);
                         modal_alert_message(T('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
                         l.stop();
                     }

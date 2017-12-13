@@ -17,7 +17,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // Request Code
 $Client = new \dumbu\cls\Client();
 $Robot = new \dumbu\cls\Robot();
-$Robot->make_login("alberto_dreyes", "albertord8");
+$var = $Robot->bot_login("alberto_dreyes", "albertord8");
+print("---------------------------");
+var_dump($var);
 
 //
 // URL Post Codigo
@@ -41,7 +43,6 @@ var_dump($init_day);
 //$DB = new \dumbu\cls\DB();
 
 
-$Client = new \dumbu\cls\Client();
 //$Robot = new \dumbu\cls\Robot();
 //$Client->create_daily_work(1);
 
@@ -57,13 +58,6 @@ $Client = new \dumbu\cls\Client();
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(10);
 //var_dump($follows_count);
 //$follows_count = \dumbu\cls\Reference_profile::static_get_follows(20);
-
-$Robot = new dumbu\cls\Robot();
-//$var = $Robot->checkpoint_requested('ruslan.guerra88', '*R5sl@n#');
-
-//$var = $Robot->make_checkpoint('ruslan.guerra88', '324068');
-var_dump($var);
-$var = $Robot->bot_login('ruslan.guerra88', '*R5sl@n#');
 
 
 /*

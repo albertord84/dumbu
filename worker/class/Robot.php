@@ -1371,7 +1371,8 @@ namespace dumbu\cls {
             }
             
             $result = $this->make_login($login, $pass);
-            return $result;
+            $myDB->set_client_cookies($Client->id, $result);
+            return json_decode($result);
             
         }
         
@@ -1452,7 +1453,10 @@ namespace dumbu\cls {
                 $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
                 $cookies .= "\"$csfrtoken\",";
                 $cookies .= "\"sessionid\":";
-                $cookies .= "\"$sessionid\",";
+                if($sessionid !== "null")
+                {   $cookies .= "\"$sessionid\",";}
+                else
+                { $cookies .= "null,"; }
                 $cookies .= "\"ds_user_id\":";                
                 $cookies .= "\"$ds_user_id\",";
                 $cookies .= "\"mid\":"; 
@@ -1467,9 +1471,21 @@ namespace dumbu\cls {
         public function make_login($login, $pass) {            
             $instaAPI = new \dumbu\cls\InstaAPI();
             $result = $instaAPI->login($login, $pass);
-            //$cookies = $this->encode_cookies();
-            //(new \dumbu\cls\DB())->set_client_cookies($client_id, $cookies);
-            return $result;
+            $cookies = $result->Cookies;
+            $mid = "";
+            $csrftoken = "";
+            $ds_user_id = "";
+            $sessionid = "null";
+            foreach ($cookies as $key => $value) {
+                if($value['Name'] === 'mid')
+                { $mid = $value['Value']; }
+                elseif($value['Name'] === 'csrftoken')
+                { $csrftoken = $value['Value']; }                 
+                elseif($value['Name'] === 'ds_user_id')
+                { $ds_user_id = $value['Value']; }
+            }
+            $cookies_str = $this->encode_cookies($csrftoken, $sessionid, $ds_user_id, $mid);
+            return $cookies_str;//json_decode($cookies_str);
         }
 
         public function like_fist_post($client_cookies, $client_insta_id) {
