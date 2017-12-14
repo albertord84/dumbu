@@ -1351,7 +1351,7 @@ namespace dumbu\cls {
                      $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass); 
                      $url = "https://www.instagram.com/graphql/query/";
                       $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
-                      exec($curl_str, $output, $status);  
+                      exec($curl_str, $oujson_responsetput, $status);  
                       if(!count($output) ==  0)
                       {                        
                         $result->json_response->authenticated = FALSE;
