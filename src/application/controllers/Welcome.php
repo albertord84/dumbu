@@ -281,8 +281,8 @@ class Welcome extends CI_Controller {
                                 'pass' => $datas['user_pass'],
                                 'status_id' => user_status::ACTIVE));                                                        
                             if ($data_insta['insta_login_response']) {
-                                $this->client_model->update_client($user[$index]['id'], array(
-                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+//                                $this->client_model->update_client($user[$index]['id'], array(
+//                                    'cookies' => json_encode($data_insta['insta_login_response'])));
                                 $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             }
                             if($st!=user_status::ACTIVE)
@@ -347,8 +347,8 @@ class Welcome extends CI_Controller {
                                 'status_id' => $st));
                             $cad=$this->user_model->get_status_by_id($st)['name'];
                             if ($data_insta['insta_login_response']) {
-                                $this->client_model->update_client($user[$index]['id'], array(
-                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+//                                $this->client_model->update_client($user[$index]['id'], array(
+//                                    'cookies' => json_encode($data_insta['insta_login_response'])));
                             }
                             $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             if($st!=user_status::ACTIVE)
