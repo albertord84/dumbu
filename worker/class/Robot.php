@@ -1373,10 +1373,13 @@ namespace dumbu\cls {
             try{
                 $result = $this->make_login($login, $pass);
                 $myDB->set_client_cookies($Client->id, $result);
-                return json_decode($result);
+                return $result;
             }
              catch (\Exception $e) {                 
-                 $myDB->InsertEventToWashdog($Client->id, $e->message, $this->id);                 
+                $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $this->id); 
+                if(isset($e->getMessage()))
+                    $result['message']=$e->getMessage();
+                    
                 return result;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
