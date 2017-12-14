@@ -5,10 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
-//    public function md(){
-//        echo md5('192.168.25.50 192.168.25.255');
-//    }
-
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -841,7 +837,7 @@ class Welcome extends CI_Controller {
         $datas['OrderReference']=$DocumentNumber+1;
         $datas['user_id'] = $datas['pk'];
         $datas['name']=$datas['ticket_bank_client_name'];
-        //$response = $this->check_mundipagg_boleto($datas);
+        $response = $this->check_mundipagg_boleto($datas);
         
         
         //4. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5

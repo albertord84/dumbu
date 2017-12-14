@@ -84,7 +84,6 @@ $(document).ready(function(){
                         }
                     },                
                     error : function(xhr, status) {
-                        alert(0);
                         modal_alert_message(T('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));    
                         l.stop();
                     }
