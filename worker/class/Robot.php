@@ -1349,14 +1349,19 @@ namespace dumbu\cls {
                 $mid = $cookies->mid;
                 if($mid !== null && $mid !== ''){
                      $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass); 
+                     $result->json_response->authenticated = FALSE;
                      $url = "https://www.instagram.com/graphql/query/";
-                      $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
-                      exec($curl_str, $output, $status);  
-                      if(!count($output) ==  0)
-                      {                        
-                        $result->json_response->authenticated = FALSE;
-                      } 
-                  }
+                     $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                     exec($curl_str, $output, $status);  
+                     try{
+                          $json_response = json_decode($output[0]);
+                          if (is_object($json_response) && $json_response->status == 'ok')
+                          { $result->json_response->authenticated = TRUE; }
+                    }
+                    catch(\Exception $e)
+                    {                              
+                    }
+                }
             }
             
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
@@ -1380,7 +1385,7 @@ namespace dumbu\cls {
                  $result->json_response->authenticated = false;
                  $result->json_response->status = 'fail';
                  $result->json_response->message = $e->getMessage();                 
-                return result;
+                return $result;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
             
