@@ -1346,14 +1346,19 @@ namespace dumbu\cls {
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
-                if ($mid !== null && $mid !== '') {
-                    $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
-                    $url = "https://www.instagram.com/graphql/query/";
-                    $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
-                    exec($curl_str, $output, $status);
-                    if (!count($output) == 0) {
-                        $result->json_response->authenticated = FALSE;
+                if($mid !== null && $mid !== ''){
+                     $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass); 
+                     $result->json_response->authenticated = FALSE;
+                     $url = "https://www.instagram.com/graphql/query/";
+                     $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                     exec($curl_str, $output, $status);  
+                     try{
+                          $json_response = json_decode($output[0]);
+                          if (is_object($json_response) && $json_response->status == 'ok')
+                          { $result->json_response->authenticated = TRUE; }
                     }
+                    catch(\Exception $e)
+                    {   }
                 }
             }
 
@@ -1373,17 +1378,20 @@ namespace dumbu\cls {
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
             }
-             catch (\Exception $e) {                 
-                 $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $this->id);
+             catch (\Exception $e) {   
+                 $source = 0;
+                 if(isset($id) && $id !== NULL && $id !== 0)
+                     $source = 1;
+                 $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $source);
                  $result->json_response->authenticated = false;
                  $result->json_response->status = 'fail';
+
                  
                  if($e->getMessage()=== 'InstagramAPI\Response\LoginResponse: Challenge required.')
                      $result->json_response->message = 'checkpoint_required'; 
                  else
                     $result->json_response->message = $e->getMessage(); 
-                
-                return $result;
+                   return $result;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }
