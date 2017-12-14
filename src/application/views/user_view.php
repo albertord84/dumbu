@@ -40,7 +40,7 @@
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/user.js?'.$SCRIPT_VERSION;?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/sign_painel.js?'.$SCRIPT_VERSION;?>"></script>
                 <script type="text/javascript" src="<?php echo base_url().'assets/js/talkme_painel.js?'.$SCRIPT_VERSION;?>"></script>                
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/controllers.js?'.$SCRIPT_VERSION;?>"></script>                
+                <!--<script type="text/javascript" src="<?php //echo base_url().'assets/js/controllers.js?'.$SCRIPT_VERSION;?>"></script>-->               
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
