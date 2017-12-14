@@ -23,7 +23,7 @@ $(document).ready(function(){
         $('#google_conversion_frame').css({"float": "none","display":"none"});
     });
         
-    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){  
         if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
             if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
                 var l = Ladda.create(object);  l.start();
@@ -31,6 +31,7 @@ $(document).ready(function(){
                 $(fieldErrorMessage).css('visibility','visible');
                 $(fieldErrorMessage).css('color','green');
                 $.ajax({
+                    //url : base_url+'index.php/welcome/md',
                     url : base_url+'index.php/welcome/user_do_login',      
                     data : {
                         'user_login':$(fieldLogin).val(),
@@ -39,7 +40,7 @@ $(document).ready(function(){
                     type : 'POST',
                     dataType : 'json',
                     async: false,
-                    success : function(response) {
+                    success : function(response) {                        
                         if(response['authenticated']){
                             if(response['role']=='ADMIN'){
                                 var cad=base_url+'index.php/admin/index?'+response['str'];              

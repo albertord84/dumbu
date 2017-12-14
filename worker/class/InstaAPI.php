@@ -11,8 +11,8 @@ namespace dumbu\cls {
 //    ini_set('xdebug.var_display_max_children', 256);
 //    ini_set('xdebug.var_display_max_data', 1024);
 
-
-    require_once '../../src/vendor/autoload.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/src/vendor/autoload.php';
+    //require_once '../../src/vendor/autoload.php'; //asi noooo, cojone
 
     /**
      * Description of InstaAPI
@@ -29,9 +29,9 @@ namespace dumbu\cls {
             $truncatedDebug = true;
             //////////////////////
 
-            $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
-
             try {
+                $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
+                
                 $loginResponse = $ig->login($username, $password, true);
 
                 $ig->client->loadCookieJar();
@@ -49,7 +49,7 @@ namespace dumbu\cls {
                 }
                 return $loginResponse;
             } catch (\Exception $e) {
-                return $e;
+                throw $e;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }

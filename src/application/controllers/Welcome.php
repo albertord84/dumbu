@@ -16,7 +16,7 @@ class Welcome extends CI_Controller {
         $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
         $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
         $GLOBALS['language']=$param['language'];
-        $this->load->library('recaptcha');
+        //$this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
     
@@ -211,7 +211,10 @@ class Welcome extends CI_Controller {
         }
     }
 
+    
+    
     public function user_do_login($datas=NULL) {
+    //public function md($datas=NULL) {
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
@@ -834,7 +837,7 @@ class Welcome extends CI_Controller {
         $datas['OrderReference']=$DocumentNumber+1;
         $datas['user_id'] = $datas['pk'];
         $datas['name']=$datas['ticket_bank_client_name'];
-        //$response = $this->check_mundipagg_boleto($datas);
+        $response = $this->check_mundipagg_boleto($datas);
         
         
         //4. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5

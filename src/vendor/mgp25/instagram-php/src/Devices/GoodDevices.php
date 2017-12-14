@@ -162,7 +162,7 @@ class GoodDevices
     {
         $randomIdx = array_rand(self::DEVICES, 1);
 
-        return (self::DEVICES)[$randomIdx];
+        return self::DEVICES[$randomIdx];
     }
 
     /**

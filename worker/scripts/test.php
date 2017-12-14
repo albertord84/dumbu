@@ -287,9 +287,10 @@ $Robot = new \dumbu\cls\Robot();
 
 $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("josergm86", "josergm2");
-//var_dump($result);
+
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
+
 //$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
 //var_dump($result);
 
@@ -299,12 +300,6 @@ $Robot = new dumbu\cls\Robot();
 //$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
 //$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
-//$csrftoken = $Robot->get_insta_csrftoken($ch);
-//$mid = $Robot->get_cookies_value("mid");
-
-
-//$result = $Robot->login_insta_with_csrftoken($ch, "alberto_dreyes", "albertord8", $csrftoken, $mid, $Client);
-//$result = $Robot->login_insta_with_csrftoken($ch, "ruslan.guerra88", "*R5sl@n#", $csrftoken, $mid, $Client);
 //$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
 //var_dump($result);
 //var_dump(json_encode($result));
