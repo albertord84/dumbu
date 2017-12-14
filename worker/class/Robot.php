@@ -1381,6 +1381,7 @@ namespace dumbu\cls {
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
             } catch (\Exception $e) {
+                $myDB->set_cookies_to_null($Client->id);
                 $source = 0;
                 if(isset($id) && $id !== NULL && $id !== 0)
                     $source = 1;
@@ -1389,7 +1390,8 @@ namespace dumbu\cls {
                 $result->json_response->status = 'ok';
                 
                 if ((strpos($e->getMessage(), 'Challenge required') !== FALSE)
-                ||  (strpos($e->getMessage(), 'Checkpoint required') !== FALSE))
+                ||  (strpos($e->getMessage(), 'Checkpoint required') !== FALSE)
+                ||  (strpos($e->getMessage(), 'challenge_required') !== FALSE))
                     $result->json_response->message = 'checkpoint_required';
                 else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
                     $result->json_response->message = 'incorrect_password';
