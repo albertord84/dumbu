@@ -1372,12 +1372,18 @@ namespace dumbu\cls {
                 $result = $this->make_login($login, $pass);
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
-            } catch (\Exception $e) {
-                $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $this->id);
-                $result->json_response->authenticated = false;
-                $result->json_response->status = 'fail';
-                $result->json_response->message = $e->getMessage();
-                return result;
+            }
+             catch (\Exception $e) {                 
+                 $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $this->id);
+                 $result->json_response->authenticated = false;
+                 $result->json_response->status = 'fail';
+                 
+                 if($e->getMessage()=== 'InstagramAPI\Response\LoginResponse: Challenge required.')
+                     $result->json_response->message = 'checkpoint_required'; 
+                 else
+                    $result->json_response->message = $e->getMessage(); 
+                
+                return $result;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }
