@@ -894,7 +894,6 @@ class Utils
     public static function createFolder(
         $folder)
     {
-            //var_dump($folder);
         // Test write-permissions for the folder and create/fix if necessary.
         if ((is_dir($folder) && is_writable($folder))
             || (!is_dir($folder) && mkdir($folder, 0755, true))

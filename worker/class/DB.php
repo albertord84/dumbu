@@ -805,7 +805,7 @@ namespace dumbu\cls {
             }
         }
         
-        public function InsertEventToWashdog($user_id, $action, $source, $robot_id = NULL)
+        public function InsertEventToWashdog($user_id, $action, $source = 0, $robot_id = NULL)
         {
             try {
                 //mysqli_real_escape_string($escapestr)
@@ -815,7 +815,7 @@ namespace dumbu\cls {
                  $result = mysqli_query($this->connection, $sql);
                  if($result->num_rows == 0)
                  {
-                     $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE (\"$action\", '$source');";
+                     $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE ('$action', '$source');";
                      $result =  mysqli_query($this->connection, $sql);
                      //var_dump($result);
                      $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";

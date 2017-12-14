@@ -1381,19 +1381,21 @@ namespace dumbu\cls {
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
             } catch (\Exception $e) {
-//                $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $this->id);
+                $source = 0;
+                if(isset($id) && $id !== NULL && $id !== 0)
+                    $source = 1;
+                $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $source);
                 $result->json_response->authenticated = false;
                 $result->json_response->status = 'ok';
                 
-                if     ((strpos($e->getMessage(), 'Challenge required') !== FALSE)
-                ||      (strpos($e->getMessage(), 'Checkpoint required') !== FALSE))
+                if ((strpos($e->getMessage(), 'Challenge required') !== FALSE)
+                ||  (strpos($e->getMessage(), 'Checkpoint required') !== FALSE))
                     $result->json_response->message = 'checkpoint_required';
                 else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
                     $result->json_response->message = 'incorrect_password';
                 else
                     $result->json_response->message = $e->getMessage();
                 return $result;
-//                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }
 
