@@ -1376,7 +1376,10 @@ namespace dumbu\cls {
                 return json_decode($result);
             }
              catch (\Exception $e) {                 
-                 $myDB->InsertEventToWashdog($Client->id, $e->message, $this->id);                 
+                 $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $this->id);
+                 $result->json_response->authenticated = false;
+                 $result->json_response->status = 'fail';
+                 $result->json_response->message = $e->getMessage();                 
                 return result;
 //                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
