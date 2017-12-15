@@ -158,10 +158,13 @@ $(document).ready(function () {
     $("#btn_verify_account").click(function () {
         if (!verify) {
             $("#btn_verify_account").text('CONFIRMO ATIVAÇÃO');
+            $("#lnk_verify_account").attr('target', '_blank');
+            $("#lnk_verify_account").attr("href", 'https://www.instagram.com/challenge/');
             verify = true;
         } else {
             $("#lnk_verify_account").attr('target', '_self');
-            $("#lnk_verify_account").attr("href", base_url + 'index.php/welcome/client');
+            $("#lnk_verify_account").attr("href", base_url + 'index.php/welcome/log_out');
+            //$("#lnk_verify_account").attr("href", base_url + 'index.php/welcome/client');
             //$(location).attr('href',base_url+'index.php/welcome/client');
             verify = false;
         }

@@ -178,24 +178,28 @@ class Welcome extends CI_Controller {
                         //4. actualizar la sesion
                         $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
                     } else {
-                        $this->user_model->update_user($this->session->userdata('id'), array(
+                        if ($insta_login['message'] == 'checkpoint_required' || $insta_login['message'] == '') {
+                            //actualizo su estado
+                            $this->user_model->update_user($this->session->userdata('id'), array(
+                                'status_id' => user_status::VERIFY_ACCOUNT));
+                            //eliminar su trabajo si contrasenhas son diferentes
+                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                            $N = count($active_profiles);
+                            for ($i = 0; $i < $N; $i++) {
+                                $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
+                            }
+                            //establezco la sesion
+                            $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+                            $datas1['verify_account_datas'] = $insta_login;
+                        } else {
+                            $this->user_model->update_user($this->session->userdata('id'), array(
                             'status_id' => user_status::BLOCKED_BY_INSTA));
-                        $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+                            $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+                        }
                     }
                 } else
-                if ($insta_login['status'] === 'fail' && ($insta_login['message'] == 'checkpoint_required' || $insta_login['message'] == '')) {
-                    //actualizo su estado
-                    $this->user_model->update_user($this->session->userdata('id'), array(
-                        'status_id' => user_status::VERIFY_ACCOUNT));
-                    //eliminar su trabajo si contrasenhas son diferentes
-                    $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                    $N = count($active_profiles);
-                    for ($i = 0; $i < $N; $i++) {
-                        $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
-                    }
-                    //establezco la sesion
-                    $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
-                    $datas1['verify_account_datas'] = $insta_login;
+                if ($insta_login['status'] === 'fail') {
+                    ;
                 }
             }
             $datas1['status'] = array('status_id' => $this->session->userdata('status_id'), 'status_name' => $status_description[$this->session->userdata('status_id')]);
@@ -488,7 +492,7 @@ class Welcome extends CI_Controller {
                         ));
                         $cad=$this->user_model->get_status_by_id($status_id)['name'];                        
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
-                        if($st!=user_status::ACTIVE)
+                        if ($status_id != user_status::ACTIVE)
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
                         $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
@@ -598,7 +602,7 @@ class Welcome extends CI_Controller {
                             $result['authenticated'] = false;
                         }
                     } else
-                    if ($data_insta['message'] = 'unknow_message') {
+                    if ($data_insta['message'] == 'unknow_message') {
                         $data_profile = $this->check_insta_profile($datas['user_login']);
                         $query = 'SELECT * FROM users,clients' .
                                 ' WHERE clients.insta_id="' . $data_profile->pk . '" AND clients.user_id=users.id';
@@ -2175,36 +2179,42 @@ class Welcome extends CI_Controller {
                     $data_insta['insta_login_response'] = NULL;
             } else {
                 $data_insta['authenticated'] = false;
+                
+                if($login_data->json_response->message) {
+                    $data_insta['message'] = $login_data->json_response->message;
+                    
+                    if ($login_data->json_response->message === "checkpoint_required") {
+                    $data_insta['message'] = $login_data->json_response->message;
+                    if(strpos($login_data->json_response->verify_link,'challenge'))
+                        $data_insta['verify_account_url'] = 'https://www.instagram.com'.$login_data->json_response->verify_link;
+                    else
+                    if(strpos($login_data->json_response->verify_link,'integrity'))
+                        $data_insta['verify_account_url'] =$login_data->json_response->verify_link;
+                    else
+                        $data_insta['verify_account_url'] = $login_data->json_response->verify_link;
+                    
+                    } else
+                    if ($login_data->json_response->message === "") {
+                        if (isset($login_data->json_response->phone_verification_settings) && is_object($login_data->json_response->phone_verification_settings)) {
+                            $data_insta['message'] = 'phone_verification_settings';
+                            $data_insta['obfuscated_phone_number'] = $login_data->json_response->two_factor_info->obfuscated_phone_number;
+                        } else {
+                            $data_insta['message'] = 'empty_message';
+                            $data_insta['cause'] = 'empty_message';
+                        }
+                    } else 
+                    if ($login_data->json_response->message !== "incorrect_password") { 
+                        $data_insta['message'] = 'unknow_message';
+                        $data_insta['unknow_message'] = $login_data->json_response->message;
+                    }
+                }
             }
         } else {
             if (isset($login_data->json_response->status) && $login_data->json_response->status === "fail") {
                 $data_insta['status'] = $login_data->json_response->status;
-                if ($login_data->json_response->message === "checkpoint_required") {
-                    $data_insta['message'] = $login_data->json_response->message;
-                    if(strpos($login_data->json_response->checkpoint_url,'challenge'))
-                        $data_insta['verify_account_url'] = 'https://www.instagram.com'.$login_data->json_response->checkpoint_url;
-                    else
-                    if(strpos($login_data->json_response->checkpoint_url,'integrity'))
-                        $data_insta['verify_account_url'] =$login_data->json_response->checkpoint_url;
-                    else
-                        $data_insta['verify_account_url'] = $login_data->json_response->checkpoint_url;
-                    
-                } else
-                if ($login_data->json_response->message === "") {
-                    if (isset($login_data->json_response->phone_verification_settings) && is_object($login_data->json_response->phone_verification_settings)) {
-                        $data_insta['message'] = 'phone_verification_settings';
-                        $data_insta['obfuscated_phone_number'] = $login_data->json_response->two_factor_info->obfuscated_phone_number;
-                    } else {
-                        $data_insta['message'] = 'empty_message';
-                        $data_insta['cause'] = 'empty_message';
-                    }
-                } else {
-                    $data_insta['message'] = 'unknow_message';
-                    $data_insta['unknow_message'] = $login_data->json_response->message;
-                }
             } else
             if (isset($login_data->json_response->status) && $login_data->json_response->status === "") {
-                
+                ;
             }
         }
         return $data_insta;
