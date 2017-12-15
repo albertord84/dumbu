@@ -251,7 +251,7 @@ class Welcome extends CI_Controller {
                     $result['cause'] = 'error_login';
                     $result['authenticated'] = false;
                 } else
-                if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                if ($data_insta['authenticated']) {
                     //Is a DUMBU Client by Insta ds_user_id?
                     $query = 'SELECT * FROM users,clients' .
                             ' WHERE clients.insta_id="' . $data_insta['insta_id'] . '" AND clients.user_id=users.id';
@@ -281,8 +281,8 @@ class Welcome extends CI_Controller {
                                 'pass' => $datas['user_pass'],
                                 'status_id' => user_status::ACTIVE));                                                        
                             if ($data_insta['insta_login_response']) {
-                                $this->client_model->update_client($user[$index]['id'], array(
-                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+//                                $this->client_model->update_client($user[$index]['id'], array(
+//                                    'cookies' => json_encode($data_insta['insta_login_response'])));
                                 $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             }
                             if($st!=user_status::ACTIVE)
@@ -347,8 +347,8 @@ class Welcome extends CI_Controller {
                                 'status_id' => $st));
                             $cad=$this->user_model->get_status_by_id($st)['name'];
                             if ($data_insta['insta_login_response']) {
-                                $this->client_model->update_client($user[$index]['id'], array(
-                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+//                                $this->client_model->update_client($user[$index]['id'], array(
+//                                    'cookies' => json_encode($data_insta['insta_login_response'])));
                             }
                             $this->user_model->set_sesion($user[$index]['id'], $this->session, $data_insta['insta_login_response']);
                             if($st!=user_status::ACTIVE)
@@ -377,7 +377,7 @@ class Welcome extends CI_Controller {
                         $result['authenticated'] = false;
                     }
                 } else
-                if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
+                if ($data_insta['message'] == 'incorrect_password') {
                     //Is a client with oldest Instagram credentials?
                     //Buscarlo en BD por el nombre y senha
                     $query = 'SELECT * FROM users' .
@@ -455,7 +455,7 @@ class Welcome extends CI_Controller {
                         }
                     }
                 } else
-                if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required') {
+                if ($data_insta['message'] == 'checkpoint_required') {
                     $data_profile = $this->check_insta_profile($datas['user_login']);
                     $query = 'SELECT * FROM users,clients' .
                             ' WHERE clients.insta_id="' . $data_profile->pk . '" AND clients.user_id=users.id';
@@ -503,7 +503,7 @@ class Welcome extends CI_Controller {
                         $result['authenticated'] = false;
                     }
                 } else
-                if ($data_insta['status'] === 'fail' && ($data_insta['message'] == '' || $data_insta['message'] == 'phone_verification_settings')) {
+                if ($data_insta['message'] == '' || $data_insta['message'] == 'phone_verification_settings') {
                     if (isset($data_insta['obfuscated_phone_number'])) {
                         $data_profile = $this->check_insta_profile($datas['user_login']);
                         $query = 'SELECT * FROM users,clients' .
