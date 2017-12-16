@@ -1,4 +1,5 @@
 <?php
+
 namespace dumbu\cls {
     require_once 'DB.php';
     require_once 'Gmail.php';
@@ -7,6 +8,7 @@ namespace dumbu\cls {
     require_once 'washdog_type.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
     require_once 'InstaAPI.php';
+
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
 //    echo $_SERVER['DOCUMENT_ROOT'];
 //    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/webdriver/phpwebdriver/WebDriver.php';
@@ -18,46 +20,55 @@ namespace dumbu\cls {
         /** Aggregations: */
         /** Compositions: */
         /*         * * Attributes: ** */
+
         /**
          * 
          * @access public
          */
         public $id;
+
         /**
          * 
          * @access public
          */
         public $IP;
+
         /**
          * 
          * @access public
          */
         public $IPS;
+
         /**
          * 
          * @access public
          */
         public $dir;
+
         /**
          * 
          * @access public
          */
         public $config;
+
         /**
          * 
          * @access public
          */
         public $daily_work;
+
         /**
          * 
          * @access public
          */
         public $Ref_profile;
+
         /**
          *
          * @var type 
          */
         public $csrftoken = NULL;
+
         function __construct($DB = NULL, $conf_file = "/../../../CONFIG.INI", $id = -1) {
             $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
             $this->IPS = $config["IPS"];
@@ -65,6 +76,7 @@ namespace dumbu\cls {
             $this->Ref_profile = new Reference_profile();
             $this->DB = $DB ? $DB : new \dumbu\cls\DB();
         }
+
         // end of member function login_client
         /**
          * 
@@ -205,6 +217,7 @@ namespace dumbu\cls {
             }
             return $Ref_profile_follows;
         }
+
         /*
           public function do_unfollow_work($Followeds_to_unfollow)
           {
@@ -248,6 +261,7 @@ namespace dumbu\cls {
           public function do_follow_work($Followeds_to_unfollow)
           {}
          */
+
         public function get_profiles_to_follow($daily_work, &$error, &$page_info) {
             $Profiles = array();
             $error = TRUE;
@@ -310,6 +324,7 @@ namespace dumbu\cls {
             }
             return $Profiles;
         }
+
         function get_profiles_to_follow_without_BL($daily_work, &$error, &$page_info) {
             $Profiles = array();
             $error = TRUE;
@@ -372,6 +387,7 @@ namespace dumbu\cls {
             }
             return $Profiles;
         }
+
 // end of member function do_follow_unfollow_work
         function process_follow_error($json_response) {
             //$DB = new DB();
@@ -459,6 +475,7 @@ namespace dumbu\cls {
             }
             return $error;
         }
+
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
          * @param type $login_data
@@ -482,6 +499,7 @@ namespace dumbu\cls {
             //print("-> $status<br><br>");
 //            return $json_response;
         }
+
         public function make_curl_friendships_command_str($url, $login_data) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
@@ -510,6 +528,7 @@ namespace dumbu\cls {
             }
             return $curl_str;
         }
+
         public function get_insta_chaining($login_data, $user, $N = 1, $cursor = NULL) {
             try {
                 $url = "https://www.instagram.com/graphql/query/";
@@ -527,6 +546,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
         public function get_insta_followers($login_data, $user, $N, $cursor = NULL) {
             try {
                 $url = "https://www.instagram.com/graphql/query/";
@@ -568,6 +588,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
         /**
          * Unfollow Total
          * @param type $login_data
@@ -600,6 +621,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
         public function get_insta_geomedia($login_data, $location, $N, &$cursor = NULL) {
             try {
                 $url = "https://www.instagram.com/graphql/query/";
@@ -634,6 +656,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
         public function make_curl_followers_str($url, $login_data, $user, $N, $cursor = NULL) {
 //            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
             $csrftoken = $login_data->csrftoken;
@@ -661,6 +684,7 @@ namespace dumbu\cls {
             return $curl_str;
 //            }
         }
+
         public function make_curl_geomedia_str($url, $login_data, $location, $N, $cursor = NULL) {
 //            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
             $csrftoken = $login_data->csrftoken;
@@ -688,6 +712,7 @@ namespace dumbu\cls {
             return $curl_str;
 //            }
         }
+
         public function make_curl_chaining_str($url, $login_data, $user, $N, $cursor = NULL) {
 //            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
             $csrftoken = $login_data->csrftoken;
@@ -726,6 +751,7 @@ namespace dumbu\cls {
             return $curl_str;
 //            }
         }
+
         public function make_curl_follows_str($url, $login_data, $user, $N, $cursor = NULL) {
 //            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
             $csrftoken = $login_data->csrftoken;
@@ -751,6 +777,7 @@ namespace dumbu\cls {
             $curl_str .= "--compressed ";
             return $curl_str;
         }
+
         public function make_insta_login($cookies) {
             $curl_str = $this->make_curl_login_str('https://www.instagram.com/accounts/login/ajax/', $cookies, "albertoreyesd84", "alberto");
             //    $curl_str = make_curl_str('https://www.instagram.com/accounts/login/ajax/', $webdriver->getAllCookies(), "josergm86", "joseramon");
@@ -761,6 +788,7 @@ namespace dumbu\cls {
             print_r("-> $status<br>\n<br>\n");
             return $output;
         }
+
         public function make_curl_login_str($url, $cookies, $user, $pass) {
             $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
             $curl_str = "curl '$url' ";
@@ -779,6 +807,7 @@ namespace dumbu\cls {
             $curl_str .= "--data 'username=$user&password=$pass'";
             return $curl_str;
         }
+
         public function obtine_cookie_value($cookies, $name) {
             foreach ($cookies as $key => $object) {
                 //print_r($object + "<br>");
@@ -788,6 +817,7 @@ namespace dumbu\cls {
             }
             return null;
         }
+
         public function make_post($url) {
             $session = curl_init();
             //$headers['Accept-Encoding'] = 'gzip, deflate, br';
@@ -822,6 +852,7 @@ namespace dumbu\cls {
             curl_close($session);
             echo "data posted....! <br>\n";
         }
+
         public function get_insta_csrftoken($ch) {
             curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/");
 //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
@@ -841,6 +872,7 @@ namespace dumbu\cls {
             //var_dump($cookies);
             return $csrftoken;
         }
+
         public function login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $mid, $Client = NULL) {
             //$mid = $this->get_cookies_value("mid");
             //var_dump($mid);
@@ -912,6 +944,7 @@ namespace dumbu\cls {
 //            var_dump($login_data);
             return $login_data;
         }
+
         /**
          * Login version with exec_curl function.
          * @global array $cookies
@@ -984,6 +1017,7 @@ namespace dumbu\cls {
 //            var_dump($login_data);
             return $login_data;
         }
+
         public function get_cookies_value($key) {
             $value = NULL;
             global $cookies;
@@ -1018,6 +1052,7 @@ namespace dumbu\cls {
 //            )
             return $value;
         }
+
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             try {
                 $Profile = NULL;
@@ -1043,6 +1078,7 @@ namespace dumbu\cls {
                 return NULL;
             }
         }
+
         public function get_insta_geolocalization_data($ref_prof, $ref_prof_id = NULL) {
             try {
                 $Profile = NULL;
@@ -1068,6 +1104,7 @@ namespace dumbu\cls {
                 return NULL;
             }
         }
+
         public function get_insta_geolocalization_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
             try {
                 $Profile = NULL;
@@ -1113,6 +1150,7 @@ namespace dumbu\cls {
                 return NULL;
             }
         }
+
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
             try {
                 $Profile = NULL;
@@ -1158,6 +1196,7 @@ namespace dumbu\cls {
                 return NULL;
             }
         }
+
         function process_get_insta_ref_prof_data($content, $ref_prof, $ref_prof_id) {
             $Profile = NULL;
             if (is_object($content) && $content->status === 'ok') {
@@ -1182,6 +1221,7 @@ namespace dumbu\cls {
             }
             return $Profile;
         }
+
         function process_get_insta_geolocalization_data($content, $ref_prof, $ref_prof_id) {
             $Profile = NULL;
             if (is_object($content) && $content->status === 'ok') {
@@ -1203,6 +1243,7 @@ namespace dumbu\cls {
             }
             return $Profile;
         }
+
         public function parse_follow_count($follow_count_str) {
             $search = " followers";
             $start = strpos($follow_count_str, $search);
@@ -1217,10 +1258,12 @@ namespace dumbu\cls {
             $followers = floatval($substr) * $decimals;
             return $followers;
         }
+
         public function get_insta_ref_prof_follows($ref_prof_id) {
             $follows = $ref_prof_id ? Reference_profile::static_get_follows($ref_prof_id) : 0;
             return $follows;
         }
+
         public function get_insta_ref_prof_following($ref_prof) {
             $content = @file_get_contents("https://www.instagram.com/$ref_prof/", false);
             $doc = new \DOMDocument();
@@ -1238,6 +1281,7 @@ namespace dumbu\cls {
             }
             return intval($substr2) ? intval($substr2) : 0;
         }
+
         public function bot_login($login, $pass, $Client = NULL) {
             $myDB = new \dumbu\cls\DB();
             // Is client with cookies, we try to login with str_login
@@ -1265,9 +1309,10 @@ namespace dumbu\cls {
                         } catch (\Exception $e) {
                             
                         }
-                    }else{
+                    } else if (isset($result->json_response->checkpoint_url) || (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required")) {
                         //did by Jose R (si no consifgues hacer login con las cookies vieja, para que dejarlas en la base de dadtos)
                         $myDB->set_cookies_to_null($Client->id);
+                        return $result;
                     }
                 }
             }
@@ -1289,25 +1334,23 @@ namespace dumbu\cls {
                 // did by Jose R (si el cliente pone mal la senha por motivo X, el login va a dar una excepcion, y no le devemos cambiar las cookies, imagina que fue uno que e copio el curl a mano)
                 //$myDB->set_cookies_to_null($Client->id);
                 $source = 0;
-                if(isset($id) && $id !== NULL && $id !== 0)
+                if (isset($id) && $id !== NULL && $id !== 0)
                     $source = 1;
                 $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $source);
                 $result->json_response->authenticated = false;
                 $result->json_response->status = 'ok';
-                
-                if ((strpos($e->getMessage(), 'Challenge required') !== FALSE)
-                ||  (strpos($e->getMessage(), 'Checkpoint required') !== FALSE)
-                ||  (strpos($e->getMessage(), 'challenge_required') !== FALSE)) {
+
+                if ((strpos($e->getMessage(), 'Challenge required') !== FALSE) || (strpos($e->getMessage(), 'Checkpoint required') !== FALSE) || (strpos($e->getMessage(), 'challenge_required') !== FALSE)) {
                     $result->json_response->message = 'checkpoint_required';
                     $result->json_response->verify_link = '/challenge/';
-                }
-                else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
+                } else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
                     $result->json_response->message = 'incorrect_password';
                 else
                     $result->json_response->message = $e->getMessage();
                 return $result;
             }
         }
+
         /*      public function bot_login($login, $pass, $Client = NULL)
           {
           // Is client with cookies, we try to login with str_login
@@ -1375,6 +1418,7 @@ namespace dumbu\cls {
           //die("<br><br>Debug Finish!");
           return $result;
          */
+
         public function encode_cookies($csfrtoken, $sessionid, $ds_user_id, $mid) {
             try {
                 $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
@@ -1395,6 +1439,7 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+
         public function make_login($login, $pass) {
             $instaAPI = new \dumbu\cls\InstaAPI();
             //TODO: capturar excepcion e dar tratamiento cuando usuario y senha no existe en IG
@@ -1420,6 +1465,7 @@ namespace dumbu\cls {
             $cookies_str = $this->encode_cookies($csrftoken, $sessionid, $ds_user_id, $mid);
             return $cookies_str; //json_decode($cookies_str);
         }
+
         public function like_fist_post($client_cookies, $client_insta_id) {
             $result = $this->get_insta_chaining($client_cookies, $client_insta_id);
             //print_r($result);
@@ -1428,6 +1474,7 @@ namespace dumbu\cls {
 //              print_r($result);
             }
         }
+
 //  end of member function bot_login
 // get cookie
 // multi-cookie variant contributed by @Combuster in comments
@@ -1438,6 +1485,7 @@ namespace dumbu\cls {
 //        $cookies[] = $headerLine;
             return strlen($headerLine); // Needed by curl
         }
+
         public function get_reference_user($cookies, $reference_user_name) {
             //echo " -------Obtindo dados de perfil de referencia------------<br>\n<br>\n";
             $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
@@ -1458,6 +1506,7 @@ namespace dumbu\cls {
             $result = exec($curl_str, $output, $status);
             return json_decode($output[0]);
         }
+
         public function get_geo_post_user_info($cookies, $location_id, $post_reference) {
             //echo " -------Obtindo dados de perfil que postou na geolocalizacao------------<br>\n<br>\n";
             $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
@@ -1482,6 +1531,7 @@ namespace dumbu\cls {
             }
             return NULL;
         }
+
         public function str_login($mid, $csrftoken, $user, $pass) {
             $url = "https://www.instagram.com/accounts/login/ajax/";
 //            $url = "https://www.instagram.com/accounts/login/ajax/facebook/";
@@ -1503,6 +1553,7 @@ namespace dumbu\cls {
             exec($curl_str, $output, $status);
             return json_decode($output[0]);
         }
+
         public function follow_me_myself($login_data, $prof_id = '3916799608') {
             $result = NULL;
             if ($login_data) {
@@ -1514,6 +1565,7 @@ namespace dumbu\cls {
             }
             return $result;
         }
+
         public function checkpoint_requested($login, $pass, $Client = NULL) {
             (new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
             if (!$Client)
@@ -1556,6 +1608,7 @@ namespace dumbu\cls {
                 return json_decode($output[0]);
             }
         }
+
         public function make_checkpoint($login, $code) {
             if (!$Client)
                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
@@ -1583,7 +1636,9 @@ namespace dumbu\cls {
             exec($curl_str, $output, $status);
             //return json_decode($output[0]);                
         }
+
     }
+
 // end of Robot
 }
 ?>
