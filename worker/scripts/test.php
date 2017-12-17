@@ -25,11 +25,11 @@ $InstaAPI = new \dumbu\cls\InstaAPI();
 //$password = "alberto7";
 //$username = "riveauxmerino";
 //$password = "Notredame88";
-$username = "alberto_dreyes";
-$password = "albertord8";
-$result = $InstaAPI->login($username, $password);
-var_dump($result->Cookies);
-var_dump($result);
+//$username = "alberto_dreyes";
+//$password = "albertord8";
+//$result = $InstaAPI->login($username, $password);
+//var_dump($result->Cookies);
+//var_dump($result);
 
 //DEBIT CIELO
 /* $PaymentCielo = new \dumbu\cls\PaymentCielo();
@@ -155,25 +155,25 @@ $Payment = new dumbu\cls\Payment();
 //$m_pay_day = date("n", $pay_day);
 //$y_pay_day = date("Y", $pay_day);
 //
-$data = strtotime("+31 day", time());
-var_dump($data);
+//$data = strtotime("+31 day", time());
+//var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
 //$pay_day = strtotime('12/29/2017 20:18:37');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
+//$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5523051002422236';
-$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2020';
-$payment_data['credit_card_cvc'] = '011';
-$payment_data['amount_in_cents'] = 2990;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '5523051002422236';
+//$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
+//$payment_data['credit_card_exp_month'] = '11';
+//$payment_data['credit_card_exp_year'] = '2020';
+//$payment_data['credit_card_cvc'] = '011';
+//$payment_data['amount_in_cents'] = 2990;
+//$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
@@ -286,7 +286,7 @@ $Robot = new \dumbu\cls\Robot();
 
 
 $Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("josergm86", "josergm2");
+$result = $Robot->bot_login("leticiajural", "estrelaguia");
 
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
