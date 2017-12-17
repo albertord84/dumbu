@@ -304,9 +304,9 @@
                 <div class="col-md-3">
                     <div class="center">
                         <br>
-                        <!-- <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Obter emails</span>
-                        </button> -->
+                        </button>
                     </div>
                 </div>
             </div>
