@@ -22,7 +22,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 $InstaAPI = new \dumbu\cls\InstaAPI();
 
 //$username = "alberto_test";
-//$password = "alberto7";
+//$password = "alberto";
 //$username = "riveauxmerino";
 //$password = "Notredame88";
 //$username = "alberto_dreyes";
@@ -303,7 +303,10 @@ $Robot = new dumbu\cls\Robot();
 //$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
 //$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
-//var_dump($result);
+
+//$result = $Robot->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
+
+var_dump($result);
 //var_dump(json_encode($result));
 
 
