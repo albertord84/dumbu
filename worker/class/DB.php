@@ -287,6 +287,8 @@ namespace dumbu\cls {
                 $csfrtoken = "";
                 if(preg_match('/csrftoken=(\w+);/mi', $curl, $match) == 1)
                 {   $csfrtoken = "$match[1]"; }
+                else if (preg_match('/csrftoken=(\w+)/mi', $curl, $match) == 1)
+                {   $csfrtoken = "$match[1]"; }
                 $mid = "";                
                 if(preg_match('/mid=([^;]+);/mi', $curl, $match) == 1)
                 {   $mid = "$match[1]"; }
