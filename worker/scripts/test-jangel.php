@@ -17,7 +17,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // Request Code
 $Client = new \dumbu\cls\Client();
 $Robot = new \dumbu\cls\Robot();
-$var = $Robot->bot_login("alberto_dreyes", "albertord8");
+$var = $Robot->bot_login("riveauxmerino", "Notredame88");
 print("---------------------------");
 var_dump($var);
 

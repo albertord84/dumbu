@@ -1328,6 +1328,8 @@ namespace dumbu\cls {
             }
             try {
                 $result = $this->make_login($login, $pass);
+                
+                
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
             } catch (\Exception $e) {
@@ -1449,6 +1451,7 @@ namespace dumbu\cls {
                 throw $exc;
             }
             $cookies = $result->Cookies;
+            //var_dump($cookies);
             $mid = "";
             $csrftoken = "";
             $ds_user_id = "";
@@ -1461,7 +1464,12 @@ namespace dumbu\cls {
                 } elseif ($value['Name'] === 'ds_user_id') {
                     $ds_user_id = $value['Value'];
                 }
+                elseif ($value['Name'] === 'sessionid') {
+                    $sessionid = $value['Value'];
+                }
             }
+           //$ch = curl_init("https://www.instagram.com/");
+            //$this->login_insta_with_csrftoken("https://www.instagram.com/", $login, $pass, $csrftoken, $mid);
             $cookies_str = $this->encode_cookies($csrftoken, $sessionid, $ds_user_id, $mid);
             return $cookies_str; //json_decode($cookies_str);
         }
