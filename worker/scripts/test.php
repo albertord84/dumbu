@@ -27,9 +27,11 @@ $InstaAPI = new \dumbu\cls\InstaAPI();
 //$password = "Notredame88";
 //$username = "alberto_dreyes";
 //$password = "albertord8";
-//$result = $InstaAPI->login($username, $password);
-//var_dump($result->Cookies);
-//var_dump($result);
+$username = "leticiajural";
+$password = "estrelaguia";
+$result = $InstaAPI->login($username, $password);
+var_dump($result->Cookies);
+var_dump($result);
 
 //DEBIT CIELO
 /* $PaymentCielo = new \dumbu\cls\PaymentCielo();
@@ -286,7 +288,7 @@ $Robot = new \dumbu\cls\Robot();
 
 
 $Robot = new dumbu\cls\Robot();
-$result = $Robot->bot_login("leticiajural", "estrelaguia");
+//$result = $Robot->bot_login("leticiajural", "estrelaguia");
 
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
