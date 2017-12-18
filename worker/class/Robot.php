@@ -1287,6 +1287,7 @@ namespace dumbu\cls {
             $myDB = new \dumbu\cls\DB();
             // Is client with cookies, we try to login with str_login
             $result = new \stdClass();
+            $result->json_response =  new \stdClass();
             $result->json_response->authenticated = FALSE;
             $output = array();
             if (!$Client)
