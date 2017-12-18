@@ -405,8 +405,8 @@ class Admin extends CI_Controller {
             
             try {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
-                $DB = new \dumbu\cls\DB();
-                $DB->set_client_cookies_by_curl($client_id, $curl, NULL);
+                $Robot = new \dumbu\cls\Robot();
+                $Robot->set_client_cookies_by_curl($client_id, $curl, NULL);
             } catch (Exception $exc) {
                 //echo $exc->getTraceAsString();
                 $result['success'] = false;
