@@ -407,6 +407,9 @@ class Admin extends CI_Controller {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
                 $Robot = new \dumbu\cls\Robot();
                 $Robot->set_client_cookies_by_curl($client_id, $curl, NULL);
+//                $result['success'] = false;
+//                $result['message'] = "Test!";
+//                echo json_encode($result);
             } catch (Exception $exc) {
                 //echo $exc->getTraceAsString();
                 $result['success'] = false;
