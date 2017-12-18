@@ -907,13 +907,15 @@ namespace dumbu\cls {
 //            $url = "https://www.instagram.com/accounts/login/ajax/facebook/";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
-//            curl_setopt($ch, CURLOPT_NOBODY, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            curl_setopt($ch, CURLOPT_NOBODY, FALSE);
+//            curl_setopt($ch, CURLOPT_NOBODY, TRUE);
             //curl_setopt($ch, CURLOPT_POST, true);
             //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
             //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
-            curl_setopt($ch, CURLOPT_HEADER, 1);
+//            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, FALSE);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
             global $cookies;
