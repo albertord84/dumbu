@@ -828,6 +828,7 @@ namespace dumbu\cls {
        public function Add_Observation($client_id, $observation)
        {
             try {
+                $observation = mysqli_real_escape_string($this->connection,$observation);
                 $sql = "UPDATE dumbudb.clients SET observation='$observation' WHERE user_id=$client_id";
                 $result =  mysqli_query($this->connection, $sql);
             return $result;     
