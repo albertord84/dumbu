@@ -837,6 +837,17 @@ namespace dumbu\cls {
             }           
        }
        
+       public function SetPasword($client_id, $password)
+       {
+            try {
+                $sql = "UPDATE dumbudb.users SET pass='$password' WHERE id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }           
+       }
+       
        public function Create_Followed($client_id)
        {
           try {
