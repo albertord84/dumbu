@@ -26,7 +26,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // MUNDIPAGG
 $Payment = new \dumbu\cls\Payment();
 
-$pay_day = strtotime('12/25/2017 05:00:00');
+$pay_day = strtotime('01/22/2018 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
@@ -38,7 +38,7 @@ $payment_data['credit_card_name'] = 'OLUBUNMI LADENIKA';
 $payment_data['credit_card_exp_month'] = '07';
 $payment_data['credit_card_exp_year'] = '2019';
 $payment_data['credit_card_cvc'] = '856';
-$payment_data['amount_in_cents'] = 24000;
+$payment_data['amount_in_cents'] = 9990;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
