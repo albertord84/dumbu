@@ -22,11 +22,13 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 $InstaAPI = new \dumbu\cls\InstaAPI();
 
 //$username = "alberto_test";
-//$password = "alberto7";
+//$password = "alberto";
 //$username = "riveauxmerino";
 //$password = "Notredame88";
-$username = "alberto_dreyes";
-$password = "albertord8";
+//$username = "alberto_dreyes";
+//$password = "albertord8";
+$username = "leticiajural";
+$password = "estrelaguia";
 $result = $InstaAPI->login($username, $password);
 var_dump($result->Cookies);
 var_dump($result);
@@ -155,25 +157,25 @@ $Payment = new dumbu\cls\Payment();
 //$m_pay_day = date("n", $pay_day);
 //$y_pay_day = date("Y", $pay_day);
 //
-$data = strtotime("+31 day", time());
-var_dump($data);
+//$data = strtotime("+31 day", time());
+//var_dump($data);
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
 //$pay_day = strtotime('12/29/2017 20:18:37');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-$pay_day = time();
+//$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5523051002422236';
-$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2020';
-$payment_data['credit_card_cvc'] = '011';
-$payment_data['amount_in_cents'] = 2990;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '5523051002422236';
+//$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
+//$payment_data['credit_card_exp_month'] = '11';
+//$payment_data['credit_card_exp_year'] = '2020';
+//$payment_data['credit_card_cvc'] = '011';
+//$payment_data['amount_in_cents'] = 2990;
+//$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
@@ -286,7 +288,7 @@ $Robot = new \dumbu\cls\Robot();
 
 
 $Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("josergm86", "josergm2");
+//$result = $Robot->bot_login("leticiajural", "estrelaguia");
 
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
@@ -301,7 +303,10 @@ $Robot = new dumbu\cls\Robot();
 //$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
 //$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
-//var_dump($result);
+
+//$result = $Robot->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
+
+var_dump($result);
 //var_dump(json_encode($result));
 
 
