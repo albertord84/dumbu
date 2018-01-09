@@ -425,7 +425,7 @@ namespace dumbu\cls {
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA, 1, $this->id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
-                    $this->DB->set_client_cookies($client_id, NULL);
+                    //$this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
@@ -1667,6 +1667,9 @@ namespace dumbu\cls {
                  $ds_user_id = "";                  
                 if(preg_match('/ds_user_id=([^;"\' ]+)/mi', $curl, $match) == 1)
                 {   $ds_user_id = "$match[1]"; }
+                $password= "";
+                if(preg_match('/password=([^;"\' ]+)/mi', $curl, $match) == 1)
+                { $password = $match[1]; }
                 if($ds_user_id == "")
                 {
                     $obj = $myDB->get_client_instaid_data($client_id);
@@ -1675,9 +1678,9 @@ namespace dumbu\cls {
                  if($sessionid === 'null' || $sessionid === "")
                 {
                     $url = "https://www.instagram.com/"; 
-                     $Client = (new \dumbu\cls\DB())->get_client_data($client_id);
+                    $Client = (new \dumbu\cls\DB())->get_client_data($client_id);
                     $ch = curl_init($url);
-                    $result = $this->login_insta_with_csrftoken($ch, $Client->login, $Client->pass, $csrftoken, $mid);
+                    $result = $this->login_insta_with_csrftoken($ch, $Client->login, $password, $csrftoken, $mid);
                     $result->json_response = new \stdClass();
                      $result->json_response->authenticated = true;                     
                      $result->json_response->user = true;
@@ -1696,7 +1699,12 @@ namespace dumbu\cls {
                     $cookies .= "\"$mid\"";
                     $cookies .= "}";               
                 }
-                return $myDB->set_client_cookies($client_id, $cookies);
+                
+               $res = $myDB->SetPasword($client_id, $password);
+               $res = $myDB->set_client_cookies($client_id, $cookies) && $res;
+               $myDB->InsertEventToWashdog($client_id, "SET CURL");
+               $myDB->InsertEventToWashdog($client_id, $curl);
+                
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }            
