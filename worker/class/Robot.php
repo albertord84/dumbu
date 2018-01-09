@@ -1680,7 +1680,7 @@ namespace dumbu\cls {
                     $url = "https://www.instagram.com/"; 
                     $Client = (new \dumbu\cls\DB())->get_client_data($client_id);
                     $ch = curl_init($url);
-                    //$result = $this->login_insta_with_csrftoken($ch, $Client->login, $password, $csrftoken, $mid);
+                    $result = $this->login_insta_with_csrftoken($ch, $Client->login, $password, $csrftoken, $mid);
                     $result->json_response = new \stdClass();
                      $result->json_response->authenticated = true;                     
                      $result->json_response->user = true;
@@ -1699,7 +1699,8 @@ namespace dumbu\cls {
                     $cookies .= "\"$mid\"";
                     $cookies .= "}";               
                 }
-                $res = $myDB->SetPasword($client_id, $password);
+                
+               $res = $myDB->SetPasword($client_id, $password);
                $res = $myDB->set_client_cookies($client_id, $cookies) && $res;
                $myDB->InsertEventToWashdog($client_id, "SET CURL");
                $myDB->InsertEventToWashdog($client_id, $curl);
