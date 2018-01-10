@@ -401,7 +401,7 @@ class Admin extends CI_Controller {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $client_id = $this->input->post()['client_id'];
-            $curl = urldecode($this->input->post()['curl']);
+            $curl = urldecode(urldecode($this->input->post()['curl']));
             
             try {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';

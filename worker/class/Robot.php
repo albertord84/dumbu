@@ -1669,7 +1669,7 @@ namespace dumbu\cls {
                 {   $ds_user_id = "$match[1]"; }
                 $password= "";
                 if(preg_match('/password=([^;"\' ]+)/mi', $curl, $match) == 1)
-                { $password = $match[1]; }
+                { $password = $match[1];}
                 if($ds_user_id == "")
                 {
                     $obj = $myDB->get_client_instaid_data($client_id);
