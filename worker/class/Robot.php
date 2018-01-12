@@ -1450,7 +1450,7 @@ namespace dumbu\cls {
             $instaAPI = new \dumbu\cls\InstaAPI();
             //TODO: capturar excepcion e dar tratamiento cuando usuario y senha no existe en IG
             try {
-                $result = $instaAPI->login($login, $pass);
+                $result = $instaAPI->login($login, $pass, true);
             } catch (\Exception $exc) {
                 throw $exc;
             }
