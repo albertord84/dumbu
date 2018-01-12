@@ -1292,31 +1292,42 @@ namespace dumbu\cls {
             $result->json_response =  new \stdClass();
             $result->json_response->authenticated = FALSE;
             $output = array();
+            $cnt = 0;
             if (!$Client)
                 $Client = $myDB->get_client_data_bylogin($login);
             if (isset($Client->cookies) && $Client->cookies != NULL) {
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
-                if ($mid !== null && $mid !== '') {
-                    $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
-                    if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                        $result->json_response->authenticated = FALSE;
+                if ($mid !== null && $mid !== '') {                    
+                    while(!$result->json_response->authenticated && cnt < 2){
+                        $cnt++;
                         $url = "https://www.instagram.com/graphql/query/";
                         $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
                         exec($curl_str, $output, $status);
                         try {
                             $json_response = json_decode($output[0]);
                             if (is_object($json_response) && $json_response->status == 'ok') {
+                                $result->json_response->status = 'ok';
                                 $result->json_response->authenticated = TRUE;
+                                break;
                             }
                         } catch (\Exception $e) {
                             
                         }
-                    } else if (isset($result->json_response->checkpoint_url) || (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required")) {
-                        //did by Jose R (si no consifgues hacer login con las cookies vieja, para que dejarlas en la base de dadtos)
-                        $myDB->set_cookies_to_null($Client->id);
-                        return $result;
+                         if($result->json_response->authenticated === FALSE)
+                         {
+                            $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
+                            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+                                $result->json_response->authenticated = FALSE; 
+                                sleep(30);
+                            }
+                            else if (isset($result->json_response->checkpoint_url) || (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required")) {
+                               //did by Jose R (si no consifgues hacer login con las cookies vieja, para que dejarlas en la base de dadtos)
+                               $myDB->set_cookies_to_null($Client->id);
+                               return $result;
+                            }
+                         }
                     }
                 }
             }
@@ -1331,9 +1342,7 @@ namespace dumbu\cls {
                 return $result;
             }
             try {
-                $result = $this->make_login($login, $pass);
-                
-                
+                $result = $this->make_login($login, $pass);                
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
             } catch (\Exception $e) {
