@@ -174,7 +174,7 @@ namespace dumbu\cls {
                             }
                             $following_me = (isset($Profile_data->user->follows_viewer)) ? $Profile_data->user->follows_viewer : false;
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
-                            $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
+                            $followed_in_db = $this->DB->is_profile_followed_db2($daily_work->client_id, $Profile->id);
                             //$followed_in_db = NULL;
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
@@ -933,7 +933,7 @@ namespace dumbu\cls {
             $login_data->json_response = $json_response;
 //            var_dump($cookies);
             if (curl_errno($ch)) {
-                //print curl_error($ch);
+                print curl_error($ch);
             } else if (count($cookies) >= 2) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
@@ -1591,11 +1591,7 @@ namespace dumbu\cls {
             (new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
             if (!$Client)
                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
-            $url = "https://www.instagram.com/";
-            $login_response = false;
-            // 'cookie: ; rur=ATN; urlgen="{\"time\": 1512592838}:1eMgYc:UcN0E0daepL7D27JcgNpyhZAgQA"' -H 'x-csrftoken: zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'authority: www.instagram.com' --data 'choice=0' --compressed
-            //global $cookies;
-            $ch = curl_init($url);
+            $url = $ch = curl_init("https://www.instagram.com/");                
             $csrftoken = $this->get_insta_csrftoken($ch);
             $urlgen = $this->get_cookies_value('urlgen');
             $mid = $this->get_cookies_value('mid');
@@ -1604,16 +1600,27 @@ namespace dumbu\cls {
             $ig_pr = $this->get_cookies_value('ig_pr');
             $ig_vh = $this->get_cookies_value('ig_vh');
             $ig_or = $this->get_cookies_value('ig_or');
-            //rur=FTW; ig_vw=1301; ig_pr=1; ig_vh=353; ig_or=landscape-primary
-            $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client);
-            $login_response = is_object($result->json_response);
-            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
-                return $login_response;
-            }
-            if ($result->json_response->message == 'checkpoint_required' && isset($result->json_response->checkpoint_url)) {
+            
+            try{
+            $instaAPI = new \dumbu\cls\InstaAPI();
+            $result2 = $instaAPI->login($login, $pass);
+            } catch (\InstagramAPI\Exception\InstagramException $exc)
+            {
+                printf("<br>------------------------------------------</br>");
+                var_dump($exc);
+                $res = $exc->getResponse();                
+                //$ms = $exc->getFullResponse();
+                var_dump($res);
+                //$message = $exc->getMessage();
+                $chll = $res->getChallenge();
+                var_dump($chll);
+                $challenge = $chll->getApiPath();
+                $cookies = "{\"csrftoken\":\"$csrftoken\","
+                         ."mid\":\"$mid\"}";
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
                 $url = "https://www.instagram.com";
-                $url .= $result->json_response->checkpoint_url;
+                $url .= $challenge;
+                $_SESSION["challenge_url"] = $url;  
                 $curl_str = "curl '$url' ";
                 $curl_str .= "-H 'origin: https://www.instagram.com' ";
                 $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
@@ -1626,23 +1633,19 @@ namespace dumbu\cls {
                 $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
                 $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
                 exec($curl_str, $output, $status);
-                return json_decode($output[0]);
+                return json_decode($output[0]);   
             }
+            
+            
         }
 
         public function make_checkpoint($login, $code) {
-            if (!$Client)
-                $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
-            $csrftoken = $this->get_cookies_value('csrftoken');
-            $urlgen = $this->get_cookies_value('urlgen');
-            $mid = $this->get_cookies_value('mid');
-            $rur = $this->get_cookies_value('rur');
-            $ig_vw = $this->get_cookies_value('ig_vw');
-            $ig_pr = $this->get_cookies_value('ig_pr');
-            $ig_vh = $this->get_cookies_value('ig_vh');
-            $ig_or = $this->get_cookies_value('ig_or');
+            $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);  
+            $cookies = json_decode($Client->cookies);
+            $csrftoken = $cookies->csrftoken;
+            $mid = $cookies->mid;           
             $url = "https://www.instagram.com";
-            $url .= $result->json_response->checkpoint_url;
+            $url .= $_SESSION["challenge_url"];
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'origin: https://www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
@@ -1655,7 +1658,7 @@ namespace dumbu\cls {
             $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
             $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
             exec($curl_str, $output, $status);
-            //return json_decode($output[0]);                
+            return json_decode($output[0]);                
         }
         
         public function set_client_cookies_by_curl($client_id, $curl,$robot_id = NULL )
