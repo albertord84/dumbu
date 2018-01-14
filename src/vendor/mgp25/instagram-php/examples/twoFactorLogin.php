@@ -6,17 +6,19 @@ date_default_timezone_set('UTC');
 require __DIR__.'/../../../autoload.php';
 
 /////// CONFIG ///////
-$username = 'tayo_creates';
-$password = 'Iamatrillionaire1';
-$debug = true;
+$username = 'alberto_dreyes';
+$password = 'albertord8';
+$debug = false;
 $truncatedDebug = false;
 //////////////////////
 
 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
 
 try {
-    $loginResponse = $ig->login($username, $password);
+    $loginResponse = $ig->login($username, $password, true);
     var_dump($loginResponse);
+    
+    //var_dump($ig);
 
     if ($loginResponse !== null && $loginResponse->isTwoFactorRequired()) {
         $twoFactorIdentifier = $loginResponse->getTwoFactorInfo()->getTwoFactorIdentifier();
