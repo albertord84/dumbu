@@ -27,11 +27,11 @@ $InstaAPI = new \dumbu\cls\InstaAPI();
 //$password = "Notredame88";
 //$username = "alberto_dreyes";
 //$password = "albertord8";
-$username = "leticiajural";
-$password = "estrelaguia";
-$result = $InstaAPI->login($username, $password);
-var_dump($result->Cookies);
-var_dump($result);
+//$username = "leticiajural";
+//$password = "estrelaguia";
+//$result = $InstaAPI->login($username, $password);
+//var_dump($result->Cookies);
+//var_dump($result);
 
 //DEBIT CIELO
 /* $PaymentCielo = new \dumbu\cls\PaymentCielo();
@@ -296,17 +296,23 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
 //var_dump($result);
 
-//$url = "https://www.instagram.com/";
-//$ch = curl_init($url);
 
 //$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
 //$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
 //$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
 
-//$result = $Robot->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
+//$url = "https://www.instagram.com/";
+//$ch = curl_init($url);
 
-var_dump($result);
+//$Client = NULL;
+//$login = "leticiajural";
+//$pass  = "estrelaguia";
+//$csrftoken = "z2EF0sSQa0lAMzOmJ1JoVT7sJ3qsBi2q";
+//$mid       = "WivT0QAEAAFuK04pKqHMX2UoUlV8";
+//$result = $Robot->login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $mid, $Client);
+//
+//var_dump($result);
 //var_dump(json_encode($result));
 
 
