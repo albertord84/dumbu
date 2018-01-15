@@ -10,8 +10,8 @@ As tags de remarketing não podem ser associadas a informações pessoais de ide
     var google_conversion_format = 3; 
     /* ]]> */
 </script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
+<!--<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>-->
 <noscript>
 <div style="display:inline;">
     <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/867479118/?guid=ON&amp;script=0"/>

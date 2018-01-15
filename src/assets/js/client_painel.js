@@ -1346,13 +1346,12 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response['success']) {
+                    ;
                 }
                 modal_alert_message(response['message']);
-                l.stop();
             },
             error: function (xhr, status) {
-                modal_alert_message('Não foi possível solicitar o código de segurança. Tente depois.');                    
-                l.stop();
+                modal_alert_message('Não foi possível solicitar o código de segurança. Tente depois.');
             }
         });
     });

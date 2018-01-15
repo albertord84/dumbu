@@ -3165,6 +3165,7 @@ class Welcome extends CI_Controller {
     public function security_code_request() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
+        $this->load->model('class/user_role');
         
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
@@ -3175,11 +3176,13 @@ class Welcome extends CI_Controller {
                 $result['message'] = 'Código de segurança solicitado corretamente';
                 
                 $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
-            } else{
+            }
+            else {
                 $result['success'] = false;
                 $result['message'] = 'Erro ao solicitar código de segurança';
                 $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
             }
+            
             echo json_encode($result);
         }
         else {
@@ -3190,6 +3193,7 @@ class Welcome extends CI_Controller {
     public function security_code_confirmation() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
+        $this->load->model('class/user_role');
         
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             $security_code = $this->input->post()['security_code'];
