@@ -467,6 +467,25 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        /**
+         * True is it was followed by this client
+         * @param type $client_id
+         * @param type $followed_id
+         * @return type
+         */
+        public function is_profile_followed_db2($client_id, $followed_id) {
+            try {
+                $result = mysqli_query($this->fConnection, ""
+                        . "SELECT id FROM `dumbudb.followed`.`$client_id` "
+                        . "WHERE `$client_id`.followed_id = $followed_id; "
+                );
+                //print "\nClient: $followed_id " . mysqli_num_rows($result) . "  ";
+                return mysqli_num_rows($result);
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
         public function save_unfollow_work($Followeds_to_unfollow) {
             try {

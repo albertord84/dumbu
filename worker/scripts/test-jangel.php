@@ -17,6 +17,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // Request Code
 $Client = new \dumbu\cls\Client();
 $Robot = new \dumbu\cls\Robot();
+//$val = $Robot->checkpoint_requested("casazunzun", "angelpadron1991");
+$val = $Robot->make_checkpoint("casazunzun", "724610");
+var_dump($val);
 $DB = new \dumbu\cls\DB();
 //$DB->SetPasword("1", "jkwlsdhfjkf");
 //$var = $Robot->bot_login("riveauxmerino", "Notredame88");
@@ -49,12 +52,7 @@ foreach ($Clients as $user)
 }*/
 //
 
-echo "Worker Inited...!<br>\n";
-echo date("Y-m-d h:i:sa");
-$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-$init_day = new DateTime();
-$init_day->setTimestamp('1511413162');
-var_dump($init_day);
+
 
 //$DB = new \dumbu\cls\DB();
 
