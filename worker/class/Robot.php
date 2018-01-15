@@ -1300,7 +1300,7 @@ namespace dumbu\cls {
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
                 if ($mid !== null && $mid !== '') {                    
-                    while(!$result->json_response->authenticated && cnt < 2){
+                    while(!$result->json_response->authenticated && $cnt < 2){
                         $cnt++;
                         $url = "https://www.instagram.com/graphql/query/";
                         $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
