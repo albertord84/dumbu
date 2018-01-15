@@ -1339,22 +1339,19 @@ $(document).ready(function () {
     
     $("#lnk_security_code_request").click(function () {
         $.ajax({
-            url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+            url: base_url + 'index.php/welcome/security_code_request',
             data: {
-                'cupao_number': $('#cupao_number').val(),
-                'pk': pk
             },
             type: 'POST',
             dataType: 'json',
             success: function (response) {
                 if (response['success']) {
-                    set_global_var('cupao_number_checked', true);  
                 }
                 modal_alert_message(response['message']);
                 l.stop();
             },
             error: function (xhr, status) {
-                modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
+                modal_alert_message('Não foi possível solicitar o código de segurança. Tente depois.');                    
                 l.stop();
             }
         });
@@ -1365,16 +1362,14 @@ $(document).ready(function () {
             var l = Ladda.create(this);
             l.start();
             $.ajax({
-                url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+                url: base_url + 'index.php/welcome/security_code_confirmation',
                 data: {
-                    'cupao_number': $('#cupao_number').val(),
-                    'pk': pk
+                    'security_code': $('#security_code').val()
                 },
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
-                    if (response['success']) {
-                        set_global_var('cupao_number_checked', true);  
+                    if (response['success']) {  
                     }
                     modal_alert_message(response['message']);
                     l.stop();
