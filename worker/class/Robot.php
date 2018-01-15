@@ -1615,12 +1615,13 @@ namespace dumbu\cls {
                 $chll = $res->getChallenge();
                 var_dump($chll);
                 $challenge = $chll->getApiPath();
-                $cookies = "{\"csrftoken\":\"$csrftoken\","
-                         ."mid\":\"$mid\"}";
-                (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
                 $url = "https://www.instagram.com";
                 $url .= $challenge;
-                $_SESSION["challenge_url"] = $url;  
+               
+                $cookies = "{\"csrftoken\":\"$csrftoken\","
+                         ."\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
+                
                 $curl_str = "curl '$url' ";
                 $curl_str .= "-H 'origin: https://www.instagram.com' ";
                 $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
@@ -1644,8 +1645,7 @@ namespace dumbu\cls {
             $cookies = json_decode($Client->cookies);
             $csrftoken = $cookies->csrftoken;
             $mid = $cookies->mid;           
-            $url = "https://www.instagram.com";
-            $url .= $_SESSION["challenge_url"];
+            $url = "https://www.instagram.com" . $cookies->checkpoint_url;
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'origin: https://www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
