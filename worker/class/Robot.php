@@ -1606,7 +1606,7 @@ namespace dumbu\cls {
             $result2 = $instaAPI->login($login, $pass);
             } catch (\InstagramAPI\Exception\InstagramException $exc)
             {
-                printf("<br>------------------------------------------</br>");
+                //printf("<br>------------------------------------------</br>");
                 //var_dump($exc);
                 $res = $exc->getResponse();                
                 //$ms = $exc->getFullResponse();

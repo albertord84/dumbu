@@ -1351,7 +1351,18 @@ $(document).ready(function () {
                 modal_alert_message(response['message']);
             },
             error: function (xhr, status) {
-                modal_alert_message('Não foi possível solicitar o código de segurança. Tente depois.');
+                var start = xhr.responseText.indexOf("{");
+                var json_str = xhr.responseText.substr(start, xhr.responseText.length);
+                start = json_str.indexOf("{");
+                json_str = json_str.substr(start, json_str.length);
+                response = JSON.parse(json_str);
+                
+                if (response['success']) {
+                    modal_alert_message(response['message']);
+                }
+                else {
+                    modal_alert_message('Não foi possível solicitar o código de segurança. Tente depois.');
+                }
             }
         });
     });
@@ -1368,10 +1379,12 @@ $(document).ready(function () {
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
-                    if (response['success']) {  
+                    if (response['success']) {
+                        ;
                     }
                     modal_alert_message(response['message']);
                     l.stop();
+                    $(location).attr('href',base_url+'index.php/welcome/client');
                 },
                 error: function (xhr, status) {
                     modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
