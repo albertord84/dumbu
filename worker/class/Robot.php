@@ -1300,7 +1300,7 @@ namespace dumbu\cls {
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
                 if ($mid !== null && $mid !== '') {                    
-                    while(!$result->json_response->authenticated && cnt < 2){
+                    while(!$result->json_response->authenticated && $cnt < 2){
                         $cnt++;
                         $url = "https://www.instagram.com/graphql/query/";
                         $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
@@ -1588,7 +1588,7 @@ namespace dumbu\cls {
         }
 
         public function checkpoint_requested($login, $pass, $Client = NULL) {
-            (new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
+            //(new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
             if (!$Client)
                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
             $url = $ch = curl_init("https://www.instagram.com/");                
@@ -1606,14 +1606,14 @@ namespace dumbu\cls {
             $result2 = $instaAPI->login($login, $pass);
             } catch (\InstagramAPI\Exception\InstagramException $exc)
             {
-                printf("<br>------------------------------------------</br>");
-                var_dump($exc);
+                //printf("<br>------------------------------------------</br>");
+                //var_dump($exc);
                 $res = $exc->getResponse();                
                 //$ms = $exc->getFullResponse();
-                var_dump($res);
+                //var_dump($res);
                 //$message = $exc->getMessage();
                 $chll = $res->getChallenge();
-                var_dump($chll);
+                //var_dump($chll);
                 $challenge = $chll->getApiPath();
                 $url = "https://www.instagram.com";
                 $url .= $challenge;
@@ -1657,8 +1657,13 @@ namespace dumbu\cls {
             $curl_str .= "mid=$mid; ";
             $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
             $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
-            exec($curl_str, $output, $status);
-            return json_decode($output[0]);                
+            exec($curl_str, $output, $status);     
+           $res = json_decode($output[0]);
+           if($res.status === "ok")
+           {
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id);
+           }
+            return  $res;               
         }
         
         public function set_client_cookies_by_curl($client_id, $curl,$robot_id = NULL )
@@ -1674,7 +1679,7 @@ namespace dumbu\cls {
                 if(preg_match('/mid=([^;"\' ]+)/mi', $curl, $match) == 1)
                 {   $mid = "$match[1]"; }
                 $sessionid = "";                               
-                if(preg_match('/sessionid=([^;"\' ]+)/mi', $curl, $match) == 1)
+                if(preg_match('/sessionid=([^\']+)/mi', $curl, $match) == 1)
                 {   $sessionid = "$match[1]"; }
                  $ds_user_id = "";                  
                 if(preg_match('/ds_user_id=([^;"\' ]+)/mi', $curl, $match) == 1)
@@ -1682,6 +1687,7 @@ namespace dumbu\cls {
                 $password= "";
                 if(preg_match('/password=([^;"\' ]+)/mi', $curl, $match) == 1)
                 { $password = $match[1];}
+                else {$password = NULL;}
                 if($ds_user_id == "")
                 {
                     $obj = $myDB->get_client_instaid_data($client_id);
@@ -1711,8 +1717,10 @@ namespace dumbu\cls {
                     $cookies .= "\"$mid\"";
                     $cookies .= "}";               
                 }
-                
-               $res = $myDB->SetPasword($client_id, $password);
+                if($password !== null)
+                {
+                    $res = $myDB->SetPasword($client_id, $password);
+                }
                $res = $myDB->set_client_cookies($client_id, $cookies) && $res;
                $myDB->InsertEventToWashdog($client_id, "SET CURL");
                $myDB->InsertEventToWashdog($client_id, $curl);

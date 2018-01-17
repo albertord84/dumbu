@@ -3161,5 +3161,60 @@ class Welcome extends CI_Controller {
             $this->update_client_after_retry_payment_success($array_ids[$i]);
         }
     }
+    
+    public function security_code_request() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();
+        $this->load->model('class/user_role');
+        
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
+            $this->load->model('class/user_model');
+            
+            if (true) {
+                $result['success'] = true;
+                $result['message'] = 'Código de segurança solicitado corretamente';
+                
+                $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
+            }
+            else {
+                $result['success'] = false;
+                $result['message'] = 'Erro ao solicitar código de segurança';
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
+            }
+            
+            echo json_encode($result);
+        }
+        else {
+            $this->display_access_error();
+        }
+    }
+    
+    public function security_code_confirmation() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();
+        $this->load->model('class/user_role');
+        
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            $security_code = $this->input->post()['security_code'];
+            $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
+            $this->load->model('class/user_model');
+            
+            if (true) {
+                $result['success'] = true;
+                $result['message'] = 'Código de segurança confirmado corretamente';
+                
+                $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE CONFIRMATED');
+            } else{
+                $result['success'] = false;
+                $result['message'] = 'Erro ao confirmar código de segurança';
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE CONFIRMATION');
+            }
+            echo json_encode($result);
+        }
+        else {
+            $this->display_access_error();
+        }
+    }
       
 }
