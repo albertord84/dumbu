@@ -1606,14 +1606,14 @@ namespace dumbu\cls {
             $result2 = $instaAPI->login($login, $pass);
             } catch (\InstagramAPI\Exception\InstagramException $exc)
             {
-                printf("<br>------------------------------------------</br>");
-                var_dump($exc);
+                //printf("<br>------------------------------------------</br>");
+                //var_dump($exc);
                 $res = $exc->getResponse();                
                 //$ms = $exc->getFullResponse();
-                var_dump($res);
+                //var_dump($res);
                 //$message = $exc->getMessage();
                 $chll = $res->getChallenge();
-                var_dump($chll);
+                //var_dump($chll);
                 $challenge = $chll->getApiPath();
                 $url = "https://www.instagram.com";
                 $url .= $challenge;
