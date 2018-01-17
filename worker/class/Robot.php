@@ -1588,7 +1588,7 @@ namespace dumbu\cls {
         }
 
         public function checkpoint_requested($login, $pass, $Client = NULL) {
-            (new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
+            //(new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
             if (!$Client)
                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
             $url = $ch = curl_init("https://www.instagram.com/");                
@@ -1679,7 +1679,7 @@ namespace dumbu\cls {
                 if(preg_match('/mid=([^;"\' ]+)/mi', $curl, $match) == 1)
                 {   $mid = "$match[1]"; }
                 $sessionid = "";                               
-                if(preg_match('/sessionid=([^;"{\' ]+)/mi', $curl, $match) == 1)
+                if(preg_match('/sessionid=([^\']+)/mi', $curl, $match) == 1)
                 {   $sessionid = "$match[1]"; }
                  $ds_user_id = "";                  
                 if(preg_match('/ds_user_id=([^;"\' ]+)/mi', $curl, $match) == 1)
