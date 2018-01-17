@@ -3171,15 +3171,15 @@ class Welcome extends CI_Controller {
             $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
             $this->load->model('class/user_model');
             
-            if (true) {
+            if ($checkpoint_data && $checkpoint_data->status == "ok") {
                 $result['success'] = true;
-                $result['message'] = 'Código de segurança solicitado corretamente';
+                $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $GLOBALS['language']);
                 
                 $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
             }
             else {
                 $result['success'] = false;
-                $result['message'] = 'Erro ao solicitar código de segurança';
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $GLOBALS['language']);
                 $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
             }
             
@@ -3200,7 +3200,7 @@ class Welcome extends CI_Controller {
             $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
             $this->load->model('class/user_model');
             
-            if (true) {
+            if ($checkpoint_data && $checkpoint_data->json_response == 1) {
                 $result['success'] = true;
                 $result['message'] = 'Código de segurança confirmado corretamente';
                 
