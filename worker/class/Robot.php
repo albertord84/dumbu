@@ -1646,24 +1646,90 @@ namespace dumbu\cls {
             $csrftoken = $cookies->csrftoken;
             $mid = $cookies->mid;           
             $url = "https://www.instagram.com" . $cookies->checkpoint_url;
-            $curl_str = "curl '$url' ";
-            $curl_str .= "-H 'origin: https://www.instagram.com' ";
-            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
-            $curl_str .= "-H 'Referer: $url' ";
-            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-            $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
-            $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
-            $curl_str .= "mid=$mid; ";
-            $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
-            $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
-            exec($curl_str, $output, $status);     
+            //$curl_str = "curl '$url' ";
+            //$curl_str .= "-H 'origin: https://www.instagram.com' ";
+            //$curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+            //$curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
+            //$curl_str .= "-H 'Referer: $url' ";
+            //$curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            //$curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+            //$curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+            //$curl_str .= "mid=$mid; ";
+            //$curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+            //$curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
+            $ch = curl_init("https://www.instagram.com");
+            $headers = array();
+            
+            $postinfo = "security_code=$code";
+            $headers[] = "Origin: https://www.instagram.com";
+            $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+            //            $headers[] = "Accept: application/json";
+            $headers[] = "Accept: */*";
+            $headers[] = "Accept-Language: en-US,en;q=0.5, ";
+            $headers[] = "Accept-Encoding: gzip, deflate, br";
+            $headers[] = "Referer: $url";
+            $headers[] = "X-CSRFToken: $csrftoken";
+            $headers[] = "X-Instagram-AJAX: 1";
+            //$ip = $_SERVER['REMOTE_ADDR'];
+            //if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
+            //    $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
+            //    $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+            //}
+            //$ip = "127.0.0.1";
+            //$headers[] = "REMOTE_ADDR: $ip";
+            //$headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            $headers[] = "Content-Type: application/x-www-form-urlencoded";
+//            $headers[] = "Content-Type: application/json";
+            $headers[] = "X-Requested-With: XMLHttpRequest";
+            $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
+            
+            curl_setopt($ch, CURLOPT_URL, $url);
+            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            //curl_setopt($ch, CURLOPT_POST, true);
+            //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+            //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+            global $cookies;
+            $cookies = array();
+            $html = curl_exec($ch);
+            $info = curl_getinfo($ch);
+            // LOGIN WITH CURL TO TEST
+            // Parse html response
+            $start = strpos($html, "{");
+            $json_str = substr($html, $start);
+            $json_response = json_decode($json_str);
+            //
+            $login_data = new \stdClass();
+            $login_data->json_response = $json_response;
+            if (curl_errno($ch)) {
+                //print curl_error($ch);
+            } else if (count($cookies) >= 2) {
+                $login_data->csrftoken = $this->get_cookies_value("csrftoken");
+                // Get sessionid from cookies
+                $login_data->sessionid = $this->get_cookies_value("sessionid");
+                // Get ds_user_id from cookies
+                $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
+                // Get mid from cookies
+                $login_data->mid = $this->get_cookies_value("mid");
+                if($login_data->mid == NULL ||$login_data->mid == '')
+                {
+                    $login_data->mid = $mid;                            
+                }
+            }
+            
+            (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
+            curl_close($ch);           
+            
+            /*exec($curl_str, $output, $status);     
            $res = json_decode($output[0]);
            if($res.status === "ok")
            {
                 (new \dumbu\cls\Client())->set_client_cookies($Client->id);
-           }
-            return  $res;               
+           }*/
+            return  $login_data;               
         }
         
         public function set_client_cookies_by_curl($client_id, $curl,$robot_id = NULL )
@@ -1684,7 +1750,7 @@ namespace dumbu\cls {
                  $ds_user_id = "";                  
                 if(preg_match('/ds_user_id=([^;"\' ]+)/mi', $curl, $match) == 1)
                 {   $ds_user_id = "$match[1]"; }
-                $password= "";
+                $password= NULL;
                 if(preg_match('/password=([^;"\' ]+)/mi', $curl, $match) == 1)
                 { $password = $match[1];}
                 else {$password = NULL;}
@@ -1721,6 +1787,8 @@ namespace dumbu\cls {
                 {
                     $res = $myDB->SetPasword($client_id, $password);
                 }
+                
+                
                $res = $myDB->set_client_cookies($client_id, $cookies) && $res;
                $myDB->InsertEventToWashdog($client_id, "SET CURL");
                $myDB->InsertEventToWashdog($client_id, $curl);
