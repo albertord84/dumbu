@@ -18,7 +18,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 $Client = new \dumbu\cls\Client();
 $Robot = new \dumbu\cls\Robot();
 //$val = $Robot->checkpoint_requested("casazunzun", "angelpadron1991");
-$val = $Robot->make_checkpoint("casazunzun", "724610");
+$val = $Robot->make_checkpoint("casazunzun", "327094");
 var_dump($val);
 $DB = new \dumbu\cls\DB();
 //$DB->SetPasword("1", "jkwlsdhfjkf");
