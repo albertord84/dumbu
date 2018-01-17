@@ -265,7 +265,7 @@
                                                         ' . $CI->T("ATIVAR AGORA", array(), $language) . '
                                                     </button>
                                                 </a>
-                                            </div>';*/
+                                            </div>';*/ 
                                 } else
                                     echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
