@@ -1445,7 +1445,7 @@ namespace dumbu\cls {
             if (isset($Client->cookies) && $Client->cookies != NULL) 
             {
                 $cookies = json_decode($Client->cookies);
-                return (isset($cookies->csfrtoken) && $cookies->csfrtoken !== NULL && $cookies->csfrtoken !== '' &&
+                return (isset($cookies->csrftoken) && $cookies->csrftoken !== NULL && $cookies->csrftoken !== '' &&
                         isset($cookies->mid) && $cookies->mid !== NULL && $cookies->mid !== '' && 
                         isset($cookies->sessionid) && $cookies->sessionid !== NULL && $cookies->sessionid !== '' &&
                         isset($cookies->ds_user_id) && $cookies->ds_user_id !== NULL && $cookies->ds_user_id !== '');
