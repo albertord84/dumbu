@@ -1295,7 +1295,13 @@ namespace dumbu\cls {
             $cnt = 0;
             if (!$Client)
                 $Client = $myDB->get_client_data_bylogin($login);
+            if(!$this->verify_cookies($Client))
+            {
+                 $myDB->set_client_cookies($Client->id);
+                 $Client->cookies = NULL;
+            }
             if (isset($Client->cookies) && $Client->cookies != NULL) {
+                
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
@@ -1434,6 +1440,19 @@ namespace dumbu\cls {
           return $result;
          */
 
+        public function verify_cookies($Client)
+        {
+            if (isset($Client->cookies) && $Client->cookies != NULL) 
+            {
+                $cookies = json_decode($Client->cookies);
+                return (isset($cookies->csfrtoken) && $cookies->csfrtoken !== NULL &&
+                       isset($cookies->mid) && $cookies->mid !== NULL &&
+                        isset($cookies->sessionid) && $cookies->sessionid !== NULL &&
+                        isset($cookies->ds_user_id) && $cookies->ds_user_id !== NULL);
+            }
+            return false;
+        }
+        
         public function encode_cookies($csfrtoken, $sessionid, $ds_user_id, $mid) {
             try {
                 $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
