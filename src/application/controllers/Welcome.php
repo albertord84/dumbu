@@ -3174,23 +3174,23 @@ class Welcome extends CI_Controller {
             if ($checkpoint_data && $checkpoint_data->status == "ok") {
                 if ($checkpoint_data->type == "CHALLENGE") {
                     $result['success'] = true;
-                    $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $this->session->userdata('language'));
                 
                     $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
                 }
                 else if ($checkpoint_data->type == "CHALLENGE_REDIRECTION") {
                     $result['success'] = true;
-                    $result['message'] = $this->T('Por favor, entre no seu Instagram e confirme FUI EU. Depois saia do seu Instagram e volte ao Passo 1 nesta página.', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Por favor, entre no seu Instagram e confirme FUI EU. Depois saia do seu Instagram e volte ao Passo 1 nesta página.', array(), $this->session->userdata('language'));
                 }
                 else {
                     $result['success'] = false;
-                    $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $GLOBALS['language']);
+                    $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
                     $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
                 }
             }
             else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
                 $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
             }
             
