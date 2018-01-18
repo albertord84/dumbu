@@ -1387,12 +1387,13 @@ $(document).ready(function () {
                     $(location).attr('href',base_url+'index.php/welcome/client');
                 },
                 error: function (xhr, status) {
-                    modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
+                    //modal_alert_message(T('Não foi possível conferir o código de segurança. Tente depois.'));                    
                     l.stop();
+                    $(location).attr('href',base_url+'index.php/welcome/client');
                 }
             });
         } else {
-            modal_alert_message('Deve preencher o campo com o código de segurança de 6 dígitos.');  
+            modal_alert_message(T('Deve preencher o campo com o código de segurança de 6 dígitos.'));  
         }
     });
 }); 
