@@ -1445,11 +1445,12 @@ namespace dumbu\cls {
             if (isset($Client->cookies) && $Client->cookies != NULL) 
             {
                 $cookies = json_decode($Client->cookies);
-                return (isset($cookies->csfrtoken) && $cookies->csfrtoken !== NULL &&
-                       isset($cookies->mid) && $cookies->mid !== NULL &&
-                        isset($cookies->sessionid) && $cookies->sessionid !== NULL &&
-                        isset($cookies->ds_user_id) && $cookies->ds_user_id !== NULL);
+                return (isset($cookies->csfrtoken) && $cookies->csfrtoken !== NULL && $cookies->csfrtoken !== '' &&
+                        isset($cookies->mid) && $cookies->mid !== NULL && $cookies->mid !== '' && 
+                        isset($cookies->sessionid) && $cookies->sessionid !== NULL && $cookies->sessionid !== '' &&
+                        isset($cookies->ds_user_id) && $cookies->ds_user_id !== NULL && $cookies->ds_user_id !== '');
             }
+            
             return false;
         }
         
