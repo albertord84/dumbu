@@ -1654,7 +1654,9 @@ namespace dumbu\cls {
                 $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
                 $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
                 exec($curl_str, $output, $status);
-                return json_decode($output[0]);   
+                $resposta = $output[0];
+                (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
+                return json_decode($resposta);   
             }
             
             
@@ -1749,6 +1751,8 @@ namespace dumbu\cls {
            {
                 (new \dumbu\cls\Client())->set_client_cookies($Client->id);
            }*/
+            
+            (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, json_encode($login_data));
             return  $login_data;               
         }
         
