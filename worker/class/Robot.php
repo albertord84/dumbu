@@ -1295,7 +1295,13 @@ namespace dumbu\cls {
             $cnt = 0;
             if (!$Client)
                 $Client = $myDB->get_client_data_bylogin($login);
+            if(!$this->verify_cookies($Client))
+            {
+                 $myDB->set_client_cookies($Client->id);
+                 $Client->cookies = NULL;
+            }
             if (isset($Client->cookies) && $Client->cookies != NULL) {
+                
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
@@ -1434,6 +1440,20 @@ namespace dumbu\cls {
           return $result;
          */
 
+        public function verify_cookies($Client)
+        {
+            if (isset($Client->cookies) && $Client->cookies != NULL) 
+            {
+                $cookies = json_decode($Client->cookies);
+                return (isset($cookies->csrftoken) && $cookies->csrftoken !== NULL && $cookies->csrftoken !== '' &&
+                        isset($cookies->mid) && $cookies->mid !== NULL && $cookies->mid !== '' && 
+                        isset($cookies->sessionid) && $cookies->sessionid !== NULL && $cookies->sessionid !== '' &&
+                        isset($cookies->ds_user_id) && $cookies->ds_user_id !== NULL && $cookies->ds_user_id !== '');
+            }
+            
+            return false;
+        }
+        
         public function encode_cookies($csfrtoken, $sessionid, $ds_user_id, $mid) {
             try {
                 $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
@@ -1634,7 +1654,9 @@ namespace dumbu\cls {
                 $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
                 $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
                 exec($curl_str, $output, $status);
-                return json_decode($output[0]);   
+                $resposta = $output[0];
+                (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
+                return json_decode($resposta);   
             }
             
             
@@ -1729,6 +1751,8 @@ namespace dumbu\cls {
            {
                 (new \dumbu\cls\Client())->set_client_cookies($Client->id);
            }*/
+            
+            (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, json_encode($login_data));
             return  $login_data;               
         }
         
