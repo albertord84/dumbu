@@ -3166,11 +3166,21 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
+        $this->load->model('class/user_model');
         
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
-            $this->load->model('class/user_model');
-            
+            try {
+                $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
+            } catch (Exception $ex) {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #4 IN SECURITY CODE REQUEST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception message: '.$ex->getMessage());
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception stack trace: '.$ex->getTraceAsString());
+                echo json_encode($result);
+                return;
+            }
+
             if ($checkpoint_data && $checkpoint_data->status == "ok") {
                 if ($checkpoint_data->type == "CHALLENGE") {
                     $result['success'] = true;
