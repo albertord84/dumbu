@@ -423,4 +423,26 @@ class Admin extends CI_Controller {
             echo "Não pode acessar a esse recurso, deve fazer login!!";
         }
     }
+    
+    public function clean_cookies() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $client_id = $this->input->post()['client_id'];
+            
+            try {
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
+                (new \dumbu\cls\DB())->set_cookies_to_null($client_id);
+            } catch (Exception $exc) {
+                $result['success'] = false;
+                $result['message'] = "Erro no banco de dados. Contate o grupo de desenvolvimento!";
+            } finally {
+                $result['success'] = true;
+                $result['message'] = "Cookies limpadas com sucesso!";
+            }
+            
+            echo json_encode($result);
+        } else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
 }
