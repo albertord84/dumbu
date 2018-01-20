@@ -251,8 +251,8 @@
                                                 <label>' . $CI->T("PASSO 1: Solicite seu código de segurança ", array(), $language) . '</label>
                                                 <a id="lnk_security_code_request" style="color:blue;font-size:1em;">' . $CI->T("AQUÍ", array(), $language) . '</a>
                                                 <label>' . $CI->T("PASSO 2: Agora insira o código de 6 dígitos que foi enviado ao seu email cadastrado em Instagram", array(), $language) . '</label> <br>
-                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="123456"> <br>
-                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="123456" disabled> <br>
+                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff" disabled>
                                                     ' . $CI->T("CONFIRMAR", array(), $language) . '
                                                 </button>
                                             </div>';
