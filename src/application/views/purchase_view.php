@@ -35,7 +35,7 @@
                 <script src="<?php echo base_url().'assets/js/spin.min.js'?>"></script>
                 <script src="<?php echo base_url().'assets/js/ladda.min.js'?>"></script>
                 
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?1.0.0'; ?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/'.$language.'/internalization.js?'.$SCRIPT_VERSION; ?>"></script>
                 <script type="text/javascript">var language = '<?php echo $language; ?>';</script> 
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME; ?>';</script>
                 <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
@@ -44,7 +44,7 @@
                 <script type="text/javascript">var client_login_profile = '<?php echo $client_login_profile; ?>';</script>                
                 <script type="text/javascript">var total_value = '<?php echo ($Afilio_total_value / 100); ?>';</script>
                 <script type="text/javascript">var plane_id = '<?php echo $Afilio_product_id; ?>';</script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js?1.0.1'; ?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/purchase.js?'.$SCRIPT_VERSION; ?>"></script>
                 
                 <?php //para SEO 
                     if($SERVER_NAME=="ONE"){
