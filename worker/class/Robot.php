@@ -1657,6 +1657,9 @@ namespace dumbu\cls {
                     (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
                     return json_decode($resposta);
                 } else {
+                    $this->temporal_log($exc->getMessage());
+                    $this->temporal_log("\n\n\n\n\n");
+                    $this->temporal_log($exc->getTraceAsString());
                     throw $exc;
                 }
             }
