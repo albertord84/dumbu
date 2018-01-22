@@ -1338,6 +1338,7 @@ $(document).ready(function () {
     );
     
     $("#lnk_security_code_request").click(function () {
+        $("#lnk_security_code_request").hide();
         $.ajax({
             url: base_url + 'index.php/welcome/security_code_request',
             data: {
@@ -1345,30 +1346,32 @@ $(document).ready(function () {
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                if (response['success']) {
-                    ;
-                }
                 modal_alert_message(response['message']);
-            },
-            error: function (xhr, status) {
-                var start = xhr.responseText.indexOf("{");
-                var json_str = xhr.responseText.substr(start, xhr.responseText.length);
-                start = json_str.indexOf("{");
-                json_str = json_str.substr(start, json_str.length);
-                response = JSON.parse(json_str);
+                $("#lnk_security_code_request").show();
                 
                 if (response['success']) {
-                    modal_alert_message(response['message']);
+                    $("#security_code").prop("disabled", false);
+                    $("#btn_confirm_new").prop("disabled", false);
                 }
-                else {
-                    modal_alert_message('Não foi possível solicitar o código de segurança. Tente depois.');
+                
+            },
+            error: function (xhr, status) {
+                var start = xhr.responseText.lastIndexOf("{");
+                var json_str = xhr.responseText.substr(start);
+                response = JSON.parse(json_str);
+                modal_alert_message(response['message']);
+                $("#lnk_security_code_request").show();
+                
+                if (response['success']) {
+                    $("#security_code").prop("disabled", false);
+                    $("#btn_confirm_new").prop("disabled", false);
                 }
             }
         });
     });
     
     $("#btn_confirm_new").click(function () {
-        if ($("#security_code").val()!=='') {
+        if ($("#security_code").val() !== '') {
             var l = Ladda.create(this);
             l.start();
             $.ajax({
@@ -1379,17 +1382,23 @@ $(document).ready(function () {
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
-                    if (response['success']) {
-                        ;
-                    }
+                    l.stop();
                     modal_alert_message(response['message']);
-                    l.stop();
-                    $(location).attr('href',base_url+'index.php/welcome/client');
+                    
+                    if (response['success']) {
+                        $(location).attr('href',base_url+'index.php/welcome/client');
+                    }
                 },
-                error: function (xhr, status) {
-                    //modal_alert_message(T('Não foi possível conferir o código de segurança. Tente depois.'));                    
+                error: function (xhr, status) {                  
                     l.stop();
-                    $(location).attr('href',base_url+'index.php/welcome/client');
+                    var start = xhr.responseText.lastIndexOf("{");
+                    var json_str = xhr.responseText.substr(start);
+                    response = JSON.parse(json_str);
+                    modal_alert_message(response['message']);
+                    
+                    if (response['success']) {
+                        $(location).attr('href',base_url+'index.php/welcome/client');
+                    }
                 }
             });
         } else {
