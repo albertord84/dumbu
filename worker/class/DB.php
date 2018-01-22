@@ -285,7 +285,7 @@ namespace dumbu\cls {
             $this->InsertEventToWashdog($client_id, $curl, 1, $robot_id);
         }
 
-        public function set_client_cookies($client_id, $cookies) {
+        public function set_client_cookies($client_id, $cookies = NULL) {
             try {
                 $this->connect();
                 $sql = "UPDATE clients "

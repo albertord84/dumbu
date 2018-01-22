@@ -1621,6 +1621,9 @@ namespace dumbu\cls {
 
             try {
                 $instaAPI = new \dumbu\cls\InstaAPI();
+
+                $instaAPI->setOutputInterface("191.252.110.140");
+
                 $result2 = $instaAPI->login($login, $pass, true);
             } catch (\InstagramAPI\Exception\InstagramException $exc) {
                 //printf("<br>------------------------------------------</br>");

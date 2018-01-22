@@ -80,7 +80,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_status');
         $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
-        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+        if (isset($this->session) && $this->session->userdata('role_id') == user_role::CLIENT) {
             $language=$this->input->get();           
             if(isset($language['language'])){
                  $GLOBALS['language']=$language['language'];
@@ -490,7 +490,9 @@ class Welcome extends CI_Controller {
                             'pass' => $datas['user_pass'],
                             'status_id' => $status_id
                         ));
-                        $cad=$this->user_model->get_status_by_id($status_id)['name'];                        
+                        $cad=$this->user_model->get_status_by_id($status_id)['name']; 
+                        $this->session->sess_time_to_update = 7200;
+                        $this->session->cookie_secure = true;
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
