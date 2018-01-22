@@ -1629,32 +1629,36 @@ namespace dumbu\cls {
                 //$ms = $exc->getFullResponse();
                 //var_dump($res);
                 //$message = $exc->getMessage();
-                $chll = $res->getChallenge();
-                //var_dump($chll);
-                $challenge = $chll->getApiPath();
-                $url = "https://www.instagram.com";
-                $url .= $challenge;
+                if (isset($res->getChallenge)) {
+                    $chll = $res->getChallenge();
+                    //var_dump($chll);
+                    $challenge = $chll->getApiPath();
+                    $url = "https://www.instagram.com";
+                    $url .= $challenge;
 
-                $cookies = "{\"csrftoken\":\"$csrftoken\","
-                        . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
-                (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
+                    $cookies = "{\"csrftoken\":\"$csrftoken\","
+                            . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
+                    (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
 
-                $curl_str = "curl '$url' ";
-                $curl_str .= "-H 'origin: https://www.instagram.com' ";
-                $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-                $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
-                $curl_str .= "-H 'Referer: $url' ";
-                $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-                $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
-                $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
-                $curl_str .= "mid=$mid; ";
-                $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
-                $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
-                exec($curl_str, $output, $status);
-                $resposta = $output[0];
-                $this->temporal_log($curl_str);
-                (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
-                return json_decode($resposta);
+                    $curl_str = "curl '$url' ";
+                    $curl_str .= "-H 'origin: https://www.instagram.com' ";
+                    $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+                    $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
+                    $curl_str .= "-H 'Referer: $url' ";
+                    $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+                    $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+                    $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+                    $curl_str .= "mid=$mid; ";
+                    $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+                    $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
+                    exec($curl_str, $output, $status);
+                    $resposta = $output[0];
+                    $this->temporal_log($curl_str);
+                    (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
+                    return json_decode($resposta);
+                } else {
+                    throw $exc;
+                }
             }
         }
 
