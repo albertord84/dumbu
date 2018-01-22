@@ -32,6 +32,8 @@ namespace dumbu\cls {
             try {
                 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
                 
+                $ig->setOutputInterface("191.252.110.140");
+
                 $loginResponse = $ig->login($username, $password, true);
 
                 $ig->client->loadCookieJar();
