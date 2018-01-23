@@ -1320,20 +1320,7 @@ namespace dumbu\cls {
                             }
                         } catch (\Exception $e) {
                             
-                        }
-                         if($result->json_response->authenticated === FALSE)
-                         {
-                            $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
-                            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                                $result->json_response->authenticated = FALSE; 
-                                sleep(30);
-                            }
-                            else if (isset($result->json_response->checkpoint_url) || (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required")) {
-                               //did by Jose R (si no consifgues hacer login con las cookies vieja, para que dejarlas en la base de dadtos)
-                               $myDB->set_cookies_to_null($Client->id);
-                               return $result;
-                            }
-                         }
+                        }                         
                     }
                 }
             }
