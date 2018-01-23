@@ -35,7 +35,7 @@
                 <script type="text/javascript">var base_url = '<?php echo base_url();?>';</script>
                 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 		<script src="assets/js/jquery.dlmenu.js"></script>
-                <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?1.0.2';?>"></script>
+                <script type="text/javascript" src="<?php echo base_url().'assets/js/admin.js?'.$SCRIPT_VERSION;?>"></script>
 	</head>
 	<body id="my_body">
                 

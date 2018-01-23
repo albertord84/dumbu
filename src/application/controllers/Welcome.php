@@ -3166,21 +3166,42 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
+        $this->load->model('class/user_model');
         
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
-            $this->load->model('class/user_model');
-            
+            try {
+                $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
+            } catch (Exception $ex) {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #4 IN SECURITY CODE REQUEST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception message: '.$ex->getMessage());
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception stack trace: '.$ex->getTraceAsString());
+                echo json_encode($result);
+                return;
+            }
+
             if ($checkpoint_data && $checkpoint_data->status == "ok") {
-                $result['success'] = true;
-                $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $GLOBALS['language']);
-                
-                $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
+                if ($checkpoint_data->type == "CHALLENGE") {
+                    $result['success'] = true;
+                    $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
+                }
+                else if ($checkpoint_data->type == "CHALLENGE_REDIRECTION") {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Por favor, entre no seu Instagram e confirme FUI EU. Depois saia do seu Instagram e volte ao Passo 1 nesta página.', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #1 IN SECURITY CODE REQUEST');
+                }
+                else {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #2 IN SECURITY CODE REQUEST');
+                }
             }
             else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $GLOBALS['language']);
-                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #3 IN SECURITY CODE REQUEST');
             }
             
             echo json_encode($result);
@@ -3200,12 +3221,12 @@ class Welcome extends CI_Controller {
             $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
             $this->load->model('class/user_model');
             
-            if ($checkpoint_data && $checkpoint_data->json_response == 1) {
+            if ($checkpoint_data && $checkpoint_data->json_response === 1 && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
                 $result['success'] = true;
                 $result['message'] = 'Código de segurança confirmado corretamente';
-                
                 $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE CONFIRMATED');
-            } else{
+            } 
+            else {
                 $result['success'] = false;
                 $result['message'] = 'Erro ao confirmar código de segurança';
                 $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE CONFIRMATION');

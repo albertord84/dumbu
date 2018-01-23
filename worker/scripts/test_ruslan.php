@@ -42,8 +42,8 @@ $payment_data['amount_in_cents'] = 11992;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 
@@ -66,5 +66,21 @@ var_dump($pay_day);
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
+
+$DB = new \dumbu\cls\DB();
+$Robot = new \dumbu\cls\Robot();
+//$result = $DB->is_profile_followed(1, '858888048');
+//var_dump($result);P
+//$DB->delete_daily_work_client(13);
+$reference_id = "29307";
+$daily_work = $DB->get_follow_work_by_id($reference_id);
+$daily_work->login_data = json_decode($daily_work->cookies);
+//var_dump($daily_work);
+//$Worker->do_follow_unfollow_work($daily_work);
+$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
+var_dump($Ref_profile_follows);
+
+
+
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

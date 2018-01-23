@@ -6,8 +6,8 @@ date_default_timezone_set('UTC');
 require __DIR__.'/../../../autoload.php';
 
 /////// CONFIG ///////
-$username = 'alberto_dreyes';
-$password = 'albertord8';
+$username = 'leticiajural';
+$password = 'estrelaguia';
 $debug = false;
 $truncatedDebug = false;
 //////////////////////
