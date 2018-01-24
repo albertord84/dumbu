@@ -1632,7 +1632,7 @@ namespace dumbu\cls {
                     $url = $ch = curl_init("https://www.instagram.com/");
                     $csrftoken = $this->get_insta_csrftoken($ch);
                     $mid = $this->get_cookies_value('mid');
-                    $login_data = $this->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
+                    $login_data = $this->str_login($mid, $csrftoken, $login, $pass);
                     if (isset($login_data->checkpoint_url)) {
                         $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
                     } else
