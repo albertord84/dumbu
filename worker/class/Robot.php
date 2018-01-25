@@ -1320,7 +1320,19 @@ namespace dumbu\cls {
                             }
                         } catch (\Exception $e) {
                             
-                        }                       
+                        }
+                        if ($result->json_response->authenticated === FALSE) {
+                            // Make str login
+                            $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
+                            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+                                $result->json_response->authenticated = FALSE;
+                                sleep(30);
+                            } else if (isset($result->json_response->checkpoint_url) || (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required")) {
+                                //did by Jose R (si no consifgues hacer login con las cookies vieja, para que dejarlas en la base de dadtos)
+                                $myDB->set_cookies_to_null($Client->id);
+                                return $result;
+                            }
+                        }
                     }
                 }
             }
@@ -1594,6 +1606,43 @@ namespace dumbu\cls {
         }
 
         public function checkpoint_requested($login, $pass, $Client = NULL) {
+            try {
+                $instaAPI = new \dumbu\cls\InstaAPI();
+
+                $result2 = $instaAPI->login($login, $pass, true);
+            } catch (\InstagramAPI\Exception\InstagramException $exc) {
+                //printf("<br>------------------------------------------</br>");
+                //var_dump($exc);
+                $res = $exc->getResponse();
+                //$ms = $exc->getFullResponse();
+                ini_set('xdebug.var_display_max_depth', 17);
+                ini_set('xdebug.var_display_max_children', 256);
+                ini_set('xdebug.var_display_max_data', 1024);
+                //var_dump($res);
+                //$message = $exc->getMessage();
+                if (isset($res->getChallenge)) {
+                    $chll = $res->getChallenge();
+                    //var_dump($chll);
+                    $challenge = $chll->getApiPath();
+                    $response = $this->get_challenge_data($challenge, $login, $Client);
+                } else {
+//                    $this->temporal_log($exc->getMessage());
+//                    $this->temporal_log("\n\n\n\n\n");
+//                    $this->temporal_log($exc->getTraceAsString());
+                    $url = $ch = curl_init("https://www.instagram.com/");
+                    $csrftoken = $this->get_insta_csrftoken($ch);
+                    $mid = $this->get_cookies_value('mid');
+                    $login_data = $this->str_login($mid, $csrftoken, $login, $pass);
+                    if (isset($login_data->checkpoint_url)) {
+                        $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
+                    } else
+                        throw $exc;
+                }
+                return $response;
+            }
+        }
+
+        function get_challenge_data($challenge, $login, $Client) {
             //(new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
             if (!$Client)
                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
@@ -1607,47 +1656,29 @@ namespace dumbu\cls {
             $ig_vh = $this->get_cookies_value('ig_vh');
             $ig_or = $this->get_cookies_value('ig_or');
 
-            try {
-                $instaAPI = new \dumbu\cls\InstaAPI();
-                $result2 = $instaAPI->login($login, $pass, true);
-            } catch (\InstagramAPI\Exception\InstagramException $exc) {
-                //printf("<br>------------------------------------------</br>");
-                //var_dump($exc);
-                $res = $exc->getResponse();
-                //$ms = $exc->getFullResponse();
-                //var_dump($res);
-                //$message = $exc->getMessage();
-                if (isset($res->getChallenge)) {
-                    $chll = $res->getChallenge();
-                    //var_dump($chll);
-                    $challenge = $chll->getApiPath();
-                    $url = "https://www.instagram.com";
-                    $url .= $challenge;
+            $url = "https://www.instagram.com";
+            $url .= $challenge;
 
-                    $cookies = "{\"csrftoken\":\"$csrftoken\","
-                            . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
-                    (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
+            $cookies = "{\"csrftoken\":\"$csrftoken\","
+                    . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
+            (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
 
-                    $curl_str = "curl '$url' ";
-                    $curl_str .= "-H 'origin: https://www.instagram.com' ";
-                    $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-                    $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
-                    $curl_str .= "-H 'Referer: $url' ";
-                    $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-                    $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
-                    $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
-                    $curl_str .= "mid=$mid; ";
-                    $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
-                    $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
-                    exec($curl_str, $output, $status);
-                    $resposta = $output[0];
-                    $this->temporal_log($curl_str);
-                    (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
-                    return json_decode($resposta);
-                } else {
-                    throw $exc;
-                }
-            }
+            $curl_str = "curl '$url' ";
+            $curl_str .= "-H 'origin: https://www.instagram.com' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
+            $curl_str .= "-H 'Referer: $url' ";
+            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+            $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+            $curl_str .= "mid=$mid; ";
+            $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+            $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
+            exec($curl_str, $output, $status);
+            $resposta = $output[0];
+            $this->temporal_log($curl_str);
+            (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
+            return json_decode($resposta);
         }
 
         public function make_checkpoint($login, $code) {
@@ -1811,7 +1842,8 @@ namespace dumbu\cls {
         function temporal_log($data) {
             $my_file = '/var/log/dumbu.txt';
             try {
-                $handle = fopen($my_file, 'w+');
+                $handle = fopen($my_file, 'a+');
+                fwrite($handle, "\n\n");
                 fwrite($handle, $data);
             } catch (Exception $exc) {
                 //echo $exc->getTraceAsString();
