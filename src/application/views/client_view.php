@@ -1467,8 +1467,11 @@
                 </div>
             </div>                                                        
         </div>
-        
        
-        
+        <!--Start of Boostbox Tag Script-->
+        <?php if ($SERVER_NAME == "PRO") { ?>
+                <script async="1" src="//tags.fulllab.com.br/scripts/master-tag/produto_dumbu.js"></script>
+        <?php } ?>
+        <!--End of Boostbox Tag Script-->
     </body>
 </html>
