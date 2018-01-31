@@ -26,22 +26,22 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 // MUNDIPAGG
 $Payment = new \dumbu\cls\Payment();
 
-$pay_day = strtotime('02/11/2018 05:00:00');
+//$pay_day = strtotime('01/25/2018 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
-//$pay_day = time();
+$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5149450441478003';
-$payment_data['credit_card_name'] = 'ADRIANE B FERNANDES';
-$payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2025';
-$payment_data['credit_card_cvc'] = '441';
-$payment_data['amount_in_cents'] = 11992;
+$payment_data['credit_card_number'] = '4551872000481637';
+$payment_data['credit_card_name'] = 'LEONARDO BRAZ DE SO';
+$payment_data['credit_card_exp_month'] = '01';
+$payment_data['credit_card_exp_year'] = '2018';
+$payment_data['credit_card_cvc'] = '576';
+$payment_data['amount_in_cents'] = 15192;
 $payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
-//var_dump($resul);
+$resul = $Payment->create_payment($payment_data);
+var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 //var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
@@ -67,7 +67,7 @@ var_dump($pay_day);
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
-$DB = new \dumbu\cls\DB();
+/*$DB = new \dumbu\cls\DB();
 $Robot = new \dumbu\cls\Robot();
 //$result = $DB->is_profile_followed(1, '858888048');
 //var_dump($result);P
@@ -78,7 +78,7 @@ $daily_work->login_data = json_decode($daily_work->cookies);
 //var_dump($daily_work);
 //$Worker->do_follow_unfollow_work($daily_work);
 $Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
-var_dump($Ref_profile_follows);
+var_dump($Ref_profile_follows);*/
 
 
 
