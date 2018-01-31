@@ -297,10 +297,11 @@ $Robot = new dumbu\cls\Robot();
 //var_dump($result);
 
 
-//$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
-//$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
+$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
+$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
 
-//$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
+$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
+var_dump($result);
 
 //$url = "https://www.instagram.com/";
 //$ch = curl_init($url);
