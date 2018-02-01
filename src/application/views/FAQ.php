@@ -415,6 +415,12 @@
         <div class="col-md-3 col-sm-3 col-xs-12"><br></div>
             <footer class="text-center fleft100 m-t30 m-b10"><img src="<?php echo base_url() . 'assets/images/logo-footer.png'; ?>" class="wauto" alt="Dumbu Footer Logo"></footer>
     </div>
- 
+                    
+    
+    <!--Start of Boostbox Tag Script-->
+    <?php if ($SERVER_NAME == "PRO") { ?>
+            <script async="1" src="//tags.fulllab.com.br/scripts/master-tag/produto_dumbu.js"></script>
+    <?php } ?>
+    <!--End of Boostbox Tag Script-->
 </body>
 </html>    
