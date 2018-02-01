@@ -498,9 +498,9 @@ namespace dumbu\cls {
             else
             {
                 try{
-                temporal_log($curl_str);
-                temporal_log($output);
-                temporal_log($login_data);
+                $this->temporal_log($curl_str);
+                $this->temporal_log($output);
+                $this->temporal_log($login_data);
                 }
                 catch(\Exception $exc){}
             }
