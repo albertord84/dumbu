@@ -520,12 +520,14 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";
-            $curl_str .= "--compressed ";
             if (isset($this->IPS['IPS']) && is_array($this->IPS['IPS']) && count($this->IPS['IPS'])) {
                 $i = rand(0, count($this->IPS['IPS']) - 1);
-                $curl_str .= "--interface " . $this->IPS['IPS'][$i];
+                $ip = $this->IPS['IPS'][$i];
+                $curl_str .= "-H 'REMOTE_ADDR: $ip'";
+                //$curl_str .= "-H 'HTTP_X_FORWARDED_FOR: $ip'";
                 //var_dump("--interface " . $this->IPS['IPS'][$i]);
             }
+            $curl_str .= "--compressed ";            
             return $curl_str;
         }
 
@@ -1478,7 +1480,7 @@ namespace dumbu\cls {
             $instaAPI = new \dumbu\cls\InstaAPI();
             //TODO: capturar excepcion e dar tratamiento cuando usuario y senha no existe en IG
             try {
-                $result = $instaAPI->login($login, $pass, true);
+                $result = $instaAPI->login($login, $pass);
             } catch (\Exception $exc) {
                 throw $exc;
             }
@@ -1711,14 +1713,24 @@ namespace dumbu\cls {
             $headers[] = "Referer: $url";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
-            //$ip = $_SERVER['REMOTE_ADDR'];
+            
+            $index = rand(0,4);
+            $cnt = 0;
+            $ip = $this->IPS["IPS"][$index];
+            /*foreach ($this->IPS as $value) {
+               $ip = $value;
+               if($cnt >= $index)
+               {
+                   break;               
+               }
+            }*/
             //if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
             //    $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
             //    $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
             //}
             //$ip = "127.0.0.1";
-            //$headers[] = "REMOTE_ADDR: $ip";
-            //$headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            $headers[] = "REMOTE_ADDR: $ip";
+            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
