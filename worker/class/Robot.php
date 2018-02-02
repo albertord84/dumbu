@@ -498,11 +498,22 @@ namespace dumbu\cls {
             else
             {
                 try{
-                $this->temporal_log($curl_str);
-                $this->temporal_log($output);
-                $this->temporal_log($login_data);
-                }
-                catch(\Exception $exc){}
+                    $curl_str = $this->make_curl_friendships_command_str2("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
+                    exec($curl_str, $output, $status);
+                    if (is_array($output) && count($output)) {
+                        $json_response = json_decode($output[0]);
+                        if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
+                            return $json_response;
+                        }
+                    }
+                    else{
+                           $this->temporal_log("--------following error-----");
+                           $this->temporal_log($curl_str);
+                           $this->temporal_log($output);
+                           $this->temporal_log($login_data);
+                           $this->temporal_log("--------end following error-----");                        
+                    }
+                }catch(\Exception $exc){}
             }
             return $output;
             //print_r($status);
@@ -539,6 +550,39 @@ namespace dumbu\cls {
                 //var_dump("--interface " . $this->IPS['IPS'][$i]);
             }
             $curl_str .= "--compressed ";            
+            return $curl_str;
+        }
+        
+         public function make_curl_friendships_command_str2($url, $login_data) {
+            $csrftoken = $login_data->csrftoken;
+            $ds_user_id = $login_data->ds_user_id;
+            $sessionid = $login_data->sessionid;
+            $mid = $login_data->mid;
+            $ip = "";
+             if (isset($this->IPS['IPS']) && is_array($this->IPS['IPS']) && count($this->IPS['IPS'])) {
+                $i = rand(0, count($this->IPS['IPS']) - 1);
+                $ip = $this->IPS['IPS'][$i];
+                //$curl_str .= "-H 'HTTP_X_FORWARDED_FOR: $ip'";
+                //var_dump("--interface " . $this->IPS['IPS'][$i]);
+            }
+            $curl_str = "curl $url ";
+            $curl_str .= "-X POST ";
+            $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid;  csrftoken=$csrftoken; ds_user_id=$ds_user_id'; ";
+            $curl_str .= "urlgen=\"{\\\"time\\\": 1517542522\054 \\\"$ip\\\": 27725}:1ehUaS:pU706C7s0daOT9gPk0yvLeUWKMA\"";
+            //"s_network=; ig_pr=1; ig_vw=1855;;
+            $curl_str .= "-H 'Host: www.instagram.com' ";
+            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
+            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
+            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            $curl_str .= "-H 'X-Instagram-Ajax: 1' ";
+            $curl_str .= "-H 'Content-Type: application/x-www-form-urlencoded' ";
+            $curl_str .= "-H 'Accept: */*' ";
+            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
+            $curl_str .= "-H 'Authority: www.instagram.com' ";
+            $curl_str .= "-H 'Content-Length: 0' ";           
+            $curl_str .= "--compressed --interface $ip";            
             return $curl_str;
         }
 
