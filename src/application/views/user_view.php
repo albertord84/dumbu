@@ -877,7 +877,7 @@
                                         </div>
                                             
                                         
-                                        <?php echo $CI->T("Ao assinar já estou aceitando os ", array(),$language);?><a id="use_term" href="<?php echo base_url().'assets/others/'.$language.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso", array(),$language);?></a>
+                                        <?php echo $CI->T("Ao assinar já estou aceitando os ", array(),$language);?><a id="use_term" href="<?php echo base_url().'assets/others/'.$language.'/TERMOS DE USO DUMBU 2.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso", array(),$language);?></a>
                                         <br><br><?php echo '<img src="assets/images/'.$language.'/seguro.png" class="wauto" alt="100% Safe Encrypted Data">';?>
 				</div>
 			</div>
