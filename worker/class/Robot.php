@@ -507,29 +507,29 @@ namespace dumbu\cls {
                         }
                         return $json_response;
                     }
-                }
-                else
-                {
-                    $ip_count++;
-                    $index = 0;
-                    if($ip_count > -1)
-                    {
-                        $index = rand(0,$size-1);
-                        while($visited[$index])
-                        {
-                            $index++;
-                            if($index == $size) {$index = 0;}                            
-                        }
-                        $ip = $this->IPS['IPS'][$index];
-                    }
                     else
-                    { $ip = -1; }
-                    $this->temporal_log("--------following error-----");
-                    $this->temporal_log($curl_str);
-                    $this->temporal_log($output);
-                    $this->temporal_log($login_data);
-                    $this->temporal_log("--------end following error-----");                        
-                }
+                    {
+                        $ip_count++;
+                        $index = 0;
+                        if($ip_count > -1)
+                        {
+                            $index = rand(0,$size-1);
+                            while($visited[$index])
+                            {
+                                $index++;
+                                if($index == $size) {$index = 0;}                            
+                            }
+                            $ip = $this->IPS['IPS'][$index];
+                        }
+                        else
+                        { $ip = -1; }
+                        $this->temporal_log("--------following error-----");
+                        $this->temporal_log($curl_str);
+                        $this->temporal_log($output);
+                        $this->temporal_log($login_data);
+                        $this->temporal_log("--------end following error-----");                        
+                    }
+                }                
             }
             return $output;
             //print_r($status);
