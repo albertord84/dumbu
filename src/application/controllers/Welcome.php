@@ -80,7 +80,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_status');
         $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
-        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+        if (isset($this->session) && $this->session->userdata('role_id') == user_role::CLIENT) {
             $language=$this->input->get();           
             if(isset($language['language'])){
                  $GLOBALS['language']=$language['language'];
@@ -490,7 +490,9 @@ class Welcome extends CI_Controller {
                             'pass' => $datas['user_pass'],
                             'status_id' => $status_id
                         ));
-                        $cad=$this->user_model->get_status_by_id($status_id)['name'];                        
+                        $cad=$this->user_model->get_status_by_id($status_id)['name']; 
+                        $this->session->sess_time_to_update = 7200;
+                        $this->session->cookie_secure = true;
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
@@ -3159,6 +3161,82 @@ class Welcome extends CI_Controller {
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
             $this->update_client_after_retry_payment_success($array_ids[$i]);
+        }
+    }
+    
+    public function security_code_request() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();
+        $this->load->model('class/user_role');
+        $this->load->model('class/user_model');
+        
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            try {
+                $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
+            } catch (Exception $ex) {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #4 IN SECURITY CODE REQUEST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception message: '.$ex->getMessage());
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception stack trace: '.$ex->getTraceAsString());
+                echo json_encode($result);
+                return;
+            }
+
+            if ($checkpoint_data && $checkpoint_data->status == "ok") {
+                if ($checkpoint_data->type == "CHALLENGE") {
+                    $result['success'] = true;
+                    $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
+                }
+                else if ($checkpoint_data->type == "CHALLENGE_REDIRECTION") {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Por favor, entre no seu Instagram e confirme FUI EU. Depois saia do seu Instagram e volte ao Passo 1 nesta página.', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #1 IN SECURITY CODE REQUEST');
+                }
+                else {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #2 IN SECURITY CODE REQUEST');
+                }
+            }
+            else {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #3 IN SECURITY CODE REQUEST');
+            }
+            
+            echo json_encode($result);
+        }
+        else {
+            $this->display_access_error();
+        }
+    }
+    
+    public function security_code_confirmation() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();
+        $this->load->model('class/user_role');
+        
+        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+            $security_code = $this->input->post()['security_code'];
+            $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
+            $this->load->model('class/user_model');
+            
+            if ($checkpoint_data && $checkpoint_data->json_response === 1 && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
+                $result['success'] = true;
+                $result['message'] = 'Código de segurança confirmado corretamente';
+                $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE CONFIRMATED');
+            } 
+            else {
+                $result['success'] = false;
+                $result['message'] = 'Erro ao confirmar código de segurança';
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE CONFIRMATION');
+            }
+            echo json_encode($result);
+        }
+        else {
+            $this->display_access_error();
         }
     }
       

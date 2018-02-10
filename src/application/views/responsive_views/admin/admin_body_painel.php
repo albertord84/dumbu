@@ -576,10 +576,20 @@
                                     else    
                                         echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button desactive-cliente"  data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Desactivar cliente</span></button><br><br>';                                                                        
                                     echo '<a target="_blank" href="'.base_url().'index.php/admin/reference_profile_view?id='.$result[$i]['user_id'].'" ><button style="width:160px" type="button" class="btn btn-success"> <span class="ladda-label">Perfis de referência</span></button></a><br><br>';
-                                    
+                                    echo '<button style="width:160px" type="button" id="'.$result[$i]['user_id'].'" class="btn btn-success ladda-button clean-cookies" data-style="expand-left" data-spinner-color="#ffffff"> <span class="ladda-label">Limpar cookies</span></button><br><br>';
                                 echo '</td>';
                             echo '</tr>';
                             echo '<tr id="row-2-client-'.$result[$i]['id'].'" style="display: block'; 
+                            if ($i % 2) {echo '; background-color: #dff0d8';}
+                            echo '">';
+                                echo '<td>';
+                                    if ($result[$i]['cookies'])
+                                        echo '<b>Cookies: </b>'.$result[$i]['cookies'].'<br>';
+                                    else
+                                        echo '<b>Cookies: </b>NULL<br>';
+                                echo '</td>';
+                           echo '</tr>';
+                            echo '<tr id="row-3-client-'.$result[$i]['id'].'" style="display: block'; 
                             if ($i % 2) {echo '; background-color: #dff0d8';}
                             echo '">';
                                 echo '<td width="10%" align="right">';

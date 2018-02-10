@@ -710,7 +710,7 @@
 					</div>
                                         <div id="login_sign_in" class="login fleft100 input-form">
 						<fieldset>
-                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal", array(),$language);?>" required value="<?php if(isset($_GET) && isset($_GET['email'])) echo $_GET['email']; else echo '';?>">
+                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal", array(),$language);?>" required value="<?php if(isset($_GET) && isset($_GET['_u']) && isset($_GET['_d'])) echo $_GET['_u'].'@'.$_GET['_d']; else echo '';?>">
 						</fieldset>
 						<fieldset>
 							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required value="<?php if(isset($_GET) && isset($_GET['username'])) echo $_GET['username']; else echo '';?>">
@@ -877,7 +877,7 @@
                                         </div>
                                             
                                         
-                                        <?php echo $CI->T("Ao assinar já estou aceitando os ", array(),$language);?><a id="use_term" href="<?php echo base_url().'assets/others/'.$language.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso", array(),$language);?></a>
+                                        <?php echo $CI->T("Ao assinar já estou aceitando os ", array(),$language);?><a id="use_term" href="<?php echo base_url().'assets/others/'.$language.'/TERMOS DE USO DUMBU 2.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso", array(),$language);?></a>
                                         <br><br><?php echo '<img src="assets/images/'.$language.'/seguro.png" class="wauto" alt="100% Safe Encrypted Data">';?>
 				</div>
 			</div>
@@ -977,6 +977,10 @@
                     <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
             <?php }?>
                     
-        
+            <!--Start of Boostbox Tag Script-->
+            <?php if ($SERVER_NAME == "PRO") { ?>
+                    <script async="1" src="//tags.fulllab.com.br/scripts/master-tag/produto_dumbu.js"></script>
+            <?php } ?>
+            <!--End of Boostbox Tag Script-->
 	</body>
 </html>

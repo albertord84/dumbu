@@ -244,20 +244,20 @@
                         case 9:
                             if (isset($verify_account_datas) && is_array($verify_account_datas)) {
                                 if ($verify_account_datas['verify_account_url'] != "") {
-                                    /*echo '
+                                    echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><br>
                                                 <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA", array(), $language) . '</b> <br><br>
                                                 <label>' . $CI->T("PASSO 1: Solicite seu código de segurança ", array(), $language) . '</label>
                                                 <a id="lnk_security_code_request" style="color:blue;font-size:1em;">' . $CI->T("AQUÍ", array(), $language) . '</a>
                                                 <label>' . $CI->T("PASSO 2: Agora insira o código de 6 dígitos que foi enviado ao seu email cadastrado em Instagram", array(), $language) . '</label> <br>
-                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="123456"> <br>
-                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="123456" disabled> <br>
+                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff" disabled>
                                                     ' . $CI->T("CONFIRMAR", array(), $language) . '
                                                 </button>
-                                            </div>';*/
+                                            </div>';
 
-                                    echo '  <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                                    /*echo '  <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><BR>
                                                 <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA DIRETAMENTE NO INSTAGRAM COMO MEDIDA DE SEGURANÇA", array(), $language) . '</b>  <br>           
                                                 <a id="lnk_verify_account" target="_blank" style="color:black;font-size:1em;"  href="' . $verify_account_datas['verify_account_url'] . '">
@@ -265,7 +265,7 @@
                                                         ' . $CI->T("ATIVAR AGORA", array(), $language) . '
                                                     </button>
                                                 </a>
-                                            </div>';
+                                            </div>';*/ 
                                 } else
                                     echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
@@ -1467,8 +1467,11 @@
                 </div>
             </div>                                                        
         </div>
-        
        
-        
+        <!--Start of Boostbox Tag Script-->
+        <?php if ($SERVER_NAME == "PRO") { ?>
+                <script async="1" src="//tags.fulllab.com.br/scripts/master-tag/produto_dumbu.js"></script>
+        <?php } ?>
+        <!--End of Boostbox Tag Script-->
     </body>
 </html>

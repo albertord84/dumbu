@@ -159,6 +159,7 @@ namespace dumbu\cls {
                 $Client->insta_following = $client_data->insta_following;
                 $Client->cookies = $client_data->cookies;
                 $Client->paused = $client_data->paused;
+                $Client->HTTP_SERVER_VARS = $client_data->HHTTP_SERVER_VARS;
                 $Client->get_reference_profiles($Client->id);
             }
             return $Client;

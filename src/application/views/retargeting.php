@@ -1,6 +1,6 @@
-<!-- Código do Google para tag de remarketing -->
+<!-- CÃ³digo do Google para tag de remarketing -->
 <!--------------------------------------------------
-As tags de remarketing não podem ser associadas a informações pessoais de identificação nem inseridas em páginas relacionadas a categorias de confidencialidade. Veja mais informações e instruções sobre como configurar a tag em: http://google.com/ads/remarketingsetup
+As tags de remarketing nÃ£o podem ser associadas a informaÃ§Ãµes pessoais de identificaÃ§Ã£o nem inseridas em pÃ¡ginas relacionadas a categorias de confidencialidade. Veja mais informaÃ§Ãµes e instruÃ§Ãµes sobre como configurar a tag em: http://google.com/ads/remarketingsetup
 --------------------------------------------------->
 <script type="text/javascript">
 /* <![CDATA[ */

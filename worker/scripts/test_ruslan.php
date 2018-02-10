@@ -7,6 +7,7 @@ require_once '../class/Payment.php';
 require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
+require_once '../class/Robot.php';
 
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
@@ -15,30 +16,31 @@ ini_set('xdebug.var_display_max_depth', 7);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-//ini_set('xdebug.var_display_max_depth', 7);
-//ini_set('xdebug.var_display_max_children', 256);
-//ini_set('xdebug.var_display_max_data', 1024);
+/*$Robot = new \dumbu\cls\Robot();
+$login = "ruslan.guerra88";
+$pass = "*R5sl@n#";
+$checkpoint_data = $Robot->checkpoint_requested($login, $pass);
+var_dump($checkpoint_data);*/
 
 //
 // MUNDIPAGG
 $Payment = new \dumbu\cls\Payment();
 
-$pay_day = strtotime('12/28/2017 05:00:00');
+$pay_day = strtotime('02/25/2018 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '4590800340279711';
-$payment_data['credit_card_name'] = 'IURYTOLEDO';
-$payment_data['credit_card_exp_month'] = '09';
-$payment_data['credit_card_exp_year'] = '2023';
-$payment_data['credit_card_cvc'] = '190';
-$payment_data['amount_in_cents'] = 3992;
+$payment_data['credit_card_number'] = '5365180280868124';
+$payment_data['credit_card_name'] = 'MARCIO ANCELMO DA SILVA';
+$payment_data['credit_card_exp_month'] = '12';
+$payment_data['credit_card_exp_year'] = '2022';
+$payment_data['credit_card_cvc'] = '901';
+$payment_data['amount_in_cents'] = 3990;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
@@ -66,5 +68,21 @@ var_dump($pay_day);
 //$result = $Gmail->send_client_login_error("albertord85@gmail.com", "albertord", "alberto", "Alberto Reyes");
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
+
+/*$DB = new \dumbu\cls\DB();
+$Robot = new \dumbu\cls\Robot();
+//$result = $DB->is_profile_followed(1, '858888048');
+//var_dump($result);P
+//$DB->delete_daily_work_client(13);
+$reference_id = "29307";
+$daily_work = $DB->get_follow_work_by_id($reference_id);
+$daily_work->login_data = json_decode($daily_work->cookies);
+//var_dump($daily_work);
+//$Worker->do_follow_unfollow_work($daily_work);
+$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
+var_dump($Ref_profile_follows);*/
+
+
+
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

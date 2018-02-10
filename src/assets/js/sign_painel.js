@@ -477,7 +477,7 @@ $(document).ready(function () {
     });
 
     $("#lnk_use_term").click(function () {
-        url = base_url + "assets/others/TERMOS DE USO DUMBU.pdf";
+        url = base_url + "assets/others/TERMOS DE USO DUMBU 2.pdf";
         window.open(url, '_blank');
         return false;
     });

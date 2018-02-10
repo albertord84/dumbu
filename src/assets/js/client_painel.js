@@ -1338,54 +1338,71 @@ $(document).ready(function () {
     );
     
     $("#lnk_security_code_request").click(function () {
+        $("#lnk_security_code_request").hide();
         $.ajax({
-            url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+            url: base_url + 'index.php/welcome/security_code_request',
             data: {
-                'cupao_number': $('#cupao_number').val(),
-                'pk': pk
             },
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                if (response['success']) {
-                    set_global_var('cupao_number_checked', true);  
-                }
                 modal_alert_message(response['message']);
-                l.stop();
+                $("#lnk_security_code_request").show();
+                
+                if (response['success']) {
+                    $("#security_code").prop("disabled", false);
+                    $("#btn_confirm_new").prop("disabled", false);
+                }
+                
             },
             error: function (xhr, status) {
-                modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
-                l.stop();
+                var start = xhr.responseText.lastIndexOf("{");
+                var json_str = xhr.responseText.substr(start);
+                response = JSON.parse(json_str);
+                modal_alert_message(response['message']);
+                $("#lnk_security_code_request").show();
+                
+                if (response['success']) {
+                    $("#security_code").prop("disabled", false);
+                    $("#btn_confirm_new").prop("disabled", false);
+                }
             }
         });
     });
     
     $("#btn_confirm_new").click(function () {
-        if ($("#security_code").val()!=='') {
+        if ($("#security_code").val() !== '') {
             var l = Ladda.create(this);
             l.start();
             $.ajax({
-                url: base_url + 'index.php/welcome/check_ticket_peixe_urbano',
+                url: base_url + 'index.php/welcome/security_code_confirmation',
                 data: {
-                    'cupao_number': $('#cupao_number').val(),
-                    'pk': pk
+                    'security_code': $('#security_code').val()
                 },
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
-                    if (response['success']) {
-                        set_global_var('cupao_number_checked', true);  
-                    }
+                    l.stop();
                     modal_alert_message(response['message']);
-                    l.stop();
+                    
+                    if (response['success']) {
+                        $(location).attr('href',base_url+'index.php/welcome/client');
+                    }
                 },
-                error: function (xhr, status) {
-                    modal_alert_message('Não foi possível conferir o código de segurança. Tente depois.');                    
+                error: function (xhr, status) {                  
                     l.stop();
+                    var start = xhr.responseText.lastIndexOf("{");
+                    var json_str = xhr.responseText.substr(start);
+                    response = JSON.parse(json_str);
+                    modal_alert_message(response['message']);
+                    
+                    if (response['success']) {
+                        $(location).attr('href',base_url+'index.php/welcome/client');
+                    }
                 }
             });
         } else {
-            modal_alert_message('Deve preencher o campo com o código de segurança de 6 dígitos.');  
+            modal_alert_message(T('Deve preencher o campo com o código de segurança de 6 dígitos.'));  
         }
     });
 }); 
