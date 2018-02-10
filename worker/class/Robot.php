@@ -493,14 +493,13 @@ namespace dumbu\cls {
             while($ip_count < $size)
             {        
                 $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
-
+                $ip_count++;
                 //print("<br><br>$curl_str<br><br>");
-                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
-                $output = NULL;
+               //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
                 exec($curl_str, $output, $status);
                 if (is_array($output) && count($output)) {
-                    $json_response = NULL;
-                    $json_response = json_decode($output[0]);
+                    $lst = $ip_count + 2;
+                    $json_response = json_decode($output[$lst]);
                 if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
                         if ($ip_count > -1) { // if 
                             $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
@@ -511,7 +510,6 @@ namespace dumbu\cls {
                     }
                     else
                     {
-                        $ip_count++;
                         $index = 0;
                         if($ip_count > -1)
                         {
