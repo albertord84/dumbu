@@ -500,7 +500,7 @@ namespace dumbu\cls {
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[count($output) - 1]);
                 if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
-                        if ($ip_count > -1) { // if 
+                        if ($ip_count > -1 && isset($Client->HTTP_SERVER_VARS)) { // if 
                             $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                             $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
                             (new \dumbu\cls\DB())->SaveHttpServerVars($client_id, json_encode($HTTP_SERVER_VARS));
