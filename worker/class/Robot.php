@@ -498,6 +498,7 @@ namespace dumbu\cls {
                 //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
                 exec($curl_str, $output, $status);
                 if (is_array($output) && count($output)) {
+                    $json_response = NULL;
                     $json_response = json_decode($output[0]);
                 if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
                         if ($ip_count > -1) { // if 
