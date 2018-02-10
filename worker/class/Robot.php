@@ -577,7 +577,7 @@ namespace dumbu\cls {
         }
 
         
-        public function make_curl_friendships_command_str($url, $login_data, $Client = NULL) {
+        public function make_curl_friendships_command_str($url, $login_data, $ip = NULL) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
