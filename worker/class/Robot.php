@@ -499,7 +499,7 @@ namespace dumbu\cls {
                 exec($curl_str, $output, $status);
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[0]);
-                    if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
+                if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
                         if ($ip_count > -1) { // if 
                             $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                             $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
