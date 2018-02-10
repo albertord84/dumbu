@@ -496,6 +496,7 @@ namespace dumbu\cls {
 
                 //print("<br><br>$curl_str<br><br>");
                 //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
+                $output = NULL;
                 exec($curl_str, $output, $status);
                 if (is_array($output) && count($output)) {
                     $json_response = NULL;
