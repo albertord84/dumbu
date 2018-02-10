@@ -492,7 +492,7 @@ namespace dumbu\cls {
             
             while($ip_count < $size)
             {        
-                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $ip);
+                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
 
                 //print("<br><br>$curl_str<br><br>");
                 //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
@@ -577,7 +577,7 @@ namespace dumbu\cls {
         }
 
         
-        public function make_curl_friendships_command_str($url, $login_data, $ip = NULL) {
+        public function make_curl_friendships_command_str($url, $login_data, $Client ,$ip = NULL) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
