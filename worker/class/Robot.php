@@ -90,6 +90,7 @@ namespace dumbu\cls {
 //            $this->Day_client_work = $Day_client_work;
 //            $this->Ref_profile = $Ref_profile;
             //$DB = new DB();
+            $Client = (new \dumbu\cls\Client())->get_client($daily_work->client_id);
             $this->daily_work = $daily_work;
             $login_data = $this->daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
@@ -107,7 +108,7 @@ namespace dumbu\cls {
                 $Profile = array_shift($Followeds_to_unfollow);
                 $Profile->unfollowed = FALSE;
                 $json_response = $this->make_insta_friendships_command(
-                        $login_data, $Profile->followed_id, 'unfollow'
+                        $login_data, $Profile->followed_id, 'unfollow', $Client
                 );
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     $Profile->unfollowed = TRUE;
@@ -179,7 +180,7 @@ namespace dumbu\cls {
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
-                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow');
+                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', $Client);
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
                                     $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
                                     $this->like_fist_post($login_data, $Profile->id);
@@ -483,37 +484,52 @@ namespace dumbu\cls {
          * @param type $command {follow, unfollow, ... }
          * @return type
          */
-        public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
-            $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
+        public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {
+            $ip = NULL;
+            $ip_count = -2;
+            $size = count($this->IPS['IPS']);
+            $visited = array_fill(0, $size, FALSE);
             
-            //print("<br><br>$curl_str<br><br>");
-            //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
-            exec($curl_str, $output, $status);
-            if (is_array($output) && count($output)) {
-                $json_response = json_decode($output[0]);
-                if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
-                    return $json_response;
-                }
-            }
-            else
-            {
-                try{
-                    $curl_str = $this->make_curl_friendships_command_str2("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
-                    exec($curl_str, $output, $status);
-                    if (is_array($output) && count($output)) {
-                        $json_response = json_decode($output[0]);
-                        if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
-                            return $json_response;
+            while($ip_count < $size)
+            {        
+                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $ip);
+
+                //print("<br><br>$curl_str<br><br>");
+                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
+                exec($curl_str, $output, $status);
+                if (is_array($output) && count($output)) {
+                    $json_response = json_decode($output[0]);
+                    if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
+                        if ($ip_count > -1) { // if 
+                            $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
+                            $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
+                            (new \dumbu\cls\DB())->SaveHttpServerVars($client_id, $HTTP_SERVER_VARS);
                         }
+                        return $json_response;
                     }
-                    else{
-                           $this->temporal_log("--------following error-----");
-                           $this->temporal_log($curl_str);
-                           $this->temporal_log($output);
-                           $this->temporal_log($login_data);
-                           $this->temporal_log("--------end following error-----");                        
+                }
+                else
+                {
+                    $ip_count++;
+                    $index = 0;
+                    if($ip_count > -1)
+                    {
+                        $index = rand(0,$size-1);
+                        while($visited[$index])
+                        {
+                            $index++;
+                            if($index == $size) {$index = 0;}                            
+                        }
+                        $ip = $this->IPS['IPS'][$index];
                     }
-                }catch(\Exception $exc){}
+                    else
+                    { $ip = -1; }
+                    $this->temporal_log("--------following error-----");
+                    $this->temporal_log($curl_str);
+                    $this->temporal_log($output);
+                    $this->temporal_log($login_data);
+                    $this->temporal_log("--------end following error-----");                        
+                }
             }
             return $output;
             //print_r($status);
@@ -582,10 +598,14 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";         
-            $curl_str .= "--compressed";                
-            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
+            $curl_str .= "--compressed ";                
+            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === -1) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                 $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+                $curl_str .= "--interface $ip";
+            }
+            else if($ip !== NULL)
+            {
                 $curl_str .= "--interface $ip";
             }
             return $curl_str;

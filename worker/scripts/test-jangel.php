@@ -15,7 +15,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // 
 // 1. By Code
 // Request Code
-$Client = (new \dumbu\cls\Client())->get_client(25106);
+$Client = (new \dumbu\cls\Client())->get_client(80639);
 $Robot = new \dumbu\cls\Robot();
 //$val = $Robot->checkpoint_requested("casazunzun", "angelpadron1991");
 //$val = $Robot->make_checkpoint("casazunzun", "327094");
@@ -23,7 +23,7 @@ $Robot = new \dumbu\cls\Robot();
 //$DB = new \dumbu\cls\DB();
 //
 $login_data = json_decode($Client->cookies);
- $json_response2 = $Robot->make_insta_friendships_command($login_data, "3445996566", 'follow');
+ $json_response2 = $Robot->make_insta_friendships_command($login_data, "3445996566", 'follow', $Client);
 //$DB->SetPasword("1", "jkwlsdhfjkf");
 //$var = $Robot->bot_login("riveauxmerino", "Notredame88");
 //print("---------------------------");

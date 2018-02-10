@@ -889,6 +889,17 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             } 
        }
+       
+       public function SaveHttpServerVars($client_id, $HTTP_SERVER_VARS)               
+       {
+           try {
+                $sql = "UPDATE dumbudb.clients SET HTTP_SERVER_VARS='$HTTP_SERVER_VARS' WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }  
+       }
     }
 
 }
