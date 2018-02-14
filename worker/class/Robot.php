@@ -499,10 +499,18 @@ namespace dumbu\cls {
                 exec($curl_str, $output, $status);
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[count($output) - 1]);
-                if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
-                        if ($ip_count > -1 && isset($Client->HTTP_SERVER_VARS)) { // if 
-                            $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                            $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
+                    if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
+                        if($ip_count > -1)
+                        {
+                            $HTTP_SERVER_VARS = NULL;
+                            if (isset($Client->HTTP_SERVER_VARS)) { // if 
+                                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
+                                $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
+                            }
+                            else
+                            {
+                                $HTTP_SERVER_VARS = array("REMOTE_ADDR"=> $ip);
+                            }
                             (new \dumbu\cls\DB())->SaveHttpServerVars($client_id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
@@ -576,7 +584,7 @@ namespace dumbu\cls {
         }
 
         
-        public function make_curl_friendships_command_str($url, $login_data, $Client ,$ip = NULL) {
+        public function make_curl_friendships_command_str($url, $login_data, $Client = NULL ,$ip = NULL) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
