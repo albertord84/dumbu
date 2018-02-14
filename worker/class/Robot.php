@@ -505,7 +505,7 @@ namespace dumbu\cls {
                             $HTTP_SERVER_VARS = NULL;
                             if (isset($Client->HTTP_SERVER_VARS)) { // if 
                                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                                $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
+                                $res->SERVER_ADDR = $ip;
                             }
                             else
                             {
@@ -608,7 +608,7 @@ namespace dumbu\cls {
             $curl_str .= "--compressed ";                
             if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === -1) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+                $ip = $res->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
             else if($ip !== NULL)
