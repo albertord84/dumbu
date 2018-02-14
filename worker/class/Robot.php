@@ -108,7 +108,7 @@ namespace dumbu\cls {
                 $Profile = array_shift($Followeds_to_unfollow);
                 $Profile->unfollowed = FALSE;
                 $json_response = $this->make_insta_friendships_command(
-                        $login_data, $Profile->followed_id, 'unfollow', $Client
+                        $login_data, $Profile->followed_id, 'unfollow', 'web/friendships', $Client
                 );
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     $Profile->unfollowed = TRUE;
@@ -180,7 +180,7 @@ namespace dumbu\cls {
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
-                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', $Client);
+                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
                                     $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
                                     $this->like_fist_post($login_data, $Profile->id);
