@@ -505,11 +505,12 @@ namespace dumbu\cls {
                             $HTTP_SERVER_VARS = NULL;
                             if (isset($Client->HTTP_SERVER_VARS)) { // if 
                                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                                $res->SERVER_ADDR = $ip;
+                                $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
                             }
                             else
                             {
-                                $HTTP_SERVER_VARS = array("REMOTE_ADDR"=> $ip);
+                                $HTTP_SERVER_VARS = new \stdClass();
+                                $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
                             }
                             (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
@@ -606,12 +607,12 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";         
             $curl_str .= "--compressed ";                
-            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === -1) { // if 
+            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                 $ip = $res->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
-            else if($ip !== NULL)
+            else if($ip !== NULL && $ip !== -1)
             {
                 $curl_str .= "--interface $ip";
             }
