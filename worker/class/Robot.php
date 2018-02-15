@@ -571,9 +571,9 @@ namespace dumbu\cls {
                     }
                     else{
                            $this->temporal_log("--------following error-----");
-                           $this->temporal_log($curl_str);
-                           $this->temporal_log($output);
-                           $this->temporal_log($login_data);
+                           $this->temporal_log('$curl_str');
+                           $this->temporal_log(json_encode($output));
+                           $this->temporal_log(json_encode($login_data));
                            $this->temporal_log("--------end following error-----");                        
                     }
                 }catch(\Exception $exc){}
