@@ -550,7 +550,8 @@ namespace dumbu\cls {
             $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
             
             //print("<br><br>$curl_str<br><br>");
-            //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
+            //echo "<br
+            //><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
             if (is_array($output) && count($output)) {
                 $json_response = json_decode($output[0]);
@@ -609,7 +610,7 @@ namespace dumbu\cls {
             $curl_str .= "--compressed ";                
             if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                $ip = $res->SERVER_ADDR;
+                $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
             else if($ip !== NULL && $ip !== -1)
