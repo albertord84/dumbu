@@ -458,6 +458,10 @@ namespace dumbu\cls {
                     break;
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." "Aguarde alguns minutos antes de tentar novamente."
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    
                     break;
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -530,12 +534,7 @@ namespace dumbu\cls {
                             $ip = $this->IPS['IPS'][$index];
                         }
                         else
-                        { $ip = -1; }
-                        $this->temporal_log("--------following error-----");
-                        $this->temporal_log($curl_str);
-                        $this->temporal_log($output);
-                        $this->temporal_log($login_data);
-                        $this->temporal_log("--------end following error-----");                        
+                        { $ip = -1; }                     
                     }
                 }                
             }
