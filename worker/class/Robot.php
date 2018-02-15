@@ -511,7 +511,7 @@ namespace dumbu\cls {
                             {
                                 $HTTP_SERVER_VARS = array("REMOTE_ADDR"=> $ip);
                             }
-                            (new \dumbu\cls\DB())->SaveHttpServerVars($client_id, json_encode($HTTP_SERVER_VARS));
+                            (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
                     }
