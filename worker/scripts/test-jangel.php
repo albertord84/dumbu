@@ -23,7 +23,7 @@ $Robot = new \dumbu\cls\Robot();
 //$DB = new \dumbu\cls\DB();
 //
 $login_data = json_decode($Client->cookies);
- $json_response2 = $Robot->make_insta_friendships_command($login_data, "3445996566", 'follow', $Client);
+ $json_response2 = $Robot->make_insta_friendships_command($login_data, "3445996566", 'follow', 'web/friendships', $Client);
 //$DB->SetPasword("1", "jkwlsdhfjkf");
 //$var = $Robot->bot_login("riveauxmerino", "Notredame88");
 //print("---------------------------");

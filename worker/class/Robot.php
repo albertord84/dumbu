@@ -108,7 +108,7 @@ namespace dumbu\cls {
                 $Profile = array_shift($Followeds_to_unfollow);
                 $Profile->unfollowed = FALSE;
                 $json_response = $this->make_insta_friendships_command(
-                        $login_data, $Profile->followed_id, 'unfollow', $Client
+                        $login_data, $Profile->followed_id, 'unfollow', 'web/friendships', $Client
                 );
                 if (is_object($json_response) && $json_response->status == 'ok') { // if unfollowed 
                     $Profile->unfollowed = TRUE;
@@ -180,7 +180,7 @@ namespace dumbu\cls {
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
-                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', $Client);
+                                $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
                                     $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
                                     $this->like_fist_post($login_data, $Profile->id);
@@ -458,6 +458,10 @@ namespace dumbu\cls {
                     break;
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." "Aguarde alguns minutos antes de tentar novamente."
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    
                     break;
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -492,44 +496,47 @@ namespace dumbu\cls {
             
             while($ip_count < $size)
             {        
-                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $ip);
-
+                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
+                $ip_count++;
                 //print("<br><br>$curl_str<br><br>");
-                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
+               //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
                 exec($curl_str, $output, $status);
                 if (is_array($output) && count($output)) {
-                    $json_response = json_decode($output[0]);
-                    if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
-                        if ($ip_count > -1) { // if 
-                            $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                            $HTTP_SERVER_VARS["REMOTE_ADDR"] = $ip;
-                            (new \dumbu\cls\DB())->SaveHttpServerVars($client_id, $HTTP_SERVER_VARS);
+                    $json_response = json_decode($output[count($output) - 1]);
+                    if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
+                        if($ip_count > -1)
+                        {
+                            $HTTP_SERVER_VARS = NULL;
+                            if (isset($Client->HTTP_SERVER_VARS)) { // if 
+                                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
+                                $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
+                            }
+                            else
+                            {
+                                $HTTP_SERVER_VARS = new \stdClass();
+                                $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
+                            }
+                            (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
                     }
-                }
-                else
-                {
-                    $ip_count++;
-                    $index = 0;
-                    if($ip_count > -1)
-                    {
-                        $index = rand(0,$size-1);
-                        while($visited[$index])
-                        {
-                            $index++;
-                            if($index == $size) {$index = 0;}                            
-                        }
-                        $ip = $this->IPS['IPS'][$index];
-                    }
                     else
-                    { $ip = -1; }
-                    $this->temporal_log("--------following error-----");
-                    $this->temporal_log($curl_str);
-                    $this->temporal_log($output);
-                    $this->temporal_log($login_data);
-                    $this->temporal_log("--------end following error-----");                        
-                }
+                    {
+                        $index = 0;
+                        if($ip_count > -1)
+                        {
+                            $index = rand(0,$size-1);
+                            while($visited[$index])
+                            {
+                                $index++;
+                                if($index == $size) {$index = 0;}                            
+                            }
+                            $ip = $this->IPS['IPS'][$index];
+                        }
+                        else
+                        { $ip = -1; }                     
+                    }
+                }                
             }
             return $output;
             //print_r($status);
@@ -542,7 +549,8 @@ namespace dumbu\cls {
             $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
             
             //print("<br><br>$curl_str<br><br>");
-            //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
+            //echo "<br
+            //><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
             if (is_array($output) && count($output)) {
                 $json_response = json_decode($output[0]);
@@ -563,9 +571,9 @@ namespace dumbu\cls {
                     }
                     else{
                            $this->temporal_log("--------following error-----");
-                           $this->temporal_log($curl_str);
-                           $this->temporal_log($output);
-                           $this->temporal_log($login_data);
+                           $this->temporal_log('$curl_str');
+                           $this->temporal_log(json_encode($output));
+                           $this->temporal_log(json_encode($login_data));
                            $this->temporal_log("--------end following error-----");                        
                     }
                 }catch(\Exception $exc){}
@@ -577,7 +585,7 @@ namespace dumbu\cls {
         }
 
         
-        public function make_curl_friendships_command_str($url, $login_data, $Client = NULL) {
+        public function make_curl_friendships_command_str($url, $login_data, $Client = NULL ,$ip = NULL) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
@@ -599,12 +607,12 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";         
             $curl_str .= "--compressed ";                
-            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === -1) { // if 
+            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+                $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
-            else if($ip !== NULL)
+            else if($ip !== NULL && $ip !== -1)
             {
                 $curl_str .= "--interface $ip";
             }
