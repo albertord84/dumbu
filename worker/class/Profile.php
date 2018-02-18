@@ -35,9 +35,9 @@ namespace dumbu\cls {
          */
         public $unfollowed;
 
-        public function get_insta_ref_prof_data($ref_prof) {
+        public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             $Robot = new Robot();
-            return $Robot->get_insta_ref_prof_data($ref_prof);
+            return $Robot->get_insta_ref_prof_data($ref_prof, $ref_prof_id);
         }
 
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof) {

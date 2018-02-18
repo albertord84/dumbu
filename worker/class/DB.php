@@ -14,7 +14,6 @@ namespace dumbu\cls {
         private $fConnection = NULL;
         
         
-
         public function __construct($conf_file = "/../../../CONFIG.INI") {
             $this->connect($conf_file);
         }
@@ -323,17 +322,17 @@ namespace dumbu\cls {
         public function get_reference_profiles_follows($ref_prof_id) {
             try {
                 $this->connect();
-//                $result = mysqli_query($this->connection, ""
-//                        . "SELECT COUNT(*) as total FROM followed "
-//                        . "WHERE "
-//                        . "  followed.reference_id = $ref_prof_id;"
-//                );
-                $result = mysqli_query($this->connection, ""
-                        . "SELECT follows as total FROM reference_profile "
-                        . "WHERE  id = $ref_prof_id; "
+                $result = mysqli_query($this->fConnection, ""
+                        . "SELECT COUNT(*) FROM `dumbudb.followed`.`$ref_prof_id` "
+                        . "WHERE "
+                        . "  `$ref_prof_id`.unfollowed = 0;"
                 );
-                $data = \mysqli_fetch_assoc($result);
-                return $data['total'];
+               // $result = mysqli_query($this->connection, ""
+                 //       . "SELECT follows as total FROM reference_profile "
+                  //      . "WHERE  id = $ref_prof_id; "
+                //);
+                //$data = \mysqli_fetch_assoc($result);
+                return $result->fetch_object();
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
