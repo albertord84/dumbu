@@ -162,28 +162,28 @@ $Payment = new dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-//$pay_day = strtotime('12/29/2017 20:18:37');
+//$pay_day = strtotime('04/29/2018 20:18:37');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
-//$pay_day = strtotime("+30 days", time());
+$pay_day = strtotime("+2 months", time());
 
-//$payment_data['credit_card_number'] = '5523051002422236';
-//$payment_data['credit_card_name'] = 'ROMULO F DANELON ';
-//$payment_data['credit_card_exp_month'] = '11';
-//$payment_data['credit_card_exp_year'] = '2020';
-//$payment_data['credit_card_cvc'] = '011';
-//$payment_data['amount_in_cents'] = 2990;
-//$payment_data['pay_day'] = $pay_day;
+$payment_data['credit_card_number'] = '5155901275871383';
+$payment_data['credit_card_name'] = 'ARTUR A F FONTES';
+$payment_data['credit_card_exp_month'] = '01';
+$payment_data['credit_card_exp_year'] = '2026';
+$payment_data['credit_card_cvc'] = '052';
+$payment_data['amount_in_cents'] = 4990;
+$payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-//var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 
-//var_dump($pay_day);
+var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
@@ -296,12 +296,12 @@ $Robot = new dumbu\cls\Robot();
 //$result = $Robot->bot_login("ruslan.guerra88", "*R5sl@n#");
 //var_dump($result);
 
-
-$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
-$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
-
-$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
-var_dump($result);
+//
+//$mid = "WdJCIgAEAAH8jG4L-TEtJUTVmQpu";
+//$csrftoken = "lT29VKGJfD2vbglPsLLKNfW22qDH1Pp5";
+//
+//$result = $Robot->str_login($mid, $csrftoken, "ruslan.guerra88", "*R5sl@n#");
+//var_dump($result);
 
 //$url = "https://www.instagram.com/";
 //$ch = curl_init($url);
