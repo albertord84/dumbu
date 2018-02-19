@@ -127,7 +127,7 @@ namespace dumbu\cls {
                 $DB = new \dumbu\cls\DB();
                 $clients_data = $DB->get_clients_data_for_report();
                 while ($client_data = $clients_data->fetch_object()) {
-                    $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login);
+                    $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login, $client_data->id);
                     if ($profile_data) {
                         $result = $DB->insert_client_daily_report($client_data->id, $profile_data);
                         var_dump($client_data->login);

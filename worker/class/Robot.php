@@ -1193,6 +1193,7 @@ namespace dumbu\cls {
                     $html = curl_exec($ch);
                     $string = curl_error($ch);
                     $content = json_decode($html);
+                    //var_dump($content);
                     $Profile = $this->process_get_insta_ref_prof_data($content, $ref_prof, $ref_prof_id);
                     curl_close($ch);
                 }
@@ -1330,6 +1331,7 @@ namespace dumbu\cls {
                     for ($i = 0; $i < count($users); $i++) {
                         if ($users[$i]->user->username === $ref_prof) {
                             $Profile = $users[$i]->user;
+                            var_dump($Profile);
                             $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                             $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
                             if (!isset($Profile->follower_count)) {
