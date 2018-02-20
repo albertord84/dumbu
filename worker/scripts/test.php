@@ -14,7 +14,7 @@ echo date("Y-m-d h:i:sa") . "<br>\n";
 
 ini_set('xdebug.var_display_max_depth', 17);
 ini_set('xdebug.var_display_max_children', 256);
-ini_set('xdebug.var_display_max_data', 1024);
+ini_set('xdebug.var_display_max_data', 8024);
 
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -167,23 +167,23 @@ $Payment = new dumbu\cls\Payment();
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
-$pay_day = strtotime("+2 months", time());
-
-$payment_data['credit_card_number'] = '5155901275871383';
-$payment_data['credit_card_name'] = 'ARTUR A F FONTES';
-$payment_data['credit_card_exp_month'] = '01';
-$payment_data['credit_card_exp_year'] = '2026';
-$payment_data['credit_card_cvc'] = '052';
-$payment_data['amount_in_cents'] = 4990;
-$payment_data['pay_day'] = $pay_day;
-//$resul = $Payment->create_payment($payment_data);
+//$pay_day = strtotime("+2 months", time());
+//
+//$payment_data['credit_card_number'] = '5155901275871383';
+//$payment_data['credit_card_name'] = 'ARTUR A F FONTES';
+//$payment_data['credit_card_exp_month'] = '01';
+//$payment_data['credit_card_exp_year'] = '2026';
+//$payment_data['credit_card_cvc'] = '052';
+//$payment_data['amount_in_cents'] = 4990;
+//$payment_data['pay_day'] = $pay_day;
+////$resul = $Payment->create_payment($payment_data);
+////var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 //var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
-//var_dump($resul);
-
-var_dump($pay_day);
+////$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
+////var_dump($resul);
+//
+//var_dump($pay_day);
 
 //////----------------------------------------------------------------
 //$result = $Payment->check_payment(NULL);
@@ -288,7 +288,8 @@ $Robot = new \dumbu\cls\Robot();
 
 
 $Robot = new dumbu\cls\Robot();
-//$result = $Robot->bot_login("leticiajural", "estrelaguia");
+$response = $Robot->get_insta_ref_prof_following('alberto_dreyes');
+var_dump($response);
 
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
