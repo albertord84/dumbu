@@ -211,6 +211,7 @@ class Welcome extends CI_Controller {
             $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             $this->load->view('client_view', $data);
         } else {
+            echo "Session can't be stablished";
             $this->display_access_error();
         }
     }
