@@ -1,5 +1,12 @@
 <?PHP
 
+if (!"1") {
+    echo "No 1";
+}
+else {
+    echo "ERROR";
+}
+
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
 require_once '../class/Gmail.php';

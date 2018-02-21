@@ -309,8 +309,8 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM reference_profile "
                         . "WHERE "
-                        . "  (reference_profile.client_id = $client_id) AND "
-                        . "(reference_profile.deleted <> TRUE)"               
+                        . "  (reference_profile.client_id = $client_id) "
+//                        . "  AND (reference_profile.deleted <> TRUE)"               
 //                        . "  (reference_profile.client_id = $client_id) AND "
                 );
                 return $result;
