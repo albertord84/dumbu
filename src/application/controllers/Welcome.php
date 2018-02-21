@@ -5,6 +5,13 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
+    public function teste1(){
+//        $client_id = 27575;
+//        $this->load->model('class/client_model');
+//        $client = $this->client_model->Create_Followed($client_id);
+//        var_dump($client);
+    }
+
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -67,6 +74,9 @@ class Welcome extends CI_Controller {
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
             $datas['client_login_profile'] = $this->session->userdata('login');
             $datas['client_email']= $this->session->userdata('email');   
+            
+            $this->client_model->Create_Followed($this->session->userdata('id'));
+            
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
@@ -492,7 +502,7 @@ class Welcome extends CI_Controller {
                             'status_id' => $status_id
                         ));
                         $cad=$this->user_model->get_status_by_id($status_id)['name']; 
-                        $this->session->sess_time_to_update = 7200;
+                        //$this->session->sess_time_to_update = 7200;
                         $this->session->cookie_secure = true;
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
@@ -1296,10 +1306,10 @@ class Welcome extends CI_Controller {
                         $datas['pay_day'] = strtotime("+1 month", time());
                     }
                 } else{
-                    $datas['pay_day'] = strtotime("+" .'30'. " days", time());
+                    $datas['pay_day'] = strtotime("+" .'5'. " days", time());
                 }
                 $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
-                if (is_object($resp) && $resp->isSuccess()) {
+                if(is_object($resp) && $resp->isSuccess()) {
                     $this->client_model->update_client($datas['pk'], array(
                         'order_key' => $resp->getData()->OrderResult->OrderKey,
                         'pay_day' => $datas['pay_day']));
