@@ -1787,7 +1787,7 @@ namespace dumbu\cls {
                 return $result2;
             } catch (\Exception $exc) {
                 
-                if ($exec instanceof InstagramAPI\Exception\ChallengeRequiredException){
+                if ($exc instanceof InstagramAPI\Exception\ChallengeRequiredException){
                                       
                     $res = $exc->getResponse();
                     //$ms = $exc->getFullResponse();
