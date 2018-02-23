@@ -325,33 +325,36 @@ namespace dumbu\cls {
                 $query="SELECT client_id FROM dumbudb.reference_profile WHERE  id =".$ref_prof_id.";";
                 $result = mysqli_query($this->connection, $query);
                 $data = $result->fetch_object();
-                return $data->client_id;
+                if(isset($data->client_id))
+                    return $data->client_id;
+                else 
+                    return 0;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
-        
+
         public function get_reference_profiles_follows($ref_prof_id) {
             try {
-                //$client_id = $_SESSION["id"];  //Jose R: No funciona eso, voy a sacarlo de la BD
-                                
                 $this->connect();
-                $client_id = $this->get_client_id_from_reference_profile_id($ref_prof_id);                
-                $result = mysqli_query($this->fConnection, ""
-                        . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
-                        . "WHERE  reference_id = $ref_prof_id; "
-                );
+                $client_id = $this->get_client_id_from_reference_profile_id($ref_prof_id);
+                echo '<br>---->>>Perfil id = '.$ref_prof_id.' Client id = '.$client_id.'<br>';
                 
-               // $result = mysqli_query($this->connection, ""
-                 //       . "SELECT follows as total FROM reference_profile "
-                  //      . "WHERE  id = $ref_prof_id; "
-                //);
-                $data = $result->fetch_row();
-                return $data[0];
+                if($client_id!='0' && $client_id!=0 && $ref_prof_id){
+                    $result = mysqli_query($this->fConnection, ""
+                            . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
+                            . "WHERE  reference_id = $ref_prof_id; "
+                    );
+                    $data = $result->fetch_row();
+                    return $data[0];
+                } else 
+                    return 0;
+                
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
+
 
         public function get_follow_work() {
             //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
