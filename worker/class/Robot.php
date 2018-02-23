@@ -489,6 +489,9 @@ namespace dumbu\cls {
                     break;
                 default:
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     $error = FALSE;
                     break;
             }
