@@ -319,10 +319,24 @@ namespace dumbu\cls {
             }
         }
 
+        public function get_client_id_from_reference_profile_id($ref_prof_id) {
+            try {
+                $this->connect();
+                $query="SELECT client_id FROM dumbudb.reference_profile WHERE  id =".$ref_prof_id.";";
+                $result = mysqli_query($this->connection, $query);
+                $data = $result->fetch_object();
+                return $data->client_id;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
         public function get_reference_profiles_follows($ref_prof_id) {
             try {
-                $client_id = $_SESSION["id"];
+                //$client_id = $_SESSION["id"];  //Jose R: No funciona eso, voy a sacarlo de la BD
+                                
                 $this->connect();
+                $client_id = $this->get_client_id_from_reference_profile_id($ref_prof_id);                
                 $result = mysqli_query($this->fConnection, ""
                         . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
                         . "WHERE  reference_id = $ref_prof_id; "
