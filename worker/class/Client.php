@@ -131,7 +131,7 @@ namespace dumbu\cls {
                     if ($profile_data) {
                         $result = $DB->insert_client_daily_report($client_data->id, $profile_data);
                         var_dump($client_data->login);
-                        var_dump("Cantidad de follows = ".$profile_dat->follows);
+                        var_dump("Cantidad de follows = ".$profile_data->follows);
                     } else {
                         var_dump($client_data);
                     }
