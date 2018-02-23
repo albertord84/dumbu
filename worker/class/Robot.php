@@ -1786,8 +1786,7 @@ namespace dumbu\cls {
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
             } catch (\Exception $exc) {
-                //printf("<br>------------------------------------------</br>");
-                //var_dump($exc);
+                
                 if ($exec instanceof \InstagramAPI\Exception\ChallengeRequiredException){
                     $res = $exc->getResponse();
                     //$ms = $exc->getFullResponse();
@@ -1816,6 +1815,10 @@ namespace dumbu\cls {
                     }
                     return $response;
 
+                }
+                else{
+                    printf("<br>------------------------------------------</br>");
+                    var_dump($exc);
                 }
             }
         }
