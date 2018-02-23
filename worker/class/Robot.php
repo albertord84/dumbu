@@ -1209,7 +1209,7 @@ namespace dumbu\cls {
                     $string = curl_error($ch);
                     $content = json_decode($html);
                     //var_dump($content);
-                    $Profile = $this->process_get_insta_ref_prof_data($content, $ref_prof, $ref_prof_id);
+                    $Profile = $this->process_get_insta_ref_prof_data_for_daily_report($content, $ref_prof, $ref_prof_id);
                     curl_close($ch);
                 }
                 return $Profile;
@@ -1348,6 +1348,32 @@ namespace dumbu\cls {
                             $Profile = $users[$i]->user;
                             //var_dump($Profile);
                             $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
+                            $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
+                            if (!isset($Profile->follower_count)) {
+                                $Profile->follower_count = isset($Profile->byline) ? $this->parse_follow_count($Profile->byline) : 0;
+                            }
+                            break;
+                        }
+                    }
+                }
+            } else {
+                //var_dump($content);
+                //var_dump("null reference profile!!!");
+            }
+            return $Profile;
+        }
+
+        function process_get_insta_ref_prof_data_for_daily_report($content, $ref_prof, $ref_prof_id) {
+            $Profile = NULL;
+            if (is_object($content) && $content->status === 'ok') {
+                $users = $content->users;
+                // Get user with $ref_prof name over all matchs 
+                if (is_array($users)) {
+                    for ($i = 0; $i < count($users); $i++) {
+                        if ($users[$i]->user->username === $ref_prof) {
+                            $Profile = $users[$i]->user;
+                            //var_dump($Profile);
+//                            $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                             $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
                             if (!isset($Profile->follower_count)) {
                                 $Profile->follower_count = isset($Profile->byline) ? $this->parse_follow_count($Profile->byline) : 0;
