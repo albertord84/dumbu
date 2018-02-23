@@ -6,14 +6,10 @@ class Welcome extends CI_Controller {
     public $language =NULL;
     
     public function teste1(){
-//        $client_id = 27575;
-//        $this->load->model('class/client_model');
-//        $client = $this->client_model->Create_Followed($client_id);
-//        var_dump($client);
-    }
-    
-    public function teste12(){
-        echo md5('josergm86');
+        $client_id = 27575;
+        $this->load->model('class/client_model');
+        $client = $this->client_model->Create_Followed($client_id);
+        var_dump($client);
     }
 
     public function index() {
@@ -77,10 +73,8 @@ class Welcome extends CI_Controller {
             $datas['Afilio_total_value']=$result[0]['normal_val'];
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
             $datas['client_login_profile'] = $this->session->userdata('login');
-            $datas['client_email']= $this->session->userdata('email');   
-            
+            $datas['client_email']= $this->session->userdata('email');
             $this->client_model->Create_Followed($this->session->userdata('id'));
-            
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
