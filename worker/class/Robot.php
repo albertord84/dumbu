@@ -545,7 +545,7 @@ namespace dumbu\cls {
              $login_data = json_decode($Client->login_data);
             $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
             
-            //print("<br><br>$curl_str<br><br>");
+            //print("<br><br>$curl_str<br><brx>");
             //echo "<br
             //><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
             exec($curl_str, $output, $status);
@@ -1328,7 +1328,7 @@ namespace dumbu\cls {
                     for ($i = 0; $i < count($users); $i++) {
                         if ($users[$i]->user->username === $ref_prof) {
                             $Profile = $users[$i]->user;
-                            var_dump($Profile);
+                            //var_dump($Profile);
                             $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                             $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
                             if (!isset($Profile->follower_count)) {
@@ -1394,13 +1394,15 @@ namespace dumbu\cls {
             $substr2 = NULL;
             $loaded = @$doc->loadHTML('<?xml encoding="UTF-8">' . $content);
             if ($loaded) {
-                $search = "\"follows\": {\"count\": ";
+                $search = "\"follows\":{\"count\":";
+                //var_dump($doc->textContent);
                 $start = strpos($doc->textContent, $search);
                 $substr1 = substr($doc->textContent, $start, 100);
                 $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
+                //var_dump($substr2);
             } else {
-                print "<br>\nProblem parsing document:<br>\n";
-                var_dump($doc);
+                //print "<br>\nProblem parsing document:<br>\n";
+                //var_dump($doc);
             }
             return intval($substr2) ? intval($substr2) : 0;
         }

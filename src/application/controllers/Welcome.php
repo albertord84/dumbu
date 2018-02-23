@@ -5,6 +5,13 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
+    public function teste1(){
+//        $client_id = 27575;
+//        $this->load->model('class/client_model');
+//        $client = $this->client_model->Create_Followed($client_id);
+//        var_dump($client);
+    }
+
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -67,6 +74,9 @@ class Welcome extends CI_Controller {
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
             $datas['client_login_profile'] = $this->session->userdata('login');
             $datas['client_email']= $this->session->userdata('email');   
+            
+            $this->client_model->Create_Followed($this->session->userdata('id'));
+            
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
@@ -211,6 +221,7 @@ class Welcome extends CI_Controller {
             $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             $this->load->view('client_view', $data);
         } else {
+            echo "Session can't be stablished";
             $this->display_access_error();
         }
     }
@@ -491,7 +502,7 @@ class Welcome extends CI_Controller {
                             'status_id' => $status_id
                         ));
                         $cad=$this->user_model->get_status_by_id($status_id)['name']; 
-                        $this->session->sess_time_to_update = 7200;
+                        //$this->session->sess_time_to_update = 7200;
                         $this->session->cookie_secure = true;
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
@@ -1031,6 +1042,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        
         //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'){
                 //1. recurrencia para un mes mas alante
@@ -1061,6 +1073,7 @@ class Welcome extends CI_Controller {
                     $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array(), $GLOBALS['language']);
                 } 
         } else 
+        //OLX
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='OLX' || $datas['ticket_peixe_urbano']==='INSTA50P')){
                 $resp=1;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1121,6 +1134,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }else
+        //DUMBUDF20
         if(isset($datas['ticket_peixe_urbano']) &&  $datas['ticket_peixe_urbano']==='DUMBUDF20'){
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1161,6 +1175,7 @@ class Welcome extends CI_Controller {
                     }
                 }
             } else
+        //INSTA-DIRECT
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='INSTA-DIRECT' || $datas['ticket_peixe_urbano']==='MALADIRETA')){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1198,6 +1213,7 @@ class Welcome extends CI_Controller {
                     }
                 }
             }else  
+        //INSTA15D
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='INSTA15D'){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1235,6 +1251,7 @@ class Welcome extends CI_Controller {
                     }
                 }
             } else
+        //SIBITE30D
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='SIBITE30D'){ //30 dias de graça
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1272,6 +1289,45 @@ class Welcome extends CI_Controller {
                     }
                 }
             }else
+        //FREE5
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='FREE5'){ //30 dias de graça
+                $datas['amount_in_cents'] = $recurrency_value;
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" .'5'. " days", time());
+                }
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                if(is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            }else
+        //BACKTODUMBU
         if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();

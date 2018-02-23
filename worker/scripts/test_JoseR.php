@@ -301,18 +301,18 @@ $Robot = new dumbu\cls\Robot();
 /////////////////////////////////////////////////////////
 
 $url = "https://www.instagram.com/";
-$ch = curl_init($url);
+//$ch = curl_init($url);
 //Ruslan
 //$mid = "Wh8j7wAEAAFI8PVD2LfNQan_fx9D";
 //$csrftoken = "77G4HebOUjsq7NZ1ChYR3sphL219KWmV";
 //Jose
-$mid = "WixubQALAAFCj-hRLf243Sxoi7hn";
-$csrftoken = "CKk3SQXqiQSTJVy3nd7XT7VYIEHPWu3b";
-
-$result = $Robot->login_insta_with_csrftoken($ch, "vida_no_pedal", "ypt*24/2014", $csrftoken, $mid, $Client);
-//$result = $Robot->str_login($mid, $csrftoken, "vida_no_pedal", "ypt*24/2014");
-var_dump($result);
-var_dump(json_encode($result));
+//$mid = "WixubQALAAFCj-hRLf243Sxoi7hn";
+//$csrftoken = "CKk3SQXqiQSTJVy3nd7XT7VYIEHPWu3b";
+//
+//$result = $Robot->login_insta_with_csrftoken($ch, "vida_no_pedal", "ypt*24/2014", $csrftoken, $mid, $Client);
+////$result = $Robot->str_login($mid, $csrftoken, "vida_no_pedal", "ypt*24/2014");
+//var_dump($result);
+//var_dump(json_encode($result));
 
 /////////////////////////////////////////////////////////
 //

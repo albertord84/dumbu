@@ -309,8 +309,8 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM reference_profile "
                         . "WHERE "
-                        . "  (reference_profile.client_id = $client_id) AND "
-                        . "(reference_profile.deleted <> TRUE)"               
+                        . "  (reference_profile.client_id = $client_id) "
+//                        . "  AND (reference_profile.deleted <> TRUE)"               
 //                        . "  (reference_profile.client_id = $client_id) AND "
                 );
                 return $result;
@@ -321,18 +321,19 @@ namespace dumbu\cls {
 
         public function get_reference_profiles_follows($ref_prof_id) {
             try {
+                $client_id = $_SESSION["id"];
                 $this->connect();
                 $result = mysqli_query($this->fConnection, ""
-                        . "SELECT COUNT(*) FROM `dumbudb.followed`.`$ref_prof_id` "
-                        . "WHERE "
-                        . "  `$ref_prof_id`.unfollowed = 0;"
+                        . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
+                        . "WHERE  reference_id = $ref_prof_id; "
                 );
+                
                // $result = mysqli_query($this->connection, ""
                  //       . "SELECT follows as total FROM reference_profile "
                   //      . "WHERE  id = $ref_prof_id; "
                 //);
-                //$data = \mysqli_fetch_assoc($result);
-                return $result->fetch_object();
+                $data = $result->fetch_row();
+                return $data[0];
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
