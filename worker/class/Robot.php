@@ -8,6 +8,7 @@ namespace dumbu\cls {
     require_once 'washdog_type.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
     require_once 'InstaAPI.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/src/vendor/autoload.php';
 
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
 //    echo $_SERVER['DOCUMENT_ROOT'];
@@ -1785,7 +1786,7 @@ namespace dumbu\cls {
 
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
-            } catch (\Exception $exc) {
+            } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 
                 //var_dump(gettype($exc));
                 //if ($exc instanceof InstagramAPI\Exception\ChallengeRequiredException){
