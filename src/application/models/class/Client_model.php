@@ -124,7 +124,7 @@
         }
         
         
-        public function Create_Followed($client_id)
+    public function Create_Followed($client_id)
        {
           try {
                 $sql = "CREATE TABLE IF NOT EXISTS `dumbudb.followed`.`$client_id` (

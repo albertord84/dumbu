@@ -11,6 +11,10 @@ class Welcome extends CI_Controller {
 //        $client = $this->client_model->Create_Followed($client_id);
 //        var_dump($client);
     }
+    
+    public function teste12(){
+        echo md5('josergm86');
+    }
 
     public function index() {
         $language=$this->input->get();
