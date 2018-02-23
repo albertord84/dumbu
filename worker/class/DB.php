@@ -340,7 +340,7 @@ namespace dumbu\cls {
                 $client_id = $this->get_client_id_from_reference_profile_id($ref_prof_id);
                 echo '<br>---->>>Perfil id = '.$ref_prof_id.' Client id = '.$client_id.'<br>';
                 
-                if($client_id!='0' && $ref_prof_id){
+                if($client_id!='0' && $client_id!=0 && $ref_prof_id){
                     $result = mysqli_query($this->fConnection, ""
                             . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
                             . "WHERE  reference_id = $ref_prof_id; "
