@@ -1759,7 +1759,7 @@ namespace dumbu\cls {
 
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
-            } catch (\InstagramAPI\Exception\InstagramException $exc) {
+            } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 //printf("<br>------------------------------------------</br>");
                 //var_dump($exc);
                 $res = $exc->getResponse();
