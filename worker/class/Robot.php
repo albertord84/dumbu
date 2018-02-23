@@ -500,7 +500,7 @@ namespace dumbu\cls {
                 $ip_count++;
                 //print("<br><br>$curl_str<br><br>");
                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
-                exec($curl_str, $output, $status);
+                exec($curl_str, $output, $status);             
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[count($output) - 1]);
                     if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
@@ -538,10 +538,7 @@ namespace dumbu\cls {
                     }
                 }                
             }
-            return $output;
-            //print_r($status);
-            //print("-> $status<br><br>");
-//            return $json_response;
+            return $output[count($output) - 1];
         }
 
          public function make_insta_friendships_command_client($Client, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
