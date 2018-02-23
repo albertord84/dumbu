@@ -198,6 +198,10 @@ namespace dumbu\cls {
                                     $error = $this->process_follow_error($json_response2);
                                     var_dump($json_response2);
                                     $error = TRUE;
+                                    if($error == 10)
+                                    {
+                                        (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
+                                    } 
                                     break;
                                 }
                                 // Sleep up to proper delay between request
@@ -510,7 +514,8 @@ namespace dumbu\cls {
                 $ip_count++;
                 //print("<br><br>$curl_str<br><br>");
                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
-                exec($curl_str, $output, $status);      
+                exec($curl_str, $output, $status);    
+                echo "echo test: $ip_count \n";
                 var_dump($output);
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[count($output) - 1]);
@@ -549,7 +554,7 @@ namespace dumbu\cls {
                     }
                 }                
             }
-            if(isset($output, $value) && count($output) > 0)
+            if(isset($output) && count($output) > 0)
                     return $output[count($output) - 1];
             else
             { return $output; }
