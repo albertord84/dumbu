@@ -1788,7 +1788,7 @@ namespace dumbu\cls {
                 return $result2;
             } catch (\Exception $exc) {
                    
-                  var_dump(settype($exc,'\InstagramAPI\Exception\ChallengeRequiredException'));
+                  var_dump(settype($exc,'InstagramAPI\Exception\ChallengeRequiredException'));
                 //var_dump(gettype($exc));
                 //if ($exc instanceof InstagramAPI\Exception\ChallengeRequiredException){
                     
