@@ -538,7 +538,10 @@ namespace dumbu\cls {
                     }
                 }                
             }
-            return $output[count($output) - 1];
+            if(isset($output, $value) && count($output) > 0)
+                    return $output[count($output) - 1];
+            else
+            { return $output; }
         }
 
          public function make_insta_friendships_command_client($Client, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
