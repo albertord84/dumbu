@@ -127,8 +127,12 @@ namespace dumbu\cls {
                         $Profile->unfollowed = TRUE;
                     } else if ($error == 7 || $error == 9) { // To much request response string only
                         $error = FALSE;
-                        break;
-                    } else {
+                        break;          
+                    } else if($error == 10)
+                    {
+                        (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
+                    }                    
+                    else {
                         break;
                     }
                 }
@@ -473,6 +477,12 @@ namespace dumbu\cls {
                 case 9: // "Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde." 
                     print "<br>\n Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
+                case 10:
+                    print "<br> Empty response from instagram</br>";
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->set_client_cookies($client_id);                    
+                    $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
+                    break;
                 default:
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
                     $error = FALSE;
@@ -500,7 +510,8 @@ namespace dumbu\cls {
                 $ip_count++;
                 //print("<br><br>$curl_str<br><br>");
                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
-                exec($curl_str, $output, $status);             
+                exec($curl_str, $output, $status);      
+                var_dump($output);
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[count($output) - 1]);
                     if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
@@ -516,7 +527,7 @@ namespace dumbu\cls {
                                 $HTTP_SERVER_VARS = new \stdClass();
                                 $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
                             }
-                            (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
+                                 (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
                     }
@@ -544,7 +555,11 @@ namespace dumbu\cls {
             { return $output; }
         }
 
-         public function make_insta_friendships_command_client($Client, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
+        public function make_api_insta_friendships($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {           
+        }
+
+        
+        public function make_insta_friendships_command_client($Client, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
              $login_data = json_decode($Client->login_data);
             $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
             
@@ -1735,6 +1750,7 @@ namespace dumbu\cls {
                 $instaAPI = new \dumbu\cls\InstaAPI();
 
                 $result2 = $instaAPI->login($login, $pass, true);
+                return $result2;
             } catch (\InstagramAPI\Exception\InstagramException $exc) {
                 //printf("<br>------------------------------------------</br>");
                 //var_dump($exc);

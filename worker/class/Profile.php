@@ -91,7 +91,11 @@ namespace dumbu\cls {
             else if (is_array($response) && count($response) == 1 && is_string($response[0]) && 
                     ((strpos($response[0], 'Tente novamente mais tarde') !== FALSE) || strpos($response[0], 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
                 $error = 7; // Tente novamente mais tarde
-            } else {
+            }
+            else if (is_array($response) && count($response) == 0) {
+                $error = 10; // Tente novamente mais tarde
+            }
+            else {
                 $error = -1;
                 var_dump($response);
                 print 'Not error code found!';
