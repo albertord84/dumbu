@@ -1786,12 +1786,8 @@ namespace dumbu\cls {
 
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
-            } catch (\Exception $exc) {
-                   
-                  var_dump(settype($exc,'InstagramAPI\Exception\ChallengeRequiredException'));
-                //var_dump(gettype($exc));
-                //if ($exc instanceof InstagramAPI\Exception\ChallengeRequiredException){
-                    
+            } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
+                                       
                     $res = $exc->getResponse();
                     //$ms = $exc->getFullResponse();
                     ini_set('xdebug.var_display_max_depth', 17);
