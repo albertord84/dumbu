@@ -1850,6 +1850,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
             $resposta = $output[0];
+            var_dump($output);
             $this->temporal_log($curl_str);
             (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
             return json_decode($resposta);
