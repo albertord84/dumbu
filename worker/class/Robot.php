@@ -1781,46 +1781,39 @@ namespace dumbu\cls {
         }
 
         public function checkpoint_requested($login, $pass, $Client = NULL) {
-            try {
+           try {
                 $instaAPI = new \dumbu\cls\InstaAPI();
 
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
-            } catch (\Exception $exc) {
-                                       
-                    $res = $exc->getResponse();
-                    //$ms = $exc->getFullResponse();
-                    ini_set('xdebug.var_display_max_depth', 17);
-                    ini_set('xdebug.var_display_max_children', 256);
-                    ini_set('xdebug.var_display_max_data', 1024);
-                    //var_dump($res);
-                    //$message = $exc->getMessage();
-                    if (isset($res->getChallenge)) {
-                        $chll = $res->getChallenge();
-                        //var_dump($chll);
-                        $challenge = $chll->getApiPath();
-                        $response = $this->get_challenge_data($challenge, $login, $Client);
-                    } else {
-    //                    $this->temporal_log($exc->getMessage());
-    //                    $this->temporal_log("\n\n\n\n\n");
-    //                    $this->temporal_log($exc->getTraceAsString());
-                        $url = $ch = curl_init("https://www.instagram.com/");
-                        $csrftoken = $this->get_insta_csrftoken($ch);
-                        $mid = $this->get_cookies_value('mid');
-                        $login_data = $this->str_login($mid, $csrftoken, $login, $pass);
-                        if (isset($login_data->checkpoint_url)) {
-                            $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
-                        } else
-                            throw $exc;
-                    }
-                    return $response;
-
-                /*}
-                else{
-                    printf("<br>------------------------------------------</br>");
-                    var_dump($exc);
-                }*/
-            }
+            } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
+                $res = $exc->getResponse();
+                
+                 ini_set('xdebug.var_display_max_depth', 17);
+                 ini_set('xdebug.var_display_max_children', 256);
+                 ini_set('xdebug.var_display_max_data', 1024);
+                 //var_dump($res);
+                 //$message = $exc->getMessage();
+                 try {
+                     $chll = $res->getChallenge();
+                     //var_dump($chll);
+                     $challenge = $chll->getApiPath();
+                     $response = $this->get_challenge_data($challenge, $login, $Client);
+                 } catch(Exception $e2) {
+ //                    $this->temporal_log($exc->getMessage());
+ //                    $this->temporal_log("\n\n\n\n\n");
+ //                    $this->temporal_log($exc->getTraceAsString());
+                     $url = $ch = curl_init("https://www.instagram.com/");
+                     $csrftoken = $this->get_insta_csrftoken($ch);
+                     $mid = $this->get_cookies_value('mid');
+                     $login_data = $this->str_login($mid, $csrftoken, $login, $pass);
+                     if (isset($login_data->checkpoint_url)) {
+                             $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
+                     } else
+                         throw $exc;
+                 }
+                 return $response;
+             }
         }
 
         function get_challenge_data($challenge, $login, $Client) {
