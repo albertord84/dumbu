@@ -508,11 +508,11 @@ namespace dumbu\cls {
          */
         public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {
             $ip = NULL;
-            $ip_count = -2;
+            $ip_count = -1;
             $size = count($this->IPS['IPS']);
             $visited = array_fill(0, $size, FALSE);
             
-            while($ip_count < $size)
+            while($ip_count < 0)
             {        
                 $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
                 $ip_count++;
@@ -631,12 +631,12 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";         
             $curl_str .= "--compressed ";                
-            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
+            /*if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                 $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
-            else if($ip !== NULL && $ip !== -1)
+            else*/ if($ip !== NULL && $ip !== -1)
             {
                 $curl_str .= "--interface $ip";
             }
@@ -1850,7 +1850,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
             $resposta = $output[0];
-            var_dump($output);
+            //var_dump($output);
             $this->temporal_log($curl_str);
             (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
             return json_decode($resposta);
