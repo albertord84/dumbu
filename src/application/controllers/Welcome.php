@@ -323,6 +323,7 @@ class Welcome extends CI_Controller {
                             $result['resource'] = 'client';
                             $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);
                             $result['role'] = 'CLIENT';
+                            $this->client_model->Create_Followed($this->session->userdata('id'));
                             $result['authenticated'] = true;
                         } else
                         if ($st == user_status::ACTIVE || $st == user_status::BLOCKED_BY_PAYMENT || $st == user_status::PENDING || $st == user_status::UNFOLLOW || user_status::BLOCKED_BY_TIME) {
@@ -369,6 +370,7 @@ class Welcome extends CI_Controller {
                             $result['resource'] = 'client';
                             $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);                            
                             $result['role'] = 'CLIENT';
+                            $this->client_model->Create_Followed($this->session->userdata('id'));
                             $result['authenticated'] = true;
                         } else
                         if ($st == user_status::BEGINNER) {
@@ -510,6 +512,7 @@ class Welcome extends CI_Controller {
                         $result['return_link'] = 'client';
                         $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram', array(), $GLOBALS['language']);
                         $result['cause'] = 'checkpoint_required';
+                        $this->client_model->Create_Followed($this->session->userdata('id'));
                         $result['authenticated'] = true;
                     } else {
                         //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
