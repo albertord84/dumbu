@@ -508,7 +508,7 @@ namespace dumbu\cls {
          */
         public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {
             $ip = NULL;
-            $ip_count = -2;
+            $ip_count = -1;
             $size = count($this->IPS['IPS']);
             $visited = array_fill(0, $size, FALSE);
             
@@ -631,12 +631,12 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";         
             $curl_str .= "--compressed ";                
-            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
+            /*if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                 $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
-            else if($ip !== NULL && $ip !== -1)
+            else*/ if($ip !== NULL && $ip !== -1)
             {
                 $curl_str .= "--interface $ip";
             }
@@ -1781,46 +1781,39 @@ namespace dumbu\cls {
         }
 
         public function checkpoint_requested($login, $pass, $Client = NULL) {
-            try {
+           try {
                 $instaAPI = new \dumbu\cls\InstaAPI();
 
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
             } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
-                                       
-                    $res = $exc->getResponse();
-                    //$ms = $exc->getFullResponse();
-                    ini_set('xdebug.var_display_max_depth', 17);
-                    ini_set('xdebug.var_display_max_children', 256);
-                    ini_set('xdebug.var_display_max_data', 1024);
-                    //var_dump($res);
-                    //$message = $exc->getMessage();
-                    if (isset($res->getChallenge)) {
-                        $chll = $res->getChallenge();
-                        //var_dump($chll);
-                        $challenge = $chll->getApiPath();
-                        $response = $this->get_challenge_data($challenge, $login, $Client);
-                    } else {
-    //                    $this->temporal_log($exc->getMessage());
-    //                    $this->temporal_log("\n\n\n\n\n");
-    //                    $this->temporal_log($exc->getTraceAsString());
-                        $url = $ch = curl_init("https://www.instagram.com/");
-                        $csrftoken = $this->get_insta_csrftoken($ch);
-                        $mid = $this->get_cookies_value('mid');
-                        $login_data = $this->str_login($mid, $csrftoken, $login, $pass);
-                        if (isset($login_data->checkpoint_url)) {
-                            $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
-                        } else
-                            throw $exc;
-                    }
-                    return $response;
-
-                /*}
-                else{
-                    printf("<br>------------------------------------------</br>");
-                    var_dump($exc);
-                }*/
-            }
+                $res = $exc->getResponse();
+                
+                 ini_set('xdebug.var_display_max_depth', 17);
+                 ini_set('xdebug.var_display_max_children', 256);
+                 ini_set('xdebug.var_display_max_data', 1024);
+                 //var_dump($res);
+                 //$message = $exc->getMessage();
+                 try {
+                     $chll = $res->getChallenge();
+                     //var_dump($chll);
+                     $challenge = $chll->getApiPath();
+                     $response = $this->get_challenge_data($challenge, $login, $Client);
+                 } catch(Exception $e2) {
+ //                    $this->temporal_log($exc->getMessage());
+ //                    $this->temporal_log("\n\n\n\n\n");
+ //                    $this->temporal_log($exc->getTraceAsString());
+                     $url = $ch = curl_init("https://www.instagram.com/");
+                     $csrftoken = $this->get_insta_csrftoken($ch);
+                     $mid = $this->get_cookies_value('mid');
+                     $login_data = $this->str_login($mid, $csrftoken, $login, $pass);
+                     if (isset($login_data->checkpoint_url)) {
+                             $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
+                     } else
+                         throw $exc;
+                 }
+                 return $response;
+             }
         }
 
         function get_challenge_data($challenge, $login, $Client) {
@@ -1847,7 +1840,7 @@ namespace dumbu\cls {
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'origin: https://www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
+            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' ";
             $curl_str .= "-H 'Referer: $url' ";
             $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
             $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
@@ -1857,6 +1850,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
             $resposta = $output[0];
+            //var_dump($output);
             $this->temporal_log($curl_str);
             (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
             return json_decode($resposta);
