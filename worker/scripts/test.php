@@ -1,11 +1,5 @@
 <?PHP
 
-if (!"1") {
-    echo "No 1";
-}
-else {
-    echo "ERROR";
-}
 
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
@@ -295,8 +289,8 @@ $Robot = new \dumbu\cls\Robot();
 
 
 $Robot = new dumbu\cls\Robot();
-$response = $Robot->get_insta_ref_prof_following('alberto_dreyes');
-var_dump($response);
+//$response = $Robot->get_insta_ref_prof_following('alberto_dreyes');
+//var_dump($response);
 
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);

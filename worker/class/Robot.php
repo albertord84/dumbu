@@ -88,14 +88,15 @@ namespace dumbu\cls {
          * @access public
          */
         public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
-//            $this->Day_client_work = $Day_client_work;
-//            $this->Ref_profile = $Ref_profile;
+            //$this->Day_client_work = $Day_client_work;
+            //$this->Ref_profile = $Ref_profile;
             //$DB = new DB();
             $Client = (new \dumbu\cls\Client())->get_client($daily_work->client_id);
             $this->daily_work = $daily_work;
             $login_data = $this->daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
+            
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow);
             echo "<br>\nClient: $daily_work->client_id <br>\n";
@@ -139,6 +140,7 @@ namespace dumbu\cls {
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
+            
             // Do follow work
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             $Ref_profile_follows = array();
@@ -488,6 +490,12 @@ namespace dumbu\cls {
                     $this->DB->set_client_cookies($client_id);                    
                     $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
                     break;
+                case 11:
+                    print "<br> se ha bloqueado. Vuelve a intentarlo</br>";
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    //$this->DB->set_client_cookies($client_id);                    
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    break;
                 default:
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -502,7 +510,7 @@ namespace dumbu\cls {
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
          * @param type $login_data
-         * @param type $resource_id {ex: Profile Id}
+         * @param type $resource_id {ex: Profile Id (ds_userId)}
          * @param type $command {follow, unfollow, ... }
          * @return type
          */
@@ -582,26 +590,26 @@ namespace dumbu\cls {
                     return $json_response;
                 }
             }
-            else
-            {
-                try{
-                    $curl_str = $this->make_curl_friendships_command_str2("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
-                    exec($curl_str, $output, $status);
-                    if (is_array($output) && count($output)) {
-                        $json_response = json_decode($output[0]);
-                        if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
-                            return $json_response;
-                        }
-                    }
-                    else{
-                           $this->temporal_log("--------following error-----");
-                           $this->temporal_log('$curl_str');
-                           $this->temporal_log(json_encode($output));
-                           $this->temporal_log(json_encode($login_data));
-                           $this->temporal_log("--------end following error-----");                        
-                    }
-                }catch(\Exception $exc){}
-            }
+//            else
+//            {
+//                try{
+//                    $curl_str = $this->make_curl_friendships_command_str2("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
+//                    exec($curl_str, $output, $status);
+//                    if (is_array($output) && count($output)) {
+//                        $json_response = json_decode($output[0]);
+//                        if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
+//                            return $json_response;
+//                        }
+//                    }
+//                    else{
+//                           $this->temporal_log("--------following error-----");
+//                           $this->temporal_log('$curl_str');
+//                           $this->temporal_log(json_encode($output));
+//                           $this->temporal_log(json_encode($login_data));
+//                           $this->temporal_log("--------end following error-----");                        
+//                    }
+//                }catch(\Exception $exc){}
+//            }
             return $output;
             //print_r($status);
             //print("-> $status<br><br>");
@@ -636,10 +644,10 @@ namespace dumbu\cls {
                 $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
                 $curl_str .= "--interface $ip";
             }
-            else*/ if($ip !== NULL && $ip !== -1)
-            {
-                $curl_str .= "--interface $ip";
-            }
+            else*/ //if($ip !== NULL && $ip !== -1)
+//            {
+//                $curl_str .= "--interface $ip";
+//            }
             return $curl_str;
         }
         
@@ -671,6 +679,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Authority: www.instagram.com' ";
             $curl_str .= "-H 'Content-Length: 0' ";           
             $curl_str .= "--compressed --interface $ip";            
+            $curl_str .= "--compressed";            
             return $curl_str;
         }
 
