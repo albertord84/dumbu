@@ -452,7 +452,7 @@ namespace dumbu\cls {
                 $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
                 $this->connect();
                 $result = mysqli_query($this->fConnection, ""
-                        . "SELECT * FROM `dumbudb.followed`.`$client_id`"
+                        . "SELECT * FROM `dumbudb.followed`.`$client_id` "
                         . "WHERE unfollowed = false "
                         . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
                         . "ORDER BY date ASC "
