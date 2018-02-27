@@ -266,13 +266,13 @@ $Robot = new dumbu\cls\Robot();
 //$response = $Robot->get_insta_ref_prof_following('spadassobrancelhaszonasul');
 //var_dump($response);
 
-$client = $Client->get_client(27596);
+$client = $Client->get_client(27509);
 //var_dump($client);
 
 
 $login_data = json_decode($client->cookies);
 $json_response = $Robot->make_insta_friendships_command(
-        $login_data, '448188656', 'unfollow', 'web/friendships', $client
+        $login_data, '407977049', 'unfollow', 'web/friendships', $client
 );
 var_dump($json_response);
 

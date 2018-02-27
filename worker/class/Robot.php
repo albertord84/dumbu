@@ -520,7 +520,7 @@ namespace dumbu\cls {
             $size = count($this->IPS['IPS']);
             $visited = array_fill(0, $size, FALSE);
             
-            while($ip_count < $size)
+            while($ip_count < 0)
             {        
                 $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
                 $ip_count++;
@@ -544,7 +544,7 @@ namespace dumbu\cls {
                                 $HTTP_SERVER_VARS = new \stdClass();
                                 $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
                             }
-                                 (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
+                            //(new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
                     }
