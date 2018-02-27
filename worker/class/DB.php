@@ -451,12 +451,11 @@ namespace dumbu\cls {
                 $Limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
                 $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
                 $this->connect();
-                $result = mysqli_query($this->connection, ""
-                        . "SELECT * FROM followed "
-                        . "WHERE followed.client_id = $client_id "
-                        . "     AND followed.unfollowed = false "
-                        . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(followed.date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
-                        . "ORDER BY followed.date ASC "
+                $result = mysqli_query($this->fConnection, ""
+                        . "SELECT * FROM `dumbudb.followed`.`$client_id`"
+                        . "WHERE unfollowed = false "
+                        . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
+                        . "ORDER BY date ASC "
                         . "LIMIT $Limit;"
                 );
                 //print "\nClient: $client_id " . mysqli_num_rows($result) . "  ";
