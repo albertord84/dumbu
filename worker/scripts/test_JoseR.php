@@ -19,46 +19,17 @@ ini_set('xdebug.var_display_max_data', 8024);
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-$InstaAPI = new \dumbu\cls\InstaAPI();
+//$InstaAPI = new \dumbu\cls\InstaAPI();
 
-//$username = "alberto_test";
-//$password = "alberto";
-//$username = "riveauxmerino";
-//$password = "Notredame88";
-//$username = "alberto_dreyes";
-//$password = "albertord8";
-//$username = "leticiajural";
-//$password = "estrelaguia";
+
 //$result = $InstaAPI->login($username, $password);
 //var_dump($result->Cookies);
 //var_dump($result);
-//DEBIT CIELO
-/* $PaymentCielo = new \dumbu\cls\PaymentCielo();
 
-  //CARTAO EMPRESSA
-  $payment_data['credit_card_flag'] = 'Master';
-  $payment_data['credit_card_number'] = '5293230334451133';
-  $payment_data['credit_card_name'] = 'ALBERTO REYES DIAZ';
-  $payment_data['credit_card_exp_month'] = '05';
-  $payment_data['credit_card_exp_year'] = '2024';
-  $payment_data['credit_card_cvc'] = '379';
-  $payment_data['amount_in_cents'] = 1000;
-  $sale = $PaymentCielo->create_payment_debit($payment_data);
 
-  var_dump($sale); */
 
-//$payment_id = "8bd9f487-612e-4e39-8bf8-f045068e6000";
-//$result = $PaymentCielo->check_payment($payment_id);
-//var_dump($result);
-//$payment_data = NULL;
-//$PaymentCielo->create_payment_debit($payment_data);
-//$content = @file_get_contents("https://www.instagram.com/padrefabiodemelooficial/", false);
-//var_dump($content);
-//var_dump(strpos("Sorry, you're following the max limit of accounts. You'll need to unfollow some accounts to start following more.", ", you're following the max limit of accounts."));
-//print $GLOBALS['sistem_config']->SYSTEM_EMAIL . "<br>";
-//print $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN . "<br>";
-//print $GLOBALS['sistem_config']->SYSTEM_USER_PASS . "<br>";
-//dumbu\cls\system_config():: 
+
+//--------------------------------------------------------------------------------
 // Ref Prof
 $RP = new \dumbu\cls\Reference_profile();
 //$ref_prof = "santatemakeria";
@@ -100,6 +71,9 @@ $Client = new \dumbu\cls\Client();
 //var_dump(date('d-m-Y',1486247776));
 //$Client->set_client_status(1, dumbu\cls\user_status::BLOCKED_BY_INSTA);
 //var_dump(date('d-m-Y',1482951226));
+
+
+//--------------------------------------------------------------------------------
 // MUNDIPAGG
 $Payment = new dumbu\cls\Payment();
 //var_dump(date('d-m-Y',1484023285));
@@ -199,6 +173,8 @@ $Payment = new dumbu\cls\Payment();
 //var_dump($result->isSuccess());
 //$result = $Payment->check_payment("3d66ccd9-9e66-44ed-bd2a-13e4d7a388e1");
 //print_r(json_encode($result->getData(), JSON_PRETTY_PRINT));
+
+//--------------------------------------------------------------------------------
 // GMAIL
 $Gmail = new \dumbu\cls\Gmail();
 //$useremail, $username, $instaname, $instapass
@@ -219,6 +195,9 @@ $Gmail = new \dumbu\cls\Gmail();
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
+
+//--------------------------------------------------------------------------------
+//Robot
 $Robot = new \dumbu\cls\Robot();
 //var_dump($Robot->IPS);
 //var_dump($Robot->IPS['IPS'][0]);
@@ -284,15 +263,18 @@ $Robot = new \dumbu\cls\Robot();
 
 
 $Robot = new dumbu\cls\Robot();
-//$response = $Robot->get_insta_ref_prof_following('alberto_dreyes');
+//$response = $Robot->get_insta_ref_prof_following('spadassobrancelhaszonasul');
 //var_dump($response);
 
-//$client = $Client->get_client(15644); // Jose
-$client = $Client->get_client(1);
+$client = $Client->get_client(27596);
+//var_dump($client);
+
+
 $login_data = json_decode($client->cookies);
 $json_response = $Robot->make_insta_friendships_command(
-        $login_data, '858888048', 'unfollow', 'web/friendships', $client
+        $login_data, '448188656', 'unfollow', 'web/friendships', $client
 );
+var_dump($json_response);
 
 //$result = $Robot->bot_login("riveauxmerino", "Notredame88");
 //var_dump($result);
@@ -329,8 +311,9 @@ $json_response = $Robot->make_insta_friendships_command(
 //var_dump($result);
 //$result = $Robot->bot_login("tompsonr", "sorvete6969");
 //var_dump($result);
-//----------------------------------------------------------------
-//
+
+
+//--------------------------------------------------------------------------------
 // WORKER
 $Worker = new dumbu\cls\Worker();
 //$daily_work = $Worker->get_work_by_id(2);

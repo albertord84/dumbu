@@ -5,6 +5,16 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
+    public function teste2(){
+        $curl ="curl%20'https%3A%2F%2Fwww.instagram.com%2F'%20-H%20'Host%3A%20www.instagram.com'%20-H%20'User-Agent%3A%20Mozilla%2F5.0%20(X11%3B%20Ubuntu%3B%20Linux%20x86_64%3B%20rv%3A58.0)%20Gecko%2F20100101%20Firefox%2F58.0'%20-H%20'Accept%3A%20text%2Fhtml%2Capplication%2Fxhtml%2Bxml%2Capplication%2Fxml%3Bq%3D0.9%2C*%2F*%3Bq%3D0.8'%20-H%20'Accept-Language%3A%20es-ES%2Ces%3Bq%3D0.8%2Cen-US%3Bq%3D0.5%2Cen%3Bq%3D0.3'%20--compressed%20-H%20'Referer%3A%20https%3A%2F%2Fwww.instagram.com%2Fdankana_dk%2F'%20-H%20'Cookie%3A%20mid%3DWd1bRwAEAAFFsz4IZLjFl3rcwC-z%3B%20rur%3DFRC%3B%20urlgen%3D%22%7B%5C%22time%5C%22%3A%201519686357%7D%3A1eqerj%3A53McGqR-jEqGTcpyRgi8rlMrmEM%22%3B%20ig_vw%3D1301%3B%20ig_pr%3D1%3B%20ig_vh%3D257%3B%20ig_or%3Dlandscape-primary%3B%20csrftoken%3DN4rWj0n0LxrLNAnmLh5rEy8oOVJrrnEF%3B%20ds_user_id%3D4355650531%3B%20sessionid%3D4355650531%253AffuUgSP5f3RVvX%253A13'%20-H%20'Connection%3A%20keep-alive'%20-H%20'Upgrade-Insecure-Requests%3A%201'%20-H%20'Cache-Control%3A%20max-age%3D0'";
+        $curl = urldecode($curl);
+        var_dump($curl);
+        if (preg_match('/sessionid=([^\']+)/mi', $curl, $match) == 1) {
+            $mid = "$match[1]";
+            echo $mid;
+        }
+    }
+    
     public function teste1(){
         $client_id = 27575;
         $this->load->model('class/client_model');
