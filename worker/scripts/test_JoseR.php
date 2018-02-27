@@ -272,7 +272,7 @@ $client = $Client->get_client(27509);
 
 $login_data = json_decode($client->cookies);
 $json_response = $Robot->make_insta_friendships_command(
-        $login_data, '407977049', 'unfollow', 'web/friendships', $client
+        $login_data, '260616653', 'unfollow', 'web/friendships', $client
 );
 var_dump($json_response);
 
