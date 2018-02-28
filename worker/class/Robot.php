@@ -1808,7 +1808,7 @@ namespace dumbu\cls {
                     //var_dump($chll);
                     $challenge = $chll->getApiPath();
                     $response = $this->get_challenge_data($challenge, $login, $Client);
-                } catch (Exception $e2) {
+                } catch (\Exception $e2) {
                     //                    $this->temporal_log($exc->getMessage());
                     //                    $this->temporal_log("\n\n\n\n\n");
                     //                    $this->temporal_log($exc->getTraceAsString());
