@@ -187,8 +187,17 @@ namespace dumbu\cls {
                                 echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
-                                    $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
-                                    $this->like_fist_post($login_data, $Profile->id);
+                                    $json_response_like = $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
+//                                    $this->like_fist_post($login_data, $Profile->id);
+                                    if (!is_object($json_response_like) || !isset($json_response_like->status) || $json_response_like->status != 'ok') {
+                                        $error = $this->process_follow_error($json_response_like);
+                                        var_dump($json_response_like);
+                                        $error = TRUE;
+                                        if ($error == 10) {
+                                            (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
+                                        }
+                                        break;
+                                    }
                                 }
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
@@ -472,7 +481,7 @@ namespace dumbu\cls {
                     $result = $this->DB->delete_daily_work_client($client_id);
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-
+                    $error = TRUE;
                     break;
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
