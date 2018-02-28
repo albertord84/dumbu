@@ -478,10 +478,6 @@ $(document).ready(function () {
     $(".send-curl").click(function (e) {  
         id = $(e.currentTarget).attr('id');
         var arrayid = id.split("_");
-        
-        alert($("#curltext_" + arrayid[1]).val());
-        alert(encodeURIComponent($("#curltext_" + arrayid[1]).val()));
-        
         if ($("#curltext_" + arrayid[1]).val() == '') {
             modal_alert_message('ERROR! El campo cURL está vazio!');
         } else {
