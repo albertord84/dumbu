@@ -224,7 +224,7 @@ namespace dumbu\cls {
                     }
                 }
             }
-            echo "\n\n________________________________________________<br><br>";
+            echo "<br><br>\n\n________________________________________________<br><br>\n\n";
             return $Ref_profile_follows;
         }
 
