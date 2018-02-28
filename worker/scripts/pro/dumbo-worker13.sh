@@ -8,9 +8,9 @@ date=$(date +%Y%m%d)
 
 now=$(date +"%T")
 
-output="../../dumbu/worker/log/dumbo-worker3-${date}.log"
+output="../../dumbu/worker/log/dumbo-worker13-${date}.log"
 #url="http://dumbu.one/dumbu/worker/scripts/index-do.php?id=1"
-url="http://localhost/dumbu/worker/scripts/index-do.php?id=3"
+url="http://localhost/dumbu/worker/scripts/index-do.php?id=13"
 
 #curl http://localhost/dumbu/worker/index.php > ../worker/log/dumbo-worker-${date}.log
 wget -O $output $url
