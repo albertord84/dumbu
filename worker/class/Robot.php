@@ -187,17 +187,17 @@ namespace dumbu\cls {
                                 echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
                                 if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
-                                    $json_response_like = $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
+//                                    $json_response_like = $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
 //                                    $this->like_fist_post($login_data, $Profile->id);
-                                    if (!is_object($json_response_like) || !isset($json_response_like->status) || $json_response_like->status != 'ok') {
-                                        $error = $this->process_follow_error($json_response_like);
-                                        var_dump($json_response_like);
-                                        $error = TRUE;
-                                        if ($error == 10) {
-                                            (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
-                                        }
-                                        break;
-                                    }
+//                                    if (!is_object($json_response_like) || !isset($json_response_like->status) || $json_response_like->status != 'ok') {
+//                                        $error = $this->process_follow_error($json_response_like);
+//                                        var_dump($json_response_like);
+//                                        $error = TRUE;
+//                                        if ($error == 10) {
+//                                            (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
+//                                        }
+//                                        break;
+//                                    }
                                 }
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
@@ -552,10 +552,10 @@ namespace dumbu\cls {
                             //(new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
-                    } else {
+                    } else  {
                         var_dump($output);
                         var_dump($curl_str);
-                        return $json_response;
+                        return ($json_response === NULL)? $output : $json_response;
                     }
 //                    else
 //                    {
