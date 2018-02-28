@@ -79,6 +79,8 @@ namespace dumbu\cls {
                     $error = 8;
                 } else if (strpos($response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
                     $error = 9;
+                } else if (strpos($response->message, 'se ha bloqueado. Vuelve a intentarlo') !== FALSE) {
+                    $error = 11;
                 } else if ($response->message === '') {
                     $error = 6; // Empty message
                 }

@@ -475,7 +475,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".send-curl").click(function (e) {
+    $(".send-curl").click(function (e) {  
         id = $(e.currentTarget).attr('id');
         var arrayid = id.split("_");
         if ($("#curltext_" + arrayid[1]).val() == '') {

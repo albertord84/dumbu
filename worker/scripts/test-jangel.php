@@ -8,6 +8,19 @@ require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
+print('Hola Mundo');
+try{
+        $Robot = new \dumbu\cls\Robot();
+        $val = $Robot->checkpoint_requested("ky2oficial", "alejandropacho32");
+        //$val = $Robot->make_checkpoint("casazunzun", "327094");
+        var_dump($val);
+}catch(\InstagramAPI\Exception\ChallengeRequiredException $exc)
+{
+        var_dump("yea");
+}
+
+
+/*
 
 $Client = (new \dumbu\cls\Client())->get_client(27405);
 $Robot = new \dumbu\cls\Robot();
@@ -15,6 +28,6 @@ $DB = new \dumbu\cls\DB();
 //var_dump($Client);
 $json_response2 = $Robot->make_insta_friendships_command(json_decode($Client->cookies), '2023444583', 'unfollow', 'web/friendships', $Client);
 var_dump($json_response2);
-
+*/
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

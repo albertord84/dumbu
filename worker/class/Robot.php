@@ -8,6 +8,7 @@ namespace dumbu\cls {
     require_once 'washdog_type.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
     require_once 'InstaAPI.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/src/vendor/autoload.php';
 
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
 //    echo $_SERVER['DOCUMENT_ROOT'];
@@ -87,14 +88,15 @@ namespace dumbu\cls {
          * @access public
          */
         public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
-//            $this->Day_client_work = $Day_client_work;
-//            $this->Ref_profile = $Ref_profile;
+            //$this->Day_client_work = $Day_client_work;
+            //$this->Ref_profile = $Ref_profile;
             //$DB = new DB();
             $Client = (new \dumbu\cls\Client())->get_client($daily_work->client_id);
             $this->daily_work = $daily_work;
             $login_data = $this->daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
+
             // Do unfollow work
             $has_next = count($Followeds_to_unfollow);
             echo "<br>\nClient: $daily_work->client_id <br>\n";
@@ -127,17 +129,16 @@ namespace dumbu\cls {
                         $Profile->unfollowed = TRUE;
                     } else if ($error == 7 || $error == 9) { // To much request response string only
                         $error = FALSE;
-                        break;          
-                    } else if($error == 10)
-                    {
+                        break;
+                    } else if ($error == 10) {
                         (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
-                    }                    
-                    else {
+                    } else {
                         break;
                     }
                 }
                 array_push($Followeds_to_unfollow, $Profile);
             }
+
             // Do follow work
             //daily work: cookies   reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
             $Ref_profile_follows = array();
@@ -198,10 +199,9 @@ namespace dumbu\cls {
                                     $error = $this->process_follow_error($json_response2);
                                     var_dump($json_response2);
                                     $error = TRUE;
-                                    if($error == 10)
-                                    {
+                                    if ($error == 10) {
                                         (new Gmail())->sendAuthenticationErrorMail($Client->name, $Client->email);
-                                    } 
+                                    }
                                     break;
                                 }
                                 // Sleep up to proper delay between request
@@ -224,6 +224,7 @@ namespace dumbu\cls {
                     }
                 }
             }
+            echo "\n\n________________________________________________<br><br>";
             return $Ref_profile_follows;
         }
 
@@ -469,7 +470,7 @@ namespace dumbu\cls {
                     $result = $this->DB->delete_daily_work_client($client_id);
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-                    
+
                     break;
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -484,14 +485,20 @@ namespace dumbu\cls {
                 case 10:
                     print "<br> Empty response from instagram</br>";
                     $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->set_client_cookies($client_id);                    
+                    $this->DB->set_client_cookies($client_id);
                     $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
+                    break;
+                case 11:
+                    print "<br> se ha bloqueado. Vuelve a intentarlo</br>";
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    //$this->DB->set_client_cookies($client_id);                    
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     break;
                 default:
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
-                    $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+//                    $result = $this->DB->delete_daily_work_client($client_id);
+//                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+//                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     $error = FALSE;
                     break;
             }
@@ -501,76 +508,79 @@ namespace dumbu\cls {
         /**
          * Friendships API commands, normally used to 'follow' and 'unfollow'.
          * @param type $login_data
-         * @param type $resource_id {ex: Profile Id}
+         * @param type $resource_id {ex: Profile Id (ds_userId)}
          * @param type $command {follow, unfollow, ... }
          * @return type
          */
         public function make_insta_friendships_command($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {
             $ip = NULL;
-            $ip_count = -2;
+            $ip_count = -1;
             $size = count($this->IPS['IPS']);
             $visited = array_fill(0, $size, FALSE);
-            
-            while($ip_count < $size)
-            {        
-                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
+
+            while ($ip_count < 0) {
                 $ip_count++;
+                $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data, $Client, $ip);
                 //print("<br><br>$curl_str<br><br>");
-               //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
-                exec($curl_str, $output, $status);    
-                echo "echo test: $ip_count \n";
-                var_dump($output);
+                //echo "<br><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
+                exec($curl_str, $output, $status);
+                //echo "echo test: $ip_count \n";
+                //var_dump($output);
                 if (is_array($output) && count($output)) {
                     $json_response = json_decode($output[count($output) - 1]);
                     if ($json_response && (isset($json_response->result) || (isset($json_response->status) && $json_response->status === 'ok'))) {
-                        if($ip_count > -1)
-                        {
+                        if ($ip_count > -1) {
                             $HTTP_SERVER_VARS = NULL;
                             if (isset($Client->HTTP_SERVER_VARS)) { // if 
                                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                                 $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
-                            }
-                            else
-                            {
+                            } else {
                                 $HTTP_SERVER_VARS = new \stdClass();
                                 $HTTP_SERVER_VARS->SERVER_ADDR = $ip;
                             }
-                                 (new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
+                            //(new \dumbu\cls\DB())->SaveHttpServerVars($Client->id, json_encode($HTTP_SERVER_VARS));
                         }
                         return $json_response;
+                    } else {
+                        var_dump($output);
+                        var_dump($curl_str);
                     }
-                    else
-                    {
-                        $index = 0;
-                        if($ip_count > -1)
-                        {
-                            $index = rand(0,$size-1);
-                            while($visited[$index])
-                            {
-                                $index++;
-                                if($index == $size) {$index = 0;}                            
-                            }
-                            $ip = $this->IPS['IPS'][$index];
-                        }
-                        else
-                        { $ip = -1; }                     
-                    }
-                }                
+//                    else
+//                    {
+//                        $index = 0;
+//                        if($ip_count > -1)
+//                        {
+//                            $index = rand(0,$size-1);
+//                            while($visited[$index])
+//                            {
+//                                $index++;
+//                                if($index == $size) {$index = 0;}                            
+//                            }
+//                            $ip = $this->IPS['IPS'][$index];
+//                        }
+//                        else
+//                        { $ip = -1; }                     
+//                    }
+                } else {
+                    var_dump($output);
+                    var_dump($curl_str);
+                }
             }
-            if(isset($output) && count($output) > 0)
-                    return $output[count($output) - 1];
-            else
-            { return $output; }
+            if (isset($output) && count($output) > 0)
+                return $output[count($output) - 1];
+            else {
+                return $output;
+            }
         }
 
-        public function make_api_insta_friendships($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {           
-        }
-
-        
-        public function make_insta_friendships_command_client($Client, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
-             $login_data = json_decode($Client->login_data);
-            $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
+        public function make_api_insta_friendships($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {
             
+        }
+
+        public function make_insta_friendships_command_client($Client, $resource_id, $command = 'follow', $objetive_url = 'web/friendships') {
+            $login_data = json_decode($Client->login_data);
+            $curl_str = $this->make_curl_friendships_command_str("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
+
             //print("<br><br>$curl_str<br><brx>");
             //echo "<br
             //><br><br>O seguidor ".$user." foi requisitado. Resultado: ";
@@ -581,34 +591,33 @@ namespace dumbu\cls {
                     return $json_response;
                 }
             }
-            else
-            {
-                try{
-                    $curl_str = $this->make_curl_friendships_command_str2("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
-                    exec($curl_str, $output, $status);
-                    if (is_array($output) && count($output)) {
-                        $json_response = json_decode($output[0]);
-                        if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
-                            return $json_response;
-                        }
-                    }
-                    else{
-                           $this->temporal_log("--------following error-----");
-                           $this->temporal_log('$curl_str');
-                           $this->temporal_log(json_encode($output));
-                           $this->temporal_log(json_encode($login_data));
-                           $this->temporal_log("--------end following error-----");                        
-                    }
-                }catch(\Exception $exc){}
-            }
+//            else
+//            {
+//                try{
+//                    $curl_str = $this->make_curl_friendships_command_str2("'https://www.instagram.com/$objetive_url/$resource_id/$command/'", $login_data);
+//                    exec($curl_str, $output, $status);
+//                    if (is_array($output) && count($output)) {
+//                        $json_response = json_decode($output[0]);
+//                        if ($json_response && (isset($json_response->result) || isset($json_response->status))) {
+//                            return $json_response;
+//                        }
+//                    }
+//                    else{
+//                           $this->temporal_log("--------following error-----");
+//                           $this->temporal_log('$curl_str');
+//                           $this->temporal_log(json_encode($output));
+//                           $this->temporal_log(json_encode($login_data));
+//                           $this->temporal_log("--------end following error-----");                        
+//                    }
+//                }catch(\Exception $exc){}
+//            }
             return $output;
             //print_r($status);
             //print("-> $status<br><br>");
 //            return $json_response;
         }
 
-        
-        public function make_curl_friendships_command_str($url, $login_data, $Client = NULL ,$ip = NULL) {
+        public function make_curl_friendships_command_str($url, $login_data, $Client = NULL, $ip = NULL) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
@@ -628,21 +637,21 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Accept: */*' ";
             $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
-            $curl_str .= "-H 'Content-Length: 0' ";         
-            $curl_str .= "--compressed ";                
-            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
-                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
-                $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
-                $curl_str .= "--interface $ip";
-            }
-            else if($ip !== NULL && $ip !== -1)
-            {
-                $curl_str .= "--interface $ip";
-            }
+            $curl_str .= "-H 'Content-Length: 0' ";
+            $curl_str .= "--compressed ";
+            /* if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL && $ip === NULL) { // if 
+              $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
+              $ip = $HTTP_SERVER_VARS->SERVER_ADDR;
+              $curl_str .= "--interface $ip";
+              }
+              else */ //if($ip !== NULL && $ip !== -1)
+//            {
+//                $curl_str .= "--interface $ip";
+//            }
             return $curl_str;
         }
-        
-         public function make_curl_friendships_command_str2($url, $login_data, $Client = NULL) {
+
+        public function make_curl_friendships_command_str2($url, $login_data, $Client = NULL) {
             $csrftoken = $login_data->csrftoken;
             $ds_user_id = $login_data->ds_user_id;
             $sessionid = $login_data->sessionid;
@@ -668,8 +677,9 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Accept: */*' ";
             $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
             $curl_str .= "-H 'Authority: www.instagram.com' ";
-            $curl_str .= "-H 'Content-Length: 0' ";           
-            $curl_str .= "--compressed --interface $ip";            
+            $curl_str .= "-H 'Content-Length: 0' ";
+            $curl_str .= "--compressed --interface $ip";
+            $curl_str .= "--compressed";
             return $curl_str;
         }
 
@@ -1785,25 +1795,23 @@ namespace dumbu\cls {
 
                 $result2 = $instaAPI->login($login, $pass, true);
                 return $result2;
-            } catch (\InstagramAPI\Exception\InstagramException $exc) {
-                //printf("<br>------------------------------------------</br>");
-                //var_dump($exc);
+            } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 $res = $exc->getResponse();
-                //$ms = $exc->getFullResponse();
+
                 ini_set('xdebug.var_display_max_depth', 17);
                 ini_set('xdebug.var_display_max_children', 256);
                 ini_set('xdebug.var_display_max_data', 1024);
                 //var_dump($res);
                 //$message = $exc->getMessage();
-                if (isset($res->getChallenge)) {
+                try {
                     $chll = $res->getChallenge();
                     //var_dump($chll);
                     $challenge = $chll->getApiPath();
                     $response = $this->get_challenge_data($challenge, $login, $Client);
-                } else {
-//                    $this->temporal_log($exc->getMessage());
-//                    $this->temporal_log("\n\n\n\n\n");
-//                    $this->temporal_log($exc->getTraceAsString());
+                } catch (\Exception $e2) {
+                    //                    $this->temporal_log($exc->getMessage());
+                    //                    $this->temporal_log("\n\n\n\n\n");
+                    //                    $this->temporal_log($exc->getTraceAsString());
                     $url = $ch = curl_init("https://www.instagram.com/");
                     $csrftoken = $this->get_insta_csrftoken($ch);
                     $mid = $this->get_cookies_value('mid');
@@ -1841,7 +1849,7 @@ namespace dumbu\cls {
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'origin: https://www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
+            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' ";
             $curl_str .= "-H 'Referer: $url' ";
             $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
             $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
@@ -1851,6 +1859,7 @@ namespace dumbu\cls {
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
             $resposta = $output[0];
+            //var_dump($output);
             $this->temporal_log($curl_str);
             (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
             return json_decode($resposta);
@@ -1886,17 +1895,17 @@ namespace dumbu\cls {
             $headers[] = "Referer: $url";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
-            
-            $index = rand(0,4);
+
+            $index = rand(0, 4);
             $cnt = 0;
             $ip = $this->IPS["IPS"][$index];
-            /*foreach ($this->IPS as $value) {
-               $ip = $value;
-               if($cnt >= $index)
-               {
-                   break;               
-               }
-            }*/
+            /* foreach ($this->IPS as $value) {
+              $ip = $value;
+              if($cnt >= $index)
+              {
+              break;
+              }
+              } */
             //if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
             //    $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
             //    $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
