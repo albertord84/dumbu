@@ -294,15 +294,17 @@ namespace dumbu\cls {
                             echo ("<br>\n Updated Reference Cursor to NULL!!");
                             $result = $this->DB->delete_daily_work($daily_work->reference_id);
                             if ($result) {
-                                echo ("<br>\n Deleted Daily work!!");
+                                echo ("<br>\n Deleted Daily work!! Ref $daily_work->reference_id");
                             }
                         } else if ($page_info->has_next_page === FALSE && $page_info->end_cursor === NULL) {
-                            $Client = new Client();
-                            $Client = $Client->get_client($daily_work->user_id);
-                            $login_result = $Client->sign_in($Client);
+//                            $Client = new Client();
+//                            $Client = $Client->get_client($daily_work->user_id);
+//                            $login_result = $Client->sign_in($Client);
+                            $this->DB->update_reference_cursor($daily_work->reference_id, NULL);
+                            echo ("<br>\n Updated Reference Cursor to NULL!!");
                             $result = $this->DB->delete_daily_work($daily_work->reference_id);
                             if ($result) {
-                                echo ("<br>\n Deleted Daily work!!");
+                                echo ("<br>\n Deleted Daily work!! Ref $daily_work->reference_id");
                             }
                         }
                         $error = FALSE;
@@ -544,6 +546,7 @@ namespace dumbu\cls {
                     } else {
                         var_dump($output);
                         var_dump($curl_str);
+                        return $json_response;
                     }
 //                    else
 //                    {
@@ -564,13 +567,15 @@ namespace dumbu\cls {
                 } else {
                     var_dump($output);
                     var_dump($curl_str);
+                    return $output;
                 }
             }
-            if (isset($output) && count($output) > 0)
-                return $output[count($output) - 1];
-            else {
-                return $output;
-            }
+            return NULL;
+//            if (isset($output) && count($output) > 0)
+//                return $output[count($output) - 1];
+//            else {
+//                return $output;
+//            }
         }
 
         public function make_api_insta_friendships($login_data, $resource_id, $command = 'follow', $objetive_url = 'web/friendships', $Client = NULL) {
