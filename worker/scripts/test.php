@@ -75,8 +75,9 @@ $RP = new \dumbu\cls\Reference_profile();
 
 
 $DB = new \dumbu\cls\DB();
+$result = $DB->Increase_Client_Last_Access(1, $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS + 1);
 //$result = $DB->is_profile_followed(1, '858888048');
-//var_dump($result);
+var_dump($result);
 //$DB->delete_daily_work_client(13);
 //$daily_work = $DB->get_follow_work();
 //$daily_work->login_data = json_decode($daily_work->cookies);
@@ -163,25 +164,25 @@ $Payment = new dumbu\cls\Payment();
 //var_dump(date('d-m-Y h:i:sa', $data));
 //
 
-$pay_day = strtotime('05/18/2018 00:18:37');
+//$pay_day = strtotime('05/18/2018 00:18:37');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+2 months", time());
 
-$payment_data['credit_card_number'] = '5162205148963901';
-$payment_data['credit_card_name'] = 'RIDYE M RINALDI';
-$payment_data['credit_card_exp_month'] = '09';
-$payment_data['credit_card_exp_year'] = '2019';
-$payment_data['credit_card_cvc'] = '839';
-$payment_data['amount_in_cents'] = 14990;
-$payment_data['pay_day'] = $pay_day;
+//$payment_data['credit_card_number'] = '5162205148963901';
+//$payment_data['credit_card_name'] = 'RIDYE M RINALDI';
+//$payment_data['credit_card_exp_month'] = '09';
+//$payment_data['credit_card_exp_year'] = '2019';
+//$payment_data['credit_card_cvc'] = '839';
+//$payment_data['amount_in_cents'] = 14990;
+//$payment_data['pay_day'] = $pay_day;
 
 ////$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
 ////$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 ////var_dump($resul);
 
