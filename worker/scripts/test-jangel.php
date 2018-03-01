@@ -1,4 +1,5 @@
 <?PHP
+/*
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
 require_once '../class/Gmail.php';
@@ -7,8 +8,22 @@ require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
-
+*/
 print('Hola Mundo');
+
+try{
+        //$Robot = new \dumbu\cls\Robot();
+        //$val = $Robot->checkpoint_requested("ecr_nature", "ecr26020");
+        //$val = $Robot->make_checkpoint("casazunzun", "327094");
+        //var_dump($val);
+        exec("curl 'https://www.google.com/'",$output,$status);
+var_dump($output);
+var_dump($status);
+}catch(\Exception $exc)
+{
+        var_dump($exc);
+}
+/*
 try{
         $Robot = new \dumbu\cls\Robot();
         $val = $Robot->checkpoint_requested("ky2oficial", "alejandropacho32");
@@ -19,7 +34,7 @@ try{
         var_dump("yea");
 }
 
-
+*/
 /*
 
 $Client = (new \dumbu\cls\Client())->get_client(27405);
@@ -29,5 +44,6 @@ $DB = new \dumbu\cls\DB();
 $json_response2 = $Robot->make_insta_friendships_command(json_decode($Client->cookies), '2023444583', 'unfollow', 'web/friendships', $Client);
 var_dump($json_response2);
 */
+exec("curl 'http://www.google.com'",$output,$status); var_dump('Hol');
 
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";

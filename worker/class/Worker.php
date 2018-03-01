@@ -6,7 +6,8 @@ namespace dumbu\cls {
     require_once 'Reference_profile.php';
     require_once 'Client.php';
     require_once 'Robot.php';
-    require_once 'Gmail.php';
+    require_once 'Gmail.php';    
+    require_once 'washdog_type.php';
 
     
     class Worker {
@@ -48,33 +49,47 @@ namespace dumbu\cls {
                 }
                 if ($Client->cookies && !$Client->paused) {
                     //var_dump($Client->login);
-                    $this->DB->Create_Followed($Client->id);
-                    print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
-                    $Client->set_client_status($Client->id, user_status::ACTIVE);
-                    // Distribute work between clients
-                    $RPWC = $Client->rp_workable_count();
-                    $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
-                    if ($RPWC > 0) {
-                        $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
-                        //$to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
-                        // If User status = UNFOLLOW he do 0 follows
-                        $to_follow = $Client->status_id != user_status::DUMBU_UNFOLLOW ? $to_follow_unfollow : 0;
-                        $to_unfollow = $to_follow_unfollow;
-                        foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
-                            //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
-                            if (!$Ref_Prof->deleted && $Ref_Prof->end_date == NULL) {
-                                $valid_geo = ($Ref_Prof->type == 1 && ($Client->plane_id == 1 || $Client->plane_id > 3));
-                                if ($Ref_Prof->type == 0 || $valid_geo) {
-                                    $this->DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
+                    $cookies = json_decode($Client->cookies);
+                     if(isset($cookies->csrftoken) && $cookies->csrftoken !=  NULL && $cookies->csrftoken != "" &&
+                        isset($cookies->ds_user_id) && $cookies->ds_user_id != NULL && $cookies->ds_user_id != "" &&
+                        isset($cookies->sessionid) && $cookies->sessionid != NULL && $cookies->sessionid != "" &&
+                        isset($cookies->mid) &&  $cookies->mid != NULL && $cookies->mid != "")
+                    {
+                        $this->DB->Create_Followed($Client->id);
+                        print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
+                        $Client->set_client_status($Client->id, user_status::ACTIVE);
+                        // Distribute work between clients
+                        $RPWC = $Client->rp_workable_count();
+                        $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+                        if ($RPWC > 0) {
+                            $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
+                            //$to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;
+                            // If User status = UNFOLLOW he do 0 follows
+                            $to_follow = $Client->status_id != user_status::DUMBU_UNFOLLOW ? $to_follow_unfollow : 0;
+                            $to_unfollow = $to_follow_unfollow;
+                            foreach ($Client->reference_profiles as $Ref_Prof) { // For each reference profile
+                                //$Ref_prof_data = $this->Robot->get_insta_ref_prof_data($Ref_Prof->insta_name);
+                                if (!$Ref_Prof->deleted && $Ref_Prof->end_date == NULL) {
+                                    $valid_geo = ($Ref_Prof->type == 1 && ($Client->plane_id == 1 || $Client->plane_id > 3));
+                                    if ($Ref_Prof->type == 0 || $valid_geo) {
+                                        $this->DB->insert_daily_work($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
+                                    }
                                 }
                             }
+                        } else {
+                            echo "Not reference profiles: $Client->login <br>\n<br>\n";
+                            if (count($Client->reference_profiles)) { // To keep unfollow
+                                $this->DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
+                            }
+                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                         }
-                    } else {
-                        echo "Not reference profiles: $Client->login <br>\n<br>\n";
-                        if (count($Client->reference_profiles)) { // To keep unfollow
-                            $this->DB->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
-                        }
-                        $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+                    }
+                    else if($Client->status_id === user_status::ACTIVE)
+                    {
+                        $this->DB->set_client_cookies($Client->id);
+                        $this->DB->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);                    
+                        $this->DB->InsertEventToWashdog($Client->client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, 0);
+                                    
                     }
                 } elseif(!$Client->paused){
                     // TODO: do something in Client autentication error
@@ -116,7 +131,7 @@ namespace dumbu\cls {
                     }
                 }
                 //Reuest for the black list in the data base
-                $daily_work->black_list = $this->DB->get_black_list($daily_work->users_id);
+                $daily_work->black_list = $this->DB->get_black_list($daily_work->client_id);
               
                 $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
