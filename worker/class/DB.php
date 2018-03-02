@@ -281,7 +281,7 @@ namespace dumbu\cls {
         
         public function save_curl($client_id, $curl, $robot_id=NULL)
         {
-            $this->InsertEventToWashdog($client_id, $curl, 1, $robot_id);
+            $this->InsertEventToWashdog($client_id, "CURL_ERROR", 1, $robot_id, $curl);
         }
 
         public function set_client_cookies($client_id, $cookies = NULL) {
@@ -805,7 +805,7 @@ namespace dumbu\cls {
             }
         }
         
-        public function InsertEventToWashdog($user_id, $action, $source = 0, $robot_id = NULL)
+        public function InsertEventToWashdog($user_id, $action, $source = 0, $robot_id = NULL, $metadata = NULL)
         {
             try {
                 //mysqli_real_escape_string($escapestr)
@@ -825,8 +825,8 @@ namespace dumbu\cls {
                  
                   $obj = $result->fetch_object();
                   if(isset($robot_id) == true)
-                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', $robot_id);";}
-                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', NULL);"; }            
+                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metatdata');";}
+                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metatdata');"; }            
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  
@@ -893,6 +893,7 @@ namespace dumbu\cls {
                                 `reference_id` INT(1) NOT NULL,
                                 `date` VARCHAR(20) NULL,
                                 `unfollowed` TINYINT(1) NULL,
+                                `followed_login` VARCHAR(100) NULL DEFAULT NULL,
                                 PRIMARY KEY (`id`, `reference_id`),
                                 INDEX `fk__1_idx` (`reference_id` ASC),
                                 CONSTRAINT `fk__$client_id`
