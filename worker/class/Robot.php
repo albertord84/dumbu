@@ -449,29 +449,19 @@ namespace dumbu\cls {
             $error = $Profile->parse_profile_follow_errors($json_response);
             switch ($error) {
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
-                    $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
-                    var_dump($result);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
-//                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
-                    // Alert when insta block by IP
-                    $this->DB->InsertEventToWashdog($client_id, "BLOCKED_BY_INSTA", 1, $this->id);
+                    $result = $this->DB->delete_daily_work_client($client_id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     $error = TRUE;
-                    /*$result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
-                    $rows_count = $result->num_rows;
-                    if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
-                        $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 1= " . $rows_count, "Jose");
-                        $Gmail->send_client_login_error("ruslan.guerra88@gmail.com", "Ruslan!!!!!!! BLOQUEADOS 1= " . $rows_count, "Ruslan");
-                    }*/
                     break;
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::SET_TO_UNFOLLOW, 1, $this->id);
-//                    $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
-//                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
-                    print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
+                    $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
+                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
+//                    print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
                     break;
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -513,11 +503,22 @@ namespace dumbu\cls {
                     print "<br>\n Empty message (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." "Aguarde alguns minutos antes de tentar novamente."
-                    print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
-                    $result = $this->DB->delete_daily_work_client($client_id);
+                    print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";                   
+                    //$result = $this->DB->delete_daily_work_client($client_id);
+                    //$this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+//                    var_dump($result);
+//                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
+                    // Alert when insta block by IP
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-                    $error = TRUE;
+                    $this->DB->Increase_Client_Last_Access($client_id, $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS);
+                    $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    /*$result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    $rows_count = $result->num_rows;
+                    if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
+                        $Gmail = new Gmail();
+                        $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 1= " . $rows_count, "Jose");
+                        $Gmail->send_client_login_error("ruslan.guerra88@gmail.com", "Ruslan!!!!!!! BLOQUEADOS 1= " . $rows_count, "Ruslan");
+                    }*/
                     break;
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);

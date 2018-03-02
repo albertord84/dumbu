@@ -917,6 +917,23 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }  
        }
+       
+       /**
+        * Increase_Client_Last_Access
+        * @param type $client_id
+        * @param type $hours to add to client
+        */
+       public function Increase_Client_Last_Access($client_id, $hours = 0) {
+            try {
+                $timestamp = strtotime("+$hours hours", time());
+                $sql = "UPDATE dumbudb.clients SET last_access='$timestamp' WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }           
+        }
+       
     }
 
 }
