@@ -1,5 +1,5 @@
 <?PHP
-/*
+
 require_once '../class/Worker.php';
 require_once '../class/system_config.php';
 require_once '../class/Gmail.php';
@@ -8,10 +8,15 @@ require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
-*/
-print('Hola Mundo');
 
-try{
+print('Hola Mundo');
+$client_id = 26187;
+$Client = (new \dumbu\cls\Client())->get_client($client_id);
+$Robot = new \dumbu\cls\Robot();
+$result = $Robot->get_insta_geomedia(json_decode($Client->cookies), 0, 10);
+var_dump($result);
+
+/*try{
         //$Robot = new \dumbu\cls\Robot();
         //$val = $Robot->checkpoint_requested("ecr_nature", "ecr26020");
         //$val = $Robot->make_checkpoint("casazunzun", "327094");
@@ -22,7 +27,7 @@ var_dump($status);
 }catch(\Exception $exc)
 {
         var_dump($exc);
-}
+}*/
 /*
 try{
         $Robot = new \dumbu\cls\Robot();

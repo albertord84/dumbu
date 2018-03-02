@@ -863,7 +863,7 @@ namespace dumbu\cls {
                         $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
                         echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
                     }
-                } else if (isset($json->data->location) && ($json->data->location === NULL)) {
+                } else if (isset($json->data)  && $json->data->location === NULL) {
                     //var_dump($output);
                     print_r($curl_str);
                     $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
