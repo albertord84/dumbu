@@ -124,7 +124,7 @@
 										</div>
 										<div id="container_login_force_login1" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                                                                    
                                                                                     <div class="col-md-2 col-sm-2 col-xs-12">
-                                                                                        <input type="checkbox" id="check_force_login1" checked="true" style="margin-top: 0;">                                                                                                        
+                                                                                        <input type="checkbox" id="check_force_login1" checked="false" style="margin-top: 0;">                                                                                                        
                                                                                     </div>
                                                                                     <div id="message_force_login1" class="col-md-10 col-sm-10 col-xs-12 text-left">                                                                                        
                                                                                     </div>
@@ -244,7 +244,7 @@
 												</div>
 												<div id="container_login_force_login2" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                                                                    
                                                                                                     <div class="col-md-2 col-sm-2 col-xs-12">
-                                                                                                        <input type="checkbox" id="check_force_login2" checked="true" style="margin-top: 0;">                                                                                                        
+                                                                                                        <input type="checkbox" id="check_force_login2" checked="false" style="margin-top: 0;">                                                                                                        
                                                                                                     </div>
                                                                                                     <div id="message_force_login2" class="col-md-10 col-sm-10 col-xs-12 text-left">
                                                                                                     </div>

@@ -1,5 +1,7 @@
 $(document).ready(function(){   
     
+    
+    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
@@ -32,7 +34,7 @@ $(document).ready(function(){
                 $(fieldErrorMessage).text(T('Espere por favor, conferindo credenciais!!'));
                 $(fieldErrorMessage).css('visibility','visible');
                 $(fieldErrorMessage).css('color','green');
-                var force_login = false;
+                var force_login = false;                
                 if($(fieldCheckForceLogin).prop('checked'))
                     force_login = true;                
                 $.ajax({
@@ -313,5 +315,8 @@ $(document).ready(function(){
         }
 
       });
-          
+     
+    $('#check_force_login2').prop('checked', false);
+    $('#check_force_login1').prop('checked', false);   
+    
  }); 

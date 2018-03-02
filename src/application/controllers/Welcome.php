@@ -235,12 +235,12 @@ class Welcome extends CI_Controller {
             $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
             $GLOBALS['language']=$param['language'];
             
-            $query = 'SELECT * FROM users WHERE '
-                      .'login='.$datas['user_login'].'and pass='.$datas['user_pass'].'and role_id='.user_role::CLIENT;
+            $query = "SELECT * FROM users WHERE "
+                      ."login= '".$datas['user_login']."' and pass = '".$datas['user_pass']."' and role_id = '".user_role::CLIENT."'";
             $real_status = $this->get_real_status_of_user($query);
 
             if($real_status==2 || $datas['force_login']=='true'){
-                $result = $this->user_do_login_second_stage($datas,$language);                
+                $result = $this->user_do_login_second_stage($datas,$GLOBALS['language']);                
             }else{                
                 $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
                 $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
@@ -275,7 +275,7 @@ class Welcome extends CI_Controller {
             return $real_status;
         }
 
-        public function user_do_login_second_stage($datas,$language,$force_login) {
+        public function user_do_login_second_stage($datas,$language) {
         /*$login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
