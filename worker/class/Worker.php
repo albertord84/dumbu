@@ -55,6 +55,10 @@ namespace dumbu\cls {
                         isset($cookies->sessionid) && $cookies->sessionid != NULL && $cookies->sessionid != "" &&
                         isset($cookies->mid) &&  $cookies->mid != NULL && $cookies->mid != "")
                     {
+                        
+                        //Jose R: si tiene los 4 parametros de las cookies, devemos intentar hacer una operacion (coger 10 seguidores de qq RP)
+                        //para chekear que esas cookies estan correctas, si no, bloquear por ssenha errada  status_id=3
+                         
                         $this->DB->Create_Followed($Client->id);
                         print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
                         $Client->set_client_status($Client->id, user_status::ACTIVE);
@@ -102,7 +106,7 @@ namespace dumbu\cls {
                     //if ($diff_info->days <= 3) {
                         // TODO, UNCOMMENT
                         $this->Gmail->send_client_login_error($Client->email, $Client->name, $Client->login, $Client->pass);
-                    //}
+                    //}Jose 
                 }
                 //die("Alberto");
             }
