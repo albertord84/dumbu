@@ -1480,16 +1480,15 @@ namespace dumbu\cls {
             return intval($substr2) ? intval($substr2) : 0;
         }
 
-        public function bot_login($login, $pass, $Client = NULL, $forse = FALSE) {
+        public function bot_login($login, $pass,  $forse = FALSE) {
             $myDB = new \dumbu\cls\DB();
             // Is client with cookies, we try to do some instagram action to verify the coockies are allright 
             $result = new \stdClass();
             $result->json_response = new \stdClass();
             $result->json_response->authenticated = FALSE;
             $output = array();
-            $cnt = 0;
-            if (!$Client)
-                $Client = $myDB->get_client_data_bylogin($login);
+            $cnt = 0;            
+            $Client = $myDB->get_client_data_bylogin($login);
             if (!forse) {
                 if (!$this->verify_cookies($Client)) {
                     $myDB->set_client_cookies($Client->id);

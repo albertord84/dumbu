@@ -11,9 +11,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 print('Hola Mundo');
 $client_id = 26187;
-$Client = (new \dumbu\cls\Client())->get_client($client_id);
-$Robot = new \dumbu\cls\Robot();
-$result = $Robot->get_insta_geomedia(json_decode($Client->cookies), 0, 10);
 var_dump($result);
 
 /*try{
