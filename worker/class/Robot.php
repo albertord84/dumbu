@@ -478,6 +478,7 @@ namespace dumbu\cls {
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA, 1, $this->id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
+                    $this->DB->set_client_cookies($client_id, NULL);
                     //$this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     $error = TRUE;
