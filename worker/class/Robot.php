@@ -1489,7 +1489,7 @@ namespace dumbu\cls {
             $output = array();
             $cnt = 0;            
             $Client = $myDB->get_client_data_bylogin($login);
-            if (!forse) {
+            if (!$forse) {
                 if (!$this->verify_cookies($Client)) {
                     $myDB->set_client_cookies($Client->id);
                     $Client->cookies = NULL;
