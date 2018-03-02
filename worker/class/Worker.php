@@ -88,7 +88,7 @@ namespace dumbu\cls {
                     {
                         $this->DB->set_client_cookies($Client->id);
                         $this->DB->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);                    
-                        $this->DB->InsertEventToWashdog($Client->client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, 0);
+                        $this->DB->InsertEventToWashdog($Client->client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, 0, "Cookies incompletas when prepare_daily_work");
                                     
                     }
                 } elseif(!$Client->paused){
