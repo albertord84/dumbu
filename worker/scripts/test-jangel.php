@@ -48,6 +48,4 @@ $DB = new \dumbu\cls\DB();
 $json_response2 = $Robot->make_insta_friendships_command(json_decode($Client->cookies), '2023444583', 'unfollow', 'web/friendships', $Client);
 var_dump($json_response2);
 */
-exec("curl 'http://www.google.com'",$output,$status); var_dump('Hol');
-
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";
