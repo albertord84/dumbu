@@ -1,0 +1,10 @@
+--2018-03-04 16:01:23--  http://localhost/dumbu/worker/log/dumbo-worker1-20180304.log
+Resolviendo localhost (localhost)... 127.0.0.1
+Conectando con localhost (localhost)[127.0.0.1]:80... conectado.
+Petición HTTP enviada, esperando respuesta... 404 Not Found
+2018-03-04 16:01:23 ERROR 404: Not Found.
+
+--2018-03-04 16:01:23--  http://dumbu.one/dumbu/worker/scripts/index-do.php?id=1
+Resolviendo dumbu.one (dumbu.one)... 70.39.250.32
+Conectando con dumbu.one (dumbu.one)[70.39.250.32]:80... conectado.
+Petición HTTP enviada, esperando respuesta... 
