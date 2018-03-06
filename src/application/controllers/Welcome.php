@@ -2,280 +2,280 @@
 
 class Welcome extends CI_Controller {
     
-        private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
-        public $language =NULL;
+    private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
+    public $language =NULL;
 
-        public function index() {
-            $language=$this->input->get();
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            if(isset($language['language']))
-                $param['language']=$language['language'];
-            else
-                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
-            $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
-            $GLOBALS['language']=$param['language'];
-            //$this->load->library('recaptcha');
-            $this->load->view('user_view', $param);
-        }
-
-        public function language() {
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+    public function index() {
+        $language=$this->input->get();
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
             $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-            $this->load->library('recaptcha');
-            $this->load->view('user_view', $param);
-        }
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+        $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
+        $GLOBALS['language']=$param['language'];
+        //$this->load->library('recaptcha');
+        $this->load->view('user_view', $param);
+    }
 
-        public function purchase() {
-            $datas = $this->input->get();
-            if(isset($datas['access_token'])){
-                $this->load->model('class/client_model');
-                $client = $this->client_model->get_client_by_access_token($datas['access_token']); 
-                if(count($client)){
-                    $this->client_model->update_client($client['user_id'], 
-                            array('access_token' =>'---***###!!!---'.$client['user_id']));
-                    $this->user_model->set_sesion($client['user_id'], $this->session);
-                    $this->user_model->insert_washdog($client['user_id'],'REDIRECTED FROM TICKET-BANK EMAIL LINK');
-                } else{
-                    header("Location: ".base_url());
-                    die();
-                }
+    public function language() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+        $this->load->library('recaptcha');
+        $this->load->view('user_view', $param);
+    }
+
+    public function purchase() {
+        $datas = $this->input->get();
+        if(isset($datas['access_token'])){
+            $this->load->model('class/client_model');
+            $client = $this->client_model->get_client_by_access_token($datas['access_token']); 
+            if(count($client)){
+                $this->client_model->update_client($client['user_id'], 
+                        array('access_token' =>'---***###!!!---'.$client['user_id']));
+                $this->user_model->set_sesion($client['user_id'], $this->session);
+                $this->user_model->insert_washdog($client['user_id'],'REDIRECTED FROM TICKET-BANK EMAIL LINK');
+            } else{
+                header("Location: ".base_url());
+                die();
             }
-            if ($this->session->userdata('id')){
-                //$datas = $this->input->get();
-                $this->load->model('class/user_model');
-                $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-                $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-                $datas['user_id'] = $this->session->userdata('id');
-                $datas['profiles'] = $this->create_profiles_datas_to_display();            
-                $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;            
-                if(isset($datas['language'])&& $datas['language']!=''){
-                     $GLOBALS['language'] =  $datas['language'];
-                }
-                else{
-                    $datas['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-                     $GLOBALS['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-                }
-                $datas['Afilio_UNIQUE_ID'] = $this->session->userdata('id');
-                $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
-                $result = $this->user_model->execute_sql_query($query);
-                $datas['Afilio_order_price']=$result[0]['initial_val'];
-                $datas['Afilio_total_value']=$result[0]['normal_val'];
-                $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
-                $datas['client_login_profile'] = $this->session->userdata('login');
-                $datas['client_email']= $this->session->userdata('email');
-                $this->client_model->Create_Followed($this->session->userdata('id'));
-                $this->load->view('purchase_view', $datas);
-            }else
-                echo 'Access error';
         }
-
-        public function client() {
+        if ($this->session->userdata('id')){
+            //$datas = $this->input->get();
+            $this->load->model('class/user_model');
+            $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            $this->load->model('class/user_role');
-            $this->load->model('class/user_model');
-            $this->load->model('class/client_model');
-            $this->load->model('class/user_status');
-            $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
-            if (isset($this->session) && $this->session->userdata('role_id') == user_role::CLIENT) {
-                $language=$this->input->get();           
-                if(isset($language['language'])){
-                     $GLOBALS['language']=$language['language'];
-                    $this->user_model->set_language_of_client($this->session->userdata('id'),$language);
-                }
-                else
-                     $GLOBALS['language']=$this->user_model->get_language_of_client($this->session->userdata('id'))['language'];
-                $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
-                $datas1['WHATSAPP_PHONE'] = $GLOBALS['sistem_config']->WHATSAPP_PHONE;
-                $datas1['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
-                $this->Robot = new \dumbu\cls\Robot();
-                $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
-                //$my_profile_datas = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'));
-                $my_profile_datas = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')), $this->session->userdata('login'));
-                if(isset($my_profile_datas->profile_pic_url))
-                    $datas1['my_img_profile'] = $my_profile_datas->profile_pic_url;
-                else
-                    $datas1['my_img_profile']="Blocked";
-                //$datas1['dumbu_id'] = $this->session->userdata('id');
+            $datas['user_id'] = $this->session->userdata('id');
+            $datas['profiles'] = $this->create_profiles_datas_to_display();            
+            $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;            
+            if(isset($datas['language'])&& $datas['language']!=''){
+                 $GLOBALS['language'] =  $datas['language'];
+            }
+            else{
+                $datas['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+                 $GLOBALS['language'] = $GLOBALS['sistem_config']->LANGUAGE;
+            }
+            $datas['Afilio_UNIQUE_ID'] = $this->session->userdata('id');
+            $query='SELECT * FROM plane WHERE id='.$this->session->userdata('plane_id');
+            $result = $this->user_model->execute_sql_query($query);
+            $datas['Afilio_order_price']=$result[0]['initial_val'];
+            $datas['Afilio_total_value']=$result[0]['normal_val'];
+            $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
+            $datas['client_login_profile'] = $this->session->userdata('login');
+            $datas['client_email']= $this->session->userdata('email');
+            $this->client_model->Create_Followed($this->session->userdata('id'));
+            $this->load->view('purchase_view', $datas);
+        }else
+            echo 'Access error';
+    }
+
+    public function client() {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        $this->load->model('class/user_role');
+        $this->load->model('class/user_model');
+        $this->load->model('class/client_model');
+        $this->load->model('class/user_status');
+        $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
+        if (isset($this->session) && $this->session->userdata('role_id') == user_role::CLIENT) {
+            $language=$this->input->get();           
+            if(isset($language['language'])){
+                 $GLOBALS['language']=$language['language'];
+                $this->user_model->set_language_of_client($this->session->userdata('id'),$language);
+            }
+            else
+                 $GLOBALS['language']=$this->user_model->get_language_of_client($this->session->userdata('id'))['language'];
+            $datas1['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+            $datas1['WHATSAPP_PHONE'] = $GLOBALS['sistem_config']->WHATSAPP_PHONE;
+            $datas1['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+            $this->Robot = new \dumbu\cls\Robot();
+            $datas1['MAX_NUM_PROFILES'] = $GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT;
+            //$my_profile_datas = $this->Robot->get_insta_ref_prof_data($this->session->userdata('login'));
+            $my_profile_datas = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')), $this->session->userdata('login'));
+            if(isset($my_profile_datas->profile_pic_url))
+                $datas1['my_img_profile'] = $my_profile_datas->profile_pic_url;
+            else
+                $datas1['my_img_profile']="Blocked";
+            //$datas1['dumbu_id'] = $this->session->userdata('id');
 
 
-                $sql = "SELECT * FROM clients WHERE clients.user_id='" . $this->session->userdata('id') . "'";
-                $init_client_datas = $this->user_model->execute_sql_query($sql);
+            $sql = "SELECT * FROM clients WHERE clients.user_id='" . $this->session->userdata('id') . "'";
+            $init_client_datas = $this->user_model->execute_sql_query($sql);
 
-                $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='0'";
-                $reference_profile_used= $this->user_model->execute_sql_query($sql);
-                $datas1['reference_profile_used'] =count($reference_profile_used);
+            $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='0'";
+            $reference_profile_used= $this->user_model->execute_sql_query($sql);
+            $datas1['reference_profile_used'] =count($reference_profile_used);
 
-                $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='1'";
-                $geolocalization_used= $this->user_model->execute_sql_query($sql);
-                $datas1['geolocalization_used'] =count($geolocalization_used);
+            $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='1'";
+            $geolocalization_used= $this->user_model->execute_sql_query($sql);
+            $datas1['geolocalization_used'] =count($geolocalization_used);
 
-                $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='0'";
-                $amount_followers_by_reference_profiles = $this->user_model->execute_sql_query($sql);
-                $amount_followers_by_reference_profiles =(string)$amount_followers_by_reference_profiles[0]["followeds"];
-                $datas1['amount_followers_by_reference_profiles'] = $amount_followers_by_reference_profiles;
+            $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='0'";
+            $amount_followers_by_reference_profiles = $this->user_model->execute_sql_query($sql);
+            $amount_followers_by_reference_profiles =(string)$amount_followers_by_reference_profiles[0]["followeds"];
+            $datas1['amount_followers_by_reference_profiles'] = $amount_followers_by_reference_profiles;
 
-                $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='1'";
-                $amount_followers_by_geolocalization = $this->user_model->execute_sql_query($sql);
-                $amount_followers_by_geolocalization =(string)$amount_followers_by_geolocalization[0]["followeds"];
-                $datas1['amount_followers_by_geolocalization'] = $amount_followers_by_geolocalization;
+            $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='1'";
+            $amount_followers_by_geolocalization = $this->user_model->execute_sql_query($sql);
+            $amount_followers_by_geolocalization =(string)$amount_followers_by_geolocalization[0]["followeds"];
+            $datas1['amount_followers_by_geolocalization'] = $amount_followers_by_geolocalization;
 
 
-                if(isset($my_profile_datas->follower_count))
-                    $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
-                else
-                    $datas1['my_actual_followers']="Blocked";            
+            if(isset($my_profile_datas->follower_count))
+                $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
+            else
+                $datas1['my_actual_followers']="Blocked";            
 
-                if(isset($my_profile_datas->following))
-                   $datas1['my_actual_followings'] = $my_profile_datas->following;
-                else
-                    $datas1['my_actual_followings']="Blocked";
+            if(isset($my_profile_datas->following))
+               $datas1['my_actual_followings'] = $my_profile_datas->following;
+            else
+                $datas1['my_actual_followings']="Blocked";
 
-                $datas1['my_sigin_date'] = $this->session->userdata('init_date');
-                date_default_timezone_set('Etc/UTC');
-                $datas1['today'] = date('d-m-Y', time());
-                $datas1['my_initial_followers'] = $init_client_datas[0]['insta_followers_ini'];
-                $datas1['my_initial_followings'] = $init_client_datas[0]['insta_following'];            
+            $datas1['my_sigin_date'] = $this->session->userdata('init_date');
+            date_default_timezone_set('Etc/UTC');
+            $datas1['today'] = date('d-m-Y', time());
+            $datas1['my_initial_followers'] = $init_client_datas[0]['insta_followers_ini'];
+            $datas1['my_initial_followings'] = $init_client_datas[0]['insta_following'];            
 
-                $datas1['my_login_profile'] = $this->session->userdata('login');
-                $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
-                $datas1['autolike'] = $this->session->userdata('autolike');
-                $datas1['play_pause'] = (int) $init_client_datas[0]['paused'];
-                $datas1['plane_id'] = $this->session->userdata('plane_id');
-                $datas1['all_planes'] = $this->client_model->get_all_planes();
-                $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
-                $datas1['language'] =  $GLOBALS['language'];
+            $datas1['my_login_profile'] = $this->session->userdata('login');
+            $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
+            $datas1['autolike'] = $this->session->userdata('autolike');
+            $datas1['play_pause'] = (int) $init_client_datas[0]['paused'];
+            $datas1['plane_id'] = $this->session->userdata('plane_id');
+            $datas1['all_planes'] = $this->client_model->get_all_planes();
+            $datas1['currency'] = $GLOBALS['sistem_config']->CURRENCY;
+            $datas1['language'] =  $GLOBALS['language'];
 
-                $daily_report = $this->get_daily_report($this->session->userdata('id'));
-                $datas1['followings'] = $daily_report['followings'];
-                $datas1['followers']  = $daily_report['followers'];
+            $daily_report = $this->get_daily_report($this->session->userdata('id'));
+            $datas1['followings'] = $daily_report['followings'];
+            $datas1['followers']  = $daily_report['followers'];
 
-                if ($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
-                    $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'),'false');
-                    if ($insta_login['status'] === 'ok') {
-                        if ($insta_login['authenticated']) {
-                            //1. actualizar estado a ACTIVO
-                            $this->user_model->update_user($this->session->userdata('id'), array(
-                                'status_id' => user_status::ACTIVE));
-                            //2. actualizar la cookies
-                            if ($insta_login['insta_login_response']) {
-                                $this->client_model->update_client($this->session->userdata('id'), array(
-                                    'cookies' => json_encode($insta_login['insta_login_response'])));
-                                //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
-                                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                                $N = count($active_profiles);
-                                for ($i = 0; $i < $N; $i++) {
-                                    $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
-                                    $response = count($this->user_model->execute_sql_query($sql));
-                                    if (!$response && $active_profiles[$i]['end_date']!=='NULL')
-                                        $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $insta_login['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
-                                }
-                            }
-                            //4. actualizar la sesion
-                            $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
-                        } else {
-                            if ($insta_login['message'] == 'checkpoint_required' || $insta_login['message'] == '') {
-                                //actualizo su estado
-                                $this->user_model->update_user($this->session->userdata('id'), array(
-                                    'status_id' => user_status::VERIFY_ACCOUNT));
-                                //eliminar su trabajo si contrasenhas son diferentes
-                                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
-                                $N = count($active_profiles);
-                                for ($i = 0; $i < $N; $i++) {
-                                    $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
-                                }
-                                //establezco la sesion
-                                $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
-                                $datas1['verify_account_datas'] = $insta_login;
-                            } else {
-                                $this->user_model->update_user($this->session->userdata('id'), array(
-                                'status_id' => user_status::BLOCKED_BY_INSTA));
-                                $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+            if ($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
+                $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'),'false');
+                if ($insta_login['status'] === 'ok') {
+                    if ($insta_login['authenticated']) {
+                        //1. actualizar estado a ACTIVO
+                        $this->user_model->update_user($this->session->userdata('id'), array(
+                            'status_id' => user_status::ACTIVE));
+                        //2. actualizar la cookies
+                        if ($insta_login['insta_login_response']) {
+                            $this->client_model->update_client($this->session->userdata('id'), array(
+                                'cookies' => json_encode($insta_login['insta_login_response'])));
+                            //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
+                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                            $N = count($active_profiles);
+                            for ($i = 0; $i < $N; $i++) {
+                                $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
+                                $response = count($this->user_model->execute_sql_query($sql));
+                                if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                    $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $insta_login['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                             }
                         }
-                    } else
-                    if ($insta_login['status'] === 'fail') {
-                        ;
+                        //4. actualizar la sesion
+                        $this->user_model->set_sesion($this->session->userdata('id'), $this->session, $insta_login['insta_login_response']);
+                    } else {
+                        if ($insta_login['message'] == 'checkpoint_required' || $insta_login['message'] == '') {
+                            //actualizo su estado
+                            $this->user_model->update_user($this->session->userdata('id'), array(
+                                'status_id' => user_status::VERIFY_ACCOUNT));
+                            //eliminar su trabajo si contrasenhas son diferentes
+                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                            $N = count($active_profiles);
+                            for ($i = 0; $i < $N; $i++) {
+                                $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
+                            }
+                            //establezco la sesion
+                            $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+                            $datas1['verify_account_datas'] = $insta_login;
+                        } else {
+                            $this->user_model->update_user($this->session->userdata('id'), array(
+                            'status_id' => user_status::BLOCKED_BY_INSTA));
+                            $this->user_model->set_sesion($this->session->userdata('id'), $this->session);
+                        }
                     }
-                }
-                $datas1['status'] = array('status_id' => $this->session->userdata('status_id'), 'status_name' => $status_description[$this->session->userdata('status_id')]);
-                $datas1['profiles'] = $this->create_profiles_datas_to_display();
-                $data['head_section1'] = $this->load->view('responsive_views/client/client_header_painel', '', true);
-                $data['body_section1'] = $this->load->view('responsive_views/client/client_body_painel', $datas1, true);
-                $data['body_section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
-                $data['body_section_cancel'] = $this->load->view('responsive_views/client/client_cancel_painel', '', true);
-                $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
-                $this->load->view('client_view', $data);
-            } else {
-                echo "Session can't be stablished";
-                $this->display_access_error();
-            }
-        }
-
-        public function user_do_login($datas=NULL) {
-            $this->load->model('class/user_role');          
-            $login_by_client=false;
-            if(!isset($datas)){
-                $datas = $this->input->post();
-                $language=$this->input->get();
-                $login_by_client=true;
-            }
-            
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-            if(isset($language['language']))
-                $param['language']=$language['language'];
-            else
-                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
-            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
-            $GLOBALS['language']=$param['language'];
-            
-            $query = "SELECT * FROM users WHERE "
-                      ."login= '".$datas['user_login']."' and pass = '".$datas['user_pass']."' and role_id = '".user_role::CLIENT."'";
-            $real_status = $this->get_real_status_of_user($query);
-
-            if($real_status==2 || $datas['force_login']=='true'){
-                $result = $this->user_do_login_second_stage($datas,$GLOBALS['language']);                
-            }else{                
-                $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
-                $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
-                $result['cause'] = 'force_login_required';
-                $result['authenticated'] = false;
-            }            
-            if($login_by_client)
-                echo json_encode($result);
-            else
-                return $result;
-        }
-    
-        public function get_real_status_of_user($query){            
-            $this->load->model('class/user_status');
-            $this->load->model('class/user_model');            
-            $user = $this->user_model->execute_sql_query($query);            
-            $N = count($user);
-            $real_status = 0; //No existe, eliminado o inactivo
-            $index = 0;
-            for ($i = 0; $i < $N; $i++) {
-                if ($user[$i]['status_id'] == user_status::BEGINNER) {
-                    $real_status = 1; //Beginner
-                    $index = $i;
-                    break;
                 } else
-                if ($user[$i]['status_id'] != user_status::DELETED && $user[$i]['status_id'] != user_status::INACTIVE && $user[$i]['status_id']<user_status::DONT_DISTURB) {
-                    $real_status = 2; //cualquier otro estado
-                    $index = $i;
-                    break;
+                if ($insta_login['status'] === 'fail') {
+                    ;
                 }
             }
-            return $real_status;
+            $datas1['status'] = array('status_id' => $this->session->userdata('status_id'), 'status_name' => $status_description[$this->session->userdata('status_id')]);
+            $datas1['profiles'] = $this->create_profiles_datas_to_display();
+            $data['head_section1'] = $this->load->view('responsive_views/client/client_header_painel', '', true);
+            $data['body_section1'] = $this->load->view('responsive_views/client/client_body_painel', $datas1, true);
+            $data['body_section4'] = $this->load->view('responsive_views/user/users_talkme_painel', '', true);
+            $data['body_section_cancel'] = $this->load->view('responsive_views/client/client_cancel_painel', '', true);
+            $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
+            $this->load->view('client_view', $data);
+        } else {
+            echo "Session can't be stablished";
+            $this->display_access_error();
+        }
+    }
+
+    public function user_do_login($datas=NULL) {
+        $this->load->model('class/user_role');          
+        $login_by_client=false;
+        if(!isset($datas)){
+            $datas = $this->input->post();
+            $language=$this->input->get();
+            $login_by_client=true;
         }
 
-        public function user_do_login_second_stage($datas,$language) {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $GLOBALS['language']=$param['language'];
+
+        $query = "SELECT * FROM users WHERE "
+                  ."login= '".$datas['user_login']."' and pass = '".$datas['user_pass']."' and role_id = '".user_role::CLIENT."'";
+        $real_status = $this->get_real_status_of_user($query);
+
+        if($real_status==2 || $datas['force_login']=='true'){
+            $result = $this->user_do_login_second_stage($datas,$GLOBALS['language']);                
+        }else{                
+            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+            $result['cause'] = 'force_login_required';
+            $result['authenticated'] = false;
+        }            
+        if($login_by_client)
+            echo json_encode($result);
+        else
+            return $result;
+    }
+
+    public function get_real_status_of_user($query){            
+        $this->load->model('class/user_status');
+        $this->load->model('class/user_model');            
+        $user = $this->user_model->execute_sql_query($query);            
+        $N = count($user);
+        $real_status = 0; //No existe, eliminado o inactivo
+        $index = 0;
+        for ($i = 0; $i < $N; $i++) {
+            if ($user[$i]['status_id'] == user_status::BEGINNER) {
+                $real_status = 1; //Beginner
+                $index = $i;
+                break;
+            } else
+            if ($user[$i]['status_id'] != user_status::DELETED && $user[$i]['status_id'] != user_status::INACTIVE && $user[$i]['status_id']<user_status::DONT_DISTURB) {
+                $real_status = 2; //cualquier otro estado
+                $index = $i;
+                break;
+            }
+        }
+        return $real_status;
+    }
+
+    public function user_do_login_second_stage($datas,$language) {
         /*$login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
@@ -306,7 +306,9 @@ class Welcome extends CI_Controller {
                 $result['authenticated'] = true;
             } else{     */   
                 //Is an actually Instagram user?
-                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
+                
+                ($datas['force_login']=='true')? $force_login=true :$force_login=false;
+                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'], $force_login);
                 if($data_insta==NULL){
                     /*$result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
                     $result['cause'] = 'error_login';
@@ -1393,6 +1395,44 @@ class Welcome extends CI_Controller {
                     }
                 } else{
                     $datas['pay_day'] = strtotime("+" .'5'. " days", time());
+                }
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                if(is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            }else
+        //FREE7DAYS
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='FREE7DAYS'){ //30 dias de graça
+                $datas['amount_in_cents'] = $recurrency_value;
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" .'7'. " days", time());
                 }
                 $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
                 if(is_object($resp) && $resp->isSuccess()) {
