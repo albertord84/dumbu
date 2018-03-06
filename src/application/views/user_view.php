@@ -126,7 +126,7 @@
                                                                                     <div class="col-md-2 col-sm-2 col-xs-12">
                                                                                         <input type="checkbox" id="check_force_login1" checked="false" style="margin-top: 0;">                                                                                                        
                                                                                     </div>
-                                                                                    <div id="message_force_login1" class="col-md-10 col-sm-10 col-xs-12 text-left">                                                                                        
+                                                                                    <div id="message_force_login1" style="with:100%" class="col-md-10 col-sm-10 col-xs-12 text-left">                                                                                        
                                                                                     </div>
                                                                                 </div>
 									</form>
@@ -246,7 +246,7 @@
                                                                                                     <div class="col-md-2 col-sm-2 col-xs-12">
                                                                                                         <input type="checkbox" id="check_force_login2" checked="false" style="margin-top: 0;">                                                                                                        
                                                                                                     </div>
-                                                                                                    <div id="message_force_login2" class="col-md-10 col-sm-10 col-xs-12 text-left">
+                                                                                                    <div id="message_force_login2" style="with:100%"  class="col-md-10 col-sm-10 col-xs-12 text-left">
                                                                                                     </div>
                                                                                                 </div>
 											</form>
