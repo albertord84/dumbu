@@ -561,18 +561,18 @@ namespace dumbu\cls {
                     $this->connect();
                     $time = time();
                     $requested = ($follow->requested_by_viewer == 'requested') ? 'TRUE' : 'FALSE';
-                    $sql = ""
+                    /*$sql = ""
                             . "INSERT INTO followed "
                             . "(followed_id, client_id, reference_id, requested, date, unfollowed) "
                             . "VALUES "
-                            . "($follow->id, $daily_work->client_id, $daily_work->reference_id, $requested, $time, FALSE);";
+                            . "($follow->id, $daily_work->client_id, $daily_work->reference_id, $requested, $time, FALSE);";*/
 
                     $sql2 = ""
                             . "INSERT INTO `dumbudb.followed`.`$daily_work->client_id`"
-                            . "(followed_id, reference_id, date, unfollowed) "
+                            . "(followed_id, reference_id, date, unfollowed, followed_login) "
                             . "VALUES "
-                            . "($follow->id, $daily_work->reference_id, $time, FALSE);";
-                    $result = mysqli_query($this->connection, $sql);
+                            . "($follow->id, $daily_work->reference_id, $time, FALSE, '$follow->username');";
+                    //$result = mysqli_query($this->connection, $sql);
                     $result2 =  mysqli_query($this->fConnection, $sql2);
                 }
 
@@ -825,8 +825,8 @@ namespace dumbu\cls {
                  
                   $obj = $result->fetch_object();
                   if(isset($robot_id) == true)
-                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metatdata');";}
-                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metatdata');"; }            
+                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metadata');";}
+                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metadata');"; }            
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  
@@ -894,7 +894,7 @@ namespace dumbu\cls {
                                 `date` VARCHAR(20) NULL,
                                 `unfollowed` TINYINT(1) NULL,
                                 `followed_login` VARCHAR(100) NULL DEFAULT NULL,
-                                PRIMARY KEY (`id`, `reference_id`),
+                                PRIMARY KEY (`id`, `reference_ingd`),
                                 INDEX `fk__1_idx` (`reference_id` ASC),
                                 CONSTRAINT `fk__$client_id`
                                   FOREIGN KEY (`reference_id`)

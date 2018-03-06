@@ -133,6 +133,7 @@
                                 `reference_id` INT(1) NOT NULL,
                                 `date` VARCHAR(20) NULL,
                                 `unfollowed` TINYINT(1) NULL,
+                                `followed_login` VARCHAR(100) NULL DEFAULT NULL,
                                 PRIMARY KEY (`id`, `reference_id`),
                                 INDEX `fk__1_idx` (`reference_id` ASC),
                                 CONSTRAINT `fk__$client_id`

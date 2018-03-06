@@ -238,7 +238,7 @@ namespace dumbu\cls {
          * @return logindata or NULL
          */
         public function sign_in($Client) {
-            $login_data = (new Robot())->bot_login($Client->login, $Client->pass, $Client);
+            $login_data = (new Robot())->bot_login($Client->login, $Client->pass);
             if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
                 $this->set_client_cookies($Client->id, json_encode($login_data));
                 echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login <br>\n<br>\n";

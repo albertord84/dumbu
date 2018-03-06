@@ -171,7 +171,7 @@ namespace dumbu\cls {
         public function save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work) {
             try {
                 //$DB = new \dumbu\cls\DB();
-                $this->DB->save_unfollow_work($Followeds_to_unfollow);
+                //$this->DB->save_unfollow_work($Followeds_to_unfollow);
                 $this->DB->save_unfollow_work_db2($Followeds_to_unfollow, $daily_work->client_id);
                 $this->DB->save_follow_work($Ref_profile_follows, $daily_work);
                 return TRUE;
