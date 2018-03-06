@@ -192,7 +192,7 @@ namespace dumbu\cls {
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
-                                if ($json_response === NULL) {
+                                if ($json_response2 === NULL) {
                                     $result = $this->DB->delete_daily_work_client($daily_work->client_id);
                                     $this->DB->set_client_cookies($daily_work->client_id);
                                     $this->DB->set_client_status($daily_work->client_id, user_status::VERIFY_ACCOUNT);
