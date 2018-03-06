@@ -122,6 +122,31 @@
             
             return $followed_profiles;
         }
+        
+        
+    public function Create_Followed($client_id)
+       {
+          try {
+                $sql = "CREATE TABLE IF NOT EXISTS `dumbudb.followed`.`$client_id` (
+                                `id` INT NOT NULL AUTO_INCREMENT,
+                                `followed_id` VARCHAR(20) NULL,
+                                `reference_id` INT(1) NOT NULL,
+                                `date` VARCHAR(20) NULL,
+                                `unfollowed` TINYINT(1) NULL,
+                                `followed_login` VARCHAR(100) NULL DEFAULT NULL,
+                                PRIMARY KEY (`id`, `reference_id`),
+                                INDEX `fk__1_idx` (`reference_id` ASC),
+                                CONSTRAINT `fk__$client_id`
+                                  FOREIGN KEY (`reference_id`)
+                                  REFERENCES `dumbudb`.`reference_profile` (`id`)
+                                  ON DELETE NO ACTION
+                                  ON UPDATE NO ACTION);";
+                $result =  $this->db->query($sql);
+                return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            } 
+       }
 
         public function insert_client_in_strict_instagram_login($datas,$data_insta){
             //insert respectivity datas in the user table
@@ -174,6 +199,7 @@
             $this->db->where('id',$id_value);
             return $this->db->get()->row_array();
         }
+        
         public function get_normal_pay_value($id_value){
             $this->db->select('normal_val');
             $this->db->from('plane');

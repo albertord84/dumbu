@@ -139,6 +139,17 @@ class User_model extends CI_Model {
         }
     }
     
+    public function get_user_match_from_login_password($datas){
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('login',$datas['login']);
+        $this->db->where('pass',$datas['pass']);
+        $this->db->where('status_id <', 11);
+        $this->db->where('status_id <>', 8);
+        $this->db->where('status_id <>', 4);
+        return $this->db->get()->row_array();
+    }
+    
     public function get_language_of_client($user_id){
         $this->db->select('language');
         $this->db->from('users');

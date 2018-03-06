@@ -7,6 +7,7 @@ require_once '../class/Payment.php';
 require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
+require_once '../class/Robot.php';
 
 //echo "Worker Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
@@ -15,35 +16,36 @@ ini_set('xdebug.var_display_max_depth', 7);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 
-//ini_set('xdebug.var_display_max_depth', 7);
-//ini_set('xdebug.var_display_max_children', 256);
-//ini_set('xdebug.var_display_max_data', 1024);
+/*$Robot = new \dumbu\cls\Robot();
+$login = "ruslan.guerra88";
+$pass = "*R5sl@n#";
+$checkpoint_data = $Robot->checkpoint_requested($login, $pass);
+var_dump($checkpoint_data);*/
 
 //
 // MUNDIPAGG
 $Payment = new \dumbu\cls\Payment();
 
-//$pay_day = strtotime('01/25/2018 05:00:00');
+$pay_day = strtotime('02/25/2018 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 $pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '4551872000481637';
-$payment_data['credit_card_name'] = 'LEONARDO BRAZ DE SO';
-$payment_data['credit_card_exp_month'] = '01';
-$payment_data['credit_card_exp_year'] = '2018';
-$payment_data['credit_card_cvc'] = '576';
-$payment_data['amount_in_cents'] = 15192;
+$payment_data['credit_card_number'] = '5365180280868124';
+$payment_data['credit_card_name'] = 'MARCIO ANCELMO DA SILVA';
+$payment_data['credit_card_exp_month'] = '12';
+$payment_data['credit_card_exp_year'] = '2022';
+$payment_data['credit_card_cvc'] = '901';
+$payment_data['amount_in_cents'] = 3990;
 $payment_data['pay_day'] = $pay_day;
-$resul = $Payment->create_payment($payment_data);
-var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+var_dump($resul);
 //$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 //var_dump($resul);
 

@@ -127,10 +127,12 @@ namespace dumbu\cls {
                 $DB = new \dumbu\cls\DB();
                 $clients_data = $DB->get_clients_data_for_report();
                 while ($client_data = $clients_data->fetch_object()) {
-                    $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login);
+                    $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login, $client_data->id);
                     if ($profile_data) {
                         $result = $DB->insert_client_daily_report($client_data->id, $profile_data);
                         var_dump($client_data->login);
+                        var_dump("Cantidad de follows = ".$profile_data->follows);
+                        echo '<br><br><br>';
                     } else {
                         var_dump($client_data);
                     }
@@ -159,6 +161,7 @@ namespace dumbu\cls {
                 $Client->insta_following = $client_data->insta_following;
                 $Client->cookies = $client_data->cookies;
                 $Client->paused = $client_data->paused;
+                $Client->HTTP_SERVER_VARS = $client_data->HTTP_SERVER_VARS;
                 $Client->get_reference_profiles($Client->id);
             }
             return $Client;
@@ -235,7 +238,7 @@ namespace dumbu\cls {
          * @return logindata or NULL
          */
         public function sign_in($Client) {
-            $login_data = (new Robot())->bot_login($Client->login, $Client->pass, $Client);
+            $login_data = (new Robot())->bot_login($Client->login, $Client->pass);
             if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
                 $this->set_client_cookies($Client->id, json_encode($login_data));
                 echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login <br>\n<br>\n";
@@ -321,7 +324,7 @@ namespace dumbu\cls {
                     $Ref_Prof->insta_id = $prof_data->insta_id;
                     $Ref_Prof->insta_name = $prof_data->insta_name;
                     $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
-                    $Ref_Prof->deleted = $prof_data->deleted;
+                    $Ref_Prof->deleted = ($prof_data->deleted || ($prof_data->deleted == "1"))? true : false;
                     $Ref_Prof->type = $prof_data->type;
                     $Ref_Prof->end_date = $prof_data->end_date;
                     array_push($this->reference_profiles, $Ref_Prof);
