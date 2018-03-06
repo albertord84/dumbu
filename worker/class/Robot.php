@@ -816,7 +816,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17851374694183129&id=$user&first=$N";
             if ($cursor) {
@@ -847,7 +847,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17881432870018455&id=$location&first=$N";
             if ($cursor) {
@@ -878,7 +878,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17880160963012870&id=$ds_user_id&first=$N";
             if ($cursor) {
@@ -920,7 +920,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17874545323001329&id=$ds_user_id&first=$N";
             if ($cursor) {
