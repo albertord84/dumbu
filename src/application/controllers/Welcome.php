@@ -275,7 +275,7 @@ class Welcome extends CI_Controller {
             return $real_status;
         }
 
-        public function user_do_login_second_stage($datas,$language) {
+        public function user_do_login_second_stage($datas,$language ){
         /*$login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
