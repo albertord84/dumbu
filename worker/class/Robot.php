@@ -192,7 +192,7 @@ namespace dumbu\cls {
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
-                                if ($json_response === NULL) {
+                                if ($json_response2 === NULL) {
                                     $result = $this->DB->delete_daily_work_client($daily_work->client_id);
                                     $this->DB->set_client_cookies($daily_work->client_id);
                                     $this->DB->set_client_status($daily_work->client_id, user_status::VERIFY_ACCOUNT);
@@ -390,10 +390,9 @@ namespace dumbu\cls {
                     break;
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA, 1, $this->id);
-                    var_dump($result);
-                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
-                    $this->DB->set_client_cookies($client_id, NULL);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, $response->message);
+                    //var_dump($result);
+                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //$this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     $error = TRUE;
@@ -817,7 +816,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17851374694183129&id=$user&first=$N";
             if ($cursor) {
@@ -848,7 +847,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17881432870018455&id=$location&first=$N";
             if ($cursor) {
@@ -879,7 +878,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17880160963012870&id=$ds_user_id&first=$N";
             if ($cursor) {
@@ -921,7 +920,7 @@ namespace dumbu\cls {
             $sessionid = $login_data->sessionid;
             $mid = $login_data->mid;
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
-                    ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
+                    ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
             $url .= "?query_id=17874545323001329&id=$ds_user_id&first=$N";
             if ($cursor) {

@@ -825,8 +825,8 @@ namespace dumbu\cls {
                  
                   $obj = $result->fetch_object();
                   if(isset($robot_id) == true)
-                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metatdata');";}
-                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metatdata');"; }            
+                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metadata');";}
+                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metadata');"; }            
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  

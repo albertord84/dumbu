@@ -12,6 +12,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 print('Hola Mundo');
 $client_id = 26187;
 var_dump($result);
+$DB = new \dumbu\cls\DB();
+$DB->InsertEventToWashdog($client_id, 'Test Action', '1', 1, 'TEST action');
 
 /*try{
         //$Robot = new \dumbu\cls\Robot();
@@ -46,6 +48,4 @@ $DB = new \dumbu\cls\DB();
 $json_response2 = $Robot->make_insta_friendships_command(json_decode($Client->cookies), '2023444583', 'unfollow', 'web/friendships', $Client);
 var_dump($json_response2);
 */
-exec("curl 'http://www.google.com'",$output,$status); var_dump('Hol');
-
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";
