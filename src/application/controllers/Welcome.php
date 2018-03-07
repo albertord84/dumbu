@@ -4,6 +4,8 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
+    
+    public $aaa=1;
 
     public function index() {
         $language=$this->input->get();
