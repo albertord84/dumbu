@@ -576,6 +576,7 @@ class Welcome extends CI_Controller {
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
+                        $result['role'] = 'CLIENT'; // agregado por Ruslan pa resolver problema en login
                         $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
