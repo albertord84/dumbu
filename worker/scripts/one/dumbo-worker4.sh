@@ -4,4 +4,4 @@ date=$(date +%Y%m%d)
 
 now=$(date +"%T")
 
-wget -O /home/dumbuo5/public_html/dumbu/worker/log/dumbo-worker4-${date}.log   http://dumbu.one/dumbu/worker/scripts/index-do.php?id=4
+wget -O /home/dumbuo5/public_html/dumbu/worker/log/dumbo-worker4-${date}.log   http://127.0.0.1:30080/dumbu/worker/scripts/index-do.php?id=4
