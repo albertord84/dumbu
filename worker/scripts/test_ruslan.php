@@ -35,12 +35,12 @@ $pay_day = strtotime('04/07/2018 05:00:00');
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5351200534948047';
-$payment_data['credit_card_name'] = 'AHMED LENAD';
-$payment_data['credit_card_exp_month'] = '08';
+$payment_data['credit_card_number'] = '5488770010605945';
+$payment_data['credit_card_name'] = 'MONICA MARTINEZ';
+$payment_data['credit_card_exp_month'] = '11';
 $payment_data['credit_card_exp_year'] = '2019';
-$payment_data['credit_card_cvc'] = '227';
-$payment_data['amount_in_cents'] = 45000;
+$payment_data['credit_card_cvc'] = '934';
+$payment_data['amount_in_cents'] = 6000;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
