@@ -51,6 +51,45 @@ $Payment = new dumbu\cls\Payment();
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
+/*
+$pay_day = strtotime("+1 months", time());
+
+$payment_data['credit_card_number'] = '5411870991450709';
+$payment_data['credit_card_name'] = 'INGRID ZAIRA DE OLIVEIRA';
+$payment_data['credit_card_exp_month'] = '11';
+$payment_data['credit_card_exp_year'] = '2023';
+$payment_data['credit_card_cvc'] = '023';
+$payment_data['amount_in_cents'] = 28990;
+$payment_data['pay_day'] = $pay_day;
+
+////$resul = $Payment->create_payment($payment_data);
+////var_dump($resul);
+$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+var_dump($resul);
+////$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
+////var_dump($resul);
+
+var_dump($pay_day);
+*/
+////--------------------------------------------------------------------------------
+// GMAIL
+$Gmail = new \dumbu\cls\Gmail();
+
+$Robot = new \dumbu\cls\Robot();
+
+
+
+$Robot = new dumbu\cls\Robot();
+//$response = $Robot->get_insta_ref_prof_following('spadassobrancelhaszonasul');
+//var_dump($response);
+
+$client = $Client->get_client(27509);
+//var_dump($client);
+
+
+
+//$pay_day = time();
+//$strdate = date("d-m-Y", $pay_day);
 $pay_day = strtotime("+1 months", time());
 
 $payment_data['credit_card_number'] = '5411870991450709';
@@ -73,6 +112,7 @@ var_dump($pay_day);
 
 
 
+<<<<<<< HEAD
 //--------------------------------------------------------------------------------
 // GMAIL
 //$Gmail = new \dumbu\cls\Gmail();
@@ -118,6 +158,28 @@ var_dump($pay_day);
 //    } else {
 //        $has_work = FALSE;
 //    }
+=======
+/*
+    $daily_work = $DB->get_follow_work_by_id(39366);
+    if ($daily_work) {
+        $daily_work->login_data = json_decode($daily_work->cookies);
+        if ($daily_work->login_data != NULL) {
+            $elapsed_time = time() - intval($daily_work->last_access); // sec
+            if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
+                $now = \DateTime::createFromFormat('U', time());
+                $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
+                print "<br>_________ELAPSED TIME ($elapsed_time): ";
+                sleep($GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time); // secounds
+            }
+            $Worker->do_follow_unfollow_work($daily_work);
+            //die("Test End!!");
+        } else {
+            print "<br> Login data NULL!!!!!!!!!!!! <br>";
+        }
+    } else {
+        $has_work = FALSE;
+    }*/
+>>>>>>> 417f319016b58c2f793500b5d6035f1b80528242
 
 
 

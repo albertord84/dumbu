@@ -11,9 +11,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 print('Hola Mundo');
 $client_id = 26187;
-var_dump($result);
-$DB = new \dumbu\cls\DB();
-$DB->InsertEventToWashdog($client_id, 'Test Action', '1', 1, 'TEST action');
+var_dump(abs(5-9));
+//$DB = new \dumbu\cls\DB();
+//$DB->InsertEventToWashdog($client_id, 'Test Action', '1', 1, 'TEST action');
 
 /*try{
         //$Robot = new \dumbu\cls\Robot();
