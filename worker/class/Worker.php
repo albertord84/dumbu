@@ -243,7 +243,7 @@ namespace dumbu\cls {
                             //$diff_info = $last_access->diff($now);
                             //$elapsed_time = $diff_info->i; // In minutes
                             //$elapsed_time = (time() - intval($daily_work->last_access)) / 60.0 % 60.0; // minutes
-                            $elapsed_time = time() - intval($daily_work->last_access); // sec
+                            $elapsed_time = abs(time() - intval($daily_work->last_access)); // sec
                             if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
                                 $now = \DateTime::createFromFormat('U', time());
                                 $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
