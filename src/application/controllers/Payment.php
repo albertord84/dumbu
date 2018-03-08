@@ -142,7 +142,7 @@ class Payment extends CI_Controller {
         $IOK_ok = $IOK_ok || $POK_ok; // Whichever is paid
         // Check normal recurrency payment
         $result = $Payment->check_payment($client['order_key']);
-        if (is_object($result) && $result->isSuccess()) {
+        if (isset($result) && is_object($result) && $result->isSuccess()) {
             $data = $result->getData();
             //var_dump($data);
             $SaleDataCollection = $data->SaleDataCollection[0];
@@ -251,7 +251,7 @@ class Payment extends CI_Controller {
             }
         } else {
             $bool = is_object($result);
-            $str = is_object($result) && is_callable($result->getData()) ? json_encode($result->getData()) : "NULL";
+            $str = isset($result) && is_object($result) && is_callable($result->getData()) ? json_encode($result->getData()) : "NULL";
 //            throw new Exception("Payment error: " . $str);
             print ("\n<br>Payment error: " . $str . " \nClient name: " . $client['name'] . "<br>\n");
         }
