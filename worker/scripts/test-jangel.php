@@ -15,6 +15,20 @@ var_dump(abs(5-9));
 //$DB = new \dumbu\cls\DB();
 //$DB->InsertEventToWashdog($client_id, 'Test Action', '1', 1, 'TEST action');
 
+$DB = new \dumbu\cls\DB();
+
+$Clients = (new \dumbu\cls\Client())->get_clients();
+foreach ($Clients as $Client)
+{
+    if(isset($Client->cookies))
+    {
+        $cookies = \GuzzleHttp\json_decode($Client->cookies);
+        if(isset($cookies->ds_user_id) && $Client->insta_id !== $cookies->ds_user_id)
+        {
+            $DB->set_client_cookies($Client->id);
+        }
+    }
+}
 /*try{
         //$Robot = new \dumbu\cls\Robot();
         //$val = $Robot->checkpoint_requested("ecr_nature", "ecr26020");
