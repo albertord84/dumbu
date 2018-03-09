@@ -8,10 +8,10 @@ namespace dumbu\cls {
     require_once 'washdog_type.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
     require_once 'InstaAPI.php';
+
 //    require_once '../libraries/webdriver/phpwebdriver/WebDriver.php';
 //    echo $_SERVER['DOCUMENT_ROOT'];
 //    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/webdriver/phpwebdriver/WebDriver.php';
-
     /**
      * class Robot
      * 
@@ -71,23 +71,18 @@ namespace dumbu\cls {
 
         function __construct($DB = NULL, $conf_file = "/../../../CONFIG.INI", $id = -1) {
             $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
-
             $this->IPS = $config["IPS"];
-
             $this->Day_client_work = new Day_client_work();
             $this->Ref_profile = new Reference_profile();
             $this->DB = $DB ? $DB : new \dumbu\cls\DB();
         }
 
-      // end of member function login_client
-
+        // end of member function login_client
         /**
          * 
          *
          * @param Day_client_work Day_client_work 
-
          * @param Reference_profile Ref_profile 
-
          * @return void
          * @access public
          */
@@ -173,15 +168,13 @@ namespace dumbu\cls {
                             $posts_count = isset($Profile_data->user->media->count) ? $Profile_data->user->media->count : 0;
                             $MIN_FOLLOWER_POSTS = $GLOBALS['sistem_config']->MIN_FOLLOWER_POSTS;
                             $valid_profile = $posts_count >= $MIN_FOLLOWER_POSTS;
-
                             //check if the profile is in the black list
-                            if (isset($daily_work->black_list) &&  isset($Profile->id) && str_binary_search($Profile->id, $daily_work->black_list)) {
+                            if (isset($daily_work->black_list) && isset($Profile->id) && str_binary_search($Profile->id, $daily_work->black_list)) {
                                 $valid_profile = false;
                             }
-
                             $following_me = (isset($Profile_data->user->follows_viewer)) ? $Profile_data->user->follows_viewer : false;
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
-                            $followed_in_db = $this->DB->is_profile_followed($daily_work->client_id, $Profile->id);
+                            $followed_in_db = $this->DB->is_profile_followed_db2($daily_work->client_id, $Profile->id);
                             //$followed_in_db = NULL;
                             if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
@@ -232,7 +225,6 @@ namespace dumbu\cls {
           $limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
           $has_next = count($Followeds_to_unfollow);
           $login_data = $this->daily_work->login_data;
-
           for ($i = 0; $i < $limit && ($has_next); $i++) {
           // Next profile to unfollow, not yet unfollwed
           $Profile = array_shift($Followeds_to_unfollow);
@@ -266,7 +258,6 @@ namespace dumbu\cls {
           array_push($Followeds_to_unfollow, $Profile);
           }
           }
-
           public function do_follow_work($Followeds_to_unfollow)
           {}
          */
@@ -277,7 +268,6 @@ namespace dumbu\cls {
             $login_data = json_decode($daily_work->cookies);
             $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME));
             $page_info = new \stdClass();
-
             if ($daily_work->rp_type == 0) {
                 $json_response = $this->get_insta_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
@@ -341,9 +331,6 @@ namespace dumbu\cls {
             $login_data = json_decode($daily_work->cookies);
             $quantity = min(array($daily_work->to_follow, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME));
             $page_info = new \stdClass();
-
-
-
             if ($daily_work->rp_type == 0) {
                 $json_response = $this->get_insta_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
@@ -402,7 +389,6 @@ namespace dumbu\cls {
         }
 
 // end of member function do_follow_unfollow_work
-
         function process_follow_error($json_response) {
             //$DB = new DB();
             $Profile = new Profile();
@@ -417,7 +403,7 @@ namespace dumbu\cls {
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1,$this->id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 205)) {
@@ -426,31 +412,28 @@ namespace dumbu\cls {
                         $Gmail->send_client_login_error("ruslan.guerra88@gmail.com", "Ruslan!!!!!!! BLOQUEADOS 1= " . $rows_count, "Ruslan");
                     }
                     break;
-
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::SET_TO_UNFOLLOW,1,$this->id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::SET_TO_UNFOLLOW, 1, $this->id);
 //                    $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
 //                    print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
                     break;
-
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA,1,$this->id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_INSTA, 1, $this->id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_INSTA);
-                    $this->DB->set_client_cookies($client_id, NULL);
+                    //$this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     break;
-
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1,$this->id);
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     // Alert when insta block by IP
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
@@ -465,32 +448,26 @@ namespace dumbu\cls {
                     $result = $this->DB->delete_daily_work_client($client_id);
                     var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT,1,$this->id);
-                    
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, $this->id);
                     $this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
-
                 case 6: // "" Empty message
                     print "<br>\n Empty message (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
-
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." "Aguarde alguns minutos antes de tentar novamente."
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
-
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME,1,$this->id);                   
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //var_dump($result);
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
-
                 case 9: // "Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde." 
                     print "<br>\n Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
-
                 default:
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
                     $error = FALSE;
@@ -517,7 +494,6 @@ namespace dumbu\cls {
                     return $json_response;
                 }
             }
-
             return $output;
             //print_r($status);
             //print("-> $status<br><br>");
@@ -862,7 +838,6 @@ namespace dumbu\cls {
             $headers['Authority'] = 'www.instagram.com';
             $headers['Content-Length'] = '0';
             $headers['Connection'] = 'keep-alive';
-
             curl_setopt($session, CURLOPT_URL, $url);
             curl_setopt($session, CURLOPT_POST, TRUE);
             curl_setopt($session, CURLOPT_ENCODING, "gzip");
@@ -871,12 +846,9 @@ namespace dumbu\cls {
             curl_setopt($session, CURLOPT_HEADER, 1);
             curl_setopt($session, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($session, CURLOPT_FOLLOWLOCATION, 1);
-
             //curl_setopt($session, CURLOPT_POSTFIELDS, $data);
-
             $response = curl_exec($session);
             print_r($response);
-
             curl_close($session);
             echo "data posted....! <br>\n";
         }
@@ -886,23 +858,18 @@ namespace dumbu\cls {
 //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
 //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-
             //curl_setopt($ch, CURLOPT_CAINFO, "curl-ca-bundle.crt");
             //curl_setopt ($ch, CURLOPT_CAINFO,"cacert.pem");
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLINFO_COOKIELIST, true);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
             global $cookies;
             $cookies = array();
             $response = curl_exec($ch);
-
             $csrftoken = $this->get_cookies_value("csrftoken");
-            
             //var_dump($cookies);
-
             return $csrftoken;
         }
 
@@ -911,7 +878,6 @@ namespace dumbu\cls {
             //var_dump($mid);
             $pass = urlencode($pass);
             $postinfo = "username=$login&password=$pass";
-
             $headers = array();
             $headers[] = "Host: www.instagram.com";
             $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
@@ -923,16 +889,15 @@ namespace dumbu\cls {
 //            $headers[] = "X-CSRFToken: 77G4HebOUjsq7NZ1ChYR3sphL219KWmV";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
-
 //            $ip = $_SERVER['REMOTE_ADDR'];
 //            if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
 //                $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
 //                $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
 //            }
-            $ip = "127.0.0.1";
+           /* $ip = "127.0.0.1";
             $headers[] = "REMOTE_ADDR: $ip";
             $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-
+            */
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -942,22 +907,22 @@ namespace dumbu\cls {
 //            $url = "https://www.instagram.com/accounts/login/ajax/facebook/";
             $url = "https://www.instagram.com/accounts/login/ajax/";
             curl_setopt($ch, CURLOPT_URL, $url);
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
-//            curl_setopt($ch, CURLOPT_NOBODY, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            curl_setopt($ch, CURLOPT_NOBODY, FALSE);
+//            curl_setopt($ch, CURLOPT_NOBODY, TRUE);
             //curl_setopt($ch, CURLOPT_POST, true);
             //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
             //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
-            curl_setopt($ch, CURLOPT_HEADER, 1);
+//            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, FALSE);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-
             global $cookies;
             $cookies = array();
             $html = curl_exec($ch);
 //            var_dump($html);
             $info = curl_getinfo($ch);
-
             // LOGIN WITH CURL TO TEST
             // Parse html response
             $start = strpos($html, "{");
@@ -968,7 +933,7 @@ namespace dumbu\cls {
             $login_data->json_response = $json_response;
 //            var_dump($cookies);
             if (curl_errno($ch)) {
-                //print curl_error($ch);
+                print curl_error($ch);
             } else if (count($cookies) >= 2) {
                 $login_data->csrftoken = $csrftoken;
                 // Get sessionid from cookies
@@ -996,7 +961,6 @@ namespace dumbu\cls {
         public function login_insta_with_csrftoken_exec($ch, $login, $pass, $csrftoken, $Client = NULL) {
             $pass = urlencode($pass);
             $postinfo = "username=$login&password=$pass";
-
             $headers = array();
             $headers[] = "Host: www.instagram.com";
             $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
@@ -1007,7 +971,6 @@ namespace dumbu\cls {
             $headers[] = "Referer: https://www.instagram.com/";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
-
             $ip = $_SERVER['REMOTE_ADDR'];
             if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
@@ -1016,7 +979,6 @@ namespace dumbu\cls {
             $ip = "127.0.0.1";
             $headers[] = "REMOTE_ADDR: $ip";
             $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -1031,12 +993,10 @@ namespace dumbu\cls {
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-
             global $cookies;
             $cookies = array();
             $html = curl_exec($ch);
             $info = curl_getinfo($ch);
-
             // LOGIN WITH CURL TO TEST
             // Parse html response
             $start = strpos($html, "{");
@@ -1162,14 +1122,12 @@ namespace dumbu\cls {
 //                                $headers[] = "Accept: application/json";
                     $headers[] = "Accept: */*";
                     $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
-
                     $headers[] = "Accept-Encoding: deflate, sdch";
                     $headers[] = "Referer: https://www.instagram.com/";
                     $headers[] = "X-CSRFToken: $csrftoken";
                     $ip = "127.0.0.1";
                     $headers[] = "REMOTE_ADDR: $ip";
                     $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-
                     $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //                    $headers[] = "Content-Type: application/json";
                     $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -1210,14 +1168,12 @@ namespace dumbu\cls {
 //                                $headers[] = "Accept: application/json";
                     $headers[] = "Accept: */*";
                     $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
-
                     $headers[] = "Accept-Encoding: deflate, sdch";
                     $headers[] = "Referer: https://www.instagram.com/";
                     $headers[] = "X-CSRFToken: $csrftoken";
                     $ip = "127.0.0.1";
                     $headers[] = "REMOTE_ADDR: $ip";
                     $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-
                     $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //                    $headers[] = "Content-Type: application/json";
                     $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -1294,7 +1250,6 @@ namespace dumbu\cls {
         public function parse_follow_count($follow_count_str) {
             $search = " followers";
             $start = strpos($follow_count_str, $search);
-
             $letter = substr($follow_count_str, $start - 1, 1);
             $decimals = 1;
             $substr = substr($follow_count_str, 0, strlen($follow_count_str) - strlen($search));
@@ -1304,7 +1259,6 @@ namespace dumbu\cls {
                 $decimals = $letter === 'm' ? 1000000 : $decimals;
             }
             $followers = floatval($substr) * $decimals;
-
             return $followers;
         }
 
@@ -1315,16 +1269,13 @@ namespace dumbu\cls {
 
         public function get_insta_ref_prof_following($ref_prof) {
             $content = @file_get_contents("https://www.instagram.com/$ref_prof/", false);
-
             $doc = new \DOMDocument();
 //$doc->loadXML($content);
             $substr2 = NULL;
             $loaded = @$doc->loadHTML('<?xml encoding="UTF-8">' . $content);
             if ($loaded) {
-
                 $search = "\"follows\": {\"count\": ";
                 $start = strpos($doc->textContent, $search);
-
                 $substr1 = substr($doc->textContent, $start, 100);
                 $substr2 = substr($substr1, strlen($search), strpos($substr1, "}") - strlen($search));
             } else {
@@ -1333,32 +1284,53 @@ namespace dumbu\cls {
             }
             return intval($substr2) ? intval($substr2) : 0;
         }
-        
-         public function bot_login($login, $pass, $Client = NULL)
-        {
-             $myDB = new \dumbu\cls\DB();
-             // Is client with cookies, we try to login with str_login
+
+        public function bot_login($login, $pass, $Client = NULL) {
+            $myDB = new \dumbu\cls\DB();
+            // Is client with cookies, we try to login with str_login
             $result = new \stdClass();
+            $result->json_response =  new \stdClass();
             $result->json_response->authenticated = FALSE;
             $output = array();
-            if (!$Client) 
+            $cnt = 0;
+            if (!$Client)
                 $Client = $myDB->get_client_data_bylogin($login);
             if (isset($Client->cookies) && $Client->cookies != NULL) {
                 $cookies = json_decode($Client->cookies);
                 $csrftoken = $cookies->csrftoken;
                 $mid = $cookies->mid;
-                if($mid !== null && $mid !== ''){
-                     $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass); 
-                     $url = "https://www.instagram.com/graphql/query/";
-                      $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
-                      exec($curl_str, $output, $status);  
-                      if(!count($output) ==  0)
-                      {                        
-                        $result->json_response->authenticated = FALSE;
-                      } 
-                  }
+                if ($mid !== null && $mid !== '') {                    
+                    while(!$result->json_response->authenticated && $cnt < 2){
+                        $cnt++;
+                        $url = "https://www.instagram.com/graphql/query/";
+                        $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+                        exec($curl_str, $output, $status);
+                        try {
+                            $json_response = json_decode($output[0]);
+                            if (is_object($json_response) && $json_response->status == 'ok') {
+                                $result->json_response->status = 'ok';
+                                $result->json_response->authenticated = TRUE;
+                                break;
+                            }
+                        } catch (\Exception $e) {
+                            
+                        }
+                         if($result->json_response->authenticated === FALSE)
+                         {
+                            $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
+                            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+                                $result->json_response->authenticated = FALSE; 
+                                sleep(30);
+                            }
+                            else if (isset($result->json_response->checkpoint_url) || (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required")) {
+                               //did by Jose R (si no consifgues hacer login con las cookies vieja, para que dejarlas en la base de dadtos)
+                               $myDB->set_cookies_to_null($Client->id);
+                               return $result;
+                            }
+                         }
+                    }
+                }
             }
-            
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
                 $result->csrftoken = $cookies->csrftoken;
                 // Get sessionid from cookies
@@ -1369,134 +1341,150 @@ namespace dumbu\cls {
                 $result->mid = $cookies->mid;
                 return $result;
             }
-            
-            try{
-                $result = $this->make_login($login, $pass);
+            try {
+                $result = $this->make_login($login, $pass);                
                 $myDB->set_client_cookies($Client->id, $result);
                 return json_decode($result);
-            }
-             catch (\Exception $e) {                 
-                 $myDB->InsertEventToWashdog($Client->id, $e->message, $this->id);                 
-                return result;
-//                echo 'Something went wrong: ' . $e->getMessage() . "\n";
-            }
-            
-        }
-        
-  /*      public function bot_login($login, $pass, $Client = NULL)
-        {
-             // Is client with cookies, we try to login with str_login
-            $result = new \stdClass();
-            $output = array();
-            if (!$Client) 
-                $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
-            if (isset($Client->cookies) && $Client->cookies != NULL) {
-                $cookies = json_decode($Client->cookies);
-                $csrftoken = $cookies->csrftoken;
-                $mid = $cookies->mid;
-                $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
-                // TODO: Jose Angel revisar
-//                $url = "https://www.instagram.com/graphql/query/";
-//                $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
-                //print("<br><br>$curl_str<br><br>");
-//                exec($curl_str, $output, $status);  
-                $output = array(0);
-                // TODO: Si esta en checpoint required no hacer mas nada
-                //
-                //
-            }
-            if (count($output) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                $result->csrftoken = $cookies->csrftoken;
-                // Get sessionid from cookies
-                $result->sessionid = $cookies->sessionid;
-                // Get ds_user_id from cookies
-                $result->ds_user_id = $cookies->ds_user_id;
-                // Get mid from cookies
-                $result->mid = $cookies->mid;
+            } catch (\Exception $e) {
+                // did by Jose R (si el cliente pone mal la senha por motivo X, el login va a dar una excepcion, y no le devemos cambiar las cookies, imagina que fue uno que e copio el curl a mano)
+                //$myDB->set_cookies_to_null($Client->id);
+                $source = 0;
+                if (isset($id) && $id !== NULL && $id !== 0)
+                    $source = 1;
+                $myDB->InsertEventToWashdog($Client->id, $e->getMessage(), $source);
+                $result->json_response->authenticated = false;
+                $result->json_response->status = 'ok';
+
+                if ((strpos($e->getMessage(), 'Challenge required') !== FALSE) || (strpos($e->getMessage(), 'Checkpoint required') !== FALSE) || (strpos($e->getMessage(), 'challenge_required') !== FALSE)) {
+                    $result->json_response->message = 'checkpoint_required';
+                    $result->json_response->verify_link = '/challenge/';
+                } else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
+                    $result->json_response->message = 'incorrect_password';
+                else
+                    $result->json_response->message = $e->getMessage();
                 return $result;
             }
-            // Is not cookies or str_login return error, we make a full login
-            $url = "https://www.instagram.com/";
-//            $cookie = "/home/albertord/cookies.txt";
-            $login_response = false;
-            $try_count = 0;
-            while (!$login_response && $try_count < 2) {
-                $ch = curl_init($url);
-//                $ch = curl_init();
-//                if ($login != "alberto_dreyes")
-//                    $this->csrftoken = $this->get_insta_csrftoken($ch);
-//                else
-//                    $this->csrftoken = "1HiIEyzMQMOcKhFaXWuxQd2oVkgj8L4u";
-                $this->csrftoken = $this->get_insta_csrftoken($ch);
-                $this->mid = $this->get_cookies_value("mid");
-                if ($this->csrftoken != NULL && $this->csrftoken != "" && $this->mid) {
-                    $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
-                    $login_response = is_object($result->json_response);
-                }
-                $try_count++;
-//                if (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required") {
-//                    $this->DB->set_client_status_by_login($login, user_status::VERIFY_ACCOUNT);
-//                }
-//                else if (isset($result->json_response->authenticated) && $result->json_response->authenticated == FALSE) {
-//                    $this->DB->set_client_status_by_login($login, user_status::BLOCKED_BY_INSTA);
-//                }
-//                if (!$login_response)
-//                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
-            }
-            
-            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
-                 $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, json_encode($result));
-            }
-            
-            //var_dump($result);
-            //die("<br><br>Debug Finish!");
-            return $result;
-            
-*/        
-        
-        public function encode_cookies($csfrtoken, $sessionid, $ds_user_id, $mid)
-        {
+        }
+
+        /*      public function bot_login($login, $pass, $Client = NULL)
+          {
+          // Is client with cookies, we try to login with str_login
+          $result = new \stdClass();
+          $output = array();
+          if (!$Client)
+          $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
+          if (isset($Client->cookies) && $Client->cookies != NULL) {
+          $cookies = json_decode($Client->cookies);
+          $csrftoken = $cookies->csrftoken;
+          $mid = $cookies->mid;
+          $result->json_response = $this->str_login($mid, $csrftoken, $login, $pass);
+          // TODO: Jose Angel revisar
+          //                $url = "https://www.instagram.com/graphql/query/";
+          //                $curl_str = $this->make_curl_followers_str("$url", $cookies, $Client->insta_id, 15);
+          //print("<br><br>$curl_str<br><br>");
+          //                exec($curl_str, $output, $status);
+          $output = array(0);
+          // TODO: Si esta en checpoint required no hacer mas nada
+          //
+          //
+          }
+          if (count($output) > 0 && isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+          $result->csrftoken = $cookies->csrftoken;
+          // Get sessionid from cookies
+          $result->sessionid = $cookies->sessionid;
+          // Get ds_user_id from cookies
+          $result->ds_user_id = $cookies->ds_user_id;
+          // Get mid from cookies
+          $result->mid = $cookies->mid;
+          return $result;
+          }
+          // Is not cookies or str_login return error, we make a full login
+          $url = "https://www.instagram.com/";
+          //            $cookie = "/home/albertord/cookies.txt";
+          $login_response = false;
+          $try_count = 0;
+          while (!$login_response && $try_count < 2) {
+          $ch = curl_init($url);
+          //                $ch = curl_init();
+          //                if ($login != "alberto_dreyes")
+          //                    $this->csrftoken = $this->get_insta_csrftoken($ch);
+          //                else
+          //                    $this->csrftoken = "1HiIEyzMQMOcKhFaXWuxQd2oVkgj8L4u";
+          $this->csrftoken = $this->get_insta_csrftoken($ch);
+          $this->mid = $this->get_cookies_value("mid");
+          if ($this->csrftoken != NULL && $this->csrftoken != "" && $this->mid) {
+          $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $this->csrftoken, $this->mid, $Client);
+          $login_response = is_object($result->json_response);
+          }
+          $try_count++;
+          //                if (isset($result->json_response->message) && $result->json_response->message == "checkpoint_required") {
+          //                    $this->DB->set_client_status_by_login($login, user_status::VERIFY_ACCOUNT);
+          //                }
+          //                else if (isset($result->json_response->authenticated) && $result->json_response->authenticated == FALSE) {
+          //                    $this->DB->set_client_status_by_login($login, user_status::BLOCKED_BY_INSTA);
+          //                }
+          //                if (!$login_response)
+          //                    print "LOGIN NULL ISSUE ($login)!!! Trying $try_count of 3";
+          }
+          if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {
+          $cookies_changed = (new \dumbu\cls\DB())->set_client_cookies($Client->id, json_encode($result));
+          }
+          //var_dump($result);
+          //die("<br><br>Debug Finish!");
+          return $result;
+         */
+
+        public function encode_cookies($csfrtoken, $sessionid, $ds_user_id, $mid) {
             try {
                 $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
                 $cookies .= "\"$csfrtoken\",";
                 $cookies .= "\"sessionid\":";
-                if($sessionid !== "null")
-                {   $cookies .= "\"$sessionid\",";}
-                else
-                { $cookies .= "null,"; }
-                $cookies .= "\"ds_user_id\":";                
+                if ($sessionid !== "null") {
+                    $cookies .= "\"$sessionid\",";
+                } else {
+                    $cookies .= "null,";
+                }
+                $cookies .= "\"ds_user_id\":";
                 $cookies .= "\"$ds_user_id\",";
-                $cookies .= "\"mid\":"; 
+                $cookies .= "\"mid\":";
                 $cookies .= "\"$mid\"";
                 $cookies .= "}";
                 return $cookies;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
-            }            
+            }
         }
-        
-        public function make_login($login, $pass) {            
+
+        public function make_login($login, $pass) {
             $instaAPI = new \dumbu\cls\InstaAPI();
             //TODO: capturar excepcion e dar tratamiento cuando usuario y senha no existe en IG
-            try{
-                $result = $instaAPI->login($login, $pass);
+            try {
+                $result = $instaAPI->login($login, $pass, true);
+            } catch (\Exception $exc) {
+                throw $exc;
             }
-            catch(\Exception $exc){ throw $exc; }
             $cookies = $result->Cookies;
+            //var_dump($cookies);
             $mid = "";
             $csrftoken = "";
             $ds_user_id = "";
             $sessionid = "null";
             foreach ($cookies as $key => $value) {
-                if($value['Name'] === 'mid')
-                { $mid = $value['Value']; }
-                elseif($value['Name'] === 'csrftoken')
-                { $csrftoken = $value['Value']; }                 
-                elseif($value['Name'] === 'ds_user_id')
-                { $ds_user_id = $value['Value']; }
+                if ($value['Name'] === 'mid') {
+                    $mid = $value['Value'];
+                } elseif ($value['Name'] === 'csrftoken') {
+                    $csrftoken = $value['Value'];
+                } elseif ($value['Name'] === 'ds_user_id') {
+                    $ds_user_id = $value['Value'];
+                }
+                elseif ($value['Name'] === 'sessionid') {
+                    $sessionid = $value['Value'];
+                }
             }
+           //$ch = curl_init("https://www.instagram.com/");
+            //$this->login_insta_with_csrftoken("https://www.instagram.com/", $login, $pass, $csrftoken, $mid);
             $cookies_str = $this->encode_cookies($csrftoken, $sessionid, $ds_user_id, $mid);
-            return $cookies_str;//json_decode($cookies_str);
+            return $cookies_str; //json_decode($cookies_str);
         }
 
         public function like_fist_post($client_cookies, $client_insta_id) {
@@ -1598,17 +1586,12 @@ namespace dumbu\cls {
             }
             return $result;
         }
-        
-        public function checkpoint_requested($login, $pass, $Client = NULL) 
-        {
-             (new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);             
-             if (!$Client)
-                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
-            $url = "https://www.instagram.com/";
-            $login_response = false;
-            // 'cookie: ; rur=ATN; urlgen="{\"time\": 1512592838}:1eMgYc:UcN0E0daepL7D27JcgNpyhZAgQA"' -H 'x-csrftoken: zsAWib9MtwV2eQRf5oNQOT5XXuPSOMsK' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/5926046849/iXlG3wdxhp/' -H 'authority: www.instagram.com' --data 'choice=0' --compressed
-            //global $cookies;
-            $ch = curl_init($url);
+
+        public function checkpoint_requested($login, $pass, $Client = NULL) {
+            //(new \dumbu\cls\Client())->set_client_cookies($Client->id, NULL);
+            if (!$Client)
+                $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);
+            $url = $ch = curl_init("https://www.instagram.com/");                
             $csrftoken = $this->get_insta_csrftoken($ch);
             $urlgen = $this->get_cookies_value('urlgen');
             $mid = $this->get_cookies_value('mid');
@@ -1617,28 +1600,32 @@ namespace dumbu\cls {
             $ig_pr = $this->get_cookies_value('ig_pr');
             $ig_vh = $this->get_cookies_value('ig_vh');
             $ig_or = $this->get_cookies_value('ig_or');
-            //rur=FTW; ig_vw=1301; ig_pr=1; ig_vh=353; ig_or=landscape-primary
             
-            
-           
-            $result = $this->login_insta_with_csrftoken($ch, $login, $pass, $csrftoken, $Client);
-            $login_response = is_object($result->json_response);
-            
-            
-            if (isset($result->json_response->authenticated) && $result->json_response->authenticated == TRUE) {                
-                 (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($result));
-                 return $login_response;
-            }
-            
-                        
-            if($result->json_response->message == 'checkpoint_required' && isset($result->json_response->checkpoint_url))
+            try{
+            $instaAPI = new \dumbu\cls\InstaAPI();
+            $result2 = $instaAPI->login($login, $pass);
+            } catch (\InstagramAPI\Exception\InstagramException $exc)
             {
+                //printf("<br>------------------------------------------</br>");
+                //var_dump($exc);
+                $res = $exc->getResponse();                
+                //$ms = $exc->getFullResponse();
+                //var_dump($res);
+                //$message = $exc->getMessage();
+                $chll = $res->getChallenge();
+                //var_dump($chll);
+                $challenge = $chll->getApiPath();
                 $url = "https://www.instagram.com";
-                $url .= $result->json_response->checkpoint_url;
+                $url .= $challenge;
+               
+                $cookies = "{\"csrftoken\":\"$csrftoken\","
+                         ."\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
+                
                 $curl_str = "curl '$url' ";
                 $curl_str .= "-H 'origin: https://www.instagram.com' ";
                 $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-                $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed " ;
+                $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
                 $curl_str .= "-H 'Referer: $url' ";
                 $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
                 $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
@@ -1647,45 +1634,172 @@ namespace dumbu\cls {
                 $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
                 $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
                 exec($curl_str, $output, $status);
-                return json_decode($output[0]);
-            }            
+                return json_decode($output[0]);   
+            }
+            
+            
+        }
+
+        public function make_checkpoint($login, $code) {
+            $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);  
+            $cookies = json_decode($Client->cookies);
+            $csrftoken = $cookies->csrftoken;
+            $mid = $cookies->mid;           
+            $url = "https://www.instagram.com" . $cookies->checkpoint_url;
+            //$curl_str = "curl '$url' ";
+            //$curl_str .= "-H 'origin: https://www.instagram.com' ";
+            //$curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
+            //$curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
+            //$curl_str .= "-H 'Referer: $url' ";
+            //$curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            //$curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
+            //$curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
+            //$curl_str .= "mid=$mid; ";
+            //$curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
+            //$curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
+            $ch = curl_init("https://www.instagram.com");
+            $headers = array();
+            
+            $postinfo = "security_code=$code";
+            $headers[] = "Origin: https://www.instagram.com";
+            $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+            //            $headers[] = "Accept: application/json";
+            $headers[] = "Accept: */*";
+            $headers[] = "Accept-Language: en-US,en;q=0.5, ";
+            $headers[] = "Accept-Encoding: gzip, deflate, br";
+            $headers[] = "Referer: $url";
+            $headers[] = "X-CSRFToken: $csrftoken";
+            $headers[] = "X-Instagram-AJAX: 1";
+            //$ip = $_SERVER['REMOTE_ADDR'];
+            //if ($Client != NULL && $Client->HTTP_SERVER_VARS != NULL) { // if 
+            //    $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
+            //    $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+            //}
+            //$ip = "127.0.0.1";
+            //$headers[] = "REMOTE_ADDR: $ip";
+            //$headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            $headers[] = "Content-Type: application/x-www-form-urlencoded";
+//            $headers[] = "Content-Type: application/json";
+            $headers[] = "X-Requested-With: XMLHttpRequest";
+            $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
+            
+            curl_setopt($ch, CURLOPT_URL, $url);
+            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            //curl_setopt($ch, CURLOPT_POST, true);
+            //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+            //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+            global $cookies;
+            $cookies = array();
+            $html = curl_exec($ch);
+            $info = curl_getinfo($ch);
+            // LOGIN WITH CURL TO TEST
+            // Parse html response
+            $start = strpos($html, "{");
+            $json_str = substr($html, $start);
+            $json_response = json_decode($json_str);
+            //
+            $login_data = new \stdClass();
+            $login_data->json_response = $json_response;
+            if (curl_errno($ch)) {
+                //print curl_error($ch);
+            } else if (count($cookies) >= 2) {
+                $login_data->csrftoken = $this->get_cookies_value("csrftoken");
+                // Get sessionid from cookies
+                $login_data->sessionid = $this->get_cookies_value("sessionid");
+                // Get ds_user_id from cookies
+                $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
+                // Get mid from cookies
+                $login_data->mid = $this->get_cookies_value("mid");
+                if($login_data->mid == NULL ||$login_data->mid == '')
+                {
+                    $login_data->mid = $mid;                            
+                }
+            }
+            
+            (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
+            curl_close($ch);           
+            
+            /*exec($curl_str, $output, $status);     
+           $res = json_decode($output[0]);
+           if($res.status === "ok")
+           {
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id);
+           }*/
+            return  $login_data;               
         }
         
-        public function make_checkpoint($login, $code) 
+        public function set_client_cookies_by_curl($client_id, $curl,$robot_id = NULL )
         {
-             if (!$Client)
-                 $Client = (new \dumbu\cls\DB())->get_client_data_bylogin($login);    
-            $csrftoken = $this->get_cookies_value('csrftoken');
-            $urlgen = $this->get_cookies_value('urlgen');
-            $mid = $this->get_cookies_value('mid');
-            $rur = $this->get_cookies_value('rur');
-            $ig_vw = $this->get_cookies_value('ig_vw');
-            $ig_pr = $this->get_cookies_value('ig_pr');
-            $ig_vh = $this->get_cookies_value('ig_vh');
-            $ig_or = $this->get_cookies_value('ig_or');
-           
-            $url = "https://www.instagram.com";
-            $url .= $result->json_response->checkpoint_url;
-            $curl_str = "curl '$url' ";
-            $curl_str .= "-H 'origin: https://www.instagram.com' ";
-            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed " ;
-            $curl_str .= "-H 'Referer: $url' ";
-            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-            $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
-            $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
-            $curl_str .= "mid=$mid; ";
-            $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
-            $curl_str .= "-H 'Connection: keep-alive' --data 'security_code=$code' --compressed";
-            exec($curl_str, $output, $status);
-            
-            //return json_decode($output[0]);                
-
+            try {
+                $myDB = new \dumbu\cls\DB();
+                //curl 'https://www.instagram.com/accounts/login/ajax/' -H 'cookie: mid=Wh8j7wAEAAFI8PVD2LfNQan_fx9D; ig_or=portrait-primary; ig_vw=423; ig_pr=2; ig_vh=591; fbm_124024574287414=base_domain=.instagram.com; fbsr_124024574287414=QUaWW1MeWiEGTHDLVO2tm1aym96hpJFOTfvK8VjdAwk.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUUQ5MFZhTVdBeEtPakZFTFFzTFlKZW9LV1prVmNldFB4TnhYVnBkSmprdU9GMjg5TlFDM3RIZGVabFQ3OFpQOVk0T0NORVZyTHZkX0hLYjIwNDFuNWF5UlJWdDFlLWVoTW81UEpuR0c3bjFlSF83VnpJdXZDb0gzZDNZX1hWbWtfbmVZSV9qSlhGLTNLZFpScmlxc1ctb1pfWVo5QkEyYWFjRHdqNE03YzNJTl9rLTB0SGVkT3l1VVl0d0xaY0VDMjFHOG1sWUdDRTFVQUlpSzRKVUNHSllsVmdSMzBhSS1jV1h5QURRUk5VY2RfYTREQWwweWRtYlBmUDBoSkhxRzJLc2o2d0FoekJrMnhqRHQ3cm5XX0FtempQQ200NWZMUC1BV1RLYlJIblpKWjRsT0h5Y3RnaU9PNDZqSXlUYlVucnkzR0dxTXhCcG1VZWtjc1BNVGllak5DQzRLVW9saWtHcU81RDBsaERfS1FkZWgwNjJiVHNGcDR5dlpjbWJ1MmMiLCJpc3N1ZWRfYXQiOjE1MTMwNDkwNjQsInVzZXJfaWQiOiIxMDAwMDA3MTc3NjY5MDUifQ; csrftoken=3XfKEa81tbNOorjQuO4s1kAowNXYv5fG; rur=FTW; urlgen="{\"time\": 1513018251\054 \"200.20.15.39\": 2715}:1eObBA:XQDYQSuMd6OrRm_G9jZL11t_UsI"' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.8' -H 'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Mobile Safari/537.36' -H 'x-requested-with: XMLHttpRequest' -H 'x-csrftoken: 3XfKEa81tbNOorjQuO4s1kAowNXYv5fG' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' --data 'username=riveauxmerino&password=Notredame88' --compressed
+                $myDB->save_curl($client_id,$curl);
+                $csrftoken = "";
+                if(preg_match('/csrftoken=(\w+)/mi', $curl, $match) == 1)
+                {   $csrftoken = "$match[1]"; }
+                $mid = "";                
+                if(preg_match('/mid=([^;"\' ]+)/mi', $curl, $match) == 1)
+                {   $mid = "$match[1]"; }
+                $sessionid = "";                               
+                if(preg_match('/sessionid=([^\']+)/mi', $curl, $match) == 1)
+                {   $sessionid = "$match[1]"; }
+                 $ds_user_id = "";                  
+                if(preg_match('/ds_user_id=([^;"\' ]+)/mi', $curl, $match) == 1)
+                {   $ds_user_id = "$match[1]"; }
+                $password= NULL;
+                if(preg_match('/password=([^;"\' ]+)/mi', $curl, $match) == 1)
+                { $password = $match[1];}
+                else {$password = NULL;}
+                if($ds_user_id == "")
+                {
+                    $obj = $myDB->get_client_instaid_data($client_id);
+                    $ds_user_id = "$obj->insta_id";
+                }
+                 if($sessionid === 'null' || $sessionid === "")
+                {
+                    $url = "https://www.instagram.com/"; 
+                    $Client = (new \dumbu\cls\DB())->get_client_data($client_id);
+                    $ch = curl_init($url);
+                    $result = $this->login_insta_with_csrftoken($ch, $Client->login, $password, $csrftoken, $mid);
+                    $result->json_response = new \stdClass();
+                     $result->json_response->authenticated = true;                     
+                     $result->json_response->user = true;
+                      $result->json_response->status = "ok";
+                    $cookies = json_encode($result);
+                }
+                else
+                {
+                    $cookies = "{\"json_response\":{\"authenticated\":true,\"user\":true,\"status\":\"ok\"},\"csrftoken\":";
+                    $cookies .= "\"$csrftoken\",";
+                    $cookies .= "\"sessionid\":";
+                    $cookies .= "\"$sessionid\",";
+                    $cookies .= "\"ds_user_id\":";                
+                    $cookies .= "\"$ds_user_id\",";
+                    $cookies .= "\"mid\":"; 
+                    $cookies .= "\"$mid\"";
+                    $cookies .= "}";               
+                }
+                if($password !== null)
+                {
+                    $res = $myDB->SetPasword($client_id, $password);
+                }
+                
+                
+               $res = $myDB->set_client_cookies($client_id, $cookies) && $res;
+               $myDB->InsertEventToWashdog($client_id, "SET CURL");
+               $myDB->InsertEventToWashdog($client_id, $curl);
+                
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }            
         }
 
     }
 
 // end of Robot
 }
-
 ?>

@@ -401,12 +401,15 @@ class Admin extends CI_Controller {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
             $client_id = $this->input->post()['client_id'];
-            $curl = urldecode($this->input->post()['curl']);
+            $curl = urldecode(urldecode($this->input->post()['curl']));
             
             try {
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
-                $DB = new \dumbu\cls\DB();
-                $DB->set_client_cookies_by_curl($client_id, $curl, NULL);
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+                $Robot = new \dumbu\cls\Robot();
+                $Robot->set_client_cookies_by_curl($client_id, $curl, NULL);
+//                $result['success'] = false;
+//                $result['message'] = "Test!";
+//                echo json_encode($result);
             } catch (Exception $exc) {
                 //echo $exc->getTraceAsString();
                 $result['success'] = false;

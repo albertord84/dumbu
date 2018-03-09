@@ -17,9 +17,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 // Request Code
 $Client = new \dumbu\cls\Client();
 $Robot = new \dumbu\cls\Robot();
-$var = $Robot->bot_login("alberto_dreyes", "albertord8");
-print("---------------------------");
-var_dump($var);
+//$val = $Robot->checkpoint_requested("casazunzun", "angelpadron1991");
+$val = $Robot->make_checkpoint("casazunzun", "327094");
+var_dump($val);
+$DB = new \dumbu\cls\DB();
+//$DB->SetPasword("1", "jkwlsdhfjkf");
+//$var = $Robot->bot_login("riveauxmerino", "Notredame88");
+//print("---------------------------");
+//var_dump($var);
 
 //
 // URL Post Codigo
@@ -30,15 +35,24 @@ var_dump($var);
 //curl 'https://www.instagram.com/challenge/' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'referer: https://www.instagram.com/vida_no_pedal/' -H 'authority: www.instagram.com' -H 'cookie: mid=Wfn9vgAEAAGIFNZei4F0gwnH4M6j; fbm_124024574287414=base_domain=.instagram.com; sessionid=IGSC0c0bf81846c925f2ca81aca399fba8c9f0e7dd96e6ffd8098c48be24b929d343%3Ar5mOmhKXjjwaZ7HQnw1rt7hr8J9WtCcU%3A%7B%22_auth_user_id%22%3A5926046849%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_auth_user_hash%22%3A%22%22%2C%22_platform%22%3A4%2C%22_token_ver%22%3A2%2C%22_token%22%3A%225926046849%3AgabL6p3SJVPIyjHztrMiAXdVxhUuOyHU%3A104c3e139dc44137e174879099b5c1db33b6016e045bd1cca60ce1cfe34b7e81%22%2C%22last_refreshed%22%3A1512594334.0130136013%7D; fbsr_124024574287414=95YlWmZ9_EgtgPrhXElVv8b8juBBQFcMx6e3GxLSLQ0.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUUNsSnBYeFpaZkFoMnE5SVpWYUJkTHFWb1dKQTh0UzV1ZDMzX2FKekhiSmFTTnBvUy1GM2tvcGwzTC1yRmp3dXc4cDBrTW5teVhTY20yVEl2U25PZDU2QTFpdUdfS3NSd0IxZGVpdFR6TEQ1NWppTkpPWnJVckZmZmxwNy0xc09EY1NZRFhzWmRXLUJveGUxTEthSE9HT0xGVmZBalFjZlpVNHBQNEs2WlA5ZHBnazdoUjUxRm5xOVJLdG9WeEVWODNDZE4ySnFWVERhc2hxRXdWTUdsR0dMSDZRRmpGbkxlRWU3dk9SaVIyT29iMXhMRFlscWw1bzRRTDE0QzdFZlUwTVFUUHVmcWpyYXRsTEo3anlzclFYR285eDhsaHE1QXMxV1JCQ2FoS0haRUdfMmF3SDlyTFZHLWVCUm1HSTVVZFNfMUVQYVVRSnpwcUtaOTFVZ0I4QiIsImlzc3VlZF9hdCI6MTUxMjU5NDYzNiwidXNlcl9pZCI6IjEwMDAwOTQzMzA2OTA5NSJ9; csrftoken=pnIndkOWyRvdrooGi2K99hlBeEGcVe2s; ds_user_id=5926046849; ig_pr=1; ig_vw=950; ig_vh=990; ig_or=landscape-primary; rur=ATN; urlgen="{\"time\": 1512593363}:1eMgzy:ju4W9Q8G6MpUSdRPxMaSRURh0pE"' --compressed
 //
 // URL Post This Was Me
-//curl 'https://www.instagram.com/challenge/' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'x-requested-with: XMLHttpRequest' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36' -H 'cookie: mid=Wfn9vgAEAAGIFNZei4F0gwnH4M6j; fbm_124024574287414=base_domain=.instagram.com; sessionid=IGSC0c0bf81846c925f2ca81aca399fba8c9f0e7dd96e6ffd8098c48be24b929d343%3Ar5mOmhKXjjwaZ7HQnw1rt7hr8J9WtCcU%3A%7B%22_auth_user_id%22%3A5926046849%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_auth_user_hash%22%3A%22%22%2C%22_platform%22%3A4%2C%22_token_ver%22%3A2%2C%22_token%22%3A%225926046849%3AgabL6p3SJVPIyjHztrMiAXdVxhUuOyHU%3A104c3e139dc44137e174879099b5c1db33b6016e045bd1cca60ce1cfe34b7e81%22%2C%22last_refreshed%22%3A1512594334.0130136013%7D; fbsr_124024574287414=95YlWmZ9_EgtgPrhXElVv8b8juBBQFcMx6e3GxLSLQ0.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUUNsSnBYeFpaZkFoMnE5SVpWYUJkTHFWb1dKQTh0UzV1ZDMzX2FKekhiSmFTTnBvUy1GM2tvcGwzTC1yRmp3dXc4cDBrTW5teVhTY20yVEl2U25PZDU2QTFpdUdfS3NSd0IxZGVpdFR6TEQ1NWppTkpPWnJVckZmZmxwNy0xc09EY1NZRFhzWmRXLUJveGUxTEthSE9HT0xGVmZBalFjZlpVNHBQNEs2WlA5ZHBnazdoUjUxRm5xOVJLdG9WeEVWODNDZE4ySnFWVERhc2hxRXdWTUdsR0dMSDZRRmpGbkxlRWU3dk9SaVIyT29iMXhMRFlscWw1bzRRTDE0QzdFZlUwTVFUUHVmcWpyYXRsTEo3anlzclFYR285eDhsaHE1QXMxV1JCQ2FoS0haRUdfMmF3SDlyTFZHLWVCUm1HSTVVZFNfMUVQYVVRSnpwcUtaOTFVZ0I4QiIsImlzc3VlZF9hdCI6MTUxMjU5NDYzNiwidXNlcl9pZCI6IjEwMDAwOTQzMzA2OTA5NSJ9; ig_pr=1; ig_vw=950; ig_vh=990; ig_or=landscape-primary; csrftoken=pnIndkOWyRvdrooGi2K99hlBeEGcVe2s; rur=ATN; ds_user_id=5926046849; urlgen="{\"time\": 1512593363}:1eMgzy:ju4W9Q8G6MpUSdRPxMaSRURh0pE"' -H 'x-csrftoken: pnIndkOWyRvdrooGi2K99hlBeEGcVe2s' -H 'x-instagram-ajax: 1' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/' -H 'authority: www.instagram.com' --data 'choice=0' --compressed
+/*
+$Clients = $Client->get_clients();
+foreach ($Clients as $user)
+{
+    $cookies = json_decode($user->cookies);
+    if(isset($cookies->mid) === FALSE|| $cookies->mid === null || $cookies->mid === 'null' 
+            || $cookies->mid === '' ||isset($cookies->sessionid) === FALSE||
+            $cookies->sessionid === null || $cookies->sessionid  === 'null' || $cookies->sessionid  === '' )
+    {
+        $result = $DB->set_cookies_to_null($user->id);
+        echo "<br> Update cookies client: $user->id";
+         var_dump($result);
+        echo "</br>";
+    }
+}*/
 //
 
-echo "Worker Inited...!<br>\n";
-echo date("Y-m-d h:i:sa");
-$GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-$init_day = new DateTime();
-$init_day->setTimestamp('1511413162');
-var_dump($init_day);
+
 
 //$DB = new \dumbu\cls\DB();
 

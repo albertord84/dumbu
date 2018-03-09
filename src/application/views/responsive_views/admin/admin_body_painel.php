@@ -304,9 +304,9 @@
                 <div class="col-md-3">
                     <div class="center">
                         <br>
-                        <!-- <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                        <button  style="min-width:150px" id = "execute_query_email" type="button" class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
                             <span class="ladda-label">Obter emails</span>
-                        </button> -->
+                        </button>
                     </div>
                 </div>
             </div>
@@ -580,6 +580,16 @@
                                 echo '</td>';
                             echo '</tr>';
                             echo '<tr id="row-2-client-'.$result[$i]['id'].'" style="display: block'; 
+                            if ($i % 2) {echo '; background-color: #dff0d8';}
+                            echo '">';
+                                echo '<td>';
+                                    if ($result[$i]['cookies'])
+                                        echo '<b>Cookies: </b>'.$result[$i]['cookies'].'<br>';
+                                    else
+                                        echo '<b>Cookies: </b>NULL<br>';
+                                echo '</td>';
+                           echo '</tr>';
+                            echo '<tr id="row-3-client-'.$result[$i]['id'].'" style="display: block'; 
                             if ($i % 2) {echo '; background-color: #dff0d8';}
                             echo '">';
                                 echo '<td width="10%" align="right">';

@@ -99,7 +99,9 @@ var Translation={
     "Data errada":
             "Data errada",
     "Informe seu nome no cartão e não a bandeira dele.":
-            "Informe seu nome no cartão e não a bandeira dele."
+            "Informe seu nome no cartão e não a bandeira dele.",
+    "Deve preencher o campo com o código de segurança de 6 dígitos.":
+            "Deve preencher o campo com o código de segurança de 6 dígitos."
 };
 
 function T(token){
