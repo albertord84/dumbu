@@ -385,7 +385,7 @@ namespace dumbu\cls {
                 $object = $result->fetch_object();
 
                 // Update daily work time
-                if ($object) {
+                if ($object && (!isset($object->last_access) || intval($object->last_access) < time())) {
                     //$ref_prof_id = $object->rp_insta_id;
                     $time = time();
                     $sql2 = ""
@@ -426,7 +426,7 @@ namespace dumbu\cls {
                 $object = $result->fetch_object();
 
                 // Update daily work time
-                if ($object) {
+                if ($object && (!isset($object->last_access) || intval($object->last_access) < time())) {
                     //$ref_prof_id = $object->rp_insta_id;
                     $time = time();
                     $sql2 = ""
@@ -634,7 +634,7 @@ namespace dumbu\cls {
             }
         }
 
-        public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
+        public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0, $error = FALSE) {
             try {
 //                if ($follows == 0)
 //                    $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
@@ -646,14 +646,21 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
                 // Record Client last access and foults
-                $time = time();
+                if(!$error)
+                {
+                    $time = time();                    
+                }
+                else
+                {
+                    $hours = $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS;
+                    $time = strtotime("+$hours hours", time());
+                }
                 $sql = ""
                         . "UPDATE clients "
                         . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
                         . "SET clients.last_access = '$time', "
                         . "    clients.foults = clients.foults + $faults "
                         . "WHERE reference_profile.id = $ref_prof_id; ";
-
                 $result = mysqli_query($this->connection, $sql);
                 //$affected = mysqli_num_rows($result);
                 if ($result)
@@ -929,7 +936,7 @@ namespace dumbu\cls {
                 $timestamp = strtotime("+$hours hours", time());
                 $sql = "UPDATE dumbudb.clients SET last_access='$timestamp' WHERE user_id=$client_id";
                 $result =  mysqli_query($this->connection, $sql);
-            return $result;     
+                return $result;     
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }           
