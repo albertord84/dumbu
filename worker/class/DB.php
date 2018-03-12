@@ -924,7 +924,7 @@ namespace dumbu\cls {
         * @param type $client_id
         * @param type $hours to add to client
         */
-       public function Increase_Client_Last_Access($client_id, $hours = 0) {
+       public function Increase_Client_Last_Access($client_id, $hours = 2) {
             try {
                 $timestamp = strtotime("+$hours hours", time());
                 $sql = "UPDATE dumbudb.clients SET last_access='$timestamp' WHERE user_id=$client_id";
