@@ -1006,7 +1006,7 @@
                     </div>-->
                 </div>    
                 
-                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) { ?>
+                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 7 || $status['status_id'] == 10) { ?>
                     <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
                         <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
                         <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>

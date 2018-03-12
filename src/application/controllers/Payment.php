@@ -85,6 +85,7 @@ class Payment extends CI_Controller {
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
+            
             $clientname = $client['name'];
             $clientid = $client['user_id'];
             $now = new DateTime("now");
@@ -132,6 +133,8 @@ class Payment extends CI_Controller {
     public function check_client_payment($client) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        
+        $this->load->model('class/dumbu_system_config');
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         // Check client payment in mundipagg
         $Payment = new \dumbu\cls\Payment();
@@ -142,7 +145,7 @@ class Payment extends CI_Controller {
         $IOK_ok = $IOK_ok || $POK_ok; // Whichever is paid
         // Check normal recurrency payment
         $result = $Payment->check_payment($client['order_key']);
-        if (is_object($result) && $result->isSuccess()) {
+        if (isset($result) && is_object($result) && $result->isSuccess()) {
             $data = $result->getData();
             //var_dump($data);
             $SaleDataCollection = $data->SaleDataCollection[0];
@@ -214,7 +217,6 @@ class Payment extends CI_Controller {
                     //$diff_days = 6;
                     if ($diff_days >= 0) {
 //                        print "\n<br>Email sent to " . $client['email'] . "<br>\n";
-                        $this->load->model('class/dumbu_system_config');
                         $this->send_payment_email($client, dumbu_system_config::DAYS_TO_BLOCK_CLIENT - $diff_days);
                         // TODO: limit email by days diff
                         if ($diff_days >= dumbu_system_config::DAYS_TO_BLOCK_CLIENT) {
@@ -251,7 +253,7 @@ class Payment extends CI_Controller {
             }
         } else {
             $bool = is_object($result);
-            $str = is_object($result) && is_callable($result->getData()) ? json_encode($result->getData()) : "NULL";
+            $str = isset($result) && is_object($result) && is_callable($result->getData()) ? json_encode($result->getData()) : "NULL";
 //            throw new Exception("Payment error: " . $str);
             print ("\n<br>Payment error: " . $str . " \nClient name: " . $client['name'] . "<br>\n");
         }
