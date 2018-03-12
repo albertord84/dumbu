@@ -145,7 +145,7 @@ namespace dumbu\cls {
             try
             {
             // Carrega dependências
-            require_once $_SERVER['DOCUMENT_ROOT'] . '\dumbu\worker\libraries\MundiAPI-PHP\vendor\autoload.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/MundiAPI-PHP/vendor/autoload.php';
             // Define a url utilizada
             \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com/"); 
 
