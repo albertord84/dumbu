@@ -434,7 +434,8 @@ namespace dumbu\cls {
 //                    var_dump($result);
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+                    $time = $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS;
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, "access incresed in $time");
                     $this->DB->Increase_Client_Last_Access($client_id, $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS);
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     /* $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
