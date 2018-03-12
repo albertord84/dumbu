@@ -187,6 +187,7 @@ class Admin extends CI_Controller {
                 $this->user_model->update_user($id, array(
                     'status_id' => user_status::DELETED,
                     'end_date' => time()));
+                $this->user_model->insert_washdog($id,'CLIENT DELETED FROM ADMIN');
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
                 $result['success'] = false;

@@ -174,7 +174,7 @@ class Welcome extends CI_Controller {
                             for ($i = 0; $i < $N; $i++) {
                                 $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                 $response = count($this->user_model->execute_sql_query($sql));
-                                if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                if (!$response && !$active_profiles[$i]['end_date'])
                                     $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $insta_login['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                             }
                         }
@@ -373,7 +373,7 @@ class Welcome extends CI_Controller {
                                 for ($i = 0; $i < $N; $i++) {
                                     $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                     $response = count($this->user_model->execute_sql_query($sql));
-                                    if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                    if (!$response && !$active_profiles[$i]['end_date'])
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
@@ -394,7 +394,7 @@ class Welcome extends CI_Controller {
                                     }
                                     //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                     for ($i = 0; $i < $N; $i++) {
-                                        if($active_profiles[$i]['end_date']!=='NULL')
+                                        if(!$active_profiles[$i]['end_date'])
                                             $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                     }
                                 }
@@ -406,7 +406,7 @@ class Welcome extends CI_Controller {
                                 $N = count($active_profiles);
                                 //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                 for ($i = 0; $i < $N; $i++) {
-                                    if($active_profiles[$i]['end_date']!=='NULL')
+                                    if(!$active_profiles[$i]['end_date'])
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
@@ -1879,7 +1879,7 @@ class Welcome extends CI_Controller {
                                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                                             $N = count($active_profiles);
                                             for ($i = 0; $i < $N; $i++) {
-                                                if($active_profiles[$i]['end_date']!=='NULL')
+                                                if(!$active_profiles[$i]['end_date'])
                                                 $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
                                             }
                                         }
@@ -2033,7 +2033,7 @@ class Welcome extends CI_Controller {
                     //$profile_datas = $this->check_insta_profile($profile['geolocalization']);
                     $profile_datas = $this->check_insta_geolocalization($profile['geolocalization']);                    
                     
-                    if($profile_datas) {                                                
+                    if ($profile_datas && $profile_datas->location->pk) {                                                
                         //if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile_datas->slug, $profile_datas->location->pk, '1');
                             if ($p) {
@@ -2165,7 +2165,7 @@ class Welcome extends CI_Controller {
             if (!$is_active_profile/*&& !$is_active_geolocalization*/) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas=$this->check_insta_profile_from_client($profile['profile']);
-                    if($profile_datas) {
+                    if ($profile_datas && $profile_datas->pk) {
                         if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '0');
                             if ($p) {
