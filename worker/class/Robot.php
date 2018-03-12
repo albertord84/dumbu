@@ -87,7 +87,7 @@ namespace dumbu\cls {
          * @return void
          * @access public
          */
-        public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
+        public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work, $error = FALSE) {
             //$this->Day_client_work = $Day_client_work;
             //$this->Ref_profile = $Ref_profile;
             //$DB = new DB();
@@ -103,7 +103,7 @@ namespace dumbu\cls {
             echo "<br>\nnRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
-            $error = FALSE;
+            
             for ($i = 0; $i < $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 $error = FALSE;
                 // Next profile to unfollow, not yet unfollwed
@@ -436,14 +436,9 @@ namespace dumbu\cls {
                     // Alert when insta block by IP
                     $time = $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS;
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, "access incresed in $time");
-                    if(TRUE)
-                    {
-                        $this->DB->Increase_Client_Last_Access($client_id);
-                    }
-                    else
-                    {
-                        $this->DB->Increase_Client_Last_Access($client_id, $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS);
-                    }
+                   
+                    $this->DB->Increase_Client_Last_Access($client_id, $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS);
+                    
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     /* $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                       $rows_count = $result->num_rows;
