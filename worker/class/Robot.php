@@ -436,7 +436,7 @@ namespace dumbu\cls {
                     // Alert when insta block by IP
                     $time = $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS;
                     $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, "access incresed in $time");
-                    if($GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS == 0)
+                    if(TRUE)
                     {
                         $this->DB->Increase_Client_Last_Access($client_id);
                     }

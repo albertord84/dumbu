@@ -929,7 +929,7 @@ namespace dumbu\cls {
                 $timestamp = strtotime("+$hours hours", time());
                 $sql = "UPDATE dumbudb.clients SET last_access='$timestamp' WHERE user_id=$client_id";
                 $result =  mysqli_query($this->connection, $sql);
-            return $result;     
+                return $result;     
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }           
