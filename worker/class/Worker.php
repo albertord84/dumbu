@@ -137,7 +137,7 @@ namespace dumbu\cls {
                 //Reuest for the black list in the data base
                 $daily_work->black_list = $this->DB->get_black_list($daily_work->client_id);
               
-                $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work);
+                $Ref_profile_follows = $this->Robot->do_follow_unfollow_work($Followeds_to_unfollow, $daily_work, $errors);
                 $this->save_follow_unfollow_work($Followeds_to_unfollow, $Ref_profile_follows, $daily_work);
                 //Count unfollows
                 $unfollows = 0;
@@ -146,7 +146,7 @@ namespace dumbu\cls {
                     {    $unfollows++; }
                 }
                 // TODO: foults
-                $this->DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows);
+                $this->DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows, $errors);
                 return TRUE;
             }
             return FALSE;
