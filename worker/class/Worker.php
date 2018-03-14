@@ -146,7 +146,7 @@ namespace dumbu\cls {
                     {    $unfollows++; }
                 }
                 // TODO: foults
-                $this->DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows, $errors);
+                $this->DB->update_daily_work($daily_work->reference_id, count($Ref_profile_follows), $unfollows, 0, $errors);
                 return TRUE;
             }
             return FALSE;

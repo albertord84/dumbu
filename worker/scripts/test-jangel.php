@@ -16,7 +16,8 @@ var_dump(abs(5-9));
 //$DB->InsertEventToWashdog($client_id, 'Test Action', '1', 1, 'TEST action');
 
 $DB = new \dumbu\cls\DB();
-
+$DB->update_daily_work(1,1, 1, 0);
+/*
 $Clients = (new \dumbu\cls\Client())->get_clients();
 foreach ($Clients as $Client)
 {
@@ -28,7 +29,7 @@ foreach ($Clients as $Client)
             $DB->set_client_cookies($Client->id);
         }
     }
-}
+}*/
 /*try{
         //$Robot = new \dumbu\cls\Robot();
         //$val = $Robot->checkpoint_requested("ecr_nature", "ecr26020");
