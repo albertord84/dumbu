@@ -166,8 +166,8 @@ class Welcome extends CI_Controller {
                             'status_id' => user_status::ACTIVE));
                         //2. actualizar la cookies
                         if ($insta_login['insta_login_response']) {
-                            $this->client_model->update_client($this->session->userdata('id'), array(
-                                'cookies' => json_encode($insta_login['insta_login_response'])));
+//                            $this->client_model->update_client($this->session->userdata('id'), array(
+//                                'cookies' => json_encode($insta_login['insta_login_response'])));
                             //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                             $N = count($active_profiles);
@@ -1057,8 +1057,8 @@ class Welcome extends CI_Controller {
                                 'init_date' => time(),
                                 'status_id' => $datas['status_id']));
                             if($data_insta['insta_login_response']) {
-                                $this->client_model->update_client($datas['pk'], array(
-                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+//                                $this->client_model->update_client($datas['pk'], array(
+//                                    'cookies' => json_encode($data_insta['insta_login_response'])));
                             }
                             $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
                         
