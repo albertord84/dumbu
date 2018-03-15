@@ -164,15 +164,15 @@ class Welcome extends CI_Controller {
                             'status_id' => user_status::ACTIVE));
                         //2. actualizar la cookies
                         if ($insta_login['insta_login_response']) {
-                            $this->client_model->update_client($this->session->userdata('id'), array(
-                                'cookies' => json_encode($insta_login['insta_login_response'])));
+//                            $this->client_model->update_client($this->session->userdata('id'), array(
+//                                'cookies' => json_encode($insta_login['insta_login_response'])));
                             //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                             $N = count($active_profiles);
                             for ($i = 0; $i < $N; $i++) {
                                 $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                 $response = count($this->user_model->execute_sql_query($sql));
-                                if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                if (!$response && !$active_profiles[$i]['end_date'])
                                     $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $insta_login['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                             }
                         }
@@ -371,7 +371,7 @@ class Welcome extends CI_Controller {
                                 for ($i = 0; $i < $N; $i++) {
                                     $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                     $response = count($this->user_model->execute_sql_query($sql));
-                                    if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                    if (!$response && !$active_profiles[$i]['end_date'])
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
@@ -392,7 +392,7 @@ class Welcome extends CI_Controller {
                                     }
                                     //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                     for ($i = 0; $i < $N; $i++) {
-                                        if($active_profiles[$i]['end_date']!=='NULL')
+                                        if(!$active_profiles[$i]['end_date'])
                                             $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                     }
                                 }
@@ -404,7 +404,7 @@ class Welcome extends CI_Controller {
                                 $N = count($active_profiles);
                                 //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                 for ($i = 0; $i < $N; $i++) {
-                                    if($active_profiles[$i]['end_date']!=='NULL')
+                                    if(!$active_profiles[$i]['end_date'])
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
@@ -574,6 +574,7 @@ class Welcome extends CI_Controller {
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
+                        $result['role'] = 'CLIENT'; // agregado por Ruslan pa resolver problema en login
                         $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
@@ -1054,8 +1055,8 @@ class Welcome extends CI_Controller {
                                 'init_date' => time(),
                                 'status_id' => $datas['status_id']));
                             if($data_insta['insta_login_response']) {
-                                $this->client_model->update_client($datas['pk'], array(
-                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+//                                $this->client_model->update_client($datas['pk'], array(
+//                                    'cookies' => json_encode($data_insta['insta_login_response'])));
                             }
                             $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
                         
@@ -1600,6 +1601,19 @@ class Welcome extends CI_Controller {
         return $response;
     }
     
+    public function check_mundipagg_boleto_2() {        
+        $payment_data['AmountInCents']=12790;
+        $payment_data['DocumentNumber']=94; //'3';
+        $payment_data['OrderReference']=94; //'3';
+        $payment_data['id']=4178; 
+        $payment_data['name']='Luciano do Amaral Kiesel';
+        $payment_data['cpf']=67374581068;        
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment( $payment_data);
+        return $response;
+    }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
@@ -1876,7 +1890,7 @@ class Welcome extends CI_Controller {
                                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                                             $N = count($active_profiles);
                                             for ($i = 0; $i < $N; $i++) {
-                                                if($active_profiles[$i]['end_date']!=='NULL')
+                                                if(!$active_profiles[$i]['end_date'])
                                                 $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
                                             }
                                         }
@@ -2030,33 +2044,13 @@ class Welcome extends CI_Controller {
                     //$profile_datas = $this->check_insta_profile($profile['geolocalization']);
                     $profile_datas = $this->check_insta_geolocalization($profile['geolocalization']);                    
                     
-                    if($profile_datas) {                                                
+                    if ($profile_datas && $profile_datas->location->pk) {                                                
                         //if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile_datas->slug, $profile_datas->location->pk, '1');
-                            if ($p) {
-                                if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
-                                    $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
-                                else
-                                    $q = true;
-                                //$profile_datas = $this->check_insta_profile($profile['geolocalization'], $p);
-                                $result['success'] = true;
-                                $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
-                                $result['profile'] = $profile['geolocalization'];
-                                $result['geolocalization_pk'] = $profile_datas->location->pk;
-                                $result['follows_from_profile'] = 0;
-                                if ($q) {
-                                    $result['message'] = $this->T('Geolocalização adicionada corretamente', array(), $GLOBALS['language']);
-                                } else {
-                                    $result['message'] = $this->T('O trabalho com a geolocalização começara depois', array(), $GLOBALS['language']);
-                                }
-                            } else {
-                                $result['success'] = false;
-                                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
-                            }
-                        /*} else {
-                            $result['success'] = false;
-                            $result['message'] = $this->T('A geolocalização @1 é um perfil privado', array(0 => $profile['geolocalization']));
-                        }*/
+                            $result = $this->verify_profile($p, $profile, $profile_datas);
+                            $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
+                            $result['profile'] = $profile['geolocalization'];
+                            $result['follows_from_profile'] = 0;
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é uma geolocalização do Instagram', array(0 => $profile['geolocalization']));
@@ -2146,7 +2140,7 @@ class Welcome extends CI_Controller {
             $N = count($active_profiles);
             $N_profiles=0;
             $is_active_profile = false;
-            $is_active_geolocalization = false;
+            
             for ($i = 0; $i < $N; $i++) {
                 if($active_profiles[$i]['type']==='0' && $active_profiles[$i]['deleted']==='0')
                     $N_profiles=$N_profiles+1;
@@ -2154,35 +2148,20 @@ class Welcome extends CI_Controller {
                     if($active_profiles[$i]['deleted'] == false)
                         if($active_profiles[$i]['type'] ==='0')
                             $is_active_profile=true;
-                        elseif($active_profiles[$i]['type'] ==='1')
-                            $is_active_geolocalization=true;
                     break;
                 }
             }
-            if (!$is_active_profile/*&& !$is_active_geolocalization*/) {
+            if (!$is_active_profile) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas=$this->check_insta_profile_from_client($profile['profile']);
-                    if($profile_datas) {
+                    if ($profile_datas && $profile_datas->pk) {
                         if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '0');
-                            if ($p) {
-                                if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
-                                    $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
-                                else
-                                    $q = true;
-                                $result['success'] = true;
-                                $result['img_url'] = $profile_datas->profile_pic_url;
-                                $result['profile'] = $profile['profile'];
-                                $result['follows_from_profile'] = $profile_datas->follows;
-                                if ($q) {
-                                    $result['message'] = $this->T('Perfil adicionado corretamente', array(), $GLOBALS['language']);
-                                } else {
-                                    $result['message'] = $this->T('O trabalho com o perfil começara depois', array(), $GLOBALS['language']);
-                                }
-                            } else {
-                                $result['success'] = false;
-                                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
-                            }
+                            $result = $this->verify_profile($p); 
+                            $result['img_url'] = $profile_datas->profile_pic_url;
+                            $result['profile'] = $profile['profile'];
+                            $result['follows_from_profile'] = $profile_datas->follows;
+                            
                         } else {
                             $result['success'] = false;
                             $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']),$GLOBALS['language']);
@@ -2208,7 +2187,6 @@ class Welcome extends CI_Controller {
                 //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
                 $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED');
             }
-            
             echo json_encode($result);
         }
     }
@@ -2244,7 +2222,7 @@ class Welcome extends CI_Controller {
             echo json_encode($result);
         }
     }
-
+    
     public function check_insta_profile($profile) {
         //if ($this->session->userdata('id')) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
@@ -2273,6 +2251,7 @@ class Welcome extends CI_Controller {
             }
     }
     
+            
     public function message() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
@@ -3421,5 +3400,132 @@ class Welcome extends CI_Controller {
             $this->display_access_error();
         }
     }
+    
+    public function client_insert_hashtag() {
+       $id = $this->session->userdata('id');
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;  
+            $GLOBALS['language']=$param['language'];
+            $this->load->model('class/client_model');
+            $this->load->model('class/user_status');
+            $profile = $this->input->post();
+            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+            $N = count($active_profiles);
+            $N_profiles=0;
+            $is_active_tag = false;
+            
+            for ($i = 0; $i < $N; $i++) {
+                if($active_profiles[$i]['type']==='2' && $active_profiles[$i]['deleted']==='0')
+                    $N_profiles=$N_profiles+1;
+                if ($active_profiles[$i]['insta_name'] == $profile['tag_profile']) {
+                    if($active_profiles[$i]['deleted'] == false && $active_profiles[$i]['type'] ==='2')
+                            $is_active_tag = true;
+                    break;
+                }
+            }
+            if (!$is_active_tag) {
+                if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
+                    $profile_datas=$this->check_insta_tag_from_client($profile['profile']);
+                    if($profile_datas)
+                    {
+                        $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['tag_profile'], $profile_datas->pk, '2');
+                        $result = $this->verify_profile($p);                         
+                        $result['img_url'] = '';
+                        $result['profile'] = $profile['tag_profile'];
+                        $result['follows_from_profile'] = $profile_datas->follows;
+                    }
+                } else {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Você alcançou a quantidade máxima de perfis ativos', array(), $GLOBALS['language']);
+                }
+            } else {
+                $result['success'] = false;                    
+                if($is_active_profile)
+                    $result['message']=$this->T('O perfil informado ja está ativo', array(), $GLOBALS['language']);    
+                else
+                    $result['message'] = $this->T('O perfil informado é uma geolocalização ativa', array(), $GLOBALS['language']);                
+            }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED');
+            }
+            
+            echo json_encode($result);
+        } 
+    }
+    
+    public function client_desactive_hashtag() {
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+            $GLOBALS['language']=$param['language'];
+            $this->load->model('class/client_model');
+            $profile = $this->input->post();
+            if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['hashtag'])) {
+                $result['success'] = true;
+                $result['message'] = $this->T('Hashtag eliminada', array(), $GLOBALS['language']);
+            } else {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
+            }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG ELIMINATED '.$profile['hashtag']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG ELIMINATED');
+            }
+            echo json_encode($result);
+        }
+    }
+
+    public function check_insta_tag_from_client($profile){
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
+        $this->Robot = new \dumbu\cls\Robot();       
+        $data = $this->Robot->get_insta_tag_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
+        if(is_object($data)){
+            return $data;
+        }
+        else 
+            if(is_string($data)){
+                return json_decode($data);
+            } else {
+                return NULL;
+            }
+    }
+    
+    function verify_profile($profile_id) {      
+        if($profile_id){
+            if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
+                $q = $this->client_model->insert_profile_in_daily_work($profile_id, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
+            else
+                $q = true;            
+            $result['success'] = true;
+            if ($q) {
+                $result['message'] = $this->T('Perfil adicionado corretamente', array(), $GLOBALS['language']);
+            } else {
+                $result['message'] = $this->T('O trabalho com o perfil começara depois', array(), $GLOBALS['language']);
+            }
+        } else {
+            $result['success'] = false;
+            $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
+        }
+        return $result; 
+    }
+    
       
 }

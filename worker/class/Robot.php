@@ -87,7 +87,7 @@ namespace dumbu\cls {
          * @return void
          * @access public
          */
-        public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work) {
+        public function do_follow_unfollow_work($Followeds_to_unfollow, $daily_work, $error = FALSE) {
             //$this->Day_client_work = $Day_client_work;
             //$this->Ref_profile = $Ref_profile;
             //$DB = new DB();
@@ -103,7 +103,7 @@ namespace dumbu\cls {
             echo "<br>\nnRef Profil: $daily_work->insta_name<br>\n" . " Count: " . count($Followeds_to_unfollow) . " Hasnext: $has_next - ";
             echo date("Y-m-d h:i:sa");
             echo "<br>\n make_insta_friendships_command UNFOLLOW <br>\n";
-            $error = FALSE;
+            
             for ($i = 0; $i < $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME && ($has_next); $i++) {
                 $error = FALSE;
                 // Next profile to unfollow, not yet unfollwed
@@ -387,6 +387,7 @@ namespace dumbu\cls {
                     $this->DB->set_client_status($client_id, user_status::UNFOLLOW);
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
 //                    print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
+                    $error = TRUE;
                     break;
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -433,8 +434,11 @@ namespace dumbu\cls {
 //                    var_dump($result);
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
+                    $time = $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS;
+                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, "access incresed in $time");
+                   
                     $this->DB->Increase_Client_Last_Access($client_id, $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS);
+                    
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     /* $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                       $rows_count = $result->num_rows;
@@ -443,6 +447,7 @@ namespace dumbu\cls {
                       $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 1= " . $rows_count, "Jose");
                       $Gmail->send_client_login_error("ruslan.guerra88@gmail.com", "Ruslan!!!!!!! BLOQUEADOS 1= " . $rows_count, "Ruslan");
                       } */
+                    $error = TRUE;
                     break;
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $this->DB->delete_daily_work_client($client_id);
@@ -1220,28 +1225,71 @@ namespace dumbu\cls {
             return $value;
         }
 
+        public function get_insta_data($ref_prof){
+            if ($ref_prof == "" || $ref_prof == NULL) {
+             throw new \Exception("This was and empty or null referece profile (ref_prof)");    
+            }
+            $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
+            $ch = curl_init("https://www.instagram.com/");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_POST, FALSE);
+            curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            $html = curl_exec($ch);
+            $string = curl_error($ch);
+            $content = json_decode($html);
+            curl_close($ch);
+            return $content;
+            
+        }
+        
+        public function get_insta_data_from_client($ref_prof, $cookies){
+            if ($ref_prof == "" || $ref_prof == NULL) {
+                throw new \Exception("This was and empty or null referece profile (ref_prof)");    
+            }
+            $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
+            $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
+            $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
+            $mid = isset($cookies->mid) ? $cookies->mid : 0;
+            $headers = array();
+            $headers[] = "Host: www.instagram.com";
+            $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+//                                $headers[] = "Accept: application/json";
+            $headers[] = "Accept: */*";
+            $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
+            $headers[] = "Accept-Encoding: deflate, sdch";
+            $headers[] = "Referer: https://www.instagram.com/";
+            $headers[] = "X-CSRFToken: $csrftoken";
+            $ip = "127.0.0.1";
+            $headers[] = "REMOTE_ADDR: $ip";
+            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            $headers[] = "Content-Type: application/x-www-form-urlencoded";
+//                    $headers[] = "Content-Type: application/json";
+            $headers[] = "X-Requested-With: XMLHttpRequest";
+            $headers[] = "Authority: www.instagram.com";
+            $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
+            $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
+            $ch = curl_init("https://www.instagram.com/");
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HEADER, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            $output = curl_exec($ch);
+            $string = curl_error($ch);
+            curl_close($ch);
+            return json_decode($output);
+        }
+        
         public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             try {
                 $Profile = NULL;
-                if ($ref_prof != "") {
-//                    $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
-//                    exec("curl 'https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof'", $output, $status);
-//                    $content = json_decode($output[0]);
-                    $ch = curl_init("https://www.instagram.com/");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_POST, FALSE);
-                    curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-                    $html = curl_exec($ch);
-                    $string = curl_error($ch);
-                    $content = json_decode($html);
-                    //var_dump($content);
-                    $Profile = $this->process_get_insta_ref_prof_data_for_daily_report($content, $ref_prof, $ref_prof_id);
-                    curl_close($ch);
-                }
+                    $content = $this->get_insta_data($ref_prof);
+                    $Profile = $this->process_get_insta_ref_prof_data_for_daily_report($content, $ref_prof, $ref_prof_id);                   
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1251,69 +1299,40 @@ namespace dumbu\cls {
             try {
                 $Profile = NULL;
                 if ($ref_prof != "") {
-//                    $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
-//                    exec("curl 'https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof'", $output, $status);
-//                    $content = json_decode($output[0]);
-                    $ch = curl_init("https://www.instagram.com/");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_POST, FALSE);
-                    curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof");
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-                    $html = curl_exec($ch);
-                    $string = curl_error($ch);
-                    $content = json_decode($html);
-                    $Profile = $this->process_get_insta_geolocalization_data($content, $ref_prof, $ref_prof_id);
-                    curl_close($ch);
+                    $content = $this->get_insta_data($ref_prof);
+                    $Profile = $this->process_get_insta_geolocalization_data($content, $ref_prof, $ref_prof_id);                    
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
         }
 
-        public function get_insta_geolocalization_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
+        public function get_insta_tag_data($ref_prof, $ref_prof_id = NULL){
             try {
                 $Profile = NULL;
                 if ($ref_prof != "") {
-                    $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
-                    $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
-                    $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
-                    $mid = isset($cookies->mid) ? $cookies->mid : 0;
-                    $headers = array();
-                    $headers[] = "Host: www.instagram.com";
-                    $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
-//                                $headers[] = "Accept: application/json";
-                    $headers[] = "Accept: */*";
-                    $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
-                    $headers[] = "Accept-Encoding: deflate, sdch";
-                    $headers[] = "Referer: https://www.instagram.com/";
-                    $headers[] = "X-CSRFToken: $csrftoken";
-                    $ip = "127.0.0.1";
-                    $headers[] = "REMOTE_ADDR: $ip";
-                    $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-                    $headers[] = "Content-Type: application/x-www-form-urlencoded";
-//                    $headers[] = "Content-Type: application/json";
-                    $headers[] = "X-Requested-With: XMLHttpRequest";
-                    $headers[] = "Authority: www.instagram.com";
-                    $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
-                    $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
-                    $ch = curl_init("https://www.instagram.com/");
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-                    $output = curl_exec($ch);
-                    $string = curl_error($ch);
-                    $content = json_decode($output);
+                    $content = $this->get_insta_data($ref_prof);
+                    $Profile = $this->process_get_insta_tag_data($content, $ref_prof, $ref_prof_id);
+                }
+                return $Profile;
+            } catch (\Exception $ex) {
+                print_r($ex->message);
+                return NULL;
+            }            
+        }
+        
+        public function get_insta_geolocalization_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
+            try {
+                $Profile = NULL;
+                if ($ref_prof != "") {                    
+                    $content = $this->get_insta_data_from_client($ref_prof, $cookies);
                     $Profile = $this->process_get_insta_geolocalization_data($content, $ref_prof, $ref_prof_id);
                     //var_dump($content);
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1323,43 +1342,27 @@ namespace dumbu\cls {
             try {
                 $Profile = NULL;
                 if ($ref_prof != "") {
-                    $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
-                    $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
-                    $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
-                    $mid = isset($cookies->mid) ? $cookies->mid : 0;
-                    $headers = array();
-                    $headers[] = "Host: www.instagram.com";
-                    $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
-//                                $headers[] = "Accept: application/json";
-                    $headers[] = "Accept: */*";
-                    $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
-                    $headers[] = "Accept-Encoding: deflate, sdch";
-                    $headers[] = "Referer: https://www.instagram.com/";
-                    $headers[] = "X-CSRFToken: $csrftoken";
-                    $ip = "127.0.0.1";
-                    $headers[] = "REMOTE_ADDR: $ip";
-                    $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
-                    $headers[] = "Content-Type: application/x-www-form-urlencoded";
-//                    $headers[] = "Content-Type: application/json";
-                    $headers[] = "X-Requested-With: XMLHttpRequest";
-                    $headers[] = "Authority: www.instagram.com";
-                    $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
-                    $url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof";
-                    $ch = curl_init("https://www.instagram.com/");
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-                    $output = curl_exec($ch);
-                    $string = curl_error($ch);
-                    $content = json_decode($output);
+                    $content = $this->get_insta_data_from_client($ref_prof, $cookies);
                     //var_dump($content);
                     $Profile = $this->process_get_insta_ref_prof_data($content, $ref_prof, $ref_prof_id);
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
+                print_r($ex->message);
+                return NULL;
+            }
+        }
+        
+        public function get_insta_tag_data_from_client($cookies, $ref_prof, $ref_prof_id = NULL) {
+            try {
+                $Profile = NULL;
+                if ($ref_prof != "") {
+                    $content = $this->get_insta_data_from_client($ref_prof, $cookies);
+                    //var_dump($content);
+                    $Profile = $this->process_get_insta_tag_data($content, $ref_prof, $ref_prof_id);
+                }
+                return $Profile;
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1428,6 +1431,27 @@ namespace dumbu\cls {
                             $Profile = $places[$i]->place;
                             $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
 //                            $Profile->following = $this->get_insta_ref_prof_following($ref_prof);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                //var_dump($content);
+                //var_dump("null reference profile!!!");
+            }
+            return $Profile;
+        }
+        
+        function process_get_insta_tag_data($content, $ref_prof, $ref_prof_id){
+            $Profile = NULL;
+            if (is_object($content) && $content->status === 'ok') {
+                $tags = $content->hashtags;
+                // Get user with $ref_prof name over all matchs 
+                if (is_array($tags)) {
+                    for ($i = 0; $i < count($tags); $i++) {
+                        if ($tags[$i]->hashtag->name === $ref_prof) {
+                            $Profile = $tags[$i]->hashtag;
+                            $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                             break;
                         }
                     }
