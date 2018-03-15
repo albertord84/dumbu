@@ -122,6 +122,13 @@
 										</div>
 										<div id="container_login_message1" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
 										</div>
+										<div id="container_login_force_login1" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                                                                    
+                                                                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                                                                        <input type="checkbox" id="check_force_login1" checked="false" style="margin-top: 0;">                                                                                                        
+                                                                                    </div>
+                                                                                    <div id="message_force_login1" style="with:100%" class="col-md-10 col-sm-10 col-xs-12 text-left">                                                                                        
+                                                                                    </div>
+                                                                                </div>
 									</form>
                                                                     </div>
 								</li>
@@ -235,6 +242,13 @@
 												</div>
 												<div id="container_login_message2" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">
 												</div>
+												<div id="container_login_force_login2" class="form-group" style="text-align:justify;visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                                                                    
+                                                                                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                                                                                        <input type="checkbox" id="check_force_login2" checked="false" style="margin-top: 0;">                                                                                                        
+                                                                                                    </div>
+                                                                                                    <div id="message_force_login2" style="with:100%"  class="col-md-10 col-sm-10 col-xs-12 text-left">
+                                                                                                    </div>
+                                                                                                </div>
 											</form>
                                                                                     </div>
 										</div>
@@ -877,7 +891,7 @@
                                         </div>
                                             
                                         
-                                        <?php echo $CI->T("Ao assinar já estou aceitando os ", array(),$language);?><a id="use_term" href="<?php echo base_url().'assets/others/'.$language.'/TERMOS DE USO DUMBU.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso", array(),$language);?></a>
+                                        <?php echo $CI->T("Ao assinar já estou aceitando os ", array(),$language);?><a id="use_term" href="<?php echo base_url().'assets/others/'.$language.'/TERMOS DE USO DUMBU 2.pdf'?>" target="_blank" style="color: blue"><?php echo $CI->T("termos de uso", array(),$language);?></a>
                                         <br><br><?php echo '<img src="assets/images/'.$language.'/seguro.png" class="wauto" alt="100% Safe Encrypted Data">';?>
 				</div>
 			</div>
@@ -977,6 +991,10 @@
                     <script type="text/javascript" src="https://secure.afilio.com.br/?progid=2289&type=homepage&id_partner=dumbupro&url_product=https://dumbu.pro/dumbu/src/"></script>        
             <?php }?>
                     
-        
+            <!--Start of Boostbox Tag Script-->
+            <?php if ($SERVER_NAME == "PRO") { ?>
+                    <script async="1" src="//tags.fulllab.com.br/scripts/master-tag/produto_dumbu.js"></script>
+            <?php } ?>
+            <!--End of Boostbox Tag Script-->
 	</body>
 </html>

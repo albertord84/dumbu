@@ -1,5 +1,7 @@
 $(document).ready(function(){   
     
+    
+    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
@@ -11,76 +13,84 @@ $(document).ready(function(){
     
     $("#btn_dumbu_login1").click(function() {
         $("#btn_dumbu_login1").css({'cursor':'wait'});
-        do_login('#userLogin1','#userPassword1', '#container_login_message1',this);
+        do_login('#userLogin1','#userPassword1', '#container_login_message1', 
+                 '#container_login_force_login1', '#check_force_login1', '#message_force_login1',this);
         $('#btn_dumbu_login1').css({'cursor':'pointer'});
     });
     
     $("#btn_dumbu_login2").click(function() {        
-        do_login('#userLogin2','#userPassword2', '#container_login_message2',this);
+        do_login('#userLogin2','#userPassword2', '#container_login_message2', 
+                 '#container_login_force_login2', '#check_force_login2', '#message_force_login2',this);
     });
     
     $('#google_conversion_frame').ready(function(){        
         $('#google_conversion_frame').css({"float": "none","display":"none"});
     });
         
-    function do_login(fieldLogin,fieldPass, fieldErrorMessage, object){  
+    function do_login(fieldLogin,fieldPass, fieldErrorMessage, fieldContainerLoginForce, fieldCheckForceLogin, fieldMessageForceLogin, object){  
         if($(fieldLogin).val()!='' && $(fieldPass).val()!==''){
             if(validate_element(fieldLogin,'^[a-zA-Z0-9\._]{1,300}$')){
                 var l = Ladda.create(object);  l.start();
                 $(fieldErrorMessage).text(T('Espere por favor, conferindo credenciais!!'));
                 $(fieldErrorMessage).css('visibility','visible');
                 $(fieldErrorMessage).css('color','green');
+                var force_login = false;                
+                if($(fieldCheckForceLogin).prop('checked'))
+                    force_login = true;                
                 $.ajax({
                     //url : base_url+'index.php/welcome/md',
                     url : base_url+'index.php/welcome/user_do_login',      
                     data : {
                         'user_login':$(fieldLogin).val(),
-                        'user_pass': $(fieldPass).val()
+                        'user_pass': $(fieldPass).val(),
+                        'force_login': force_login
                     },
                     type : 'POST',
                     dataType : 'json',
                     async: false,
-                    success : function(response) {                        
+                    success : function(response) {
                         if(response['authenticated']){
-                            if(response['role']=='ADMIN'){
-                                var cad=base_url+'index.php/admin/index?'+response['str'];              
-                                $(location).attr('href',cad);
-                            } else
-                            if(response['role']=='ATTENDET'){
-                                $(location).attr('href',base_url+'index.php/attendent/');
-                            } else
                             if(response['role']=='CLIENT'){
                                 $(location).attr('href',base_url+'index.php/welcome/'+response['resource']+'');
-                            } 
-                            if(response['cause']=='checkpoint_required') {
-                                var cad=base_url+'index.php/welcome/client?'+'checkpoint_required='+$(fieldLogin).val()+'&verify_link='+response['verify_link']+'&return_link='+response['return_link'];                                
-                                $(location).attr('href',cad);                            
-                            }    
+                            }
+                        } else
+                        if(response['cause']=='force_login_required'){
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldErrorMessage).css('color','red');
+                            $(fieldMessageForceLogin).text(response['message_force_login']);                            
+                            $(fieldContainerLoginForce).css('visibility','visible');
+                            $(fieldContainerLoginForce).css('color','red');
+                            l.stop();
                         } else{                            
-                            if(response['cause']=='phone_verification_settings') {
-                                $(fieldErrorMessage).text(response['message']);
-                                $(fieldErrorMessage).css('visibility','visible');
-                                $(fieldErrorMessage).css('color','red');
-                                l.stop();
-                            } else
-                                if(response['cause']=='empty_message'){
-                                    $(fieldErrorMessage).text(response['message']);
-                                    $(fieldErrorMessage).css('visibility','visible');
-                                    $(fieldErrorMessage).css('color','red');
-                                    l.stop();
-                                } else 
-                                    if(response['cause']=='unknow_message'){
-                                        $(fieldErrorMessage).text(response['message']);
-                                        $(fieldErrorMessage).css('visibility','visible');
-                                        $(fieldErrorMessage).css('color','red');
-                                        l.stop();
-                                    }
-                                    else{
-                                        $(fieldErrorMessage).text(response['message']);
-                                        $(fieldErrorMessage).css('visibility','visible');
-                                        $(fieldErrorMessage).css('color','red');
-                                        l.stop();   
-                                    }                                
+                        if(response['cause']=='phone_verification_settings') {
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldContainerLoginForce).css('visibility','hidden');
+                            $(fieldErrorMessage).css('color','red');
+                            l.stop();
+                        } else
+                        if(response['cause']=='empty_message'){
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldContainerLoginForce).css('visibility','hidden');
+                            $(fieldErrorMessage).css('color','red');
+                            l.stop();
+                        } else 
+                        if(response['cause']=='unknow_message'){
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldContainerLoginForce).css('visibility','hidden');
+                            $(fieldErrorMessage).css('color','red');
+                            l.stop();
+                        }
+                        else{
+                            $(fieldErrorMessage).text(response['message']);
+                            $(fieldErrorMessage).css('visibility','visible');
+                            $(fieldContainerLoginForce).css('visibility','hidden');
+                            $(fieldErrorMessage).css('color','red');
+                            l.stop();   
+                        }                                
                         }
                     },                
                     error : function(xhr, status) {
@@ -305,7 +315,8 @@ $(document).ready(function(){
         }
 
       });
-      
-   
+     
+    $('#check_force_login2').prop('checked', false);
+    $('#check_force_login1').prop('checked', false);   
     
  }); 

@@ -139,6 +139,17 @@ class User_model extends CI_Model {
         }
     }
     
+    public function get_user_match_from_login_password($datas){
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('login',$datas['login']);
+        $this->db->where('pass',$datas['pass']);
+        $this->db->where('status_id <', 11);
+        $this->db->where('status_id <>', 8);
+        $this->db->where('status_id <>', 4);
+        return $this->db->get()->row_array();
+    }
+    
     public function get_language_of_client($user_id){
         $this->db->select('language');
         $this->db->from('users');
@@ -268,15 +279,24 @@ class User_model extends CI_Model {
      * @return bool
      * @access public
      */
-    public function insert_washdog($user_id,$cad) {
+    public function insert_washdog($user_id, $cad) {
         $this->db->select('id');
         $this->db->from('washdog_type');
         $this->db->where('action',$cad);
-        $a=$this->db->get()->row_array()['id'];
-        if($a>0)
-        $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
-        else 
-        $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));  
+        $a = $this->db->get()->row_array()['id'];
+        
+        if ($a > 0)
+            $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        else {
+            $this->db->insert('washdog_type',array('action'=>$cad,'source'=>0));
+            // código adicionado por Ruslan:
+            $this->db->select('id');
+            $this->db->from('washdog_type');
+            $this->db->where('action',$cad);
+            $a = $this->db->get()->row_array()['id'];
+            if ($a > 0)
+                $this->db->insert('washdog1',array('user_id'=>$user_id,'type'=>$a,'date'=>time()));
+        }
     }
     
    

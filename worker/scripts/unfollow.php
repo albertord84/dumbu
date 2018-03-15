@@ -1,5 +1,4 @@
 <?php
-
 require_once '../class/DB.php';
 require_once '../class/Worker.php';
 require_once '../class/Robot.php';
@@ -8,25 +7,17 @@ require_once '../class/user_role.php';
 require_once '../class/user_status.php';
 require_once '../class/Gmail.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
-
 echo "UNFOLLOW Inited...!<br>\n";
 echo date("Y-m-d h:i:sa") . "<br>\n";
-
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-
 $Robot = new \dumbu\cls\Robot();
 $Robot->id = -2;
-
 $DB = new \dumbu\cls\DB();
-
 $Gmail = new \dumbu\cls\Gmail();
-
 $Client = new dumbu\cls\Client();
-
 $clients_data_db = $DB->get_unfollow_clients_data();
 //$clients_data_db = $Client->get_client(1);
 //
-
 print '<br>\nBEFORE:<br>\n';
 $CN = 0;
 if(isset($clients_data_db))
@@ -36,9 +27,7 @@ if(isset($clients_data_db))
         //= $obj->fetch_object();
         $clients_data[$CN]->unfollows = 0;
         print "" . $clients_data[$CN]->login . '  |   ' . $clients_data[$CN]->id . '  |   ' . $clients_data[$CN]->insta_following . "<br>\n";
-
         //get the white list
-
         $login = $Robot->bot_login($clients_data[$CN]->login, $clients_data[$CN]->pass);
         if (isset($login->json_response->authenticated) && $login->json_response->authenticated) {
     //        $login_data = json_encode($login);
@@ -76,7 +65,6 @@ if(isset($clients_data_db))
                 }
     //            var_dump($json_response);
                 if (is_object($json_response) && $json_response->status == 'ok' && isset($json_response->data->user->edge_follow->edges)) { // if response is ok
-
                    // Get Users 
                     $white_list = $DB->get_white_list($client_data->id);
                     print '\n<br> Count: ' . count($json_response->data->user->edge_follow->edges) . '\n<br>';
@@ -120,13 +108,9 @@ if(isset($clients_data_db))
     }      
 }
 //var_dump($clients_data);
-
-
 // AFTER
 print 'AFTER:<br>\n';
 print_r($clients_data);
-
-
 //$clients_data = $DB->get_unfollow_clients_data();
 //while ($client_data = $clients_data->fetch_object()) {
 //    echo "<br>\nClient: $client_data->login ($client_data->id) <br>\n";
@@ -158,7 +142,5 @@ print_r($clients_data);
 //        }
 //    }
 //}
-
-
 print '\n<br>JOB DONE!!!<br>\n';
 echo date("Y-m-d h:i:sa");

@@ -5,6 +5,8 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
+    public $aaa=1;
+
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -19,7 +21,7 @@ class Welcome extends CI_Controller {
         //$this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
-    
+
     public function language() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -27,7 +29,7 @@ class Welcome extends CI_Controller {
         $this->load->library('recaptcha');
         $this->load->view('user_view', $param);
     }
-    
+
     public function purchase() {
         $datas = $this->input->get();
         if(isset($datas['access_token'])){
@@ -66,7 +68,8 @@ class Welcome extends CI_Controller {
             $datas['Afilio_total_value']=$result[0]['normal_val'];
             $datas['Afilio_product_id']= $this->session->userdata('plane_id');            
             $datas['client_login_profile'] = $this->session->userdata('login');
-            $datas['client_email']= $this->session->userdata('email');   
+            $datas['client_email']= $this->session->userdata('email');
+            $this->client_model->Create_Followed($this->session->userdata('id'));
             $this->load->view('purchase_view', $datas);
         }else
             echo 'Access error';
@@ -80,7 +83,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_status');
         $status_description = array(1 => 'ATIVO', 2 => 'DESABILITADO', 3 => 'INATIVO', 4 => '', 5 => '', 6 => 'ATIVO'/* 'PENDENTE' */, 7 => 'NÂO INICIADO', 8 => '', 9 => 'INATIVO', 10 => 'LIMITADO');
-        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+        if (isset($this->session) && $this->session->userdata('role_id') == user_role::CLIENT) {
             $language=$this->input->get();           
             if(isset($language['language'])){
                  $GLOBALS['language']=$language['language'];
@@ -102,45 +105,45 @@ class Welcome extends CI_Controller {
                 $datas1['my_img_profile']="Blocked";
             //$datas1['dumbu_id'] = $this->session->userdata('id');
 
-                        
+
             $sql = "SELECT * FROM clients WHERE clients.user_id='" . $this->session->userdata('id') . "'";
             $init_client_datas = $this->user_model->execute_sql_query($sql);
 
             $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='0'";
             $reference_profile_used= $this->user_model->execute_sql_query($sql);
             $datas1['reference_profile_used'] =count($reference_profile_used);
-            
+
             $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='1'";
             $geolocalization_used= $this->user_model->execute_sql_query($sql);
             $datas1['geolocalization_used'] =count($geolocalization_used);
-           
+
             $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='0'";
             $amount_followers_by_reference_profiles = $this->user_model->execute_sql_query($sql);
             $amount_followers_by_reference_profiles =(string)$amount_followers_by_reference_profiles[0]["followeds"];
             $datas1['amount_followers_by_reference_profiles'] = $amount_followers_by_reference_profiles;
-            
+
             $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='1'";
             $amount_followers_by_geolocalization = $this->user_model->execute_sql_query($sql);
             $amount_followers_by_geolocalization =(string)$amount_followers_by_geolocalization[0]["followeds"];
             $datas1['amount_followers_by_geolocalization'] = $amount_followers_by_geolocalization;
 
-             
+
             if(isset($my_profile_datas->follower_count))
                 $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
             else
                 $datas1['my_actual_followers']="Blocked";            
-             
+
             if(isset($my_profile_datas->following))
                $datas1['my_actual_followings'] = $my_profile_datas->following;
             else
                 $datas1['my_actual_followings']="Blocked";
-            
+
             $datas1['my_sigin_date'] = $this->session->userdata('init_date');
             date_default_timezone_set('Etc/UTC');
             $datas1['today'] = date('d-m-Y', time());
             $datas1['my_initial_followers'] = $init_client_datas[0]['insta_followers_ini'];
             $datas1['my_initial_followings'] = $init_client_datas[0]['insta_following'];            
-            
+
             $datas1['my_login_profile'] = $this->session->userdata('login');
             $datas1['unfollow_total'] = $this->session->userdata('unfollow_total');
             $datas1['autolike'] = $this->session->userdata('autolike');
@@ -155,7 +158,7 @@ class Welcome extends CI_Controller {
             $datas1['followers']  = $daily_report['followers'];
 
             if ($this->session->userdata('status_id') == user_status::VERIFY_ACCOUNT || $this->session->userdata('status_id') == user_status::BLOCKED_BY_INSTA) {
-                $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'));
+                $insta_login = $this->is_insta_user($this->session->userdata('login'), $this->session->userdata('pass'),'false');
                 if ($insta_login['status'] === 'ok') {
                     if ($insta_login['authenticated']) {
                         //1. actualizar estado a ACTIVO
@@ -171,7 +174,7 @@ class Welcome extends CI_Controller {
                             for ($i = 0; $i < $N; $i++) {
                                 $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                 $response = count($this->user_model->execute_sql_query($sql));
-                                if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                if (!$response && !$active_profiles[$i]['end_date'])
                                     $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $insta_login['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                             }
                         }
@@ -211,20 +214,76 @@ class Welcome extends CI_Controller {
             $data['body_section5'] = $this->load->view('responsive_views/user/users_end_painel', '', true);
             $this->load->view('client_view', $data);
         } else {
+            echo "Session can't be stablished";
             $this->display_access_error();
         }
     }
 
-    
-    
     public function user_do_login($datas=NULL) {
-    //public function md($datas=NULL) {
+        $this->load->model('class/user_role');          
         $login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
             $language=$this->input->get();
             $login_by_client=true;
         }
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        if(isset($language['language']))
+            $param['language']=$language['language'];
+        else
+            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;        
+        $GLOBALS['language']=$param['language'];
+
+        $query = "SELECT * FROM users WHERE "
+                  ."login= '".$datas['user_login']."' and pass = '".$datas['user_pass']."' and role_id = '".user_role::CLIENT."'";
+        $real_status = $this->get_real_status_of_user($query);
+
+        if($real_status==2 || $datas['force_login']=='true'){
+            $result = $this->user_do_login_second_stage($datas,$GLOBALS['language']);                
+        }else{                
+            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+            $result['cause'] = 'force_login_required';
+            $result['authenticated'] = false;
+        }            
+        if($login_by_client)
+            echo json_encode($result);
+        else
+            return $result;
+    }
+
+    public function get_real_status_of_user($query){            
+        $this->load->model('class/user_status');
+        $this->load->model('class/user_model');            
+        $user = $this->user_model->execute_sql_query($query);            
+        $N = count($user);
+        $real_status = 0; //No existe, eliminado o inactivo
+        $index = 0;
+        for ($i = 0; $i < $N; $i++) {
+            if ($user[$i]['status_id'] == user_status::BEGINNER) {
+                $real_status = 1; //Beginner
+                $index = $i;
+                break;
+            } else
+            if ($user[$i]['status_id'] != user_status::DELETED && $user[$i]['status_id'] != user_status::INACTIVE && $user[$i]['status_id']<user_status::DONT_DISTURB) {
+                $real_status = 2; //cualquier otro estado
+                $index = $i;
+                break;
+            }
+        }
+        return $real_status;
+    }
+
+    public function user_do_login_second_stage($datas,$language) {
+        /*$login_by_client=false;
+        if(!isset($datas)){
+            $datas = $this->input->post();
+            $language=$this->input->get();
+            $login_by_client=true;
+        } */      
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         if(isset($language['language']))
@@ -249,12 +308,19 @@ class Welcome extends CI_Controller {
                 $result['authenticated'] = true;
             } else{     */   
                 //Is an actually Instagram user?
-                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
+                
+                ($datas['force_login']=='true')? $force_login=true :$force_login=false;
+                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'], $force_login);
                 if($data_insta==NULL){
-                    $result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
+                    /*$result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
                     $result['cause'] = 'error_login';
+                    $result['authenticated'] = false;*/
+                    $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                    $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                    $result['cause'] = 'force_login_required';
                     $result['authenticated'] = false;
                 } else
+                    
                 if ($data_insta['authenticated']) {
                     //Is a DUMBU Client by Insta ds_user_id?
                     $query = 'SELECT * FROM users,clients' .
@@ -307,13 +373,14 @@ class Welcome extends CI_Controller {
                                 for ($i = 0; $i < $N; $i++) {
                                     $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
                                     $response = count($this->user_model->execute_sql_query($sql));
-                                    if (!$response && $active_profiles[$i]['end_date']!=='NULL')
+                                    if (!$response && !$active_profiles[$i]['end_date'])
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
                             $result['resource'] = 'client';
                             $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);
                             $result['role'] = 'CLIENT';
+                            $this->client_model->Create_Followed($this->session->userdata('id'));
                             $result['authenticated'] = true;
                         } else
                         if ($st == user_status::ACTIVE || $st == user_status::BLOCKED_BY_PAYMENT || $st == user_status::PENDING || $st == user_status::UNFOLLOW || user_status::BLOCKED_BY_TIME) {
@@ -327,7 +394,7 @@ class Welcome extends CI_Controller {
                                     }
                                     //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                     for ($i = 0; $i < $N; $i++) {
-                                        if($active_profiles[$i]['end_date']!=='NULL')
+                                        if(!$active_profiles[$i]['end_date'])
                                             $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                     }
                                 }
@@ -339,7 +406,7 @@ class Welcome extends CI_Controller {
                                 $N = count($active_profiles);
                                 //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                 for ($i = 0; $i < $N; $i++) {
-                                    if($active_profiles[$i]['end_date']!=='NULL')
+                                    if(!$active_profiles[$i]['end_date'])
                                         $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $data_insta['insta_login_response'], $i, $active_profiles, $this->session->userdata('to_follow'));
                                 }
                             }
@@ -360,6 +427,7 @@ class Welcome extends CI_Controller {
                             $result['resource'] = 'client';
                             $result['message'] = $this->T('Usuário @1 logueado', array(0 => $datas['user_login']), $GLOBALS['language']);                            
                             $result['role'] = 'CLIENT';
+                            $this->client_model->Create_Followed($this->session->userdata('id'));
                             $result['authenticated'] = true;
                         } else
                         if ($st == user_status::BEGINNER) {
@@ -406,9 +474,13 @@ class Welcome extends CI_Controller {
                     }
                     if ($real_status > 0) {
                         if ($user[$index]['status_id'] != user_status::DELETED && $user[$index]['status_id'] != user_status::INACTIVE) {
-                            $result['resource'] = 'index';
+                            /*$result['resource'] = 'index';
                             $result['message'] = $this->T('Falha no login! Entre com suas credenciais do Instagram.', array(), $GLOBALS['language']);
                             $result['cause'] = 'credentials_update_required';
+                            $result['authenticated'] = false;*/
+                            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                            $result['cause'] = 'force_login_required';
                             $result['authenticated'] = false;
                         } else {
                             $result['resource'] = 'index#lnk_sign_in_now';
@@ -442,19 +514,27 @@ class Welcome extends CI_Controller {
                             }
                             if ($real_status > 0) {
                                 //perfil exite en instagram y en la base de datos, senha incorrecta           
-                                $result['message'] = $this->T('Senha incorreta!. Entre com sua senha de Instagram.', array(), $GLOBALS['language']);
+                                /*$result['message'] = $this->T('Senha incorreta!. Entre com sua senha de Instagram.', array(), $GLOBALS['language']);
                                 $result['cause'] = 'error_login';
+                                $result['authenticated'] = false;*/
+                                $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                                $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                                $result['cause'] = 'force_login_required';
                                 $result['authenticated'] = false;
                             } else {
                                 //el perfil existe en instagram pero no en la base de datos
-                                $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
+                                /*$result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                                 $result['cause'] = 'error_login';
-                                $result['authenticated'] = false;
+                                $result['authenticated'] = false;*/
                             }
                         } else {
                             //nombre de usuario informado no existe en instagram
-                            $result['message'] = $this->T('Falha no login! O nome de usuário fornecido não existe no Instagram.', array(), $GLOBALS['language']);
+                            /*$result['message'] = $this->T('Falha no login! O nome de usuário fornecido não existe no Instagram.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
+                            $result['authenticated'] = false;*/
+                            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                            $result['cause'] = 'force_login_required';
                             $result['authenticated'] = false;
                         }
                     }
@@ -490,20 +570,28 @@ class Welcome extends CI_Controller {
                             'pass' => $datas['user_pass'],
                             'status_id' => $status_id
                         ));
-                        $cad=$this->user_model->get_status_by_id($status_id)['name'];                        
+                        $cad=$this->user_model->get_status_by_id($status_id)['name']; 
+                        //$this->session->sess_time_to_update = 7200;
+                        $this->session->cookie_secure = true;
                         $this->user_model->set_sesion($user[$index]['id'], $this->session);
                         if ($status_id != user_status::ACTIVE)
                             $this->user_model->insert_washdog($this->session->userdata('id'),'FOR STATUS '.$cad);
+                        $result['role'] = 'CLIENT'; // agregado por Ruslan pa resolver problema en login
                         $result['resource'] = 'client';                        
                         $result['verify_link'] = $data_insta['verify_account_url'];
                         $result['return_link'] = 'client';
                         $result['message'] = $this->T('Sua conta precisa ser verificada no Instagram', array(), $GLOBALS['language']);
                         $result['cause'] = 'checkpoint_required';
+                        $this->client_model->Create_Followed($this->session->userdata('id'));
                         $result['authenticated'] = true;
                     } else {
                         //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                        $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
+                        /*$result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                         $result['cause'] = 'error_login';
+                        $result['authenticated'] = false;*/
+                        $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                        $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                        $result['cause'] = 'force_login_required';
                         $result['authenticated'] = false;
                     }
                 } else
@@ -550,8 +638,12 @@ class Welcome extends CI_Controller {
                             $result['authenticated'] = false;
                         } else {
                             //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
+                            /*$result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
+                            $result['authenticated'] = false;*/
+                            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                            $result['cause'] = 'force_login_required';
                             $result['authenticated'] = false;
                         }
                     } else
@@ -597,8 +689,12 @@ class Welcome extends CI_Controller {
                             $result['authenticated'] = false;
                         } else {
                             //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
+                            /*$result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
+                            $result['authenticated'] = false;*/
+                            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                            $result['cause'] = 'force_login_required';
                             $result['authenticated'] = false;
                         }
                     } else
@@ -644,14 +740,22 @@ class Welcome extends CI_Controller {
                             $result['authenticated'] = false;
                         } else {
                             //usuario informado no es usuario de dumbu y lo bloquearon por mongolico
-                            $result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
+                            /*$result['message'] = $this->T('Falha no login! Certifique-se de que possui uma assinatura antes de entrar.', array(), $GLOBALS['language']);
                             $result['cause'] = 'error_login';
+                            $result['authenticated'] = false;*/
+                            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                            $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                            $result['cause'] = 'force_login_required';
                             $result['authenticated'] = false;
                         }
                     }
                 } else {
-                    $result['message'] = $this->T('Se o problema no login continua, por favor entre em contato com o Atendimento', array(), $GLOBALS['language']);
+                    /*$result['message'] = $this->T('Se o problema no login continua, por favor entre em contato com o Atendimento', array(), $GLOBALS['language']);
                     $result['cause'] = 'error_login';
+                    $result['authenticated'] = false;*/
+                    $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+                    $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
+                    $result['cause'] = 'force_login_required';
                     $result['authenticated'] = false;
                 }
             //
@@ -659,9 +763,9 @@ class Welcome extends CI_Controller {
             $this->load->model('class/user_model');
             $this->user_model->insert_washdog($this->session->userdata('id'),'DID LOGIN ');
         }
-        if($login_by_client)
-            echo json_encode($result);
-        else
+//        if($login_by_client)
+//            echo json_encode($result);
+//        else
             return $result;
     }
 
@@ -942,7 +1046,7 @@ class Welcome extends CI_Controller {
 
                     if($response['flag_initial_payment']) {
                         $this->load->model('class/user_model');
-                        $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass']);
+                        $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
                         //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
                         if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
                             /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
@@ -1029,6 +1133,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        
         //Amigos de Pedro
         if(isset($datas['ticket_peixe_urbano']) && strtoupper($datas['ticket_peixe_urbano'])==='AMIGOSDOPEDRO'){
                 //1. recurrencia para un mes mas alante
@@ -1059,6 +1164,7 @@ class Welcome extends CI_Controller {
                     $response['message'] = $this->T('Compra não sucedida. Problemas com o pagamento', array(), $GLOBALS['language']);
                 } 
         } else 
+        //OLX
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='OLX' || $datas['ticket_peixe_urbano']==='INSTA50P')){
                 $resp=1;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1119,6 +1225,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }else
+        //DUMBUDF20
         if(isset($datas['ticket_peixe_urbano']) &&  $datas['ticket_peixe_urbano']==='DUMBUDF20'){
                 $datas['amount_in_cents'] = round(($recurrency_value*8)/10);
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1159,6 +1266,7 @@ class Welcome extends CI_Controller {
                     }
                 }
             } else
+        //INSTA-DIRECT
         if(isset($datas['ticket_peixe_urbano']) && ($datas['ticket_peixe_urbano']==='INSTA-DIRECT' || $datas['ticket_peixe_urbano']==='MALADIRETA')){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1196,6 +1304,7 @@ class Welcome extends CI_Controller {
                     }
                 }
             }else  
+        //INSTA15D
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='INSTA15D'){
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1233,6 +1342,7 @@ class Welcome extends CI_Controller {
                     }
                 }
             } else
+        //SIBITE30D
         if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='SIBITE30D'){ //30 dias de graça
                 $datas['amount_in_cents'] = $recurrency_value;
                 if ($datas['early_client_canceled'] === 'true'){
@@ -1270,6 +1380,83 @@ class Welcome extends CI_Controller {
                     }
                 }
             }else
+        //FREE5
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='FREE5'){ //30 dias de graça
+                $datas['amount_in_cents'] = $recurrency_value;
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" .'5'. " days", time());
+                }
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                if(is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            }else
+        //FREE7DAYS
+        if(isset($datas['ticket_peixe_urbano']) && $datas['ticket_peixe_urbano']==='FREE7DAYS'){ //30 dias de graça
+                $datas['amount_in_cents'] = $recurrency_value;
+                if ($datas['early_client_canceled'] === 'true'){
+                    $resp = $this->check_mundipagg_credit_card($datas);
+                    if(!(is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+                        $response['flag_recurrency_payment'] = false;
+                        $response['flag_initial_payment'] = false;
+                        if(is_array($resp))
+                            $response['message'] = 'Error: '.$resp["message"]; 
+                        else
+                            $response['message'] = 'Incorrect credit card datas!!';
+                        return $response;
+                    } else{
+                        $datas['pay_day'] = strtotime("+1 month", time());
+                    }
+                } else{
+                    $datas['pay_day'] = strtotime("+" .'7'. " days", time());
+                }
+                $resp = $this->check_recurrency_mundipagg_credit_card($datas,0);
+                if(is_object($resp) && $resp->isSuccess()) {
+                    $this->client_model->update_client($datas['pk'], array(
+                        'order_key' => $resp->getData()->OrderResult->OrderKey,
+                        'pay_day' => $datas['pay_day']));
+                    $response['flag_recurrency_payment'] = true;
+                    $response['flag_initial_payment'] = true;
+                } else {
+                    $response['flag_recurrency_payment'] = false;
+                    $response['flag_initial_payment'] = false;
+                    if(is_array($resp))
+                        $response['message'] = 'Error: '.$resp["message"]; 
+                    else
+                        $response['message'] = 'Incorrect credit card datas!!';
+                    if(is_object($resp) && isset($resp->getData()->OrderResult->OrderKey)) {
+                        $this->client_model->update_client($datas['pk'], array('order_key' => $resp->getData()->OrderResult->OrderKey));
+                    }
+                }
+            }else
+        //BACKTODUMBU
         if(isset($datas['ticket_peixe_urbano']) && (strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU' || strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-DNLO' ||strtoupper($datas['ticket_peixe_urbano'])==='BACKTODUMBU-EGBTO') && ($datas['early_client_canceled'] === 'true' || $datas['early_client_canceled'] === true) ){
                 //cobro la mitad en la hora
                 $datas['pay_day'] = time();
@@ -1416,6 +1603,19 @@ class Welcome extends CI_Controller {
         return $response;
     }
     
+    public function check_mundipagg_boleto_2() {        
+        $payment_data['AmountInCents']=12790;
+        $payment_data['DocumentNumber']=94; //'3';
+        $payment_data['OrderReference']=94; //'3';
+        $payment_data['id']=4178; 
+        $payment_data['name']='Luciano do Amaral Kiesel';
+        $payment_data['cpf']=67374581068;        
+
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        $Payment = new \dumbu\cls\Payment();
+        $response = $Payment->create_boleto_payment( $payment_data);
+        return $response;
+    }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
@@ -1692,7 +1892,7 @@ class Welcome extends CI_Controller {
                                             $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
                                             $N = count($active_profiles);
                                             for ($i = 0; $i < $N; $i++) {
-                                                if($active_profiles[$i]['end_date']!=='NULL')
+                                                if(!$active_profiles[$i]['end_date'])
                                                 $this->client_model->insert_profile_in_daily_work($active_profiles[$i]['id'], $this->session->userdata('insta_datas'), $i, $active_profiles, $this->session->userdata('to_follow'));
                                             }
                                         }
@@ -1846,7 +2046,7 @@ class Welcome extends CI_Controller {
                     //$profile_datas = $this->check_insta_profile($profile['geolocalization']);
                     $profile_datas = $this->check_insta_geolocalization($profile['geolocalization']);                    
                     
-                    if($profile_datas) {                                                
+                    if ($profile_datas && $profile_datas->location->pk) {                                                
                         //if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile_datas->slug, $profile_datas->location->pk, '1');
                             if ($p) {
@@ -1978,7 +2178,7 @@ class Welcome extends CI_Controller {
             if (!$is_active_profile/*&& !$is_active_geolocalization*/) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas=$this->check_insta_profile_from_client($profile['profile']);
-                    if($profile_datas) {
+                    if ($profile_datas && $profile_datas->pk) {
                         if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '0');
                             if ($p) {
@@ -2143,11 +2343,11 @@ class Welcome extends CI_Controller {
         return true;
     }
 
-    public function is_insta_user($client_login, $client_pass) {
+    public function is_insta_user($client_login, $client_pass, $force_login) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $data_insta = NULL;
-        $login_data = $this->Robot->bot_login($client_login, $client_pass);
+        $login_data = $this->Robot->bot_login($client_login, $client_pass,$force_login);
         if (isset($login_data->json_response->status) && $login_data->json_response->status === "ok") {
             $data_insta['status'] = $login_data->json_response->status;
             if($login_data->json_response->authenticated) {
@@ -3166,21 +3366,42 @@ class Welcome extends CI_Controller {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
+        $this->load->model('class/user_model');
         
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
-            $this->load->model('class/user_model');
-            
+            try {
+                $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
+            } catch (Exception $ex) {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #4 IN SECURITY CODE REQUEST');
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception message: '.$ex->getMessage());
+                $this->user_model->insert_washdog($this->session->userdata('id'),'Exception stack trace: '.$ex->getTraceAsString());
+                echo json_encode($result);
+                return;
+            }
+
             if ($checkpoint_data && $checkpoint_data->status == "ok") {
-                $result['success'] = true;
-                $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $GLOBALS['language']);
-                
-                $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
+                if ($checkpoint_data->type == "CHALLENGE") {
+                    $result['success'] = true;
+                    $result['message'] = $this->T('Código de segurança solicitado corretamente', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE REQUESTED');
+                }
+                else if ($checkpoint_data->type == "CHALLENGE_REDIRECTION") {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Por favor, entre no seu Instagram e confirme FUI EU. Depois saia do seu Instagram e volte ao Passo 1 nesta página.', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #1 IN SECURITY CODE REQUEST');
+                }
+                else {
+                    $result['success'] = false;
+                    $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                    $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #2 IN SECURITY CODE REQUEST');
+                }
             }
             else {
                 $result['success'] = false;
-                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $GLOBALS['language']);
-                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE REQUEST');
+                $result['message'] = $this->T('Erro ao solicitar código de segurança', array(), $this->session->userdata('language'));
+                $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR #3 IN SECURITY CODE REQUEST');
             }
             
             echo json_encode($result);
@@ -3200,12 +3421,12 @@ class Welcome extends CI_Controller {
             $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
             $this->load->model('class/user_model');
             
-            if ($checkpoint_data && $checkpoint_data->json_response == 1) {
+            if ($checkpoint_data && $checkpoint_data->json_response === 1 && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
                 $result['success'] = true;
                 $result['message'] = 'Código de segurança confirmado corretamente';
-                
                 $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE CONFIRMATED');
-            } else{
+            } 
+            else {
                 $result['success'] = false;
                 $result['message'] = 'Erro ao confirmar código de segurança';
                 $this->user_model->insert_washdog($this->session->userdata('id'),'ERROR IN SECURITY CODE CONFIRMATION');

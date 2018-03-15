@@ -475,7 +475,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".send-curl").click(function (e) {
+    $(".send-curl").click(function (e) {  
         id = $(e.currentTarget).attr('id');
         var arrayid = id.split("_");
         if ($("#curltext_" + arrayid[1]).val() == '') {
@@ -493,6 +493,7 @@ $(document).ready(function () {
                     if (response['success']) {
                         modal_alert_message(response['message']);
                         $("#curltext_" + arrayid[1]).val("");
+                        location.reload();
                     } else
                         modal_alert_message(response['message']);
                 },
@@ -505,8 +506,41 @@ $(document).ready(function () {
                     if (response['success']) {
                         modal_alert_message(response['message']);
                         $("#curltext_" + arrayid[1]).val("");
+                        location.reload();
                     } else
                         modal_alert_message(response['message']);                }
+            });
+            l.stop();
+        }
+    });
+    
+    $(".clean-cookies").click(function (e) {
+        id = $(e.currentTarget).attr('id');
+        if (confirm('Confirma limpar as cookies?')) {
+            var l = Ladda.create(this);
+            l.start();
+            $.ajax({
+                url: base_url + 'index.php/admin/clean_cookies',
+                data: {'client_id': id},
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    modal_alert_message(response['message']);
+                    
+                    if (response['success']) {
+                        location.reload();
+                    }
+                },
+                error: function (xhr, status) {
+                    var start = xhr.responseText.lastIndexOf("{");
+                    var json_str = xhr.responseText.substr(start);
+                    response = JSON.parse(json_str);
+                    modal_alert_message(response['message']);
+                    
+                    if (response['success']) {
+                        location.reload();
+                    }
+                }
             });
             l.stop();
         }

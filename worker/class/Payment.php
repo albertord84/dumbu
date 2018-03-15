@@ -46,11 +46,13 @@ namespace dumbu\cls {
                     "5178057308185854",
                     "5178057258138580",
                     "4500040041538532",
+                    "5523180966148592",
                     "4984537159084527"
                 ];
                 $name_bloqued = [
                     "JUNIOR SUMA",
                     "JUNIOR LIMA",
+                    "BRUNO HOLANDA",
                     "JUNIOR SANTOS",
                     "JUNIOR S SILVA",
                     "FERNANDO ALVES",
@@ -143,7 +145,7 @@ namespace dumbu\cls {
             try
             {
             // Carrega dependências
-            require_once $_SERVER['DOCUMENT_ROOT'] . '\dumbu\worker\libraries\MundiAPI-PHP\vendor\autoload.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/MundiAPI-PHP/vendor/autoload.php';
             // Define a url utilizada
             \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com/"); 
 

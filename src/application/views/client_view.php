@@ -251,8 +251,8 @@
                                                 <label>' . $CI->T("PASSO 1: Solicite seu código de segurança ", array(), $language) . '</label>
                                                 <a id="lnk_security_code_request" style="color:blue;font-size:1em;">' . $CI->T("AQUÍ", array(), $language) . '</a>
                                                 <label>' . $CI->T("PASSO 2: Agora insira o código de 6 dígitos que foi enviado ao seu email cadastrado em Instagram", array(), $language) . '</label> <br>
-                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="123456"> <br>
-                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff">
+                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="______" disabled> <br>
+                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff" disabled>
                                                     ' . $CI->T("CONFIRMAR", array(), $language) . '
                                                 </button>
                                             </div>';
@@ -1006,7 +1006,7 @@
                     </div>-->
                 </div>    
                 
-                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 10) { ?>
+                <?php if ($status['status_id'] == 1 || $status['status_id'] == 6 || $status['status_id'] == 7 || $status['status_id'] == 10) { ?>
                     <div class="col-md-5 col-sm-5 col-xs-12 m-t20 text-center">    
                         <img src="<?php echo base_url().'assets/images/unfollow_icon.png'; ?>" class="wauto" alt="">
                         <h4 class="m-t10"><?php echo $CI->T("UNFOLLOW TOTAL", array(), $language); ?></h4>
@@ -1467,8 +1467,11 @@
                 </div>
             </div>                                                        
         </div>
-        
        
-        
+        <!--Start of Boostbox Tag Script-->
+        <?php if ($SERVER_NAME == "PRO") { ?>
+                <script async="1" src="//tags.fulllab.com.br/scripts/master-tag/produto_dumbu.js"></script>
+        <?php } ?>
+        <!--End of Boostbox Tag Script-->
     </body>
 </html>

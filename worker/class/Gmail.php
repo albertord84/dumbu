@@ -371,7 +371,9 @@ namespace dumbu\cls {
             return $result;
             //-------------------
         }
-
+        
+        public function  sendAuthenticationErrorMail($username, $useremail)
+        {}
     }
 
 }

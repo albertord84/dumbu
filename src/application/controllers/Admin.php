@@ -187,6 +187,7 @@ class Admin extends CI_Controller {
                 $this->user_model->update_user($id, array(
                     'status_id' => user_status::DELETED,
                     'end_date' => time()));
+                $this->user_model->insert_washdog($id,'CLIENT DELETED FROM ADMIN');
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
                 $result['success'] = false;
@@ -400,8 +401,9 @@ class Admin extends CI_Controller {
     public function send_curl() {
         $this->load->model('class/user_role');
         if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
-            $client_id = $this->input->post()['client_id'];
-            $curl = urldecode(urldecode($this->input->post()['curl']));
+            $datas = $this->input->post();
+            $client_id = $datas['client_id'];
+            $curl = urldecode($datas['curl']);
             
             try {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
@@ -418,6 +420,28 @@ class Admin extends CI_Controller {
                 $result['success'] = true;
                 $result['message'] = "cURL enviada com sucesso!";
             }
+            echo json_encode($result);
+        } else {
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
+    }
+    
+    public function clean_cookies() {
+        $this->load->model('class/user_role');
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            $client_id = $this->input->post()['client_id'];
+            
+            try {
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
+                (new \dumbu\cls\DB())->set_cookies_to_null($client_id);
+            } catch (Exception $exc) {
+                $result['success'] = false;
+                $result['message'] = "Erro no banco de dados. Contate o grupo de desenvolvimento!";
+            } finally {
+                $result['success'] = true;
+                $result['message'] = "Cookies limpadas com sucesso!";
+            }
+            
             echo json_encode($result);
         } else {
             echo "Não pode acessar a esse recurso, deve fazer login!!";

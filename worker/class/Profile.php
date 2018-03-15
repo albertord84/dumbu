@@ -35,9 +35,9 @@ namespace dumbu\cls {
          */
         public $unfollowed;
 
-        public function get_insta_ref_prof_data($ref_prof) {
+        public function get_insta_ref_prof_data($ref_prof, $ref_prof_id = NULL) {
             $Robot = new Robot();
-            return $Robot->get_insta_ref_prof_data($ref_prof);
+            return $Robot->get_insta_ref_prof_data($ref_prof, $ref_prof_id);
         }
 
         public function get_insta_ref_prof_data_from_client($cookies, $ref_prof) {
@@ -60,8 +60,8 @@ namespace dumbu\cls {
             // If object
 //            var_dump($response->message);
             if (is_object($response) && isset($response->message)) {
-                if ((strpos($response->message, 'Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação.') !== FALSE) 
-                 || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
+                if ((strpos($response->message, 'Com base no uso anterior deste recurso') !== FALSE)
+                    || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
                     $error = 1;
                 } else if ((strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) 
                        ||  (strpos($response->message, "Sorry, you're following the max limit of accounts.") !== FALSE)) {
@@ -79,6 +79,8 @@ namespace dumbu\cls {
                     $error = 8;
                 } else if (strpos($response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
                     $error = 9;
+                } else if (strpos($response->message, 'se ha bloqueado. Vuelve a intentarlo') !== FALSE) {
+                    $error = 11;
                 } else if ($response->message === '') {
                     $error = 6; // Empty message
                 }
@@ -88,10 +90,14 @@ namespace dumbu\cls {
                     print 'Not message found!';
                 }
             } // If array
-            else if (is_array($response) && count($response) == 1 && is_string($response[0]) && 
+            else if (is_array($response) && count($response) >= 1 && is_string($response[0]) && 
                     ((strpos($response[0], 'Tente novamente mais tarde') !== FALSE) || strpos($response[0], 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
                 $error = 7; // Tente novamente mais tarde
-            } else {
+            }
+            else if (is_array($response) && count($response) == 0) {
+                $error = 10; // Tente novamente mais tarde
+            }
+            else {
                 $error = -1;
                 var_dump($response);
                 print 'Not error code found!';

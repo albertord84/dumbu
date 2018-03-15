@@ -14,7 +14,6 @@ namespace dumbu\cls {
         private $fConnection = NULL;
         
         
-
         public function __construct($conf_file = "/../../../CONFIG.INI") {
             $this->connect($conf_file);
         }
@@ -282,10 +281,10 @@ namespace dumbu\cls {
         
         public function save_curl($client_id, $curl, $robot_id=NULL)
         {
-            $this->InsertEventToWashdog($client_id, $curl, 1, $robot_id);
+            $this->InsertEventToWashdog($client_id, "CURL_ERROR", 1, $robot_id, $curl);
         }
 
-        public function set_client_cookies($client_id, $cookies) {
+        public function set_client_cookies($client_id, $cookies = NULL) {
             try {
                 $this->connect();
                 $sql = "UPDATE clients "
@@ -310,8 +309,8 @@ namespace dumbu\cls {
                 $result = mysqli_query($this->connection, ""
                         . "SELECT * FROM reference_profile "
                         . "WHERE "
-                        . "  (reference_profile.client_id = $client_id) AND "
-                        . "(reference_profile.deleted <> TRUE)"               
+                        . "  (reference_profile.client_id = $client_id) "
+//                        . "  AND (reference_profile.deleted <> TRUE)"               
 //                        . "  (reference_profile.client_id = $client_id) AND "
                 );
                 return $result;
@@ -320,24 +319,43 @@ namespace dumbu\cls {
             }
         }
 
-        public function get_reference_profiles_follows($ref_prof_id) {
+        public function get_client_id_from_reference_profile_id($ref_prof_id) {
             try {
                 $this->connect();
-//                $result = mysqli_query($this->connection, ""
-//                        . "SELECT COUNT(*) as total FROM followed "
-//                        . "WHERE "
-//                        . "  followed.reference_id = $ref_prof_id;"
-//                );
-                $result = mysqli_query($this->connection, ""
-                        . "SELECT follows as total FROM reference_profile "
-                        . "WHERE  id = $ref_prof_id; "
-                );
-                $data = \mysqli_fetch_assoc($result);
-                return $data['total'];
+                $query="SELECT client_id FROM dumbudb.reference_profile WHERE  id =".$ref_prof_id.";";
+                $result = mysqli_query($this->connection, $query);
+                $data = $result->fetch_object();
+                if(isset($data->client_id))
+                    return $data->client_id;
+                else 
+                    return 0;
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
+
+        public function get_reference_profiles_follows($ref_prof_id) {
+            try {
+                $this->connect();
+                $client_id = $_SESSION['id'];
+                //$client_id = $this->get_client_id_from_reference_profile_id($ref_prof_id);
+                //echo '<br>---->>>Perfil id = '.$ref_prof_id.' Client id = '.$client_id.'<br>';
+                
+                if($client_id!='0' && $client_id!=0 && $ref_prof_id){
+                    $result = mysqli_query($this->fConnection, ""
+                            . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
+                            . "WHERE  reference_id = $ref_prof_id; "
+                    );
+                    $data = $result->fetch_row();
+                    return $data[0];
+                } else 
+                    return 0;
+                
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+
 
         public function get_follow_work() {
             //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
@@ -367,7 +385,7 @@ namespace dumbu\cls {
                 $object = $result->fetch_object();
 
                 // Update daily work time
-                if ($object) {
+                if ($object && (!isset($object->last_access) || intval($object->last_access) < time())) {
                     //$ref_prof_id = $object->rp_insta_id;
                     $time = time();
                     $sql2 = ""
@@ -408,7 +426,7 @@ namespace dumbu\cls {
                 $object = $result->fetch_object();
 
                 // Update daily work time
-                if ($object) {
+                if ($object && (!isset($object->last_access) || intval($object->last_access) < time())) {
                     //$ref_prof_id = $object->rp_insta_id;
                     $time = time();
                     $sql2 = ""
@@ -433,12 +451,11 @@ namespace dumbu\cls {
                 $Limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
                 $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
                 $this->connect();
-                $result = mysqli_query($this->connection, ""
-                        . "SELECT * FROM followed "
-                        . "WHERE followed.client_id = $client_id "
-                        . "     AND followed.unfollowed = false "
-                        . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(followed.date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
-                        . "ORDER BY followed.date ASC "
+                $result = mysqli_query($this->fConnection, ""
+                        . "SELECT * FROM `dumbudb.followed`.`$client_id` "
+                        . "WHERE unfollowed = false "
+                        . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
+                        . "ORDER BY date ASC "
                         . "LIMIT $Limit;"
                 );
                 //print "\nClient: $client_id " . mysqli_num_rows($result) . "  ";
@@ -544,18 +561,18 @@ namespace dumbu\cls {
                     $this->connect();
                     $time = time();
                     $requested = ($follow->requested_by_viewer == 'requested') ? 'TRUE' : 'FALSE';
-                    $sql = ""
+                    /*$sql = ""
                             . "INSERT INTO followed "
                             . "(followed_id, client_id, reference_id, requested, date, unfollowed) "
                             . "VALUES "
-                            . "($follow->id, $daily_work->client_id, $daily_work->reference_id, $requested, $time, FALSE);";
+                            . "($follow->id, $daily_work->client_id, $daily_work->reference_id, $requested, $time, FALSE);";*/
 
                     $sql2 = ""
                             . "INSERT INTO `dumbudb.followed`.`$daily_work->client_id`"
-                            . "(followed_id, reference_id, date, unfollowed) "
+                            . "(followed_id, reference_id, date, unfollowed, followed_login) "
                             . "VALUES "
-                            . "($follow->id, $daily_work->reference_id, $time, FALSE);";
-                    $result = mysqli_query($this->connection, $sql);
+                            . "($follow->id, $daily_work->reference_id, $time, FALSE, '$follow->username');";
+                    //$result = mysqli_query($this->connection, $sql);
                     $result2 =  mysqli_query($this->fConnection, $sql2);
                 }
 
@@ -617,7 +634,7 @@ namespace dumbu\cls {
             }
         }
 
-        public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
+        public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0, $error = FALSE) {
             try {
 //                if ($follows == 0)
 //                    $follows = 1; // To priorize others RP in the next time... avoiding select this RP ever...
@@ -629,14 +646,21 @@ namespace dumbu\cls {
 
                 $result = mysqli_query($this->connection, $sql);
                 // Record Client last access and foults
-                $time = time();
+                if(!$error)
+                {
+                    $time = time();                    
+                }
+                else
+                {
+                    $hours = $GLOBALS['sistem_config']->INCREASE_CLIENT_LAST_ACCESS;
+                    $time = strtotime("+$hours hours", time());
+                }
                 $sql = ""
                         . "UPDATE clients "
                         . "INNER JOIN reference_profile ON clients.user_id = reference_profile.client_id "
                         . "SET clients.last_access = '$time', "
                         . "    clients.foults = clients.foults + $faults "
                         . "WHERE reference_profile.id = $ref_prof_id; ";
-
                 $result = mysqli_query($this->connection, $sql);
                 //$affected = mysqli_num_rows($result);
                 if ($result)
@@ -788,7 +812,7 @@ namespace dumbu\cls {
             }
         }
         
-        public function InsertEventToWashdog($user_id, $action, $source = 0, $robot_id = NULL)
+        public function InsertEventToWashdog($user_id, $action, $source = 0, $robot_id = NULL, $metadata = NULL)
         {
             try {
                 //mysqli_real_escape_string($escapestr)
@@ -808,8 +832,8 @@ namespace dumbu\cls {
                  
                   $obj = $result->fetch_object();
                   if(isset($robot_id) == true)
-                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', $robot_id);";}
-                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot) VALUE ('$user_id','$obj->id', '$time', NULL);"; }            
+                  { $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metadata');";}
+                  else {$sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metadata');"; }            
                   $result =  mysqli_query($this->connection, $sql);
                   return $result;
                  
@@ -876,7 +900,8 @@ namespace dumbu\cls {
                                 `reference_id` INT(1) NOT NULL,
                                 `date` VARCHAR(20) NULL,
                                 `unfollowed` TINYINT(1) NULL,
-                                PRIMARY KEY (`id`, `reference_id`),
+                                `followed_login` VARCHAR(100) NULL DEFAULT NULL,
+                                PRIMARY KEY (`id`, `reference_ingd`),
                                 INDEX `fk__1_idx` (`reference_id` ASC),
                                 CONSTRAINT `fk__$client_id`
                                   FOREIGN KEY (`reference_id`)
@@ -889,6 +914,34 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             } 
        }
+       
+       public function SaveHttpServerVars($client_id, $HTTP_SERVER_VARS)               
+       {
+           try {
+                $sql = "UPDATE dumbudb.clients SET HTTP_SERVER_VARS='$HTTP_SERVER_VARS' WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+            return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }  
+       }
+       
+       /**
+        * Increase_Client_Last_Access
+        * @param type $client_id
+        * @param type $hours to add to client
+        */
+       public function Increase_Client_Last_Access($client_id, $hours = 2) {
+            try {
+                $timestamp = strtotime("+$hours hours", time());
+                $sql = "UPDATE dumbudb.clients SET last_access='$timestamp' WHERE user_id=$client_id";
+                $result =  mysqli_query($this->connection, $sql);
+                return $result;     
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }           
+        }
+       
     }
 
 }
