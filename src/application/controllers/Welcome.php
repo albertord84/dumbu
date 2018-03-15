@@ -2049,7 +2049,10 @@ class Welcome extends CI_Controller {
                     if ($profile_datas && $profile_datas->location->pk) {                                                
                         //if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile_datas->slug, $profile_datas->location->pk, '1');
-                            $result = $this->verify_profile($p);
+                            $result = $this->verify_profile($p, $profile, $profile_datas);
+                            $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
+                            $result['profile'] = $profile['geolocalization'];
+                            $result['follows_from_profile'] = 0;
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é uma geolocalização do Instagram', array(0 => $profile['geolocalization']));
@@ -2157,6 +2160,10 @@ class Welcome extends CI_Controller {
                         if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '0');
                             $result = $this->verify_profile($p); 
+                            $result['img_url'] = $profile_datas->profile_pic_url;
+                            $result['profile'] = $profile['profile'];
+                            $result['follows_from_profile'] = $profile_datas->follows;
+                            
                         } else {
                             $result['success'] = false;
                             $result['message'] = $this->T('O perfil @1 é um perfil privado', array(0 => $profile['profile']),$GLOBALS['language']);
@@ -2182,7 +2189,6 @@ class Welcome extends CI_Controller {
                 //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
                 $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED');
             }
-            
             echo json_encode($result);
         }
     }
@@ -3397,7 +3403,7 @@ class Welcome extends CI_Controller {
         }
     }
     
-    public function client_insert_tag_profile() {
+    public function client_insert_hashtag() {
        $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -3428,11 +3434,14 @@ class Welcome extends CI_Controller {
             }
             if (!$is_active_tag) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
-                    $profile_datas=$this->check_insta_tag($profile['profile']);
+                    $profile_datas=$this->check_insta_tag_from_client($profile['profile']);
                     if($profile_datas)
                     {
-                        $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '2');
-                        $result = $this->verify_profile($p); 
+                        $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['tag_profile'], $profile_datas->pk, '2');
+                        $result = $this->verify_profile($p);                         
+                        $result['img_url'] = '';
+                        $result['profile'] = $profile['tag_profile'];
+                        $result['follows_from_profile'] = $profile_datas->follows;
                     }
                 } else {
                     $result['success'] = false;
@@ -3456,7 +3465,35 @@ class Welcome extends CI_Controller {
         } 
     }
     
-    public function client_desactive_tag_profile(){}
+    public function client_desactive_hashtag() {
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+            $GLOBALS['language']=$param['language'];
+            $this->load->model('class/client_model');
+            $profile = $this->input->post();
+            if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['hashtag'])) {
+                $result['success'] = true;
+                $result['message'] = $this->T('Hashtag eliminada', array(), $GLOBALS['language']);
+            } else {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
+            }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG ELIMINATED '.$profile['hashtag']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG ELIMINATED');
+            }
+            echo json_encode($result);
+        }
+    }
 
     public function check_insta_tag_from_client($profile){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
@@ -3473,16 +3510,13 @@ class Welcome extends CI_Controller {
             }
     }
     
-    function verify_profile($profile){        
-        if($profile){
+    function verify_profile($profile_id) {      
+        if($profile_id){
             if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
-                $q = $this->client_model->insert_profile_in_daily_work($p, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
+                $q = $this->client_model->insert_profile_in_daily_work($profile_id, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
             else
-                $q = true;
+                $q = true;            
             $result['success'] = true;
-            $result['img_url'] = $profile_datas->profile_pic_url;
-            $result['profile'] = $profile['profile'];
-            $result['follows_from_profile'] = $profile_datas->follows;
             if ($q) {
                 $result['message'] = $this->T('Perfil adicionado corretamente', array(), $GLOBALS['language']);
             } else {
