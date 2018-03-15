@@ -736,9 +736,165 @@
                     </div>
                
                 <!----------------------------------------------------------------------------------------------------------------------------------->        
-                                                
-                                                
-                                                
+                <!--HASHTAG-->     
+                
+                <div class="pf fleft100 text-center m-t30">
+                    <div class="m-t60 text-center">
+                        <ul>
+                            <li>
+                                <img src="<?php echo base_url() . 'assets/images/perfis.png'; ?>" class="wauto"/>                            
+                            </li>
+                            <li></li>
+                            <li>
+                                <h4 class="m-t10"><b><?php echo $CI->T("HASHTAG", array(), $language); ?></b></h4>
+                            </li>
+                        </ul>    
+                    </div>                
+
+                    <div class="m-t10 text-center">
+                        <p class="fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que publicam usando os hashtag que você escolher.<br>Adicione seus hashtag aqui:", array(), $language); ?></p>
+                    </div>                
+
+                    <br>
+                    <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 text-center ">
+                        <div class="m-t60 text-center">
+                            <div class="num">
+                                <span class="fleft">
+                                    <img src="<?php echo base_url() . 'assets/images/bol-g.png'; ?>" class="wauto" alt="">
+                                    <?php echo $CI->T('Número de perfis já seguidos ', array(), $language) . ' ' . $amount_followers_by_hashtag; ?>
+                                </span>
+                                <span class="fright">
+                                    <?php echo $hashtag_used . ' ' . $CI->T('Hashtags utilizados até hoje', array(), $language); ?>
+                                </span>
+                            </div>
+                            <div class="fleft100 bk-cinza pf-painel">
+                                <ul class="add-perfil text-center">
+                                    <li>
+                                        <div id="hashtag0" class="container-reference-profile"> 
+                                                <img id="img_hashtag0" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>">                                             
+                                            <br>
+                                            <a id="lnk_hashtag0" target="_blank" href="#">
+                                                <small id="name_hashtag0" title="<?php echo $CI->T("Ver no Instagram", array(), $language); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                            </a>
+                                            <b id="cnt_follows_hashtag0" title='<?php echo $CI->T("Seguidos por mim para esse hashtag", array(), $language); ?>' class="cl-green fleft100 red_number">0</b>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div id="hashtag1" class="container-reference-profile">                                                                    
+                                            <img id="img_hashtag1" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                            <br>
+                                            <a id="lnk_hashtag1" target="_blank" href="#">
+                                                <small id="name_hashtag1" title="<?php echo $CI->T("Ver no Instagram", array(), $language); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                            </a>
+                                            <b id="cnt_follows_prof1" title='<?php echo $CI->T("Seguidos por mim para esse hashtag", array(), $language); ?>' class="cl-green fleft100 red_number">0</b>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div id="hashtag2" class="container-reference-profile">                                                                    
+                                            <img id="img_hashtag2" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                            <br>
+                                            <a id="lnk_hashtag2" target="_blank" href="#">
+                                                <small id="name_hashtag2" title="<?php echo $CI->T("Ver no Instagram", array(), $language); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                            </a>
+                                            <b id="cnt_follows_hashtag2" title='<?php echo $CI->T("Seguidos por mim para esse hashtag", array(), $language); ?>' class="cl-green fleft100 red_number">0</b>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div id="hashtag3" class="container-reference-profile">                                                                    
+                                            <img id="img_hashtag3" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                            <br>
+                                            <a id="lnk_hashtag3" target="_blank" href="#">
+                                                <small id="name_hashtag3" title="<?php echo $CI->T("Ver no Instagram", array(), $language); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                            </a>
+                                            <b id="cnt_follows_hashtag3" title='<?php echo $CI->T("Seguidos por mim para esse hashtag", array(), $language); ?>' class="cl-green fleft100 red_number">0</b>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div id="hashtag4" class="container-reference-profile">                                                                    
+                                            <img id="img_hashtag4" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                            <br>
+                                            <a id="lnk_hashtag4" target="_blank" href="#">
+                                                <small id="name_hashtag4" title="<?php echo $CI->T("Ver no Instagram", array(), $language); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                            </a>
+                                            <b id="cnt_follows_hashtag4" title='<?php echo $CI->T("Seguidos por mim para esse hashtag", array(), $language); ?>' class="cl-green fleft100 red_number">0</b>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div id="hashtag5" class="container-reference-profile">                                                                    
+                                            <img id="img_hashtag5" class="img_profile" style="width:70px" src="<?php echo base_url() . 'assets/images/avatar.png'; ?>"> 
+                                            <br>
+                                            <a id="lnk_hashtag5" target="_blank" href="#">
+                                                <small id="name_hashtag5" title="<?php echo $CI->T("Ver no Instagram", array(), $language); ?>" style="color:black" class="fleft100 m-t10"></small>
+                                            </a>
+                                            <b id="cnt_follows_hashtag5" title='<?php echo $CI->T("Seguidos por mim para esse hashtag", array(), $language); ?>' class="cl-green fleft100 red_number">0</b>
+                                        </div>
+                                    </li>
+
+                                    <li class="add"><img id="btn_add_new_hashtag" src="<?php echo base_url() . 'assets/images/+.png'; ?>" class="wauto" alt="" type="button" data-toggle="modal" data-target="#myModal_hashtag"></li>
+                                </ul>
+                            </div>
+                            <!--<div class="num fleft100"><b>Dica:</b><?php //echo $CI->T("Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa ", array(), $language); ?><a href="<?php //echo base_url() . 'index.php/welcome/help' ?>" style="color:green" target="_blank"><?php //echo $CI->T("Ajuda!", array(), $language); ?></a></div>-->
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
+                    <?php if ($plane_id == 1 || $plane_id > 3) { ?>
+                    <!-- Modal -->
+                    <div class="modal fade" style="top:30%" id="myModal_hashtag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div id="modal_container_add_hashtag" class="modal-dialog modal-sm" role="document">                                                          
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Hashtag", array(), $language); ?></h4>
+                                </div>
+                                <div class="modal-body">                                            
+                                    <input id = "login_hashtag" type="text" class="form-control" placeholder="<?php echo $CI->T("#", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                    <div id="hashtag_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="btn_insert_hashtag" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                        <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar", array(), $language); ?></div></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                                                        
+                    </div>   
+                    <?php } else { ?>
+                    <!-- Modal -->
+                    <div class="modal fade" style="top:30%" id="myModal_hashtag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div id="modal_container_add_hashtag" class="modal-dialog modal-sm" role="document">                                                          
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("DISPONÍVEL PARA OS", array(), $language); ?></b></h4>
+                                    <h4 class="modal-title" id="myModalLabel"><b><?php echo $CI->T("PLANOS RÁPIDO E TURBO", array(), $language); ?></b></h4>
+                                </div>
+                                <div class="modal-body">                                            
+                                    <p class="modal-title" id="myModalLabel"><?php echo $CI->T("Migre agora mesmo sua conta para uma dessas velocidades e disfrute deste recurso", array(), $language); ?></p>
+                                    <p class="modal-title" id="myModalLabel"><?php echo $CI->T("", array(), $language); ?></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#lnk_update"><button id="upgrade_plane" type="button" class="btn btn-success text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                        <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("MIGRAR DE VELOCIDADE", array(), $language); ?></div></span>
+                                    </button></a>
+                                </div>
+                            </div>
+                        </div>                                                        
+                    </div>       
+                    <?php }?> 
+                </div>
+                
+                <!----------------------------------------------------------------------------------------------------------------------------------->        
+                <!--PERFOMANCE-->                                 
 
                 <div class="pf fleft100 text-center m-t45">
                     <img src="<?php echo base_url() . 'assets/images/perf.png'; ?>" class="wauto" alt="">
