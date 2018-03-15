@@ -1489,7 +1489,7 @@ $(document).ready(function () {
         
     $("#btn_insert_hashtag").click(function () {        
         if (validate_element('#login_hashtag', '^[a-zA-Z0-9\.-]{1,300}$')) {
-            if(num_hashtag < MAX_NUM_GEOLOCALIZATION) {
+            if(num_hashtag < MAX_NUM_HASHTAG) {
                 if($('#login_hashtag').val() != '') {                    
                     var l = Ladda.create(this);
                     l.start();
@@ -1506,7 +1506,7 @@ $(document).ready(function () {
                                 $("#insert_hashtag_form").css({"visibility": "hidden", "display": "none"});
                                 $('#hashtag_message').text('');
                                 $('#hashtag_message').css('visibility', 'hidden');
-                                if (num_hashtag === MAX_NUM_GEOLOCALIZATION) {
+                                if (num_hashtag === MAX_NUM_HASHTAG) {
                                     $('#btn_modal_close').click();
                                 }
                             } else {
@@ -1577,7 +1577,7 @@ $(document).ready(function () {
                     icons_hashtag[i]['status_hashtag'] = prof[i]['status_profile'];*/
                 //}
             }
-            for (j = i; j < MAX_NUM_GEOLOCALIZATION; j++) {
+            for (j = i; j < MAX_NUM_HASHTAG; j++) {
                 icons_hashtag[j]['img_hashtag'] = base_url + 'assets/images/avatar_hashtag.jpg';
                 icons_hashtag[j]['follows_from_hashtag'] = '0';
                 icons_hashtag[j]['login_hashtag'] = 'hashtag' + (j + 1);
@@ -1591,7 +1591,7 @@ $(document).ready(function () {
 
     function display_hashtag() {
         var hashtag_status = false;
-        for (i = 0; i < MAX_NUM_GEOLOCALIZATION; i++) {
+        for (i = 0; i < MAX_NUM_HASHTAG; i++) {
             icons_hashtag[i]['ptr_img_obj'].attr("src", icons_hashtag[i]['img_hashtag']);
             icons_hashtag[i]['ptr_img_obj'].prop('title', T('Click para eliminar ') + icons_hashtag[i]['login_hashtag']);
             icons_hashtag[i]['ptr_p_obj'].prop('title', T('Ver ') + icons_hashtag[i]['login_hashtag'] + T(' no Instagram'));
@@ -1652,13 +1652,13 @@ $(document).ready(function () {
         }
     }
     
-    function delete_icons_hashtag(name_localization) {
+    function delete_icons_hashtag(name_tag) {
         var i, j;
         for (i = 0; i < num_hashtag; i++) {
-            if (icons_hashtag[i]['login_hashtag'] === name_localization)
+            if (icons_hashtag[i]['login_hashtag'] === name_tag)
                 break;
         }
-        for (j = i; j < MAX_NUM_GEOLOCALIZATION - 1; j++) {
+        for (j = i; j < MAX_NUM_HASHTAG - 1; j++) {
             icons_hashtag[j]['img_hashtag'] = icons_hashtag[j + 1]['img_hashtag'];
             if ((icons_hashtag[j + 1]['login_hashtag']).match("hashtag")) {
                 icons_hashtag[j]['login_hashtag'] = 'hashtag' + (j + 1);

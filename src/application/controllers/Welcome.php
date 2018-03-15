@@ -3397,7 +3397,7 @@ class Welcome extends CI_Controller {
         }
     }
     
-    public function client_insert_tag_profile() {
+    public function client_insert_hashtag() {
        $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -3428,7 +3428,7 @@ class Welcome extends CI_Controller {
             }
             if (!$is_active_tag) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
-                    $profile_datas=$this->check_insta_tag($profile['profile']);
+                    $profile_datas=$this->check_insta_tag_from_client($profile['profile']);
                     if($profile_datas)
                     {
                         $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '2');
@@ -3456,7 +3456,35 @@ class Welcome extends CI_Controller {
         } 
     }
     
-    public function client_desactive_tag_profile(){}
+    public function client_desactive_hashtag() {
+        if ($this->session->userdata('id')) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
+            $language=$this->input->get();
+            if(isset($language['language']))
+                $param['language']=$language['language'];
+            else
+                $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;    
+            $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
+            $GLOBALS['language']=$param['language'];
+            $this->load->model('class/client_model');
+            $profile = $this->input->post();
+            if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['hashtag'])) {
+                $result['success'] = true;
+                $result['message'] = $this->T('Hashtag eliminada', array(), $GLOBALS['language']);
+            } else {
+                $result['success'] = false;
+                $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
+            }
+            
+            if( $result['success'] == true){
+                $this->load->model('class/user_model');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG ELIMINATED '.$profile['hashtag']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG ELIMINATED');
+            }
+            echo json_encode($result);
+        }
+    }
 
     public function check_insta_tag_from_client($profile){
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
