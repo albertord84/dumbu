@@ -1226,8 +1226,8 @@ namespace dumbu\cls {
         }
 
         public function get_insta_data($ref_prof){
-            if ($ref_prof != "" || $ref_prof == NULL) {
-             throw new Exception("This was and emty or null referece profile (ref_prof)");    
+            if ($ref_prof == "" || $ref_prof == NULL) {
+             throw new \Exception("This was and empty or null referece profile (ref_prof)");    
             }
             $content = @file_get_contents("https://www.instagram.com/web/search/topsearch/?context=blended&query=$ref_prof", FALSE);
             $ch = curl_init("https://www.instagram.com/");
@@ -1239,13 +1239,14 @@ namespace dumbu\cls {
             $html = curl_exec($ch);
             $string = curl_error($ch);
             $content = json_decode($html);
+            curl_close($ch);
             return $content;
             
         }
         
         public function get_insta_data_from_client($ref_prof, $cookies){
-            if ($ref_prof != "" || $ref_prof == NULL) {
-                throw new Exception("This was and emty or null referece profile (ref_prof)");    
+            if ($ref_prof == "" || $ref_prof == NULL) {
+                throw new \Exception("This was and empty or null referece profile (ref_prof)");    
             }
             $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
             $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
@@ -1278,6 +1279,7 @@ namespace dumbu\cls {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
             $output = curl_exec($ch);
             $string = curl_error($ch);
+            curl_close($ch);
             return json_decode($output);
         }
         
@@ -1285,10 +1287,9 @@ namespace dumbu\cls {
             try {
                 $Profile = NULL;
                     $content = $this->get_insta_data($ref_prof);
-                    $Profile = $this->process_get_insta_ref_prof_data_for_daily_report($content, $ref_prof, $ref_prof_id);
-                    curl_close($ch);
+                    $Profile = $this->process_get_insta_ref_prof_data_for_daily_report($content, $ref_prof, $ref_prof_id);                   
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1299,11 +1300,10 @@ namespace dumbu\cls {
                 $Profile = NULL;
                 if ($ref_prof != "") {
                     $content = $this->get_insta_data($ref_prof);
-                    $Profile = $this->process_get_insta_geolocalization_data($content, $ref_prof, $ref_prof_id);
-                    curl_close($ch);
+                    $Profile = $this->process_get_insta_geolocalization_data($content, $ref_prof, $ref_prof_id);                    
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1315,10 +1315,9 @@ namespace dumbu\cls {
                 if ($ref_prof != "") {
                     $content = $this->get_insta_data($ref_prof);
                     $Profile = $this->process_get_insta_tag_data($content, $ref_prof, $ref_prof_id);
-                    curl_close($ch);
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }            
@@ -1333,7 +1332,7 @@ namespace dumbu\cls {
                     //var_dump($content);
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1348,7 +1347,7 @@ namespace dumbu\cls {
                     $Profile = $this->process_get_insta_ref_prof_data($content, $ref_prof, $ref_prof_id);
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1363,7 +1362,7 @@ namespace dumbu\cls {
                     $Profile = $this->process_get_insta_tag_data($content, $ref_prof, $ref_prof_id);
                 }
                 return $Profile;
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 print_r($ex->message);
                 return NULL;
             }
@@ -1450,8 +1449,8 @@ namespace dumbu\cls {
                 // Get user with $ref_prof name over all matchs 
                 if (is_array($tags)) {
                     for ($i = 0; $i < count($tags); $i++) {
-                        if ($places[$i]->hashtag->name === $ref_prof) {
-                            $Profile = $places[$i]->hashtag;
+                        if ($tags[$i]->hashtag->name === $ref_prof) {
+                            $Profile = $tags[$i]->hashtag;
                             $Profile->follows = $this->get_insta_ref_prof_follows($ref_prof_id);
                             break;
                         }
