@@ -3169,6 +3169,7 @@ class Welcome extends CI_Controller {
         $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
+            echo 'Client '.$aa.' in turn';
             $status_id=$client['status_id'];
             if($client['retry_payment_counter']<13){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
