@@ -5,7 +5,11 @@
             <url>application/controllers/Welcome.php</url>
             <bookmark id="1">
                 <name/>
+<<<<<<< HEAD
+                <line>2442</line>
+=======
                 <line>2415</line>
+>>>>>>> 9f6d674184b601cec06c320d8569aae10dce00f0
                 <key/>
             </bookmark>
         </file>

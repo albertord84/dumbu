@@ -1,11 +1,8 @@
 <?php
 
-   
-
-echo base_url();
+    echo 'hola ';
 
 //
-require_once('fpdf/fpdf.php');
 //
 //class PDF extends FPDF
 //{

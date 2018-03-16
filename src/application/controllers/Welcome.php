@@ -5,8 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
-    public $aaa=1;
-
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -3171,6 +3169,7 @@ class Welcome extends CI_Controller {
         $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
+            echo 'Client '.$aa.' in turn';
             $status_id=$client['status_id'];
             if($client['retry_payment_counter']<13){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
