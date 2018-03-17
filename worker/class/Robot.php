@@ -93,7 +93,7 @@ namespace dumbu\cls {
             //$DB = new DB();
             $Client = (new \dumbu\cls\Client())->get_client($daily_work->client_id);
 //            $this->daily_work = $daily_work;
-            $login_data = $this->daily_work->login_data;
+            $login_data = $daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
 
