@@ -247,7 +247,7 @@ namespace dumbu\cls {
                             $lst_acess = intval($daily_work->last_access);
                             $elapsed_time = $now - $lst_acess; // sec
                             if($now > $lst_acess)
-                            {
+                            {                                
                                 if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
                                     $now = \DateTime::createFromFormat('U', time());
                                     $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
