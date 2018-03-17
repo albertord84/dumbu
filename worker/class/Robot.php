@@ -238,8 +238,8 @@ namespace dumbu\cls {
                     }
                     // Update cursor
                     if ($page_info && isset($page_info->end_cursor)) {
-                        $this->daily_work->insta_follower_cursor = $page_info->end_cursor;
-                        $this->DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
+                        $daily_work->insta_follower_cursor = $page_info->end_cursor;
+                        $this->DB->update_reference_cursor($daily_work->reference_id, $page_info->end_cursor);
                         if (!$page_info->has_next_page)
                             break;
                     } else {
