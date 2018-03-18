@@ -92,8 +92,8 @@ namespace dumbu\cls {
             //$this->Ref_profile = $Ref_profile;
             //$DB = new DB();
             $Client = (new \dumbu\cls\Client())->get_client($daily_work->client_id);
-            $this->daily_work = $daily_work;
-            $login_data = $this->daily_work->login_data;
+//            $this->daily_work = $daily_work;
+            $login_data = $daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
 
@@ -160,7 +160,8 @@ namespace dumbu\cls {
                     // Get Users 
                     $page_info = NULL;
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
-                    foreach ($Profiles as $Profile) {
+                    var_dump($Profiles);
+                    foreach ($Profiles as $Profile) {                        
                         $Profile = $Profile->node;
                         echo "Profil name: $Profile->username ";
                         $null_picture = strpos($Profile->profile_pic_url, '11906329_960233084022564_1448528159_a');
@@ -188,7 +189,7 @@ namespace dumbu\cls {
                             // TODO: BUSCAR EN BD QUE NO HALLA SEGUIDO ESA PERSONA
                             $followed_in_db = $this->DB->is_profile_followed_db2($daily_work->client_id, $Profile->id);
                             //$followed_in_db = NULL;
-                            if (!$followed_in_db && !$following_me && $valid_profile) { // Si no lo he seguido en BD y no me está siguiendo
+                            if (!$followed_in_db && !$following_me /*&& $valid_profile*/) { // Si no lo he seguido en BD y no me está siguiendo
                                 // Do follow request
                                 echo "FOLLOWING <br>\n";
                                 $json_response2 = $this->make_insta_friendships_command($login_data, $Profile->id, 'follow', 'web/friendships', $Client);
@@ -237,8 +238,8 @@ namespace dumbu\cls {
                     }
                     // Update cursor
                     if ($page_info && isset($page_info->end_cursor)) {
-                        $this->daily_work->insta_follower_cursor = $page_info->end_cursor;
-                        $this->DB->update_reference_cursor($this->daily_work->reference_id, $page_info->end_cursor);
+                        $daily_work->insta_follower_cursor = $page_info->end_cursor;
+                        $this->DB->update_reference_cursor($daily_work->reference_id, $page_info->end_cursor);
                         if (!$page_info->has_next_page)
                             break;
                     } else {
@@ -304,6 +305,7 @@ namespace dumbu\cls {
                 $json_response = $this->get_insta_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor
                 );
+                //var_dump($json_response);
                 if ($json_response === NULL) {
                     $result = $this->DB->delete_daily_work_client($daily_work->users_id);
                     $this->DB->set_client_status($daily_work->users_id, user_status::VERIFY_ACCOUNT);
@@ -391,7 +393,9 @@ namespace dumbu\cls {
                     break;
                 case 3: // "Unautorized"
                     $result = $this->DB->delete_daily_work_client($client_id);
-                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, $response->message);
+                    if(isset($json_response->message))
+                         $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, $json_response->message);
+                    else{$this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);}
                     //var_dump($result);
                     $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //$this->DB->set_client_cookies($client_id, NULL);
@@ -706,6 +710,7 @@ namespace dumbu\cls {
                     return NULL;
                 }
                 exec($curl_str, $output, $status);
+                echo "<br>output $output[0] \n\n</br>";
                 //print_r($output);
                 //print("-> $status<br><br>");                
                 $json = json_decode($output[0]);
