@@ -1,5 +1,5 @@
 <?php
-    header('X-Frame-Options SAMEORIGIN, GOFORIT'); 
+    header('X-Frame-Options: SAMEORIGIN, GOFORIT'); 
 ?>
 <!DOCTYPE html>
 <html lang="pt_BR">

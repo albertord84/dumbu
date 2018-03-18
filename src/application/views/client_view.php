@@ -178,6 +178,7 @@
                 if (isset($MAX_NUM_PROFILES)){
                     echo 'var MAX_NUM_PROFILES=' . $MAX_NUM_PROFILES . ';';
                     echo 'var MAX_NUM_GEOLOCALIZATION=' . $MAX_NUM_PROFILES . ';';
+                    echo 'var MAX_NUM_HASHTAG=' . $MAX_NUM_PROFILES . ';';
                 }
                 echo '</script>';
                 ?>
