@@ -659,6 +659,18 @@
             }
         }
         
-               
+        public function get_client_workable_profiles($user_id){
+            try {    
+                $this->db->select('*');
+                $this->db->from('reference_profile');
+                $this->db->where('client_id', $user_id);
+                $this->db->where('deleted', '0');
+                $where = "(end_date IS NULL OR end_date = '')"; // adicionado por Ruslan
+                $this->db->where($where); // adicionado por Ruslan
+                return $this->db->get()->result_array();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }      
 }
 ?>
