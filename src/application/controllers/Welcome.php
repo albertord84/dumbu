@@ -3476,7 +3476,7 @@ class Welcome extends CI_Controller {
                         $result['follows_from_profile'] = 0;
                     } else {
                         $result['success'] = false;
-                        $result['message'] = $profile['hashtag']." ".$this->T('não é um hashtag do Instagram', array(), $GLOBALS['language']);
+                        $result['message'] = "#".$profile['hashtag']." ".$this->T('não é um hashtag do Instagram', array(), $GLOBALS['language']);
                     }
                 } else {
                     $result['success'] = false;
