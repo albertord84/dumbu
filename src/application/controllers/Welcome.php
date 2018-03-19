@@ -2047,7 +2047,7 @@ class Welcome extends CI_Controller {
                     if ($profile_datas && $profile_datas->location->pk) {                                                
                         //if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile_datas->slug, $profile_datas->location->pk, '1');
-                            $result = $this->verify_profile($p, $profile, $profile_datas);
+                            $result = $this->verify_profile($p, $active_profiles, $N);
                             $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
                             $result['profile'] = $profile['geolocalization'];
                             $result['follows_from_profile'] = 0;
@@ -2157,7 +2157,7 @@ class Welcome extends CI_Controller {
                     if ($profile_datas && $profile_datas->pk) {
                         if(!$profile_datas->is_private) {
                             $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['profile'], $profile_datas->pk, '0');
-                            $result = $this->verify_profile($p); 
+                            $result = $this->verify_profile($p, $active_profiles, $N); 
                             $result['img_url'] = $profile_datas->profile_pic_url;
                             $result['profile'] = $profile['profile'];
                             $result['follows_from_profile'] = $profile_datas->follows;
@@ -3437,7 +3437,7 @@ class Welcome extends CI_Controller {
                     if($profile_datas)
                     {
                         $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['tag_profile'], $profile_datas->pk, '2');
-                        $result = $this->verify_profile($p);                         
+                        $result = $this->verify_profile($p, $active_profiles, $N);                         
                         $result['img_url'] = '';
                         $result['profile'] = $profile['tag_profile'];
                         $result['follows_from_profile'] = $profile_datas->follows;
@@ -3509,7 +3509,7 @@ class Welcome extends CI_Controller {
             }
     }
     
-    function verify_profile($profile_id) {      
+    function verify_profile($profile_id, $active_profiles, $N) {      
         if($profile_id){
             if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
                 $q = $this->client_model->insert_profile_in_daily_work($profile_id, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
