@@ -5,8 +5,6 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
-    public $aaa=1;
-
     public function index() {
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -177,7 +175,7 @@ class Welcome extends CI_Controller {
 //                            $this->client_model->update_client($this->session->userdata('id'), array(
 //                                'cookies' => json_encode($insta_login['insta_login_response'])));
                             //3. crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
-                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                            $active_profiles = $this->client_model->get_client_workable_profiles($this->session->userdata('id'));
                             $N = count($active_profiles);
                             for ($i = 0; $i < $N; $i++) {
                                 $sql = 'SELECT * FROM daily_work WHERE reference_id=' . $active_profiles[$i]['id'];
@@ -194,7 +192,7 @@ class Welcome extends CI_Controller {
                             $this->user_model->update_user($this->session->userdata('id'), array(
                                 'status_id' => user_status::VERIFY_ACCOUNT));
                             //eliminar su trabajo si contrasenhas son diferentes
-                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                            $active_profiles = $this->client_model->get_client_workable_profiles($this->session->userdata('id'));
                             $N = count($active_profiles);
                             for ($i = 0; $i < $N; $i++) {
                                 $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
@@ -366,7 +364,7 @@ class Welcome extends CI_Controller {
                             if($st!=user_status::ACTIVE)
                                 $this->user_model->insert_washdog($user[$index]['id'],'FOR ACTIVE STATUS');                            
                             //quitar trabajo si contrasenhas son diferentes
-                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                            $active_profiles = $this->client_model->get_client_workable_profiles($this->session->userdata('id'));
                             if ($user[$index]['pass'] != $datas['user_pass']) {
                                 $N = count($active_profiles);
                                 //quitar trabajo si contrasenhas son diferentes
@@ -375,7 +373,7 @@ class Welcome extends CI_Controller {
                                 }
                             }
                             //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
-                            //$active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));                                
+                            //$active_profiles = $this->client_model->get_client_workable_profiles($this->session->userdata('id'));                                
                             if($data_insta['insta_login_response']) {
                                 $N = count($active_profiles);
                                 for ($i = 0; $i < $N; $i++) {
@@ -394,7 +392,7 @@ class Welcome extends CI_Controller {
                         if ($st == user_status::ACTIVE || $st == user_status::BLOCKED_BY_PAYMENT || $st == user_status::PENDING || $st == user_status::UNFOLLOW || user_status::BLOCKED_BY_TIME) {
                             if ($st == user_status::ACTIVE) {
                                 if ($user[$index]['pass'] != $datas['user_pass']) {
-                                    $active_profiles = $this->client_model->get_client_active_profiles($user[$index]['id']);
+                                    $active_profiles = $this->client_model->get_client_workable_profiles($user[$index]['id']);
                                     $N = count($active_profiles);
                                     //quitar trabajo si contrasenhas son diferentes
                                     for ($i = 0; $i < $N; $i++) {
@@ -410,7 +408,7 @@ class Welcome extends CI_Controller {
 
                             if ($st == user_status::UNFOLLOW && $data_insta['insta_following'] < $GLOBALS['sistem_config']->INSTA_MAX_FOLLOWING - $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT) {
                                 $st = user_status::ACTIVE;
-                                $active_profiles = $this->client_model->get_client_active_profiles($user[$index]['id']);
+                                $active_profiles = $this->client_model->get_client_workable_profiles($user[$index]['id']);
                                 $N = count($active_profiles);
                                 //crearle trabajo si ya tenia perfiles de referencia y si todavia no tenia trabajo insertado
                                 for ($i = 0; $i < $N; $i++) {
@@ -1730,7 +1728,7 @@ class Welcome extends CI_Controller {
             
             if ($pp == 1) {
                 $ut = 'PAUSED';
-                $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                $active_profiles = $this->client_model->get_client_workable_profiles($this->session->userdata('id'));
                 $N = count($active_profiles);
                 //quitar trabajo si el cliente pauso la herramienta
                 for ($i = 0; $i < $N; $i++) {
@@ -1897,7 +1895,7 @@ class Welcome extends CI_Controller {
                                         $this->user_model->update_user($this->session->userdata('id'), array(
                                             'status_id' => $datas['status_id']));
                                         if ($this->session->userdata('status_id') == user_status::BLOCKED_BY_PAYMENT) {
-                                            $active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
+                                            $active_profiles = $this->client_model->get_client_workable_profiles($this->session->userdata('id'));
                                             $N = count($active_profiles);
                                             for ($i = 0; $i < $N; $i++) {
                                                 if(!$active_profiles[$i]['end_date'])
@@ -3204,6 +3202,7 @@ class Welcome extends CI_Controller {
         $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
+            echo 'Client '.$aa.' in turn';
             $status_id=$client['status_id'];
             if($client['retry_payment_counter']<13){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 

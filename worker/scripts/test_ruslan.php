@@ -28,26 +28,26 @@ var_dump($checkpoint_data);*/
 // MUNDIPAGG
 $Payment = new \dumbu\cls\Payment();
 
-$pay_day = strtotime('05/21/2018 05:00:00');
+$pay_day = strtotime('06/01/2018 05:00:00');
 //$pay_day = strtotime("+30 days", $pay_day);
 
 //$pay_day = time();
 //$strdate = date("d-m-Y", $pay_day);
 //$pay_day = strtotime("+30 days", time());
 
-$payment_data['credit_card_number'] = '5370100303670151';
-$payment_data['credit_card_name'] = 'MACAVER FEYIN';
+$payment_data['credit_card_number'] = '4984078108853332';
+$payment_data['credit_card_name'] = 'JOE VIEIRA DA SILVA';
 $payment_data['credit_card_exp_month'] = '11';
-$payment_data['credit_card_exp_year'] = '2018';
-$payment_data['credit_card_cvc'] = '011';
-$payment_data['amount_in_cents'] = 24000;
+$payment_data['credit_card_exp_year'] = '2021';
+$payment_data['credit_card_cvc'] = '346';
+$payment_data['amount_in_cents'] = 45000;
 $payment_data['pay_day'] = $pay_day;
 //$resul = $Payment->create_payment($payment_data);
 //var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
-//var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
+$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
+//var_dump($resul);
 
 var_dump($pay_day);
 
