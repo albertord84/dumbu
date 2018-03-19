@@ -1537,7 +1537,7 @@ $(document).ready(function () {
     });
       
     function delete_hashtag_click(element) {
-        if (confirm(T('Deseja eliminar o hashtag ') + element)) {
+        if (confirm(T('Deseja eliminar o #') + element + ' ?')) {
             $.ajax({
                 url: base_url + 'index.php/welcome/client_desactive_hashtag',
                 data: {'hashtag': element},

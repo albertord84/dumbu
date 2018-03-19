@@ -747,7 +747,7 @@
                             </li>
                             <li></li>
                             <li>
-                                <h4 class="m-t10"><b><?php echo $CI->T("HASHTAG", array(), $language); ?></b></h4>
+                                <h4 class="m-t10"><b>HASHTAG</b></h4>
                             </li>
                         </ul>    
                     </div>                
@@ -853,10 +853,10 @@
                                     <button id="btn_modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <img src="<?php echo base_url() . 'assets/images/FECHAR.png'; ?>"> <!--<span aria-hidden="true">&times;</span>-->
                                     </button>
-                                    <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Hashtag", array(), $language); ?></h4>
+                                    <h4 class="modal-title" id="myModalLabel">Hashtag</h4>
                                 </div>
                                 <div class="modal-body">                                            
-                                    <input id = "login_hashtag" type="text" class="form-control" placeholder="<?php echo $CI->T("#", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                    <input id = "login_hashtag" type="text" class="form-control" placeholder="#" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
                                     <div id="hashtag_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
                                 <div class="modal-footer">

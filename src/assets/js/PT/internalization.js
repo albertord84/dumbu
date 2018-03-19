@@ -101,7 +101,11 @@ var Translation={
     "Informe seu nome no cartão e não a bandeira dele.":
             "Informe seu nome no cartão e não a bandeira dele.",
     "Deve preencher o campo com o código de segurança de 6 dígitos.":
-            "Deve preencher o campo com o código de segurança de 6 dígitos."
+            "Deve preencher o campo com o código de segurança de 6 dígitos.",
+    "Deseja eliminar o #":
+            "Deseja eliminar o #",
+    "* O nome do hashtag só pode conter letras, números, sublinhados e pontos.":
+            "* O nome do hashtag só pode conter letras, números, sublinhados e pontos."
 };
 
 function T(token){
