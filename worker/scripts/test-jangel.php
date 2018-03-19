@@ -10,56 +10,23 @@ require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 print('Hola Mundo');
-$client_id = 26187;
-var_dump(abs(5-9));
-//$DB = new \dumbu\cls\DB();
-//$DB->InsertEventToWashdog($client_id, 'Test Action', '1', 1, 'TEST action');
 
-$DB = new \dumbu\cls\DB();
-
-$Clients = (new \dumbu\cls\Client())->get_clients();
-foreach ($Clients as $Client)
-{
-    if(isset($Client->cookies))
-    {
-        $cookies = \GuzzleHttp\json_decode($Client->cookies);
-        if(isset($cookies->ds_user_id) && $Client->insta_id !== $cookies->ds_user_id)
-        {
-            $DB->set_client_cookies($Client->id);
-        }
-    }
-}
-/*try{
-        //$Robot = new \dumbu\cls\Robot();
-        //$val = $Robot->checkpoint_requested("ecr_nature", "ecr26020");
-        //$val = $Robot->make_checkpoint("casazunzun", "327094");
-        //var_dump($val);
-        exec("curl 'https://www.google.com/'",$output,$status);
-var_dump($output);
-var_dump($status);
-}catch(\Exception $exc)
-{
-        var_dump($exc);
-}*/
-/*
-try{
-        $Robot = new \dumbu\cls\Robot();
-        $val = $Robot->checkpoint_requested("ky2oficial", "alejandropacho32");
-        //$val = $Robot->make_checkpoint("casazunzun", "327094");
-        var_dump($val);
-}catch(\InstagramAPI\Exception\ChallengeRequiredException $exc)
-{
-        var_dump("yea");
-}
-
-*/
-/*
-
-$Client = (new \dumbu\cls\Client())->get_client(27405);
+$Client = (new \dumbu\cls\Client())->get_client(65045);
 $Robot = new \dumbu\cls\Robot();
 $DB = new \dumbu\cls\DB();
 //var_dump($Client);
-$json_response2 = $Robot->make_insta_friendships_command(json_decode($Client->cookies), '2023444583', 'unfollow', 'web/friendships', $Client);
+$json_response2 = $Robot->get_insta_geolocalization_data('havana-cuba');
 var_dump($json_response2);
-*/
+$json_response2 = $Robot->get_insta_geolocalization_data('cutrasddaa');
+var_dump($json_response2);
+$json_response2 = $Robot->get_insta_tag_data('cuba');
+var_dump($json_response2);
+$json_response2 = $Robot->get_insta_geolocalization_data_from_client($Client->cookies, 'havana-cuba');
+var_dump($json_response2);
+$json_response2 = $Robot->get_insta_geolocalization_data_from_client($Client->cookies, 'cuba');
+var_dump($json_response2);
+$json_response2 = $Robot->get_insta_tag_data_from_client($Client->cookies, 'cuba');
+var_dump($json_response2);
+
+
 echo "\n<br>" . date("Y-m-d h:i:sa") . "\n\n";
