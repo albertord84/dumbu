@@ -743,7 +743,7 @@
                     <div class="m-t60 text-center">
                         <ul>
                             <li>
-                                <img src="<?php echo base_url() . 'assets/images/perfis.png'; ?>" class="wauto"/>                            
+                                <img src="<?php echo base_url() . 'assets/images/avatar_hashtag.png'; ?>" class="wauto"/>                            
                             </li>
                             <li></li>
                             <li>
@@ -753,7 +753,7 @@
                     </div>                
 
                     <div class="m-t10 text-center">
-                        <p class="fleft100"><?php echo $CI->T("O Dumbu seguirá os usuários que publicam usando os hashtag que você escolher.<br>Adicione seus hashtag aqui:", array(), $language); ?></p>
+                        <p class="fleft100"><?php echo $CI->T("Adicione hashtags para aprimorar sua captação de seguidores e qualificar seu desempenho. Sempre escolha hashtags que tenham relação com seu negócio ou perfil, assim você irá acertar o público alvo que mais lhe interessa. Você pode pesquisar por hashtags na área de busca do Instagram e escolher quais você deseja utilizar.", array(), $language); ?></p>
                     </div>                
 
                     <br>

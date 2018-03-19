@@ -2485,9 +2485,9 @@ class Welcome extends CI_Controller {
                         $array_hashtag[$cnt_hashtag]['hashtag_pk'] = $client_active_profiles[$i]['insta_id'];
                         if($datas_of_profile)
                             $array_hashtag[$cnt_hashtag]['follows_from_hashtag'] = $datas_of_profile->follows;                        
-                        $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_present.jpg';
+                        $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_present.png';
                         if(!$datas_of_profile){
-                            $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_deleted.jpg';
+                            $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_deleted.png';
                             $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'deleted';
                         } else
                         if ($client_active_profiles[$cnt_hashtag]['end_date']) { //perfil
@@ -3464,7 +3464,7 @@ class Welcome extends CI_Controller {
                     {
                         $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['hashtag'], $profile_datas->id, '2');
                         $result = $this->verify_profile($p, $active_profiles, $N);                         
-                        $result['img_url'] = base_url().'assets/images/avatar_hashtag_present.jpg';;
+                        $result['img_url'] = base_url().'assets/images/avatar_hashtag_present.png';;
                         $result['profile'] = $profile['hashtag'];
                         $result['follows_from_profile'] = 0;
                     }
