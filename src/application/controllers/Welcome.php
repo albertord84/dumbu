@@ -3468,13 +3468,15 @@ class Welcome extends CI_Controller {
             if (!$is_active_tag) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
                     $profile_datas=$this->check_insta_tag_from_client($profile['hashtag']);
-                    if($profile_datas)
-                    {
+                    if ($profile_datas) {
                         $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['hashtag'], $profile_datas->id, '2');
                         $result = $this->verify_profile($p, $active_profiles, $N);                         
                         $result['img_url'] = base_url().'assets/images/avatar_hashtag_present.png';;
                         $result['profile'] = $profile['hashtag'];
                         $result['follows_from_profile'] = 0;
+                    } else {
+                        $result['success'] = false;
+                        $result['message'] = $profile['hashtag']." ".$this->T('não é um hashtag do Instagram', array(), $GLOBALS['language']);
                     }
                 } else {
                     $result['success'] = false;
