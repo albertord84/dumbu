@@ -1578,7 +1578,7 @@ $(document).ready(function () {
                 //}
             }
             for (j = i; j < MAX_NUM_HASHTAG; j++) {
-                icons_hashtag[j]['img_hashtag'] = base_url + 'assets/images/avatar_hashtag.jpg';
+                icons_hashtag[j]['img_hashtag'] = base_url + 'assets/images/avatar_hashtag_deleted.png';
                 icons_hashtag[j]['follows_from_hashtag'] = '0';
                 icons_hashtag[j]['login_hashtag'] = 'hashtag' + (j + 1);
                 icons_hashtag[j]['status_hashtag'] = '0';
@@ -1596,7 +1596,7 @@ $(document).ready(function () {
             icons_hashtag[i]['ptr_img_obj'].prop('title', T('Click para eliminar ') + icons_hashtag[i]['login_hashtag']);
             icons_hashtag[i]['ptr_p_obj'].prop('title', T('Ver ') + icons_hashtag[i]['login_hashtag'] + T(' no Instagram'));
             icons_hashtag[i]['ptr_label_obj'].text(icons_hashtag[i]['follows_from_hashtag']);
-            $avatar = (icons_hashtag[i]['login_hashtag']).match("avatar_hashtag.jpg");            
+            $avatar = (icons_hashtag[i]['login_hashtag']).match("avatar_hashtag_deleted.png");            
              
             icons_hashtag[i]['ptr_p_obj'].text((icons_hashtag[i]['login_hashtag']).replace(/(^.{9}).*$/, '$1...'));
 
@@ -1671,7 +1671,7 @@ $(document).ready(function () {
             icons_hashtag[j]['ptr_lnk_hashtag'].attr("href", icons_hashtag[j + 1]['ptr_lnk_hashtag'].attr("href"));
             icons_hashtag[j]['hashtag_pk'] = icons_hashtag[j+1]['hashtag_pk'];
         }
-        icons_hashtag[j]['img_hashtag'] = base_url + 'assets/images/avatar_hashtag.jpg';
+        icons_hashtag[j]['img_hashtag'] = base_url + 'assets/images/avatar_hashtag_deleted.png';
         icons_hashtag[j]['login_hashtag'] = 'hashtag' + (j + 1);
         icons_hashtag[j]['follows_from_hashtag'] = 0;
         icons_hashtag[j]['ptr_lnk_hashtag'].attr("href", "");

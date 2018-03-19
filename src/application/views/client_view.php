@@ -1078,7 +1078,7 @@
                     <div class="fleft100 m-t45">
                         <div class="col-md-6 col-sm-6 col-xs-12 no-pd text-center center-mobile m-b10">
                             <b class="cl-black"><?php echo $CI->T("Seguidos até hoje", array(), $language); ?></b>
-                            <h1 class="no-mg fleft100"><b><?php echo ($amount_followers_by_reference_profiles+$amount_followers_by_geolocalization); ?></b></h1>
+                            <h1 class="no-mg fleft100"><b><?php echo ($amount_followers_by_reference_profiles+$amount_followers_by_geolocalization+$amount_followers_by_hashtag); ?></b></h1>
                         </div>
 
                         <div class="col-md-6 col-sm-6 col-xs-12 no-pd text-center center-mobile m-b10">

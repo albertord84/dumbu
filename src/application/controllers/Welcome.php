@@ -116,6 +116,10 @@ class Welcome extends CI_Controller {
             $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='1'";
             $geolocalization_used= $this->user_model->execute_sql_query($sql);
             $datas1['geolocalization_used'] =count($geolocalization_used);
+            
+            $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='2'";
+            $hashtag_used= $this->user_model->execute_sql_query($sql);
+            $datas1['hashtag_used'] =count($hashtag_used);
 
             $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='0'";
             $amount_followers_by_reference_profiles = $this->user_model->execute_sql_query($sql);
@@ -126,7 +130,11 @@ class Welcome extends CI_Controller {
             $amount_followers_by_geolocalization = $this->user_model->execute_sql_query($sql);
             $amount_followers_by_geolocalization =(string)$amount_followers_by_geolocalization[0]["followeds"];
             $datas1['amount_followers_by_geolocalization'] = $amount_followers_by_geolocalization;
-
+            
+            $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='2'";
+            $amount_followers_by_hashtag = $this->user_model->execute_sql_query($sql);
+            $amount_followers_by_hashtag =(string)$amount_followers_by_hashtag[0]["followeds"];
+            $datas1['amount_followers_by_hashtag'] = $amount_followers_by_hashtag;
 
             if(isset($my_profile_datas->follower_count))
                 $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
