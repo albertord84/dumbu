@@ -766,11 +766,13 @@
                                                         <img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito
                                                     </a>
                                                 </li>
-                                                <!--li id="tab_ticket_bank">
+                                                <?php if($SERVER_NAME=='PRO'){?>
+                                                <li id="tab_ticket_bank">
                                                     <a href="#tab_boleto" data-toggle="tab">
                                                         <img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto
                                                     </a>
-                                                </li>-->
+                                                </li>
+                                                <?php } ?>
                                             </ul>
 
                                             <div class="tab-content ">
@@ -836,40 +838,32 @@
                                                         </div>
                                                     </div>     
                                                 </div>
-                                                
-                                                
-                                                <!--<div class="tab-pane" id="tab_boleto">
-                                                    <form action="#" class="credit-card-div">
-                                                        <div class="panel panel-default" >
-                                                            <div class="panel-heading">
-                                                                <label for="sel1">Selecione um dos seguintes planos:</label>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                      <select id="ticket_bank_option" class="form-control" id="sel1">
-                                                                        <option id="plano3meses" value="1">3 meses 15% de desconto</option>
-                                                                        <option id="plano6meses" value="2">6 meses 25% de desconto</option>
-                                                                        <option id="plano1ano" value="3">1 ano 40% de desconto</option>
-                                                                      </select>
-                                                                    </div>
-                                                                </div>
-                                                                <br>        
-                                                                <div class="row">
-                                                                          <div class="col-md-12">
-                                                                              <input id="ticket_bank_client_name" type="text" class="form-control" placeholder="Nome completo" />
-                                                                          </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                        <div class="col-md-12 pad-adjust">
-                                                                                <form name=form>
-                                                                                    <input id="cpf" type=text name=cpf maxlength=14 class="form-control" placeholder="CPF"><br>
-                                                                                </form>
-                                                                        </div>
-                                                                </div>
+                                                <?php if($SERVER_NAME=='PRO'){?>
+                                                <div class="tab-pane" id="tab_boleto">
+                                                    <div class="pay fleft100 input-form">   
+                                                        <fieldset>
+                                                            <br><label for="sel1">Selecione um dos seguintes planos:</label>                                                        
+                                                            <div class="select">
+                                                                <select id="ticket_bank_option" name="local" class="btn-primeiro sel" id="local">
+                                                                    <option id="plano3meses" value="1">3 meses - 15% desconto</option>
+                                                                    <option id="plano6meses" value="2">6 meses - 25% desconto</option>
+                                                                    <option id="plano1ano"   value="3"> Um ano - 40% desconto</option>
+                                                                </select>
                                                             </div>
+                                                        </fieldset>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="ticket_bank_client_name" type="text" placeholder="Nome completo" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                            </fieldset>
                                                         </div>
-                                                    </form>
-                                                </div>-->
-
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="cpf" type="text" placeholder="CPF" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                    </div>
+                                                </div>
+                                                <?php } ?>
                                             </div>
                                         </div>                             
 				</div>

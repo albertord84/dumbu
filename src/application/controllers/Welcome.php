@@ -902,7 +902,7 @@ class Welcome extends CI_Controller {
         $datas['ticket_bank_option']=intval($datas['ticket_bank_option']);
         
         //1. analisar se é possivel gerar boleto para esse cliente ()
-        if(!true){ 
+        if(!true){
             //TODO YANETXY
             $result['success'] = false;
             $result['message'] = $this->T('Número de tentativas esgotadas. Contate nosso atendimento', array(), $GLOBALS['language']);
@@ -944,10 +944,13 @@ class Welcome extends CI_Controller {
         $datas['user_id'] = $datas['pk'];
         $datas['name']=$datas['ticket_bank_client_name'];
         $response = $this->check_mundipagg_boleto($datas);
-        
-        
         //4. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5
-
+        if($response){
+            //4.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
+            $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
+            $DocumentNumber = $this->client_model->execute_sql_query($query)[0]['value'];
+            //4.2 email
+        }
         //5. retornar response e tomar decisão no cliente
             
             
@@ -1587,13 +1590,13 @@ class Welcome extends CI_Controller {
     }
     
 
-    public function check_mundipagg_boleto($datas) {        
+    public function check_mundipagg_boleto($datas) {
         $payment_data['AmountInCents']=$datas['AmountInCents'];
-        $payment_data['DocumentNumber']=$datas['DocumentNumber']; //'3';
-        $payment_data['OrderReference']=$datas['OrderReference']; //'3';
-        $payment_data['id']=$datas['user_id']; 
+        $payment_data['DocumentNumber']=$datas['DocumentNumber'];
+        $payment_data['OrderReference']=$datas['OrderReference'];
+        $payment_data['id']=$datas['user_id'];
         $payment_data['name']=$datas['name'];
-        $payment_data['cpf']=$datas['cpf'];        
+        $payment_data['cpf']=$datas['cpf'];
 
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
