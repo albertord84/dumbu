@@ -855,9 +855,20 @@
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel">Hashtag</h4>
                                 </div>
-                                <div class="modal-body">                                            
-                                    <input id = "login_hashtag" type="text" class="form-control" placeholder="#" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
-                                    <div id="hashtag_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-1 pd-l5">
+                                                <label for="login_hashtag" style="text-align: right">#</label>
+                                            </div>
+                                            <div class="col-sm-11 pd-r5">
+                                                <input id = "login_hashtag" type="text" class="form-control" placeholder="" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div id="hashtag_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button id="btn_insert_hashtag" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
