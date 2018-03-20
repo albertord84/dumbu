@@ -69,18 +69,26 @@ var_dump($pay_day);
 //$Gmail->send_new_client_payment_done("Alberto Reyes", "albertord84@gmail.com", 4);
 //var_dump($result);
 
-/*$DB = new \dumbu\cls\DB();
-$Robot = new \dumbu\cls\Robot();
+//$Client = new \dumbu\cls\Client();
+//$client = $Client->get_client(1);
+//$login_data = json_decode($client->cookies);
+//var_dump($login_data);
+
+//$DB = new \dumbu\cls\DB();
+
+//$Robot = new \dumbu\cls\Robot();
+//$ref_prof = "libertad";
+//$result = $Robot->get_insta_data_from_client($ref_prof, $login_data);
 //$result = $DB->is_profile_followed(1, '858888048');
-//var_dump($result);P
+//var_dump($result);
 //$DB->delete_daily_work_client(13);
-$reference_id = "29307";
-$daily_work = $DB->get_follow_work_by_id($reference_id);
-$daily_work->login_data = json_decode($daily_work->cookies);
+//$reference_id = "29307";
+//$daily_work = $DB->get_follow_work_by_id($reference_id);
+//$daily_work->login_data = json_decode($daily_work->cookies);
 //var_dump($daily_work);
 //$Worker->do_follow_unfollow_work($daily_work);
-$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
-var_dump($Ref_profile_follows);*/
+//$Ref_profile_follows = $Robot->do_follow_unfollow_work(NULL, $daily_work);
+//var_dump($Ref_profile_follows);
 
 
 

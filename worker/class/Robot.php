@@ -1362,8 +1362,9 @@ namespace dumbu\cls {
             try {
                 $Profile = NULL;
                 if ($ref_prof != "") {
-                    $content = $this->get_insta_data_from_client($ref_prof, $cookies);
-                    //var_dump($content);
+//                    $content = $this->get_insta_data_from_client($ref_prof, $cookies);
+                    $content = $this->get_insta_data_from_client($ref_prof, NULL);
+//                    var_dump($content);
                     $Profile = $this->process_get_insta_tag_data($content, $ref_prof, $ref_prof_id);
                 }
                 return $Profile;
