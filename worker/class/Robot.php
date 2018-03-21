@@ -160,7 +160,7 @@ namespace dumbu\cls {
                     // Get Users 
                     $page_info = NULL;
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
-                    var_dump($Profiles);
+                    //var_dump($Profiles);
                     foreach ($Profiles as $Profile) {                        
                         $Profile = $Profile->node;
                         echo "Profil name: $Profile->username ";
