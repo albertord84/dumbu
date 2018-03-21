@@ -302,14 +302,13 @@ $(document).ready(function () {
                         'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
                         'cpf': $('#cpf').val(),
                         'ticket_bank_option': ticket_bank_option,
-                        'user_email': email,
-                        
+                        'user_email': email,                        
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
                         'pk': pk,
                         //'datas': datas /////ojo, revisar se precisa
-                    };                    
+                    };
                     $.ajax({
                         url: base_url + 'index.php/welcome/check_client_ticket_bank',
                         data: datas,

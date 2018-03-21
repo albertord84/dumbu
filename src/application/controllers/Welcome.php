@@ -5,7 +5,13 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
+    public function boleto() {
+        $aaa=$this->check_mundipagg_boleto_2();
+        var_dump($aaa);
+    }
+    
     public function index() {
+        echo 'hola';
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -893,69 +899,125 @@ class Welcome extends CI_Controller {
     
     
     //Passo 2.1 Pagamento por boleto bancario
-    public function check_client_ticket_bank($datas=NULL) {  
+    public function check_client_ticket_bank($datas=NULL) {
+        //0. Carregar librarias e datas vindo do navegador
+        $this->load->model('class/client_model');
+        $this->load->model('class/Crypt');
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+        $this->Gmail = new \dumbu\cls\Gmail();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+        
         $origin_datas=$datas;        
         $datas = $this->input->post();
         $datas['plane_id']=intval($datas['plane_type']);
         $datas['ticket_bank_option']=intval($datas['ticket_bank_option']);
+        $client_datas = $this->client_model->get_all_data_of_client($datas['pk'])[0];
         
-        //1. analisar se é possivel gerar boleto para esse cliente ()
-        if(!true){
-            //TODO YANETXY
+        //1. analisar se é possivel gerar boleto para esse cliente
+        $purchase_counter=(int)$client_datas['purchase_counter'];
+        if(!$purchase_counter>0){
             $result['success'] = false;
             $result['message'] = $this->T('Número de tentativas esgotadas. Contate nosso atendimento', array(), $GLOBALS['language']);
         }else
             
         //2. conferir los datos recebidos
         if(!$this->validaCPF($datas['cpf'])){
+            $value['purchase_counter']=$purchase_counter-1;
+            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
             $result['success'] = false;
             $result['message'] = 'CPF incorreto';
         } else
         if( !( $datas['plane_id']>1 && $datas['plane_id']<=5 )){
+            $value['purchase_counter']=$purchase_counter-1;
+            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
             $result['success'] = false;
             $result['message'] = 'Plano informado incorreto';
         } else
         if( !( $datas['ticket_bank_option']>=1 && $datas['ticket_bank_option']<=3 )){
+            $value['purchase_counter']=$purchase_counter-1;
+            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
             $result['success'] = false;
             $result['message'] = 'Selecione um periodo de tempo válido pra ganhar desconto';
         } else{
 
-        //3. gerar boleto bancario e salvar dados
+        //3. gerar boleto bancario
         $this->load->model('class/user_model');
         $query='SELECT * FROM plane WHERE id='.$datas['plane_id'];
         $plane_datas = $this->user_model->execute_sql_query($query)[0];
-        if($datas['ticket_bank_option']==1)
+        if($datas['ticket_bank_option']==1){
             $datas['AmountInCents'] = round($plane_datas['normal_val']*0.85*3);
+            $amount_months = 3;
+        }
         else
-        if($datas['ticket_bank_option']==2)
+        if($datas['ticket_bank_option']==2){
             $datas['AmountInCents'] = round($plane_datas['normal_val']*0.75*6);
+            $amount_months = 6;
+        }
         else
-        if($datas['ticket_bank_option']==3)
+        if($datas['ticket_bank_option']==3){
             $datas['AmountInCents'] = round($plane_datas['normal_val']*0.60*12);
-                
-        $this->load->model('class/client_model');
-        $query="SELECT value FROM dumbu_system_config WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-        $DocumentNumber = $this->client_model->execute_sql_query($query)[0]['value'];
-        
+            $amount_months = 12;
+        }
+        $DocumentNumber = $GLOBALS['sistem_config']->TICKET_BANK_DOCUMENT_NUMBER;
         $datas['DocumentNumber'] = $DocumentNumber+1;
         $datas['OrderReference']=$DocumentNumber+1;
         $datas['user_id'] = $datas['pk'];
         $datas['name']=$datas['ticket_bank_client_name'];
-        $response = $this->check_mundipagg_boleto($datas);
-        //4. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5
-        if($response){
+        try{
+            $response = $this->check_mundipagg_boleto($datas);
+        } catch (Exception $exc){
+            $result['success'] = false;
+            $result['exception'] = $exc->getTraceAsString();
+            $result['message'] ='Erro gerando boleto bancário';
+        }
+        
+        //4. salvar dados
+        if(!$response['success']){
+            $result['success'] = false;
+            $result['exception'] = $exc->getTraceAsString();
+            $result['message'] ='Erro gerando boleto bancário';
+        }
+        else {
             //4.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
             $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-            $DocumentNumber = $this->client_model->execute_sql_query($query)[0]['value'];
-            //4.2 email
-        }
-        //5. retornar response e tomar decisão no cliente
+            $this->client_model->execute_sql_query($query)[0]['value'];            
+            //4.2 insertar o novo boleto gerado nol banco de dados
+            $ticket_link=$response['ticket_link'];
+            $ticket_datas=array(
+                'client_id'=>$datas['pk'],
+                'name_in_ticket'=>$datas['ticket_bank_client_name'],
+                'cpf'=>$datas['cpf'],
+                'ticket_link'=>$ticket_link,
+                'amount_months'=>$amount_months,
+                'document_number'=>$datas['DocumentNumber'],
+                'generated_date'=>time()
+            );
+            $this->client_model->insert_ticket_bank_generated($ticket_datas);
+            //4.3 decrementar o purchase counter em 2
+            $value['purchase_counter']=$purchase_counter-2;
+            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
             
-            
-        //OBS: o cliente ainda continua em BEGINNER
+        //5. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5            
+            $access_link = base_url().'index.php/welcome/'
+                    .'?client_id='.$this->Crypt->codify_level1($client_datas['insta_id'])
+                    .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
+            $email = $this->Gmail->send_link_ticket_bank_and_access_link(
+                    $client_datas['login'],
+                    $client_datas['email'],                    
+                    $access_link,
+                    $ticket_link);
+
+        //6. retornar response e tomar decisão no cliente
+            if($email){
+                $result['success'] = true;
+            } else{
+                $result['success'] = false;
+                $result['message'] ='Contate nosso atendimento e aguarde as instruções. Houve problema ao enviar email com as instruções';
+            }
         }
+        }
+        //OBS: o cliente ainda continua em BEGINNER, quem ativa é a notificação da mindipagg de boleto pago
         echo json_encode($result);
     }
     
@@ -1594,7 +1656,7 @@ class Welcome extends CI_Controller {
         $payment_data['AmountInCents']=$datas['AmountInCents'];
         $payment_data['DocumentNumber']=$datas['DocumentNumber'];
         $payment_data['OrderReference']=$datas['OrderReference'];
-        $payment_data['id']=$datas['user_id'];
+        $payment_data['id']=$datas['pk'];
         $payment_data['name']=$datas['name'];
         $payment_data['cpf']=$datas['cpf'];
 
@@ -1605,12 +1667,12 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_boleto_2() {        
-        $payment_data['AmountInCents']=12790;
-        $payment_data['DocumentNumber']=94; //'3';
-        $payment_data['OrderReference']=94; //'3';
-        $payment_data['id']=4178; 
-        $payment_data['name']='Luciano do Amaral Kiesel';
-        $payment_data['cpf']=67374581068;        
+        $payment_data['AmountInCents']=500;
+        $payment_data['DocumentNumber']=11; //'3';
+        $payment_data['OrderReference']=11; //'3';
+        $payment_data['id']=1111; 
+        $payment_data['name']='JOSE RAMON GONZALEZ MONTERO';
+        $payment_data['cpf']=07367014196;        
 
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();

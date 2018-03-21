@@ -106,8 +106,13 @@
             $data_client['utm_source']=$datas['utm_source'];                            //desde instagram navegador y servidor
             $this->db->insert('clients',$data_client);
             return $id_user_table;
-        }        
+        }    
         
+        public function insert_ticket_bank_generated($ticket_datas){
+            $this->db->insert('ticket_bank',$ticket_datas);
+            return $id_user_table;
+        }
+
         public function get_my_recent_followed_by_dumbu($client_id, $page_number=null){
             $limit=100; //limit by page
             if($page_number)
