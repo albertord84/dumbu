@@ -862,7 +862,13 @@
                                                 <label for="login_hashtag" style="text-align: right">#</label>
                                             </div>
                                             <div class="col-sm-11 pd-r5">
-                                                <input id = "login_hashtag" type="text" class="form-control" placeholder="" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
+                                                <input id = "login_hashtag" type="text" class="form-control" style="text-transform:lowercase;"  required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div id="container_search_hashtag" class="col-md-12 col-sm-12 col-xs-12 text-center ">                            
+                                                <table id="table_search_hashtag">                                
+                                                </table>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -870,6 +876,9 @@
                                         </div>
                                     </div>
                                 </div>
+<!--                                <div style="width:100%; min-height:120px; max-height:150px; overflow-y: scroll;" class="modal-body">
+                                    
+                                </div>-->
                                 <div class="modal-footer">
                                     <button id="btn_insert_hashtag" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
                                         <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("Adicionar", array(), $language); ?></div></span>
