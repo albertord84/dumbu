@@ -5,9 +5,30 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
-    public function boleto() {
-        $aaa=$this->check_mundipagg_boleto_2();
-        var_dump($aaa);
+    public function test1111() {
+        $a=1+90;       
+//        $aaa=$this->check_mundipagg_boleto_2();
+//        var_dump($aaa);        
+//        
+        //test email
+        require_once $_SERVER['DOCUMENT_ROOT'].'/dumbu/worker/class/Gmail.php';
+        $this->Gmail = new \dumbu\cls\Gmail();  
+        $this->load->model('class/Crypt');
+        
+        $client_datas['login'] = 'josergm86';
+        $client_datas['email'] = 'josergm86@gmail.com';
+        $client_datas['insta_id'] = 1000;
+        $insta_id=1000;
+        
+        $access_link = base_url().'index.php/welcome/'
+                .'?client_id='.$this->Crypt->codify_level1($client_datas['insta_id'])
+                .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
+        $email = $this->Gmail->send_link_ticket_bank_and_access_link(
+                $client_datas['login'],
+                $client_datas['email'],                    
+                $access_link,
+                $ticket_link);
+        
     }
     
     public function index() {
@@ -968,7 +989,7 @@ class Welcome extends CI_Controller {
         } catch (Exception $exc){
             $result['success'] = false;
             $result['exception'] = $exc->getTraceAsString();
-            $result['message'] ='Erro gerando boleto bancário';
+            $result['message'] ='Erro gerando o boleto bancário';
         }
         
         //4. salvar dados
@@ -1640,8 +1661,7 @@ class Welcome extends CI_Controller {
         $payment_data['pay_day'] = time();        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
-        $bandeira = $this->detectCardType($payment_data['credit_card_number']);
-        
+        $bandeira = $this->detectCardType($payment_data['credit_card_number']);        
         if ($bandeira)
             $response = $Payment->create_payment($payment_data);
         else
@@ -1658,7 +1678,6 @@ class Welcome extends CI_Controller {
         $payment_data['id']=$datas['pk'];
         $payment_data['name']=$datas['name'];
         $payment_data['cpf']=$datas['cpf'];
-
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);
@@ -1667,16 +1686,15 @@ class Welcome extends CI_Controller {
     
     public function check_mundipagg_boleto_2() {        
         $payment_data['AmountInCents']=500;
-        $payment_data['DocumentNumber']=11; //'3';
-        $payment_data['OrderReference']=11; //'3';
-        $payment_data['id']=1111; 
+        $payment_data['DocumentNumber']=567; //'3';
+        $payment_data['OrderReference']=567; //'3';
+        $payment_data['id']=567; 
         $payment_data['name']='JOSE RAMON GONZALEZ MONTERO';
-        $payment_data['cpf']=07367014196;        
-
+        $payment_data['cpf']='07367014196';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);
-        return $response;
+        var_dump($response);
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
