@@ -355,6 +355,7 @@ namespace dumbu\cls {
             //$this->mail->Body = $usermsg;
             //Replace the plain text body with one created manually
             $this->mail->AltBody = "Boleto Bancario de: $username";
+
             //Attach an image file
             //$mail->addAttachment('images/phpmailer_mini.png');
             //send the message, check for errors
