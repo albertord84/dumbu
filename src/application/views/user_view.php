@@ -891,7 +891,7 @@
 			</div>
 		</section>
 
-		<section id="contato" class="fleft100 input-form">
+            <section id="contato" class="fleft100 input-form" style="margin-top: 10%">
 			<div class="container">
 				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-t10"><?php echo $CI->T("FALE CONOSCO", array(),$language);?></spam>
                                 <div class="col-md-3 col-sm-3 col-xs-12"><br></div>
