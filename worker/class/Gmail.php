@@ -450,7 +450,7 @@ namespace dumbu\cls {
             $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/link_purchase_step.php?username=$username&instaname=$instaname&second_step_link=$second_step_link"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
-            $this->mail->Subject = 'DUMBU Continuar com o cadastro!';
+            $this->mail->Subject = 'DUMBU Account Confirmation!';
 
             //Attach an image file
             //$mail->addAttachment('images/phpmailer_mini.png');
