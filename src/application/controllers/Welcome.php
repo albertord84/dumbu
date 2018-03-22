@@ -14,8 +14,7 @@ class Welcome extends CI_Controller {
 //        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
 //        $this->Gmail = new \dumbu\cls\Gmail();
-        $this->load->model('class/Crypt');
-        
+//        $this->load->model('class/Crypt');
 //        $insta_id=1000;
 //        $datas['pk']=1234;
 //        
@@ -26,12 +25,12 @@ class Welcome extends CI_Controller {
 //                .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
 //                .'&ticket_access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
         
-        $ticket_url ='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?ae4356ba-4e26-49f0-82f3-197f09437738';
-        $username='nike';
-        $useremail='josergm86@gmail.com';
-        $access_link='http://localhost/dumbu/src/index.php/welcome/purchase?client_id='.urlencode('RUNAM0Y/RD9ENQ==').'&ticket_access_token=18c8c63c64fa4699792a9b4487221906';
+//        $ticket_url ='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?ae4356ba-4e26-49f0-82f3-197f09437738';
+//        $username='nike';
+//        $useremail='josergm86@gmail.com';
+//        $access_link='http://localhost/dumbu/src/index.php/welcome/purchase?client_id='.urlencode('RUNAM0Y/RD9ENQ==').'&ticket_access_token=18c8c63c64fa4699792a9b4487221906';
         
-        var_dump($access_link);
+//        var_dump($access_link);
         
         
         //echo md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
@@ -877,7 +876,7 @@ class Welcome extends CI_Controller {
                 $datas['HTTP_SERVER_VARS'] = json_encode($_SERVER);
                 $datas['purchase_counter'] =$GLOBALS['sistem_config']->MAX_PURCHASE_RETRY;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
-                $response['pk'] = $id_user;
+                $response['pk'] = (string) $id_user;
                 if ($real_status == 0 || $early_client_canceled)
                     $response['early_client_canceled'] = true;
                 else
