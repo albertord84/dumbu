@@ -888,16 +888,16 @@ class Welcome extends CI_Controller {
                 $this->client_model->update_client($response['pk'], array('purchase_access_token' => $purchase_access_token));
                 $this->load->model('class/Crypt');
                 $second_step_link = base_url().'index.php'
-                    .'?client_id='.$this->Crypt->codify_level1($response['pk'])
+                    .'?client_id='.urlencode($this->Crypt->codify_level1($response['pk']))
                     .'&purchase_access_token='.$purchase_access_token
                     .'#lnk_sign_in_now';
                 $result = $this->Gmail->send_user_to_purchase_step($datas['client_email'], $data_insta->full_name, $datas['client_login'], $second_step_link);
                 if ($result['success']) {
                     $response['cause'] = 'email_send';
-                    $response['message'] = 'Para continuar o cadastro deve acessar o email enviado ao endereço fornecido!';
+                    $response['message'] = $this->T('Para continuar o cadastro deve acessar o email enviado ao endereço fornecido!', array(), $GLOBALS['language']);
                 } else {
                     $response['cause'] = 'email_not_send';
-                    $response['message'] = 'Não foi possível enviar o email de confirmação ao endereço fornecido!';
+                    $response['message'] = $this->T('Não foi possível enviar o email de confirmação ao endereço fornecido!', array(), $GLOBALS['language']);
                 }
             }
         } else {
@@ -3559,7 +3559,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         $datas = $this->input->post();
-        $client_id = $this->Crypt->decodify_level1($datas['client_id']);
+        $client_id = $this->Crypt->decodify_level1(urldecode($datas['client_id']));
         $query = $this->client_model->get_all_data_of_client($client_id);
         
         if (!empty($query) && $query[0]['purchase_counter'] > 0 && $query[0]['purchase_access_token'] === $datas['purchase_access_token']) {
