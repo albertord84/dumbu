@@ -17,23 +17,23 @@ class Welcome extends CI_Controller {
             $client = $this->client_model->get_client_by_id($i);
             if(count($client)){  
                 $client=$client[0];                
+                
                 $old_card_number = $client['credit_card_number'];
                 $old_card_cvc = $client['credit_card_cvc'];
-                echo 'Client: '.$client['user_id'].'Carton antes de cifrar----> '.$old_card_number;
-
                 $codified_old_card_number = $this->Crypt->codify_level1($old_card_number);
                 $codified_old_card_cvc = $this->Crypt->codify_level1($old_card_cvc);
-
                 $this->client_model->update_client($client['user_id'], array(
                     'credit_card_number' => $codified_old_card_number,
-                    'credit_card_cvc' => $codified_old_card_cvc ));                
-                $client2 = $this->client_model->get_client_by_id($i)[0];
-                $number_encripted = $client2['credit_card_number'];
-                $number_decripted = $this->Crypt->decodify_level1($number_encripted);
-                $cvc_encripted = $client2['credit_card_cvc'];
-                $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
-                echo ' descifrado----> '.$number_decripted.
-                     ' CVC antes------> '.$old_card_cvc.' y despues  ------> '.$cvc_decripted.'<br><br>';
+                    'credit_card_cvc' => $codified_old_card_cvc ));           
+                
+//                echo 'Client: '.$client['user_id'].'Carton antes de cifrar----> '.$old_card_number;
+//                $client2 = $this->client_model->get_client_by_id($i)[0];
+//                $number_encripted = $client2['credit_card_number'];
+//                $number_decripted = $this->Crypt->decodify_level1($number_encripted);
+//                $cvc_encripted = $client2['credit_card_cvc'];
+//                $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
+//                echo ' descifrado----> '.$number_decripted.
+//                     ' CVC antes------> '.$old_card_cvc.' y despues  ------> '.$cvc_decripted.'<br><br>';
             }
         }
     }
