@@ -424,6 +424,47 @@ namespace dumbu\cls {
             return $result;
            
         }
+        
+        public function send_user_to_purchase_step($useremail, $username, $instaname, $second_step_link) {
+            //Set an alternative reply-to address
+            //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
+            //Set who the message is to be sent to
+            $this->mail->clearAddresses();
+            $this->mail->addAddress($useremail, $username);
+            $this->mail->clearCCs();
+            //            $this->mail->addCC($GLOBALS['sistem_config']->SYSTEM_EMAIL, $GLOBALS['sistem_config']->SYSTEM_USER_LOGIN);
+            $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+
+            //Set the subject line
+            $this->mail->Subject = 'DUMBU Continuar com o cadastro!';
+
+            //Read an HTML message body from an external file, convert referenced images to embedded,
+            //convert HTML into a basic plain-text alternative body
+            $username = urlencode($username);
+            $instaname = urlencode($instaname);
+            $second_step_link = urlencode($second_step_link);
+            //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
+            //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
+            $lang = $GLOBALS['sistem_config']->LANGUAGE;
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/link_purchase_step.php?username=$username&instaname=$instaname&second_step_link=$second_step_link"), dirname(__FILE__));
+
+            //Replace the plain text body with one created manually
+            $this->mail->Subject = 'DUMBU Continuar com o cadastro!';
+
+            //Attach an image file
+            //$mail->addAttachment('images/phpmailer_mini.png');
+            //send the message, check for errors
+            if (!$this->mail->send()) {
+                $result['success'] = false;
+                $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
+            } else {
+                $result['success'] = true;
+                $result['message'] = "Message sent!" . $this->mail->ErrorInfo;
+            }
+            $this->mail->smtpClose();
+            return $result;
+        }
     }
 
 }
