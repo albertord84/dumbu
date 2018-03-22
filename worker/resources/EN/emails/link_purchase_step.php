@@ -2,23 +2,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>DUMBU Confirmação de conta!</title>
+        <title>DUMBU Account Confirmation!</title>
     </head>
     <body>
         <div style="width: 640px; font-family: Arial, Helvetica, sans-serif; font-size: 11px;">
-            <h1>DUMBU Confirmação de conta!</h1>
+            <h1>DUMBU Account Confirmation!</h1>
             <!--  <div align="center">
                 <a href="https://github.com/PHPMailer/PHPMailer/"><img src="images/phpmailer.png" height="90" width="340" alt="PHPMailer rocks"></a>
               </div>-->
-            <p>Olá <strong><?php echo $_GET["username"]; ?></strong>,</p>
-            <p>Você acaba de fazer o primeiro passo para se cadastrar no sistema <a href="https://www.dumbu.pro/dumbu/src/">Dumbu</a>, parabéns! :D</p>
-            <p>Seu nome de usuário no nosso sistema é: <strong><?php echo $_GET["instaname"]; ?></strong></p>
-            <p>Por favor, clique no seguinte link para continuar o seu cadastro:
+            <p>Hello <strong><?php echo $_GET["username"]; ?></strong>,</p>
+            <p>You just made the first step to sign in <a href="https://www.dumbu.one/dumbu/src/">Dumbu</a> services, congratulations! :D</p>
+            <p>Your username in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p> 
+            <p>Please, click the following link to continue your registration:
                <a  href="<?php echo $_GET["second_step_link"]; ?>" > <?php echo $_GET["second_step_link"]; ?></a>
             </p>
             
-            <p>Se tiver qualquer dúvida, por favor nos escreva!</p>
-            <p>Obrigado por usar os nossos serviços,</p>
+            <p>If you have any questions, please write us!</p>
+            <p>Thank you for using our services,</p>
             <p>DUMBU SYSTEM</p>
         </div>
     </body>
