@@ -83,7 +83,7 @@
          * @access public
          */
         
-        
+                     
         public function insert_client($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta->full_name;              //desde instagram

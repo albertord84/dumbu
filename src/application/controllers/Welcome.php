@@ -9,39 +9,35 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
        
-    public function test() {
-//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-//        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
-//        $this->Gmail = new \dumbu\cls\Gmail();
+    public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
+        $this->load->model('class/client_model');
         
-//        $insta_id=1000;
-//        $datas['pk']=1234;
-//        
-//        $username = 'josergm86';
-//        $useremail = 'josergm86@gmail.com';
-//        $ticket_link='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?85adc0ee-e41c-4c9a-9926-b473e2c2f69b';
-//        $access_link = base_url().'index.php/welcome/purchase'
-//                .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
-//                .'&ticket_access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
-        
-        $ticket_url ='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?ae4356ba-4e26-49f0-82f3-197f09437738';
-        $username='nike';
-        $useremail='josergm86@gmail.com';
-        $access_link='http://localhost/dumbu/src/index.php/welcome/purchase?client_id='.urlencode('RUNAM0Y/RD9ENQ==').'&ticket_access_token=18c8c63c64fa4699792a9b4487221906';
-        
-        var_dump($access_link);
-        
-        
-        //echo md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
-        
-//        $email = $this->Gmail->send_link_ticket_bank_and_access_link(
-//                $username,
-//                $useremail,
-//                $access_link,
-//                $ticket_url);
-//        var_dump($email);
+        for($i=1;$i<=35000;$i++){
+            $client = $this->client_model->get_client_by_id($i);
+            if(count($client)){  
+                $client=$client[0];
+                
+                $old_card_number = $client['credit_card_number'];
+                $old_card_cvc = $client['credit_card_cvc'];
+                echo 'Client: '.$client['user_id'].'Carton antes de cifrar----> '.$old_card_number;
+
+                $codified_old_card_number = $this->Crypt->codify_level1($old_card_number);
+                $codified_old_card_cvc = $this->Crypt->codify_level1($old_card_cvc);
+
+                $this->client_model->update_client($client['user_id'], array(
+                    'credit_card_number' => $codified_old_card_number,
+                    'credit_card_cvc' => $codified_old_card_cvc ));
+                
+                $client2 = $this->client_model->get_client_by_id($i)[0];
+                $number_encripted = $client2['credit_card_number'];
+                $number_decripted = $this->Crypt->decodify_level1($number_encripted);
+                $cvc_encripted = $client2['credit_card_cvc'];
+                $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
+                echo ' descifrado----> '.$number_decripted.
+                     ' CVC antes------> '.$old_card_cvc.' y despues  ------> '.$cvc_decripted.'<br><br>';
+            }
+        }
     }
     
     public function index() {
@@ -1122,6 +1118,7 @@ class Welcome extends CI_Controller {
 
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
+        $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;
@@ -1152,13 +1149,11 @@ class Welcome extends CI_Controller {
                         //0. salvar datos del carton de credito
                         try {
                             $this->client_model->update_client($datas['pk'], array(
-                                'credit_card_number' => $datas['credit_card_number'],
-                                'credit_card_cvc' => $datas['credit_card_cvc'],
+                                'credit_card_number' =>$this->Crypt->codify_level1( $datas['credit_card_number']),
+                                'credit_card_cvc' => $this->Crypt->codify_level1($datas['credit_card_cvc']),
                                 'credit_card_name' => $datas['credit_card_name'],
                                 'credit_card_exp_month' => $datas['credit_card_exp_month'],
-                                'credit_card_exp_month' => $datas['credit_card_exp_month'],
-                                'credit_card_exp_year' => $datas['credit_card_exp_year']//,
-                                //'card_type' => $card_type
+                                'credit_card_exp_year' => $datas['credit_card_exp_year']
                             ));
 
                             $this->client_model->update_client($datas['pk'], array(
@@ -1916,6 +1911,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_client_datas() {
+        $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $language=$this->input->get();
@@ -1963,8 +1959,8 @@ class Welcome extends CI_Controller {
                             $this->user_model->update_user($this->session->userdata('id'), array(
                                 'email' => $datas['client_email']));
                             $this->client_model->update_client($this->session->userdata('id'), array(
-                                'credit_card_number' => $datas['credit_card_number'],
-                                'credit_card_cvc' => $datas['credit_card_cvc'],
+                                'credit_card_number' => $this->Crypt->codify_level1($datas['credit_card_number']),
+                                'credit_card_cvc' => $this->Crypt->codify_level1($datas['credit_card_cvc']),
                                 'credit_card_name' => $datas['credit_card_name'],
                                 'credit_card_exp_month' => $datas['credit_card_exp_month'],
                                 'credit_card_exp_year' => $datas['credit_card_exp_year'],
@@ -2090,8 +2086,8 @@ class Welcome extends CI_Controller {
                             if (($payments_days['pay_now'] && !$flag_pay_now) || (!$payments_days['pay_now'] && !$flag_pay_day)) {
                                 //restablecer en la base de datos los datos anteriores
                                 $this->client_model->update_client($this->session->userdata('id'), array(
-                                    'credit_card_number' => $client_data['credit_card_number'],
-                                    'credit_card_cvc' => $client_data['credit_card_cvc'],
+                                    'credit_card_number' => $this->Crypt->codify_level1($client_data['credit_card_number']),
+                                    'credit_card_cvc' => $this->Crypt->codify_level1($client_data['credit_card_cvc']),
                                     'credit_card_name' => $client_data['credit_card_name'],
                                     'credit_card_exp_month' => $client_data['credit_card_exp_month'],
                                     'credit_card_exp_year' => $client_data['credit_card_exp_year'],
@@ -2558,26 +2554,27 @@ class Welcome extends CI_Controller {
 
     //functions for load ad dispay the diferent funtionalities views 
     public function sign_client_update() {
-        $this->load->model('class/user_role');
-        if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $data['user_active'] = true;
-            $this->load->model('class/user_model');
-            $this->load->model('class/client_model');
-            $user_data = $this->user_model->get_user_by_id($this->session->userdata('id'))[0];
-            $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-            $datas['upgradable_datas'] = array('email' => $user_data['email'],
-                'credit_card_number' => $client_data['credit_card_number'],
-                'credit_card_cvc' => $client_data['credit_card_cvc'],
-                'credit_card_name' => $client_data['credit_card_name'],
-                'credit_card_exp_month' => $client_data['credit_card_exp_month'],
-                'credit_card_exp_year' => $client_data['credit_card_exp_year']);
-            //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
-            $data['content'] = $this->load->view('my_views/client_update_painel', $datas, true);
-            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-            $this->load->view('welcome_message', $data);
-        } else {
-            $this->display_access_error();
-        }
+        // Jose R: yo creo que este codigo mas nunca se iba usar, en caso de usar, encriptar level1 los datos sensibles
+//        $this->load->model('class/user_role');
+//        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+//            $data['user_active'] = true;
+//            $this->load->model('class/user_model');
+//            $this->load->model('class/client_model');
+//            $user_data = $this->user_model->get_user_by_id($this->session->userdata('id'))[0];
+//            $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
+//            $datas['upgradable_datas'] = array('email' => $user_data['email'],
+//                'credit_card_number' => $client_data['credit_card_number'],
+//                'credit_card_cvc' => $client_data['credit_card_cvc'],
+//                'credit_card_name' => $client_data['credit_card_name'],
+//                'credit_card_exp_month' => $client_data['credit_card_exp_month'],
+//                'credit_card_exp_year' => $client_data['credit_card_exp_year']);
+//            //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
+//            $data['content'] = $this->load->view('my_views/client_update_painel', $datas, true);
+//            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
+//            $this->load->view('welcome_message', $data);
+//        } else {
+//            $this->display_access_error();
+//        }
     }
 
     public function log_out() {
@@ -3050,16 +3047,17 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
+        $this->load->model('class/Crypt');
         //1. recuperar el cliente y su plano
         $client = $this->client_model->get_all_data_of_client($user_id)[0];
         $plane = $this->client_model->get_plane($client['plane_id'])[0];
         //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
         date_default_timezone_set('Etc/UTC');
-        $payment_data['credit_card_number'] = $client['credit_card_number'];
+        $payment_data['credit_card_number'] = $this->Crypt->decodify_level1($client['credit_card_number']);
         $payment_data['credit_card_name'] = $client['credit_card_name'];
         $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
         $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+        $payment_data['credit_card_cvc'] = $this->Crypt->decodify_level1($client['credit_card_cvc']);
         if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
             $payment_data['amount_in_cents'] = $client['actual_payment_value'];
         else
@@ -3122,6 +3120,7 @@ class Welcome extends CI_Controller {
            
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
         $this->load->model('class/client_model');
+        $this->load->model('class/Crypt');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(9);
         for($i=1;$i<count($cl);$i++){            
             $clients=$cl[$i];
@@ -3133,8 +3132,8 @@ class Welcome extends CI_Controller {
             if($resp['success']){
                 $datas=array(
                     'pk'=>$clients['user_id'],
-                    'credit_card_number'=>$clients['credit_card_number'],
-                    'credit_card_cvc'=>$clients['credit_card_cvc'],
+                    'credit_card_number'=>$this->Crypt->decodify_level1($clients['credit_card_number']),
+                    'credit_card_cvc'=>$this->Crypt->decodify_level1($clients['credit_card_cvc']),
                     'credit_card_name'=>$clients['credit_card_name'],
                     'credit_card_exp_month'=>$clients['credit_card_exp_month'],
                     'credit_card_exp_year'=>$clients['credit_card_exp_year'],
@@ -3338,6 +3337,7 @@ class Welcome extends CI_Controller {
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
+        $this->load->model('class/Crypt');
         $params=$this->input->get();
         $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
@@ -3352,11 +3352,11 @@ class Welcome extends CI_Controller {
                         $client['credit_card_cvc']!=null && $client['credit_card_cvc']!='' ){
 
                     $pay_day = time();
-                    $payment_data['credit_card_number'] =$client['credit_card_number'];
+                    $payment_data['credit_card_number'] = $this->Crypt->decodify_level1($client['credit_card_number']);
                     $payment_data['credit_card_name'] = $client['credit_card_name'];
                     $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
                     $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-                    $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+                    $payment_data['credit_card_cvc'] = $this->Crypt->decodify_level1($client['credit_card_cvc']);
                     
                     $difference=$pay_day-$client['init_date'];
                     $second = 1;
