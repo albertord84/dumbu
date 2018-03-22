@@ -1,6 +1,14 @@
 <?php
 
+
+
 namespace dumbu\cls {
+    
+        ini_set('xdebug.var_display_max_depth', 256);
+    ini_set('xdebug.var_display_max_children', 256);
+    ini_set('xdebug.var_display_max_data', 1024);
+    
+    
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/mundipagg/init.php';
     require_once 'system_config.php';
 //    require_once('libraries/mundipagg/init.php');
@@ -200,24 +208,32 @@ namespace dumbu\cls {
                 $response = $client->createSale($createSaleRequest);
 
                 // Mapeia resposta
-                $httpStatusCode = $response->isSuccess() ? 201 : 401;
-                //var_dump($response);
+                //$httpStatusCode = $response->isSuccess() ? 201 : 401;
+                // Devolve resposta
+                if($response->isSuccess()){
+                    $result = array(
+                        'success'=>true,
+                        'ticket_url'=>$response->getData()->BoletoTransactionResultCollection[0]->BoletoUrl,
+                        'ticket_order_key'=>$response->getData()->OrderResult->OrderKey,
+                    );                    
+                }else{
+                    $result['success'] = false;
+                }              
+               http_response_code($httpStatusCode);
+               return $result;                
             }
             catch (\Gateway\One\DataContract\Report\ApiError $error){
                 $httpStatusCode = 400;
-                $response = array("message" => $error->getMessage());
-                //var_dump($response);
+                $result['success'] = false;
+                $result['message'] = $error->getMessage();
             }
             catch (Exception $ex){
                 $httpStatusCode = 500;
-                $response = array("message" => "Ocorreu um erro inesperado.");
+                $result['success'] = false;
+                $result['message'] = 'Aconteceu um erro inesperado.';
             }
-            finally {
-                // Devolve resposta
-               http_response_code($httpStatusCode);
-               header('Content-Type: application/json');
-               var_dump($response);
-               print json_encode($response->getData());
+            finally{
+               return $result;
             }
         }
 

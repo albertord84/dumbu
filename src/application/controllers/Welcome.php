@@ -1,34 +1,36 @@
 <?php
 
+ini_set('xdebug.var_display_max_depth', 256);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
+
 class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
     
-    public function test1111() {
-        $a=1+90;       
-//        $aaa=$this->check_mundipagg_boleto_2();
-//        var_dump($aaa);        
-//        
-        //test email
-        require_once $_SERVER['DOCUMENT_ROOT'].'/dumbu/worker/class/Gmail.php';
-        $this->Gmail = new \dumbu\cls\Gmail();  
+    public function test() {  
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+        $this->Gmail = new \dumbu\cls\Gmail();
         $this->load->model('class/Crypt');
         
-        $client_datas['login'] = 'josergm86';
-        $client_datas['email'] = 'josergm86@gmail.com';
-        $client_datas['insta_id'] = 1000;
-        $insta_id=1000;
+        var_dump($this->Crypt->codify_level1(27756));
         
-        $access_link = base_url().'index.php/welcome/'
-                .'?client_id='.$this->Crypt->codify_level1($client_datas['insta_id'])
-                .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
-        $email = $this->Gmail->send_link_ticket_bank_and_access_link(
-                $client_datas['login'],
-                $client_datas['email'],                    
-                $access_link,
-                $ticket_link);
-        
+//        $datas['pk']=1234;
+//        $client_datas['login'] = 'josergm86';
+//        $client_datas['email'] = 'josergm86@gmail.com';
+//        $client_datas['insta_id'] = 1000;
+//        $ticket_link='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?85adc0ee-e41c-4c9a-9926-b473e2c2f69b';
+//        $insta_id=1000;
+//        
+//        $access_link = base_url().'index.php/welcome/'
+//                .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
+//                .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
+//        $email = $this->Gmail->send_link_ticket_bank_and_access_link(
+//                $client_datas['login'],
+//                $client_datas['email'],                    
+//                $access_link,
+//                $ticket_url);
     }
     
     public function index() {
@@ -966,17 +968,17 @@ class Welcome extends CI_Controller {
         $query='SELECT * FROM plane WHERE id='.$datas['plane_id'];
         $plane_datas = $this->user_model->execute_sql_query($query)[0];
         if($datas['ticket_bank_option']==1){
-            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.85*3);
+            $datas['AmountInCents'] = intval($plane_datas['normal_val']*0.85*3);
             $amount_months = 3;
         }
         else
         if($datas['ticket_bank_option']==2){
-            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.75*6);
+            $datas['AmountInCents'] = intval($plane_datas['normal_val']*0.75*6);
             $amount_months = 6;
         }
         else
         if($datas['ticket_bank_option']==3){
-            $datas['AmountInCents'] = round($plane_datas['normal_val']*0.60*12);
+            $datas['AmountInCents'] = intval($plane_datas['normal_val']*0.60*12);
             $amount_months = 12;
         }
         $DocumentNumber = $GLOBALS['sistem_config']->TICKET_BANK_DOCUMENT_NUMBER;
@@ -1001,14 +1003,16 @@ class Welcome extends CI_Controller {
         else {
             //4.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
             $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-            $this->client_model->execute_sql_query($query)[0]['value'];            
+            $this->client_model->execute_sql_query_to_update($query);
             //4.2 insertar o novo boleto gerado nol banco de dados
-            $ticket_link=$response['ticket_link'];
+            $ticket_url=$response['ticket_url'];
+            $ticket_order_key=$response['ticket_order_key'];
             $ticket_datas=array(
                 'client_id'=>$datas['pk'],
                 'name_in_ticket'=>$datas['ticket_bank_client_name'],
                 'cpf'=>$datas['cpf'],
-                'ticket_link'=>$ticket_link,
+                'ticket_link'=>$ticket_url,
+                'ticket_order_key'=>$ticket_order_key,
                 'amount_months'=>$amount_months,
                 'document_number'=>$datas['DocumentNumber'],
                 'generated_date'=>time()
@@ -1020,13 +1024,13 @@ class Welcome extends CI_Controller {
             
         //5. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5            
             $access_link = base_url().'index.php/welcome/'
-                    .'?client_id='.$this->Crypt->codify_level1($client_datas['insta_id'])
+                    .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
                     .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
             $email = $this->Gmail->send_link_ticket_bank_and_access_link(
                     $client_datas['login'],
                     $client_datas['email'],                    
                     $access_link,
-                    $ticket_link);
+                    $ticket_url);
 
         //6. retornar response e tomar decisão no cliente
             if($email){
@@ -1680,20 +1684,19 @@ class Welcome extends CI_Controller {
         $payment_data['cpf']=$datas['cpf'];
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
-        $response = $Payment->create_boleto_payment( $payment_data);
-        return $response;
+        return $Payment->create_boleto_payment( $payment_data);        
     }
     
-    public function check_mundipagg_boleto_2() {        
+    public function check_mundipagg_boleto_2() {
         $payment_data['AmountInCents']=500;
-        $payment_data['DocumentNumber']=567; //'3';
-        $payment_data['OrderReference']=567; //'3';
-        $payment_data['id']=567; 
+        $payment_data['DocumentNumber']=1002; //'3';
+        $payment_data['OrderReference']=1002; //'3';
+        $payment_data['id']=27555; 
         $payment_data['name']='JOSE RAMON GONZALEZ MONTERO';
         $payment_data['cpf']='07367014196';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
-        $response = $Payment->create_boleto_payment( $payment_data);
+        $response = $Payment->create_boleto_payment($payment_data);
         var_dump($response);
     }
 

@@ -483,6 +483,9 @@
         public function execute_sql_query($query){
             return $this->db->query($query)->result_array();
         }
+        public function execute_sql_query_to_update($query){
+            return $this->db->query($query);
+        }
         
         public function desactive_profiles($clien_id, $profile, $id_profile=NULL){
             //deleting daily work of this profile add balancing the work of the rest
