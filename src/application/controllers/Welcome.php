@@ -9,15 +9,14 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
        
+
     public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
-        $this->load->model('class/client_model');
-        
+        $this->load->model('class/client_model');        
         for($i=1;$i<=35000;$i++){
             $client = $this->client_model->get_client_by_id($i);
             if(count($client)){  
-                $client=$client[0];
-                
+                $client=$client[0];                
                 $old_card_number = $client['credit_card_number'];
                 $old_card_cvc = $client['credit_card_cvc'];
                 echo 'Client: '.$client['user_id'].'Carton antes de cifrar----> '.$old_card_number;
@@ -27,8 +26,7 @@ class Welcome extends CI_Controller {
 
                 $this->client_model->update_client($client['user_id'], array(
                     'credit_card_number' => $codified_old_card_number,
-                    'credit_card_cvc' => $codified_old_card_cvc ));
-                
+                    'credit_card_cvc' => $codified_old_card_cvc ));                
                 $client2 = $this->client_model->get_client_by_id($i)[0];
                 $number_encripted = $client2['credit_card_number'];
                 $number_decripted = $this->Crypt->decodify_level1($number_encripted);
@@ -873,7 +871,7 @@ class Welcome extends CI_Controller {
                 $datas['HTTP_SERVER_VARS'] = json_encode($_SERVER);
                 $datas['purchase_counter'] =$GLOBALS['sistem_config']->MAX_PURCHASE_RETRY;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
-                $response['pk'] = $id_user;
+                $response['pk'] = (string) $id_user;
                 if ($real_status == 0 || $early_client_canceled)
                     $response['early_client_canceled'] = true;
                 else
