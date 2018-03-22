@@ -8,29 +8,40 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
-    
-    public function test() {  
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
-        $this->Gmail = new \dumbu\cls\Gmail();
+       
+    public function test() {
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+//        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+//        $this->Gmail = new \dumbu\cls\Gmail();
         $this->load->model('class/Crypt');
         
-        var_dump($this->Crypt->codify_level1(27756));
-        
-//        $datas['pk']=1234;
-//        $client_datas['login'] = 'josergm86';
-//        $client_datas['email'] = 'josergm86@gmail.com';
-//        $client_datas['insta_id'] = 1000;
-//        $ticket_link='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?85adc0ee-e41c-4c9a-9926-b473e2c2f69b';
 //        $insta_id=1000;
+//        $datas['pk']=1234;
 //        
-//        $access_link = base_url().'index.php/welcome/'
+//        $username = 'josergm86';
+//        $useremail = 'josergm86@gmail.com';
+//        $ticket_link='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?85adc0ee-e41c-4c9a-9926-b473e2c2f69b';
+//        $access_link = base_url().'index.php/welcome/purchase'
 //                .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
-//                .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
+//                .'&ticket_access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
+        
+        $ticket_url ='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?ae4356ba-4e26-49f0-82f3-197f09437738';
+        $username='nike';
+        $useremail='josergm86@gmail.com';
+        $access_link='http://localhost/dumbu/src/index.php/welcome/purchase?client_id='.urlencode('RUNAM0Y/RD9ENQ==').'&ticket_access_token=18c8c63c64fa4699792a9b4487221906';
+        
+        var_dump($access_link);
+        
+        
+        //echo md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
+        
 //        $email = $this->Gmail->send_link_ticket_bank_and_access_link(
-//                $client_datas['login'],
-//                $client_datas['email'],                    
+//                $username,
+//                $useremail,
 //                $access_link,
 //                $ticket_url);
+//        var_dump($email);
     }
     
     public function index() {
@@ -58,12 +69,16 @@ class Welcome extends CI_Controller {
 
     public function purchase() {
         $datas = $this->input->get();
-        if(isset($datas['access_token'])){
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        if(isset($datas['ticket_access_token'])){
             $this->load->model('class/client_model');
-            $client = $this->client_model->get_client_by_access_token($datas['access_token']); 
-            if(count($client)){
+            $client = $this->client_model->get_client_by_access_token($datas['ticket_access_token'])[0]; 
+            if($client){
                 $this->client_model->update_client($client['user_id'], 
-                        array('access_token' =>'---***###!!!---'.$client['user_id']));
+                        array('ticket_access_token' =>'---***###!!!---'.$client['user_id']));
+                $this->user_model->update_user($this->session->userdata('id'), array(
+                            'status_id' => user_status::BLOCKED_BY_INSTA));
                 $this->user_model->set_sesion($client['user_id'], $this->session);
                 $this->user_model->insert_washdog($client['user_id'],'REDIRECTED FROM TICKET-BANK EMAIL LINK');
             } else{
@@ -73,7 +88,7 @@ class Welcome extends CI_Controller {
         }
         if ($this->session->userdata('id')){
             //$datas = $this->input->get();
-            $this->load->model('class/user_model');
+           
             $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -926,7 +941,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
-        $this->Gmail = new \dumbu\cls\Gmail();
+        //$this->Gmail = new \dumbu\cls\Gmail();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         
@@ -986,6 +1001,9 @@ class Welcome extends CI_Controller {
         $datas['OrderReference']=$DocumentNumber+1;
         $datas['user_id'] = $datas['pk'];
         $datas['name']=$datas['ticket_bank_client_name'];
+        //3.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
+        $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
+        $this->client_model->execute_sql_query_to_update($query);
         try{
             $response = $this->check_mundipagg_boleto($datas);
         } catch (Exception $exc){
@@ -1001,10 +1019,7 @@ class Welcome extends CI_Controller {
             $result['message'] ='Erro gerando boleto bancário';
         }
         else {
-            //4.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
-            $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-            $this->client_model->execute_sql_query_to_update($query);
-            //4.2 insertar o novo boleto gerado nol banco de dados
+            //4.1 insertar o novo boleto gerado nol banco de dados
             $ticket_url=$response['ticket_url'];
             $ticket_order_key=$response['ticket_order_key'];
             $ticket_datas=array(
@@ -1018,22 +1033,35 @@ class Welcome extends CI_Controller {
                 'generated_date'=>time()
             );
             $this->client_model->insert_ticket_bank_generated($ticket_datas);
-            //4.3 decrementar o purchase counter em 2
+            //4.2 decrementar o purchase counter em 2
             $value['purchase_counter']=$purchase_counter-2;
-            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
+            $this->client_model->decrement_purchase_retry($datas['pk'],$value);            
             
         //5. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5            
-            $access_link = base_url().'index.php/welcome/'
-                    .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
-                    .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
+            $insta_id = $client_datas['insta_id'];            
+            $access_link = base_url().'index.php/welcome/purchase'
+                    .'?client_id='.urlencode($this->Crypt->codify_level1($datas['pk']))
+                    .'&ticket_access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
+            $username = $client_datas['login'];
+            $useremail = $client_datas['email'];
+            
+            //4.1 salvar access token
+            $this->client_model->update_client($client_datas['user_id'], 
+                array('ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')));
+            
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+            $this->Gmail = new \dumbu\cls\Gmail();
+            $this->load->model('class/Crypt');
+            
             $email = $this->Gmail->send_link_ticket_bank_and_access_link(
-                    $client_datas['login'],
-                    $client_datas['email'],                    
+                    $username,
+                    $useremail,
                     $access_link,
                     $ticket_url);
-
         //6. retornar response e tomar decisão no cliente
-            if($email){
+            if($email['success']){
                 $result['success'] = true;
             } else{
                 $result['success'] = false;

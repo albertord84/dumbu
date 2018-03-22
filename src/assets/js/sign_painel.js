@@ -131,9 +131,6 @@ $(document).ready(function () {
                                     set_global_var('pass', $('#signin_clientPassword').val());
                                     set_global_var('email', $('#client_email').val());
                                     set_global_var('need_delete', response['need_delete']);
-                                    //if(need_delete<response['MIN_MARGIN_TO_INIT']){   
-                                     //modal_alert_message('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
-                                    // }
                                     active_by_steep(2);
                                     l.stop();
                                 } else {
@@ -316,9 +313,11 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (response) {
                             if (response['success']) {
-                                var text = "Compra realizada com sucesso!!<br>"+
+                                var text = "Compra realizada com sucesso!!"+
                                          "Agora acesse ao seu email cadastrado no Passo 1 e "+
                                                 "continue com as instruções"
+                                l.stop();
+                                $('#btn_sing_in').css('cursor', 'pointer');
                                 modal_alert_message(text);
                             } else{
                                 modal_alert_message(response['message']);
