@@ -1011,8 +1011,14 @@ class Welcome extends CI_Controller {
         if($datas==NULL)
             $datas = $this->input->post();
         $this->load->model('class/client_model');
-        $sql='SELECT purchase_access_token FROM clients WHERE user_id='.$datas['pk'];
-        $query = $this->client_model->execute_sql_query($query);
+        $this->load->model('class/Crypt');
+        $datas['pk'] = $this->Crypt->decodify_level1(urldecode($datas['pk']));
+        $query = $this->client_model->get_all_data_of_client($datas['pk']);
+        $datas['user_login'] = $query[0]['login'];
+        $datas['user_pass'] = $query[0]['pass'];
+        $datas['user_email'] = $query[0]['email'];
+        $datas['insta_id'] = $query[0]['insta_id'];
+        
         if ($query[0]['purchase_access_token'] === $datas['purchase_access_token']) {
             $query='SELECT status_id FROM users WHERE id='.$datas['pk'];
             $aaa=$this->client_model->execute_sql_query($query);   
@@ -1041,19 +1047,41 @@ class Welcome extends CI_Controller {
                             $this->client_model->update_client($datas['pk'], array(
                                 'plane_id' => $datas['plane_type']));
 
-                            if(isset($datas['ticket_peixe_urbano'])){
-                                    $ticket=trim($datas['ticket_peixe_urbano']);                        
-                                    $this->client_model->update_client($datas['pk'], array(
-                                        'ticket_peixe_urbano' => $ticket
-                                    ));
+                            if(isset($datas['ticket_peixe_urbano'])) {
+                                $ticket=trim($datas['ticket_peixe_urbano']);                        
+                                $this->client_model->update_client($datas['pk'], array(
+                                    'ticket_peixe_urbano' => $ticket
+                                ));
+                            }
+                            
+                            //1. verificar si era un cliente anterior cancelado
+                            $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $datas['insta_id'] . '"' .
+                                    'AND clients.user_id=users.id';
+                            $client = $this->user_model->execute_sql_query($query);
+                            $N = count($client);
+                            $real_status = -1; //No existe
+                            $early_client_canceled = false;
+                            //$index = 0;
+                            for ($i = 0; $i < $N; $i++) {
+                                if ($client[$i]['status_id'] == user_status::DELETED || $client[$i]['status_id'] == user_status::INACTIVE) {
+                                    $real_status = 0; //cancelado o inactivo
+                                    $early_client_canceled = true;
+                                    //$index = $i;
+                                    //break;
+                                } else
+                                if ($client[$i]['status_id'] == user_status::BEGINNER) {
+                                    $real_status = 1; //Beginner
+                                    //$index = $i;
+                                    break;
+                                } else
+                                if ($client[$i]['status_id'] != user_status::DELETED && $client[$i]['status_id'] != user_status::INACTIVE) {
+                                    $real_status = 2; //cualquier otro estado
+                                    break;
                                 }
-
-                        } catch (Exception $exc) {
-                            $result['success'] = false;
-                            $result['exception'] = $exc->getTraceAsString();
-                            $result['message'] = $this->T('Error actualizando en base de datos', array(), $GLOBALS['language'], $GLOBALS['language']);
+                            }
+                            $datas['early_client_canceled'] = $early_client_canceled;
+                            
                             //2. hacel el pagamento segun el plano
-                        } finally {
                             // TODO: Hacer clase Plane
                             if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5' || $datas['plane_type'] === '1') {
                                 $sql = 'SELECT * FROM plane WHERE id=' . $datas['plane_type'];
@@ -1062,75 +1090,80 @@ class Welcome extends CI_Controller {
                                     $response = $this->do_payment_by_plane($datas, $plane_datas['initial_val'], $plane_datas['normal_val']);                            
                             } else
                                 $response['flag_initial_payment'] = false;
-                        }
-                        //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
+                            
+                            //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
+                            if($response['flag_initial_payment']) {
+                                $this->client_model->update_client($datas['pk'], array('purchase_access_token' => 'SUCCESSFUL PURCHASE'));
+                                $this->load->model('class/user_model');
+                                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
+                                //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
+                                if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                                    /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
+                                        $datas['status_id'] = user_status::UNFOLLOW;
+                                    else*/
+                                        $datas['status_id'] = user_status::ACTIVE;
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => $datas['status_id']));
+                                    if($data_insta['insta_login_response']) {
+        //                                $this->client_model->update_client($datas['pk'], array(
+        //                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+                                    }
+                                    $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
 
-                        if($response['flag_initial_payment']) {
-                            $this->client_model->update_client($datas['pk'], array('purchase_access_token' => 'SUCCESSFUL PURCHASE'));
-                            $this->load->model('class/user_model');
-                            $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
-                            //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
-                            if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                                /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
-                                    $datas['status_id'] = user_status::UNFOLLOW;
-                                else*/
-                                    $datas['status_id'] = user_status::ACTIVE;
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => $datas['status_id']));
-                                if($data_insta['insta_login_response']) {
-    //                                $this->client_model->update_client($datas['pk'], array(
-    //                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+                                } else
+                                if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::BLOCKED_BY_INSTA));
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
+                                } else
+                                if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required') {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::VERIFY_ACCOUNT));
+                                    $result['resource'] = 'client';
+                                    $result['verify_link'] = $data_insta['verify_account_url'];
+                                    $result['return_link'] = 'client';
+                                    $result['message'] = 'Sua conta precisa ser verificada no Instagram';
+                                    $result['cause'] = 'checkpoint_required';
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
+                                } else
+                                if ($data_insta['status'] === 'fail' && $data_insta['message'] == '') {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::VERIFY_ACCOUNT));
+                                    $result['resource'] = 'client';
+                                    $result['verify_link'] = '';
+                                    $result['return_link'] = 'client';
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
+                                } else {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::BLOCKED_BY_INSTA));
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
                                 }
-                                $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
-
-                            } else
-                            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::BLOCKED_BY_INSTA));
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
-                            } else
-                            if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required') {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::VERIFY_ACCOUNT));
-                                $result['resource'] = 'client';
-                                $result['verify_link'] = $data_insta['verify_account_url'];
-                                $result['return_link'] = 'client';
-                                $result['message'] = 'Sua conta precisa ser verificada no Instagram';
-                                $result['cause'] = 'checkpoint_required';
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
-                            } else
-                            if ($data_insta['status'] === 'fail' && $data_insta['message'] == '') {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::VERIFY_ACCOUNT));
-                                $result['resource'] = 'client';
-                                $result['verify_link'] = '';
-                                $result['return_link'] = 'client';
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
+                                //Email com compra satisfactoria a atendimento y al cliente
+                                //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                                if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
+                                    $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
+                                else
+                                    $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
+                                $result['success'] = true;
+                                $result['flag_initial_payment'] = $response['flag_initial_payment'];
+                                $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
+                                $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
                             } else {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::BLOCKED_BY_INSTA));
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
+                                $value['purchase_counter']=$purchase_counter-1;
+                                $this->client_model->decrement_purchase_retry($datas['pk'],$value);
+                                $result['success'] = false;
+                                $result['message'] = $response['message'];
                             }
-                            //Email com compra satisfactoria a atendimento y al cliente
-                            //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
-                            if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
-                                $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
-                            else
-                                $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
-                            $result['success'] = true;
-                            $result['flag_initial_payment'] = $response['flag_initial_payment'];
-                            $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
-                            $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
-                        } else {
-                            $value['purchase_counter']=$purchase_counter-1;
-                            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
+
+                        } catch (Exception $exc) {
                             $result['success'] = false;
-                            $result['message'] = $response['message'];
+                            $result['exception'] = $exc->getTraceAsString();
+                            $result['message'] = $this->T('Error actualizando en base de datos', array(), $GLOBALS['language'], $GLOBALS['language']);
                         }
                     } else {
                         $result['success'] = false;

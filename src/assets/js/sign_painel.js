@@ -187,6 +187,7 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
+        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
         var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
         if (purchase_access_token)
             purchase_access_token = purchase_access_token.substr(0, 32);
@@ -261,7 +262,7 @@ $(document).ready(function () {
                             'need_delete': need_delete,
                             'early_client_canceled': early_client_canceled,
                             'plane_type': plane,
-                            'pk': pk,
+                            'pk': client_id,
                             'datas': datas,
                             'purchase_access_token': purchase_access_token
                         };
