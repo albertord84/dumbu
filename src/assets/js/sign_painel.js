@@ -308,19 +308,18 @@ $(document).ready(function () {
                 var ticket_bank_option = parseInt($('#ticket_bank_option').val());
                 var ticket_bank_client_name = validate_element('#ticket_bank_client_name', "^[A-Za-z ]{4,50}$");
                 var cpf = validate_cpf('#cpf', "^[0-9]{2,11}$");
-                
-                if(cpf /*&& ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)*/  ) {
+                if(cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
                     datas={
                         'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
+                        'pk': client_id,
                         'cpf': $('#cpf').val(),
                         'ticket_bank_option': ticket_bank_option,
-                        
+                        'user_email': email,                        
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
-                        'pk': pk,
                         //'datas': datas /////ojo, revisar se precisa
-                    };                    
+                    };
                     $.ajax({
                         url: base_url + 'index.php/welcome/check_client_ticket_bank',
                         data: datas,
@@ -328,9 +327,11 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (response) {
                             if (response['success']) {
-                                var text = "Compra realizada com sucesso!!<br>"+
+                                var text = "Compra realizada com sucesso!!"+
                                          "Agora acesse ao seu email cadastrado no Passo 1 e "+
                                                 "continue com as instruções"
+                                l.stop();
+                                $('#btn_sing_in').css('cursor', 'pointer');
                                 modal_alert_message(text);
                             } else{
                                 modal_alert_message(response['message']);
