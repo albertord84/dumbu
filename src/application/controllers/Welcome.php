@@ -1602,17 +1602,18 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_boleto_2() {        
-        $payment_data['AmountInCents']=12790;
-        $payment_data['DocumentNumber']=94; //'3';
-        $payment_data['OrderReference']=94; //'3';
-        $payment_data['id']=4178; 
-        $payment_data['name']='Luciano do Amaral Kiesel';
-        $payment_data['cpf']=67374581068;        
+        $payment_data['AmountInCents']=500;
+        $payment_data['DocumentNumber']=96; //'3';
+        $payment_data['OrderReference']=96; //'3';
+        $payment_data['id']=4179; 
+        $payment_data['name']='Ruslan Guerra Marzo';
+        $payment_data['cpf']='07621112166';        
 
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment( $payment_data);
-        return $response;
+        var_dump($response);
+        //return $response;
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {

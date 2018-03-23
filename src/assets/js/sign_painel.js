@@ -134,7 +134,7 @@ $(document).ready(function () {
                                     //if(need_delete<response['MIN_MARGIN_TO_INIT']){   
                                      //modal_alert_message('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
                                     // }
-                                    active_by_steep(2);
+                                    //active_by_steep(2);
                                     l.stop();
                                 } else {
                                     if (response['cause'] == 'checkpoint_required') {
