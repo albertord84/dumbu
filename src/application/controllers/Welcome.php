@@ -88,7 +88,6 @@ class Welcome extends CI_Controller {
             }
         }
         if ($this->session->userdata('id')){
-            //$datas = $this->input->get();
            
             $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -965,7 +964,7 @@ class Welcome extends CI_Controller {
     //Passo 2.1 Pagamento por boleto bancario
     public function check_client_ticket_bank($datas=NULL) {
         $this->is_ip_hacker();
-        //0. Carregar librarias e datas vindo do navegador
+        //0. Carregar librarias e datas vindo do navegador        
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
