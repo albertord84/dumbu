@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    //active_by_steep(1);
-    verify_url();
+    active_by_steep(1);
+    //verify_url();
     payment_option=0;
 
     function modal_alert_message(text_message){
@@ -567,42 +567,94 @@ $(document).ready(function () {
             case 'cupao_number_checked':
                 cupao_number_checked = value;
                 break;
+            case 'registration_code':
+                registration_code = value;
+                break;
         }
     }
 
-    function verify_url() {
-        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
-        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
-        if (purchase_access_token)
-            purchase_access_token = purchase_access_token.substr(0, 32);
-        
-        if (client_id && purchase_access_token) {
-            $.ajax({
-                url: base_url + 'index.php/welcome/check_2nd_step_activation',
-                data: {
-                    'client_id': client_id,
-                    'purchase_access_token': purchase_access_token
-                },
-                type: 'POST',
-                dataType: 'json',
-                success: function (response) {
-                    if (response['success']) {
-                        set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
-                        active_by_steep(2);  
-                    } else {
-                        active_by_steep(1);
+//    function verify_url() {
+//        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
+//        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
+//        if (purchase_access_token)
+//            purchase_access_token = purchase_access_token.substr(0, 32);
+//        
+//        if (client_id && purchase_access_token) {
+//            $.ajax({
+//                url: base_url + 'index.php/welcome/check_2nd_step_activation',
+//                data: {
+//                    'client_id': client_id,
+//                    'purchase_access_token': purchase_access_token
+//                },
+//                type: 'POST',
+//                dataType: 'json',
+//                success: function (response) {
+//                    if (response['success']) {
+//                        set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
+//                        active_by_steep(2);  
+//                    } else {
+//                        active_by_steep(1);
+//                    }
+//                },
+//                error: function (xhr, status) {
+//                    active_by_steep(1);
+//                }
+//            });
+//        } else {
+//            active_by_steep(1);
+//        }
+//    }
+    
+    $("#signin_btn_send_code").click(function () {
+        if ($('#signin_code').val() != '') {
+            if (validate_element('#signin_code', "^[0-9]{4}$")) {
+                var l = Ladda.create(this);
+                l.start();
+                l.start();
+                $.ajax({
+                    url: base_url + 'index.php/welcome/check_registration_code',
+                    data: {
+                        'pk': pk,
+                        'registration_code': $('#signin_code').val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response['success']) {
+                            set_global_var('registration_code', response['registration_code']);
+                            active_by_steep(2);
+                            $('#container_sigin_code_message').text(response['message']);
+                            $('#container_sigin_code_message').css('visibility', 'visible');
+                            $('#container_sigin_code_message').css('color', 'green');
+                            l.stop();
+                        } else {
+                            $('#container_sigin_code_message').text(response['message']);
+                            $('#container_sigin_code_message').css('visibility', 'visible');
+                            $('#container_sigin_code_message').css('color', 'red');
+                            l.stop();
+                        }
+                    },
+                    error: function (xhr, status) {
+                        $('#container_sigin_code_message').text(T('Não foi possível verificar o código enviado!'));
+                        $('#container_sigin_code_message').css('visibility', 'visible');
+                        $('#container_sigin_code_message').css('color', 'red');
+                        l.stop();
                     }
-                },
-                error: function (xhr, status) {
-                    active_by_steep(1);
-                }
-            });
+                });
+            } else {
+                $('#container_sigin_code_message').text(T('O código do cadastro só pode conter números!'));
+                $('#container_sigin_code_message').css('visibility', 'visible');
+                $('#container_sigin_code_message').css('color', 'red');
+            }
         } else {
-            active_by_steep(1);
+            $('#container_sigin_code_message').text(T('Deve preencher todos os dados corretamente!'));
+            $('#container_sigin_code_message').css('visibility', 'visible');
+            $('#container_sigin_code_message').css('color', 'red');
+            //modal_alert_message('Formulario incompleto');
         }
-    }
+    });
 
     var plane, pk, datas,cupao_number_checked=false, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
     plane = '4';
-    
+    var registration_code;
 }); 

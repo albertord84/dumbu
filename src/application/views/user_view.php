@@ -751,6 +751,19 @@
                                             <b id="name_ref_prof" style="font-family:sans-serif; font-size:1em;"></b><br>
                                             <div id="ref_prof_followers" style="font-family:sans-serif; font-size:1em;"></div>
                                             <div id="ref_prof_following" style="font-family:sans-serif; font-size:1em;"></div>
+                                            <div id="code_sign_in" class="login fleft100 input-form">
+                                                <fieldset>
+                                                    <input id = "signin_code" type="text" placeholder="_ _ _ _"  required >
+                                                </fieldset>
+                                                <div
+                                                    id="container_sigin_code_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                                </div>
+                                                <div class="text-center">
+                                                    <button id = "signin_btn_send_code" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                        <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ENVIAR", array(),$language);?></div></spam>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 				</div>

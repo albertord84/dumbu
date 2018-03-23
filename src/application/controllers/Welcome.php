@@ -832,7 +832,7 @@ class Welcome extends CI_Controller {
     
        
     //Sign-in functions
-    //Passo 1. Chequeando usuario em IG y enviando email al usuario con link para entrar al paso 2
+    //Passo 1. Chequeando usuario em IG y enviando email al usuario con código para entrar al paso 2
     public function check_user_for_sing_in($datas=NULL) { //sign in with passive instagram profile verification
         $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -932,15 +932,16 @@ class Welcome extends CI_Controller {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
                 $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
                 $this->Gmail = new \dumbu\cls\Gmail();
-                $str = $response['pk'].''.$data_insta->pk.''.time();
-                $purchase_access_token = md5($str);
+                //$str = $response['pk'].''.$data_insta->pk.''.time();
+                //$purchase_access_token = md5($str);
+                $purchase_access_token = mt_rand(1000, 9999);
                 $this->client_model->update_client($response['pk'], array('purchase_access_token' => $purchase_access_token));
-                $this->load->model('class/Crypt');
-                $second_step_link = base_url().'index.php'
-                    .'?client_id='.urlencode($this->Crypt->codify_level1($response['pk']))
-                    .'&purchase_access_token='.$purchase_access_token
-                    .'#lnk_sign_in_now';
-                $result = $this->Gmail->send_user_to_purchase_step($datas['client_email'], $data_insta->full_name, $datas['client_login'], $second_step_link);
+                //$this->load->model('class/Crypt');
+//                $second_step_link = base_url().'index.php'
+//                    .'?client_id='.urlencode($this->Crypt->codify_level1($response['pk']))
+//                    .'&purchase_access_token='.$purchase_access_token
+//                    .'#lnk_sign_in_now';
+                $result = $this->Gmail->send_user_to_purchase_step($datas['client_email'], $data_insta->full_name, $datas['client_login'], $purchase_access_token);
                 if ($result['success']) {
                     $response['cause'] = 'email_send';
                     $response['message'] = $this->T('Para continuar o cadastro deve acessar o email enviado ao endereço fornecido!', array(), $GLOBALS['language']);
@@ -3815,4 +3816,31 @@ class Welcome extends CI_Controller {
         }
     }
     
+    public function check_registration_code() {
+        $this->is_ip_hacker();
+        $this->load->model('class/client_model');
+        $datas = $this->input->post();
+        $query = $this->client_model->get_client_by_id($datas['pk']);
+        $result['success'] = false;
+        
+        if (!empty($query)) {
+            if ($query[0]['retry_registration_counter'] > 0) {
+                if ($query[0]['purchase_access_token'] === $datas['registration_code']) {
+                    $result['success'] = true;
+                    $result['message'] = $this->T('Código do cadastro verificado corretamente!', array(), $GLOBALS['language']);
+                } else {
+                    // decrementar el retry_registration_counter en la base de datos
+                    $value['retry_registration_counter'] = (int) $query[0]['retry_registration_counter'] - 1;
+                    $this->client_model->decrement_purchase_retry($datas['pk'], $value);
+                    $result['message'] = $this->T('Código do cadastro inválido!', array(), $GLOBALS['language']);
+                }
+            } else {
+                $result['message'] = $this->T('Alcançou a quantidade máxima de tentativas de cadastro. Por favor, entre en contato com o atendimento.', array(), $GLOBALS['language']);
+            }
+        } else {
+            $result['message'] = $this->T('O perfil não existe no nosso sistema.', array(), $GLOBALS['language']);
+        }
+        
+        echo json_encode($result);
+    }
 }

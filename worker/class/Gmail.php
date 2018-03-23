@@ -354,7 +354,7 @@ namespace dumbu\cls {
             return $result;
         }
         
-        public function send_user_to_purchase_step($useremail, $username, $instaname, $second_step_link) {
+        public function send_user_to_purchase_step($useremail, $username, $instaname, $purchase_access_token) {
             //Set an alternative reply-to address
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
             //Set who the message is to be sent to
@@ -372,11 +372,11 @@ namespace dumbu\cls {
             //convert HTML into a basic plain-text alternative body
             $username = urlencode($username);
             $instaname = urlencode($instaname);
-            $second_step_link = urlencode($second_step_link);
+            $purchase_access_token = urlencode($purchase_access_token);
             //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
             $lang = $GLOBALS['sistem_config']->LANGUAGE;
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/link_purchase_step.php?username=$username&instaname=$instaname&second_step_link=$second_step_link"), dirname(__FILE__));
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/link_purchase_step.php?username=$username&instaname=$instaname&purchase_access_token=$purchase_access_token"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
             $this->mail->Subject = 'DUMBU Account Confirmation!';
