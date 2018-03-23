@@ -13,31 +13,34 @@ class Welcome extends CI_Controller {
     public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
         $this->load->model('class/client_model');        
-        for($i=1;$i<=35000;$i++){
+        for($i=101;$i<=28000;$i++){
             $client = $this->client_model->get_client_by_id($i);
             if(count($client)){  
                 $client=$client[0];                
-                
+            
                 //1. Encriptando y salvando
                 $old_card_number = $client['credit_card_number'];
                 $old_card_cvc = $client['credit_card_cvc'];
-//                echo 'Client: '.$client['user_id'].
-//                        'Carton antes de cifrar----> '.$old_card_number.
-//                        ' CVC antes------> '.$old_card_cvc;
+                echo 'Client: '.$client['user_id']. 
+                        'Carton antes----> '.$old_card_number.
+                        ' ------> '.$old_card_cvc.'<br><br>';
                 $codified_old_card_number = $this->Crypt->codify_level1($old_card_number);
                 $codified_old_card_cvc = $this->Crypt->codify_level1($old_card_cvc);
                 $this->client_model->update_client($client['user_id'], array(
                     'credit_card_number' => $codified_old_card_number,
                     'credit_card_cvc' => $codified_old_card_cvc ));
-                
+
+/*
+              
                 //2. Recuperando y mostrando
-//                $client2 = $this->client_model->get_client_by_id($i)[0];
-//                $number_encripted = $client2['credit_card_number'];
-//                $number_decripted = $this->Crypt->decodify_level1($number_encripted);
-//                $cvc_encripted = $client2['credit_card_cvc'];
-//                $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
-//                echo 'Carton descifrado----> '.$number_decripted.
-//                     ' cvc  ------> '.$cvc_decripted.'<br><br>';
+                $client2 = $this->client_model->get_client_by_id($i)[0];
+                $number_encripted = $client2['credit_card_number'];
+                $number_decripted = $this->Crypt->decodify_level1($number_encripted);
+                $cvc_encripted = $client2['credit_card_cvc'];
+                $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
+                echo 'Carton descifrado----> '.$number_decripted.
+                     ' cvc  ------> '.$cvc_decripted.'<br><br>';
+*/
             }
         }
     }
@@ -1075,6 +1078,8 @@ class Welcome extends CI_Controller {
             
             //4.1 salvar access token y atualizar pay_day
             $this->client_model->update_client($client_datas['user_id'], array(
+                'credit_card_number'=>'PAYMENT_BY_TICKET_BANK',
+                'credit_card_name'=>'PAYMENT_BY_TICKET_BANK',
                 'pay_day'=>strtotime("+7 days", time()),
                 'ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')
             ));
@@ -1103,7 +1108,7 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
     
-    public function  validaCPF($cpf = null) {
+    public function validaCPF($cpf = null) {
         $this->is_ip_hacker();
         $cpf='06266544750';
         if(empty($cpf)) 
