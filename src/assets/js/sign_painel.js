@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    active_by_steep(1);
+    //active_by_steep(1);
+    verify_url();
     payment_option=0;
 
     function modal_alert_message(text_message){
@@ -135,6 +136,12 @@ $(document).ready(function () {
                                      //modal_alert_message('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
                                     // }
                                     //active_by_steep(2);
+                                    $('#container_sigin_message').text(response['message']);
+                                    $('#container_sigin_message').css('visibility', 'visible');
+                                    if (response['cause'] === 'email_send')
+                                        $('#container_sigin_message').css('color', 'green');
+                                    else
+                                        $('#container_sigin_message').css('color', 'red');
                                     l.stop();
                                 } else {
                                     if (response['cause'] == 'checkpoint_required') {
@@ -180,6 +187,10 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
+        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
+        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
+        if (purchase_access_token)
+            purchase_access_token = purchase_access_token.substr(0, 32);
        //pagamento por credito                
         if (flag == true) {
             flag = false;
@@ -251,8 +262,9 @@ $(document).ready(function () {
                             'need_delete': need_delete,
                             'early_client_canceled': early_client_canceled,
                             'plane_type': plane,
-                            'pk': pk,
+                            'pk': client_id,
                             'datas': datas,
+                            'purchase_access_token': purchase_access_token
                         };
                         datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
                         $.ajax({
@@ -557,7 +569,37 @@ $(document).ready(function () {
         }
     }
 
-
+    function verify_url() {
+        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
+        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
+        if (purchase_access_token)
+            purchase_access_token = purchase_access_token.substr(0, 32);
+        
+        if (client_id && purchase_access_token) {
+            $.ajax({
+                url: base_url + 'index.php/welcome/check_2nd_step_activation',
+                data: {
+                    'client_id': client_id,
+                    'purchase_access_token': purchase_access_token
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response['success']) {
+                        set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
+                        active_by_steep(2);  
+                    } else {
+                        active_by_steep(1);
+                    }
+                },
+                error: function (xhr, status) {
+                    active_by_steep(1);
+                }
+            });
+        } else {
+            active_by_steep(1);
+        }
+    }
 
     var plane, pk, datas,cupao_number_checked=false, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
     plane = '4';
