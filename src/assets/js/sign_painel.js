@@ -136,12 +136,17 @@ $(document).ready(function () {
                                      //modal_alert_message('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
                                     // }
                                     //active_by_steep(2);
-                                    $('#container_sigin_message').text(response['message']);
-                                    $('#container_sigin_message').css('visibility', 'visible');
-                                    if (response['cause'] === 'email_send')
-                                        $('#container_sigin_message').css('color', 'green');
-                                    else
+                                    if (response['cause'] === 'email_send') {
+                                        active_by_steep(3);
+                                        $('#container_sigin_code_message').text(response['message']);
+                                        $('#container_sigin_code_message').css('visibility', 'visible');
+                                        $('#container_sigin_code_message').css('color', 'green');
+                                    }
+                                    else {
+                                        $('#container_sigin_message').text(response['message']);
+                                        $('#container_sigin_message').css('visibility', 'visible');
                                         $('#container_sigin_message').css('color', 'red');
+                                    }
                                     l.stop();
                                 } else {
                                     if (response['cause'] == 'checkpoint_required') {
@@ -187,10 +192,10 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
-        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
-        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
-        if (purchase_access_token)
-            purchase_access_token = purchase_access_token.substr(0, 32);
+//        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
+//        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
+//        if (purchase_access_token)
+//            purchase_access_token = purchase_access_token.substr(0, 32);
        //pagamento por credito                
         if (flag == true) {
             flag = false;
@@ -262,9 +267,9 @@ $(document).ready(function () {
                             'need_delete': need_delete,
                             'early_client_canceled': early_client_canceled,
                             'plane_type': plane,
-                            'pk': client_id,
+                            'pk': pk,
                             'datas': datas,
-                            'purchase_access_token': purchase_access_token
+                            'purchase_access_token': registration_code
                         };
                         datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
                         $.ajax({
@@ -468,6 +473,18 @@ $(document).ready(function () {
                     $('#container_sing_in_panel *').css('cursor', 'auto');
                 }, function () { });
                 break;
+            case 3:                
+                $('#login_sign_in').css('visibility', 'hidden');
+                $('#container_sigin_message').css('visibility', 'hidden');
+                $('#container_login_panel').css('visibility', 'hidden');
+                $('#container_login_panel').css('display', 'none');
+                $('#signin_profile').css('visibility', 'visible');
+                $('#signin_profile').css('display', 'block');
+                $('#img_ref_prof').attr("src", insta_profile_datas.profile_pic_url);
+                $('#name_ref_prof').text(insta_profile_datas.username);
+                $('#ref_prof_followers').text(T('Seguidores: ') + insta_profile_datas.follower_count);
+                $('#ref_prof_following').text(T('Seguindo: ') + insta_profile_datas.following);
+                break;
         }
     }
 
@@ -622,6 +639,8 @@ $(document).ready(function () {
                     success: function (response) {
                         if (response['success']) {
                             set_global_var('registration_code', response['registration_code']);
+                            $('#signin_code').css('visibility', 'hidden');
+                            $('#signin_btn_send_code').css('visibility', 'hidden');
                             active_by_steep(2);
                             $('#container_sigin_code_message').text(response['message']);
                             $('#container_sigin_code_message').css('visibility', 'visible');
@@ -642,7 +661,7 @@ $(document).ready(function () {
                     }
                 });
             } else {
-                $('#container_sigin_code_message').text(T('O código do cadastro só pode conter números!'));
+                $('#container_sigin_code_message').text(T('O código do cadastro só pode conter 4 números!'));
                 $('#container_sigin_code_message').css('visibility', 'visible');
                 $('#container_sigin_code_message').css('color', 'red');
             }

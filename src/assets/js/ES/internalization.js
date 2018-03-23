@@ -101,8 +101,8 @@ var Translation={
             "Informe su nombre en la tarjeta de crédito y no la bandera del mismo.",
     "Deve preencher o campo com o código de segurança de 6 dígitos.":
             "Debe rellenar el campo con el código de seguridad de 6 dígitos.",
-    "O código do cadastro só pode conter números!":
-            "El código del registro sólo puede contener números!",
+    "O código do cadastro só pode conter 4 números!":
+            "El código del registro sólo puede contener 4 números!",
     "Não foi possível verificar o código enviado!":
             "No fue posible verificar el código enviado!"
 };

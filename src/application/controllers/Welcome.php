@@ -1135,15 +1135,15 @@ class Welcome extends CI_Controller {
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
         $this->is_ip_hacker();
-        $this->load->model('class/Crypt');
+//        $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;
         if($datas==NULL)
             $datas = $this->input->post();
         $this->load->model('class/client_model');
-        $this->load->model('class/Crypt');
-        $datas['pk'] = $this->Crypt->decodify_level1(urldecode($datas['pk']));
+//        $this->load->model('class/Crypt');
+//        $datas['pk'] = $this->Crypt->decodify_level1(urldecode($datas['pk']));
         $query = $this->client_model->get_all_data_of_client($datas['pk']);
         $datas['user_login'] = $query[0]['login'];
         $datas['user_pass'] = $query[0]['pass'];
@@ -1184,31 +1184,31 @@ class Welcome extends CI_Controller {
                             }
                             
                             //1. verificar si era un cliente anterior cancelado
-                            $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $datas['insta_id'] . '"' .
-                                    'AND clients.user_id=users.id';
-                            $client = $this->user_model->execute_sql_query($query);
-                            $N = count($client);
-                            $real_status = -1; //No existe
-                            $early_client_canceled = false;
-                            //$index = 0;
-                            for ($i = 0; $i < $N; $i++) {
-                                if ($client[$i]['status_id'] == user_status::DELETED || $client[$i]['status_id'] == user_status::INACTIVE) {
-                                    $real_status = 0; //cancelado o inactivo
-                                    $early_client_canceled = true;
-                                    //$index = $i;
-                                    //break;
-                                } else
-                                if ($client[$i]['status_id'] == user_status::BEGINNER) {
-                                    $real_status = 1; //Beginner
-                                    //$index = $i;
-                                    break;
-                                } else
-                                if ($client[$i]['status_id'] != user_status::DELETED && $client[$i]['status_id'] != user_status::INACTIVE) {
-                                    $real_status = 2; //cualquier otro estado
-                                    break;
-                                }
-                            }
-                            $datas['early_client_canceled'] = $early_client_canceled;
+//                            $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $datas['insta_id'] . '"' .
+//                                    'AND clients.user_id=users.id';
+//                            $client = $this->user_model->execute_sql_query($query);
+//                            $N = count($client);
+//                            $real_status = -1; //No existe
+//                            $early_client_canceled = false;
+//                            //$index = 0;
+//                            for ($i = 0; $i < $N; $i++) {
+//                                if ($client[$i]['status_id'] == user_status::DELETED || $client[$i]['status_id'] == user_status::INACTIVE) {
+//                                    $real_status = 0; //cancelado o inactivo
+//                                    $early_client_canceled = true;
+//                                    //$index = $i;
+//                                    //break;
+//                                } else
+//                                if ($client[$i]['status_id'] == user_status::BEGINNER) {
+//                                    $real_status = 1; //Beginner
+//                                    //$index = $i;
+//                                    break;
+//                                } else
+//                                if ($client[$i]['status_id'] != user_status::DELETED && $client[$i]['status_id'] != user_status::INACTIVE) {
+//                                    $real_status = 2; //cualquier otro estado
+//                                    break;
+//                                }
+//                            }
+//                            $datas['early_client_canceled'] = $early_client_canceled;
                             
                             //2. hacel el pagamento segun el plano
                             // TODO: Hacer clase Plane
@@ -1222,7 +1222,7 @@ class Welcome extends CI_Controller {
                             
                             //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
                             if($response['flag_initial_payment']) {
-                                $this->client_model->update_client($datas['pk'], array('purchase_access_token' => 'SUCCESSFUL PURCHASE'));
+                                $this->client_model->update_client($datas['pk'], array('purchase_access_token' => '0'));
                                 $this->load->model('class/user_model');
                                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
                                 //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
@@ -1282,6 +1282,7 @@ class Welcome extends CI_Controller {
                                 $result['flag_initial_payment'] = $response['flag_initial_payment'];
                                 $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
                                 $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
+                                $this->client_model->update_client($datas['pk'], array('purchase_access_token' => '0'));
                             } else {
                                 $value['purchase_counter']=$purchase_counter-1;
                                 $this->client_model->decrement_purchase_retry($datas['pk'],$value);
@@ -1307,6 +1308,7 @@ class Welcome extends CI_Controller {
                 $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
             }
         } else {
+                $this->client_model->update_client($datas['pk'], array('retry_payment_counter' => '0'));
                 $result['success'] = false;
                 $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
         }
@@ -3821,6 +3823,7 @@ class Welcome extends CI_Controller {
         $this->load->model('class/client_model');
         $datas = $this->input->post();
         $query = $this->client_model->get_client_by_id($datas['pk']);
+        $retry_registration_counter = (int) $query[0]['retry_registration_counter'];
         $result['success'] = false;
         
         if (!empty($query)) {
@@ -3830,8 +3833,8 @@ class Welcome extends CI_Controller {
                     $result['message'] = $this->T('Código do cadastro verificado corretamente!', array(), $GLOBALS['language']);
                 } else {
                     // decrementar el retry_registration_counter en la base de datos
-                    $value['retry_registration_counter'] = (int) $query[0]['retry_registration_counter'] - 1;
-                    $this->client_model->decrement_purchase_retry($datas['pk'], $value);
+                    $retry_registration_counter = $retry_registration_counter - 1;
+                    $this->client_model->update_client($datas['pk'], array('retry_registration_counter' => $retry_registration_counter));
                     $result['message'] = $this->T('Código do cadastro inválido!', array(), $GLOBALS['language']);
                 }
             } else {
