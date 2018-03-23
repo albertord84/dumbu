@@ -43,6 +43,7 @@ class Welcome extends CI_Controller {
     }
     
     public function index() {
+        is_ip_hacker();
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -58,6 +59,7 @@ class Welcome extends CI_Controller {
     }
 
     public function language() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -66,6 +68,7 @@ class Welcome extends CI_Controller {
     }
 
     public function purchase() {
+        is_ip_hacker();
         $datas = $this->input->get();
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
@@ -115,6 +118,7 @@ class Welcome extends CI_Controller {
     }
 
     public function client() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_role');
@@ -259,6 +263,7 @@ class Welcome extends CI_Controller {
     }
 
     public function user_do_login($datas=NULL) {
+        is_ip_hacker();
         $this->load->model('class/user_role');          
         $login_by_client=false;
         if(!isset($datas)){
@@ -294,7 +299,8 @@ class Welcome extends CI_Controller {
             return $result;
     }
 
-    public function get_real_status_of_user($query){            
+    public function get_real_status_of_user($query){         
+        is_ip_hacker();
         $this->load->model('class/user_status');
         $this->load->model('class/user_model');            
         $user = $this->user_model->execute_sql_query($query);            
@@ -317,6 +323,7 @@ class Welcome extends CI_Controller {
     }
 
     public function user_do_login_second_stage($datas,$language) {
+        is_ip_hacker();
         /*$login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
@@ -809,6 +816,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_ticket_peixe_urbano() {
+        is_ip_hacker();
         $this->load->model('class/client_model');
         $datas = $this->input->post();
         if(true){
@@ -827,6 +835,7 @@ class Welcome extends CI_Controller {
     //Sign-in functions
     //Passo 1. Chequeando usuario em IG y enviando email al usuario con link para entrar al paso 2
     public function check_user_for_sing_in($datas=NULL) { //sign in with passive instagram profile verification
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/client_model');
@@ -955,6 +964,7 @@ class Welcome extends CI_Controller {
     
     //Passo 2.1 Pagamento por boleto bancario
     public function check_client_ticket_bank($datas=NULL) {
+        is_ip_hacker();
         //0. Carregar librarias e datas vindo do navegador
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
@@ -967,6 +977,7 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         $datas['plane_id']=intval($datas['plane_type']);
         $datas['ticket_bank_option']=intval($datas['ticket_bank_option']);
+        $datas['pk']=$this->Crypt->decodify_level1(urldecode($datas['pk']));
         $client_datas = $this->client_model->get_all_data_of_client($datas['pk'])[0];
         
         //1. analisar se é possivel gerar boleto para esse cliente
@@ -1063,9 +1074,11 @@ class Welcome extends CI_Controller {
             $username = $client_datas['login'];
             $useremail = $client_datas['email'];
             
-            //4.1 salvar access token
-            $this->client_model->update_client($client_datas['user_id'], 
-                array('ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')));
+            //4.1 salvar access token y atualizar pay_day
+            $this->client_model->update_client($client_datas['user_id'], array(
+                'pay_day'=>strtotime("+7 days", time()),
+                'ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')
+            ));
             
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1092,6 +1105,7 @@ class Welcome extends CI_Controller {
     }
     
     public function  validaCPF($cpf = null) {
+        is_ip_hacker();
         $cpf='06266544750';
         if(empty($cpf)) 
             return false; 
@@ -1120,6 +1134,7 @@ class Welcome extends CI_Controller {
 
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
+        is_ip_hacker();
         $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1302,6 +1317,7 @@ class Welcome extends CI_Controller {
     }
 
     public function do_payment_by_plane($datas, $initial_value, $recurrency_value) {
+        is_ip_hacker();
         $this->load->model('class/client_model');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1711,6 +1727,7 @@ class Welcome extends CI_Controller {
     }
     
     public function detectCardType($num) {
+        is_ip_hacker();
         $re = array(
             "visa" => "/^4[0-9]{12}(?:[0-9]{3})?$/",
             "mastercard" => "/^5[1-5][0-9]{14}$/",
@@ -1741,6 +1758,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_credit_card($datas) {
+        is_ip_hacker();
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
         $payment_data['credit_card_name'] = $datas['credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
@@ -1761,6 +1779,7 @@ class Welcome extends CI_Controller {
     
 
     public function check_mundipagg_boleto($datas) {
+        is_ip_hacker();
         $payment_data['AmountInCents']=$datas['AmountInCents'];
         $payment_data['DocumentNumber']=$datas['DocumentNumber'];
         $payment_data['OrderReference']=$datas['OrderReference'];
@@ -1773,6 +1792,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_boleto_2() {
+        is_ip_hacker();
         $payment_data['AmountInCents']=500;
         $payment_data['DocumentNumber']=1002; //'3';
         $payment_data['OrderReference']=1002; //'3';
@@ -1786,6 +1806,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
+        is_ip_hacker();
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
         $payment_data['credit_card_name'] = $datas['credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
@@ -1823,6 +1844,7 @@ class Welcome extends CI_Controller {
     }
 
     public function delete_recurrency_payment($order_key) {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->delete_payment($order_key);
@@ -1830,6 +1852,7 @@ class Welcome extends CI_Controller {
     }
 
     public function unfollow_total() {
+        is_ip_hacker();
         $this->load->model('class/user_role');
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -1857,6 +1880,7 @@ class Welcome extends CI_Controller {
     }
     
     public function autolike() {
+        is_ip_hacker();
         $this->load->model('class/user_role');
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -1877,6 +1901,7 @@ class Welcome extends CI_Controller {
     }
     
     public function play_pause() {
+        is_ip_hacker();
         $this->load->model('class/user_role');
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -1913,6 +1938,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_client_datas() {
+        is_ip_hacker();
         $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2136,6 +2162,7 @@ class Welcome extends CI_Controller {
     }
 
     public function get_pay_day($pay_day) {
+        is_ip_hacker();
         $this->load->model('class/user_status');
         $now = time();
         $datas['pay_now'] = false;
@@ -2180,6 +2207,7 @@ class Welcome extends CI_Controller {
     
     //functions for geolocalizations
     public function client_insert_geolocalization() {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();      
@@ -2248,6 +2276,7 @@ class Welcome extends CI_Controller {
     }
         
     public function client_desactive_geolocalization() {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
@@ -2278,6 +2307,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_insta_geolocalization($profile) {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
@@ -2293,6 +2323,7 @@ class Welcome extends CI_Controller {
     
     //functions for reference profiles
     public function client_insert_profile() {
+        is_ip_hacker();
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -2363,6 +2394,7 @@ class Welcome extends CI_Controller {
     }
 
     public function client_desactive_profiles() {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2395,6 +2427,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_insta_profile($profile) {
+        is_ip_hacker();
         //if ($this->session->userdata('id')) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();       
@@ -2407,7 +2440,8 @@ class Welcome extends CI_Controller {
         //}
     }    
     
-    public function check_insta_profile_from_client($profile) {        
+    public function check_insta_profile_from_client($profile) {   
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();       
         $data = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
@@ -2424,6 +2458,7 @@ class Welcome extends CI_Controller {
     
             
     public function message() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2444,6 +2479,7 @@ class Welcome extends CI_Controller {
     }
 
     public function email_success_buy_to_atendiment($username, $useremail) {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
@@ -2455,6 +2491,7 @@ class Welcome extends CI_Controller {
     }
 
     public function email_success_buy_to_client($useremail, $username, $userlogin, $userpass) {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
@@ -2464,6 +2501,7 @@ class Welcome extends CI_Controller {
 
     //auxiliar function
     public function validate_post_credit_card_datas($datas) {
+        is_ip_hacker();
         //TODO: validate emial and datas of credit card using regular expresions
         /* if (preg_match('^[0-9]{16,16}$',$datas['credit_card_number']) &&
           preg_match('^[0-9 ]{3,3}$',$datas['credit_card_cvc']) &&
@@ -2478,6 +2516,7 @@ class Welcome extends CI_Controller {
     }
 
     public function is_insta_user($client_login, $client_pass, $force_login) {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $data_insta = NULL;
@@ -2556,6 +2595,7 @@ class Welcome extends CI_Controller {
 
     //functions for load ad dispay the diferent funtionalities views 
     public function sign_client_update() {
+        is_ip_hacker();
         // Jose R: yo creo que este codigo mas nunca se iba usar, en caso de usar, encriptar level1 los datos sensibles
 //        $this->load->model('class/user_role');
 //        if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -2580,6 +2620,7 @@ class Welcome extends CI_Controller {
     }
 
     public function log_out() {
+        is_ip_hacker();
         $data['user_active'] = false;
         $this->load->model('class/user_model');
         $this->user_model->insert_washdog($this->session->userdata('id'),'CLOSING SESSION');
@@ -2588,6 +2629,7 @@ class Welcome extends CI_Controller {
     }
 
     public function create_profiles_datas_to_display() {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
@@ -2677,6 +2719,7 @@ class Welcome extends CI_Controller {
     }
 
     public function dicas_geoloc() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;        
@@ -2686,6 +2729,7 @@ class Welcome extends CI_Controller {
     }
     
     public function help() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $language=$this->input->get();
@@ -2697,6 +2741,7 @@ class Welcome extends CI_Controller {
     }
     
     public function FAQ_function($language) {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $result['SERVER_NAME']= $GLOBALS['sistem_config']->SERVER_NAME;
@@ -2714,15 +2759,18 @@ class Welcome extends CI_Controller {
     }
    
     public function create_profiles_datas_to_display_as_json() {
+        is_ip_hacker();
         echo($this->create_profiles_datas_to_display());
     }
 
     public function display_access_error() {
+        is_ip_hacker();
         $this->session->sess_destroy();
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
     public function client_acept_discont(){
+        is_ip_hacker();
         $this->load->model('class/client_model');       
         $this->load->model('class/user_model');       
         $values = $this->client_model->get_plane($this->session->userdata('plane_id'))[0];
@@ -2738,6 +2786,7 @@ class Welcome extends CI_Controller {
     }
     
     public function get_names_by_chars() {
+        is_ip_hacker();
         if($this->session->userdata('id')){
             $cookies=json_decode($this->session->userdata('cookies'));
             //$datas = $this->input->post();
@@ -2789,6 +2838,7 @@ class Welcome extends CI_Controller {
     }
     
     public function admin_making_client_login(){
+        is_ip_hacker();
         $datas = $this->input->get();
         $datas['user_pass']=urldecode($datas['user_pass']);
         $result=$this->user_do_login($datas);
@@ -2800,6 +2850,7 @@ class Welcome extends CI_Controller {
     }
 
     public function T($token, $array_params=NULL, $lang=NULL) {
+        is_ip_hacker();
         if(!$lang){
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2821,10 +2872,12 @@ class Welcome extends CI_Controller {
     }
 
     public function scielo_view() {
+        is_ip_hacker();
         $this->load->view('scielo');
     }
 
     public function scielo() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $datas = $this->input->post();
@@ -2846,6 +2899,7 @@ class Welcome extends CI_Controller {
     }
     
     public function get_daily_report($id) {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
             $sql = "SELECT * FROM daily_report WHERE followings != '0' AND followers != '0' AND client_id=" . $id . " ORDER BY date ASC;" ;  // LIMIT 30
@@ -2871,6 +2925,7 @@ class Welcome extends CI_Controller {
     }
     
     public function get_img_profile($profile){
+        is_ip_hacker();
         $this->load->model('class/client_model');
         $datas= $this->check_insta_profile($profile);
         if($datas)
@@ -2880,6 +2935,7 @@ class Welcome extends CI_Controller {
     }
         
     public function client_black_list(){
+        is_ip_hacker();
         if($this->session->userdata('id')){
             $this->load->model('class/client_model');
             try {
@@ -2900,6 +2956,7 @@ class Welcome extends CI_Controller {
     }
         
     public function insert_profile_in_black_list(){
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();            
@@ -2934,6 +2991,7 @@ class Welcome extends CI_Controller {
     }
     
     public function delete_client_from_black_list(){
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2960,6 +3018,7 @@ class Welcome extends CI_Controller {
     }
     
     public function client_white_list(){
+        is_ip_hacker();
         if($this->session->userdata('id')){
             $this->load->model('class/client_model');
             try {
@@ -2980,6 +3039,7 @@ class Welcome extends CI_Controller {
     }
     
     public function insert_profile_in_white_list(){
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -3013,6 +3073,7 @@ class Welcome extends CI_Controller {
     }
     
     public function delete_client_from_white_list(){
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -3040,10 +3101,12 @@ class Welcome extends CI_Controller {
 
     
     public function paypal() {
+        is_ip_hacker();
         $this->load->view('test_view');
     }
     
     public function update_client_after_retry_payment_success($user_id) {  
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
         $this->load->model('class/client_model');
@@ -3121,6 +3184,7 @@ class Welcome extends CI_Controller {
     }
            
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
+        is_ip_hacker();
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(9);
@@ -3164,6 +3228,7 @@ class Welcome extends CI_Controller {
     }
         
     public function Pedro(){
+        is_ip_hacker();
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
         $L=count($users);
@@ -3193,6 +3258,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_ds_user_id() {
+        is_ip_hacker();
         $this->load->model('class/client_model');
         $resul=$this->client_model->select_white_list_model();
         foreach ($resul as $key => $value) {
@@ -3202,6 +3268,7 @@ class Welcome extends CI_Controller {
     }   
     
     public function login_all_clients(){
+        is_ip_hacker();
         $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
         $N=count($a);
@@ -3219,6 +3286,7 @@ class Welcome extends CI_Controller {
     }
     
     public function time_of_live() {
+        is_ip_hacker();
         $this->load->model('class/user_model');
         $result=$this->user_model->time_of_live_model(4);
         $response=array(
@@ -3280,6 +3348,7 @@ class Welcome extends CI_Controller {
     }
     
     public function users_by_month_and_plane() {
+        is_ip_hacker();
         $status = $this->input->get()['status'];
         $this->load->model('class/user_model');
         $result=$this->user_model->time_of_live_model($status);
@@ -3335,6 +3404,7 @@ class Welcome extends CI_Controller {
     }*/
     
     public function capturer_and_recurrency_for_blocked_by_payment(){
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
@@ -3425,6 +3495,7 @@ class Welcome extends CI_Controller {
     }    
 
     public function cancel_blocked_by_payment_by_max_retry_payment(){
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
@@ -3455,6 +3526,7 @@ class Welcome extends CI_Controller {
     }    
     
     public function daily_ranking(){
+        is_ip_hacker();
         $this->load->model('class/user_model');
         $this->load->model('class/ranking_model');
         $result=$this->user_model->get_ranking();
@@ -3494,6 +3566,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_all_retry_clients(){
+        is_ip_hacker();
         $array_ids=array();
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
@@ -3502,6 +3575,7 @@ class Welcome extends CI_Controller {
     }
     
     public function security_code_request() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
@@ -3551,6 +3625,7 @@ class Welcome extends CI_Controller {
     }
     
     public function security_code_confirmation() {
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
@@ -3578,6 +3653,7 @@ class Welcome extends CI_Controller {
     }
     
     public function client_insert_hashtag() {
+        is_ip_hacker();
        $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -3640,6 +3716,7 @@ class Welcome extends CI_Controller {
     }
     
     public function client_desactive_hashtag() {
+        is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
@@ -3670,6 +3747,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_insta_tag_from_client($profile){
+        is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();       
         $data = $this->Robot->get_insta_tag_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
@@ -3684,7 +3762,8 @@ class Welcome extends CI_Controller {
             }
     }
     
-    function verify_profile($profile_id, $active_profiles, $N) {      
+    function verify_profile($profile_id, $active_profiles, $N) {    
+        is_ip_hacker();
         if($profile_id){
             if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
                 $q = $this->client_model->insert_profile_in_daily_work($profile_id, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
@@ -3704,6 +3783,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_2nd_step_activation() {
+        is_ip_hacker();
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         $datas = $this->input->post();
@@ -3720,4 +3800,21 @@ class Welcome extends CI_Controller {
         
         echo json_encode($result);
     }
+    
+    public function is_ip_hacker(){
+        is_ip_hacker();
+        $IP_hackers= array(
+            '191.176.169.242', '138.0.85.75', '138.0.85.95', '177.235.130.16', '191.176.171.14', '200.149.30.108', '177.235.130.212', '66.85.185.69',
+            '177.235.131.104', '189.92.238.28', '168.228.88.10', '201.86.36.209', '177.37.205.210', '187.66.56.220', '201.34.223.8', '187.19.167.94',
+            '138.0.21.188', '168.228.84.1', '138.36.2.18', '201.35.210.135', '189.71.42.124', '138.121.232.245', '151.64.57.146', '191.17.52.46', '189.59.112.125',
+            '177.33.7.122', '189.5.107.81', '186.214.241.146', '177.207.99.29', '170.246.230.138', '201.33.40.202', '191.53.19.210', '179.212.90.46', '177.79.7.202',
+            '189.111.72.193', '189.76.237.61', '177.189.149.249', '179.223.247.183', '177.35.49.40', '138.94.52.120', '177.104.118.22', '191.176.171.14', '189.40.89.248',
+            '189.89.31.89', '177.13.225.38',  '186.213.69.159', '177.95.126.121', '189.26.218.161', '177.193.204.10', '186.194.46.21', '177.53.237.217', '138.219.200.136',
+            '177.126.106.103', '179.199.73.251', '191.176.171.14', '179.187.103.14', '177.235.130.16', '177.235.130.16', '177.235.130.16', '177.47.27.207'
+            );
+        if(in_array($_SERVER['REMOTE_ADDR'],$IP_hackers)){
+            die('Error IP: Sua solicitação foi negada. Por favor, contate nosso atendimento');
+        }
+    }
+    
 }

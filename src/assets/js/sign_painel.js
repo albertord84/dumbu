@@ -308,17 +308,17 @@ $(document).ready(function () {
                 var ticket_bank_option = parseInt($('#ticket_bank_option').val());
                 var ticket_bank_client_name = validate_element('#ticket_bank_client_name', "^[A-Za-z ]{4,50}$");
                 var cpf = validate_cpf('#cpf', "^[0-9]{2,11}$");
-                
+                alert(client_id);
                 if(cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
                     datas={
                         'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
+                        'pk': client_id,
                         'cpf': $('#cpf').val(),
                         'ticket_bank_option': ticket_bank_option,
                         'user_email': email,                        
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
-                        'pk': pk,
                         //'datas': datas /////ojo, revisar se precisa
                     };
                     $.ajax({
