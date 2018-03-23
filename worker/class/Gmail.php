@@ -331,42 +331,18 @@ namespace dumbu\cls {
         {}
         
         public function send_link_ticket_bank_and_access_link($username, $useremail, $access_link, $ticket_link)
-        {
-             //Set an alternative reply-to address
-            //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
-            //Set who the message is to be sent to           
+        {      
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail);
             $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
             $this->mail->clearReplyTos();
-            //$this->mail->addReplyTo($useremail, $username);
             $this->mail->isHTML(true);
-            //Set the subject line
-            $this->mail->Subject = "Boleto Bancario gerado com sucesso";
-            //Read an HTML message body from an external file, convert referenced images to embedded,
-            //convert HTML into a basic plain-text alternative body
+            $this->mail->Subject = "Ticket bank generated successfully!!";
             $username = urlencode($username);
             $access_link = urlencode($access_link);
             $ticket_link = urlencode($ticket_link);
-           
-           // $this->mail->msgHTML(@file_get_contents("http://dumbu.one/dumbu/worker/resources/emails/contact_form.php?username=$username&useremail=$useremail&usercompany=$usercompany&userphone=$userphone&usermsg=$usermsg"), dirname(__FILE__));
-            
             $this->mail->msgHTML(@file_get_contents("http://". $_SERVER['SERVER_NAME'] ."/dumbu/worker/resources/emails/tiket_bank.php?username=$username&access_link=$access_link&ticket_link=$ticket_link"), dirname(__FILE__));
-            //$this->mail->Body = $usermsg;
-            //Replace the plain text body with one created manually
-            $this->mail->AltBody = "Boleto Bancario de: $username";
-
-            //Attach an image file
-            //$mail->addAttachment('images/phpmailer_mini.png');
-            //send the message, check for errors
-            //-------------Alberto
-            /* if (!$this->mail->send()) {
-              echo "Mailer Error: " . $this->mail->ErrorInfo;
-              } else {
-              echo "Message sent!";
-              }
-              $this->mail->smtpClose(); */
-            //-------------Jose R
+            //$this->mail->AltBody = "Boleto bancário de: $username";
             if (!$this->mail->send()) {
                 $result['success'] = false;
                 $result['message'] = "Mailer Error: " . $this->mail->ErrorInfo;
@@ -376,10 +352,9 @@ namespace dumbu\cls {
             }
             $this->mail->smtpClose();
             return $result;
-           
         }
         
-        public function send_user_to_purchase_step($useremail, $username, $instaname, $second_step_link) {
+        public function send_user_to_purchase_step($useremail, $username, $instaname, $purchase_access_token) {
             //Set an alternative reply-to address
             //$mail->addReplyTo('albertord@ic.uff.br', 'First Last');
             //Set who the message is to be sent to
@@ -397,14 +372,14 @@ namespace dumbu\cls {
             //convert HTML into a basic plain-text alternative body
             $username = urlencode($username);
             $instaname = urlencode($instaname);
-            $second_step_link = urlencode($second_step_link);
+            $purchase_access_token = urlencode($purchase_access_token);
             //            $this->mail->msgHTML(file_get_contents("http://localhost/dumbu/worker/resources/emails/login_error.php?username=$username&instaname=$instaname&instapass=$instapass"), dirname(__FILE__));
             //echo "http://" . $_SERVER['SERVER_NAME'] . "<br><br>";
             $lang = $GLOBALS['sistem_config']->LANGUAGE;
-            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/link_purchase_step.php?username=$username&instaname=$instaname&second_step_link=$second_step_link"), dirname(__FILE__));
+            $this->mail->msgHTML(@file_get_contents("http://" . $_SERVER['SERVER_NAME'] . "/dumbu/worker/resources/$lang/emails/link_purchase_step.php?username=$username&instaname=$instaname&purchase_access_token=$purchase_access_token"), dirname(__FILE__));
 
             //Replace the plain text body with one created manually
-            $this->mail->Subject = 'DUMBU Continuar com o cadastro!';
+            $this->mail->Subject = 'DUMBU Account Confirmation!';
 
             //Attach an image file
             //$mail->addAttachment('images/phpmailer_mini.png');

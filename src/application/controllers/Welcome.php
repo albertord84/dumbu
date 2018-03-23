@@ -8,32 +8,42 @@ class Welcome extends CI_Controller {
     
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
-    
-    public function test() {  
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
-        $this->Gmail = new \dumbu\cls\Gmail();
+       
+
+    public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
-        
-        var_dump($this->Crypt->codify_level1(27756));
-        
-//        $datas['pk']=1234;
-//        $client_datas['login'] = 'josergm86';
-//        $client_datas['email'] = 'josergm86@gmail.com';
-//        $client_datas['insta_id'] = 1000;
-//        $ticket_link='https://transactionv2.mundipaggone.com/Boleto/ViewBoleto.aspx?85adc0ee-e41c-4c9a-9926-b473e2c2f69b';
-//        $insta_id=1000;
-//        
-//        $access_link = base_url().'index.php/welcome/'
-//                .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
-//                .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
-//        $email = $this->Gmail->send_link_ticket_bank_and_access_link(
-//                $client_datas['login'],
-//                $client_datas['email'],                    
-//                $access_link,
-//                $ticket_url);
+        $this->load->model('class/client_model');        
+        for($i=1;$i<=35000;$i++){
+            $client = $this->client_model->get_client_by_id($i);
+            if(count($client)){  
+                $client=$client[0];                
+                
+                //1. Encriptando y salvando
+                $old_card_number = $client['credit_card_number'];
+                $old_card_cvc = $client['credit_card_cvc'];
+//                echo 'Client: '.$client['user_id'].
+//                        'Carton antes de cifrar----> '.$old_card_number.
+//                        ' CVC antes------> '.$old_card_cvc;
+                $codified_old_card_number = $this->Crypt->codify_level1($old_card_number);
+                $codified_old_card_cvc = $this->Crypt->codify_level1($old_card_cvc);
+                $this->client_model->update_client($client['user_id'], array(
+                    'credit_card_number' => $codified_old_card_number,
+                    'credit_card_cvc' => $codified_old_card_cvc ));
+                
+                //2. Recuperando y mostrando
+//                $client2 = $this->client_model->get_client_by_id($i)[0];
+//                $number_encripted = $client2['credit_card_number'];
+//                $number_decripted = $this->Crypt->decodify_level1($number_encripted);
+//                $cvc_encripted = $client2['credit_card_cvc'];
+//                $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
+//                echo 'Carton descifrado----> '.$number_decripted.
+//                     ' cvc  ------> '.$cvc_decripted.'<br><br>';
+            }
+        }
     }
     
     public function index() {
+        $this->is_ip_hacker();
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -49,6 +59,7 @@ class Welcome extends CI_Controller {
     }
 
     public function language() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
@@ -57,13 +68,18 @@ class Welcome extends CI_Controller {
     }
 
     public function purchase() {
+        $this->is_ip_hacker();
         $datas = $this->input->get();
-        if(isset($datas['access_token'])){
+        $this->load->model('class/user_model');
+        $this->load->model('class/user_status');
+        if(isset($datas['ticket_access_token'])){
             $this->load->model('class/client_model');
-            $client = $this->client_model->get_client_by_access_token($datas['access_token']); 
-            if(count($client)){
+            $client = $this->client_model->get_client_by_access_token($datas['ticket_access_token'])[0]; 
+            if($client){
                 $this->client_model->update_client($client['user_id'], 
-                        array('access_token' =>'---***###!!!---'.$client['user_id']));
+                        array('ticket_access_token' =>'---***###!!!---'.$client['user_id']));
+                $this->user_model->update_user($this->session->userdata('id'), array(
+                            'status_id' => user_status::BLOCKED_BY_INSTA));
                 $this->user_model->set_sesion($client['user_id'], $this->session);
                 $this->user_model->insert_washdog($client['user_id'],'REDIRECTED FROM TICKET-BANK EMAIL LINK');
             } else{
@@ -72,8 +88,7 @@ class Welcome extends CI_Controller {
             }
         }
         if ($this->session->userdata('id')){
-            //$datas = $this->input->get();
-            $this->load->model('class/user_model');
+           
             $this->user_model->insert_washdog($this->session->userdata('id'),'SUCCESSFUL PURCHASE');            
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -102,6 +117,7 @@ class Welcome extends CI_Controller {
     }
 
     public function client() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_role');
@@ -246,6 +262,7 @@ class Welcome extends CI_Controller {
     }
 
     public function user_do_login($datas=NULL) {
+        $this->is_ip_hacker();
         $this->load->model('class/user_role');          
         $login_by_client=false;
         if(!isset($datas)){
@@ -281,7 +298,8 @@ class Welcome extends CI_Controller {
             return $result;
     }
 
-    public function get_real_status_of_user($query){            
+    public function get_real_status_of_user($query){         
+        $this->is_ip_hacker();
         $this->load->model('class/user_status');
         $this->load->model('class/user_model');            
         $user = $this->user_model->execute_sql_query($query);            
@@ -304,6 +322,7 @@ class Welcome extends CI_Controller {
     }
 
     public function user_do_login_second_stage($datas,$language) {
+        $this->is_ip_hacker();
         /*$login_by_client=false;
         if(!isset($datas)){
             $datas = $this->input->post();
@@ -796,6 +815,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_ticket_peixe_urbano() {
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');
         $datas = $this->input->post();
         if(true){
@@ -812,8 +832,9 @@ class Welcome extends CI_Controller {
     
        
     //Sign-in functions
-    //Passo 1. Chequeando usuario em IG y enviando email al usuario con link para entrar al paso 2
+    //Passo 1. Chequeando usuario em IG y enviando email al usuario con código para entrar al paso 2
     public function check_user_for_sing_in($datas=NULL) { //sign in with passive instagram profile verification
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/client_model');
@@ -862,7 +883,7 @@ class Welcome extends CI_Controller {
                 $datas['HTTP_SERVER_VARS'] = json_encode($_SERVER);
                 $datas['purchase_counter'] =$GLOBALS['sistem_config']->MAX_PURCHASE_RETRY;
                 $id_user = $this->client_model->insert_client($datas, $data_insta);
-                $response['pk'] = $id_user;
+                $response['pk'] = (string) $id_user;
                 if ($real_status == 0 || $early_client_canceled)
                     $response['early_client_canceled'] = true;
                 else
@@ -911,15 +932,16 @@ class Welcome extends CI_Controller {
                 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
                 $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
                 $this->Gmail = new \dumbu\cls\Gmail();
-                $str = $response['pk'].''.$data_insta->pk.''.time();
-                $purchase_access_token = md5($str);
+                //$str = $response['pk'].''.$data_insta->pk.''.time();
+                //$purchase_access_token = md5($str);
+                $purchase_access_token = mt_rand(1000, 9999);
                 $this->client_model->update_client($response['pk'], array('purchase_access_token' => $purchase_access_token));
-                $this->load->model('class/Crypt');
-                $second_step_link = base_url().'index.php'
-                    .'?client_id='.urlencode($this->Crypt->codify_level1($response['pk']))
-                    .'&purchase_access_token='.$purchase_access_token
-                    .'#lnk_sign_in_now';
-                $result = $this->Gmail->send_user_to_purchase_step($datas['client_email'], $data_insta->full_name, $datas['client_login'], $second_step_link);
+                //$this->load->model('class/Crypt');
+//                $second_step_link = base_url().'index.php'
+//                    .'?client_id='.urlencode($this->Crypt->codify_level1($response['pk']))
+//                    .'&purchase_access_token='.$purchase_access_token
+//                    .'#lnk_sign_in_now';
+                $result = $this->Gmail->send_user_to_purchase_step($datas['client_email'], $data_insta->full_name, $datas['client_login'], $purchase_access_token);
                 if ($result['success']) {
                     $response['cause'] = 'email_send';
                     $response['message'] = $this->T('Para continuar o cadastro deve acessar o email enviado ao endereço fornecido!', array(), $GLOBALS['language']);
@@ -942,11 +964,12 @@ class Welcome extends CI_Controller {
     
     //Passo 2.1 Pagamento por boleto bancario
     public function check_client_ticket_bank($datas=NULL) {
-        //0. Carregar librarias e datas vindo do navegador
+        $this->is_ip_hacker();
+        //0. Carregar librarias e datas vindo do navegador        
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
-        $this->Gmail = new \dumbu\cls\Gmail();
+        //$this->Gmail = new \dumbu\cls\Gmail();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         
@@ -954,6 +977,7 @@ class Welcome extends CI_Controller {
         $datas = $this->input->post();
         $datas['plane_id']=intval($datas['plane_type']);
         $datas['ticket_bank_option']=intval($datas['ticket_bank_option']);
+        $datas['pk']=$this->Crypt->decodify_level1(urldecode($datas['pk']));
         $client_datas = $this->client_model->get_all_data_of_client($datas['pk'])[0];
         
         //1. analisar se é possivel gerar boleto para esse cliente
@@ -1006,6 +1030,9 @@ class Welcome extends CI_Controller {
         $datas['OrderReference']=$DocumentNumber+1;
         $datas['user_id'] = $datas['pk'];
         $datas['name']=$datas['ticket_bank_client_name'];
+        //3.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
+        $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
+        $this->client_model->execute_sql_query_to_update($query);
         try{
             $response = $this->check_mundipagg_boleto($datas);
         } catch (Exception $exc){
@@ -1021,10 +1048,7 @@ class Welcome extends CI_Controller {
             $result['message'] ='Erro gerando boleto bancário';
         }
         else {
-            //4.1 actualizar el TICKET_BANK_DOCUMENT_NUMBER con el valor em $DocumentNumber
-            $query="UPDATE dumbu_system_config set value = ".$datas['DocumentNumber']." WHERE name='TICKET_BANK_DOCUMENT_NUMBER'";
-            $this->client_model->execute_sql_query_to_update($query);
-            //4.2 insertar o novo boleto gerado nol banco de dados
+            //4.1 insertar o novo boleto gerado nol banco de dados
             $ticket_url=$response['ticket_url'];
             $ticket_order_key=$response['ticket_order_key'];
             $ticket_datas=array(
@@ -1038,22 +1062,37 @@ class Welcome extends CI_Controller {
                 'generated_date'=>time()
             );
             $this->client_model->insert_ticket_bank_generated($ticket_datas);
-            //4.3 decrementar o purchase counter em 2
+            //4.2 decrementar o purchase counter em 2
             $value['purchase_counter']=$purchase_counter-2;
-            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
+            $this->client_model->decrement_purchase_retry($datas['pk'],$value);            
             
         //5. enviar email com link do boleto e o link da success_purchase com access token encriptada com md5            
-            $access_link = base_url().'index.php/welcome/'
-                    .'?client_id='.$this->Crypt->codify_level1($datas['pk'])
-                    .'&access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');            
+            $insta_id = $client_datas['insta_id'];            
+            $access_link = base_url().'index.php/welcome/purchase'
+                    .'?client_id='.urlencode($this->Crypt->codify_level1($datas['pk']))
+                    .'&ticket_access_token='.md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053');
+            $username = $client_datas['login'];
+            $useremail = $client_datas['email'];
+            
+            //4.1 salvar access token y atualizar pay_day
+            $this->client_model->update_client($client_datas['user_id'], array(
+                'pay_day'=>strtotime("+7 days", time()),
+                'ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')
+            ));
+            
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+            $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+            $this->Gmail = new \dumbu\cls\Gmail();
+            $this->load->model('class/Crypt');
+            
             $email = $this->Gmail->send_link_ticket_bank_and_access_link(
-                    $client_datas['login'],
-                    $client_datas['email'],                    
+                    $username,
+                    $useremail,
                     $access_link,
                     $ticket_url);
-
         //6. retornar response e tomar decisão no cliente
-            if($email){
+            if($email['success']){
                 $result['success'] = true;
             } else{
                 $result['success'] = false;
@@ -1066,6 +1105,7 @@ class Welcome extends CI_Controller {
     }
     
     public function  validaCPF($cpf = null) {
+        $this->is_ip_hacker();
         $cpf='06266544750';
         if(empty($cpf)) 
             return false; 
@@ -1094,14 +1134,22 @@ class Welcome extends CI_Controller {
 
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
+        $this->is_ip_hacker();
+//        $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $origin_datas=$datas;
         if($datas==NULL)
             $datas = $this->input->post();
         $this->load->model('class/client_model');
-        $sql='SELECT purchase_access_token FROM clients WHERE user_id='.$datas['pk'];
-        $query = $this->client_model->execute_sql_query($query);
+//        $this->load->model('class/Crypt');
+//        $datas['pk'] = $this->Crypt->decodify_level1(urldecode($datas['pk']));
+        $query = $this->client_model->get_all_data_of_client($datas['pk']);
+        $datas['user_login'] = $query[0]['login'];
+        $datas['user_pass'] = $query[0]['pass'];
+        $datas['user_email'] = $query[0]['email'];
+        $datas['insta_id'] = $query[0]['insta_id'];
+        
         if ($query[0]['purchase_access_token'] === $datas['purchase_access_token']) {
             $query='SELECT status_id FROM users WHERE id='.$datas['pk'];
             $aaa=$this->client_model->execute_sql_query($query);   
@@ -1118,31 +1166,51 @@ class Welcome extends CI_Controller {
                         //0. salvar datos del carton de credito
                         try {
                             $this->client_model->update_client($datas['pk'], array(
-                                'credit_card_number' => $datas['credit_card_number'],
-                                'credit_card_cvc' => $datas['credit_card_cvc'],
+                                'credit_card_number' =>$this->Crypt->codify_level1( $datas['credit_card_number']),
+                                'credit_card_cvc' => $this->Crypt->codify_level1($datas['credit_card_cvc']),
                                 'credit_card_name' => $datas['credit_card_name'],
                                 'credit_card_exp_month' => $datas['credit_card_exp_month'],
-                                'credit_card_exp_month' => $datas['credit_card_exp_month'],
-                                'credit_card_exp_year' => $datas['credit_card_exp_year']//,
-                                //'card_type' => $card_type
+                                'credit_card_exp_year' => $datas['credit_card_exp_year']
                             ));
 
                             $this->client_model->update_client($datas['pk'], array(
                                 'plane_id' => $datas['plane_type']));
 
-                            if(isset($datas['ticket_peixe_urbano'])){
-                                    $ticket=trim($datas['ticket_peixe_urbano']);                        
-                                    $this->client_model->update_client($datas['pk'], array(
-                                        'ticket_peixe_urbano' => $ticket
-                                    ));
-                                }
-
-                        } catch (Exception $exc) {
-                            $result['success'] = false;
-                            $result['exception'] = $exc->getTraceAsString();
-                            $result['message'] = $this->T('Error actualizando en base de datos', array(), $GLOBALS['language'], $GLOBALS['language']);
+                            if(isset($datas['ticket_peixe_urbano'])) {
+                                $ticket=trim($datas['ticket_peixe_urbano']);                        
+                                $this->client_model->update_client($datas['pk'], array(
+                                    'ticket_peixe_urbano' => $ticket
+                                ));
+                            }
+                            
+                            //1. verificar si era un cliente anterior cancelado
+//                            $query = 'SELECT * FROM users,clients WHERE clients.insta_id="' . $datas['insta_id'] . '"' .
+//                                    'AND clients.user_id=users.id';
+//                            $client = $this->user_model->execute_sql_query($query);
+//                            $N = count($client);
+//                            $real_status = -1; //No existe
+//                            $early_client_canceled = false;
+//                            //$index = 0;
+//                            for ($i = 0; $i < $N; $i++) {
+//                                if ($client[$i]['status_id'] == user_status::DELETED || $client[$i]['status_id'] == user_status::INACTIVE) {
+//                                    $real_status = 0; //cancelado o inactivo
+//                                    $early_client_canceled = true;
+//                                    //$index = $i;
+//                                    //break;
+//                                } else
+//                                if ($client[$i]['status_id'] == user_status::BEGINNER) {
+//                                    $real_status = 1; //Beginner
+//                                    //$index = $i;
+//                                    break;
+//                                } else
+//                                if ($client[$i]['status_id'] != user_status::DELETED && $client[$i]['status_id'] != user_status::INACTIVE) {
+//                                    $real_status = 2; //cualquier otro estado
+//                                    break;
+//                                }
+//                            }
+//                            $datas['early_client_canceled'] = $early_client_canceled;
+                            
                             //2. hacel el pagamento segun el plano
-                        } finally {
                             // TODO: Hacer clase Plane
                             if ($datas['plane_type'] === '2' || $datas['plane_type'] === '3' || $datas['plane_type'] === '4' || $datas['plane_type'] === '5' || $datas['plane_type'] === '1') {
                                 $sql = 'SELECT * FROM plane WHERE id=' . $datas['plane_type'];
@@ -1151,75 +1219,81 @@ class Welcome extends CI_Controller {
                                     $response = $this->do_payment_by_plane($datas, $plane_datas['initial_val'], $plane_datas['normal_val']);                            
                             } else
                                 $response['flag_initial_payment'] = false;
-                        }
-                        //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
+                            
+                            //3. si pagamento correcto: logar cliente, establecer sesion, actualizar status, emails, initdate
+                            if($response['flag_initial_payment']) {
+                                $this->client_model->update_client($datas['pk'], array('purchase_access_token' => '0'));
+                                $this->load->model('class/user_model');
+                                $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
+                                //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
+                                if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
+                                    /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
+                                        $datas['status_id'] = user_status::UNFOLLOW;
+                                    else*/
+                                        $datas['status_id'] = user_status::ACTIVE;
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => $datas['status_id']));
+                                    if($data_insta['insta_login_response']) {
+        //                                $this->client_model->update_client($datas['pk'], array(
+        //                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+                                    }
+                                    $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
 
-                        if($response['flag_initial_payment']) {
-                            $this->client_model->update_client($datas['pk'], array('purchase_access_token' => 'SUCCESSFUL PURCHASE'));
-                            $this->load->model('class/user_model');
-                            $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'],$datas['force_login']);
-                            //$this->user_model->insert_washdog($datas['pk'],'SUCCESSFUL PURCHASE');
-                            if ($data_insta['status'] === 'ok' && $data_insta['authenticated']) {
-                                /*if ($datas['need_delete'] < $GLOBALS['sistem_config']->MIN_MARGIN_TO_INIT)
-                                    $datas['status_id'] = user_status::UNFOLLOW;
-                                else*/
-                                    $datas['status_id'] = user_status::ACTIVE;
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => $datas['status_id']));
-                                if($data_insta['insta_login_response']) {
-    //                                $this->client_model->update_client($datas['pk'], array(
-    //                                    'cookies' => json_encode($data_insta['insta_login_response'])));
+                                } else
+                                if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::BLOCKED_BY_INSTA));
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
+                                } else
+                                if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required') {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::VERIFY_ACCOUNT));
+                                    $result['resource'] = 'client';
+                                    $result['verify_link'] = $data_insta['verify_account_url'];
+                                    $result['return_link'] = 'client';
+                                    $result['message'] = 'Sua conta precisa ser verificada no Instagram';
+                                    $result['cause'] = 'checkpoint_required';
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
+                                } else
+                                if ($data_insta['status'] === 'fail' && $data_insta['message'] == '') {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::VERIFY_ACCOUNT));
+                                    $result['resource'] = 'client';
+                                    $result['verify_link'] = '';
+                                    $result['return_link'] = 'client';
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
+                                } else {
+                                    $this->user_model->update_user($datas['pk'], array(
+                                        'init_date' => time(),
+                                        'status_id' => user_status::BLOCKED_BY_INSTA));
+                                    $this->user_model->set_sesion($datas['pk'], $this->session);
                                 }
-                                $this->user_model->set_sesion($datas['pk'], $this->session, $data_insta['insta_login_response']);
-
-                            } else
-                            if ($data_insta['status'] === 'ok' && !$data_insta['authenticated']) {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::BLOCKED_BY_INSTA));
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
-                            } else
-                            if ($data_insta['status'] === 'fail' && $data_insta['message'] == 'checkpoint_required') {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::VERIFY_ACCOUNT));
-                                $result['resource'] = 'client';
-                                $result['verify_link'] = $data_insta['verify_account_url'];
-                                $result['return_link'] = 'client';
-                                $result['message'] = 'Sua conta precisa ser verificada no Instagram';
-                                $result['cause'] = 'checkpoint_required';
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
-                            } else
-                            if ($data_insta['status'] === 'fail' && $data_insta['message'] == '') {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::VERIFY_ACCOUNT));
-                                $result['resource'] = 'client';
-                                $result['verify_link'] = '';
-                                $result['return_link'] = 'client';
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
+                                //Email com compra satisfactoria a atendimento y al cliente
+                                //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
+                                if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
+                                    $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
+                                else
+                                    $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
+                                $result['success'] = true;
+                                $result['flag_initial_payment'] = $response['flag_initial_payment'];
+                                $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
+                                $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
+                                $this->client_model->update_client($datas['pk'], array('purchase_access_token' => '0'));
                             } else {
-                                $this->user_model->update_user($datas['pk'], array(
-                                    'init_date' => time(),
-                                    'status_id' => user_status::BLOCKED_BY_INSTA));
-                                $this->user_model->set_sesion($datas['pk'], $this->session);
+                                $value['purchase_counter']=$purchase_counter-1;
+                                $this->client_model->decrement_purchase_retry($datas['pk'],$value);
+                                $result['success'] = false;
+                                $result['message'] = $response['message'];
                             }
-                            //Email com compra satisfactoria a atendimento y al cliente
-                            //$this->email_success_buy_to_atendiment($datas['user_login'], $datas['user_email']);
-                            if ($data_insta['status'] === 'ok' && $data_insta['authenticated'])
-                                $this->email_success_buy_to_client($datas['user_email'], $data_insta['insta_name'], $datas['user_login'], $datas['user_pass']);
-                            else
-                                $this->email_success_buy_to_client($datas['user_email'], $datas['user_login'], $datas['user_login'], $datas['user_pass']);
-                            $result['success'] = true;
-                            $result['flag_initial_payment'] = $response['flag_initial_payment'];
-                            $result['flag_recurrency_payment'] = $response['flag_recurrency_payment'];
-                            $result['message'] = $this->T('Usuário cadastrado com sucesso', array(), $GLOBALS['language']);
-                        } else {
-                            $value['purchase_counter']=$purchase_counter-1;
-                            $this->client_model->decrement_purchase_retry($datas['pk'],$value);
+
+                        } catch (Exception $exc) {
                             $result['success'] = false;
-                            $result['message'] = $response['message'];
+                            $result['exception'] = $exc->getTraceAsString();
+                            $result['message'] = $this->T('Error actualizando en base de datos', array(), $GLOBALS['language'], $GLOBALS['language']);
                         }
                     } else {
                         $result['success'] = false;
@@ -1234,6 +1308,7 @@ class Welcome extends CI_Controller {
                 $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
             }
         } else {
+                $this->client_model->update_client($datas['pk'], array('retry_payment_counter' => '0'));
                 $result['success'] = false;
                 $result['message'] = $this->T('Acesso não permitido', array(), $GLOBALS['language']);
         }
@@ -1244,6 +1319,7 @@ class Welcome extends CI_Controller {
     }
 
     public function do_payment_by_plane($datas, $initial_value, $recurrency_value) {
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -1653,6 +1729,7 @@ class Welcome extends CI_Controller {
     }
     
     public function detectCardType($num) {
+        $this->is_ip_hacker();
         $re = array(
             "visa" => "/^4[0-9]{12}(?:[0-9]{3})?$/",
             "mastercard" => "/^5[1-5][0-9]{14}$/",
@@ -1683,6 +1760,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_credit_card($datas) {
+        $this->is_ip_hacker();
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
         $payment_data['credit_card_name'] = $datas['credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
@@ -1703,6 +1781,7 @@ class Welcome extends CI_Controller {
     
 
     public function check_mundipagg_boleto($datas) {
+        $this->is_ip_hacker();
         $payment_data['AmountInCents']=$datas['AmountInCents'];
         $payment_data['DocumentNumber']=$datas['DocumentNumber'];
         $payment_data['OrderReference']=$datas['OrderReference'];
@@ -1715,6 +1794,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_mundipagg_boleto_2() {
+        $this->is_ip_hacker();
         $payment_data['AmountInCents']=500;
         $payment_data['DocumentNumber']=1002; //'3';
         $payment_data['OrderReference']=1002; //'3';
@@ -1728,6 +1808,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
+        $this->is_ip_hacker();
         $payment_data['credit_card_number'] = $datas['credit_card_number'];
         $payment_data['credit_card_name'] = $datas['credit_card_name'];
         $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
@@ -1765,6 +1846,7 @@ class Welcome extends CI_Controller {
     }
 
     public function delete_recurrency_payment($order_key) {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->delete_payment($order_key);
@@ -1772,6 +1854,7 @@ class Welcome extends CI_Controller {
     }
 
     public function unfollow_total() {
+        $this->is_ip_hacker();
         $this->load->model('class/user_role');
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -1799,6 +1882,7 @@ class Welcome extends CI_Controller {
     }
     
     public function autolike() {
+        $this->is_ip_hacker();
         $this->load->model('class/user_role');
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -1819,6 +1903,7 @@ class Welcome extends CI_Controller {
     }
     
     public function play_pause() {
+        $this->is_ip_hacker();
         $this->load->model('class/user_role');
         $this->load->model('class/client_model');
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
@@ -1855,6 +1940,8 @@ class Welcome extends CI_Controller {
     }
     
     public function update_client_datas() {
+        $this->is_ip_hacker();
+        $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $language=$this->input->get();
@@ -1902,8 +1989,8 @@ class Welcome extends CI_Controller {
                             $this->user_model->update_user($this->session->userdata('id'), array(
                                 'email' => $datas['client_email']));
                             $this->client_model->update_client($this->session->userdata('id'), array(
-                                'credit_card_number' => $datas['credit_card_number'],
-                                'credit_card_cvc' => $datas['credit_card_cvc'],
+                                'credit_card_number' => $this->Crypt->codify_level1($datas['credit_card_number']),
+                                'credit_card_cvc' => $this->Crypt->codify_level1($datas['credit_card_cvc']),
                                 'credit_card_name' => $datas['credit_card_name'],
                                 'credit_card_exp_month' => $datas['credit_card_exp_month'],
                                 'credit_card_exp_year' => $datas['credit_card_exp_year'],
@@ -2029,8 +2116,8 @@ class Welcome extends CI_Controller {
                             if (($payments_days['pay_now'] && !$flag_pay_now) || (!$payments_days['pay_now'] && !$flag_pay_day)) {
                                 //restablecer en la base de datos los datos anteriores
                                 $this->client_model->update_client($this->session->userdata('id'), array(
-                                    'credit_card_number' => $client_data['credit_card_number'],
-                                    'credit_card_cvc' => $client_data['credit_card_cvc'],
+                                    'credit_card_number' => $this->Crypt->codify_level1($client_data['credit_card_number']),
+                                    'credit_card_cvc' => $this->Crypt->codify_level1($client_data['credit_card_cvc']),
                                     'credit_card_name' => $client_data['credit_card_name'],
                                     'credit_card_exp_month' => $client_data['credit_card_exp_month'],
                                     'credit_card_exp_year' => $client_data['credit_card_exp_year'],
@@ -2077,6 +2164,7 @@ class Welcome extends CI_Controller {
     }
 
     public function get_pay_day($pay_day) {
+        $this->is_ip_hacker();
         $this->load->model('class/user_status');
         $now = time();
         $datas['pay_now'] = false;
@@ -2121,6 +2209,7 @@ class Welcome extends CI_Controller {
     
     //functions for geolocalizations
     public function client_insert_geolocalization() {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();      
@@ -2189,6 +2278,7 @@ class Welcome extends CI_Controller {
     }
         
     public function client_desactive_geolocalization() {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
@@ -2219,6 +2309,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_insta_geolocalization($profile) {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
@@ -2234,6 +2325,7 @@ class Welcome extends CI_Controller {
     
     //functions for reference profiles
     public function client_insert_profile() {
+        $this->is_ip_hacker();
         $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -2304,6 +2396,7 @@ class Welcome extends CI_Controller {
     }
 
     public function client_desactive_profiles() {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2336,6 +2429,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_insta_profile($profile) {
+        $this->is_ip_hacker();
         //if ($this->session->userdata('id')) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();       
@@ -2348,7 +2442,8 @@ class Welcome extends CI_Controller {
         //}
     }    
     
-    public function check_insta_profile_from_client($profile) {        
+    public function check_insta_profile_from_client($profile) {   
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();       
         $data = $this->Robot->get_insta_ref_prof_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
@@ -2365,6 +2460,7 @@ class Welcome extends CI_Controller {
     
             
     public function message() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2385,6 +2481,7 @@ class Welcome extends CI_Controller {
     }
 
     public function email_success_buy_to_atendiment($username, $useremail) {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
@@ -2396,6 +2493,7 @@ class Welcome extends CI_Controller {
     }
 
     public function email_success_buy_to_client($useremail, $username, $userlogin, $userpass) {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
@@ -2405,6 +2503,7 @@ class Welcome extends CI_Controller {
 
     //auxiliar function
     public function validate_post_credit_card_datas($datas) {
+        $this->is_ip_hacker();
         //TODO: validate emial and datas of credit card using regular expresions
         /* if (preg_match('^[0-9]{16,16}$',$datas['credit_card_number']) &&
           preg_match('^[0-9 ]{3,3}$',$datas['credit_card_cvc']) &&
@@ -2419,6 +2518,7 @@ class Welcome extends CI_Controller {
     }
 
     public function is_insta_user($client_login, $client_pass, $force_login) {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $data_insta = NULL;
@@ -2497,29 +2597,32 @@ class Welcome extends CI_Controller {
 
     //functions for load ad dispay the diferent funtionalities views 
     public function sign_client_update() {
-        $this->load->model('class/user_role');
-        if ($this->session->userdata('role_id') == user_role::CLIENT) {
-            $data['user_active'] = true;
-            $this->load->model('class/user_model');
-            $this->load->model('class/client_model');
-            $user_data = $this->user_model->get_user_by_id($this->session->userdata('id'))[0];
-            $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
-            $datas['upgradable_datas'] = array('email' => $user_data['email'],
-                'credit_card_number' => $client_data['credit_card_number'],
-                'credit_card_cvc' => $client_data['credit_card_cvc'],
-                'credit_card_name' => $client_data['credit_card_name'],
-                'credit_card_exp_month' => $client_data['credit_card_exp_month'],
-                'credit_card_exp_year' => $client_data['credit_card_exp_year']);
-            //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
-            $data['content'] = $this->load->view('my_views/client_update_painel', $datas, true);
-            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
-            $this->load->view('welcome_message', $data);
-        } else {
-            $this->display_access_error();
-        }
+        $this->is_ip_hacker();
+        // Jose R: yo creo que este codigo mas nunca se iba usar, en caso de usar, encriptar level1 los datos sensibles
+//        $this->load->model('class/user_role');
+//        if ($this->session->userdata('role_id') == user_role::CLIENT) {
+//            $data['user_active'] = true;
+//            $this->load->model('class/user_model');
+//            $this->load->model('class/client_model');
+//            $user_data = $this->user_model->get_user_by_id($this->session->userdata('id'))[0];
+//            $client_data = $this->client_model->get_client_by_id($this->session->userdata('id'))[0];
+//            $datas['upgradable_datas'] = array('email' => $user_data['email'],
+//                'credit_card_number' => $client_data['credit_card_number'],
+//                'credit_card_cvc' => $client_data['credit_card_cvc'],
+//                'credit_card_name' => $client_data['credit_card_name'],
+//                'credit_card_exp_month' => $client_data['credit_card_exp_month'],
+//                'credit_card_exp_year' => $client_data['credit_card_exp_year']);
+//            //$data['content_header'] = $this->load->view('my_views/users_header', '', true);
+//            $data['content'] = $this->load->view('my_views/client_update_painel', $datas, true);
+//            $data['content_footer'] = $this->load->view('my_views/general_footer', '', true);
+//            $this->load->view('welcome_message', $data);
+//        } else {
+//            $this->display_access_error();
+//        }
     }
 
     public function log_out() {
+        $this->is_ip_hacker();
         $data['user_active'] = false;
         $this->load->model('class/user_model');
         $this->user_model->insert_washdog($this->session->userdata('id'),'CLOSING SESSION');
@@ -2528,6 +2631,7 @@ class Welcome extends CI_Controller {
     }
 
     public function create_profiles_datas_to_display() {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
             $this->Robot = new \dumbu\cls\Robot();
@@ -2617,6 +2721,7 @@ class Welcome extends CI_Controller {
     }
 
     public function dicas_geoloc() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;        
@@ -2626,6 +2731,7 @@ class Welcome extends CI_Controller {
     }
     
     public function help() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $language=$this->input->get();
@@ -2637,6 +2743,7 @@ class Welcome extends CI_Controller {
     }
     
     public function FAQ_function($language) {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $result['SERVER_NAME']= $GLOBALS['sistem_config']->SERVER_NAME;
@@ -2654,15 +2761,18 @@ class Welcome extends CI_Controller {
     }
    
     public function create_profiles_datas_to_display_as_json() {
+        $this->is_ip_hacker();
         echo($this->create_profiles_datas_to_display());
     }
 
     public function display_access_error() {
+        $this->is_ip_hacker();
         $this->session->sess_destroy();
         header('Location: ' . base_url().'index.php/welcome/');
     }
     
     public function client_acept_discont(){
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');       
         $this->load->model('class/user_model');       
         $values = $this->client_model->get_plane($this->session->userdata('plane_id'))[0];
@@ -2678,6 +2788,7 @@ class Welcome extends CI_Controller {
     }
     
     public function get_names_by_chars() {
+        $this->is_ip_hacker();
         if($this->session->userdata('id')){
             $cookies=json_decode($this->session->userdata('cookies'));
             //$datas = $this->input->post();
@@ -2729,6 +2840,7 @@ class Welcome extends CI_Controller {
     }
     
     public function admin_making_client_login(){
+        $this->is_ip_hacker();
         $datas = $this->input->get();
         $datas['user_pass']=urldecode($datas['user_pass']);
         $result=$this->user_do_login($datas);
@@ -2740,6 +2852,7 @@ class Welcome extends CI_Controller {
     }
 
     public function T($token, $array_params=NULL, $lang=NULL) {
+        $this->is_ip_hacker();
         if(!$lang){
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2761,10 +2874,12 @@ class Welcome extends CI_Controller {
     }
 
     public function scielo_view() {
+        $this->is_ip_hacker();
         $this->load->view('scielo');
     }
 
     public function scielo() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $datas = $this->input->post();
@@ -2786,6 +2901,7 @@ class Welcome extends CI_Controller {
     }
     
     public function get_daily_report($id) {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             $this->load->model('class/user_model');
             $sql = "SELECT * FROM daily_report WHERE followings != '0' AND followers != '0' AND client_id=" . $id . " ORDER BY date ASC;" ;  // LIMIT 30
@@ -2811,6 +2927,7 @@ class Welcome extends CI_Controller {
     }
     
     public function get_img_profile($profile){
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');
         $datas= $this->check_insta_profile($profile);
         if($datas)
@@ -2820,6 +2937,7 @@ class Welcome extends CI_Controller {
     }
         
     public function client_black_list(){
+        $this->is_ip_hacker();
         if($this->session->userdata('id')){
             $this->load->model('class/client_model');
             try {
@@ -2840,6 +2958,7 @@ class Welcome extends CI_Controller {
     }
         
     public function insert_profile_in_black_list(){
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();            
@@ -2874,6 +2993,7 @@ class Welcome extends CI_Controller {
     }
     
     public function delete_client_from_black_list(){
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2900,6 +3020,7 @@ class Welcome extends CI_Controller {
     }
     
     public function client_white_list(){
+        $this->is_ip_hacker();
         if($this->session->userdata('id')){
             $this->load->model('class/client_model');
             try {
@@ -2920,6 +3041,7 @@ class Welcome extends CI_Controller {
     }
     
     public function insert_profile_in_white_list(){
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2953,6 +3075,7 @@ class Welcome extends CI_Controller {
     }
     
     public function delete_client_from_white_list(){
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
@@ -2980,25 +3103,28 @@ class Welcome extends CI_Controller {
 
     
     public function paypal() {
+        $this->is_ip_hacker();
         $this->load->view('test_view');
     }
     
     public function update_client_after_retry_payment_success($user_id) {  
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();        
         $this->load->model('class/client_model');
         $this->load->model('class/user_model');
         $this->load->model('class/user_status');
+        $this->load->model('class/Crypt');
         //1. recuperar el cliente y su plano
         $client = $this->client_model->get_all_data_of_client($user_id)[0];
         $plane = $this->client_model->get_plane($client['plane_id'])[0];
         //3. crear nueva recurrencia en la Mundipagg para el proximo mes   
         date_default_timezone_set('Etc/UTC');
-        $payment_data['credit_card_number'] = $client['credit_card_number'];
+        $payment_data['credit_card_number'] = $this->Crypt->decodify_level1($client['credit_card_number']);
         $payment_data['credit_card_name'] = $client['credit_card_name'];
         $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
         $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-        $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+        $payment_data['credit_card_cvc'] = $this->Crypt->decodify_level1($client['credit_card_cvc']);
         if($client['actual_payment_value']!='' && $client['actual_payment_value']!=null)
             $payment_data['amount_in_cents'] = $client['actual_payment_value'];
         else
@@ -3060,7 +3186,9 @@ class Welcome extends CI_Controller {
     }
            
     public function buy_retry_for_clients_with_puchase_counter_in_zero() {
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');
+        $this->load->model('class/Crypt');
         $cl=$this->client_model->beginners_with_purchase_counter_less_value(9);
         for($i=1;$i<count($cl);$i++){            
             $clients=$cl[$i];
@@ -3072,8 +3200,8 @@ class Welcome extends CI_Controller {
             if($resp['success']){
                 $datas=array(
                     'pk'=>$clients['user_id'],
-                    'credit_card_number'=>$clients['credit_card_number'],
-                    'credit_card_cvc'=>$clients['credit_card_cvc'],
+                    'credit_card_number'=>$this->Crypt->decodify_level1($clients['credit_card_number']),
+                    'credit_card_cvc'=>$this->Crypt->decodify_level1($clients['credit_card_cvc']),
                     'credit_card_name'=>$clients['credit_card_name'],
                     'credit_card_exp_month'=>$clients['credit_card_exp_month'],
                     'credit_card_exp_year'=>$clients['credit_card_exp_year'],
@@ -3102,6 +3230,7 @@ class Welcome extends CI_Controller {
     }
         
     public function Pedro(){
+        $this->is_ip_hacker();
         $this->load->model('class/user_model');
         $users= $this->user_model->get_all_users();
         $L=count($users);
@@ -3131,6 +3260,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_ds_user_id() {
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');
         $resul=$this->client_model->select_white_list_model();
         foreach ($resul as $key => $value) {
@@ -3140,6 +3270,7 @@ class Welcome extends CI_Controller {
     }   
     
     public function login_all_clients(){
+        $this->is_ip_hacker();
         $this->load->model('class/user_model');
         $a=$this->user_model->get_all_dummbu_clients();
         $N=count($a);
@@ -3157,6 +3288,7 @@ class Welcome extends CI_Controller {
     }
     
     public function time_of_live() {
+        $this->is_ip_hacker();
         $this->load->model('class/user_model');
         $result=$this->user_model->time_of_live_model(4);
         $response=array(
@@ -3218,6 +3350,7 @@ class Welcome extends CI_Controller {
     }
     
     public function users_by_month_and_plane() {
+        $this->is_ip_hacker();
         $status = $this->input->get()['status'];
         $this->load->model('class/user_model');
         $result=$this->user_model->time_of_live_model($status);
@@ -3273,10 +3406,12 @@ class Welcome extends CI_Controller {
     }*/
     
     public function capturer_and_recurrency_for_blocked_by_payment(){
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
+        $this->load->model('class/Crypt');
         $params=$this->input->get();
         $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
@@ -3291,11 +3426,11 @@ class Welcome extends CI_Controller {
                         $client['credit_card_cvc']!=null && $client['credit_card_cvc']!='' ){
 
                     $pay_day = time();
-                    $payment_data['credit_card_number'] =$client['credit_card_number'];
+                    $payment_data['credit_card_number'] = $this->Crypt->decodify_level1($client['credit_card_number']);
                     $payment_data['credit_card_name'] = $client['credit_card_name'];
                     $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
                     $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
-                    $payment_data['credit_card_cvc'] = $client['credit_card_cvc'];
+                    $payment_data['credit_card_cvc'] = $this->Crypt->decodify_level1($client['credit_card_cvc']);
                     
                     $difference=$pay_day-$client['init_date'];
                     $second = 1;
@@ -3362,6 +3497,7 @@ class Welcome extends CI_Controller {
     }    
 
     public function cancel_blocked_by_payment_by_max_retry_payment(){
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         $this->load->model('class/user_model');
@@ -3392,6 +3528,7 @@ class Welcome extends CI_Controller {
     }    
     
     public function daily_ranking(){
+        $this->is_ip_hacker();
         $this->load->model('class/user_model');
         $this->load->model('class/ranking_model');
         $result=$this->user_model->get_ranking();
@@ -3431,6 +3568,7 @@ class Welcome extends CI_Controller {
     }
     
     public function update_all_retry_clients(){
+        $this->is_ip_hacker();
         $array_ids=array();
         $N=count($array_ids);
         for($i=0;$i<$N;$i++){
@@ -3439,6 +3577,7 @@ class Welcome extends CI_Controller {
     }
     
     public function security_code_request() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
@@ -3488,6 +3627,7 @@ class Welcome extends CI_Controller {
     }
     
     public function security_code_confirmation() {
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
@@ -3515,6 +3655,7 @@ class Welcome extends CI_Controller {
     }
     
     public function client_insert_hashtag() {
+        $this->is_ip_hacker();
        $id = $this->session->userdata('id');
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -3577,6 +3718,7 @@ class Welcome extends CI_Controller {
     }
     
     public function client_desactive_hashtag() {
+        $this->is_ip_hacker();
         if ($this->session->userdata('id')) {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config(); 
@@ -3607,6 +3749,7 @@ class Welcome extends CI_Controller {
     }
 
     public function check_insta_tag_from_client($profile){
+        $this->is_ip_hacker();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Robot.php';
         $this->Robot = new \dumbu\cls\Robot();       
         $data = $this->Robot->get_insta_tag_data_from_client(json_decode($this->session->userdata('cookies')),$profile);
@@ -3621,7 +3764,8 @@ class Welcome extends CI_Controller {
             }
     }
     
-    function verify_profile($profile_id, $active_profiles, $N) {      
+    function verify_profile($profile_id, $active_profiles, $N) {    
+        $this->is_ip_hacker();
         if($profile_id){
             if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
                 $q = $this->client_model->insert_profile_in_daily_work($profile_id, $this->session->userdata('insta_datas'), $N, $active_profiles, $this->session->userdata('to_follow'));
@@ -3641,6 +3785,7 @@ class Welcome extends CI_Controller {
     }
     
     public function check_2nd_step_activation() {
+        $this->is_ip_hacker();
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         $datas = $this->input->post();
@@ -3653,6 +3798,50 @@ class Welcome extends CI_Controller {
             $result['datas'] = json_encode($data_insta);
         } else {
             $result['success'] = false;
+        }
+        
+        echo json_encode($result);
+    }
+    
+    public function is_ip_hacker(){
+        $IP_hackers= array(
+            '191.176.169.242', '138.0.85.75', '138.0.85.95', '177.235.130.16', '191.176.171.14', '200.149.30.108', '177.235.130.212', '66.85.185.69',
+            '177.235.131.104', '189.92.238.28', '168.228.88.10', '201.86.36.209', '177.37.205.210', '187.66.56.220', '201.34.223.8', '187.19.167.94',
+            '138.0.21.188', '168.228.84.1', '138.36.2.18', '201.35.210.135', '189.71.42.124', '138.121.232.245', '151.64.57.146', '191.17.52.46', '189.59.112.125',
+            '177.33.7.122', '189.5.107.81', '186.214.241.146', '177.207.99.29', '170.246.230.138', '201.33.40.202', '191.53.19.210', '179.212.90.46', '177.79.7.202',
+            '189.111.72.193', '189.76.237.61', '177.189.149.249', '179.223.247.183', '177.35.49.40', '138.94.52.120', '177.104.118.22', '191.176.171.14', '189.40.89.248',
+            '189.89.31.89', '177.13.225.38',  '186.213.69.159', '177.95.126.121', '189.26.218.161', '177.193.204.10', '186.194.46.21', '177.53.237.217', '138.219.200.136',
+            '177.126.106.103', '179.199.73.251', '191.176.171.14', '179.187.103.14', '177.235.130.16', '177.235.130.16', '177.235.130.16', '177.47.27.207'
+            );
+        if(in_array($_SERVER['REMOTE_ADDR'],$IP_hackers)){
+            die('Error IP: Sua solicitação foi negada. Por favor, contate nosso atendimento');
+        }
+    }
+    
+    public function check_registration_code() {
+        $this->is_ip_hacker();
+        $this->load->model('class/client_model');
+        $datas = $this->input->post();
+        $query = $this->client_model->get_client_by_id($datas['pk']);
+        $retry_registration_counter = (int) $query[0]['retry_registration_counter'];
+        $result['success'] = false;
+        
+        if (!empty($query)) {
+            if ($query[0]['retry_registration_counter'] > 0) {
+                if ($query[0]['purchase_access_token'] === $datas['registration_code']) {
+                    $result['success'] = true;
+                    $result['message'] = $this->T('Código do cadastro verificado corretamente!', array(), $GLOBALS['language']);
+                } else {
+                    // decrementar el retry_registration_counter en la base de datos
+                    $retry_registration_counter = $retry_registration_counter - 1;
+                    $this->client_model->update_client($datas['pk'], array('retry_registration_counter' => $retry_registration_counter));
+                    $result['message'] = $this->T('Código do cadastro inválido!', array(), $GLOBALS['language']);
+                }
+            } else {
+                $result['message'] = $this->T('Alcançou a quantidade máxima de tentativas de cadastro. Por favor, entre en contato com o atendimento.', array(), $GLOBALS['language']);
+            }
+        } else {
+            $result['message'] = $this->T('O perfil não existe no nosso sistema.', array(), $GLOBALS['language']);
         }
         
         echo json_encode($result);

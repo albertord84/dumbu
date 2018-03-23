@@ -83,7 +83,7 @@
          * @access public
          */
         
-        
+                     
         public function insert_client($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta->full_name;              //desde instagram
@@ -190,7 +190,7 @@
                 $this->db->select('*');
                 $this->db->from('clients'); 
                 $this->db->join('users', 'users.id = clients.user_id');
-                $this->db->where('clients.access_token', $access_token);
+                $this->db->where('clients.ticket_access_token', $access_token);
                 return $this->db->get()->result_array();
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();

@@ -101,7 +101,11 @@ var Translation={
     "Informe seu nome no cartão e não a bandeira dele.":
             "Informe seu nome no cartão e não a bandeira dele.",
     "Deve preencher o campo com o código de segurança de 6 dígitos.":
-            "Deve preencher o campo com o código de segurança de 6 dígitos."
+            "Deve preencher o campo com o código de segurança de 6 dígitos.",
+    "O código do cadastro só pode conter 4 números!":
+            "O código do cadastro só pode conter 4 números!",
+    "Não foi possível verificar o código enviado!":
+            "Não foi possível verificar o código enviado!"
 };
 
 function T(token){
