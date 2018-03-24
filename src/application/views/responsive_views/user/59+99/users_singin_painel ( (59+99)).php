@@ -21,7 +21,7 @@
                     </div>                
                     <form id="login_sign_in"  action="#" method="#"  style="margin-top:4%; visibility:visible; width: 80%; margin-left:10%;  padding:0%" class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">                    
                         <div class="form-group" style="width:100%">                                      
-                            <input id="client_email" type="email" class="form-control" placeholder="E-mail pessoal" required>
+                            <input id="client_email" type="email" class="form-control" placeholder="E-mail pessoal (válido)" required>
                         </div>
                         <div class="form-group">
                            <input id = "signin_clientLogin" type="text" class="form-control"  placeholder="Usuário" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required>
