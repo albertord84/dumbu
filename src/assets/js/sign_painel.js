@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    //active_by_steep(1);
-    verify_url();
+    active_by_steep(1);
+    //verify_url();
     payment_option=0;
 
     function modal_alert_message(text_message){
@@ -103,7 +103,7 @@ $(document).ready(function () {
     });
     
     
-    $("#signin_btn_insta_login").click(function () {
+    $("#signin_btn_insta_login").click(function() {
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {                   
@@ -136,12 +136,17 @@ $(document).ready(function () {
                                      //modal_alert_message('Você precisa desseguer pelo menos '+need_delete+' usuários para que o sistema funcione corretamente');                                
                                     // }
                                     //active_by_steep(2);
-                                    $('#container_sigin_message').text(response['message']);
-                                    $('#container_sigin_message').css('visibility', 'visible');
-                                    if (response['cause'] === 'email_send')
-                                        $('#container_sigin_message').css('color', 'green');
-                                    else
+                                    if (response['cause'] === 'email_send') {
+                                        active_by_steep(3);
+                                        $('#container_sigin_code_message').text(response['message']);
+                                        $('#container_sigin_code_message').css('visibility', 'visible');
+                                        $('#container_sigin_code_message').css('color', 'green');
+                                    }
+                                    else {
+                                        $('#container_sigin_message').text(response['message']);
+                                        $('#container_sigin_message').css('visibility', 'visible');
                                         $('#container_sigin_message').css('color', 'red');
+                                    }
                                     l.stop();
                                 } else {
                                     if (response['cause'] == 'checkpoint_required') {
@@ -187,10 +192,10 @@ $(document).ready(function () {
     });
     
     $("#btn_sing_in").click(function () {
-        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
-        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
-        if (purchase_access_token)
-            purchase_access_token = purchase_access_token.substr(0, 32);
+//        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
+//        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
+//        if (purchase_access_token)
+//            purchase_access_token = purchase_access_token.substr(0, 32);
        //pagamento por credito                
         if (flag == true) {
             flag = false;
@@ -262,9 +267,9 @@ $(document).ready(function () {
                             'need_delete': need_delete,
                             'early_client_canceled': early_client_canceled,
                             'plane_type': plane,
-                            'pk': client_id,
+                            'pk': pk,
                             'datas': datas,
-                            'purchase_access_token': purchase_access_token
+                            'purchase_access_token': registration_code
                         };
                         datas['ticket_peixe_urbano']=$('#ticket_peixe_urbano').val();
                         $.ajax({
@@ -308,18 +313,17 @@ $(document).ready(function () {
                 var ticket_bank_option = parseInt($('#ticket_bank_option').val());
                 var ticket_bank_client_name = validate_element('#ticket_bank_client_name', "^[A-Za-z ]{4,50}$");
                 var cpf = validate_cpf('#cpf', "^[0-9]{2,11}$");
-                
                 if(cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
                     datas={
                         'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
+                        'pk': pk,
                         'cpf': $('#cpf').val(),
                         'ticket_bank_option': ticket_bank_option,
                         'user_email': email,                        
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
-                        'pk': pk,
-                        //'datas': datas /////ojo, revisar se precisa
+                        'purchase_access_token': registration_code
                     };
                     $.ajax({
                         url: base_url + 'index.php/welcome/check_client_ticket_bank',
@@ -328,9 +332,8 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (response) {
                             if (response['success']) {
-                                var text = "Compra realizada com sucesso!!"+
-                                         "Agora acesse ao seu email cadastrado no Passo 1 e "+
-                                                "continue com as instruções"
+                                var text = "Boleto gerado com sucesso!!"+
+                                    "Agora acesse ao seu email e continue com as instruções"
                                 l.stop();
                                 $('#btn_sing_in').css('cursor', 'pointer');
                                 modal_alert_message(text);
@@ -469,6 +472,18 @@ $(document).ready(function () {
                     $('#container_sing_in_panel *').css('cursor', 'auto');
                 }, function () { });
                 break;
+            case 3:                
+                $('#login_sign_in').css('visibility', 'hidden');
+                $('#container_sigin_message').css('visibility', 'hidden');
+                $('#container_login_panel').css('visibility', 'hidden');
+                $('#container_login_panel').css('display', 'none');
+                $('#signin_profile').css('visibility', 'visible');
+                $('#signin_profile').css('display', 'block');
+                $('#img_ref_prof').attr("src", insta_profile_datas.profile_pic_url);
+                $('#name_ref_prof').text(insta_profile_datas.username);
+                $('#ref_prof_followers').text(T('Seguidores: ') + insta_profile_datas.follower_count);
+                $('#ref_prof_following').text(T('Seguindo: ') + insta_profile_datas.following);
+                break;
         }
     }
 
@@ -529,7 +544,7 @@ $(document).ready(function () {
     }
     
     function validate_date(month, year) {
-        var d=new Date();        
+        var d=new Date();
         if (year < d.getFullYear() || (year == d.getFullYear() && month <= d.getMonth()+1)){
             return false;
         }
@@ -568,42 +583,96 @@ $(document).ready(function () {
             case 'cupao_number_checked':
                 cupao_number_checked = value;
                 break;
+            case 'registration_code':
+                registration_code = value;
+                break;
         }
     }
 
-    function verify_url() {
-        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
-        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
-        if (purchase_access_token)
-            purchase_access_token = purchase_access_token.substr(0, 32);
-        
-        if (client_id && purchase_access_token) {
-            $.ajax({
-                url: base_url + 'index.php/welcome/check_2nd_step_activation',
-                data: {
-                    'client_id': client_id,
-                    'purchase_access_token': purchase_access_token
-                },
-                type: 'POST',
-                dataType: 'json',
-                success: function (response) {
-                    if (response['success']) {
-                        set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
-                        active_by_steep(2);  
-                    } else {
-                        active_by_steep(1);
+//    function verify_url() {
+//        var client_id = typeof getUrlVars()["client_id"] !== 'undefined' ? getUrlVars()["client_id"] : null;
+//        var purchase_access_token = typeof getUrlVars()["purchase_access_token"] !== 'undefined' ? getUrlVars()["purchase_access_token"] : null;
+//        if (purchase_access_token)
+//            purchase_access_token = purchase_access_token.substr(0, 32);
+//        
+//        if (client_id && purchase_access_token) {
+//            $.ajax({
+//                url: base_url + 'index.php/welcome/check_2nd_step_activation',
+//                data: {
+//                    'client_id': client_id,
+//                    'purchase_access_token': purchase_access_token
+//                },
+//                type: 'POST',
+//                dataType: 'json',
+//                success: function (response) {
+//                    if (response['success']) {
+//                        set_global_var('insta_profile_datas', jQuery.parseJSON(response['datas']));
+//                        active_by_steep(2);  
+//                    } else {
+//                        active_by_steep(1);
+//                    }
+//                },
+//                error: function (xhr, status) {
+//                    active_by_steep(1);
+//                }
+//            });
+//        } else {
+//            active_by_steep(1);
+//        }
+//    }
+    
+    $("#signin_btn_send_code").click(function () {
+        if ($('#signin_code').val() != '') {
+            if (validate_element('#signin_code', "^[0-9]{4}$")) {
+                var l = Ladda.create(this);
+                l.start();
+                l.start();
+                $.ajax({
+                    url: base_url + 'index.php/welcome/check_registration_code',
+                    data: {
+                        'pk': pk,
+                        'registration_code': $('#signin_code').val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response['success']) {
+                            set_global_var('registration_code', response['registration_code']);
+                            $('#signin_code').css('visibility', 'hidden');
+                            $('#signin_btn_send_code').css('visibility', 'hidden');
+                            active_by_steep(2);
+                            $('#container_sigin_code_message').text(response['message']);
+                            $('#container_sigin_code_message').css('visibility', 'visible');
+                            $('#container_sigin_code_message').css('color', 'green');
+                            l.stop();
+                        } else {
+                            $('#container_sigin_code_message').text(response['message']);
+                            $('#container_sigin_code_message').css('visibility', 'visible');
+                            $('#container_sigin_code_message').css('color', 'red');
+                            l.stop();
+                        }
+                    },
+                    error: function (xhr, status) {
+                        $('#container_sigin_code_message').text(T('Não foi possível verificar o código enviado!'));
+                        $('#container_sigin_code_message').css('visibility', 'visible');
+                        $('#container_sigin_code_message').css('color', 'red');
+                        l.stop();
                     }
-                },
-                error: function (xhr, status) {
-                    active_by_steep(1);
-                }
-            });
+                });
+            } else {
+                $('#container_sigin_code_message').text(T('O código do cadastro só pode conter 4 números!'));
+                $('#container_sigin_code_message').css('visibility', 'visible');
+                $('#container_sigin_code_message').css('color', 'red');
+            }
         } else {
-            active_by_steep(1);
+            $('#container_sigin_code_message').text(T('Deve preencher todos os dados corretamente!'));
+            $('#container_sigin_code_message').css('visibility', 'visible');
+            $('#container_sigin_code_message').css('color', 'red');
+            //modal_alert_message('Formulario incompleto');
         }
-    }
+    });
 
     var plane, pk, datas,cupao_number_checked=false, early_client_canceled = false, login, pass, email, insta_profile_datas, need_delete = 0, flag = true, option_seven_days = true;
     plane = '4';
-    
+    var registration_code;
 }); 

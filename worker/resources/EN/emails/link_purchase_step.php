@@ -10,12 +10,12 @@
             <!--  <div align="center">
                 <a href="https://github.com/PHPMailer/PHPMailer/"><img src="images/phpmailer.png" height="90" width="340" alt="PHPMailer rocks"></a>
               </div>-->
-            <p>Hello <strong><?php echo $_GET["username"]; ?></strong>,</p>
+            <p>Hello, <strong><?php echo $_GET["username"]; ?></strong>:</p>
             <p>You just made the first step to sign in <a href="https://www.dumbu.one/dumbu/src/">Dumbu</a> services, congratulations! :D</p>
             <p>Your username in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p> 
-            <p>Please, click the following link to continue your registration:
-               <a  href="<?php echo $_GET["second_step_link"]; ?>" > <?php echo $_GET["second_step_link"]; ?></a>
-            </p>
+            <p>Please, use the following code of 4 digits to continue your registration:</p>
+            
+            <h1><strong><?php echo $_GET["purchase_access_token"]; ?></strong></h1>
             
             <p>If you have any questions, please write us!</p>
             <p>Thank you for using our services,</p>
