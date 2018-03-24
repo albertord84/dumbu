@@ -752,9 +752,14 @@
                                             <div id="ref_prof_followers" style="font-family:sans-serif; font-size:1em;"></div>
                                             <div id="ref_prof_following" style="font-family:sans-serif; font-size:1em;"></div>
                                             <div id="code_sign_in" class="login fleft100 input-form">
-                                                <fieldset>
-                                                    <input id = "signin_code" type="text" placeholder="_ _ _ _"  required >
-                                                </fieldset>
+                                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd"></div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                                    <fieldset>
+                                                        <input style="text-align:center" id = "signin_code" type="text" placeholder="_ _ _ _"  required >
+                                                    </fieldset>                                                    
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd"></div>
+                                                <br>
                                                 <div
                                                     id="container_sigin_code_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
                                                 </div>
@@ -792,16 +797,16 @@
                                                 <div class="tab-pane active" id="tab_credito">
                                                     <div class="pay fleft100 input-form">   
                                                         <fieldset>
-                                                                <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                                <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;">
                                                         </fieldset>
                                                         <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                                                             <fieldset>
-                                                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20" required>
+                                                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20">
                                                             </fieldset>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
                                                                 <fieldset>
-                                                                    <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
+                                                                    <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5">
                                                                 </fieldset>
                                                         </div>
                                                         <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
@@ -841,7 +846,7 @@
                                                         </div>
                                                         <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                             <fieldset>
-                                                                <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
+                                                                <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" >
                                                             </fieldset>
                                                         </div>                                                    
                                                         <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">

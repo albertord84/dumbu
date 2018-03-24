@@ -103,7 +103,7 @@ $(document).ready(function () {
     });
     
     
-    $("#signin_btn_insta_login").click(function () {
+    $("#signin_btn_insta_login").click(function() {
         if ($('#signin_clientLogin').val() != '' && $('#signin_clientPassword').val() != '' && $('#client_email').val() != '') {
             if (validate_element('#client_email', "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,4}$")) {
                 if (validate_element('#signin_clientLogin', '^[a-zA-Z0-9\._]{1,300}$')) {                   
@@ -316,14 +316,14 @@ $(document).ready(function () {
                 if(cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
                     datas={
                         'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
-                        'pk': client_id,
+                        'pk': pk,
                         'cpf': $('#cpf').val(),
                         'ticket_bank_option': ticket_bank_option,
                         'user_email': email,                        
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
-                        //'datas': datas /////ojo, revisar se precisa
+                        'purchase_access_token': registration_code
                     };
                     $.ajax({
                         url: base_url + 'index.php/welcome/check_client_ticket_bank',
@@ -332,9 +332,8 @@ $(document).ready(function () {
                         dataType: 'json',
                         success: function (response) {
                             if (response['success']) {
-                                var text = "Compra realizada com sucesso!!"+
-                                         "Agora acesse ao seu email cadastrado no Passo 1 e "+
-                                                "continue com as instruções"
+                                var text = "Boleto gerado com sucesso!!"+
+                                    "Agora acesse ao seu email e continue com as instruções"
                                 l.stop();
                                 $('#btn_sing_in').css('cursor', 'pointer');
                                 modal_alert_message(text);
@@ -545,7 +544,7 @@ $(document).ready(function () {
     }
     
     function validate_date(month, year) {
-        var d=new Date();        
+        var d=new Date();
         if (year < d.getFullYear() || (year == d.getFullYear() && month <= d.getMonth()+1)){
             return false;
         }

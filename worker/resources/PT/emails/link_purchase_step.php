@@ -14,7 +14,7 @@
             <p>Você acaba de fazer o primeiro passo para se cadastrar no sistema <a href="https://www.dumbu.pro/dumbu/src/">Dumbu</a>, parabéns! :D</p>
             <p>Seu nome de usuário no nosso sistema é: <strong><?php echo $_GET["instaname"]; ?></strong></p>
             <p>Por favor, utilize o seguinte código de 4 dígitos para continuar o seu cadastro:</p>
-            <p><strong><?php echo $_GET["purchase_access_token"]; ?></strong></p>
+            <h1><strong><?php echo $_GET["purchase_access_token"]; ?></strong></h1>
             
             <p>Se tiver qualquer dúvida, por favor nos escreva!</p>
             <p>Obrigado por usar os nossos serviços,</p>

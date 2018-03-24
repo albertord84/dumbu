@@ -112,6 +112,15 @@
             $this->db->insert('ticket_bank',$ticket_datas);
             return $id_user_table;
         }
+        
+        public function get_unpayed_tickets($user_id, $elapsed_time){
+            $this->db->select('*');
+            $this->db->from('ticket_bank'); 
+            $this->db->where('ticket_bank.client_id', $user_id);            
+            $this->db->where('ticket_bank.payed_date IS NOT NULL', NULL, FALSE);           
+            $this->db->where('ticket_bank.generated_date <', $elapsed_time);    
+            return $this->db->get()->result_array();
+        }
 
         public function get_my_recent_followed_by_dumbu($client_id, $page_number=null){
             $limit=100; //limit by page
@@ -233,8 +242,8 @@
         public function update_client($id,$datas){
             try {
                 $this->db->where('user_id',$id);
-                $this->db->update('clients',$datas);
-                return true;
+                $result = $this->db->update('clients',$datas);
+                return $result;
             } catch (Exception $exc) {                
                 echo $exc->getTraceAsString();
                 return false;

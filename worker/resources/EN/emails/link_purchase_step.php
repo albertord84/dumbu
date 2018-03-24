@@ -13,8 +13,9 @@
             <p>Hello, <strong><?php echo $_GET["username"]; ?></strong>:</p>
             <p>You just made the first step to sign in <a href="https://www.dumbu.one/dumbu/src/">Dumbu</a> services, congratulations! :D</p>
             <p>Your username in our system is: <strong><?php echo $_GET["instaname"]; ?></strong></p> 
-            <p>Please, use the following code of 4 digits to continue your registration:
-            <p><strong><?php echo $_GET["purchase_access_token"]; ?></strong></p>
+            <p>Please, use the following code of 4 digits to continue your registration:</p>
+            
+            <h1><strong><?php echo $_GET["purchase_access_token"]; ?></strong></h1>
             
             <p>If you have any questions, please write us!</p>
             <p>Thank you for using our services,</p>
