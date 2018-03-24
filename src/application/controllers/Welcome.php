@@ -13,7 +13,7 @@ class Welcome extends CI_Controller {
     public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
         $this->load->model('class/client_model');        
-        for($i=1;$i<=35000;$i++){
+        for($i=101;$i<=28000;$i++){
             $client = $this->client_model->get_client_by_id($i);
             if(count($client)){  
                 $client=$client[0];                
@@ -29,8 +29,7 @@ class Welcome extends CI_Controller {
                 $this->client_model->update_client($client['user_id'], array(
                     'credit_card_number' => $codified_old_card_number,
                     'credit_card_cvc' => $codified_old_card_cvc ));
-                */
-                /*
+              
                 //2. Recuperando y mostrando
                 $client2 = $this->client_model->get_client_by_id($i)[0];
                 $number_encripted = $client2['credit_card_number'];
@@ -39,7 +38,7 @@ class Welcome extends CI_Controller {
                 $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
                 echo 'Carton descifrado----> '.$number_decripted.
                      ' cvc  ------> '.$cvc_decripted.'<br><br>';
-                */
+               */
                 
             }
         }
@@ -1091,6 +1090,8 @@ class Welcome extends CI_Controller {
             
             //6.1 salvar access token y atualizar pay_day
             $this->client_model->update_client($client_datas['user_id'], array(
+                'credit_card_number'=>'PAYMENT_BY_TICKET_BANK',
+                'credit_card_name'=>'PAYMENT_BY_TICKET_BANK',
                 'pay_day'=>strtotime("+7 days", time()),
                 'ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')
             ));
@@ -1119,6 +1120,37 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
     
+<<<<<<< HEAD
+    public function validaCPF($cpf = null) {
+        $this->is_ip_hacker();
+        $cpf='06266544750';
+        if(empty($cpf)) 
+            return false; 
+        $cpf = preg_replace('[^0-9]', '', $cpf);
+        $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+        if (strlen($cpf) != 11)
+            return false;    
+        else if ($cpf == '00000000000' || 
+            $cpf == '11111111111' || $cpf == '22222222222' || $cpf == '33333333333' || 
+            $cpf == '44444444444' || $cpf == '55555555555' || $cpf == '66666666666' || 
+            $cpf == '77777777777' || $cpf == '88888888888' || $cpf == '99999999999') {
+            return false;
+         } else {   
+            for ($t = 9; $t < 11; $t++) {
+                for ($d = 0, $c = 0; $c < $t; $c++) {
+                    $d += $cpf{$c} * (($t + 1) - $c);
+                }
+                $d = ((10 * $d) % 11) % 10;
+                if ($cpf{$c} != $d) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+=======
+>>>>>>> develop
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
         $this->is_ip_hacker();
