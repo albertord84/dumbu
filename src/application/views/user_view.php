@@ -860,12 +860,13 @@
                                                 <div class="tab-pane" id="tab_boleto">
                                                     <div class="pay fleft100 input-form">   
                                                         <fieldset>
-                                                            <br><label for="sel1">Selecione um dos seguintes planos:</label>                                                        
+                                                            <br>                                                       
                                                             <div class="select">
                                                                 <select id="ticket_bank_option" name="local" class="btn-primeiro sel" id="local">
-                                                                    <option id="plano3meses" value="1">3 meses - 15% desconto</option>
-                                                                    <option id="plano6meses" value="2">6 meses - 25% desconto</option>
-                                                                    <option id="plano1ano"   value="3"> Um ano - 40% desconto</option>
+                                                                    <option id="default_ticket_option" value="0" checked>Selecione o plano ...</option>
+                                                                    <option id="plano3meses" value="1"> 3 meses - 15% desconto</option>
+                                                                    <option id="plano6meses" value="2"> 6 meses - 25% desconto</option>
+                                                                    <option id="plano1ano"   value="3">12 meses - 40% desconto</option>
                                                                 </select>
                                                             </div>
                                                         </fieldset>
@@ -874,9 +875,46 @@
                                                                 <input id="ticket_bank_client_name" type="text" placeholder="Nome completo" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
                                                             </fieldset>
                                                         </div>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12 pd-r5">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 pd-r5">
                                                             <fieldset>
                                                                 <input id="cpf" type="text" placeholder="CPF" required>
+                                                            </fieldset>
+                                                        </div> 
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 pd-r1">
+                                                            <fieldset>
+                                                                <input id="cep" type="text" placeholder="CEP" required>                                                                
+                                                            </fieldset>                                                            
+                                                        </div>
+                                                        <div class="col-md-1 col-sm-1 col-xs-12 pd-r15" style="margin-top:8px">
+                                                            <fieldset>
+                                                                <button id="verify_cep" type="button" class="btn btn-success" >
+                                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                                </button>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-8 col-sm-8 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="street_address" type="text" placeholder="Logradouro" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="house_number" type="text" placeholder="Número" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="neighborhood_address" type="text" placeholder="Bairro" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="municipality_address" type="text" placeholder="Localidade" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-2 col-sm-2 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="state_address" type="text" placeholder="UF" required>
                                                             </fieldset>
                                                         </div>                                                    
                                                     </div>

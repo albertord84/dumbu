@@ -133,6 +133,14 @@ li{
 	padding-right: 5px;
 	padding-left: 0;
 }
+.pd-r10{
+	padding-right: 10px;
+	padding-left: 0;
+}
+.pd-r1{
+	padding-right: 1px;
+	padding-left: 0;
+}
 
 .pd-20{
 	padding: 20px;
