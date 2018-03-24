@@ -555,8 +555,8 @@
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array(), $language); ?></h4>
                                 </div>
                                 <div class="modal-body text-left">                                                                       
-                                    <input id = "login_profile"  type="text" style="text-transform:lowercase" class="form-control" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>                                    
-                                    <!--<input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>-->
+                                    <!--<input id = "login_profile"  type="text" style="text-transform:lowercase" class="form-control" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required> -->
+                                    <input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>
                                     <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
                                 <div class="modal-footer">

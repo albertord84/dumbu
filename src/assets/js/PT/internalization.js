@@ -105,7 +105,11 @@ var Translation={
     "Deseja eliminar o #":
             "Deseja eliminar o #",
     "* O nome do hashtag só pode conter letras, números, sublinhados e pontos.":
-            "* O nome do hashtag só pode conter letras, números, sublinhados e pontos."
+            "* O nome do hashtag só pode conter letras, números, sublinhados e pontos.",
+    "O código do cadastro só pode conter 4 números!":
+            "O código do cadastro só pode conter 4 números!",
+    "Não foi possível verificar o código enviado!":
+            "Não foi possível verificar o código enviado!"
 };
 
 function T(token){

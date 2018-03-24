@@ -83,7 +83,7 @@
          * @access public
          */
         
-        
+                     
         public function insert_client($datas,$data_insta){
             //insert respectivity datas in the user table
             $data_user['name']=$data_insta->full_name;              //desde instagram
@@ -106,8 +106,22 @@
             $data_client['utm_source']=$datas['utm_source'];                            //desde instagram navegador y servidor
             $this->db->insert('clients',$data_client);
             return $id_user_table;
-        }        
+        }    
         
+        public function insert_ticket_bank_generated($ticket_datas){
+            $this->db->insert('ticket_bank',$ticket_datas);
+            return $id_user_table;
+        }
+        
+        public function get_unpayed_tickets($user_id, $elapsed_time){
+            $this->db->select('*');
+            $this->db->from('ticket_bank'); 
+            $this->db->where('ticket_bank.client_id', $user_id);            
+            $this->db->where('ticket_bank.payed_date IS NOT NULL', NULL, FALSE);           
+            $this->db->where('ticket_bank.generated_date <', $elapsed_time);    
+            return $this->db->get()->result_array();
+        }
+
         public function get_my_recent_followed_by_dumbu($client_id, $page_number=null){
             $limit=100; //limit by page
             if($page_number)
@@ -185,7 +199,7 @@
                 $this->db->select('*');
                 $this->db->from('clients'); 
                 $this->db->join('users', 'users.id = clients.user_id');
-                $this->db->where('clients.access_token', $access_token);
+                $this->db->where('clients.ticket_access_token', $access_token);
                 return $this->db->get()->result_array();
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
@@ -228,8 +242,8 @@
         public function update_client($id,$datas){
             try {
                 $this->db->where('user_id',$id);
-                $this->db->update('clients',$datas);
-                return true;
+                $result = $this->db->update('clients',$datas);
+                return $result;
             } catch (Exception $exc) {                
                 echo $exc->getTraceAsString();
                 return false;
@@ -477,6 +491,9 @@
         
         public function execute_sql_query($query){
             return $this->db->query($query)->result_array();
+        }
+        public function execute_sql_query_to_update($query){
+            return $this->db->query($query);
         }
         
         public function desactive_profiles($clien_id, $profile, $id_profile=NULL){

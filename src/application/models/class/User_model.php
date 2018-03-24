@@ -92,11 +92,6 @@ class User_model extends CI_Model {
     public function set_sesion($id, $session, $datas = NULL) {
         try {
             $this->load->model('class/user_role');
-            /* $this->db->select('*');
-              $this->db->from('users');
-              $this->db->where(array('id'=>$id));
-              $user_data = $this->db->get()->row_array(); */
-
             $this->db->select('*');
             $this->db->from('users');
             $this->db->where(array('id' => "$id"));

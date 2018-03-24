@@ -92,7 +92,7 @@ namespace dumbu\cls {
             //$this->Ref_profile = $Ref_profile;
             //$DB = new DB();
             $Client = (new \dumbu\cls\Client())->get_client($daily_work->client_id);
-//            $this->daily_work = $daily_work;
+            $this->daily_work = $daily_work;
             $login_data = $daily_work->login_data;
             // Unfollow same profiles quantity that we will follow
             $Profile = new Profile();
@@ -160,7 +160,7 @@ namespace dumbu\cls {
                     // Get Users 
                     $page_info = NULL;
                     $Profiles = $this->get_profiles_to_follow($daily_work, $error, $page_info);
-                    var_dump($Profiles);
+                    //var_dump($Profiles);
                     foreach ($Profiles as $Profile) {                        
                         $Profile = $Profile->node;
                         echo "Profil name: $Profile->username ";
@@ -200,7 +200,7 @@ namespace dumbu\cls {
                                     $this->DB->InsertEventToWashdog($daily_work->client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, $this->id, "Cookies incompletas");
                                     $error = TRUE;
                                 }
-                                if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
+                                //if ($daily_work->like_first && count($Profile_data->user->media->nodes)) {
 //                                    $json_response_like = $this->make_insta_friendships_command($login_data, $Profile_data->user->media->nodes[0]->id, 'like', 'web/likes');
 //                                    $this->like_fist_post($login_data, $Profile->id);
 //                                    if (!is_object($json_response_like) || !isset($json_response_like->status) || $json_response_like->status != 'ok') {
@@ -212,7 +212,7 @@ namespace dumbu\cls {
 //                                        }
 //                                        break;
 //                                    }
-                                }
+                                //}
                                 if (is_object($json_response2) && $json_response2->status == 'ok') { // if response is ok
                                     array_push($Ref_profile_follows, $Profile);
                                     $follows++;

@@ -1,7 +1,5 @@
 $(document).ready(function(){   
     
-    
-    
     function modal_alert_message(text_message){
         $('#modal_alert_message').modal('show');
         $('#message_text').text(text_message);        
