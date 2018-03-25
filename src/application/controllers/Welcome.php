@@ -9,7 +9,7 @@ class Welcome extends CI_Controller {
     private $security_purchase_code; //random number in [100000;999999] interval and coded by md5 crypted to antihacker control
     public $language =NULL;
        
-   
+    
     public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
         $this->load->model('class/client_model');        
@@ -946,7 +946,7 @@ class Welcome extends CI_Controller {
                 $result = $this->Gmail->send_user_to_purchase_step($datas['client_email'], $data_insta->full_name, $datas['client_login'], $purchase_access_token);
                 if ($result['success']) {
                     $response['cause'] = 'email_send';
-                    $response['message'] = $this->T('Para continuar o cadastro deve acessar o código enviado ao email fornecido!', array(), $GLOBALS['language']);
+                    $response['message'] = $this->T('Para continuar o cadastro deve inserir o código enviado ao email fornecido!', array(), $GLOBALS['language']);
                 } else {
                     $response['cause'] = 'email_not_send';
                     $response['message'] = $this->T('Não foi possível enviar o email de confirmação ao endereço fornecido!', array(), $GLOBALS['language']);
@@ -1062,13 +1062,20 @@ class Welcome extends CI_Controller {
             $result['message'] ='Erro gerando boleto bancário';
         }
         else {
-            //5.1 insertar o novo boleto gerado nol banco de dados
+            //5.1 insertar o novo boleto gerado no banco de dados
             $ticket_url=$response['ticket_url'];
             $ticket_order_key=$response['ticket_order_key'];
             $ticket_datas=array(
                 'client_id'=>$datas['pk'],
                 'name_in_ticket'=>$datas['ticket_bank_client_name'],
-                'cpf'=>$datas['cpf'],
+                'cpf'=>$datas['cpf'],                
+                'ticket_bank_option'=>$datas['ticket_bank_option'],
+                'cep'=>$datas['cep'],
+                'street_address'=>$datas['street_address'],
+                'house_number'=>$datas['house_number'],
+                'neighborhood_address'=>$datas['neighborhood_address'],
+                'municipality_address'=>$datas['municipality_address'],
+                'state_address'=>$datas['state_address'],                
                 'ticket_link'=>$ticket_url,
                 'ticket_order_key'=>$ticket_order_key,
                 'amount_months'=>$amount_months,
@@ -1796,8 +1803,7 @@ class Welcome extends CI_Controller {
             $response = array("message" => $this->T("Confira seu número de cartão e se está certo entre em contato com o atendimento.", array(), $GLOBALS['language']));
         
         return $response;
-    }
-    
+    }    
 
     public function check_mundipagg_boleto($datas) {
         $this->is_ip_hacker();
@@ -1806,7 +1812,14 @@ class Welcome extends CI_Controller {
         $payment_data['OrderReference']=$datas['OrderReference'];
         $payment_data['id']=$datas['pk'];
         $payment_data['name']=$datas['name'];
-        $payment_data['cpf']=$datas['cpf'];
+        $payment_data['cpf']=$datas['cpf'];        
+        $payment_data['cep']=$datas['cep'];
+        $payment_data['street_address']=$datas['street_address'];
+        $payment_data['house_number']=$datas['house_number'];
+        $payment_data['neighborhood_address']=$datas['neighborhood_address'];
+        $payment_data['municipality_address']=$datas['municipality_address'];
+        $payment_data['state_address']=$datas['state_address'];   
+        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         return $Payment->create_boleto_payment( $payment_data);        
@@ -1815,11 +1828,19 @@ class Welcome extends CI_Controller {
     public function check_mundipagg_boleto_2() {
         $this->is_ip_hacker();
         $payment_data['AmountInCents']=500;
-        $payment_data['DocumentNumber']=1002; //'3';
-        $payment_data['OrderReference']=1002; //'3';
-        $payment_data['id']=27555; 
+        $payment_data['DocumentNumber']=250; //'3';
+        $payment_data['OrderReference']=250; //'3';
+        $payment_data['id']=250; 
         $payment_data['name']='JOSE RAMON GONZALEZ MONTERO';
         $payment_data['cpf']='07367014196';
+        
+        $payment_data['cep']='24020206';
+        $payment_data['street_address']='Visconde de Sepetiva';
+        $payment_data['house_number']='223';
+        $payment_data['neighborhood_address']='Centro';
+        $payment_data['municipality_address']='Niteroi';
+        $payment_data['state_address']='RJ';        
+        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         $response = $Payment->create_boleto_payment($payment_data);
@@ -3890,8 +3911,22 @@ class Welcome extends CI_Controller {
             }
         } else {
             $result['message'] = $this->T('O perfil não existe no nosso sistema.', array(), $GLOBALS['language']);
-        }
-        
+        }        
         echo json_encode($result);
+    }    
+    
+    public function get_cep_datas(){
+        $cep = $this->input->post()['cep'];
+        $datas = file_get_contents('https://viacep.com.br/ws/'.$cep.'/json/');
+        if(strpos($datas,'erro')>0){
+            $response['success']=false;
+        } else{
+            $response['success']=true;
+        }
+        $response['datas'] = json_decode($datas);
+        echo json_encode($response);
     }
+    
+    
+    
 }

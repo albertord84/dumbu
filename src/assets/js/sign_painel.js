@@ -72,6 +72,31 @@ $(document).ready(function () {
             return false;
         }
     }
+    
+    $("#verify_cep").click(function () {
+        if(validate_element("#cep",'^[0-9]{8}$')){
+            $.ajax({
+                url: base_url+'index.php/welcome/get_cep_datas',                
+                data: {
+                    'cep': $('#cep').val(),
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if(response['success']){
+                        response = response['datas'];
+                        $('#street_address').val(response['logradouro']);
+                        $('#neighborhood_address').val(response['bairro']);
+                        $('#municipality_address').val(response['localidade']);
+                        $('#state_address').val(response['uf']);            
+                    } else
+                        modal_alert_message('CEP inválido');
+                }
+        });
+        } else{
+            modal_alert_message('CEP inválido');
+        }
+    });
                 
     $("#check_cupao").click(function () {
         if($("#cupao_number").val()!==''){
@@ -252,7 +277,7 @@ $(document).ready(function () {
                 var cvv = validate_element('#credit_card_cvc', "^[0-9]{3,4}$");
                 var month = validate_month('#credit_card_exp_month', "^[0-10-9]{2,2}$");
                 var year = validate_year('#credit_card_exp_year', "^[2-20-01-20-9]{4,4}$");            
-                var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());            
+                var date = validate_date($('#credit_card_exp_month').val(),$('#credit_card_exp_year').val());                  
                 if (name && number && cvv && month && year) {
                     if (date) {
                         datas={
@@ -309,17 +334,32 @@ $(document).ready(function () {
                     $('#my_body').css('cursor', 'auto');
                     l.stop();
                 }
-            } else if(payment_option==1){
+            } else if(payment_option==1){ //boleto bancario
                 var ticket_bank_option = parseInt($('#ticket_bank_option').val());
                 var ticket_bank_client_name = validate_element('#ticket_bank_client_name', "^[A-Za-z ]{4,50}$");
                 var cpf = validate_cpf('#cpf', "^[0-9]{2,11}$");
-                if(cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
+                var cep = validate_element("#cep",'^[0-9]{8}$');
+                var street_address = validate_element('#street_address','^[a-zA-Z0-9. áéíóúãõẽâîô]{5,80}$');
+                var neighborhood_address = validate_element('#neighborhood_address','^[a-zA-Z0-9. áéíóúãõẽâîô]{2,80}$');
+                var municipality_address = validate_element('#municipality_address','^[a-zA-Z0-9. áéíóúãõẽâîô]{2,80}$');
+                var state_address = validate_element('#state_address','^[A-Z]{2}$');
+                var house_number = validate_element('#house_number','^[0-9/]{1,7}$');
+                var ticket_bank_option_tmp = validate_element('#ticket_bank_option','^[1-3]{1}$');
+                
+                if( ticket_bank_option_tmp && cep && street_address && neighborhood_address && municipality_address && state_address && house_number &&
+                    cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
                     datas={
-                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
                         'pk': pk,
-                        'cpf': $('#cpf').val(),
-                        'ticket_bank_option': ticket_bank_option,
-                        'user_email': email,                        
+                        'ticket_bank_option': $('#ticket_bank_option').val(),
+                        'ticket_bank_client_name': $('#ticket_bank_client_name').val(),
+                        'cpf': $('#cpf').val(),                        
+                        'cep':$('#cep').val(),
+                        'street_address': $('#street_address').val(),
+                        'house_number': $('#house_number').val(),
+                        'neighborhood_address': $('#neighborhood_address').val(),
+                        'municipality_address': $('#municipality_address').val(),
+                        'state_address': $('#state_address').val(),                         
+                        'user_email': email,
                         'need_delete': need_delete,
                         'early_client_canceled': early_client_canceled,
                         'plane_type': plane,
@@ -350,31 +390,17 @@ $(document).ready(function () {
                             set_global_var('flag', true);
                         }
                     });                    
-                } else
-                if(!cpf){
-                    modal_alert_message('CPF inválido');
-                    set_global_var('flag', true);
-                    $('#btn_sing_in').attr('disabled', false);
-                    $('#btn_sing_in').css('cursor', 'pointer');
-                    $('#my_body').css('cursor', 'auto');
-                    l.stop();
-                } else
-                if(!ticket_bank_client_name){
-                    modal_alert_message('Número de cartão de crédito inválido');
-                    set_global_var('flag', true);
-                    $('#btn_sing_in').attr('disabled', false);
-                    $('#btn_sing_in').css('cursor', 'pointer');
-                    $('#my_body').css('cursor', 'auto');
-                    l.stop();
-                } else
-                if(!( !(ticket_bank_option>=1 && ticket_bank_option<=3) )){
-                    modal_alert_message('Selecione um periodo de tempo válido pra ganhar desconto');
+                } else{                    
+                    modal_alert_message('Alguns dados inválidos');
                     set_global_var('flag', true);
                     $('#btn_sing_in').attr('disabled', false);
                     $('#btn_sing_in').css('cursor', 'pointer');
                     $('#my_body').css('cursor', 'auto');
                     l.stop();
                 }
+                
+                    
+                
             }
         } else {
             console.log('paymet working');
@@ -585,7 +611,7 @@ $(document).ready(function () {
                 break;
             case 'registration_code':
                 registration_code = value;
-                break;
+                break;            
         }
     }
 
