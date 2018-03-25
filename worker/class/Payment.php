@@ -189,18 +189,19 @@ namespace dumbu\cls {
                 //->setGender(\Gateway\One\DataContract\Enum\GenderEnum::FEMALE)
                 //->setMobilePhone("(21)972596272")
                 //->setBirthDate(\DateTime::createFromFormat('d/m/Y', '20/08/1990'))
+                        
                 ->setCreateDateInMerchant(new \DateTime())
-               // ->addAddress()
-               // ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
-               // ->setStreet("Rua General Castrioto")
-               // ->setNumber("380")
+                ->addAddress()
+                ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
+                ->setStreet($payment_data['street_address'])
+                ->setNumber($payment_data['house_number'])
                // ->setComplement("30B")
-               // ->setDistrict("Barreto")
-               // ->setCity("Niteroi")
-               // ->setState("RJ")
-               // ->setZipCode("24110256")
-               // ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
-                ;
+                ->setDistrict($payment_data['neighborhood_address'])
+                ->setCity($payment_data['municipality_address'])
+                ->setState($payment_data['state_address'])
+                ->setZipCode($payment_data['cep'])
+                ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
+                
                 // Cria um objeto ApiClient
                 $client = new \Gateway\ApiClient();
                 //var_dump($client);
