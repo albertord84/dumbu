@@ -343,10 +343,10 @@ $(document).ready(function () {
                 var neighborhood_address = validate_element('#neighborhood_address','^[a-zA-Z0-9. áéíóúãõẽâîô]{2,80}$');
                 var municipality_address = validate_element('#municipality_address','^[a-zA-Z0-9. áéíóúãõẽâîô]{2,80}$');
                 var state_address = validate_element('#state_address','^[A-Z]{2}$');
-                var house_number = validate_element('#house_number','^[0-9]{1,7}$');
-                var ticket_bank_option = validate_element('#ticket_bank_option','^[1-3]{1}$');
+                var house_number = validate_element('#house_number','^[0-9/]{1,7}$');
+                var ticket_bank_option_tmp = validate_element('#ticket_bank_option','^[1-3]{1}$');
                 
-                if( ticket_bank_option && cep && street_address && neighborhood_address && municipality_address && state_address && house_number &&
+                if( ticket_bank_option_tmp && cep && street_address && neighborhood_address && municipality_address && state_address && house_number &&
                     cpf && ticket_bank_client_name && (ticket_bank_option>=1 && ticket_bank_option<=3)) {
                     datas={
                         'pk': pk,
@@ -390,31 +390,17 @@ $(document).ready(function () {
                             set_global_var('flag', true);
                         }
                     });                    
-                } else
-                if(!cpf){
-                    modal_alert_message('CPF inválido');
-                    set_global_var('flag', true);
-                    $('#btn_sing_in').attr('disabled', false);
-                    $('#btn_sing_in').css('cursor', 'pointer');
-                    $('#my_body').css('cursor', 'auto');
-                    l.stop();
-                } else
-                if(!ticket_bank_client_name){
-                    modal_alert_message('Número de cartão de crédito inválido');
-                    set_global_var('flag', true);
-                    $('#btn_sing_in').attr('disabled', false);
-                    $('#btn_sing_in').css('cursor', 'pointer');
-                    $('#my_body').css('cursor', 'auto');
-                    l.stop();
-                } else
-                if(!( !(ticket_bank_option>=1 && ticket_bank_option<=3) )){
-                    modal_alert_message('Selecione um periodo de tempo válido pra ganhar desconto');
+                } else{                    
+                    modal_alert_message('Alguns dados inválidos');
                     set_global_var('flag', true);
                     $('#btn_sing_in').attr('disabled', false);
                     $('#btn_sing_in').css('cursor', 'pointer');
                     $('#my_body').css('cursor', 'auto');
                     l.stop();
                 }
+                
+                    
+                
             }
         } else {
             console.log('paymet working');

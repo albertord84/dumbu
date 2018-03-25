@@ -724,7 +724,7 @@
 					</div>
                                         <div id="login_sign_in" class="login fleft100 input-form">
 						<fieldset>
-                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal", array(),$language);?>" required value="<?php if(isset($_GET) && isset($_GET['_u']) && isset($_GET['_d'])) echo $_GET['_u'].'@'.$_GET['_d']; else echo '';?>">
+                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal(válido*)", array(),$language);?>" required value="<?php if(isset($_GET) && isset($_GET['_u']) && isset($_GET['_d'])) echo $_GET['_u'].'@'.$_GET['_d']; else echo '';?>">
 						</fieldset>
 						<fieldset>
 							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required value="<?php if(isset($_GET) && isset($_GET['username'])) echo $_GET['username']; else echo '';?>">
@@ -899,7 +899,7 @@
                                                         </div>                                                    
                                                         <div class="col-md-4 col-sm-4 col-xs-12 pd-r5">
                                                             <fieldset>
-                                                                <input id="house_number" type="text" placeholder="Número" required>
+                                                                <input id="house_number" type="text" placeholder="Num/Compl" required>
                                                             </fieldset>
                                                         </div>                                                    
                                                         <div class="col-md-5 col-sm-5 col-xs-12 pd-r5">

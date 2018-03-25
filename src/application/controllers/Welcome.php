@@ -1780,7 +1780,14 @@ class Welcome extends CI_Controller {
         $payment_data['OrderReference']=$datas['OrderReference'];
         $payment_data['id']=$datas['pk'];
         $payment_data['name']=$datas['name'];
-        $payment_data['cpf']=$datas['cpf'];
+        $payment_data['cpf']=$datas['cpf'];        
+        $payment_data['cep']=$datas['cep'];
+        $payment_data['street_address']=$datas['street_address'];
+        $payment_data['house_number']=$datas['house_number'];
+        $payment_data['neighborhood_address']=$datas['neighborhood_address'];
+        $payment_data['municipality_address']=$datas['municipality_address'];
+        $payment_data['state_address']=$datas['state_address'];   
+        
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
         $Payment = new \dumbu\cls\Payment();
         return $Payment->create_boleto_payment( $payment_data);        
