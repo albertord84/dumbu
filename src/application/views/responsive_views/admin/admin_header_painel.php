@@ -13,7 +13,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">           
                          <ul class="nav navbar-nav navbar-left">
                             <!--<li><a href="#lnk_talkme">FALE CONOSCO</a></li>-->
-                            <li><a id="do_payments" target="_blank" href="<?php echo base_url().'index.php/admin/do_payments'?>">FAZER PAGAMENTOS</a></li>
+                            <li><a id="do_payments" target="_blank" href="<?php echo base_url().'index.php/admin/do_payments'?>">OPERAÇÔES BÁSICAS</a></li>
                             <li><a id="lnk_washdog" target="_blank" href="<?php echo base_url().'index.php/admin/watchdog'?>">WATCHDOG</a></li>
                             <li><a id="lnk_pendences" target="_blank" href="<?php echo base_url().'index.php/admin/pendences'?>">PENDÊNCIAS</a></li>
                             <li><a href="<?php echo base_url().'index.php/admin/log_out'?>" >SAIR</a></li>
