@@ -109,7 +109,11 @@ var Translation={
     "O código do cadastro só pode conter 4 números!":
             "The registration code can only contain 4 numbers!",
     "Não foi possível verificar o código enviado!":
-            "It was not possible to verify the code sent!"
+            "It was not possible to verify the code sent!",
+    " publicações":
+            " publications",
+    "Nenhum resultado encontrado.":
+            "No results found."
 };
 
 function T(token){

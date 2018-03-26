@@ -555,8 +555,8 @@
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array(), $language); ?></h4>
                                 </div>
                                 <div class="modal-body text-left">                                                                       
-                                    <!--<input id = "login_profile"  type="text" style="text-transform:lowercase" class="form-control" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required> -->
-                                    <input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>
+                                    <!--<input id = "login_profile"  type="text" style="text-transform:lowercase" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required> -->
+                                    <input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>
                                     <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
                                 </div>
                                 <div class="modal-footer">
@@ -843,10 +843,11 @@
                             <!--<div class="num fleft100"><b>Dica:</b><?php //echo $CI->T("Lembre-se que para garantir um bom desempenho da ferramenta você deve adicionar perfis de referência que combine com o seu perfil. Para mais informação, consulte nossa ", array(), $language); ?><a href="<?php //echo base_url() . 'index.php/welcome/help' ?>" style="color:green" target="_blank"><?php //echo $CI->T("Ajuda!", array(), $language); ?></a></div>-->
                         </div>
                     </div>
+
                     <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
                     <?php if ($plane_id == 1 || $plane_id > 3) { ?>
                     <!-- Modal -->
-                    <div class="modal fade" style="top:30%" id="myModal_hashtag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" style="top:10%" id="myModal_hashtag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div id="modal_container_add_hashtag" class="modal-dialog modal-sm" role="document">                                                          
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -858,16 +859,16 @@
                                 <div class="modal-body">
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col-sm-1 pd-l5">
-                                                <label for="login_hashtag" style="text-align: right">#</label>
+                                            <div class="col-sm-1" style="padding-right: 5px">
+                                                <label for="login_hashtag" style="text-align: right;">#</label>
                                             </div>
-                                            <div class="col-sm-11 pd-r5">
-                                                <input id = "login_hashtag" type="text" class="form-control" style="text-transform:lowercase;"  required>
+                                            <div class="col-sm-11" style="padding-left: 5px">
+                                                <input id = "login_hashtag" type="text" class="form-control" style="text-transform:lowercase; font-size: 14px;" required>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div id="container_search_hashtag" class="col-md-12 col-sm-12 col-xs-12 text-center ">                            
-                                                <table id="table_search_hashtag">                                
+                                            <div id="container_search_hashtag" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                <table id="table_search_hashtag" class="table">                                
                                                 </table>
                                             </div>
                                         </div>

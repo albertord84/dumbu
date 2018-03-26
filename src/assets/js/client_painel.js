@@ -1706,66 +1706,39 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 $("#table_search_hashtag").empty();
+                $('#hashtag_message').css('visibility', 'hidden');
                 if (response['has_more']) {
                     var i = 0;
+                    var hashtag_name;
                     while (response['hashtags'][i]) {
-                        $("#table_search_hashtag").append("<tr class='row' id='row_tag_"+i+"' style='border: 1px solid gray'>");
-                        $("#table_search_hashtag").append("<td class='col' id='col_tag_"+i+"' style='text-align: left' onclick='insert_hashtag_from_search("+(response['hashtags'][i]['hashtag']['name']).toString()+");'>"+
-                            "#"+response['hashtags'][i]['hashtag']['name']+"<br>"+
-                            response['hashtags'][i]['hashtag']['media_count']+" publicações</td></tr>");
+                        hashtag_name = response['hashtags'][i]['hashtag']['name'];
+                        $("#table_search_hashtag").append("<tr class='row' id='row_tag_"+i+"'>");
+                        $("#table_search_hashtag").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='insert_hashtag_from_search(\""+hashtag_name+"\");'>"+
+                            "<strong>#"+hashtag_name+"</strong><br>"+
+                            response['hashtags'][i]['hashtag']['media_count']+T(' publicações')+"</div></td></tr>");
                         i++;
                     }
+                    
                 } else {
                     if ($('#login_hashtag').val() !== '') {
-                        $("#table_search_hashtag").append("<tr class='row'><td class='col'>Nenhum resultado encontrado.</td></tr>");
+                        $("#table_search_hashtag").append("<tr class='row'><td class='col'>"+T('Nenhum resultado encontrado.')+"</td></tr>");
                         $('#hashtag_message').css('visibility', 'hidden');
+//                        $('#hashtag_message').text('Nenhum resultado encontrado.');
+//                        $('#hashtag_message').css('visibility', 'visible');
+//                        $('#hashtag_message').css('color', 'red');  
                     }
                 }
             },
             error: function (xhr, status) {
-                modal_alert_message(T('Não foi possível conectar com o Instagram'));
+                $('#hashtag_message').text(T('Não foi possível conectar com o Instagram'));
+                $('#hashtag_message').css('visibility', 'visible');
+                $('#hashtag_message').css('color', 'red');
             }
         });
     });
-    
-    function insert_hashtag_from_search(name_tag) {
-            if(num_hashtag < MAX_NUM_HASHTAG) {                 
-                var l = Ladda.create(this);
-                l.start();
-                $.ajax({
-                    url: base_url + 'index.php/welcome/client_insert_hashtag',
-                    data: {'hashtag': name_tag},
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response['success']) {
-                            inser_icons_hashtag(response);
-                            $('#login_hashtag').val('');
-                            $("#insert_hashtag_form").fadeOut();
-                            $("#insert_hashtag_form").css({"visibility": "hidden", "display": "none"});
-                            $('#hashtag_message').text('');
-                            $('#hashtag_message').css('visibility', 'hidden');
-                            if (num_hashtag === MAX_NUM_HASHTAG) {
-                                $('#btn_modal_close').click();
-                            }
-                        } else {
-                            $('#hashtag_message').text(response['message']);
-                            $('#hashtag_message').css('visibility', 'visible');
-                            $('#hashtag_message').css('color', 'red');   
-                        }                            
-                        l.stop();
-                    },
-                    error: function (xhr, status) {
-                        $('#hashtag_message').text(T('Não foi possível conectar com o Instagram'));
-                        $('#hashtag_message').css('visibility', 'visible');
-                        $('#hashtag_message').css('color', 'red');
-                        l.stop();
-                    }
-                });
-            } else {
-                $('#hashtag_message').text(T('Alcançou a quantidade máxima.'));
-                $('#hashtag_message').css('visibility', 'visible');
-                $('#hashtag_message').css('color', 'red');            
-            }
-    }
 }); 
+
+function insert_hashtag_from_search(name_tag) {
+    $('#login_hashtag').val(name_tag);
+    $("#table_search_hashtag").empty();
+}

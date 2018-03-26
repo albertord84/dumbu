@@ -108,7 +108,11 @@ var Translation={
     "O código do cadastro só pode conter 4 números!":
             "El código del registro sólo puede contener 4 números!",
     "Não foi possível verificar o código enviado!":
-            "No fue posible verificar el código enviado!"
+            "No fue posible verificar el código enviado!",
+    " publicações":
+            " publicaciones",
+    "Nenhum resultado encontrado.":
+            "Ningún resultado encontrado."
 };
 
 function T(token){
