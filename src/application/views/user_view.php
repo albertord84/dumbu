@@ -724,7 +724,7 @@
 					</div>
                                         <div id="login_sign_in" class="login fleft100 input-form">
 						<fieldset>
-                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal", array(),$language);?>" required value="<?php if(isset($_GET) && isset($_GET['_u']) && isset($_GET['_d'])) echo $_GET['_u'].'@'.$_GET['_d']; else echo '';?>">
+                                                    <input id="client_email" type="text" placeholder="<?php echo $CI->T("E-mail pessoal(válido*)", array(),$language);?>" required value="<?php if(isset($_GET) && isset($_GET['_u']) && isset($_GET['_d'])) echo $_GET['_u'].'@'.$_GET['_d']; else echo '';?>">
 						</fieldset>
 						<fieldset>
 							<input id = "signin_clientLogin" type="text" placeholder="<?php echo $CI->T("Usuário Instagram", array(),$language);?>" onkeyup="javascript:this.value=this.value.toLowerCase();" style="text-transform:lowercase;"  required value="<?php if(isset($_GET) && isset($_GET['username'])) echo $_GET['username']; else echo '';?>">
@@ -751,6 +751,24 @@
                                             <b id="name_ref_prof" style="font-family:sans-serif; font-size:1em;"></b><br>
                                             <div id="ref_prof_followers" style="font-family:sans-serif; font-size:1em;"></div>
                                             <div id="ref_prof_following" style="font-family:sans-serif; font-size:1em;"></div>
+                                            <div id="code_sign_in" class="login fleft100 input-form">
+                                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd"></div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
+                                                    <fieldset>
+                                                        <input style="text-align:center" id = "signin_code" type="text" placeholder="_ _ _ _"  required >
+                                                    </fieldset>                                                    
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12 no-pd"></div>
+                                                <br>
+                                                <div
+                                                    id="container_sigin_code_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                                </div>
+                                                <div class="text-center">
+                                                    <button id = "signin_btn_send_code" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
+                                                        <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("ENVIAR", array(),$language);?></div></spam>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 				</div>
@@ -766,27 +784,29 @@
                                                         <img src="assets/images/pay.png" class="wauto" alt="Pay">  Crédito
                                                     </a>
                                                 </li>
-                                                <!--li id="tab_ticket_bank">
+                                                <?php if($SERVER_NAME=='PRO'){?>
+                                                <li id="tab_ticket_bank">
                                                     <a href="#tab_boleto" data-toggle="tab">
                                                         <img src="assets/images/boleto2.png" class="wauto" alt="Pay">  Boleto
                                                     </a>
-                                                </li>-->
+                                                </li>
+                                                <?php } ?>
                                             </ul>
 
                                             <div class="tab-content ">
                                                 <div class="tab-pane active" id="tab_credito">
                                                     <div class="pay fleft100 input-form">   
                                                         <fieldset>
-                                                                <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                                <input id="credit_card_name" type="text" placeholder="<?php echo $CI->T("Meu nome no cartão", array(),$language);?>"  type="text" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;">
                                                         </fieldset>
                                                         <div class="col-md-9 col-sm-9 col-xs-12 pd-r5">
                                                             <fieldset>
-                                                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20" required>
+                                                                <input id="credit_card_number" type="text" placeholder="<?php echo $CI->T("Número do cartão", array(),$language);?>" maxlength="20">
                                                             </fieldset>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 col-xs-12 pd-l5">
                                                                 <fieldset>
-                                                                    <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5" required>
+                                                                    <input id="credit_card_cvc" type="text" placeholder="<?php echo $CI->T("CVV/CVC", array(),$language);?>" maxlength="5">
                                                                 </fieldset>
                                                         </div>
                                                         <div class="col-md-4 col-sm-4 col-xs-12 no-pd">
@@ -826,7 +846,7 @@
                                                         </div>
                                                         <div class="col-md-9 col-sm-9 col-xs-12 no-pd m-t10">
                                                             <fieldset>
-                                                                <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;"  required>
+                                                                <input id="ticket_peixe_urbano" type="text" placeholder="<?php echo $CI->T("CODIGO PROMOCIONAL", array(),$language);?>" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" >
                                                             </fieldset>
                                                         </div>                                                    
                                                         <div class="col-md-12 col-sm-12 col-xs-12 no-pd text-center">
@@ -836,40 +856,70 @@
                                                         </div>
                                                     </div>     
                                                 </div>
-                                                
-                                                
-                                                <!--<div class="tab-pane" id="tab_boleto">
-                                                    <form action="#" class="credit-card-div">
-                                                        <div class="panel panel-default" >
-                                                            <div class="panel-heading">
-                                                                <label for="sel1">Selecione um dos seguintes planos:</label>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                      <select id="ticket_bank_option" class="form-control" id="sel1">
-                                                                        <option id="plano3meses" value="1">3 meses 15% de desconto</option>
-                                                                        <option id="plano6meses" value="2">6 meses 25% de desconto</option>
-                                                                        <option id="plano1ano" value="3">1 ano 40% de desconto</option>
-                                                                      </select>
-                                                                    </div>
-                                                                </div>
-                                                                <br>        
-                                                                <div class="row">
-                                                                          <div class="col-md-12">
-                                                                              <input id="ticket_bank_client_name" type="text" class="form-control" placeholder="Nome completo" />
-                                                                          </div>
-                                                                 </div>
-                                                                 <div class="row">
-                                                                        <div class="col-md-12 pad-adjust">
-                                                                                <form name=form>
-                                                                                    <input id="cpf" type=text name=cpf maxlength=14 class="form-control" placeholder="CPF"><br>
-                                                                                </form>
-                                                                        </div>
-                                                                </div>
+                                                <?php if($SERVER_NAME=='PRO'){?>
+                                                <div class="tab-pane" id="tab_boleto">
+                                                    <div class="pay fleft100 input-form">   
+                                                        <fieldset>
+                                                            <br>                                                       
+                                                            <div class="select">
+                                                                <select id="ticket_bank_option" name="local" class="btn-primeiro sel" id="local">
+                                                                    <option id="default_ticket_option" value="0" checked>Selecione o plano ...</option>
+                                                                    <option id="plano3meses" value="1"> 3 meses - 15% desconto</option>
+                                                                    <option id="plano6meses" value="2"> 6 meses - 25% desconto</option>
+                                                                    <option id="plano1ano"   value="3">12 meses - 40% desconto</option>
+                                                                </select>
                                                             </div>
+                                                        </fieldset>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="ticket_bank_client_name" type="text" placeholder="Nome completo" onkeyup="javascript:this.value=this.value.toUpperCase();" style="text-transform:uppercase;" required>
+                                                            </fieldset>
                                                         </div>
-                                                    </form>
-                                                </div>-->
-
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="cpf" type="text" placeholder="CPF" required>
+                                                            </fieldset>
+                                                        </div> 
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 pd-r1">
+                                                            <fieldset>
+                                                                <input id="cep" type="text" placeholder="CEP" required>                                                                
+                                                            </fieldset>                                                            
+                                                        </div>
+                                                        <div class="col-md-1 col-sm-1 col-xs-12 pd-r15" style="margin-top:8px">
+                                                            <fieldset>
+                                                                <button id="verify_cep" type="button" class="btn btn-success" >
+                                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                                </button>
+                                                            </fieldset>
+                                                        </div>
+                                                        <div class="col-md-8 col-sm-8 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="street_address" type="text" placeholder="Logradouro" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-4 col-sm-4 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="house_number" type="text" placeholder="Num/Compl" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="neighborhood_address" type="text" placeholder="Bairro" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-5 col-sm-5 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="municipality_address" type="text" placeholder="Localidade" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                        <div class="col-md-2 col-sm-2 col-xs-12 pd-r5">
+                                                            <fieldset>
+                                                                <input id="state_address" type="text" placeholder="UF" required>
+                                                            </fieldset>
+                                                        </div>                                                    
+                                                    </div>
+                                                </div>
+                                                <?php } ?>
                                             </div>
                                         </div>                             
 				</div>
@@ -897,7 +947,7 @@
 			</div>
 		</section>
 
-		<section id="contato" class="fleft100 input-form">
+            <section id="contato" class="fleft100 input-form" style="margin-top: 10%">
 			<div class="container">
 				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-t10"><?php echo $CI->T("FALE CONOSCO", array(),$language);?></spam>
                                 <div class="col-md-3 col-sm-3 col-xs-12"><br></div>
