@@ -1713,9 +1713,9 @@ $(document).ready(function () {
                     while (response['hashtags'][i]) {
                         hashtag_name = response['hashtags'][i]['hashtag']['name'];
                         $("#table_search_hashtag").append("<tr class='row' id='row_tag_"+i+"'>");
-                        $("#table_search_hashtag").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='select_hashtag_from_search(\""+hashtag_name+"\");'>"+
-                            "<strong>#"+hashtag_name+"</strong><br>"+
-                            response['hashtags'][i]['hashtag']['media_count']+T(' publicações')+"</div></td></tr>");
+                        $("#table_search_hashtag").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='select_hashtag_from_search(\"" + hashtag_name + "\");'>" +
+                            "<strong>#" + hashtag_name+"</strong><br><span style='color: gray;'>"+
+                            response['hashtags'][i]['hashtag']['media_count'] + T(' publicações') + "</span></div></td></tr>");
                         i++;
                     }
                     
@@ -1755,12 +1755,14 @@ $(document).ready(function () {
                         location_city = response['places'][i]['place']['location']['city'];
                         place_slug = response['places'][i]['place']['slug'];
                         $("#table_search_geolocalization").append("<tr class='row' id='row_geo_"+i+"'>");
-                        $("#table_search_geolocalization").append("<td class='col' id='col_geo_"+i+"' style='text-align: left;'>"+
-                            "<div class='tt-suggestion' style='text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 50px;' onclick='select_geolocalization_from_search(\""+place_slug+"\");'>"+
-                                "<div><span><strong>"+location_name+"</strong></span></div><span>"+
-                                location_address+
+                        $("#table_search_geolocalization").append("<td class='col' id='col_1_geo_"+i+"'>"+
+                            "<div><span style='font-size: 30px; color:gray; margin-top: 10px;' class='glyphicon glyphicon-map-marker'></span></div></td>");
+                        $("#table_search_geolocalization").append("<td class='col' id='col_2_geo_"+i+"' style='text-align: left; vertical-align: middle;'>" +
+                            "<div class='tt-suggestion' style='text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 50px;' onclick='select_geolocalization_from_search(\"" + place_slug + "\");'>" +
+                                "<strong>" + location_name + "</strong><br><span style='color: gray;'>"+
+                                location_address +
                                 ((location_address && location_city) ? ", " : "") +
-                                location_city+"</span></div></td></tr>");
+                                location_city + "</span></div></td></tr>");
                         i++;
                     }
                     
@@ -1788,15 +1790,22 @@ $(document).ready(function () {
             success: function (response) {
                 $("#table_search_profile").empty();
                 $('#reference_profile_message').css('visibility', 'hidden');
-                if (response['has_more']) {
+                if (response['users'].length !== 0) {
                     var i = 0;
-                    var username;
-                    while (response['hashtags'][i]) {
-                        username = response['hashtags'][i]['hashtag']['name'];
-                        $("#table_search_profile").append("<tr class='row' id='row_tag_"+i+"'>");
-                        $("#table_search_profile").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='select_hashtag_from_search(\""+hashtag_name+"\");'>"+
-                            "<strong>#"+hashtag_name+"</strong><br>"+
-                            response['hashtags'][i]['hashtag']['media_count']+T(' publicações')+"</div></td></tr>");
+                    var username, full_name, profile_pic_url, is_verified;
+                    while (response['users'][i]) {
+                        username = response['users'][i]['user']['username'];
+                        full_name = response['users'][i]['user']['full_name'];
+                        profile_pic_url = response['users'][i]['user']['profile_pic_url'];
+                        is_verified = response['users'][i]['user']['is_verified'];
+                        $("#table_search_profile").append("<tr class='row' id='row_prof_"+i+"'>");
+                        $("#table_search_profile").append("<td class='col' id='col_1_prof_"+i+"'>"+
+                            "<img style='border: solid 1px #efefef; border-radius: 40px; height: 40px; width: 40px; margin: 10px 0 0 0;' src='" + profile_pic_url + "' onclick='select_profile_from_search(\"" + username + "\");'>");
+                        $("#table_search_profile").append("<td class='col' id='col_2_prof_"+i+"' style='text-align: left;'>"+
+                            "<div class='tt-suggestion' style='text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 50px;' onclick='select_profile_from_search(\"" + username + "\");'>"+
+                                "<div><span><strong>" + username + "</strong></span>" +
+                                ((is_verified) ? "<span style='color: blue' class='glyphicon glyphicon-certificate'></span>" : "") +
+                                "</div><span style='color: gray;'>" + full_name + "</span></div></td></tr>");
                         i++;
                     }
                     
