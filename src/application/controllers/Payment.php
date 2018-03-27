@@ -148,9 +148,6 @@ class Payment extends CI_Controller {
         $clients = $this->db->get()->result_array();
         // Check payment for each user
         foreach ($clients as $client) {
-            
-            if($client['user_id'] == 27063)
-            {
             $clientname = $client['name'];
             $clientid = $client['user_id'];
             $now = new DateTime("now");
@@ -189,7 +186,6 @@ class Payment extends CI_Controller {
                     print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
                 }
             }
-            }//prov if            
         }
     try{
         $Gmail = new dumbu\cls\Gmail();
