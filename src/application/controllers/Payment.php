@@ -51,6 +51,69 @@ class Payment extends CI_Controller {
         // Save Order Key
         var_dump($response->Data->OrderResult->OrderKey);
     }
+    
+    
+    
+    public function do_daily_payment() {
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
+//        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
+//        echo "Check Payment Inited...!<br>\n";
+//        echo date("Y-m-d h:i:sa");
+//        $this->load->model('class/user_model');
+//        $this->load->model('class/client_model');
+//        $this->load->model('class/user_role');
+//        $this->load->model('class/user_status');
+//        
+//        $now = time();
+//        $d_today = date("j", $now);
+//        $m_today = date("n", $now);
+//        $y_today = date("Y", $now);
+//        $limit_inf = strtotime($m_today.'/'.$d_today.'/'.$y_today.' 00:00:01');
+//        $limit_sup = strtotime($m_today.'/'.$d_today.'/'.$y_today.' 23:59:59');
+//        
+//        // Get all users
+//        $this->db->select('*');
+//        $this->db->from('clients');
+//        $this->db->join('users', 'clients.user_id = users.id');
+//        $this->db->where('role_id', user_role::CLIENT);
+//        $this->db->where('status_id <>', user_status::DELETED);
+//        $this->db->where('status_id <>', user_status::BEGINNER);
+//        $this->db->where('status_id <>', user_status::DONT_DISTURB);
+//        $this->db->where('pay_day >', $limit_inf);
+//        $this->db->where('pay_day <', $limit_sup);
+//        $clients = $this->db->get()->result_array();
+//        
+//        // Check payment for each user
+//        foreach ($clients as $client) {
+//            
+//            if($client['credit_card_number'] != NULL) {
+//                print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
+//                
+//                if($client['credit_card_number'] == 'PAYMENT_BY_TICKET_BANK'){
+//                    
+//                } else{
+//                    
+//                }
+//            } else if ($now > $payday && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) { // wheter not have order key
+//                print "\n<br>Client without ORDER KEY and pay data data expired!!!: $clientname (id: $clientid)<br>\n";
+//                $this->send_payment_email($client, $GLOBALS['sistem_config']->DAYS_TO_BLOCK_CLIENT - $diff_days);
+//                $this->load->model('class/user_status');
+//                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
+//            } else {
+//                print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
+//            }            
+//        }
+//        try{
+//            $Gmail = new dumbu\cls\Gmail();
+//            $Gmail->send_mail("josergm86@gmail.com", "Jose Ramon ",'DUMBU payment checked!!! ','DUMBU payment checked!!! ');
+//            $Gmail->send_mail("jangel.riveaux@gmail.com", "Jose Angel Riveaux ",'DUMBU payment checked!!! ','DUMBU payment checked!!! ');
+//        } catch (Exception $ex){ 
+//            echo 'Emails was not send';    
+//        }
+//        echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
+    }
+    
+    
 
     public function check_payment() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';

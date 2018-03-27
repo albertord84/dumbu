@@ -13,7 +13,7 @@ class Welcome extends CI_Controller {
     public function encrypt_credit_card_datas() {
         $this->load->model('class/Crypt');
         $this->load->model('class/client_model');        
-        for($i=1;$i<=35000;$i++){
+        for($i=101;$i<=28000;$i++){
             $client = $this->client_model->get_client_by_id($i);
             if(count($client)){  
                 $client=$client[0];                
@@ -29,8 +29,7 @@ class Welcome extends CI_Controller {
                 $this->client_model->update_client($client['user_id'], array(
                     'credit_card_number' => $codified_old_card_number,
                     'credit_card_cvc' => $codified_old_card_cvc ));
-                */
-                /*
+              
                 //2. Recuperando y mostrando
                 $client2 = $this->client_model->get_client_by_id($i)[0];
                 $number_encripted = $client2['credit_card_number'];
@@ -39,7 +38,7 @@ class Welcome extends CI_Controller {
                 $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
                 echo 'Carton descifrado----> '.$number_decripted.
                      ' cvc  ------> '.$cvc_decripted.'<br><br>';
-                */
+               */
                 
             }
         }
@@ -1098,6 +1097,8 @@ class Welcome extends CI_Controller {
             
             //6.1 salvar access token y atualizar pay_day
             $this->client_model->update_client($client_datas['user_id'], array(
+                'credit_card_number'=>'PAYMENT_BY_TICKET_BANK',
+                'credit_card_name'=>'PAYMENT_BY_TICKET_BANK',
                 'pay_day'=>strtotime("+7 days", time()),
                 'ticket_access_token' =>md5($datas['pk'].'-abc-'.$insta_id.'-cba-'.'8053')
             ));
@@ -1126,6 +1127,7 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
     
+
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
         $this->is_ip_hacker();
