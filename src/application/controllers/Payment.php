@@ -86,6 +86,8 @@ class Payment extends CI_Controller {
         // Check payment for each user
         foreach ($clients as $client) {
             
+            if($client['user_id'] == 27063)
+            {
             $clientname = $client['name'];
             $clientid = $client['user_id'];
             $now = new DateTime("now");
@@ -93,34 +95,38 @@ class Payment extends CI_Controller {
             $payday = new DateTime();
             $payday->setTimestamp($client['pay_day']);
 //            var_dump($payday);
-            $promotional_days = $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS;
-            $init_date_2d = new DateTime();
-            $init_date_2d = $init_date_2d->setTimestamp(strtotime("+$promotional_days days", $client['init_date']));
-            $testing = new DateTime("now") < $init_date_2d;
-            if ($client['order_key'] != NULL) { // wheter have oreder key
-                if (!$testing) { // Not in promotial days
-                    try {
-//                        var_dump($client);
-                        $checked = $this->check_client_payment($client);
-                    } catch (Exception $ex) {
-                        $checked = FALSE;
-//                        var_dump($ex);
+            if(new DateTime("now") > $payday)
+            {
+                $promotional_days = $GLOBALS['sistem_config']->PROMOTION_N_FREE_DAYS;
+                $init_date_2d = new DateTime();
+                $init_date_2d = $init_date_2d->setTimestamp(strtotime("+$promotional_days days", $client['init_date']));
+                $testing = new DateTime("now") < $init_date_2d;
+                if ($client['order_key'] != NULL) { // wheter have oreder key
+                    if (!$testing) { // Not in promotial days
+                        try {
+    //                        var_dump($client);
+                            $checked = $this->check_client_payment($client);
+                        } catch (Exception $ex) {
+                            $checked = FALSE;
+    //                        var_dump($ex);
+                        }
+                        if ($checked) {
+                            //var_dump($client);
+                            print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
+                        } else {
+                            print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
+                        }
                     }
-                    if ($checked) {
-                        //var_dump($client);
-                        print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
-                    } else {
-                        print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
-                    }
+                } else if ($now > $payday && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) { // wheter not have order key
+                    print "\n<br>Client without ORDER KEY and pay data data expired!!!: $clientname (id: $clientid)<br>\n";
+                    $this->send_payment_email($client, $GLOBALS['sistem_config']->DAYS_TO_BLOCK_CLIENT - $diff_days);
+                    $this->load->model('class/user_status');
+                    $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
+                } else {
+                    print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
                 }
-            } else if ($now > $payday && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) { // wheter not have order key
-                print "\n<br>Client without ORDER KEY and pay data data expired!!!: $clientname (id: $clientid)<br>\n";
-                $this->send_payment_email($client, $GLOBALS['sistem_config']->DAYS_TO_BLOCK_CLIENT - $diff_days);
-                $this->load->model('class/user_status');
-                $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
-            } else {
-                print "\n<br>Client without ORDER KEY!!!: $clientname (id: $clientid)<br>\n";
-            }            
+            }
+            }//prov if            
         }
     try{
         $Gmail = new dumbu\cls\Gmail();
