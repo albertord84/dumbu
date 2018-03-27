@@ -160,6 +160,10 @@ class Welcome extends CI_Controller {
             $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='1'";
             $geolocalization_used= $this->user_model->execute_sql_query($sql);
             $datas1['geolocalization_used'] =count($geolocalization_used);
+            
+            $sql = "SELECT * FROM reference_profile WHERE client_id='" . $this->session->userdata('id') . "' AND type='2'";
+            $hashtag_used= $this->user_model->execute_sql_query($sql);
+            $datas1['hashtag_used'] =count($hashtag_used);
 
             $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='0'";
             $amount_followers_by_reference_profiles = $this->user_model->execute_sql_query($sql);
@@ -170,7 +174,11 @@ class Welcome extends CI_Controller {
             $amount_followers_by_geolocalization = $this->user_model->execute_sql_query($sql);
             $amount_followers_by_geolocalization =(string)$amount_followers_by_geolocalization[0]["followeds"];
             $datas1['amount_followers_by_geolocalization'] = $amount_followers_by_geolocalization;
-
+            
+            $sql = "SELECT SUM(follows) as followeds FROM reference_profile WHERE client_id = " . $this->session->userdata('id')." AND type='2'";
+            $amount_followers_by_hashtag = $this->user_model->execute_sql_query($sql);
+            $amount_followers_by_hashtag =(string)$amount_followers_by_hashtag[0]["followeds"];
+            $datas1['amount_followers_by_hashtag'] = $amount_followers_by_hashtag;
 
             if(isset($my_profile_datas->follower_count))
                 $datas1['my_actual_followers'] = $my_profile_datas->follower_count;
@@ -1126,7 +1134,6 @@ class Welcome extends CI_Controller {
         //OBS: o cliente ainda continua em BEGINNER, quem ativa é a notificação da mindipagg de boleto pago
         echo json_encode($result);
     }
-    
 
     //Passo 2.2 CChequeando datos bancarios y guardando datos y estado del cliente pagamento     
     public function check_client_data_bank($datas=NULL) {
@@ -2262,6 +2269,7 @@ class Welcome extends CI_Controller {
                             $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
                             $result['profile'] = $profile['geolocalization'];
                             $result['follows_from_profile'] = 0;
+                            $result['geolocalization_pk'] = $profile_datas->location->pk;
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é uma geolocalização do Instagram', array(0 => $profile['geolocalization']));
@@ -2651,7 +2659,8 @@ class Welcome extends CI_Controller {
             $client_active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
             $N = count($client_active_profiles);
             $cnt_ref_prof=0;
-            $cnt_geolocalization=0;            
+            $cnt_geolocalization=0; 
+            $cnt_hashtag = 0;
             if ($N > 0) {
 //                $array_profiles = array(0);   
                 for ($i = 0; $i < $N; $i++) {
@@ -2685,7 +2694,7 @@ class Welcome extends CI_Controller {
                             $array_profiles[$cnt_ref_prof]['follows_from_profile'] = '-+-';
                             $cnt_ref_prof=$cnt_ref_prof+1;
                         }
-                    } else{ //es una geolocalizacion      
+                    } else if($client_active_profiles[$i]['type']==='1') { //es una geolocalizacion      
                         $datas_of_profile = $this->Robot->get_insta_geolocalization_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
                         $array_geolocalization[$cnt_geolocalization]['login_geolocalization'] = $name_profile;
                         $array_geolocalization[$cnt_geolocalization]['geolocalization_pk'] = $client_active_profiles[$i]['insta_id'];
@@ -2702,6 +2711,23 @@ class Welcome extends CI_Controller {
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'active';
                         }
                         $cnt_geolocalization=$cnt_geolocalization+1;                        
+                    } else { //es un hashtag      
+                        $datas_of_profile = $this->Robot->get_insta_tag_data_from_client(json_decode($this->session->userdata('cookies')),$name_profile, $id_profile);
+                        $array_hashtag[$cnt_hashtag]['login_hashtag'] = $name_profile;
+                        $array_hashtag[$cnt_hashtag]['hashtag_pk'] = $client_active_profiles[$i]['insta_id'];
+                        if($datas_of_profile)
+                            $array_hashtag[$cnt_hashtag]['follows_from_hashtag'] = $datas_of_profile->follows;                        
+                        $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_present.png';
+                        if(!$datas_of_profile){
+                            $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_deleted.png';
+                            $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'deleted';
+                        } else
+                        if ($client_active_profiles[$cnt_hashtag]['end_date']) { //perfil
+                            $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'ended';
+                        } else{
+                            $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'active';
+                        }
+                        $cnt_hashtag = $cnt_hashtag + 1;                        
                     }
                 }
                 
@@ -2715,13 +2741,20 @@ class Welcome extends CI_Controller {
                 else
                     $response['array_geolocalization'] = array();                
                 $response['N_geolocalization'] = $cnt_geolocalization;
+                if($cnt_hashtag)
+                    $response['array_hashtag'] = $array_hashtag;
+                else
+                    $response['array_hashtag'] = array();                
+                $response['N_hashtag'] = $cnt_hashtag;
                 $response['message'] = 'Profiles loaded';
                 
             } else {
                 $response['N'] =0;
                 $response['N_geolocalization'] =0;
+                $response['N_hashtag'] =0;
                 $response['array_profiles'] = NULL;
                 $response['array_geolocalization'] =NULL;
+                $response['array_hashtag'] =NULL;
                 $response['message'] = 'Profiles unloaded';
             }            
             return json_encode($response);
@@ -3688,7 +3721,7 @@ class Welcome extends CI_Controller {
             for ($i = 0; $i < $N; $i++) {
                 if($active_profiles[$i]['type']==='2' && $active_profiles[$i]['deleted']==='0')
                     $N_profiles=$N_profiles+1;
-                if ($active_profiles[$i]['insta_name'] == $profile['tag_profile']) {
+                if ($active_profiles[$i]['insta_name'] == $profile['hashtag']) {
                     if($active_profiles[$i]['deleted'] == false && $active_profiles[$i]['type'] ==='2')
                             $is_active_tag = true;
                     break;
@@ -3696,14 +3729,16 @@ class Welcome extends CI_Controller {
             }
             if (!$is_active_tag) {
                 if ($N_profiles<$GLOBALS['sistem_config']->REFERENCE_PROFILE_AMOUNT) {
-                    $profile_datas=$this->check_insta_tag_from_client($profile['profile']);
-                    if($profile_datas)
-                    {
-                        $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['tag_profile'], $profile_datas->pk, '2');
+                    $profile_datas=$this->check_insta_tag_from_client($profile['hashtag']);
+                    if ($profile_datas) {
+                        $p = $this->client_model->insert_insta_profile($this->session->userdata('id'), $profile['hashtag'], $profile_datas->id, '2');
                         $result = $this->verify_profile($p, $active_profiles, $N);                         
-                        $result['img_url'] = '';
-                        $result['profile'] = $profile['tag_profile'];
-                        $result['follows_from_profile'] = $profile_datas->follows;
+                        $result['img_url'] = base_url().'assets/images/avatar_hashtag_present.png';;
+                        $result['profile'] = $profile['hashtag'];
+                        $result['follows_from_profile'] = 0;
+                    } else {
+                        $result['success'] = false;
+                        $result['message'] = "#".$profile['hashtag']." ".$this->T('não é um hashtag do Instagram', array(), $GLOBALS['language']);
                     }
                 } else {
                     $result['success'] = false;
@@ -3714,13 +3749,13 @@ class Welcome extends CI_Controller {
                 if($is_active_profile)
                     $result['message']=$this->T('O perfil informado ja está ativo', array(), $GLOBALS['language']);    
                 else
-                    $result['message'] = $this->T('O perfil informado é uma geolocalização ativa', array(), $GLOBALS['language']);                
+                    $result['message'] = $this->T('O perfil informado é uma hashtag ativo', array(), $GLOBALS['language']);                
             }
             
             if( $result['success'] == true){
                 $this->load->model('class/user_model');
-                //$this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED '.$profile['profile']);
-                $this->user_model->insert_washdog($this->session->userdata('id'),'REFERENCE PROFILE INSERTED');
+                //$this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG INSERTED '.$profile['profile']);
+                $this->user_model->insert_washdog($this->session->userdata('id'),'HASHTAG INSERTED');
             }
             
             echo json_encode($result);
@@ -3743,7 +3778,7 @@ class Welcome extends CI_Controller {
             $profile = $this->input->post();
             if ($this->client_model->desactive_profiles($this->session->userdata('id'), $profile['hashtag'])) {
                 $result['success'] = true;
-                $result['message'] = $this->T('Hashtag eliminada', array(), $GLOBALS['language']);
+                $result['message'] = $this->T('Hashtag eliminado', array(), $GLOBALS['language']);
             } else {
                 $result['success'] = false;
                 $result['message'] = $this->T('Erro no sistema, tente novamente', array(), $GLOBALS['language']);
@@ -3813,7 +3848,7 @@ class Welcome extends CI_Controller {
         echo json_encode($result);
     }
     
-    public function  validaCPF($cpf = null) {
+    public function validaCPF($cpf = null) {
         $this->is_ip_hacker();
         $cpf='06266544750';
         if(empty($cpf)) 
