@@ -295,7 +295,7 @@ namespace dumbu\cls {
           {}
          */
 
-        public function get_profiles_to_follow($daily_work, &$error, &$page_info) {
+        public function get_profiles_to_follow($daily_work, $error, $page_info) {
             $Profiles = array();
             $error = TRUE;
             $login_data = json_decode($daily_work->cookies);
@@ -343,7 +343,7 @@ namespace dumbu\cls {
                         $page_info->has_next_page = false;
                     }
                 }
-            } else {
+            } else if ($daily_work->rp_type == 1){
                 $json_response = $this->get_insta_geomedia($login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor);
                 if (is_object($json_response) && $json_response->status == 'ok') {
                     if (isset($json_response->data->location->edge_location_to_media)) { // if response is ok
@@ -352,6 +352,25 @@ namespace dumbu\cls {
                         foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
                             $profile = new \stdClass();
                             $profile->node = $this->get_geo_post_user_info($login_data, $daily_work->rp_insta_id, $Edge->node->shortcode);
+                            array_push($Profiles, $profile);
+                        }
+                        $error = FALSE;
+                    } else {
+                        $page_info->end_cursor = NULL;
+                        $page_info->has_next_page = false;
+                    }
+                }
+            }
+            else if($daily_work->rp_type == 2)
+            {
+                $json_response = $this->get_insta_tagmedia($login_data, $daily_work->insta_name, $quantity, $daily_work->insta_follower_cursor);
+                if (is_object($json_response)) {
+                    if (isset($json_response->data->hashtag->edge_hashtag_to_media)) { // if response is ok
+                        echo "Nodes: " . count($json_response->data->hashtag->edge_hashtag_to_media->edges) . " <br>\n";
+                        $page_info = $json_response->data->hashtag->edge_hashtag_to_media->page_info;
+                        foreach ($json_response->data->hashtag->edge_hashtag_to_media->edges as $Edge) {
+                            $profile = new \stdClass();
+                            $profile->node = $this->get_tag_post_user_info($login_data,  $Edge->node->shortcode);
                             array_push($Profiles, $profile);
                         }
                         $error = FALSE;
@@ -703,12 +722,12 @@ namespace dumbu\cls {
 
         public function get_insta_followers($login_data, $user, $N, $cursor = NULL) {
             try {
-                $url = "https://www.instagram.com/graphql/query/";
-                $curl_str = $this->make_curl_followers_str("$url", $login_data, $user, $N, $cursor);
-                //print("<br><br>$curl_str<br><br>");
-                if ($curl_str === NULL) {
+                 
+                $tag_query = '37479f2b8209594dde7facb0d904896a';
+                $variables = "{\"id\":\"$user\",\"first\":$N,\"after\":\"$cursor\"}";
+                $curl_str = $this->make_curl_followers_query($tag_query, $variables, $login_data);
+                if ($curl_str === NULL)
                     return NULL;
-                }
                 exec($curl_str, $output, $status);
                 echo "<br>output $output[0] \n\n</br>";
                 //print_r($output);
@@ -784,8 +803,10 @@ namespace dumbu\cls {
 
         public function get_insta_geomedia($login_data, $location, $N, &$cursor = NULL) {
             try {
-                $url = "https://www.instagram.com/graphql/query/";
-                $curl_str = $this->make_curl_geomedia_str("$url", $login_data, $location, $N, $cursor);
+                
+                $tag_query = '951c979213d7e7a1cf1d73e2f661cbd1';
+                $variables = "{\"id\":\"$location\",\"first\":$N,\"after\":\"$cursor\"}";
+                $curl_str = $this->make_curl_followers_query($tag_query, $variables);
                 if ($curl_str === NULL)
                     return NULL;
                 exec($curl_str, $output, $status);
@@ -818,7 +839,76 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_insta_tagmedia($login_data, $tag, $N, &$cursor = NULL) {
+            try {
+                $tag_query = '298b92c8d7cad703f7565aa892ede943';
+                $variables = "{\"tag_name\":\"$tag\",\"first\":2,\"after\":\"$cursor\"}";
+                $curl_str = $this->make_curl_followers_query($tag_query, $variables);
+                if ($curl_str === NULL)
+                    return NULL;
+                exec($curl_str, $output, $status);
+                $json = json_decode($output[0]);
+                //var_dump($output);
+                if(isset($json) && $json->status == 'ok')
+                {
+                    if (isset($json->data->hashtag->edge_hashtag_to_media) && isset($json->data->hashtag->edge_hashtag_to_media->page_info)) {
+                        $cursor = $json->data->hashtag->edge_hashtag_to_media->page_info->end_cursor;
+                        if (count($json->data->hashtag->edge_hashtag_to_media->edges) == 0) {
+                            //echo '<pre>'.json_encode($json, JSON_PRETTY_PRINT).'</pre>';
+                            //var_dump($json);
+    //                        var_dump($curl_str);
+                            echo ("<br>\n No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                            $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                            echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
+                        }
+                    }
+                }/* else if (isset($json->data) && $json->data->location == NULL) {
+                    //var_dump($output);
+                    print_r($curl_str);
+                    $this->DB->update_reference_cursor($this->daily_work->reference_id, NULL);
+                    $result = $this->DB->delete_daily_work($this->daily_work->reference_id);
+                    echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
+                }*/ else {
+                    var_dump($output);
+                    print_r($curl_str);
+                    echo ("<br>\n Untrated error!!!");
+                }
+                return $json;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
 
+        public function make_curl_followers_query($query, $variables, $login_data=NULL){
+            
+            $variables = urlencode($variables);
+            $url = "https://www.instagram.com/graphql/query/?query_hash=$query&variables=$variables";            
+            $curl_str = "curl '$url' ";
+            if($login_data !== NULL)
+            {
+                if($login_data->mid == NULL|| $login_data->csrftoken == NULL || $login_data->sessionid == NULL ||
+                        $login_data->ds_user_id == NULL)
+                    return NULL;
+               $curl_str .= "-H 'Cookie: mid=$login_data->mid; sessionid=$login_data->sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$login_data->csrftoken; ds_user_id=$login_data->ds_user_id' ";            
+               $curl_str .= "-H 'X-CSRFToken: $login_data->csrftoken' ";
+            }
+            
+            $curl_str .= "-H 'Origin: https://www.instagram.com' ";
+            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
+            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
+            //$curl_str .= "-H 'X-Instagram-ajax: 1' ";
+            $curl_str .= "-H 'content-type: application/x-www-form-urlencoded' ";
+            $curl_str .= "-H 'Accept: */*' ";
+            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
+            $curl_str .= "-H 'Authority: www.instagram.com' ";
+            $curl_str .= "--compressed ";
+            return $curl_str;
+        }
+        
         public function make_curl_followers_str($url, $login_data, $user, $N, $cursor = NULL) {
 //            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
             $csrftoken = $login_data->csrftoken;
@@ -879,6 +969,36 @@ namespace dumbu\cls {
             $curl_str .= "--compressed ";
             return $curl_str;
 //            }
+        }
+        
+        public function make_curl_tagmedia_str($url, $login_data, $tag, $N, $cursor = NULL) {
+//            if (isset($login_data->csrftoken) && isset($login_data->ds_user_id) && isset($login_data->ds_user_id) && isset($login_data->sessionid)) {
+            //$csrftoken = $login_data->csrftoken;
+            //$ds_user_id = $login_data->ds_user_id;
+            //$sessionid = $login_data->sessionid;
+            //$mid = $login_data->mid;
+            //if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
+              //      ($sessionid === NULL || $sessionid === "") && ($mid === NULL || $mid === ""))
+                //return NULL;
+            $url .= "&first=$N";
+            if ($cursor) {
+                $url .= "&after=$cursor";
+            }
+            $curl_str = "curl '$url' ";
+            //$curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
+            $curl_str .= "-H 'Origin: https://www.instagram.com' ";
+            $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
+            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+            $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
+            //$curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
+            //$curl_str .= "-H 'X-Instagram-ajax: 1' ";
+            $curl_str .= "-H 'content-type: application/x-www-form-urlencoded' ";
+            $curl_str .= "-H 'Accept: */*' ";
+            $curl_str .= "-H 'Referer:  https://www.instagram.com/explore/tags/$tag/' ";
+            $curl_str .= "-H 'Authority: www.instagram.com' ";
+            $curl_str .= "--compressed ";
+            return $curl_str;            
         }
 
         public function make_curl_chaining_str($url, $login_data, $user, $N, $cursor = NULL) {
@@ -1769,6 +1889,31 @@ namespace dumbu\cls {
             $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
             $mid = isset($cookies->mid) ? $cookies->mid : 0;
             $url = "https://www.instagram.com/p/$post_reference/?taken-at=$location_id&__a=1";
+            $curl_str = "curl '$url' ";
+            $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
+            $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
+            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
+            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
+            $curl_str .= "-H 'Accept: */*' ";
+            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
+            $curl_str .= "-H 'Authority: www.instagram.com' ";
+            $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
+            $curl_str .= "--compressed ";
+            $result = exec($curl_str, $output, $status);
+            $object = json_decode($output[0]);
+            if (is_object($object) && isset($object->graphql->shortcode_media->owner)) {
+                return $object->graphql->shortcode_media->owner;
+            }
+            return NULL;
+        }
+        
+        public function get_tag_post_user_info($cookies, $post_reference) {
+            //echo " -------Obtindo dados de perfil que postou na geolocalizacao------------<br>\n<br>\n";
+            $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
+            $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
+            $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
+            $mid = isset($cookies->mid) ? $cookies->mid : 0;
+            $url = "https://www.instagram.com/p/$post_reference/?__a=1";
             $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
             $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
