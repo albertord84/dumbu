@@ -2269,6 +2269,7 @@ class Welcome extends CI_Controller {
                             $result['img_url'] = base_url().'assets/images/avatar_geolocalization_present.jpg';
                             $result['profile'] = $profile['geolocalization'];
                             $result['follows_from_profile'] = 0;
+                            $result['geolocalization_pk'] = $profile_datas->location->pk;
                     } else {
                         $result['success'] = false;
                         $result['message'] = $this->T('@1 não é uma geolocalização do Instagram', array(0 => $profile['geolocalization']));

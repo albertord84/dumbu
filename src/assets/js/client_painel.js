@@ -1713,7 +1713,7 @@ $(document).ready(function () {
                     while (response['hashtags'][i]) {
                         hashtag_name = response['hashtags'][i]['hashtag']['name'];
                         $("#table_search_hashtag").append("<tr class='row' id='row_tag_"+i+"'>");
-                        $("#table_search_hashtag").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='insert_hashtag_from_search(\""+hashtag_name+"\");'>"+
+                        $("#table_search_hashtag").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='select_hashtag_from_search(\""+hashtag_name+"\");'>"+
                             "<strong>#"+hashtag_name+"</strong><br>"+
                             response['hashtags'][i]['hashtag']['media_count']+T(' publicações')+"</div></td></tr>");
                         i++;
@@ -1736,9 +1736,97 @@ $(document).ready(function () {
             }
         });
     });
+    
+    $('#login_geolocalization').keyup(function() {
+        $.ajax({
+            url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + $('#login_geolocalization').val(),
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $("#table_search_geolocalization").empty();
+                $('#geolocalization_message').css('visibility', 'hidden');
+                if (response['places'].length !== 0) {
+                    var i = 0;
+                    var location_name, location_address, location_city, place_slug;
+                    while (response['places'][i]) {
+                        location_name = response['places'][i]['place']['location']['name'];
+                        location_address = response['places'][i]['place']['location']['address'];
+                        location_city = response['places'][i]['place']['location']['city'];
+                        place_slug = response['places'][i]['place']['slug'];
+                        $("#table_search_geolocalization").append("<tr class='row' id='row_geo_"+i+"'>");
+                        $("#table_search_geolocalization").append("<td class='col' id='col_geo_"+i+"' style='text-align: left;'>"+
+                            "<div class='tt-suggestion' style='text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 50px;' onclick='select_geolocalization_from_search(\""+place_slug+"\");'>"+
+                                "<div><span><strong>"+location_name+"</strong></span></div><span>"+
+                                location_address+
+                                ((location_address && location_city) ? ", " : "") +
+                                location_city+"</span></div></td></tr>");
+                        i++;
+                    }
+                    
+                } else {
+                    if ($('#login_geolocalization').val() !== '') {
+                        $("#table_search_geolocalization").append("<tr class='row'><td class='col'>"+T('Nenhum resultado encontrado.')+"</td></tr>");
+                        $('#geolocalization_message').css('visibility', 'hidden');
+                    }
+                }
+            },
+            error: function (xhr, status) {
+                $('#geolocalization_message').text(T('Não foi possível conectar com o Instagram'));
+                $('#geolocalization_message').css('visibility', 'visible');
+                $('#geolocalization_message').css('color', 'red');
+            }
+        });
+    });
+    
+    $('#login_profile').keyup(function() {
+        $.ajax({
+            url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + $('#login_profile').val(),
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $("#table_search_profile").empty();
+                $('#reference_profile_message').css('visibility', 'hidden');
+                if (response['has_more']) {
+                    var i = 0;
+                    var username;
+                    while (response['hashtags'][i]) {
+                        username = response['hashtags'][i]['hashtag']['name'];
+                        $("#table_search_profile").append("<tr class='row' id='row_tag_"+i+"'>");
+                        $("#table_search_profile").append("<td class='col' id='col_tag_"+i+"' style='text-align: left'><div class='tt-suggestion' onclick='select_hashtag_from_search(\""+hashtag_name+"\");'>"+
+                            "<strong>#"+hashtag_name+"</strong><br>"+
+                            response['hashtags'][i]['hashtag']['media_count']+T(' publicações')+"</div></td></tr>");
+                        i++;
+                    }
+                    
+                } else {
+                    if ($('#login_profile').val() !== '') {
+                        $("#table_search_profile").append("<tr class='row'><td class='col'>"+T('Nenhum resultado encontrado.')+"</td></tr>");
+                        $('#reference_profile_message').css('visibility', 'hidden');
+                    }
+                }
+            },
+            error: function (xhr, status) {
+                $('#reference_profile_message').text(T('Não foi possível conectar com o Instagram'));
+                $('#reference_profile_message').css('visibility', 'visible');
+                $('#reference_profile_message').css('color', 'red');
+            }
+        });
+    });
 }); 
 
-function insert_hashtag_from_search(name_tag) {
-    $('#login_hashtag').val(name_tag);
+function select_hashtag_from_search(tag_name) {
+    $('#login_hashtag').val(tag_name);
     $("#table_search_hashtag").empty();
+}
+
+function select_geolocalization_from_search(geo_name) {
+    $('#login_geolocalization').val(geo_name);
+    $("#table_search_geolocalization").empty();
+}
+
+function select_profile_from_search(prof_name) {
+    $('#login_profile').val(prof_name);
+    $("#table_search_profile").empty();
 }

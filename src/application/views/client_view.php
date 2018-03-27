@@ -545,7 +545,7 @@
                     <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
                     
                     <!-- Modal -->
-                    <div class="modal fade" style="top:30%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" style="top:10%" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div id="modal_container_add_reference_rpofile" class="modal-dialog modal-sm" role="document">                                                          
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -554,10 +554,22 @@
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Perfil de referência", array(), $language); ?></h4>
                                 </div>
-                                <div class="modal-body text-left">                                                                       
-                                    <!--<input id = "login_profile"  type="text" style="text-transform:lowercase" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required> -->
-                                    <input id = "login_profile"  type="text" style="width:140%; text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required>
-                                    <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                <div class="modal-body text-left">  
+                                    <div class="row">
+                                        <!--<input id = "login_profile"  type="text" style="text-transform:lowercase" class="typeahead form-control tt-query" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();"  autocomplete="off" spellcheck="false"  required> -->
+                                        <div class="col-sm-12">
+                                            <input id = "login_profile"  type="text" style="text-transform:lowercase;" class="form-control" placeholder="<?php echo $CI->T("Perfil", array(), $language); ?>" autocomplete="off" spellcheck="false" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="container_search_profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                            <table id="table_search_profile" class="table">                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="reference_profile_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button id="btn_insert_profile" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
@@ -687,7 +699,7 @@
                             <div class="col-md-1 col-sm-1 col-xs-12 text-center"></div>
                             <?php if($plane_id==1 || $plane_id>3){?>
                             <!-- Modal -->
-                            <div class="modal fade" style="top:30%" id="myModal_geolocalization" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal fade" style="top:10%" id="myModal_geolocalization" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div id="modal_container_add_geolocalization" class="modal-dialog modal-sm" role="document">                                                          
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -696,9 +708,21 @@
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel"><?php echo $CI->T("Geolocalização", array(), $language); ?></h4>
                                         </div>
-                                        <div class="modal-body">                                            
-                                            <input id = "login_geolocalization" type="text" class="form-control" placeholder="<?php echo $CI->T("Localização", array(), $language); ?>" onkeyup="javascript:this.value = this.value.toLowerCase();" style="text-transform:lowercase;"  required>
-                                            <div id="geolocalization_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                        <div class="modal-body">  
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <input id = "login_geolocalization" type="text" class="form-control" placeholder="<?php echo $CI->T("Localização", array(), $language); ?>" style="text-transform:lowercase;" required>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="container_search_geolocalization" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                    <table id="table_search_geolocalization" class="table">                                
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="geolocalization_message" class="form-group m-t10" style="text-align:left;visibility:hidden; font-family:sans-serif; font-size:0.9em"> </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button id="btn_insert_geolocalization" type="button" class="btn btn-primary text-center ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
