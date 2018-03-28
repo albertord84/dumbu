@@ -1602,12 +1602,13 @@ namespace dumbu\cls {
 
         public function get_insta_ref_prof_following($ref_prof) {
             $content = @file_get_contents("https://www.instagram.com/$ref_prof/", false);
+            echo $content;
             $doc = new \DOMDocument();
 //$doc->loadXML($content);
             $substr2 = NULL;
             $loaded = @$doc->loadHTML('<?xml encoding="UTF-8">' . $content);
             if ($loaded) {
-                $search = "\"follows\":{\"count\":";
+                $search = "follow\":{\"count\":";
                 //var_dump($doc->textContent);
                 $start = strpos($doc->textContent, $search);
                 $substr1 = substr($doc->textContent, $start, 100);

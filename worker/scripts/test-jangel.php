@@ -43,11 +43,14 @@ $daily_work->insta_name = 'cuba';
 $daily_work->rp_insta_id = 220021938;
 $daily_work->client_id = 81875;
 
-$json_response->message = "unauthorized";
-$json_response->status = 'fail';
-$Robot->daily_work = $daily_work;
-$Robot->id = 1;
-$Robot->process_follow_error($json_response);
+$res = $Robot->get_insta_ref_prof_data('daylipadron');
+var_dump($res);
+
+//$json_response->message = "unauthorized";
+//$json_response->status = 'fail';
+//$Robot->daily_work = $daily_work;
+//$Robot->id = 1;
+//$Robot->process_follow_error($json_response);
 
 /*$Client = (new \dumbu\cls\Client())->get_client(27063);
 $daily_work = new \stdClass();
