@@ -102,10 +102,18 @@ var Translation={
             "Enter your name on the card and not his flag.",
     "Deve preencher o campo com o código de segurança de 6 dígitos.":
             "You must complete the field with the 6-digit security code.",
+    "Deseja eliminar o #":
+            "Do you want to delete the #",
+    "* O nome do hashtag só pode conter letras, números, sublinhados e pontos.":
+            "* Hashtag name can only contain letters, numbers, underscores and dots.",
     "O código do cadastro só pode conter 4 números!":
             "The registration code can only contain 4 numbers!",
     "Não foi possível verificar o código enviado!":
-            "It was not possible to verify the code sent!"
+            "It was not possible to verify the code sent!",
+    " publicações":
+            " publications",
+    "Nenhum resultado encontrado.":
+            "No results found."
 };
 
 function T(token){

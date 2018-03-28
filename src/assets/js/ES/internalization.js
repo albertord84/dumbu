@@ -101,10 +101,18 @@ var Translation={
             "Informe su nombre en la tarjeta de crédito y no la bandera del mismo.",
     "Deve preencher o campo com o código de segurança de 6 dígitos.":
             "Debe rellenar el campo con el código de seguridad de 6 dígitos.",
+    "Deseja eliminar o #":
+            "Desea eliminar el #",
+    "* O nome do hashtag só pode conter letras, números, sublinhados e pontos.":
+            "* El nombre del hashtag sólo puede contener letras, números, subrayados y puntos.",
     "O código do cadastro só pode conter 4 números!":
             "El código del registro sólo puede contener 4 números!",
     "Não foi possível verificar o código enviado!":
-            "No fue posible verificar el código enviado!"
+            "No fue posible verificar el código enviado!",
+    " publicações":
+            " publicaciones",
+    "Nenhum resultado encontrado.":
+            "Ningún resultado encontrado."
 };
 
 function T(token){

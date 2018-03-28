@@ -1,5 +1,5 @@
 <?php
-    header('X-Frame-Options SAMEORIGIN, GOFORIT'); 
+    header('X-Frame-Options: SAMEORIGIN, GOFORIT'); 
 ?>
 <!DOCTYPE html>
 <html lang="pt_BR">
@@ -760,8 +760,7 @@
                                                 </div>
                                                 <div class="col-md-4 col-sm-4 col-xs-12 no-pd"></div>
                                                 <br>
-                                                <div
-                                                    id="container_sigin_code_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
+                                                <div id="container_sigin_code_message" class="text-center" style="margin-top:7%; visibility:hidden; font-family:sans-serif; font-size:0.9em">                                                        
                                                 </div>
                                                 <div class="text-center">
                                                     <button id = "signin_btn_send_code" type="button" class="btn-primary m-t20 ladda-button" data-style="expand-left" data-spinner-color="#ffffff">
