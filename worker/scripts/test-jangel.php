@@ -30,7 +30,26 @@ $json_response2 = $Robot->get_insta_tag_data_from_client($Client->cookies, 'cuba
 var_dump($json_response2);
 */
 
-$Client = (new \dumbu\cls\Client())->get_client(27063);
+
+$Robot = new \dumbu\cls\Robot();
+$json_response = new \stdClass();
+$Client = (new \dumbu\cls\Client())->get_client(81875);
+$daily_work = new \stdClass();
+$daily_work->rp_type = 1;
+$daily_work->cookies = $Client->cookies; 
+$daily_work->to_follow = 10;
+$daily_work->insta_follower_cursor = NULL;
+$daily_work->insta_name = 'cuba';
+$daily_work->rp_insta_id = 220021938;
+$daily_work->client_id = 81875;
+
+$json_response->message = "unauthorized";
+$json_response->status = 'fail';
+$Robot->daily_work = $daily_work;
+$Robot->id = 1;
+$Robot->process_follow_error($json_response);
+
+/*$Client = (new \dumbu\cls\Client())->get_client(27063);
 $daily_work = new \stdClass();
 $daily_work->rp_type = 1;
 $daily_work->cookies = $Client->cookies; 
@@ -70,7 +89,7 @@ $daily_work->insta_follower_cursor = NULL;
 $res = $Robot->get_profiles_to_follow($daily_work, $error, $page_info);
 echo json_encode($res);
 var_dump($res);
-echo "<br></br><br>Peoples: $cnt</br><br></br>";
+echo "<br></br><br>Peoples: $cnt</br><br></br>";*/
 
 
 /*$result_people =  $Robot->make_curl_followers_query($query_hash_people, $variables_people, json_decode($daily_work->cookies));
