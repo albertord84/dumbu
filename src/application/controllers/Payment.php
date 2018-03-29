@@ -384,6 +384,11 @@ class Payment extends CI_Controller {
         $this->load->model('class/user_model');
         $this->load->model('class/client_model');
     }
+    
+    public function check_initial_payment()
+    {
+        $today = strtotime("today");
+    }
 
     
 }
