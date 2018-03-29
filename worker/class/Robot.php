@@ -627,7 +627,7 @@ namespace dumbu\cls {
             if (($csrftoken === NULL || $csrftoken === "") && ($ds_user_id === NULL || $ds_user_id === "") &&
                     ($sessionid === NULL || sessionid === "") && ($mid === NULL || $mid === ""))
                 return NULL;
-            $curl_str = "curl --http2 $url ";
+            $curl_str = "curl $url ";
             $curl_str .= "-X POST ";
             $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid;  csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             //"s_network=; ig_pr=1; ig_vw=1855;;
@@ -669,7 +669,7 @@ namespace dumbu\cls {
                 $HTTP_SERVER_VARS = json_decode($Client->HTTP_SERVER_VARS);
                 $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
             }
-            $curl_str = "curl --http2 $url ";
+            $curl_str = "curl $url ";
             $curl_str .= "-X POST ";
             $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid;  csrftoken=$csrftoken; ds_user_id=$ds_user_id'; ";
             $curl_str .= "urlgen=\"{\\\"time\\\": 1517542522\054 \\\"$ip\\\": 27725}:1ehUaS:pU706C7s0daOT9gPk0yvLeUWKMA\"";
@@ -876,7 +876,7 @@ namespace dumbu\cls {
             
             $variables = urlencode($variables);
             $url = "https://www.instagram.com/graphql/query/?query_hash=$query&variables=$variables";            
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             if($login_data !== NULL)
             {
                 if($login_data->mid == NULL|| $login_data->csrftoken == NULL || $login_data->sessionid == NULL ||
@@ -913,7 +913,7 @@ namespace dumbu\cls {
             if ($cursor) {
                 $url .= "&after=$cursor";
             }
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
@@ -944,7 +944,7 @@ namespace dumbu\cls {
             if ($cursor) {
                 $url .= "&after=$cursor";
             }
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
@@ -975,7 +975,7 @@ namespace dumbu\cls {
             if ($cursor) {
                 $url .= "&after=$cursor";
             }
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             //$curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
@@ -1005,7 +1005,7 @@ namespace dumbu\cls {
             if ($cursor) {
                 $url .= "&after=$cursor";
             }
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
@@ -1047,7 +1047,7 @@ namespace dumbu\cls {
             if ($cursor) {
                 $url .= "&after=$cursor";
             }
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
             $curl_str .= "-H 'Origin: https://www.instagram.com' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
@@ -1076,7 +1076,7 @@ namespace dumbu\cls {
 
         public function make_curl_login_str($url, $cookies, $user, $pass) {
             $csrftoken = $this->obtine_cookie_value($cookies, "csrftoken");
-            $curl_str = "curl  --http2 '$url' ";
+            $curl_str = "curl  '$url' ";
             $curl_str .= "-H 'Host: www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
             $curl_str .= "-H 'Accept: */*' ";
@@ -1860,7 +1860,7 @@ namespace dumbu\cls {
             $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
             $mid = isset($cookies->mid) ? $cookies->mid : 0;
             $url = "https://www.instagram.com/$reference_user_name/?__a=1";
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
             $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
             $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
@@ -1881,7 +1881,7 @@ namespace dumbu\cls {
             $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
             $mid = isset($cookies->mid) ? $cookies->mid : 0;
             $url = "https://www.instagram.com/p/$post_reference/?taken-at=$location_id&__a=1";
-            $curl_str = "curl --http2  '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
             $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
             $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
@@ -1906,7 +1906,7 @@ namespace dumbu\cls {
             $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
             $mid = isset($cookies->mid) ? $cookies->mid : 0;
             $url = "https://www.instagram.com/p/$post_reference/?__a=1";
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
             $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
             $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
@@ -1927,7 +1927,7 @@ namespace dumbu\cls {
         public function str_login($mid, $csrftoken, $user, $pass) {
             $url = "https://www.instagram.com/accounts/login/ajax/";
 //            $url = "https://www.instagram.com/accounts/login/ajax/facebook/";
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'Accept: */*' ";
             $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
             $curl_str .= "-H 'Accept-Language: en-US;en;q=0.5' ";
@@ -2015,7 +2015,7 @@ namespace dumbu\cls {
                     . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
             (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
 
-            $curl_str = "curl --http2 '$url' ";
+            $curl_str = "curl '$url' ";
             $curl_str .= "-H 'origin: https://www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
             $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' ";
@@ -2040,7 +2040,7 @@ namespace dumbu\cls {
             $csrftoken = $cookies->csrftoken;
             $mid = $cookies->mid;
             $url = "https://www.instagram.com" . $cookies->checkpoint_url;
-            //$curl_str = "curl --http2 '$url' ";
+            //$curl_str = "curl '$url' ";
             //$curl_str .= "-H 'origin: https://www.instagram.com' ";
             //$curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
             //$curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' --compressed ";
