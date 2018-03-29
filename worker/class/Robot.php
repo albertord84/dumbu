@@ -1602,7 +1602,7 @@ namespace dumbu\cls {
 
         public function get_insta_ref_prof_following($ref_prof) {
             $content = @file_get_contents("https://www.instagram.com/$ref_prof/", false);
-            echo $content;
+            //echo $content;
             $doc = new \DOMDocument();
 //$doc->loadXML($content);
             $substr2 = NULL;
