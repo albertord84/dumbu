@@ -112,7 +112,6 @@ var_dump($pay_day);
 
 
 
-<<<<<<< HEAD
 //--------------------------------------------------------------------------------
 // GMAIL
 //$Gmail = new \dumbu\cls\Gmail();
@@ -158,28 +157,7 @@ var_dump($pay_day);
 //    } else {
 //        $has_work = FALSE;
 //    }
-=======
-/*
-    $daily_work = $DB->get_follow_work_by_id(39366);
-    if ($daily_work) {
-        $daily_work->login_data = json_decode($daily_work->cookies);
-        if ($daily_work->login_data != NULL) {
-            $elapsed_time = time() - intval($daily_work->last_access); // sec
-            if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
-                $now = \DateTime::createFromFormat('U', time());
-                $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
-                print "<br>_________ELAPSED TIME ($elapsed_time): ";
-                sleep($GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time); // secounds
-            }
-            $Worker->do_follow_unfollow_work($daily_work);
-            //die("Test End!!");
-        } else {
-            print "<br> Login data NULL!!!!!!!!!!!! <br>";
-        }
-    } else {
-        $has_work = FALSE;
-    }*/
->>>>>>> 417f319016b58c2f793500b5d6035f1b80528242
+
 
 
 
