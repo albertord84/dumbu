@@ -1,6 +1,14 @@
 <?php
 
+
+
 namespace dumbu\cls {
+    
+        ini_set('xdebug.var_display_max_depth', 256);
+    ini_set('xdebug.var_display_max_children', 256);
+    ini_set('xdebug.var_display_max_data', 1024);
+    
+    
     require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/mundipagg/init.php';
     require_once 'system_config.php';
 //    require_once('libraries/mundipagg/init.php');
@@ -54,6 +62,9 @@ namespace dumbu\cls {
                     "JUNIOR LIMA",
                     "BRUNO HOLANDA",
                     "JUNIOR SANTOS",
+                    "JUNIOR FERREIRA",
+                    "DENIS JUNIOR",
+                    "JUNIOR",
                     "JUNIOR S SILVA",
                     "FERNANDO ALVES",
                     "LUCAS BORSATTO22",
@@ -142,87 +153,92 @@ namespace dumbu\cls {
          */
         
         public function create_boleto_payment($payment_data) {
-            try
-            {
-            // Carrega dependências
-            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/MundiAPI-PHP/vendor/autoload.php';
-            // Define a url utilizada
-            \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com/"); 
+            try {
+                // Carrega dependências
+                require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/MundiAPI-PHP/vendor/autoload.php';
+                // Define a url utilizada
+                \Gateway\ApiClient::setBaseUrl("https://transactionv2.mundipaggone.com/"); 
 
-            // Define a chave de loja
-            \Gateway\ApiClient::setMerchantKey("BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6");
+                // Define a chave de loja
+                \Gateway\ApiClient::setMerchantKey("BCB45AC4-7EDB-49DF-98D1-69FD37F4E1D6");
 
-            // Cria a requisição
-            $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
+                // Cria a requisição
+                $createSaleRequest = new \Gateway\One\DataContract\Request\CreateSaleRequest();
 
-            // Cria objeto de transação de boleto
-            $boletoTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\BoletoTransaction();
-            $createSaleRequest->addBoletoTransaction($boletoTransaction);
-            $boletoTransaction
-            ->setAmountInCents($payment_data['AmountInCents'])
-            ->setBankNumber(\Gateway\One\DataContract\Enum\BankEnum::SANTANDER)
-            ->setDocumentNumber($payment_data['DocumentNumber']) //string Número do documento no boleto
-            ->setInstructions("Pagar antes do vencimento")
-            ->getOptions()
-            ->setDaysToAddInBoletoExpirationDate(5);
+                // Cria objeto de transação de boleto
+                $boletoTransaction = new \Gateway\One\DataContract\Request\CreateSaleRequestData\BoletoTransaction();
+                $createSaleRequest->addBoletoTransaction($boletoTransaction);
+                $boletoTransaction
+                ->setAmountInCents($payment_data['AmountInCents'])
+                ->setBankNumber(\Gateway\One\DataContract\Enum\BankEnum::SANTANDER)
+                ->setDocumentNumber($payment_data['DocumentNumber']) //string Número do documento no boleto
+                ->setInstructions("Pagar antes do vencimento")
+                ->getOptions()
+                ->setDaysToAddInBoletoExpirationDate(5);
 
-            //Define dados do pedido
-            $createSaleRequest->getOrder()
-            ->setOrderReference($payment_data['OrderReference']);//	string Identificador do pedido na sua base
-            
-            // Dados do comprador
-            $createSaleRequest->getBuyer()
-            ->setName($payment_data['name'])
-            ->setPersonType(\Gateway\One\DataContract\Enum\PersonTypeEnum::PERSON)
-            ->setBuyerReference($payment_data['id']) // esto seria como el id de un cliente para identificarlo rapidamente
-            ->setDocumentNumber($payment_data['cpf'])
-            ->setDocumentType(\Gateway\One\DataContract\Enum\DocumentTypeEnum::CPF)
-            //->setEmail("yptoledoarg@gmail.com")
-            //->setEmailType(\Gateway\One\DataContract\Enum\EmailTypeEnum::PERSONAL)
-            //->setGender(\Gateway\One\DataContract\Enum\GenderEnum::FEMALE)
-            //->setMobilePhone("(21)972596272")
-            //->setBirthDate(\DateTime::createFromFormat('d/m/Y', '20/08/1990'))
-            ->setCreateDateInMerchant(new \DateTime())
-           // ->addAddress()
-           // ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
-           // ->setStreet("Rua General Castrioto")
-           // ->setNumber("380")
-           // ->setComplement("30B")
-           // ->setDistrict("Barreto")
-           // ->setCity("Niteroi")
-           // ->setState("RJ")
-           // ->setZipCode("24110256")
-           // ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
-            ;
-            // Cria um objeto ApiClient
-            $client = new \Gateway\ApiClient();
-            //var_dump($client);
-            // Faz a chamada para a criação da transação
-            $response = $client->createSale($createSaleRequest);
+                //Define dados do pedido
+                $createSaleRequest->getOrder()
+                ->setOrderReference($payment_data['OrderReference']);//	string Identificador do pedido na sua base
 
-            // Mapeia resposta
-            $httpStatusCode = $response->isSuccess() ? 201 : 401;
-            //var_dump($response);
-            }
-            catch (\Gateway\One\DataContract\Report\ApiError $error)
-            {
-                $httpStatusCode = 400;
-                $response = array("message" => $error->getMessage());
-                //var_dump($response);
-            }
-            catch (Exception $ex)
-            {
-                $httpStatusCode = 500;
-                $response = array("message" => "Ocorreu um erro inesperado.");
-            }
-            finally {
+                // Dados do comprador
+                $createSaleRequest->getBuyer()
+                ->setName($payment_data['name'])
+                ->setPersonType(\Gateway\One\DataContract\Enum\PersonTypeEnum::PERSON)
+                ->setBuyerReference($payment_data['id']) // esto seria como el id de un cliente para identificarlo rapidamente
+                ->setDocumentNumber($payment_data['cpf'])
+                ->setDocumentType(\Gateway\One\DataContract\Enum\DocumentTypeEnum::CPF)
+                //->setEmail("yptoledoarg@gmail.com")
+                //->setEmailType(\Gateway\One\DataContract\Enum\EmailTypeEnum::PERSONAL)
+                //->setGender(\Gateway\One\DataContract\Enum\GenderEnum::FEMALE)
+                //->setMobilePhone("(21)972596272")
+                //->setBirthDate(\DateTime::createFromFormat('d/m/Y', '20/08/1990'))
+                        
+                ->setCreateDateInMerchant(new \DateTime())
+                ->addAddress()
+                ->setAddressType(\Gateway\One\DataContract\Enum\AddressTypeEnum::RESIDENTIAL)
+                ->setStreet($payment_data['street_address'])
+                ->setNumber($payment_data['house_number'])
+               // ->setComplement("30B")
+                ->setDistrict($payment_data['neighborhood_address'])
+                ->setCity($payment_data['municipality_address'])
+                ->setState($payment_data['state_address'])
+                ->setZipCode($payment_data['cep'])
+                ->setCountry(\Gateway\One\DataContract\Enum\CountryEnum::BRAZIL);
+                
+                // Cria um objeto ApiClient
+                $client = new \Gateway\ApiClient();
+                //var_dump($client);
+                // Faz a chamada para a criação da transação
+                $response = $client->createSale($createSaleRequest);
+
+                // Mapeia resposta
+                //$httpStatusCode = $response->isSuccess() ? 201 : 401;
                 // Devolve resposta
+                if($response->isSuccess()){
+                    $result = array(
+                        'success'=>true,
+                        'ticket_url'=>$response->getData()->BoletoTransactionResultCollection[0]->BoletoUrl,
+                        'ticket_order_key'=>$response->getData()->OrderResult->OrderKey,
+                    );                    
+                }else{
+                    $result['success'] = false;
+                }              
                http_response_code($httpStatusCode);
-               header('Content-Type: application/json');
-               var_dump($response);
-               print json_encode($response->getData());
-            }   
-             
+               return $result;                
+            }
+            catch (\Gateway\One\DataContract\Report\ApiError $error){
+                $httpStatusCode = 400;
+                $result['success'] = false;
+                $result['message'] = $error->getMessage();
+            }
+            catch (Exception $ex){
+                $httpStatusCode = 500;
+                $result['success'] = false;
+                $result['message'] = 'Aconteceu um erro inesperado.';
+            }
+            finally{
+               return $result;
+            }
         }
 
         public function create_debit_payment($payment_data) {
