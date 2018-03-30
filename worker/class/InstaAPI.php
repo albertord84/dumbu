@@ -31,16 +31,15 @@ namespace dumbu\cls {
 
             try {
                 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
+        
                 
 //                $ig->setOutputInterface("191.252.110.140");
                 
                 $ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
 
                 $loginResponse = $ig->login($username, $password, true);
-
+                
                 $ig->client->loadCookieJar();
-                $loginResponse->Cookies = $ig->client->restoredCookies;
-//                var_dump($ig->client->restoredCookies);
 
                 if ($loginResponse !== null && $loginResponse->isTwoFactorRequired()) {
                     $twoFactorIdentifier = $loginResponse->getTwoFactorInfo()->getTwoFactorIdentifier();
@@ -51,6 +50,12 @@ namespace dumbu\cls {
                     $verificationCode = trim(fgets(STDIN));
                     $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
                 }
+                $loginResponse->Cookies = new \stdClass();
+                $loginResponse->Cookies->session_id =  $ig->client->getCookie('sessionid')->getValue();              
+                $loginResponse->Cookies->csrftoken =  $ig->client->getCookie('csrftoken')->getValue();
+                $loginResponse->Cookies->ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
+                $loginResponse->Cookies->mid =  $ig->client->getCookie('mid')->getValue();
+                
                 return $loginResponse;
             } catch (\Exception $e) {
                 throw $e;

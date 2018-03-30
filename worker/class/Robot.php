@@ -1677,8 +1677,12 @@ namespace dumbu\cls {
             // Try new API login
             try {
                 $result = $this->make_login($login, $pass);
-                $myDB->set_client_cookies($Client->id, $result);
-                return json_decode($result);
+                $result->json_response = new \stdClass();
+                $result->json_response->status = 'ok';
+                $result->json_response->authenticated = TRUE;
+                $myDB->set_client_cookies($Client->id, json_encode($result));
+                
+                return $result;
             } catch (\Exception $e) {
                 // did by Jose R (si el cliente pone mal la senha por motivo X, el login va a dar una excepcion, y no le devemos cambiar las cookies, imagina que fue uno que e copio el curl a mano)
                 //$myDB->set_cookies_to_null($Client->id);
@@ -1810,26 +1814,7 @@ namespace dumbu\cls {
                 throw $exc;
             }
             $cookies = $result->Cookies;
-            //var_dump($cookies);
-            $mid = "";
-            $csrftoken = "";
-            $ds_user_id = "";
-            $sessionid = "null";
-            foreach ($cookies as $key => $value) {
-                if ($value['Name'] === 'mid') {
-                    $mid = $value['Value'];
-                } elseif ($value['Name'] === 'csrftoken') {
-                    $csrftoken = $value['Value'];
-                } elseif ($value['Name'] === 'ds_user_id') {
-                    $ds_user_id = $value['Value'];
-                } elseif ($value['Name'] === 'sessionid') {
-                    $sessionid = $value['Value'];
-                }
-            }
-            //$ch = curl_init("https://www.instagram.com/");
-            //$this->login_insta_with_csrftoken("https://www.instagram.com/", $login, $pass, $csrftoken, $mid);
-            $cookies_str = $this->encode_cookies($csrftoken, $sessionid, $ds_user_id, $mid);
-            return $cookies_str; //json_decode($cookies_str);
+            return $cookies; 
         }
 
         public function like_fist_post($client_cookies, $client_insta_id) {

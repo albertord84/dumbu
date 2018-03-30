@@ -12,6 +12,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print('Hola Mundo');
 
+
+
 /*$Client = (new \dumbu\cls\Client())->get_client(65045);
 $Robot = new \dumbu\cls\Robot();
 $DB = new \dumbu\cls\DB();
@@ -32,6 +34,8 @@ var_dump($json_response2);
 
 
 $Robot = new \dumbu\cls\Robot();
+$Robot->bot_login('riveauxmerino', 'Notredame88');
+/*
 $json_response = new \stdClass();
 $Client = (new \dumbu\cls\Client())->get_client(81875);
 $daily_work = new \stdClass();
@@ -44,7 +48,7 @@ $daily_work->rp_insta_id = 220021938;
 $daily_work->client_id = 81875;
 
 $res = $Robot->get_insta_ref_prof_data('daylipadron');
-var_dump($res);
+var_dump($res);*/
 
 //$json_response->message = "unauthorized";
 //$json_response->status = 'fail';
