@@ -3,13 +3,13 @@
 set_time_limit(0);
 date_default_timezone_set('UTC');
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../../../../vendor/autoload.php';
 
 /////// CONFIG ///////
-$username = '';
-$password = '';
-$debug = true;
-$truncatedDebug = false;
+$username = 'alberto_dreyes';
+$password = 'albertord8';
+$debug = false; //true;
+$truncatedDebug = true; //false;
 //////////////////////
 
 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
@@ -29,11 +29,15 @@ try {
     $maxId = null;
     do {
         // Request the page corresponding to maxId.
-        $response = $ig->timeline->getUserFeed($userId, $maxId);
+//        $response = $ig->timeline->getUserFeed($userId, $maxId);
+        
+        
+        $response = $ig->people->getFollowers($userId, null, $maxId);
 
         // In this example we're simply printing the IDs of this page's items.
-        foreach ($response->getItems() as $item) {
-            printf("[%s] https://instagram.com/p/%s/\n", $item->getId(), $item->getCode());
+        foreach ($response->getUsers() as $item) {
+            var_dump($item);
+            //printf("[%s] https://instagram.com/p/%s/\n", $item->getId(), $item->getCode());
         }
 
         // Now we must update the maxId variable to the "next page".

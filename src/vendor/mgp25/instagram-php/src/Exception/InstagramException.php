@@ -16,7 +16,7 @@ class InstagramException extends \RuntimeException
      *
      * @var ResponseInterface|null
      */
-    public $_response = null;
+    private $_response = null;
 
     /**
      * Check whether the exception has a full server response.

@@ -128,10 +128,6 @@ class Client
      */
     private $_mapper;
 
-    /***
-     * Alberto: Cookies to get missing MID
-     */
-    public $restoredCookies = NULL;
     /**
      * Constructor.
      *
@@ -216,6 +212,7 @@ class Client
 
         // Get all cookies for the currently active user.
         $userCookies = $this->_parent->settings->getCookies();
+        
         $this->_settingsCookieFormat = $userCookies['format'];
         $this->_settingsCookieFilePath = null;
 
@@ -269,8 +266,6 @@ class Client
         }
 
         // Memory-based cookie jar which must be manually saved later.
-        $this->restoredCookies = $restoredCookies;
-        //var_dump($this);
         $this->_cookieJar = new CookieJar(false, $restoredCookies);
 
         // Reset the "last saved" timestamp to the current time to prevent
@@ -367,7 +362,6 @@ class Client
     public function saveCookieJar()
     {
         $newCookies = $this->getCookieJarAsJSON();
-//        var_dump($newCookies);
         if ($this->_settingsCookieFormat != 'cookiefile') {
             // Tell non-file settings storage to persist the latest cookies.
             $this->_parent->settings->setCookies($newCookies);
