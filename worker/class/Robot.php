@@ -2096,6 +2096,10 @@ namespace dumbu\cls {
             if (curl_errno($ch)) {
                 //print curl_error($ch);
             } else if (count($cookies) >= 2) {
+                if($login_data->json_response == 1)
+                {
+                    $login_data->json_response = '{"authenticated":true,"user":true,"status":"ok"}';
+                }
                 $login_data->csrftoken = $this->get_cookies_value("csrftoken");
                 // Get sessionid from cookies
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
