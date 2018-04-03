@@ -113,7 +113,15 @@ var Translation={
     " publicações":
             " publicações",
     "Nenhum resultado encontrado.":
-            "Nenhum resultado encontrado."
+            "Nenhum resultado encontrado.",
+    "O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ":
+            "O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ",
+    "A geolocalização ":
+            "A geolocalização ",
+    "O sistema já seguiu todas as pessoas que postaram fotos com o #":
+            "O sistema já seguiu todas as pessoas que postaram fotos com o #",
+    "O #":
+            "O #"
 };
 
 function T(token){
