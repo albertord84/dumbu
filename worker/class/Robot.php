@@ -2114,8 +2114,7 @@ namespace dumbu\cls {
                $login_data->json_response = json_decode('{"authenticated":false, "status":"fail"}'); 
             }
 
-            (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
-            curl_close($ch);
+             curl_close($ch);
 
             /* exec($curl_str, $output, $status);     
               $res = json_decode($output[0]);
