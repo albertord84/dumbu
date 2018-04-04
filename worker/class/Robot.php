@@ -2073,7 +2073,7 @@ namespace dumbu\cls {
             $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
 
             curl_setopt($ch, CURLOPT_URL, $url);
-            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             //curl_setopt($ch, CURLOPT_POST, true);
             //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
             //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
@@ -2087,19 +2087,16 @@ namespace dumbu\cls {
             $info = curl_getinfo($ch);
             // LOGIN WITH CURL TO TEST
             // Parse html response
-            $start = strpos($html, "{");
+            $start = strpos($html, "200") != 0;
             $json_str = substr($html, $start);
             $json_response = json_decode($json_str);
             //
             $login_data = new \stdClass();
             $login_data->json_response = $json_response;
-            if (curl_errno($ch)) {
-                //print curl_error($ch);
-            } else if (count($cookies) >= 2) {
-                if($login_data->json_response == 1)
-                {
-                    $login_data->json_response = '{"authenticated":true,"user":true,"status":"ok"}';
-                }
+           if (count($cookies) >= 2 && $start) {
+               
+                $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
+                
                 $login_data->csrftoken = $this->get_cookies_value("csrftoken");
                 // Get sessionid from cookies
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
@@ -2110,6 +2107,11 @@ namespace dumbu\cls {
                 if ($login_data->mid == NULL || $login_data->mid == '') {
                     $login_data->mid = $mid;
                 }
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
+            }   
+            else
+            {
+               $login_data->json_response = json_decode('{"authenticated":false, "status":"fail"}'); 
             }
 
             (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));

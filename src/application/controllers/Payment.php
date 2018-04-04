@@ -154,6 +154,7 @@ class Payment extends CI_Controller {
             $payday = strtotime($client['pay_day']);
             $payday = new DateTime();
             $payday->setTimestamp($client['pay_day']);
+            $today = strtotime("today");
 //            var_dump($payday);
             if(new DateTime("now") > $payday)
             {
@@ -177,7 +178,21 @@ class Payment extends CI_Controller {
                             print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
                         }
                     }
-                } else if ($now > $payday && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) { // wheter not have order key
+                }/* else if($today <= $payday && $payday <= strtotime("+1 day", $today)){
+                    try{
+                        $checked = $this->check_initial_payment($client);
+                    } catch (Exception $ex)
+                    {
+                        $checked = FALSE;
+                    }
+                    if ($checked) {
+                            //var_dump($client);
+                        print "\n<br>Client in day: $clientname (id: $clientid)<br>\n";
+                    } else {
+                        print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
+                    }
+                }*/
+                else if ($now > $payday && $client['status_id'] != user_status::BLOCKED_BY_PAYMENT) { // wheter not have order key
                     print "\n<br>Client without ORDER KEY and pay data data expired!!!: $clientname (id: $clientid)<br>\n";
                     $this->send_payment_email($client, $GLOBALS['sistem_config']->DAYS_TO_BLOCK_CLIENT - $diff_days);
                     $this->load->model('class/user_status');
@@ -385,9 +400,39 @@ class Payment extends CI_Controller {
         $this->load->model('class/client_model');
     }
     
-    public function check_initial_payment()
+    public function check_initial_payment($client)
     {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
+        //require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/src/class/Wellcome.php';
         $today = strtotime("today");
+        $payment_data['credit_card_number'] = $client->credit_card_number;
+        $payment_data['credit_card_name'] = $client->credit_card_name;
+        $payment_data['credit_card_exp_month'] = $client->credit_card_exp_month;
+        $payment_data['credit_card_exp_year'] = $client->credit_card_exp_year;
+        $payment_data['credit_card_cvc'] = $client->credit_card_cvc;
+        //$payment_data['amount_in_cents'] = $client->amount_in_cents;
+        $payment_data['pay_day'] = $client->pay_day;
+        
+        //Verificar que tenha asignado 24 horas antes
+                
+        // if (is_object($resp_pay_now) && $resp_pay_now->isSuccess() && $resp_pay_now->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0) {
+                               
+        //Tentar crear a recurrencia
+        $welcome = new \dumbu\cls\Welcome();
+        $response = $welcome->check_recurrency_mundipagg_credit_card($payment_data,0);
+                
+        //Fallo en crear a arecurrencia -> notificar ao cliente e bloquear por pagamento
+        if(!$response->isSuccess())
+        {
+            $this->user_model->update_user($client['user_id'], array('status_id' => user_status::BLOCKED_BY_PAYMENT, 'status_date' => time()));
+            $this->send_payment_email($client, 0);
+            $DB->InsertEventToWashdog($client['user_id'], 'BLOQUED BY PAYMENT', 0);
+               
+        }
+       //Creo a recurren ia -> continua ativo
+        //if(!isset($client->))
+        
     }
 
     
