@@ -3681,7 +3681,7 @@ class Welcome extends CI_Controller {
             $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
             $this->load->model('class/user_model');
             
-            if ($checkpoint_data && $checkpoint_data->json_response === 1 && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
+            if ($checkpoint_data && $checkpoint_data->json_response->status === 'ok' && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
                 $result['success'] = true;
                 $result['message'] = 'Código de segurança confirmado corretamente';
                 $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE CONFIRMATED');
