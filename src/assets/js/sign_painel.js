@@ -414,21 +414,21 @@ $(document).ready(function () {
         }
     });
 
-    $('#radio_plane_4_90').click(function () {
+    $('#container_plane_4_90').click(function () {
         $("#container_plane_4_90").addClass( "active" );
         $("#container_plane_9_90").removeClass( "active" );
         $("#container_plane_29_90").removeClass( "active" );
         $("#container_plane_99_90").removeClass( "active" );
         plane = '2';
     });
-    $('#radio_plane_9_90').click(function () {
+    $('#container_plane_9_90').click(function () {
         $("#container_plane_4_90").removeClass( "active" );
         $("#container_plane_9_90").addClass( "active" );
         $("#container_plane_29_90").removeClass( "active" );
         $("#container_plane_99_90").removeClass( "active" );
         plane = '3';
     });
-    $('#radio_plane_29_90').click(function () {
+    $('#container_plane_29_90').click(function () {
         $("#container_plane_4_90").removeClass( "active" );
         $("#container_plane_9_90").removeClass( "active" );
         $("#container_plane_29_90").addClass( "active" );
