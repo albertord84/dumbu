@@ -335,6 +335,7 @@ namespace dumbu\cls {
             $this->mail->clearAddresses();
             $this->mail->addAddress($useremail);
             $this->mail->addCC($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
+            $this->mail->addReplyTo($GLOBALS['sistem_config']->ATENDENT_EMAIL, $GLOBALS['sistem_config']->ATENDENT_USER_LOGIN);
             $this->mail->clearReplyTos();
             $this->mail->isHTML(true);
             $this->mail->Subject = "Ticket bank generated successfully!!";
