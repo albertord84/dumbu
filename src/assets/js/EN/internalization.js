@@ -121,7 +121,11 @@ var Translation={
     "O sistema já seguiu todas as pessoas que postaram fotos com o #":
             "The system has already followed everyone who posted photos with the #",
     "O #":
-            "The #"
+            "The #",
+    "SELECIONADO":
+            "SELECTED",
+    "SELECIONAR":
+            "SELECT"
 };
 
 function T(token){

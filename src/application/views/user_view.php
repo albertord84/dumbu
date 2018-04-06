@@ -602,13 +602,13 @@
                                                 </spam>
                                                 <br>
                                                 <!--<input id="radio_plane_4_90" type="radio" name="plano">-->
-                                                <a href="#lnk_register_now">
+                                                <!--<a href="#lnk_register_now">-->
                                                     <div class="text-center">
                                                         <button id="btn_select_plane_slow" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
-                                                            <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></spam>
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></span>
                                                         </button>                                            
                                                     </div>
-                                                </a>
+                                                <!--</a>-->
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
@@ -629,13 +629,13 @@
                                                 </spam>
                                                 <br>
                                                 <!--<input id="radio_plane_9_90" type="radio" name="plano">-->
-                                                <a href="#lnk_register_now">
+                                                <!--<a href="#lnk_register_now">-->
                                                     <div class="text-center">
                                                         <button id="btn_select_plane_moderated" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
-                                                            <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></spam>
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></span>
                                                         </button>                                            
                                                     </div>
-                                                </a>
+                                                <!--</a>-->
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
@@ -671,13 +671,13 @@
                                                 </div>
                                                 <br>
 <!--                                                <input id="radio_plane_29_90" type="radio" name="plano" checked="true">-->
-                                                <a href="#lnk_register_now">
+                                                <!--<a href="#lnk_register_now">-->
                                                     <div class="text-center">
                                                         <button id="btn_select_plane_fast" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
-                                                            <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></spam>
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONADO", array(),$language);?></div></span>
                                                         </button>                                            
                                                     </div>
-                                                </a>
+                                                <!--</a>-->
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
@@ -728,13 +728,13 @@
                                                 </div>
                                                 <br>
                                                 <!--<input id="radio_plane_99_90" type="radio" name="plano">-->
-                                                <a href="#lnk_register_now">
+                                                <!--<a href="#lnk_register_now">-->
                                                     <div class="text-center">
                                                         <button id="btn_select_plane_turbo" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
-                                                            <spam class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></spam>
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></span>
                                                         </button>                                            
                                                     </div>
-                                                </a>
+                                                <!--</a>-->
 					</div>
 				</div>
 			</div>
