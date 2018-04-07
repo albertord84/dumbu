@@ -90,7 +90,7 @@ trait EventEmitterTrait
         }
     }
 
-    public function listeners($event = null)
+    public function listeners($event = null): array
     {
         if ($event === null) {
             $events = [];

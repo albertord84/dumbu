@@ -234,7 +234,7 @@ namespace dumbu\cls {
                     //$DB = new \dumbu\cls\DB();
                     //daily work: cookies reference_id to_follow last_access id insta_name insta_id client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following id name	login pass email telf role_id status_id	languaje 
                     $daily_work = $this->DB->get_follow_work();
-                    if ($daily_work) {
+                    if ($daily_work) {                       
                         $daily_work->login_data = json_decode($daily_work->cookies);
                         if ($daily_work->login_data != NULL) {
                             //Calculate time to sleep    
@@ -247,7 +247,7 @@ namespace dumbu\cls {
                             $lst_acess = intval($daily_work->last_access);
                             $elapsed_time = $now - $lst_acess; // sec
                             if($now > $lst_acess)
-                            {/*                                
+                            {                                
                                 if ($elapsed_time < $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60) {
                                     $now = \DateTime::createFromFormat('U', time());
                                     $last_access = \DateTime::createFromFormat('U', $daily_work->last_access);
@@ -259,7 +259,7 @@ namespace dumbu\cls {
                                     sleep($GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 - $elapsed_time); // secounds
                                     //$now = \DateTime::createFromFormat('U', time());
                                     //print "_________ELAPSE TIME: " . $now->format('Y-m-d H:i:s') . "<br>";
-                                }*/
+                                }
                                 $this->do_follow_unfollow_work($daily_work);
                             }
                             else{

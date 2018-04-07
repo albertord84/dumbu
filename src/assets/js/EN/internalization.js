@@ -113,7 +113,19 @@ var Translation={
     " publicações":
             " publications",
     "Nenhum resultado encontrado.":
-            "No results found."
+            "No results found.",
+    "O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ":
+            "The system has already followed everyone who posted photos at geolocalization ",
+    "A geolocalização ":
+            "The geolocalization ",
+    "O sistema já seguiu todas as pessoas que postaram fotos com o #":
+            "The system has already followed everyone who posted photos with the #",
+    "O #":
+            "The #",
+    "SELECIONADO":
+            "SELECTED",
+    "SELECIONAR":
+            "SELECT"
 };
 
 function T(token){

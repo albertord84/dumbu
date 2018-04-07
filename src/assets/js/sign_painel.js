@@ -414,41 +414,95 @@ $(document).ready(function () {
         }
     });
 
-    $('#radio_plane_4_90').click(function () {
+//    $('#container_plane_4_90').click(function () {
+//        $("#container_plane_4_90").addClass( "active" );
+//        $("#container_plane_9_90").removeClass( "active" );
+//        $("#container_plane_29_90").removeClass( "active" );
+//        $("#container_plane_99_90").removeClass( "active" );
+//        plane = '2';
+//    });
+//    $('#container_plane_9_90').click(function () {
+//        $("#container_plane_4_90").removeClass( "active" );
+//        $("#container_plane_9_90").addClass( "active" );
+//        $("#container_plane_29_90").removeClass( "active" );
+//        $("#container_plane_99_90").removeClass( "active" );
+//        plane = '3';
+//    });
+//    $('#container_plane_29_90').click(function () {
+//        $("#container_plane_4_90").removeClass( "active" );
+//        $("#container_plane_9_90").removeClass( "active" );
+//        $("#container_plane_29_90").addClass( "active" );
+//        $("#container_plane_99_90").removeClass( "active" );
+//        plane = '4';
+//    });
+//    $('#container_plane_99_90').click(function () {
+//        $("#container_plane_4_90").removeClass( "active" );
+//        $("#container_plane_9_90").removeClass( "active" );
+//        $("#container_plane_29_90").removeClass( "active" );
+//        $("#container_plane_99_90").addClass( "active" );
+//        plane = '5';
+//    });
+
+    $('#btn_select_plane_slow').click(function () {
+        $("#btn_select_plane_slow span div").text(T("SELECIONADO"));
+        $("#btn_select_plane_moderated span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_fast span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_turbo span div").text(T("SELECIONAR"));
         $("#container_plane_4_90").addClass( "active" );
         $("#container_plane_9_90").removeClass( "active" );
         $("#container_plane_29_90").removeClass( "active" );
         $("#container_plane_99_90").removeClass( "active" );
+        location.href = "#lnk_register_now";
+        $("#client_email").focus();
         plane = '2';
     });
-    $('#radio_plane_9_90').click(function () {
+    
+    $('#btn_select_plane_moderated').click(function () {
+        $("#btn_select_plane_slow span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_moderated span div").text(T("SELECIONADO"));
+        $("#btn_select_plane_fast span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_turbo span div").text(T("SELECIONAR"));
         $("#container_plane_4_90").removeClass( "active" );
         $("#container_plane_9_90").addClass( "active" );
         $("#container_plane_29_90").removeClass( "active" );
         $("#container_plane_99_90").removeClass( "active" );
+        location.href = "#lnk_register_now";
+        $("#client_email").focus();
         plane = '3';
     });
-    $('#radio_plane_29_90').click(function () {
+    
+    $('#btn_select_plane_fast').click(function () {
+        $("#btn_select_plane_slow span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_moderated span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_fast span div").text(T("SELECIONADO"));
+        $("#btn_select_plane_turbo span div").text(T("SELECIONAR"));
         $("#container_plane_4_90").removeClass( "active" );
         $("#container_plane_9_90").removeClass( "active" );
         $("#container_plane_29_90").addClass( "active" );
         $("#container_plane_99_90").removeClass( "active" );
+        location.href = "#lnk_register_now";
+        $("#client_email").focus();
         plane = '4';
     });
-    $('#container_plane_99_90').click(function () {
+    
+    $('#btn_select_plane_turbo').click(function () {
+        $("#btn_select_plane_slow span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_moderated span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_fast span div").text(T("SELECIONAR"));
+        $("#btn_select_plane_turbo span div").text(T("SELECIONADO"));
         $("#container_plane_4_90").removeClass( "active" );
         $("#container_plane_9_90").removeClass( "active" );
         $("#container_plane_29_90").removeClass( "active" );
         $("#container_plane_99_90").addClass( "active" );
+        location.href = "#lnk_register_now";
+        $("#client_email").focus();
         plane = '5';
     });
     
-    $('#container_plane_4_90').hover(function () {$("#container_plane_4_90").css('cursor', 'pointer');},function () {$("#container_plane_4_90").css('cursor', 'auto');});
-    $('#container_plane_9_90').hover(function () {$("#container_plane_9_90").css('cursor', 'pointer');},function () {$("#container_plane_9_90").css('cursor', 'auto');});
-    $('#container_plane_29_90').hover(function () {$("#container_plane_29_90").css('cursor', 'pointer');},function () {$("#container_plane_29_90").css('cursor', 'auto');});
-    $('#container_plane_99_90').hover(function () {$("#container_plane_99_90").css('cursor', 'pointer');},function () {$("#container_plane_99_90").css('cursor', 'auto');});
-
-
+//    $('#container_plane_4_90').hover(function () {$("#container_plane_4_90").css('cursor', 'pointer');},function () {$("#container_plane_4_90").css('cursor', 'auto');});
+//    $('#container_plane_9_90').hover(function () {$("#container_plane_9_90").css('cursor', 'pointer');},function () {$("#container_plane_9_90").css('cursor', 'auto');});
+//    $('#container_plane_29_90').hover(function () {$("#container_plane_29_90").css('cursor', 'pointer');},function () {$("#container_plane_29_90").css('cursor', 'auto');});
+//    $('#container_plane_99_90').hover(function () {$("#container_plane_99_90").css('cursor', 'pointer');},function () {$("#container_plane_99_90").css('cursor', 'auto');});
 
     $('#coniner_data_panel').css({'height': ''+$('#coniner_login_panel').height()});
     $('#container_sing_in_panel').css({'height': ''+$('#coniner_login_panel').height()});

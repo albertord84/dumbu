@@ -996,24 +996,24 @@ $(document).ready(function () {
 
             if (icons_geolocalization[i]['status_geolocalization'] === 'ended') {
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#geolocalization_status_list').append('<li>' + T('O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
+                $('#reference_profile_status_list').append('<li>' + T('O sistema já seguiu todas as pessoas que postaram fotos na geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b></li>');
                 geolocalization_status = true;
             } else
             if (icons_geolocalization[i]['status_geolocalization'] === 'privated') {
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#geolocalization_status_list').append('<li>' + T('A geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b>' + T(' passou a ser privada') + '</li>');
+                $('#reference_profile_status_list').append('<li>' + T('A geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b>' + T(' passou a ser privado') + '</li>');
                 geolocalization_status = true;
             } else
             if (icons_geolocalization[i]['status_geolocalization'] === 'deleted') {
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#geolocalization_status_list').append('<li>' + T('A geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
+                $('#reference_profile_status_list').append('<li>' + T('A geolocalização ') + '<b style="color:red">"' + icons_geolocalization[i]['login_geolocalization'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
                 geolocalization_status = true;
             } else
                 icons_geolocalization[i]['ptr_p_obj'].css({'color': 'black'});
             icons_geolocalization[i]['ptr_panel_obj'].css({"visibility": "visible", "display": "block"});
         }
         if (geolocalization_status) {
-            $('#geolocalization_status_container').css({"visibility": "visible", "display": "block"})
+            $('#reference_profile_status_container').css({"visibility": "visible", "display": "block"})
         }
         if (num_geolocalization) {
             $('#container_present_geolocalization').css({"visibility": "visible", "display": "block"})
@@ -1604,24 +1604,24 @@ $(document).ready(function () {
 
             if (icons_hashtag[i]['status_hashtag'] === 'ended') {
                 icons_hashtag[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#hashtag_status_list').append('<li>' + T('O sistema já seguiu todas as pessoas que postaram fotos no hashtag ') + '<b style="color:red">"' + icons_hashtag[i]['login_hashtag'] + '"</b></li>');
+                $('#reference_profile_status_list').append('<li>' + T('O sistema já seguiu todas as pessoas que postaram fotos com o #') + '<b style="color:red">"' + icons_hashtag[i]['login_hashtag'] + '"</b></li>');
                 hashtag_status = true;
             } else
             if (icons_hashtag[i]['status_hashtag'] === 'privated') {
                 icons_hashtag[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#hashtag_status_list').append('<li>' + T('O hashtag ') + '<b style="color:red">"' + icons_hashtag[i]['login_hashtag'] + '"</b>' + T(' passou a ser privada') + '</li>');
+                $('#reference_profile_status_list').append('<li>' + T('O #') + '<b style="color:red">"' + icons_hashtag[i]['login_hashtag'] + '"</b>' + T(' passou a ser privado') + '</li>');
                 hashtag_status = true;
             } else
             if (icons_hashtag[i]['status_hashtag'] === 'deleted') {
                 icons_hashtag[i]['ptr_p_obj'].css({'color': 'red'});
-                $('#hashtag_status_list').append('<li>' + T('O hashtag ') + '<b style="color:red">"' + icons_hashtag[i]['login_hashtag'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
+                $('#reference_profile_status_list').append('<li>' + T('O #') + '<b style="color:red">"' + icons_hashtag[i]['login_hashtag'] + '"</b>' + T(' não existe mais no Instragram') + '</li>');
                 hashtag_status = true;
             } else
                 icons_hashtag[i]['ptr_p_obj'].css({'color': 'black'});
             icons_hashtag[i]['ptr_panel_obj'].css({"visibility": "visible", "display": "block"});
         }
         if (hashtag_status) {
-            $('#hashtag_status_container').css({"visibility": "visible", "display": "block"})
+            $('#reference_profile_status_container').css({"visibility": "visible", "display": "block"})
         }
         if (num_hashtag) {
             $('#container_present_hashtag').css({"visibility": "visible", "display": "block"})
