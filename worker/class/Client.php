@@ -162,6 +162,7 @@ namespace dumbu\cls {
                 $Client->cookies = $client_data->cookies;
                 $Client->paused = $client_data->paused;
                 $Client->HTTP_SERVER_VARS = $client_data->HTTP_SERVER_VARS;
+                $Client->init_date = $client_data->init_date;
                 $Client->get_reference_profiles($Client->id);
             }
             return $Client;
