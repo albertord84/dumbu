@@ -648,21 +648,21 @@ class Admin extends CI_Controller {
         $client_id = $datas['change_status_user_id'];
         $new_status = $datas['change_status_selected'];
         $resp = false;
-        $resp = $this->delete_work_of_client($client_id);
+        $this->delete_work_of_client($client_id);
         
         //1. setting to Blocked by Payment
         if(!$resp && $new_status == user_status::BLOCKED_BY_PAYMENT){
-            $resp = $this->user_model->update_user($user[$index]['id'], array(
+            $resp = $this->user_model->update_user($client_id, array(
                 'status_id' => user_status::BLOCKED_BY_PAYMENT));
         } else
         //2. setting to Blocked by Instagram
         if(!$resp && $new_status == user_status::BLOCKED_BY_INSTA){
-            $resp = $this->user_model->update_user($user[$index]['id'], array(
+            $resp = $this->user_model->update_user($client_id, array(
                 'status_id' => user_status::BLOCKED_BY_INSTA));
         } else
         //3. setting to Verify Account
         if(!$resp && $new_status == user_status::VERIFY_ACCOUNT){
-            $resp = $this->user_model->update_user($user[$index]['id'], array(
+            $resp = $this->user_model->update_user($client_id, array(
                 'status_id' => user_status::VERIFY_ACCOUNT));
         }
         if($resp){
