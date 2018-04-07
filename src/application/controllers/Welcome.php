@@ -3810,7 +3810,7 @@ class Welcome extends CI_Controller {
             }
     }
     
-    function verify_profile($profile_id, $active_profiles, $N) {    
+    public function verify_profile($profile_id, $active_profiles, $N) {    
         $this->is_ip_hacker();
         if($profile_id){
             if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))
