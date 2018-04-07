@@ -3,7 +3,6 @@
     <section id="Peixe_urbano" class="col-md-12 col-sm-12 col-xs-12">
         <div  class="col-md-2 col-sm-2 col-xs-12"></div>
         <div class="col-md-8 col-sm-8 col-xs-12">
-                <h1>Em desenvolvimento ainda, não usar!!</h1>
                 <h3>O cliente é Peixe Urbano? Faça o seguinte:</h3>
                 <h5> 1) Estorne o primeiro pagamento do cliente, caso já ter sido cobrado</h5>
                 <h5> 2) Mude a data de pagamento para o dia do próximo pagamento:</h5>
