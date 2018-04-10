@@ -259,7 +259,9 @@ class Admin extends CI_Controller {
 
     public function reference_profile_view() {
         $this->load->model('class/user_role');
-        //if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+        if ($this->session->userdata('id') && $this->session->userdata('role_id')==user_role::ADMIN) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/DB.php';
+            $DB = new \dumbu\cls\DB();
             $this->load->model('class/client_model');
             $this->load->model('class/user_model');
             $id = $this->input->get()['id'];
@@ -269,20 +271,20 @@ class Admin extends CI_Controller {
             
             $sql = 'SELECT * FROM plane WHERE id='.$plane_id[0]['plane_id'];
             $plane_datas = $this->user_model->execute_sql_query($sql);
-            
             $active_profiles = $this->client_model->get_client_active_profiles($id);
             $canceled_profiles = $this->client_model->get_client_canceled_profiles($id);
             $datas['active_profiles'] = $active_profiles;
             $datas['canceled_profiles'] = $canceled_profiles;
             $datas['my_daily_work'] = $this->get_daily_work($active_profiles);
             $datas['plane_datas'] = $plane_datas[0]['to_follow'];
+            $datas['followed_today'] = $DB->get_number_followed_today($id);
             $data['section1'] = $this->load->view('responsive_views/admin/admin_header_painel', '', true);
             $data['section2'] = $this->load->view('responsive_views/admin/admin_body_painel_reference_profile', $datas, true);
             $data['section3'] = $this->load->view('responsive_views/admin/users_end_painel', '', true);
             $this->load->view('view_admin', $data);
-        //} else{
-            //echo "Não pode acessar a esse recurso, deve fazer login!!";
-        //}
+        } else{
+            echo "Não pode acessar a esse recurso, deve fazer login!!";
+        }
     }
 
     public function pendences() {

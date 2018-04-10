@@ -941,7 +941,34 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }           
         }
-       
+        
+        public function get_number_followed_today($client_id) {
+            try {
+                $this->connect();
+
+                if ($client_id != '0' && $client_id != 0) {
+                    $limit = strtotime('today 02:00:00');
+                    
+                    if (time() > strtotime('today') && time() < strtotime('today 03:00:00'))
+                        $limit = strtotime('yesterday 02:00:00');
+                    
+                    $result = mysqli_query($this->fConnection, ""
+                            . "SELECT COUNT(*) FROM `dumbudb.followed`.`$client_id` "
+                            . "WHERE unfollowed = 0 AND date > ".$limit.";"
+                    );
+                    
+                    if ($result) {
+                        $data = $result->fetch_row();
+                        return $data[0];
+                    } else {
+                        return "???";
+                    }
+                } else 
+                    return 0;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
     }
 
 }

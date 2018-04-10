@@ -21,8 +21,9 @@
                         echo '<tr>';
                             echo '<td>'. $plane_datas.'</td>';
                             echo '<td>';
-                                if ($ainda_faltam_por_seguir != 0) echo ($plane_datas - $ainda_faltam_por_seguir);
-                                else echo '???';
+                                //if ($ainda_faltam_por_seguir != 0) echo ($plane_datas - $ainda_faltam_por_seguir);
+                                //else echo '???';
+                                echo $followed_today;
                             echo '</td>';
                             echo '<td>'.$ainda_faltam_por_seguir.'</td>';                                    
                         echo '</tr>';
