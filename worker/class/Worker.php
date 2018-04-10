@@ -64,7 +64,13 @@ namespace dumbu\cls {
                         $Client->set_client_status($Client->id, user_status::ACTIVE);
                         // Distribute work between clients
                         $RPWC = $Client->rp_workable_count();
-                        $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+                        if(strtotime("today") - $Client->init_day < 40*24*60*60 )
+                        {
+                            $DIALY_REQUESTS_BY_CLIENT = 480;
+                        }
+                        else {
+                             $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
+                        }
                         if ($RPWC > 0) {
                             $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / $RPWC;
                             //$to_follow_unfollow = $GLOBALS['sistem_config']->DIALY_REQUESTS_BY_CLIENT / $RPWC;

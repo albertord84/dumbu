@@ -656,8 +656,8 @@
                                                     <?php echo $CI->T("99,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-center">
-                                                    <spam >
+                                                <div class="text-left">
+                                                    <spam>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
                                                         <?php
@@ -667,7 +667,14 @@
                                                                 echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px"  alt="new">';
                                                         ?>
                                                     </spam>
-                                                    <br>                                                   
+                                                    <br>
+                                                    <spam>
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
+                                                        <a class="help"><b class="c-green">Hashtag</b></a>
+                                                        <?php
+                                                           echo '<img src="assets/images/avatar_hashtag.png" style="width:30px" alt="new">';
+                                                        ?>
+                                                    </spam>
                                                 </div>
                                                 <br>
 <!--                                                <input id="radio_plane_29_90" type="radio" name="plano" checked="true">-->
@@ -691,14 +698,14 @@
                                                     <?php //echo $CI->T("99,90", array(),$language);?></b> 
                                                     <small>/<?php //echo $CI->T("1º mês", array(),$language);?></small>
                                                 </spam><br>-->
-						<spam style="font-size:1.7em; color:#26a4e0">
+						<span style="font-size:1.7em; color:#26a4e0">
                                                     <?php //echo $CI->T("Depois R$", array(),$language);?><b>
                                                     <?php echo $CI->T("R$", array(),$language);?>
                                                     <?php echo $CI->T("189,90", array(),$language);?></b>
-                                                </spam>
+                                                </span>
                                                 <br>
-                                                <div class="text-center">
-                                                    <spam >
+                                                <div class="text-left">
+                                                    <spam>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
                                                         <?php
@@ -706,6 +713,14 @@
                                                                 echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px" alt="">';
                                                             else
                                                                 echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px"  alt="new">';
+                                                        ?>
+                                                    </spam>
+                                                    <br>
+                                                    <spam>
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
+                                                        <a class="help"><b class="c-green">Hashtag</b></a>
+                                                        <?php
+                                                           echo '<img src="assets/images/avatar_hashtag.png" style="width:30px" alt="new">';
                                                         ?>
                                                     </spam>
                                                     <br>
