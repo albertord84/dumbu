@@ -61,8 +61,7 @@ namespace dumbu\cls {
 //            var_dump($response->message);
             if (is_object($response) && isset($response->message)) {
                 if ((strpos($response->message, 'Com base no uso anterior deste recurso') !== FALSE)
-                    || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE) 
-                        || (strpos($response->message, 'orbidden') !== FALSE)) {
+                    || (strpos($response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
                     $error = 1;
                 } else if ((strpos($response->message, 'Você atingiu o limite máximo de contas para seguir.') !== FALSE) 
                        ||  (strpos($response->message, "Sorry, you're following the max limit of accounts.") !== FALSE)) {
@@ -74,7 +73,8 @@ namespace dumbu\cls {
                 } else if (strpos($response->message, 'checkpoint_required') !== FALSE) {
                     $error = 5;
                 } else if ((strpos($response->message, 'Tente novamente mais tarde') !== FALSE) 
-                       ||  (strpos($response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
+                       ||  (strpos($response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)
+                        || (strpos($response->message, 'orbidden') !== FALSE)) {
                     $error = 7;
                 } else if (strpos($response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
                     $error = 8;

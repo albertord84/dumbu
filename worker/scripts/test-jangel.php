@@ -8,11 +8,14 @@ require_once '../class/Client.php';
 require_once '../class/Reference_profile.php';
 require_once '../class/PaymentCielo3.0.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/src/application/controllers/Payment.php';
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print('Hola Mundo');
 
+$Robot = new \dumbu\cls\Robot();
+$Robot->clean_cursors();
+
+/*
 $payment = new \Payment();
 $client = new \stdClass();
 $client->credit_card_number = "5293888988785452";
@@ -21,11 +24,11 @@ $client->credit_card_exp_month = "11";
 $client->credit_card_exp_year = "23";
 $client->credit_card_cvc = "564";
 $client->pay_day = strostamp('today');
-$payment->check_initial_payment($client);
+$payment->check_initial_payment($client);*/
 
 
 /*$Client = (new \dumbu\cls\Client())->get_client(65045);
-$Robot = new \dumbu\cls\Robot();
+
 $DB = new \dumbu\cls\DB();
 //var_dump($Client);
 $json_response2 = $Robot->get_insta_geolocalization_data('havana-cuba');
