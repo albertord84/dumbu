@@ -342,7 +342,7 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center ps m-t45">
 					<div class="plano plano-mensal text-center fleft100">
 						<b style="font-size: 1.3em"><?php echo $CI->T("PLANO MENSAL", array(),$language);?></b>
-						<spam class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.", array(),$language);?></spam>
+						<!--<spam class="cl-fff fleft100"><?php //echo $CI->T("Sem multa de rescisão.", array(),$language);?></spam>-->
 						<hr>
 						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de", array(),$language);?></spam>
 						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$", array(),$language);?><b><?php echo ' '.$CI->T("29,90", array(),$language);?></b></p>
@@ -576,8 +576,9 @@
                <section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
-				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>
-				
+				<!--<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php //echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php //echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>-->
+				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("PLANO MENSAL", array(),$language);?></small></spam>
+                                
                                 <div class="titulo fleft100 text-center m-tb30">
                                      <div style="background-color:#2CC38F;margin-left:12%;margin-right:12%;margin-bottom:3%; padding:1%;border-radius:15px">
                                         <b style="color:white;font-size:1.4em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis", array(),$language);?>!</b>
@@ -589,7 +590,9 @@
                                             <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro01.png'?>" alt="velocimetro-1"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE", array(),$language);?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("BAIXA", array(),$language);?></b>
-                                                <hr>
+                                                <div class="rc"><?php echo $CI->T("MÍNIMO DE 3 MESES", array(),$language);?></div>
+                                                <br>
+                                                <!--<hr>-->
                                                 <!--<spam style="font-size:1.7em; color:#26a4e0">
                                                     <?php //echo $CI->T("R$", array(),$language);?>
                                                     <b><?php //echo $CI->T("4,90", array(),$language);?></b>

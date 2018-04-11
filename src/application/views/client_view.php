@@ -1448,13 +1448,13 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 bk text-center pd-r15 m-t45">
                     <div class="m-t10 ">
                         <div>
-                            <p class=text-center><?php echo $CI->T("CANCELAMENTO DA ASSINATURA", array(), $language); ?></p> 
+                            <p class=text-center><?php //echo $CI->T("CANCELAMENTO DA ASSINATURA", array(), $language); ?></p> 
                         </div>
                         <div class="text-center" >
                             <div class="row" style="margin-top: 2%; margin-bottom: 2%">
-                                <button id="cancel_usser_account" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
-                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("CANCELAR", array(), $language); ?></div></span>
-                                </button>                                
+                               <!-- <button id="cancel_usser_account" class="btn-primary m-t20 ladda-button" style="border-radius:20px" type="button" data-style="expand-left" data-spinner-color="#ffffff">
+                                    <span class="ladda-label"><div style="color:white; font-weight:bold"><?php //echo $CI->T("CANCELAR", array(), $language); ?></div></span>
+                                </button> -->
                             </div>
                         </div>
                     </div>
