@@ -270,7 +270,7 @@ class Payment extends CI_Controller {
                             print "\n<br>----Client with payment issue: $clientname (id: $clientid)<br>\n<br>\n<br>\n";
                         }
                     }
-                } else if($today <= $client['pay_day'] && $client['pay_day'] <= strtotime("+1 day", $today) /*&& $client['init_day'] */){
+                } else if($today <= $client['pay_day'] && $client['pay_day'] < strtotime("+1 day", $today) /*&& $client['init_day'] */){
                     try{
                         $checked = $this->check_initial_payment($client);
                     } catch (Exception $ex)
@@ -512,8 +512,10 @@ class Payment extends CI_Controller {
         
         if (is_object($resp_pay_now) && $resp_pay_now->isSuccess() && $resp_pay_now->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0) {                             
             //Tentar crear a recurrencia
-            $payment_data['pay_day'] = strtotime("+1 mounth", $client->pay_day);
+            $payment_data['pay_day'] = strtotime("+1 month", $client->pay_day);
             $response = $payment->check_recurrency_mundipagg_credit_card($payment_data,0);
+            $order_key = $resp->getData()->OrderResult->OrderKey;
+            $DB->SetClientOrderKey($client['user_id'],$order_key, $payment_data['pay_day']);
         }     
         //Fallo en crear a arecurrencia -> notificar ao cliente e bloquear por pagamento
         else

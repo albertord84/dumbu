@@ -2203,13 +2203,14 @@ namespace dumbu\cls {
             }
         }
         
+        /*
         public function clean_cursors()
         {
             $clients = (new \dumbu\cls\Client())->get_clients();
             $DB = new \dumbu\cls\DB();
             foreach ($clients as $client)
             {                
-                if($this->verify_cookies($client))
+                if($this->verify_cookies($client) && $client->status_id == user_status::ACTIVE)
                 {
                     $cookies = json_decode($client->cookies);
                     $references = $DB->get_reference_profiles_with_problem($client->id);
@@ -2226,12 +2227,12 @@ namespace dumbu\cls {
                         }
                         else if($reference->type == 1)
                         {
-                            $data = $this->get_insta_geolocalization_data($reference->insta_id);
+                            $data = $this->get_insta_geolocalization_data_from_client($cookies,  $reference->insta_id);
                             //$follower =  $user_data->follower_count;
                             /*if($refenrence->follows/ $follower < 0.25)
                             {
                                 $DB->reset_referecne_prof($reference_id);                           
-                            }*/
+                            }
                         }
                         else if($reference->type == 2)
                         {
@@ -2240,13 +2241,13 @@ namespace dumbu\cls {
                             /*if($refenrence->follows/ $follower < 0.25)
                             {
                                 $DB->reset_referecne_prof($reference_id);                           
-                            }*/
+                            }
                         }
                     }
                 }
             }
         }
-
+         */
     }
 
 // end of Robot

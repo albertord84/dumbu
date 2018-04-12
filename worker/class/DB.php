@@ -997,6 +997,18 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function SetClientOrderKey($client_id, $order_key, $pay_day)
+        {
+            try{
+                $str = "UPDATE `dumbudb`.`clients` SET `pay_day`='$pay_day', `order_key`='$order_key' WHERE `user_id`=$client_id;";
+                $result = mysqli_query($this->connection,$str);
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+            
+        }
     }
 
 }
