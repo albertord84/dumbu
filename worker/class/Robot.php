@@ -1951,7 +1951,7 @@ namespace dumbu\cls {
                 return $result2;
             } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 $res = $exc->getResponse();
-
+                var_dump($res);
                 ini_set('xdebug.var_display_max_depth', 17);
                 ini_set('xdebug.var_display_max_children', 256);
                 ini_set('xdebug.var_display_max_data', 1024);

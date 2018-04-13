@@ -13,7 +13,7 @@ $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print('Hola Mundo');
 
 $Robot = new \dumbu\cls\Robot();
-$Robot->clean_cursors();
+$res = $Robot->checkpoint_requested('riveauxmerino','Notredame88');
 
 /*
 $payment = new \Payment();
