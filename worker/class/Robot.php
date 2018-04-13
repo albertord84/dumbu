@@ -1951,7 +1951,7 @@ namespace dumbu\cls {
                 return $result2;
             } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 $res = $exc->getResponse();
-                var_dump($res);
+                //var_dump($res);
                 ini_set('xdebug.var_display_max_depth', 17);
                 ini_set('xdebug.var_display_max_children', 256);
                 ini_set('xdebug.var_display_max_data', 1024);
@@ -2012,7 +2012,7 @@ namespace dumbu\cls {
             $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
-            var_dump($output);
+           // var_dump($output);
             $resposta = $output[0];
             //var_dump($output);
             $this->temporal_log($curl_str);
