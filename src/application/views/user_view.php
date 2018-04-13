@@ -342,7 +342,7 @@
 				<div class="col-md-3 col-sm-3 col-xs-12 text-center ps m-t45">
 					<div class="plano plano-mensal text-center fleft100">
 						<b style="font-size: 1.3em"><?php echo $CI->T("PLANO MENSAL", array(),$language);?></b>
-						<spam class="cl-fff fleft100"><?php echo $CI->T("Sem multa de rescisão.", array(),$language);?></spam>
+						<!--<spam class="cl-fff fleft100"><?php //echo $CI->T("Sem multa de rescisão.", array(),$language);?></spam>-->
 						<hr>
 						<spam class="fleft100 cl-fff no-mg"><?php echo $CI->T("A partir de", array(),$language);?></spam>
 						<p class="fleft100 cl-fff no-mg"><?php echo $CI->T("R$", array(),$language);?><b><?php echo ' '.$CI->T("29,90", array(),$language);?></b></p>
@@ -576,8 +576,9 @@
                <section id="assinar" class="fleft100">
                         <A name="lnk_sign_in_now"></A>
 			<div class="container">
-				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>
-				
+				<!--<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php //echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php //echo $CI->T("Plano mensal sem multa de rescisão", array(),$language);?>.</small></spam>-->
+				<spam style="color:black; font-size:1.6em" class="fleft100 text-center m-tb30"><?php echo $CI->T("ASSINAR", array(),$language);?><small class="fleft100"><?php echo $CI->T("PLANO MENSAL", array(),$language);?></small></spam>
+                                
                                 <div class="titulo fleft100 text-center m-tb30">
                                      <div style="background-color:#2CC38F;margin-left:12%;margin-right:12%;margin-bottom:3%; padding:1%;border-radius:15px">
                                         <b style="color:white;font-size:1.4em"><?php echo $CI->T("Assine e ganhe 2 dias de teste grátis", array(),$language);?>!</b>
@@ -589,7 +590,9 @@
                                             <img style="width:60%" src="<?php echo base_url().'assets/images/velocimetro01.png'?>" alt="velocimetro-1"/>
                                                 <p style="font-size:0.7em"><?php echo $CI->T("VELOCIDADE", array(),$language);?></p>
                                                 <b style="font-size:1.5em"><?php echo $CI->T("BAIXA", array(),$language);?></b>
-                                                <hr>
+                                                <div class="rc"><?php echo $CI->T("MÍNIMO DE 3 MESES", array(),$language);?></div>
+                                                <br>
+                                                <!--<hr>-->
                                                 <!--<spam style="font-size:1.7em; color:#26a4e0">
                                                     <?php //echo $CI->T("R$", array(),$language);?>
                                                     <b><?php //echo $CI->T("4,90", array(),$language);?></b>
@@ -601,7 +604,14 @@
                                                     <b><?php echo $CI->T("29,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <input id="radio_plane_4_90" type="radio" name="plano">
+                                                <!--<input id="radio_plane_4_90" type="radio" name="plano">-->
+                                                <!--<a href="#lnk_register_now">-->
+                                                    <div class="text-center">
+                                                        <button id="btn_select_plane_slow" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></span>
+                                                        </button>                                            
+                                                    </div>
+                                                <!--</a>-->
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
@@ -621,7 +631,14 @@
                                                     <?php echo $CI->T("49,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <input id="radio_plane_9_90" type="radio" name="plano">
+                                                <!--<input id="radio_plane_9_90" type="radio" name="plano">-->
+                                                <!--<a href="#lnk_register_now">-->
+                                                    <div class="text-center">
+                                                        <button id="btn_select_plane_moderated" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></span>
+                                                        </button>                                            
+                                                    </div>
+                                                <!--</a>-->
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
@@ -642,8 +659,8 @@
                                                     <?php echo $CI->T("99,90", array(),$language);?></b>
                                                 </spam>
                                                 <br>
-                                                <div class="text-center">
-                                                    <spam >
+                                                <div class="text-left">
+                                                    <spam>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
                                                         <?php
@@ -653,10 +670,24 @@
                                                                 echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px"  alt="new">';
                                                         ?>
                                                     </spam>
-                                                    <br>                                                   
+                                                    <br>
+                                                    <spam>
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
+                                                        <a class="help"><b class="c-green">Hashtag</b></a>
+                                                        <?php
+                                                           echo '<img src="assets/images/avatar_hashtag.png" style="width:30px" alt="new">';
+                                                        ?>
+                                                    </spam>
                                                 </div>
                                                 <br>
-                                                <input id="radio_plane_29_90" type="radio" name="plano" checked="true">
+<!--                                                <input id="radio_plane_29_90" type="radio" name="plano" checked="true">-->
+                                                <!--<a href="#lnk_register_now">-->
+                                                    <div class="text-center">
+                                                        <button id="btn_select_plane_fast" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONADO", array(),$language);?></div></span>
+                                                        </button>                                            
+                                                    </div>
+                                                <!--</a>-->
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12">
@@ -670,14 +701,14 @@
                                                     <?php //echo $CI->T("99,90", array(),$language);?></b> 
                                                     <small>/<?php //echo $CI->T("1º mês", array(),$language);?></small>
                                                 </spam><br>-->
-						<spam style="font-size:1.7em; color:#26a4e0">
+						<span style="font-size:1.7em; color:#26a4e0">
                                                     <?php //echo $CI->T("Depois R$", array(),$language);?><b>
                                                     <?php echo $CI->T("R$", array(),$language);?>
                                                     <?php echo $CI->T("189,90", array(),$language);?></b>
-                                                </spam>
+                                                </span>
                                                 <br>
-                                                <div class="text-center">
-                                                    <spam >
+                                                <div class="text-left">
+                                                    <spam>
                                                         <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="ok">
                                                         <a class="help"><b class="c-green"><?php echo $CI->T("Geolocalização", array(),$language);?></b></a>
                                                         <?php
@@ -685,6 +716,14 @@
                                                                 echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px" alt="">';
                                                             else
                                                                 echo '<img src="assets/images/geolocalizacao_init.jpg" style="width:40px"  alt="new">';
+                                                        ?>
+                                                    </spam>
+                                                    <br>
+                                                    <spam>
+                                                        <img src="<?php echo base_url().'assets/images/seta-ok.png'; ?>"  class="wauto" alt="Ok">
+                                                        <a class="help"><b class="c-green">Hashtag</b></a>
+                                                        <?php
+                                                           echo '<img src="assets/images/avatar_hashtag.png" style="width:30px" alt="new">';
                                                         ?>
                                                     </spam>
                                                     <br>
@@ -706,13 +745,21 @@
                                                     </spam>-->
                                                 </div>
                                                 <br>
-                                                <input id="radio_plane_99_90" type="radio" name="plano">
+                                                <!--<input id="radio_plane_99_90" type="radio" name="plano">-->
+                                                <!--<a href="#lnk_register_now">-->
+                                                    <div class="text-center">
+                                                        <button id="btn_select_plane_turbo" type="button" class="btn-primary btn-green m-t20 ladda-button btn-lg" data-style="expand-left" data-spinner-color="#ffffff">
+                                                            <span class="ladda-label"><div style="color:white; font-weight:bold"><?php echo $CI->T("SELECIONAR", array(),$language);?></div></span>
+                                                        </button>                                            
+                                                    </div>
+                                                <!--</a>-->
 					</div>
 				</div>
 			</div>
 		</section>
                                 
 		<section id="passos" class="fleft100 m-t30">
+                    <A name="lnk_register_now"></A>
 			<div class="container cl-black">
                             <!--PASSO 1-->
                                 <div id="coniner_login_panel" style="margin-top:180px" class="col-md-4 col-sm-4 col-xs-12 passo m-t40">

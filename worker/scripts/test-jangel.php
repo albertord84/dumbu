@@ -12,8 +12,23 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print('Hola Mundo');
 
-/*$Client = (new \dumbu\cls\Client())->get_client(65045);
 $Robot = new \dumbu\cls\Robot();
+$res = $Robot->checkpoint_requested('riveauxmerino','Notredame88');
+
+/*
+$payment = new \Payment();
+$client = new \stdClass();
+$client->credit_card_number = "5293888988785452";
+$client->credit_card_name = "JOSE ANGEL R MERINO";
+$client->credit_card_exp_month = "11";
+$client->credit_card_exp_year = "23";
+$client->credit_card_cvc = "564";
+$client->pay_day = strostamp('today');
+$payment->check_initial_payment($client);*/
+
+
+/*$Client = (new \dumbu\cls\Client())->get_client(65045);
+
 $DB = new \dumbu\cls\DB();
 //var_dump($Client);
 $json_response2 = $Robot->get_insta_geolocalization_data('havana-cuba');
@@ -31,7 +46,7 @@ var_dump($json_response2);
 */
 
 
-$Robot = new \dumbu\cls\Robot();
+/*
 $json_response = new \stdClass();
 $Client = (new \dumbu\cls\Client())->get_client(81875);
 $daily_work = new \stdClass();
@@ -44,7 +59,7 @@ $daily_work->rp_insta_id = 220021938;
 $daily_work->client_id = 81875;
 
 $res = $Robot->get_insta_ref_prof_data('daylipadron');
-var_dump($res);
+var_dump($res);*/
 
 //$json_response->message = "unauthorized";
 //$json_response->status = 'fail';

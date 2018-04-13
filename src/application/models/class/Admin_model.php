@@ -263,5 +263,12 @@
             
             return $this->db->get()->result_array();
         }
+        
+        public function change_pay_day($client_id, $pay_day){
+            $this->db->set('pay_day', $pay_day);
+            $this->db->where('user_id', $client_id);
+            $resp = $this->db->update('clients');
+            return $resp;
+        }
     }
 ?>

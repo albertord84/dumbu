@@ -1602,7 +1602,7 @@ namespace dumbu\cls {
 
         public function get_insta_ref_prof_following($ref_prof) {
             $content = @file_get_contents("https://www.instagram.com/$ref_prof/", false);
-            echo $content;
+            //echo $content;
             $doc = new \DOMDocument();
 //$doc->loadXML($content);
             $substr2 = NULL;
@@ -1677,8 +1677,12 @@ namespace dumbu\cls {
             // Try new API login
             try {
                 $result = $this->make_login($login, $pass);
-                $myDB->set_client_cookies($Client->id, $result);
-                return json_decode($result);
+                $result->json_response = new \stdClass();
+                $result->json_response->status = 'ok';
+                $result->json_response->authenticated = TRUE;
+                $myDB->set_client_cookies($Client->id, json_encode($result));
+                
+                return $result;
             } catch (\Exception $e) {
                 // did by Jose R (si el cliente pone mal la senha por motivo X, el login va a dar una excepcion, y no le devemos cambiar las cookies, imagina que fue uno que e copio el curl a mano)
                 //$myDB->set_cookies_to_null($Client->id);
@@ -1810,26 +1814,7 @@ namespace dumbu\cls {
                 throw $exc;
             }
             $cookies = $result->Cookies;
-            //var_dump($cookies);
-            $mid = "";
-            $csrftoken = "";
-            $ds_user_id = "";
-            $sessionid = "null";
-            foreach ($cookies as $key => $value) {
-                if ($value['Name'] === 'mid') {
-                    $mid = $value['Value'];
-                } elseif ($value['Name'] === 'csrftoken') {
-                    $csrftoken = $value['Value'];
-                } elseif ($value['Name'] === 'ds_user_id') {
-                    $ds_user_id = $value['Value'];
-                } elseif ($value['Name'] === 'sessionid') {
-                    $sessionid = $value['Value'];
-                }
-            }
-            //$ch = curl_init("https://www.instagram.com/");
-            //$this->login_insta_with_csrftoken("https://www.instagram.com/", $login, $pass, $csrftoken, $mid);
-            $cookies_str = $this->encode_cookies($csrftoken, $sessionid, $ds_user_id, $mid);
-            return $cookies_str; //json_decode($cookies_str);
+            return $cookies; 
         }
 
         public function like_fist_post($client_cookies, $client_insta_id) {
@@ -1966,7 +1951,7 @@ namespace dumbu\cls {
                 return $result2;
             } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 $res = $exc->getResponse();
-
+                //var_dump($res);
                 ini_set('xdebug.var_display_max_depth', 17);
                 ini_set('xdebug.var_display_max_children', 256);
                 ini_set('xdebug.var_display_max_data', 1024);
@@ -2015,7 +2000,7 @@ namespace dumbu\cls {
                     . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
             (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
 
-            $curl_str = "curl '$url' ";
+            $curl_str = "curl --http2 '$url' ";
             $curl_str .= "-H 'origin: https://www.instagram.com' ";
             $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
             $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' ";
@@ -2027,6 +2012,7 @@ namespace dumbu\cls {
             $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
+           // var_dump($output);
             $resposta = $output[0];
             //var_dump($output);
             $this->temporal_log($curl_str);
@@ -2088,7 +2074,7 @@ namespace dumbu\cls {
             $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
 
             curl_setopt($ch, CURLOPT_URL, $url);
-            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             //curl_setopt($ch, CURLOPT_POST, true);
             //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
             //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
@@ -2102,15 +2088,16 @@ namespace dumbu\cls {
             $info = curl_getinfo($ch);
             // LOGIN WITH CURL TO TEST
             // Parse html response
-            $start = strpos($html, "{");
+            $start = strpos($html, "200") != 0;
             $json_str = substr($html, $start);
             $json_response = json_decode($json_str);
             //
             $login_data = new \stdClass();
             $login_data->json_response = $json_response;
-            if (curl_errno($ch)) {
-                //print curl_error($ch);
-            } else if (count($cookies) >= 2) {
+           if (count($cookies) >= 2 && $start) {
+               
+                $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
+                
                 $login_data->csrftoken = $this->get_cookies_value("csrftoken");
                 // Get sessionid from cookies
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
@@ -2121,10 +2108,14 @@ namespace dumbu\cls {
                 if ($login_data->mid == NULL || $login_data->mid == '') {
                     $login_data->mid = $mid;
                 }
+                (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
+            }   
+            else
+            {
+               $login_data->json_response = json_decode('{"authenticated":false, "status":"fail"}'); 
             }
 
-            (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
-            curl_close($ch);
+             curl_close($ch);
 
             /* exec($curl_str, $output, $status);     
               $res = json_decode($output[0]);
@@ -2212,7 +2203,52 @@ namespace dumbu\cls {
                 //echo $exc->getTraceAsString();
             }
         }
+        
+        /*
+        public function clean_cursors()
+        {
+            $clients = (new \dumbu\cls\Client())->get_clients();
+            $DB = new \dumbu\cls\DB();
+            foreach ($clients as $client)
+            {                
+                if($this->verify_cookies($client) && $client->status_id == user_status::ACTIVE)
+                {
+                    $cookies = json_decode($client->cookies);
+                    $references = $DB->get_reference_profiles_with_problem($client->id);
+                    while ($reference = $references->fetch_object()) {
+                        if($reference->type == 0)
+                        {
+                            $data = $this->get_insta_ref_prof_data_from_client($cookies,$reference->insta_id);
+                            $follower =  $user_data->follower_count;
+                            if($reference->follows/ $follower < 0.25)
+                            {
+                                $DB->reset_referecne_prof($reference_id);                           
+                            }
 
+                        }
+                        else if($reference->type == 1)
+                        {
+                            $data = $this->get_insta_geolocalization_data_from_client($cookies,  $reference->insta_id);
+                            //$follower =  $user_data->follower_count;
+                            /*if($refenrence->follows/ $follower < 0.25)
+                            {
+                                $DB->reset_referecne_prof($reference_id);                           
+                            }
+                        }
+                        else if($reference->type == 2)
+                        {
+                            $data = $this->get_insta_ref_prof_data_from_client($client->cookies,$reference->insta_id);
+                            //$follower =  $user_data->follower_count;
+                            /*if($refenrence->follows/ $follower < 0.25)
+                            {
+                                $DB->reset_referecne_prof($reference_id);                           
+                            }
+                        }
+                    }
+                }
+            }
+        }
+         */
     }
 
 // end of Robot

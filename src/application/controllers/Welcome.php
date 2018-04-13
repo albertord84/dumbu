@@ -95,7 +95,7 @@ class Welcome extends CI_Controller {
             require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
             $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
             $datas['user_id'] = $this->session->userdata('id');
-            $datas['profiles'] = $this->create_profiles_datas_to_display();            
+            $datas['profiles'] = $this->create_profiles_datas_to_display();
             $datas['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;            
             if(isset($datas['language'])&& $datas['language']!=''){
                  $GLOBALS['language'] =  $datas['language'];
@@ -2656,6 +2656,7 @@ class Welcome extends CI_Controller {
             $this->load->model('class/client_model');
             $array_profiles=array();
             $array_geolocalization=array();
+            $array_hashtag = array();
             $client_active_profiles = $this->client_model->get_client_active_profiles($this->session->userdata('id'));
             $N = count($client_active_profiles);
             $cnt_ref_prof=0;
@@ -2675,7 +2676,7 @@ class Welcome extends CI_Controller {
                                 $array_profiles[$cnt_ref_prof]['status_profile'] = 'deleted';
                                 $array_profiles[$cnt_ref_prof]['img_profile'] = base_url().'assets/images/profile_deleted.jpg';
                             } else
-                            if ($client_active_profiles[$cnt_ref_prof]['end_date']) { //perfil
+                            if ($client_active_profiles[$i]['end_date']) { //perfil
                                 $array_profiles[$cnt_ref_prof]['status_profile'] = 'ended';
                                 $array_profiles[$cnt_ref_prof]['img_profile'] = $datas_of_profile->profile_pic_url;
                             } else
@@ -2705,7 +2706,7 @@ class Welcome extends CI_Controller {
                             $array_geolocalization[$cnt_geolocalization]['img_geolocalization'] = base_url().'assets/images/avatar_geolocalization_deleted.jpg';
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'deleted';
                         } else
-                        if ($client_active_profiles[$cnt_geolocalization]['end_date']) { //perfil
+                        if ($client_active_profiles[$i]['end_date']) { //perfil
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'ended';
                         } else{
                             $array_geolocalization[$cnt_geolocalization]['status_geolocalization'] = 'active';
@@ -2722,7 +2723,7 @@ class Welcome extends CI_Controller {
                             $array_hashtag[$cnt_hashtag]['img_hashtag'] = base_url().'assets/images/avatar_hashtag_deleted.png';
                             $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'deleted';
                         } else
-                        if ($client_active_profiles[$cnt_hashtag]['end_date']) { //perfil
+                        if ($client_active_profiles[$i]['end_date']) { //perfil
                             $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'ended';
                         } else{
                             $array_hashtag[$cnt_hashtag]['status_hashtag'] = 'active';
@@ -3625,7 +3626,8 @@ class Welcome extends CI_Controller {
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
         $this->load->model('class/user_model');
-        
+        $xxx=$this->session->userdata('role_id');
+        $yyy=user_role::CLIENT;
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             try {
                 $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));
@@ -3680,7 +3682,7 @@ class Welcome extends CI_Controller {
             $checkpoint_data = $this->Robot->make_checkpoint($this->session->userdata('login'), $security_code);
             $this->load->model('class/user_model');
             
-            if ($checkpoint_data && $checkpoint_data->json_response === 1 && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
+            if ($checkpoint_data && $checkpoint_data->json_response->status === 'ok' && $checkpoint_data->sessionid !== null && $checkpoint_data->ds_user_id !== null) {
                 $result['success'] = true;
                 $result['message'] = 'Código de segurança confirmado corretamente';
                 $this->user_model->insert_washdog($this->session->userdata('id'),'SECURITY CODE CONFIRMATED');
@@ -3809,7 +3811,7 @@ class Welcome extends CI_Controller {
             }
     }
     
-    function verify_profile($profile_id, $active_profiles, $N) {    
+    public function verify_profile($profile_id, $active_profiles, $N) {    
         $this->is_ip_hacker();
         if($profile_id){
             if ($this->session->userdata('status_id') == user_status::ACTIVE && $this->session->userdata('insta_datas'))

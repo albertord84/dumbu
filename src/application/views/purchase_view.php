@@ -40,7 +40,7 @@
                 <script type="text/javascript">var SERVER_NAME = '<?php echo $SERVER_NAME; ?>';</script>
                 <script type="text/javascript">var base_url = '<?php echo base_url(); ?>';</script> 
                 <script type="text/javascript">var user_id = '<?php echo $user_id; ?>';</script>                 
-                <script type="text/javascript">var profiles = '<?php echo $profiles; ?>';</script> 
+                <script type="text/javascript">var profiles = '<?php echo $profiles; ?>';</script>
                 <script type="text/javascript">var client_login_profile = '<?php echo $client_login_profile; ?>';</script>                
                 <script type="text/javascript">var total_value = '<?php echo ($Afilio_total_value / 100); ?>';</script>
                 <script type="text/javascript">var plane_id = '<?php echo $Afilio_product_id; ?>';</script>

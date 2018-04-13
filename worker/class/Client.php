@@ -162,6 +162,7 @@ namespace dumbu\cls {
                 $Client->cookies = $client_data->cookies;
                 $Client->paused = $client_data->paused;
                 $Client->HTTP_SERVER_VARS = $client_data->HTTP_SERVER_VARS;
+                $Client->init_date = $client_data->init_date;
                 $Client->get_reference_profiles($Client->id);
             }
             return $Client;
@@ -275,11 +276,12 @@ namespace dumbu\cls {
                 $cookies = $cookies ? $cookies : $this->cookies;
                 $DB = new \dumbu\cls\DB();
                 $result = $DB->set_client_cookies($client_id, $cookies);
-                if ($result) {
-                    print "Client $client_id cookies changed!!!";
+                /*if ($result) {
+                    //print "Client $client_id cookies changed!!!";
                 } else {
                     print "FAIL CHANGING Client $client_id cookies!!!";
-                }
+                }*/
+                return $result;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }

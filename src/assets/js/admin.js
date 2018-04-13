@@ -1,7 +1,43 @@
 $(document).ready(function () {
 
+    
     // jQuery UI Datepicker - Select a Date Range
     $(function () {
+        var dateFormat = "mm/dd/yy",
+                from = $("#pu_new_date")
+                .datepicker({
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this));
+                }),
+                to = $("#date_to").datepicker({
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on("change", function () {
+                    from.datepicker("option", "maxDate", getDate(this));
+                });
+        
+        var dateFormat = "mm/dd/yy",
+                from = $("#recurrency_date")
+                .datepicker({
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this));
+                }),
+                to = $("#date_to").datepicker({
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on("change", function () {
+                    from.datepicker("option", "maxDate", getDate(this));
+                });
+        
+        
         var dateFormat = "mm/dd/yy",
                 from = $("#date_from")
                 .datepicker({
@@ -12,9 +48,9 @@ $(document).ready(function () {
                     to.datepicker("option", "minDate", getDate(this));
                 }),
                 to = $("#date_to").datepicker({
-            changeMonth: true,
-            numberOfMonths: 1
-        })
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
                 .on("change", function () {
                     from.datepicker("option", "maxDate", getDate(this));
                 });
@@ -99,6 +135,7 @@ $(document).ready(function () {
     $("#btn_admin_login").click(function () {
         do_login('#userLogin2', '#userPassword2', '#container_login_message2', this);
     });
+    
 
 
 
@@ -545,4 +582,132 @@ $(document).ready(function () {
             l.stop();
         }
     });
+    
+    function validate_element(element_selector,pattern){
+        if(!$(element_selector).val().match(pattern)){
+            $(element_selector).css("border", "1px solid red");
+            return false;
+        } else{
+            $(element_selector).css("border", "1px solid gray");
+            return true;
+        }
+    }    
+    
+    $("#pu_change_date").click(function () {
+        $("#pu_change_date").attr("disabled", true);
+        if ($("#pu_user_id").val().trim() !== "" && 
+            $("#pu_new_date").val().trim() !== "") {
+            if (confirm('Confirma mudar a data de pagamento do cliente?')) {
+                $.ajax({
+                    url: base_url + 'index.php/admin/change_pay_day_peixe_urbano',
+                    data: {
+                        'client_id': $("#pu_user_id").val(),
+                        'pu_new_date': $("#pu_new_date").val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    success: function (response) {
+                        modal_alert_message(response['message']);
+                    },
+                    error: function (xhr, status) {
+                        modal_alert_message('Não foi possível comunicar com o Instagram. Confira sua conexão com Internet e tente novamente');
+                    }
+                });
+            }
+        } else {
+           modal_alert_message('Preencha os dois campos bem');
+        }
+        $("#pu_change_date").attr("disabled", false);
+    });
+    
+    $("#payment_now_button").click(function () {
+        $("#payment_now_button").attr("disabled", true);
+        if ($("#payment_now_client_id").val().trim() !== "" && 
+            validate_element('#payment_now_value','^[0-9]{2,8}$') && 
+            $("#payment_now_value").val().trim() !== "") {
+            if (confirm('Confirma fazer uma cobrança na hora ao cliente?')) {
+                $.ajax({
+                    url: base_url + 'index.php/admin/do_payment_at_moment',
+                    data: {
+                        'payment_now_value': $("#payment_now_value").val(),
+                        'payment_now_client_id': $("#payment_now_client_id").val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    success: function (response) {
+                        modal_alert_message(response['message']);
+                    },
+                    error: function (xhr, status) {
+                        modal_alert_message('Não foi possível comunicar com o Instagram. Confira sua conexão com Internet e tente novamente');
+                    }
+                });
+            }
+        } else {
+           modal_alert_message('Preencha os dois campos bem');
+        }
+        $("#payment_now_button").attr("disabled", false);
+    });
+        
+    $("#recurrency_button").click(function () {
+        $("#recurrency_button").attr("disabled", true);
+        if ($("#recurrency_user_id").val().trim() !== "" && 
+            validate_element('#recurrency_value','^[0-9]{2,8}$') && 
+            $("#recurrency_date").val().trim() !== "" && 
+            $("#recurrency_value").val().trim() !== "") {
+            if (confirm('Confirma criar uma nova recurrência pro cliente?')) {
+                $.ajax({
+                    url: base_url + 'index.php/admin/do_new_recurrency',
+                    data: {
+                        'recurrency_user_id': $("#recurrency_user_id").val(),
+                        'recurrency_value': $("#recurrency_value").val(),
+                        'recurrency_date': $("#recurrency_date").val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    success: function (response) {
+                        modal_alert_message(response['message']);
+                    },
+                    error: function (xhr, status) {
+                        modal_alert_message('Não foi possível comunicar com o Instagram. Confira sua conexão com Internet e tente novamente');
+                    }
+                });
+            }
+        } else {
+            modal_alert_message('Preencha os três campos bem');
+        }
+        $("#recurrency_button").attr("disabled", false);
+    });    
+    
+    $("#change_status_button").click(function () {
+        $("#change_status_button").attr("disabled", true);
+        if ($("#change_status_user_id").val().trim() !== "" && 
+            $("#change_status_selected").val() > 0) {
+            if (confirm('Confirma trocar o status do cliente?')) {
+                $.ajax({
+                    url: base_url + 'index.php/admin/do_change_status_client',
+                    data: {
+                        'change_status_user_id': $("#change_status_user_id").val(),
+                        'change_status_selected': $("#change_status_selected").val(),
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    success: function (response) {
+                        modal_alert_message(response['message']);
+                    },
+                    error: function (xhr, status) {
+                        modal_alert_message('Não foi possível comunicar com o Instagram. Confira sua conexão com Internet e tente novamente');
+                    }
+                });
+            }
+        } else{
+           modal_alert_message('Preencha os dois campos bem');
+        }
+        $("#change_status_button").attr("disabled", false);
+    });
+    
+    
 });
