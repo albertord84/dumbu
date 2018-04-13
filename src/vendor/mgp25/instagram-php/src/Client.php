@@ -212,6 +212,7 @@ class Client
 
         // Get all cookies for the currently active user.
         $userCookies = $this->_parent->settings->getCookies();
+        
         $this->_settingsCookieFormat = $userCookies['format'];
         $this->_settingsCookieFilePath = null;
 
