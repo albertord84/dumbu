@@ -44,23 +44,8 @@ class Welcome extends CI_Controller {
         }
     }
     
-    public function index3() {
-die('Estamos realizando trabalhos de manuntenção no site. <br><br>A tarefa pode demorar algumas horas. Sempre estamos pensando em melhorar a sua experiência de usuário. <br><br> Qualquer dúvida pode nos contatar em atendimento@dumbu.pro .  <br><br> Obrigado!!');
-        $this->is_ip_hacker();
-        $language=$this->input->get();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        if(isset($language['language']))
-            $param['language']=$language['language'];
-        else
-            $param['language'] = $GLOBALS['sistem_config']->LANGUAGE;
-        $param['SERVER_NAME'] = $GLOBALS['sistem_config']->SERVER_NAME;
-        $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
-        $GLOBALS['language']=$param['language'];
-        //$this->load->library('recaptcha');
-        $this->load->view('user_view', $param);
-    }
     public function index() {
+//die('Estamos realizando trabalhos de manuntenção no site. <br><br>A tarefa pode demorar algumas horas. Sempre estamos pensando em melhorar a sua experiência de usuário. <br><br> Qualquer dúvida pode nos contatar em atendimento@dumbu.pro .  <br><br> Obrigado!!');
         $this->is_ip_hacker();
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
