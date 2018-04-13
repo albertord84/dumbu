@@ -3626,7 +3626,8 @@ class Welcome extends CI_Controller {
         $this->Robot = new \dumbu\cls\Robot();
         $this->load->model('class/user_role');
         $this->load->model('class/user_model');
-        
+        $xxx=$this->session->userdata('role_id');
+        $yyy=user_role::CLIENT;
         if ($this->session->userdata('role_id') == user_role::CLIENT) {
             try {
                 $checkpoint_data = $this->Robot->checkpoint_requested($this->session->userdata('login'), $this->session->userdata('pass'));

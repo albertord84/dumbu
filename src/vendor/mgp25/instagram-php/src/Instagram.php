@@ -34,7 +34,7 @@ class Instagram
     public $username;
 
     /**
-  .   * Currently active Instagram password.
+     * Currently active Instagram password.
      *
      * @var string
      */
