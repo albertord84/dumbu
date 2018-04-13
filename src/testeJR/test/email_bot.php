@@ -8,10 +8,10 @@ require __DIR__.'/../vendor/autoload.php';
 /////// CONFIG ///////
 //$username = 'alberto_dreyes';
 //$password = 'albertord8';
-$username = 'medina.marcosp';
-$password = 'Medina241357+-*/123';
-//$username = 'josergm86';
-//$password = 'josergm2';
+//$username = 'medina.marcosp';
+//$password = 'Medina241357+-*/123';
+$username = 'josergm86';
+$password = 'josergm2';
 $debug = false; //true;
 $truncatedDebug = true; //false;
 //////////////////////
