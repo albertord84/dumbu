@@ -556,25 +556,26 @@ class Admin extends CI_Controller {
         $pay_day = strtotime($mes."/".$dia."/".$ano." 14:00:00");
         $client_id = $datas['client_id'];
         $resp = $this->admin_model->change_pay_day($client_id, $pay_day);
-        if($resp){
-            $response['success']=true;
-            $response['message']= "Data modificada corretamente";
-        } else{
-            $response['success']=false;
-            $response['message']= "Erro, não foi posssível alterar a data de pagamento do cliente, contste o grupo de desnvolvimento";
+        
+        if ($resp) {
+            $response['success'] = true;
+            $response['message'] = "Data modificada corretamente";
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Erro, não foi possível alterar a data de pagamento do cliente, contate ao grupo de desenvolvimento";
         }
+        
         echo json_encode($response);
     }
     
-    public function do_payment_at_moment(){
+    public function do_payment_at_moment() {
         $this->load->model('class/admin_model');
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
-        $this->load->library('../controllers/welcome');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
-        $Payment = new \dumbu\cls\Payment();
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+//        $Payment = new \dumbu\cls\Payment();
         
         $datas = $this->input->post();        
         $client_id = $datas['payment_now_client_id'];
@@ -589,28 +590,30 @@ class Admin extends CI_Controller {
         $payment_data['amount_in_cents'] = $value;
         $payment_data['pay_day'] = time();
         
-        
-        $resp = $this->welcome->check_mundipagg_credit_card($payment_data);
-        if((is_object($resp) && $resp->isSuccess()&& $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents>0)){
+        $resp = $this->check_mundipagg_credit_card($payment_data);
+        if (is_object($resp) && $resp->isSuccess() && 
+            $resp->getData()->CreditCardTransactionResultCollection[0]->CapturedAmountInCents > 0) {
             $this->client_model->update_client($client_id, array(
-                'initial_order_key' => $resp->getData()->OrderResult->OrderKey));  
-            $response['success']=true;
-            $response['message']= "Cobrança na hora bem sucedida";
-        } else{
-            $response['success']=false;
-            $response['message']= "Erro, não foi posssível fazer a cobranza";
+                'initial_order_key' => $resp->getData()->OrderResult->OrderKey,
+                'pay_day' => strtotime("+1 month", time())));  
+            $response['success'] = true;
+            $response['message'] = "Cobrança na hora bem sucedida";
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Erro, não foi possível fazer a cobrança";
         }
+        
         echo json_encode($response);
     }
     
-    public function do_new_recurrency(){
+    public function do_new_recurrency() {
         $this->load->model('class/admin_model');
         $this->load->model('class/client_model');
         $this->load->model('class/Crypt');
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
-        $Payment = new \dumbu\cls\Payment();
+//        require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Payment.php';
+//        $Payment = new \dumbu\cls\Payment();
         
         $datas = $this->input->post();        
         $client_id = $datas['recurrency_user_id'];
@@ -629,14 +632,17 @@ class Admin extends CI_Controller {
         
         $resp = $this->check_recurrency_mundipagg_credit_card($payment_data, 0);
         if (is_object($resp) && $resp->isSuccess()) {
-            $this->client_model->update_client($datas['pk'], array(
-                'order_key' => $resp->getData()->OrderResult->OrderKey));
-            $response['success']=true;
-            $response['message']= "Recorrência criada com sucesso";
-        } else{
-            $response['success']=false;
-            $response['message']= "Erro, não foi posssível fazer a recorrência";
+            $this->client_model->update_client($client_id, array(
+                'order_key' => $resp->getData()->OrderResult->OrderKey,
+                'pay_day' => $pay_day,
+                'actual_payment_value' => $value));
+            $response['success'] = true;
+            $response['message'] = "Recorrência criada com sucesso";
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Erro, não foi possível fazer a recorrência";
         }
+        
         echo json_encode($response);
     }
     
@@ -650,29 +656,39 @@ class Admin extends CI_Controller {
         $resp = false;
         $this->delete_work_of_client($client_id);
         
-        //1. setting to Blocked by Payment
-        if(!$resp && $new_status == user_status::BLOCKED_BY_PAYMENT){
-            $resp = $this->user_model->update_user($client_id, array(
-                'status_id' => user_status::BLOCKED_BY_PAYMENT));
-        } else
-        //2. setting to Blocked by Instagram
-        if(!$resp && $new_status == user_status::BLOCKED_BY_INSTA){
-            $resp = $this->user_model->update_user($client_id, array(
-                'status_id' => user_status::BLOCKED_BY_INSTA));
-        } else
-        //3. setting to Verify Account
-        if(!$resp && $new_status == user_status::VERIFY_ACCOUNT){
-            $resp = $this->user_model->update_user($client_id, array(
-                'status_id' => user_status::VERIFY_ACCOUNT));
-        }
-        if($resp){
-            $response['success'] = true;
-            $response['message'] = "Status mudado corretamennte";
-        } else{
+        // Trocar status si status actual del cliente es distinto de BEGINNER y de DELETED.
+        $user_data = $this->user_model->get_user_by_id($client_id);
+        $actual_status = $user_data[0]['status_id'];
+        
+        if ($actual_status != null && $actual_status != user_status::DELETED && $actual_status != user_status::BEGINNER) {
+            //1. setting to Blocked by Payment
+            if (!$resp && $new_status == user_status::BLOCKED_BY_PAYMENT) {
+                $resp = $this->user_model->update_user($client_id, array(
+                    'status_id' => user_status::BLOCKED_BY_PAYMENT));
+            } else
+            //2. setting to Blocked by Instagram
+            if (!$resp && $new_status == user_status::BLOCKED_BY_INSTA) {
+                $resp = $this->user_model->update_user($client_id, array(
+                    'status_id' => user_status::BLOCKED_BY_INSTA));
+            } else
+            //3. setting to Verify Account
+            if (!$resp && $new_status == user_status::VERIFY_ACCOUNT) {
+                $resp = $this->user_model->update_user($client_id, array(
+                    'status_id' => user_status::VERIFY_ACCOUNT));
+            }
+            if ($resp) {
+                $response['success'] = true;
+                $response['message'] = "Status mudado corretamente";
+            } else {
+                $response['success'] = false;
+                $response['message'] = "Impossível mudar o status";
+            }
+        } else {
             $response['success'] = false;
-            $response['message'] = "Impossivel mudar o status";
+            $response['message'] = "Não pode mudar o status de um usuário BEGINNER ou DELETED";
         }
-       echo json_encode($response);
+        
+        echo json_encode($response);
     }
     
     public function delete_work_of_client($client_id) {

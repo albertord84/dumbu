@@ -92,7 +92,7 @@ $client = $Client->get_client(27509);
 //$strdate = date("d-m-Y", $pay_day);
 $pay_day = strtotime("+1 months", time());
 
-$payment_data['credit_card_number'] = '5411870991450709';
+$payment_data['credit_card_number'] = '4415241617292371';
 $payment_data['credit_card_name'] = 'INGRID ZAIRA DE OLIVEIRA';
 $payment_data['credit_card_exp_month'] = '11';
 $payment_data['credit_card_exp_year'] = '2023';
@@ -100,9 +100,9 @@ $payment_data['credit_card_cvc'] = '023';
 $payment_data['amount_in_cents'] = 28990;
 $payment_data['pay_day'] = $pay_day;
 
-////$resul = $Payment->create_payment($payment_data);
+$resul = $Payment->create_payment($payment_data);
 ////var_dump($resul);
-$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 var_dump($resul);
 ////$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 ////var_dump($resul);

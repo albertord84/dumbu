@@ -969,6 +969,46 @@ namespace dumbu\cls {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        public function get_reference_profiles_with_problem($client_id) {
+            try {
+                $this->connect();
+                $result = mysqli_query($this->connection, ""
+                        . "SELECT * FROM reference_profile "
+                        . "WHERE "
+                        . "  (reference_profile.client_id = $client_id) "
+                        . "  AND (reference_profile.deleted <> TRUE)"               
+                        . "  AND end_date IS NOT NULL AND end_date <> '';"
+                );
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function reset_referecne_prof($reference_id) {
+            try {
+                $this->connect();
+                $result = mysqli_query($this->connection, "UPDATE `dumbudb`.`reference_profile` "
+                        . "SET `insta_follower_cursor`=NULL, `end_date`=NULL "
+                        . "WHERE `id`=$referece_id;");                
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function SetClientOrderKey($client_id, $order_key, $pay_day)
+        {
+            try{
+                $str = "UPDATE `dumbudb`.`clients` SET `pay_day`='$pay_day', `order_key`='$order_key' WHERE `user_id`=$client_id;";
+                $result = mysqli_query($this->connection,$str);
+                return $result;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
+            
+        }
     }
 
 }

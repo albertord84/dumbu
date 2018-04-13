@@ -633,6 +633,57 @@ namespace dumbu\cls {
             }
             return FALSE;
         }
+        
+        public function is_ip_hacker(){
+            $IP_hackers= array(
+                '191.176.169.242', '138.0.85.75', '138.0.85.95', '177.235.130.16', '191.176.171.14', '200.149.30.108', '177.235.130.212', '66.85.185.69',
+                '177.235.131.104', '189.92.238.28', '168.228.88.10', '201.86.36.209', '177.37.205.210', '187.66.56.220', '201.34.223.8', '187.19.167.94',
+                '138.0.21.188', '168.228.84.1', '138.36.2.18', '201.35.210.135', '189.71.42.124', '138.121.232.245', '151.64.57.146', '191.17.52.46', '189.59.112.125',
+                '177.33.7.122', '189.5.107.81', '186.214.241.146', '177.207.99.29', '170.246.230.138', '201.33.40.202', '191.53.19.210', '179.212.90.46', '177.79.7.202',
+                '189.111.72.193', '189.76.237.61', '177.189.149.249', '179.223.247.183', '177.35.49.40', '138.94.52.120', '177.104.118.22', '191.176.171.14', '189.40.89.248',
+                '189.89.31.89', '177.13.225.38',  '186.213.69.159', '177.95.126.121', '189.26.218.161', '177.193.204.10', '186.194.46.21', '177.53.237.217', '138.219.200.136',
+                '177.126.106.103', '179.199.73.251', '191.176.171.14', '179.187.103.14', '177.235.130.16', '177.235.130.16', '177.235.130.16', '177.47.27.207'
+                );
+            if(in_array($_SERVER['REMOTE_ADDR'],$IP_hackers)){
+                die('Error IP: Sua solicitação foi negada. Por favor, contate nosso atendimento');
+            }
+        }
+        
+        public function check_recurrency_mundipagg_credit_card($datas, $cnt) {
+            $this->is_ip_hacker();
+            $payment_data['credit_card_number'] = $datas['credit_card_number'];
+            $payment_data['credit_card_name'] = $datas['credit_card_name'];
+            $payment_data['credit_card_exp_month'] = $datas['credit_card_exp_month'];
+            $payment_data['credit_card_exp_year'] = $datas['credit_card_exp_year'];
+            $payment_data['credit_card_cvc'] = $datas['credit_card_cvc'];
+            $payment_data['amount_in_cents'] = $datas['amount_in_cents'];
+            $payment_data['pay_day'] = $datas['pay_day'];
+            $bandeira = $this->detectCardType($payment_data['credit_card_number']);
+
+            if ($bandeira) {
+                if ($bandeira == "Visa" || $bandeira == "Mastercard") {
+                    //5 Cielo -> 1.5 | 32 -> eRede | 20 -> Stone | 42 -> Cielo 3.0 | 0 -> Auto;        
+                    $response = $this->create_recurrency_payment($payment_data, $cnt, 20);
+
+                    if (is_object($response) && $response->isSuccess()) {
+                        return $response;
+                    } else {
+                        $response = $this->create_recurrency_payment($payment_data, $cnt, 42);
+                    }
+                }
+                else if ($bandeira == "Hipercard") {
+                    $response = $this->create_recurrency_payment($payment_data, $cnt, 20);
+                }
+                else {
+                    $response = $this->create_recurrency_payment($payment_data, $cnt, 42);
+                }
+            }
+            else {
+                $response = array("message" => "Confira seu número de cartão e se está certo entre em contato com o atendimento.");
+            }
+
+            return $response;
+        }     
 
         // end of Payment
     }
