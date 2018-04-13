@@ -2012,6 +2012,7 @@ namespace dumbu\cls {
             $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
             $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
             exec($curl_str, $output, $status);
+            var_dump($output);
             $resposta = $output[0];
             //var_dump($output);
             $this->temporal_log($curl_str);
