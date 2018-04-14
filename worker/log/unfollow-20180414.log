@@ -7638,4 +7638,163 @@ object(stdClass)#1166 (1) {
 <br>
 Profil name: costanzapascolatos2g<br>
 object(stdClass)#1123 (1) {
-  ["status"]
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: amassrestaurant<br>
+object(stdClass)#1166 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: andoniluisaduriz<br>
+object(stdClass)#1123 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: grossiigiovanna<br>
+object(stdClass)#1166 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: henriqueide<br>
+object(stdClass)#1123 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: vikkafrk<br>
+object(stdClass)#1166 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+<br>
+Client: blanch_cosmeticos (4)   2018-04-14 05:20:18pm<br>
+object(stdClass)#1062 (2) {
+  ["data"]=>
+  object(stdClass)#699 (1) {
+    ["user"]=>
+    object(stdClass)#1084 (1) {
+      ["edge_follow"]=>
+      object(stdClass)#1123 (3) {
+        ["count"]=>
+        int(5731)
+        ["page_info"]=>
+        object(stdClass)#1125 (2) {
+          ["has_next_page"]=>
+          bool(true)
+          ["end_cursor"]=>
+          string(110) "AQCiikPhdJ_uXbm2YPVqj7eIjN-jbK1jYVIjIDA57ZDpaHJ4KK7948kN1ICUKY0r98A8D4_GDwesONunosu-LKBVTKrLzDQOWeHODFToa6zfmQ"
+        }
+        ["edges"]=>
+        array(0) {
+        }
+      }
+    }
+  }
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+ No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>
+ \n<br> Count: 0\n<br><br>
+Client: escbrand (4)   2018-04-14 05:20:19pm<br>
+\n<br> Count: 7\n<br>Profil name: mandy.barreto<br>
+object(stdClass)#1136 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: isabela10martins<br>
+object(stdClass)#1166 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: merry_travels<br>
+object(stdClass)#1136 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: naiiarafeernades<br>
+object(stdClass)#1166 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: iwonaivyk<br>
+object(stdClass)#1136 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: santonobr<br>
+object(stdClass)#1166 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: nathalliadamasceno<br>
+object(stdClass)#1136 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+<br>
+Client: drdanilopelegrino (4)   2018-04-14 05:20:28pm<br>
+\n<br> Count: 2\n<br>Profil name: mabivalverde<br>
+object(stdClass)#1074 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+Profil name: danimartinss26<br>
+object(stdClass)#1136 (1) {
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+<br>
+Client: josergm86 (5)   2018-04-14 05:20:33pm<br>
+object(stdClass)#199 (2) {
+  ["data"]=>
+  object(stdClass)#1116 (1) {
+    ["user"]=>
+    object(stdClass)#1140 (1) {
+      ["edge_follow"]=>
+      object(stdClass)#1074 (3) {
+        ["count"]=>
+        int(5566)
+        ["page_info"]=>
+        object(stdClass)#1130 (2) {
+          ["has_next_page"]=>
+          bool(true)
+          ["end_cursor"]=>
+          string(110) "AQBoH7ruz4otCf2zulDZAdyoAVahqj5XA5QO6azjAabQ3PEaDZenD6Luiq5NLyqQZF5Jn33rv3FbBbgX9H8y3_yTRca_wPAWT7wj5F3SH2IoDA"
+        }
+        ["edges"]=>
+        array(0) {
+        }
+      }
+    }
+  }
+  ["status"]=>
+  string(2) "ok"
+}
+<br>
+ No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>
+ \n<br> Count: 0\n<br><br>
+Client: cozinha_artesanalsul (2)   2018-04-14 05:40:34pm<br>
+<br />
+<b>Warning</b>:  Error while sending QUERY packet. PID=4062 in <b>/opt/lampp/htdocs/dumbu/worker/class/DB.php</b> on line <b>746</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught Error: Call to a member function fetch_object() on boolean in /opt/lampp/htdocs/dumbu/worker/class/DB.php:748
+Stack trace:
+#0 /opt/lampp/htdocs/dumbu/worker/scripts/unfollow.php(69): dumbu\cls\DB-&gt;get_white_list('2')
+#1 {main}
+  thrown in <b>/opt/lampp/htdocs/dumbu/worker/class/DB.php</b> on line <b>748</b><br />
