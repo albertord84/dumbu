@@ -3919,9 +3919,9 @@ class Welcome extends CI_Controller {
             }
         } else {
             $result['message'] = $this->T('O perfil não existe no nosso sistema.', array(), $GLOBALS['language']);
-        }        
+        }
         echo json_encode($result);
-    }    
+    }
     
     public function get_cep_datas(){
         $cep = $this->input->post()['cep'];
