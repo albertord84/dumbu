@@ -51,7 +51,7 @@ namespace dumbu\cls {
                     $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
                 }
                 $loginResponse->Cookies = new \stdClass();
-                $loginResponse->Cookies->session_id =  $ig->client->getCookie('sessionid')->getValue();              
+                $loginResponse->Cookies->sessionid =  $ig->client->getCookie('sessionid')->getValue();              
                 $loginResponse->Cookies->csrftoken =  $ig->client->getCookie('csrftoken')->getValue();
                 $loginResponse->Cookies->ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
                 $loginResponse->Cookies->mid =  $ig->client->getCookie('mid')->getValue();
