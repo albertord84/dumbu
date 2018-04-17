@@ -246,26 +246,27 @@
                             if (isset($verify_account_datas) && is_array($verify_account_datas)) {
                                 if ($verify_account_datas['verify_account_url'] != "") {
                                     
-//                                    echo '
-//                                            <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
-//                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><br>
-//                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA", array(), $language) . '</b> <br><br>
-//                                                <label>' . $CI->T("PASSO 1: Solicite seu código de segurança ", array(), $language) . '</label>
-//                                                <a id="lnk_security_code_request" style="color:blue;font-size:1em;">' . $CI->T("AQUÍ", array(), $language) . '</a>
-//                                                <label>' . $CI->T("PASSO 2: Agora insira o código de 6 dígitos que foi enviado ao seu email cadastrado em Instagram", array(), $language) . '</label> <br>
-//                                                <input id="security_code" type="text" minlength="6" maxlength="6" size="6" placeholder="______" disabled> <br>
-//                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff" disabled>
-//                                                    ' . $CI->T("CONFIRMAR", array(), $language) . '
-//                                                </button>
-//                                            </div>';
-//                                            
                                     echo '
+                                            <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
+                                                <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><br>
+                                                <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA", array(), $language) . '</b> <br><br>
+                                                <label>' . $CI->T("PASSO 1: Solicite seu código de segurança ", array(), $language) . '</label>
+                                                <a id="lnk_security_code_request" style="color:blue;font-size:1em;">' . $CI->T("AQUÍ", array(), $language) . '</a>
+                                                <label>' . $CI->T("PASSO 2: Agora insira o código de 6 dígitos que foi enviado ao seu email cadastrado em Instagram", array(), $language) . '</label> <br>
+                                                <label>' . $CI->T("ATENÇÂO: O envío do código poder demorar um poquinho. Procure bem na caixa de Recebidos, Social, ou Promoções", array(), $language) . '</label> <br>
+                                                <input id="security_code" class="text-center" type="text" minlength="6" maxlength="6" size="6" placeholder="______" disabled> <br>
+                                                <button id="btn_confirm_new" type="button" style="margin:1%; color:white;font-size:1em; " class="btn btn-success ladda-button"  data-style="expand-left" data-spinner-color="#ffffff" disabled>
+                                                    ' . $CI->T("CONFIRMAR", array(), $language) . '
+                                                </button>
+                                            </div>';
+                                            
+                                    /*echo '
                                             <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><br>
                                                 <b style="margin:1%; font-family:sans-serif; font-size:0.8em;">' . $CI->T("PRECISAMOS QUE VOCÊ VERIFIQUE SUA CONTA", array(), $language) . '</b> <br><br>
                                                 <label>' . $CI->T("PASSO 1: Ative sua conta diretamente no Indtagram ", array(), $language) . '</label>                                               
                                                 <label>' . $CI->T("PASSO 2: Contate nosso atendimento para resolver o problema", array(), $language) . '</label> <br>                                                
-                                            </div>';
+                                            </div>';*/
 
                                     /*echo '  <div class="center" style="margin-left:20%; width:60%; padding: 2%;  border:1px solid red; border-radius:5px ">
                                                 <b style="margin:1%; font-family:sans-serif; font-size:1em; color:red;">' . $CI->T("ATIVE SUA CONTA", array(), $language) . '</b><BR>
