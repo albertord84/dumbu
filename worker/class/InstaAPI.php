@@ -53,13 +53,17 @@ namespace dumbu\cls {
                     $verificationCode = trim(fgets(STDIN));
                     $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
                 }
-                $loginResponse->Cookies = new \stdClass();
-                $loginResponse->Cookies->sessionid =  $ig->client->getCookie('sessionid')->getValue();              
-                $loginResponse->Cookies->csrftoken =  $ig->client->getCookie('csrftoken')->getValue();
-                $loginResponse->Cookies->ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
-                $loginResponse->Cookies->mid =  $ig->client->getCookie('mid')->getValue();
                 
-                return $loginResponse;
+                $Cookies = array();
+                $loginResponse = array();
+//                $loginResponse->Cookies = new \stdClass();
+                $Cookies['sessionid'] =  $ig->client->getCookie('sessionid')->getValue();              
+                $Cookies['csrftoken'] =  $ig->client->getCookie('csrftoken')->getValue();
+                $Cookies['ds_user_id'] = $ig->client->getCookie('ds_user_id')->getValue();
+                $Cookies['mid'] =  $ig->client->getCookie('mid')->getValue();
+                $loginResponse['Cookies'] =(object)$Cookies;                
+                return (object)$loginResponse;
+                
             } catch (\Exception $e) {
                 //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
                 //echo $e->getTraceAsString();                
