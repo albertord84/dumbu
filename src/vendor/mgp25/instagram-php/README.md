@@ -39,10 +39,13 @@ If you want to test new and possibly unstable code that is in the master branch,
 composer require mgp25/instagram-php dev-master
 ```
 
-
 ### I don't have Composer
 
 You can download it [here](https://getcomposer.org/download/).
+
+#### _Warning about moving data to a different server_
+
+_Composer checks your system's capabilities and selects libraries based on your **current** machine (where you are running the `composer` command). So if you run Composer on machine `A` to install this library, it will check machine `A`'s capabilities and will install libraries appropriate for that machine (such as installing the PHP 7+ versions of various libraries). If you then move your whole installation to machine `B` instead, it **will not work** unless machine `B` has the **exact** same capabilities (same or higher PHP version and PHP extensions)! Therefore, you should **always** run the Composer-command on your intended target machine instead of your local machine._
 
 ## Examples
 
@@ -80,8 +83,13 @@ license!
 
 You should read the _entire_ license; especially the `PREAMBLE` at the
 beginning. In short, the word `reciprocal` means "giving something back in
-return for what you are getting". This license _requires_ that you open-source
-_all_ of your own source code for _any_ project which uses this library!
+return for what you are getting". It is _**not** a freeware license_. This
+license _requires_ that you open-source _all_ of your own source code for _any_
+project which uses this library! Creating and maintaining this library is
+endless hard work for us. That's why there is _one_ simple requirement for you:
+Give _something_ back to the world. Whether that's code _or_ financial support
+for this project is entirely up to you, but _nothing else_ grants you _any_
+right to use this library.
 
 Furthermore, the library is _also_ available _to certain entities_ under a
 modified version of the RPL-1.5, which has been modified to allow you to use the

@@ -22,6 +22,7 @@ namespace dumbu\cls {
     class InstaAPI {
 
         public $Cookies = null;
+        
 
         public function login($username, $password) {
             /////// CONFIG ///////
@@ -29,6 +30,8 @@ namespace dumbu\cls {
             $truncatedDebug = true;
             //////////////////////
 
+            \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+            
             try {
                 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
         
@@ -37,7 +40,7 @@ namespace dumbu\cls {
                 
                 $ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
 
-                $loginResponse = $ig->login($username, $password, true);
+                $loginResponse = $ig->login($username, $password);
                 
                 $ig->client->loadCookieJar();
 
@@ -58,8 +61,9 @@ namespace dumbu\cls {
                 
                 return $loginResponse;
             } catch (\Exception $e) {
+                //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
+                //echo $e->getTraceAsString();                
                 throw $e;
-//                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }
 

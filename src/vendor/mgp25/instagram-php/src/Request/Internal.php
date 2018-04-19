@@ -11,12 +11,17 @@ use InstagramAPI\Exception\InstagramException;
 use InstagramAPI\Exception\LoginRequiredException;
 use InstagramAPI\Exception\NetworkException;
 use InstagramAPI\Exception\ThrottledException;
+use InstagramAPI\Exception\UploadFailedException;
+use InstagramAPI\Media\MediaDetails;
+use InstagramAPI\Media\Video\FFmpegWrapper;
+use InstagramAPI\Media\Video\InstagramThumbnail;
+use InstagramAPI\Media\Video\VideoDetails;
 use InstagramAPI\Request;
 use InstagramAPI\Request\Metadata\Internal as InternalMetadata;
 use InstagramAPI\Response;
-use InstagramAPI\ResponseInterface;
 use InstagramAPI\Signatures;
 use InstagramAPI\Utils;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Collection of various INTERNAL library functions.
@@ -52,6 +57,7 @@ class Internal extends RequestCollection
      *
      * @throws \InvalidArgumentException
      * @throws \InstagramAPI\Exception\InstagramException
+     * @throws \InstagramAPI\Exception\UploadFailedException
      *
      * @return \InstagramAPI\Response\ConfigureResponse
      *
@@ -64,19 +70,32 @@ class Internal extends RequestCollection
         array $externalMetadata = [])
     {
         // Make sure we only allow these particular feeds for this function.
-        if ($targetFeed != Constants::FEED_TIMELINE && $targetFeed != Constants::FEED_STORY && $targetFeed != Constants::FEED_DIRECT_STORY) {
+        if ($targetFeed !== Constants::FEED_TIMELINE
+            && $targetFeed !== Constants::FEED_STORY
+            && $targetFeed !== Constants::FEED_DIRECT_STORY
+        ) {
             throw new \InvalidArgumentException(sprintf('Bad target feed "%s".', $targetFeed));
         }
 
+        // Validate and prepare internal metadata object.
         if ($internalMetadata === null) {
             $internalMetadata = new InternalMetadata();
         }
-        if ($internalMetadata->getPhotoDetails() === null) {
-            $internalMetadata->setPhotoDetails($targetFeed, $photoFilename);
+
+        try {
+            if ($internalMetadata->getPhotoDetails() === null) {
+                $internalMetadata->setPhotoDetails($targetFeed, $photoFilename);
+            }
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                sprintf('Failed to get photo details: %s', $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
         }
 
         // Perform the upload.
-        $internalMetadata->setPhotoUploadResponse($this->uploadPhotoData($targetFeed, $internalMetadata));
+        $this->uploadPhotoData($targetFeed, $internalMetadata);
 
         // Configure the uploaded image and attach it to our timeline/story.
         $configure = $this->configureSinglePhoto($targetFeed, $internalMetadata, $externalMetadata);
@@ -92,52 +111,46 @@ class Internal extends RequestCollection
      *
      * @throws \InvalidArgumentException
      * @throws \InstagramAPI\Exception\InstagramException
-     *
-     * @return \InstagramAPI\Response\UploadPhotoResponse
+     * @throws \InstagramAPI\Exception\UploadFailedException
      */
     public function uploadPhotoData(
         $targetFeed,
         InternalMetadata $internalMetadata)
     {
         // Make sure we disallow some feeds for this function.
-        if ($targetFeed == Constants::FEED_DIRECT) {
+        if ($targetFeed === Constants::FEED_DIRECT) {
             throw new \InvalidArgumentException(sprintf('Bad target feed "%s".', $targetFeed));
         }
 
-        $isVideoThumbnail = false;
-        // Determine which file contents to upload.
-        if ($internalMetadata->getPhotoDetails() !== null) {
-            $photoData = file_get_contents($internalMetadata->getPhotoDetails()->getFilename());
-        } elseif ($internalMetadata->getVideoDetails() !== null) {
-            // Generate a thumbnail from a video file.
-            try {
-                $photoData = Utils::createVideoIcon($targetFeed, $internalMetadata->getVideoDetails()->getFilename());
-            } catch (\Exception $e) {
-                // Re-package as InternalException, but keep the stack trace.
-                throw new \InstagramAPI\Exception\InternalException($e->getMessage(), 0, $e);
-            }
-            $isVideoThumbnail = true;
-        } else {
-            throw new \InvalidArgumentException('Could not find any photo file to upload (the photoDetails and videoDetails are both unset).');
+        // Make sure we have photo details.
+        if ($internalMetadata->getPhotoDetails() === null) {
+            throw new \InvalidArgumentException('Photo details are missing from the internal metadata.');
         }
 
-        // Prepare payload for the upload request.
-        $request = $this->ig->request('upload/photo/')
-            ->setSignedPost(false)
-            ->addPost('upload_id', $internalMetadata->getUploadId())
-            ->addPost('_uuid', $this->ig->uuid)
-            ->addPost('_csrftoken', $this->ig->client->getToken())
-            ->addPost('image_compression', '{"lib_name":"jt","lib_version":"1.3.0","quality":"87"}')
-            ->addFileData('photo', $photoData, 'pending_media_'.Utils::generateUploadId().'.jpg');
-
-        if ($targetFeed == Constants::FEED_TIMELINE_ALBUM) {
-            $request->addPost('is_sidecar', '1');
-            if ($isVideoThumbnail) {
-                $request->addPost('media_type', '2');
+        try {
+            // Upload photo file with one of our photo uploaders.
+            if ($this->_useResumablePhotoUploader($targetFeed, $internalMetadata)) {
+                $this->_uploadResumablePhoto($targetFeed, $internalMetadata);
+            } else {
+                $internalMetadata->setPhotoUploadResponse(
+                    $this->_uploadPhotoInOnePiece($targetFeed, $internalMetadata)
+                );
             }
+        } catch (InstagramException $e) {
+            // Pass Instagram's error as is.
+            throw $e;
+        } catch (\Exception $e) {
+            // Wrap runtime errors.
+            throw new UploadFailedException(
+                sprintf(
+                    'Upload of "%s" failed: %s',
+                    $internalMetadata->getPhotoDetails()->getBasename(),
+                    $e->getMessage()
+                ),
+                $e->getCode(),
+                $e
+            );
         }
-
-        return $request->getResponse(new Response\UploadPhotoResponse());
     }
 
     /**
@@ -177,11 +190,14 @@ class Internal extends RequestCollection
         }
 
         // Available external metadata parameters:
-        /** @var string Caption to use for the media. NOT USED FOR STORY MEDIA! */
+        /** @var string Caption to use for the media. */
         $captionText = isset($externalMetadata['caption']) ? $externalMetadata['caption'] : '';
         /** @var Response\Model\Location|null A Location object describing where
-         * the media was taken. NOT USED FOR STORY MEDIA! */
-        $location = (isset($externalMetadata['location']) && $targetFeed != Constants::FEED_STORY) ? $externalMetadata['location'] : null;
+         * the media was taken. */
+        $location = (isset($externalMetadata['location'])) ? $externalMetadata['location'] : null;
+        /** @var array|null Array of story location sticker instructions. ONLY
+         * USED FOR STORY MEDIA! */
+        $locationSticker = (isset($externalMetadata['location_sticker']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['location_sticker'] : null;
         /** @var array|null Array of usertagging instructions, in the format
          * [['position'=>[0.5,0.5], 'user_id'=>'123'], ...]. ONLY FOR TIMELINE PHOTOS! */
         $usertags = (isset($externalMetadata['usertags']) && $targetFeed == Constants::FEED_TIMELINE) ? $externalMetadata['usertags'] : null;
@@ -193,6 +209,10 @@ class Internal extends RequestCollection
         $filter = null; // COMMENTED OUT SO USERS UNDERSTAND THEY CAN'T USE THIS!
         /** @var array Hashtags to use for the media. ONLY STORY MEDIA! */
         $hashtags = (isset($externalMetadata['hashtags']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['hashtags'] : null;
+        /** @var array Mentions to use for the media. ONLY STORY MEDIA! */
+        $storyMentions = (isset($externalMetadata['story_mentions']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['story_mentions'] : null;
+        /** @var array Story poll to use for the media. ONLY STORY MEDIA! */
+        $storyPoll = (isset($externalMetadata['story_polls']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['story_polls'] : null;
 
         // Fix very bad external user-metadata values.
         if (!is_string($captionText)) {
@@ -201,7 +221,7 @@ class Internal extends RequestCollection
 
         // Critically important internal library-generated metadata parameters:
         /** @var string The ID of the entry to configure. */
-        $uploadId = $internalMetadata->getPhotoUploadResponse()->getUploadId();
+        $uploadId = $internalMetadata->getUploadId();
         /** @var int Width of the photo. */
         $photoWidth = $internalMetadata->getPhotoDetails()->getWidth();
         /** @var int Height of the photo. */
@@ -257,11 +277,31 @@ class Internal extends RequestCollection
                     $story_cta = '[{"links":[{"webUri":'.json_encode($link).'}]}]';
                     $request->addPost('story_cta', $story_cta);
                 }
-                if ($hashtags !== null && $captionText != '') {
+                if ($hashtags !== null && $captionText !== '') {
                     Utils::throwIfInvalidStoryHashtags($captionText, $hashtags);
                     $request
                         ->addPost('story_hashtags', json_encode($hashtags))
                         ->addPost('caption', $captionText)
+                        ->addPost('mas_opt_in', 'NOT_PROMPTED');
+                }
+                if ($locationSticker !== null && $location !== null) {
+                    Utils::throwIfInvalidStoryLocationSticker($locationSticker);
+                    $request
+                        ->addPost('story_locations', json_encode([$locationSticker]))
+                        ->addPost('mas_opt_in', 'NOT_PROMPTED');
+                }
+                if ($storyMentions !== null && $captionText !== '') {
+                    Utils::throwIfInvalidStoryMentions($storyMentions);
+                    $request
+                        ->addPost('reel_mentions', json_encode($storyMentions))
+                        ->addPost('caption', str_replace(' ', '+', $captionText).'+')
+                        ->addPost('mas_opt_in', 'NOT_PROMPTED');
+                }
+                if ($storyPoll !== null) {
+                    Utils::throwIfInvalidStoryPoll($storyPoll);
+                    $request
+                        ->addPost('story_polls', json_encode($storyPoll))
+                        ->addPost('internal_features', 'polling_sticker')
                         ->addPost('mas_opt_in', 'NOT_PROMPTED');
                 }
                 break;
@@ -278,15 +318,18 @@ class Internal extends RequestCollection
         }
 
         if ($location instanceof Response\Model\Location) {
+            if ($targetFeed === Constants::FEED_TIMELINE) {
+                $request->addPost('location', Utils::buildMediaLocationJSON($location));
+            }
+            if ($targetFeed === Constants::FEED_STORY && $locationSticker === null) {
+                throw new \InvalidArgumentException('You must provide a location_sticker together with your story location.');
+            }
             $request
-                ->addPost('location', Utils::buildMediaLocationJSON($location))
                 ->addPost('geotag_enabled', '1')
                 ->addPost('posting_latitude', $location->getLat())
                 ->addPost('posting_longitude', $location->getLng())
                 ->addPost('media_latitude', $location->getLat())
-                ->addPost('media_longitude', $location->getLng())
-                ->addPost('av_latitude', 0.0)
-                ->addPost('av_longitude', 0.0);
+                ->addPost('media_longitude', $location->getLng());
         }
 
         $configure = $request->getResponse(new Response\ConfigureResponse());
@@ -302,7 +345,6 @@ class Internal extends RequestCollection
      * @param InternalMetadata|null $internalMetadata (optional) Internal library-generated metadata object.
      *
      * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      * @throws \InstagramAPI\Exception\InstagramException
      * @throws \InstagramAPI\Exception\UploadFailedException If the video upload fails.
      *
@@ -316,18 +358,41 @@ class Internal extends RequestCollection
         if ($internalMetadata === null) {
             $internalMetadata = new InternalMetadata();
         }
-        if ($internalMetadata->getVideoDetails() === null) {
-            $internalMetadata->setVideoDetails($targetFeed, $videoFilename);
+
+        try {
+            if ($internalMetadata->getVideoDetails() === null) {
+                $internalMetadata->setVideoDetails($targetFeed, $videoFilename);
+            }
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                sprintf('Failed to get photo details: %s', $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
         }
 
-        if ($this->_useResumableUploader($targetFeed, $internalMetadata)) {
-            $this->_uploadResumableVideo($targetFeed, $internalMetadata);
-        } else {
-            // Request parameters for uploading a new video.
-            $internalMetadata->setVideoUploadUrls($this->_requestVideoUploadURL($targetFeed, $internalMetadata));
+        try {
+            if ($this->_useSegmentedVideoUploader($targetFeed, $internalMetadata)) {
+                $this->_uploadSegmentedVideo($targetFeed, $internalMetadata);
+            } elseif ($this->_useResumableVideoUploader($targetFeed, $internalMetadata)) {
+                $this->_uploadResumableVideo($targetFeed, $internalMetadata);
+            } else {
+                // Request parameters for uploading a new video.
+                $internalMetadata->setVideoUploadUrls($this->_requestVideoUploadURL($targetFeed, $internalMetadata));
 
-            // Attempt to upload the video data.
-            $internalMetadata->setVideoUploadResponse($this->_uploadVideoChunks($targetFeed, $internalMetadata));
+                // Attempt to upload the video data.
+                $internalMetadata->setVideoUploadResponse($this->_uploadVideoChunks($targetFeed, $internalMetadata));
+            }
+        } catch (InstagramException $e) {
+            // Pass Instagram's error as is.
+            throw $e;
+        } catch (\Exception $e) {
+            // Wrap runtime errors.
+            throw new UploadFailedException(
+                sprintf('Upload of "%s" failed: %s', basename($videoFilename), $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
         }
 
         return $internalMetadata;
@@ -344,7 +409,6 @@ class Internal extends RequestCollection
      * @param array                 $externalMetadata (optional) User-provided metadata key-value pairs.
      *
      * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      * @throws \InstagramAPI\Exception\InstagramException
      * @throws \InstagramAPI\Exception\UploadFailedException If the video upload fails.
      *
@@ -359,7 +423,10 @@ class Internal extends RequestCollection
         array $externalMetadata = [])
     {
         // Make sure we only allow these particular feeds for this function.
-        if ($targetFeed != Constants::FEED_TIMELINE && $targetFeed != Constants::FEED_STORY && $targetFeed != Constants::FEED_DIRECT_STORY) {
+        if ($targetFeed !== Constants::FEED_TIMELINE
+            && $targetFeed !== Constants::FEED_STORY
+            && $targetFeed !== Constants::FEED_DIRECT_STORY
+        ) {
             throw new \InvalidArgumentException(sprintf('Bad target feed "%s".', $targetFeed));
         }
 
@@ -367,19 +434,76 @@ class Internal extends RequestCollection
         $internalMetadata = $this->uploadVideo($targetFeed, $videoFilename, $internalMetadata);
 
         // Attempt to upload the thumbnail, associated with our video's ID.
-        $internalMetadata->setPhotoUploadResponse($this->uploadPhotoData($targetFeed, $internalMetadata));
+        $this->uploadVideoThumbnail($targetFeed, $internalMetadata, $externalMetadata);
 
         // Configure the uploaded video and attach it to our timeline/story.
-        /** @var \InstagramAPI\Response\ConfigureResponse $configure */
-        $configure = $this->ig->internal->configureWithRetries(
-            $videoFilename,
-            function () use ($targetFeed, $internalMetadata, $externalMetadata) {
-                // Attempt to configure video parameters.
-                return $this->configureSingleVideo($targetFeed, $internalMetadata, $externalMetadata);
-            }
-        );
+        try {
+            /** @var \InstagramAPI\Response\ConfigureResponse $configure */
+            $configure = $this->ig->internal->configureWithRetries(
+                function () use ($targetFeed, $internalMetadata, $externalMetadata) {
+                    // Attempt to configure video parameters.
+                    return $this->configureSingleVideo($targetFeed, $internalMetadata, $externalMetadata);
+                }
+            );
+        } catch (InstagramException $e) {
+            // Pass Instagram's error as is.
+            throw $e;
+        } catch (\Exception $e) {
+            // Wrap runtime errors.
+            throw new UploadFailedException(
+                sprintf('Upload of "%s" failed: %s', basename($videoFilename), $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
+        }
 
         return $configure;
+    }
+
+    /**
+     * Performs a resumable upload of a photo file, with support for retries.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     * @param array            $externalMetadata (optional) User-provided metadata key-value pairs.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \InstagramAPI\Exception\InstagramException
+     * @throws \InstagramAPI\Exception\UploadFailedException
+     */
+    public function uploadVideoThumbnail(
+        $targetFeed,
+        InternalMetadata $internalMetadata,
+        array $externalMetadata = [])
+    {
+        if ($internalMetadata->getVideoDetails() === null) {
+            throw new \InvalidArgumentException('Video details are missing from the internal metadata.');
+        }
+
+        try {
+            // Automatically crop&resize the thumbnail to Instagram's requirements.
+            $options = ['targetFeed' => $targetFeed];
+            if (isset($externalMetadata['thumbnail_timestamp'])) {
+                $options['thumbnailTimestamp'] = $externalMetadata['thumbnail_timestamp'];
+            }
+            $videoThumbnail = new InstagramThumbnail(
+                $internalMetadata->getVideoDetails()->getFilename(),
+                $options
+            );
+            // Validate and upload the thumbnail.
+            $internalMetadata->setPhotoDetails($targetFeed, $videoThumbnail->getFile());
+            $this->uploadPhotoData($targetFeed, $internalMetadata);
+        } catch (InstagramException $e) {
+            // Pass Instagram's error as is.
+            throw $e;
+        } catch (\Exception $e) {
+            // Wrap runtime errors.
+            throw new UploadFailedException(
+                sprintf('Upload of video thumbnail failed: %s', $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 
     /**
@@ -456,13 +580,20 @@ class Internal extends RequestCollection
          * implemented for stories. */
         $usertags = (isset($externalMetadata['usertags']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['usertags'] : null;
         /** @var Response\Model\Location|null A Location object describing where
-         * the media was taken. NOT USED FOR STORY MEDIA! */
-        $location = (isset($externalMetadata['location']) && $targetFeed != Constants::FEED_STORY) ? $externalMetadata['location'] : null;
+         * the media was taken. */
+        $location = (isset($externalMetadata['location'])) ? $externalMetadata['location'] : null;
+        /** @var array|null Array of story location sticker instructions. ONLY
+         * USED FOR STORY MEDIA! */
+        $locationSticker = (isset($externalMetadata['location_sticker']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['location_sticker'] : null;
         /** @var string|null Link to attach to the media. ONLY USED FOR STORY MEDIA,
          * AND YOU MUST HAVE A BUSINESS INSTAGRAM ACCOUNT TO POST A STORY LINK! */
         $link = (isset($externalMetadata['link']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['link'] : null;
         /** @var array Hashtags to use for the media. ONLY STORY MEDIA! */
         $hashtags = (isset($externalMetadata['hashtags']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['hashtags'] : null;
+        /** @var array Mentions to use for the media. ONLY STORY MEDIA! */
+        $storyMentions = (isset($externalMetadata['story_mentions']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['story_mentions'] : null;
+        /** @var array Story poll to use for the media. ONLY STORY MEDIA! */
+        $storyPoll = (isset($externalMetadata['story_polls']) && $targetFeed == Constants::FEED_STORY) ? $externalMetadata['story_polls'] : null;
 
         // Fix very bad external user-metadata values.
         if (!is_string($captionText)) {
@@ -513,11 +644,31 @@ class Internal extends RequestCollection
                     $story_cta = '[{"links":[{"webUri":'.json_encode($link).'}]}]';
                     $request->addPost('story_cta', $story_cta);
                 }
-                if ($hashtags !== null && $captionText != '') {
+                if ($hashtags !== null && $captionText !== '') {
                     Utils::throwIfInvalidStoryHashtags($captionText, $hashtags);
                     $request
                         ->addPost('story_hashtags', json_encode($hashtags))
                         ->addPost('caption', $captionText)
+                        ->addPost('mas_opt_in', 'NOT_PROMPTED');
+                }
+                if ($locationSticker !== null && $location !== null) {
+                    Utils::throwIfInvalidStoryLocationSticker($locationSticker);
+                    $request
+                        ->addPost('story_locations', json_encode([$locationSticker]))
+                        ->addPost('mas_opt_in', 'NOT_PROMPTED');
+                }
+                if ($storyMentions !== null && $captionText !== '') {
+                    Utils::throwIfInvalidStoryMentions($storyMentions);
+                    $request
+                        ->addPost('reel_mentions', json_encode($storyMentions))
+                        ->addPost('caption', str_replace(' ', '+', $captionText).'+')
+                        ->addPost('mas_opt_in', 'NOT_PROMPTED');
+                }
+                if ($storyPoll !== null) {
+                    Utils::throwIfInvalidStoryPoll($storyPoll);
+                    $request
+                        ->addPost('story_polls', json_encode($storyPoll))
+                        ->addPost('internal_features', 'polling_sticker')
                         ->addPost('mas_opt_in', 'NOT_PROMPTED');
                 }
                 break;
@@ -546,15 +697,18 @@ class Internal extends RequestCollection
         }
 
         if ($location instanceof Response\Model\Location) {
+            if ($targetFeed === Constants::FEED_TIMELINE) {
+                $request->addPost('location', Utils::buildMediaLocationJSON($location));
+            }
+            if ($targetFeed === Constants::FEED_STORY && $locationSticker === null) {
+                throw new \InvalidArgumentException('You must provide a location_sticker together with your story location.');
+            }
             $request
-                ->addPost('location', Utils::buildMediaLocationJSON($location))
                 ->addPost('geotag_enabled', '1')
                 ->addPost('posting_latitude', $location->getLat())
                 ->addPost('posting_longitude', $location->getLng())
                 ->addPost('media_latitude', $location->getLat())
-                ->addPost('media_longitude', $location->getLng())
-                ->addPost('av_latitude', 0.0)
-                ->addPost('av_longitude', 0.0);
+                ->addPost('media_longitude', $location->getLng());
         }
 
         $configure = $request->getResponse(new Response\ConfigureResponse());
@@ -706,26 +860,25 @@ class Internal extends RequestCollection
         Response\SyncResponse $syncResponse)
     {
         $experiments = [];
-        foreach ($syncResponse->experiments as $experiment) {
-            if (!isset($experiment->name)) {
+        foreach ($syncResponse->getExperiments() as $experiment) {
+            $group = $experiment->getName();
+            $params = $experiment->getParams();
+
+            if ($group === null || $params === null) {
                 continue;
             }
 
-            $group = $experiment->name;
             if (!isset($experiments[$group])) {
                 $experiments[$group] = [];
             }
 
-            if (!isset($experiment->params)) {
-                continue;
-            }
-
-            foreach ($experiment->params as $param) {
-                if (!isset($param->name)) {
+            foreach ($params as $param) {
+                $paramName = $param->getName();
+                if ($paramName === null) {
                     continue;
                 }
 
-                $experiments[$group][$param->name] = $param->value;
+                $experiments[$group][$paramName] = $param->getValue();
             }
         }
 
@@ -802,8 +955,6 @@ class Internal extends RequestCollection
     /**
      * Reads MSISDN header.
      *
-     * WARNING. DON'T USE. UNDER RESEARCH.
-     *
      * @param string $subnoKey Encoded subscriber number.
      *
      * @throws \InstagramAPI\Exception\InstagramException
@@ -847,6 +998,22 @@ class Internal extends RequestCollection
             ->addPost('_csrftoken', $this->ig->client->getToken());
 
         return $request->getResponse(new Response\MsisdnHeaderResponse());
+    }
+
+    /**
+     * Get zero rating token hash result.
+     *
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\TokenResultResponse
+     */
+    public function getZeroRatingTokenResult()
+    {
+        $request = $this->ig->request('zr/token/result/')
+            ->setNeedsAuth(false)
+            ->addParam('token_hash', '');
+
+        return $request->getResponse(new Response\TokenResultResponse());
     }
 
     /**
@@ -920,9 +1087,6 @@ class Internal extends RequestCollection
     public function getProfileNotice()
     {
         return $this->ig->request('users/profile_notice/')
-            ->addPost('_uuid', $this->ig->uuid)
-            ->addPost('_uid', $this->ig->account_id)
-            ->addPost('_csrftoken', $this->ig->client->getToken())
             ->getResponse(new Response\ProfileNoticeResponse());
     }
 
@@ -947,60 +1111,108 @@ class Internal extends RequestCollection
     }
 
     /**
-     * Send analytics and events to Instagram's Analytics Server.
+     * Internal helper for marking story media items as seen.
      *
-     * @param array $data Analytics and event data array.
+     * This is used by story-related functions in other request-collections!
      *
+     * @param Response\Model\Item[] $items    Array of one or more story media Items.
+     * @param string|null           $sourceId Where the story was seen from,
+     *                                        such as a location story-tray ID.
+     *                                        If NULL, we automatically use the
+     *                                        user's profile ID from each Item
+     *                                        object as the source ID.
+     *
+     * @throws \InvalidArgumentException
      * @throws \InstagramAPI\Exception\InstagramException
      *
-     * @return \InstagramAPI\Response\ClientEventLogsResponse
+     * @return \InstagramAPI\Response\MediaSeenResponse
+     *
+     * @see Story::markMediaSeen()
+     * @see Location::markStoryMediaSeen()
+     * @see Hashtag::markStoryMediaSeen()
      */
-    public function sendClientEventLogs(
-        array $data)
+    public function markStoryMediaSeen(
+        array $items,
+        $sourceId = null)
     {
-        $message = base64_encode(gzcompress(json_encode($data)));
-        $message = urlencode($message); // Yep, we must URL-encode this data!
+        // Build the list of seen media, with human randomization of seen-time.
+        $reels = [];
+        $maxSeenAt = time(); // Get current global UTC timestamp.
+        $seenAt = $maxSeenAt - (3 * count($items)); // Start seenAt in the past.
+        foreach ($items as $item) {
+            if (!$item instanceof Response\Model\Item) {
+                throw new \InvalidArgumentException(
+                    'All story items must be instances of \InstagramAPI\Response\Model\Item.'
+                );
+            }
 
-        return $this->ig->request(Constants::GRAPH_URL.'logging_client_events')
-            ->addPost('message', $message)
-            ->addPost('compressed', '1')
-            ->addPost('access_token', Constants::ANALYTICS_ACCESS_TOKEN)
-            ->addPost('format', 'json')
-            ->getResponse(new Response\ClientEventLogsResponse());
+            // Raise "seenAt" if it's somehow older than the item's "takenAt".
+            // NOTE: Can only happen if you see a story instantly when posted.
+            $itemTakenAt = $item->getTakenAt();
+            if ($seenAt < $itemTakenAt) {
+                $seenAt = $itemTakenAt + 2;
+            }
+
+            // Do not let "seenAt" exceed the current global UTC time.
+            if ($seenAt > $maxSeenAt) {
+                $seenAt = $maxSeenAt;
+            }
+
+            // Determine the source ID for this item. This is where the item was
+            // seen from, such as a UserID or a Location-StoryTray ID.
+            $itemSourceId = ($sourceId === null ? $item->getUser()->getPk() : $sourceId);
+
+            // Key Format: "mediaPk_userPk_sourceId".
+            // NOTE: In case of seeing stories on a user's profile, their
+            // userPk is used as the sourceId, as "mediaPk_userPk_userPk".
+            $reelId = $item->getId().'_'.$itemSourceId;
+
+            // Value Format: ["mediaTakenAt_seenAt"] (array with single string).
+            $reels[$reelId] = [$itemTakenAt.'_'.$seenAt];
+
+            // Randomly add 1-3 seconds to next seenAt timestamp, to act human.
+            $seenAt += rand(1, 3);
+        }
+
+        return $this->ig->request('media/seen/')
+            ->setVersion(2)
+            ->addPost('_uuid', $this->ig->uuid)
+            ->addPost('_uid', $this->ig->account_id)
+            ->addPost('_csrftoken', $this->ig->client->getToken())
+            ->addPost('reels', $reels)
+            ->addPost('live_vods', [])
+            ->addParam('reel', 1)
+            ->addParam('live_vod', 0)
+            ->getResponse(new Response\MediaSeenResponse());
     }
 
     /**
      * Configure media entity (album, video, ...) with retries.
      *
-     * @param string   $entity       Entity to display in error messages.
      * @param callable $configurator Configurator function.
      *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
-     * @throws \InstagramAPI\Exception\UploadFailedException
+     * @throws \LogicException
      * @throws \InstagramAPI\Exception\InstagramException
      *
-     * @return ResponseInterface
+     * @return Response
      */
     public function configureWithRetries(
-        $entity,
         callable $configurator)
     {
         $attempt = 0;
         while (true) {
             // Check for max retry-limit, and throw if we exceeded it.
             if (++$attempt > self::MAX_CONFIGURE_RETRIES) {
-                throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                    'Configuration of "%s" failed. All retries have failed.',
-                    $entity
-                ));
+                throw new \RuntimeException('All configuration retries have failed.');
             }
 
             $result = null;
 
             try {
-                /** @var ResponseInterface $result */
-                $result = call_user_func($configurator);
+                /** @var Response $result */
+                $result = $configurator();
             } catch (ThrottledException $e) {
                 throw $e;
             } catch (LoginRequiredException $e) {
@@ -1024,17 +1236,19 @@ class Internal extends RequestCollection
             }
 
             $httpResponse = $result->getHttpResponse();
-            $fullResponse = $result->getFullResponse();
             $delay = 1;
             switch ($httpResponse->getStatusCode()) {
                 case 200:
                     // Instagram uses "ok" status for this error, so we need to check it first:
                     // {"message": "media_needs_reupload", "error_title": "staged_position_not_found", "status": "ok"}
                     if (strtolower($result->getMessage()) === 'media_needs_reupload') {
-                        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                            'Configuration of "%s" failed. You need to reupload the media (%s).',
-                            $entity,
-                            (isset($fullResponse->error_title) ? $fullResponse->error_title : 'unknown error')
+                        throw new \RuntimeException(sprintf(
+                            'You need to reupload the media (%s).',
+                            // We are reading a property that isn't defined in the class
+                            // property map, so we must use "has" first, to ensure it exists.
+                            ($result->hasErrorTitle() && is_string($result->getErrorTitle())
+                             ? $result->getErrorTitle()
+                             : 'unknown error')
                         ));
                     } elseif ($result->isOk()) {
                         return $result;
@@ -1042,8 +1256,10 @@ class Internal extends RequestCollection
                     // Continue to the next attempt.
                     break;
                 case 202:
-                    if (isset($fullResponse->cooldown_time_in_seconds)) {
-                        $delay = max((int) $fullResponse->cooldown_time_in_seconds, 1);
+                    // We are reading a property that isn't defined in the class
+                    // property map, so we must use "has" first, to ensure it exists.
+                    if ($result->hasCooldownTimeInSeconds() && $result->getCooldownTimeInSeconds() !== null) {
+                        $delay = max((int) $result->getCooldownTimeInSeconds(), 1);
                     }
                     break;
                 default:
@@ -1051,10 +1267,190 @@ class Internal extends RequestCollection
             sleep($delay);
         }
 
-        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-            'Configuration of "%s" failed.',
-            $entity
-        ));
+        // We are never supposed to get here!
+        throw new \LogicException('Something went wrong during configuration.');
+    }
+
+    /**
+     * Performs a resumable upload of a media file, with support for retries.
+     *
+     * @param MediaDetails $mediaDetails
+     * @param Request      $offsetTemplate
+     * @param Request      $uploadTemplate
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \LogicException
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return Response\ResumableUploadResponse
+     */
+    protected function _uploadResumableMedia(
+        MediaDetails $mediaDetails,
+        Request $offsetTemplate,
+        Request $uploadTemplate)
+    {
+        // Open file handle.
+        $handle = fopen($mediaDetails->getFilename(), 'rb');
+        if ($handle === false) {
+            throw new \RuntimeException('Failed to open media file for reading.');
+        }
+
+        try {
+            $length = $mediaDetails->getFilesize();
+
+            // Create a stream for the opened file handle.
+            $stream = new Stream($handle, ['size' => $length]);
+
+            $attempt = 0;
+            while (true) {
+                // Check for max retry-limit, and throw if we exceeded it.
+                if (++$attempt > self::MAX_RESUMABLE_RETRIES) {
+                    throw new \RuntimeException('All retries have failed.');
+                }
+
+                try {
+                    // Get current offset.
+                    $offsetRequest = clone $offsetTemplate;
+                    /** @var Response\ResumableOffsetResponse $offsetResponse */
+                    $offsetResponse = $offsetRequest->getResponse(new Response\ResumableOffsetResponse());
+                    $offset = $offsetResponse->getOffset();
+
+                    // Resume upload from given offset.
+                    $uploadRequest = clone $uploadTemplate;
+                    $uploadRequest
+                        ->addHeader('Offset', $offset)
+                        ->setBody(new LimitStream($stream, $length - $offset, $offset));
+                    /** @var Response\ResumableUploadResponse $response */
+                    $response = $uploadRequest->getResponse(new Response\ResumableUploadResponse());
+
+                    return $response;
+                } catch (ThrottledException $e) {
+                    throw $e;
+                } catch (LoginRequiredException $e) {
+                    throw $e;
+                } catch (FeedbackRequiredException $e) {
+                    throw $e;
+                } catch (CheckpointRequiredException $e) {
+                    throw $e;
+                } catch (\Exception $e) {
+                    // Ignore everything else.
+                }
+            }
+        } finally {
+            Utils::safe_fclose($handle);
+        }
+
+        // We are never supposed to get here!
+        throw new \LogicException('Something went wrong during media upload.');
+    }
+
+    /**
+     * Performs an upload of a photo file, without support for retries.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\UploadPhotoResponse
+     */
+    protected function _uploadPhotoInOnePiece(
+        $targetFeed,
+        InternalMetadata $internalMetadata)
+    {
+        // Prepare payload for the upload request.
+        $request = $this->ig->request('upload/photo/')
+            ->setSignedPost(false)
+            ->addPost('_uuid', $this->ig->uuid)
+            ->addPost('_csrftoken', $this->ig->client->getToken())
+            ->addFile(
+                'photo',
+                $internalMetadata->getPhotoDetails()->getFilename(),
+                'pending_media_'.Utils::generateUploadId().'.jpg'
+            );
+
+        foreach ($this->_getPhotoUploadParams($targetFeed, $internalMetadata) as $key => $value) {
+            $request->addPost($key, $value);
+        }
+        /** @var Response\UploadPhotoResponse $response */
+        $response = $request->getResponse(new Response\UploadPhotoResponse());
+
+        return $response;
+    }
+
+    /**
+     * Performs a resumable upload of a photo file, with support for retries.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \LogicException
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\GenericResponse
+     */
+    protected function _uploadResumablePhoto(
+        $targetFeed,
+        InternalMetadata $internalMetadata)
+    {
+        $photoDetails = $internalMetadata->getPhotoDetails();
+
+        $endpoint = sprintf('https://i.instagram.com/rupload_igphoto/%s_%d_%d',
+            $internalMetadata->getUploadId(),
+            0,
+            Utils::hashCode($photoDetails->getFilename())
+        );
+
+        $uploadParams = $this->_getPhotoUploadParams($targetFeed, $internalMetadata);
+        $uploadParams = Utils::reorderByHashCode($uploadParams);
+
+        $offsetTemplate = new Request($this->ig, $endpoint);
+        $offsetTemplate
+            ->setAddDefaultHeaders(false)
+            ->addHeader('X_FB_PHOTO_WATERFALL_ID', Signatures::generateUUID(true))
+            ->addHeader('X-Instagram-Rupload-Params', json_encode($uploadParams));
+
+        $uploadTemplate = clone $offsetTemplate;
+        $uploadTemplate
+            ->addHeader('X-Entity-Type', 'image/jpeg')
+            ->addHeader('X-Entity-Name', basename(parse_url($endpoint, PHP_URL_PATH)))
+            ->addHeader('X-Entity-Length', $photoDetails->getFilesize());
+
+        return $this->_uploadResumableMedia(
+            $photoDetails,
+            $offsetTemplate,
+            $uploadTemplate
+        );
+    }
+
+    /**
+     * Determine whether to use resumable photo uploader based on target feed and internal metadata.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     *
+     * @return bool
+     */
+    protected function _useResumablePhotoUploader(
+        $targetFeed,
+        InternalMetadata $internalMetadata)
+    {
+        switch ($targetFeed) {
+            case Constants::FEED_TIMELINE_ALBUM:
+                $result = false;
+                break;
+            default:
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_photo_fbupload_universe',
+                    'is_enabled_fbupload_photo');
+        }
+
+        return $result;
     }
 
     /**
@@ -1105,8 +1501,9 @@ class Internal extends RequestCollection
      * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
      *
      * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \LogicException
      * @throws \InstagramAPI\Exception\InstagramException
-     * @throws \InstagramAPI\Exception\UploadFailedException If the upload fails.
      *
      * @return \InstagramAPI\Response\UploadVideoResponse
      */
@@ -1121,13 +1518,13 @@ class Internal extends RequestCollection
         // request, otherwise the server will reply with a "StagedUpload not
         // found" error when the final chunk has been uploaded.
         $sessionIDCookie = null;
-        if ($targetFeed == Constants::FEED_TIMELINE_ALBUM) {
+        if ($targetFeed === Constants::FEED_TIMELINE_ALBUM) {
             $foundCookie = $this->ig->client->getCookie('sessionid', 'i.instagram.com');
             if ($foundCookie !== null) {
                 $sessionIDCookie = $foundCookie->getValue();
             }
-            if ($sessionIDCookie === null) { // Verify value.
-                throw new \InstagramAPI\Exception\UploadFailedException(
+            if ($sessionIDCookie === null || $sessionIDCookie === '') { // Verify value.
+                throw new \RuntimeException(
                     'Unable to find the necessary SessionID cookie for uploading video album chunks.'
                 );
             }
@@ -1136,7 +1533,7 @@ class Internal extends RequestCollection
         // Verify the upload URLs.
         $uploadUrls = $internalMetadata->getVideoUploadUrls();
         if (!is_array($uploadUrls) || !count($uploadUrls)) {
-            throw new \InstagramAPI\Exception\UploadFailedException('No video upload URLs found.');
+            throw new \RuntimeException('No video upload URLs found.');
         }
 
         // Init state.
@@ -1151,10 +1548,7 @@ class Internal extends RequestCollection
         // Open file handle.
         $handle = fopen($videoFilename, 'rb');
         if ($handle === false) {
-            throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                'Failed to open "%s" for reading.',
-                $videoFilename
-            ));
+            throw new \RuntimeException('Failed to open file for reading.');
         }
 
         try {
@@ -1171,10 +1565,7 @@ class Internal extends RequestCollection
                     $uploadUrl = array_shift($uploadUrls);
                     // Fail if there are no upload URLs left.
                     if ($uploadUrl === null) {
-                        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                            'Upload of "%s" failed. There are no more upload URLs.',
-                            $videoFilename
-                        ));
+                        throw new \RuntimeException('There are no more upload URLs.');
                     }
                     // Reset state.
                     $attempt = 1; // As if "++$attempt" had ran once, above.
@@ -1195,7 +1586,7 @@ class Internal extends RequestCollection
 
                 // When uploading videos to albums, we must fake-inject the
                 // "sessionid" cookie (the official app fake-injects it too).
-                if ($targetFeed == Constants::FEED_TIMELINE_ALBUM && $sessionIDCookie !== null) {
+                if ($targetFeed === Constants::FEED_TIMELINE_ALBUM && $sessionIDCookie !== null) {
                     // We'll add it with the default options ("single use")
                     // so the fake cookie is only added to THIS request.
                     $this->ig->client->getMiddleware()->addFakeCookie('sessionid', $sessionIDCookie);
@@ -1269,15 +1660,12 @@ class Internal extends RequestCollection
                     case 400:
                     case 403:
                     case 511:
-                        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                            "Upload of \"%s\" failed. Instagram's server returned HTTP status \"%d\".",
-                            $videoFilename, $httpResponse->getStatusCode()
+                        throw new \RuntimeException(sprintf(
+                            'Instagram\'s server returned HTTP status "%d".',
+                            $httpResponse->getStatusCode()
                         ));
                     case 422:
-                        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                            "Upload of \"%s\" failed. Instagram's server says that the video is corrupt.",
-                            $videoFilename, $httpResponse->getStatusCode()
-                        ));
+                        throw new \RuntimeException('Instagram\'s server says that the video is corrupt.');
                     default:
                 }
             }
@@ -1286,10 +1674,105 @@ class Internal extends RequestCollection
             Utils::safe_fclose($handle);
         }
 
-        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-            'Upload of \"%s\" failed.',
-            $videoFilename
+        // We are never supposed to get here!
+        throw new \LogicException('Something went wrong during video upload.');
+    }
+
+    /**
+     * Performs a segmented upload of a video file, with support for retries.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     *
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \LogicException
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\GenericResponse
+     */
+    protected function _uploadSegmentedVideo(
+        $targetFeed,
+        InternalMetadata $internalMetadata)
+    {
+        $videoDetails = $internalMetadata->getVideoDetails();
+
+        // We must split the video into segments before running any requests.
+        $segments = $this->_splitVideoIntoSegments($videoDetails);
+
+        $uploadParams = $this->_getVideoUploadParams($targetFeed, $internalMetadata);
+        $uploadParams = Utils::reorderByHashCode($uploadParams);
+
+        // This request gives us a stream identifier.
+        $startRequest = new Request($this->ig, sprintf(
+            'https://i.instagram.com/rupload_igvideo/%s?segmented=true&phase=start',
+            Signatures::generateUUID()
         ));
+        $startRequest
+            ->setAddDefaultHeaders(false)
+            ->addHeader('X-Instagram-Rupload-Params', json_encode($uploadParams))
+            // Dirty hack to make a POST request.
+            ->setBody(stream_for());
+        /** @var Response\SegmentedStartResponse $startResponse */
+        $startResponse = $startRequest->getResponse(new Response\SegmentedStartResponse());
+        $streamId = $startResponse->getStreamId();
+
+        // Upload the segments.
+        try {
+            $offset = 0;
+            // Yep, no UUID here like in other resumable uploaders. Seems like a bug.
+            $waterfallId = Utils::generateUploadId();
+            foreach ($segments as $segment) {
+                $endpoint = sprintf(
+                    'https://i.instagram.com/rupload_igvideo/%s-%d-%d?segmented=true&phase=transfer',
+                    md5($segment->getFilename()),
+                    0,
+                    $segment->getFilesize()
+                );
+
+                $offsetTemplate = new Request($this->ig, $endpoint);
+                $offsetTemplate
+                    ->setAddDefaultHeaders(false)
+                    ->addHeader('Segment-Start-Offset', $offset)
+                    // 1 => Audio, 2 => Video, 3 => Mixed.
+                    ->addHeader('Segment-Type', $segment->getAudioCodec() !== null ? 1 : 2)
+                    ->addHeader('Stream-Id', $streamId)
+                    ->addHeader('X_FB_VIDEO_WATERFALL_ID', $waterfallId)
+                    ->addHeader('X-Instagram-Rupload-Params', json_encode($uploadParams));
+
+                $uploadTemplate = clone $offsetTemplate;
+                $uploadTemplate
+                    ->addHeader('X-Entity-Type', 'video/mp4')
+                    ->addHeader('X-Entity-Name', basename(parse_url($endpoint, PHP_URL_PATH)))
+                    ->addHeader('X-Entity-Length', $segment->getFilesize());
+
+                $this->_uploadResumableMedia($segment, $offsetTemplate, $uploadTemplate);
+                // Offset seems to be used just for ordering the segments.
+                $offset += $segment->getFilesize();
+            }
+        } finally {
+            // Remove the segments, because we don't need them anymore.
+            foreach ($segments as $segment) {
+                @unlink($segment->getFilename());
+            }
+        }
+
+        // Finalize the upload.
+        $endRequest = new Request($this->ig, sprintf(
+            'https://i.instagram.com/rupload_igvideo/%s?segmented=true&phase=end',
+            Signatures::generateUUID()
+        ));
+        $endRequest
+            ->setAddDefaultHeaders(false)
+            ->addHeader('Stream-Id', $streamId)
+            ->addHeader('X-Instagram-Rupload-Params', json_encode($uploadParams))
+            // Dirty hack to make a POST request.
+            ->setBody(stream_for());
+        /** @var Response\GenericResponse $result */
+        $result = $endRequest->getResponse(new Response\GenericResponse());
+
+        return $result;
     }
 
     /**
@@ -1299,8 +1782,9 @@ class Internal extends RequestCollection
      * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
      *
      * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     * @throws \LogicException
      * @throws \InstagramAPI\Exception\InstagramException
-     * @throws \InstagramAPI\Exception\UploadFailedException If the upload fails.
      *
      * @return \InstagramAPI\Response\GenericResponse
      */
@@ -1308,19 +1792,19 @@ class Internal extends RequestCollection
         $targetFeed,
         InternalMetadata $internalMetadata)
     {
-        $videoFilename = $internalMetadata->getVideoDetails()->getFilename();
-
         $rurCookie = $this->ig->client->getCookie('rur', 'i.instagram.com');
-        if ($rurCookie === null || !strlen($rurCookie->getValue())) {
-            throw new \InstagramAPI\Exception\UploadFailedException(
+        if ($rurCookie === null || $rurCookie->getValue() === '') {
+            throw new \RuntimeException(
                 'Unable to find the necessary "rur" cookie for uploading video.'
             );
         }
 
+        $videoDetails = $internalMetadata->getVideoDetails();
+
         $endpoint = sprintf('https://i.instagram.com/rupload_igvideo/%s_%d_%d?target=%s',
             $internalMetadata->getUploadId(),
             0,
-            Utils::hashCode($videoFilename),
+            Utils::hashCode($videoDetails->getFilename()),
             $rurCookie->getValue()
         );
 
@@ -1330,94 +1814,105 @@ class Internal extends RequestCollection
         $offsetTemplate = new Request($this->ig, $endpoint);
         $offsetTemplate
             ->setAddDefaultHeaders(false)
-            // TODO: Store waterfall ID in internalMetadata?
             ->addHeader('X_FB_VIDEO_WATERFALL_ID', Signatures::generateUUID(true))
             ->addHeader('X-Instagram-Rupload-Params', json_encode($uploadParams));
 
-        $videoDetails = $internalMetadata->getVideoDetails();
-        $length = $videoDetails->getFilesize();
         $uploadTemplate = clone $offsetTemplate;
         $uploadTemplate
             ->addHeader('X-Entity-Type', 'video/mp4')
             ->addHeader('X-Entity-Name', basename(parse_url($endpoint, PHP_URL_PATH)))
-            ->addHeader('X-Entity-Length', $length);
+            ->addHeader('X-Entity-Length', $videoDetails->getFilesize());
 
-        $attempt = 0;
-
-        // Open file handle.
-        $handle = fopen($videoFilename, 'rb');
-        if ($handle === false) {
-            throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                'Failed to open "%s" for reading.',
-                $videoFilename
-            ));
-        }
-
-        try {
-            // Create a stream for the opened file handle.
-            $stream = new Stream($handle);
-
-            while (true) {
-                // Check for max retry-limit, and throw if we exceeded it.
-                if (++$attempt > self::MAX_RESUMABLE_RETRIES) {
-                    throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-                        'Upload of "%s" failed. All retries have failed.',
-                        $videoFilename
-                    ));
-                }
-
-                try {
-                    // Get current offset.
-                    $offsetRequest = clone $offsetTemplate;
-                    /** @var Response\ResumableOffsetResponse $offsetResponse */
-                    $offsetResponse = $offsetRequest->getResponse(new Response\ResumableOffsetResponse());
-                    $offset = $offsetResponse->getOffset();
-
-                    // Resume upload from given offset.
-                    $uploadRequest = clone $uploadTemplate;
-                    $uploadRequest
-                        ->addHeader('Offset', $offset)
-                        ->setBody(new LimitStream($stream, $length - $offset, $offset));
-                    /** @var Response\GenericResponse $response */
-                    $response = $uploadRequest->getResponse(new Response\GenericResponse());
-
-                    return $response;
-                } catch (ThrottledException $e) {
-                    throw $e;
-                } catch (LoginRequiredException $e) {
-                    throw $e;
-                } catch (FeedbackRequiredException $e) {
-                    throw $e;
-                } catch (CheckpointRequiredException $e) {
-                    throw $e;
-                } catch (\Exception $e) {
-                    // Ignore everything else.
-                }
-            }
-        } finally {
-            // Guaranteed to release handle even if something bad happens above!
-            Utils::safe_fclose($handle);
-        }
-
-        throw new \InstagramAPI\Exception\UploadFailedException(sprintf(
-            'Upload of \"%s\" failed.',
-            $videoFilename
-        ));
+        return $this->_uploadResumableMedia(
+            $videoDetails,
+            $offsetTemplate,
+            $uploadTemplate
+        );
     }
 
     /**
-     * Determine whether to use resumable uploader based on target feed and internal metadata.
+     * Determine whether to use segmented video uploader based on target feed and internal metadata.
      *
      * @param int              $targetFeed       One of the FEED_X constants.
      * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
      *
      * @return bool
      */
-    protected function _useResumableUploader(
+    protected function _useSegmentedVideoUploader(
         $targetFeed,
         InternalMetadata $internalMetadata)
     {
-        // TODO: use $internalMetadata object for additional checks.
+        // escapeshellarg() on Windows does some strange replacements,
+        // so it is better to disable the segmented uploader there,
+        // since we have the resumable uploader as a fallback.
+        if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
+            return false;
+        }
+
+        // We need to have ffmpeg to segment the video.
+        try {
+            Utils::getFFmpegWrapper()->version();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        // There is no need to segment short videos.
+        $minDuration = $this->ig->getExperimentParam(
+            'ig_android_video_segmented_upload_universe',
+            // NOTE: This typo is intentional. Instagram named it that way.
+            'min_duration_threashold_sec_for_segmentation',
+            10
+        );
+        if ($internalMetadata->getVideoDetails()->getDuration() < $minDuration) {
+            return false;
+        }
+
+        // Check experiments for the target feed.
+        switch ($targetFeed) {
+            case Constants::FEED_TIMELINE_ALBUM:
+                $result = false;
+                break;
+            case Constants::FEED_TIMELINE:
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_video_segmented_upload_universe',
+                    'is_enabled_segment_followers');
+                break;
+            case Constants::FEED_DIRECT:
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_direct_video_segmented_upload_universe',
+                    'is_enabled_segment_direct');
+                break;
+            case Constants::FEED_STORY:
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_reel_raven_video_segmented_upload_universe',
+                    'is_enabled_segment_reel');
+                break;
+            case Constants::FEED_DIRECT_STORY:
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_reel_raven_video_segmented_upload_universe',
+                    'is_enabled_segment_raven');
+                break;
+            default:
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_video_segmented_upload_universe',
+                    'is_enabled_segment_unknown');
+        }
+
+        return $result;
+    }
+
+    /**
+     * Determine whether to use resumable video uploader based on target feed and internal metadata.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     *
+     * @return bool
+     */
+    protected function _useResumableVideoUploader(
+        $targetFeed,
+        InternalMetadata $internalMetadata)
+    {
         switch ($targetFeed) {
             case Constants::FEED_TIMELINE_ALBUM:
                 $result = false;
@@ -1443,14 +1938,47 @@ class Internal extends RequestCollection
                     'is_enabled_fbupload_story_share');
                 break;
             default:
-                $result = false;
+                $result = $this->ig->isExperimentEnabled(
+                    'ig_android_upload_reliability_universe',
+                    'is_enabled_fbupload_unknown');
         }
 
         return $result;
     }
 
     /**
-     * Get params for upload job.
+     * Get params for photo upload job.
+     *
+     * @param int              $targetFeed       One of the FEED_X constants.
+     * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
+     *
+     * @return array
+     */
+    protected function _getPhotoUploadParams(
+        $targetFeed,
+        InternalMetadata $internalMetadata)
+    {
+        // Common params.
+        $result = [
+            'upload_id'         => (string) $internalMetadata->getUploadId(),
+            'image_compression' => '{"lib_name":"jt","lib_version":"1.3.0","quality":"87"}',
+            'media_type'        => $internalMetadata->getVideoDetails() !== null
+                ? (string) Response\Model\Item::VIDEO
+                : (string) Response\Model\Item::PHOTO,
+        ];
+        // Target feed's specific params.
+        switch ($targetFeed) {
+            case Constants::FEED_TIMELINE_ALBUM:
+                $result['is_sidecar'] = '1';
+                break;
+            default:
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get params for video upload job.
      *
      * @param int              $targetFeed       One of the FEED_X constants.
      * @param InternalMetadata $internalMetadata Internal library-generated metadata object.
@@ -1462,9 +1990,6 @@ class Internal extends RequestCollection
         InternalMetadata $internalMetadata)
     {
         $videoDetails = $internalMetadata->getVideoDetails();
-        if ($videoDetails === null) {
-            throw new \InvalidArgumentException('Video details are missing from internal metadata.');
-        }
         // Common params.
         $result = [
             'upload_id'                => (string) $internalMetadata->getUploadId(),
@@ -1490,6 +2015,101 @@ class Internal extends RequestCollection
                 $result['for_direct_story'] = '1';
                 break;
             default:
+        }
+
+        return $result;
+    }
+
+    /**
+     * Split the video file into segments.
+     *
+     * @param VideoDetails       $videoDetails
+     * @param FFmpegWrapper|null $ffMpegWrapper
+     * @param string|null        $outputDirectory
+     *
+     * @throws \Exception
+     *
+     * @return VideoDetails[]
+     */
+    protected function _splitVideoIntoSegments(
+        VideoDetails $videoDetails,
+        FFmpegWrapper $ffMpegWrapper = null,
+        $outputDirectory = null)
+    {
+        if ($ffMpegWrapper === null) {
+            $ffMpegWrapper = Utils::getFFmpegWrapper();
+        }
+        if ($outputDirectory === null) {
+            $outputDirectory = Utils::$defaultTmpPath === null ? sys_get_temp_dir() : Utils::$defaultTmpPath;
+        }
+        // Check whether the output directory is valid.
+        $targetDirectory = realpath($outputDirectory);
+        if ($targetDirectory === false || !is_dir($targetDirectory) || !is_writable($targetDirectory)) {
+            throw new \RuntimeException(sprintf(
+                'Directory "%s" is missing or is not writable.',
+                $outputDirectory
+            ));
+        }
+
+        $prefix = sha1($videoDetails->getFilename().uniqid('', true));
+        // Video segments will be uploaded before the audio one, hence the number.
+        $pattern = "{$outputDirectory}/{$prefix}_{0video,1audio}.*.mp4";
+
+        try {
+            // Split the video stream into a multiple segments by time.
+            $ffMpegWrapper->run(sprintf(
+                '-i %s -c:v copy -an -dn -sn -f segment -segment_time %d -segment_format mp4 %s',
+                escapeshellarg($videoDetails->getFilename()),
+                (int) $this->ig->getExperimentParam(
+                    'ig_android_video_segmented_upload_universe',
+                    'segment_duration_sec',
+                    5
+                ),
+                escapeshellarg(sprintf(
+                    '%s%s%s_0video.%%03d.mp4',
+                    $outputDirectory,
+                    DIRECTORY_SEPARATOR,
+                    $prefix
+                ))
+            ));
+
+            // Save the audio stream in one segment.
+            $ffMpegWrapper->run(sprintf(
+                '-i %s -c:a copy -vn -dn -sn -f mp4 %s',
+                escapeshellarg($videoDetails->getFilename()),
+                escapeshellarg(sprintf(
+                    '%s%s%s_1audio.000.mp4',
+                    $outputDirectory,
+                    DIRECTORY_SEPARATOR,
+                    $prefix
+                ))
+            ));
+        } catch (\RuntimeException $e) {
+            // Find and remove all segments (if any).
+            $files = glob($pattern, GLOB_BRACE);
+            foreach ($files as $file) {
+                @unlink($file);
+            }
+            // Re-throw the exception.
+            throw $e;
+        }
+
+        // Collect segments.
+        $files = glob($pattern, GLOB_BRACE);
+        $result = [];
+
+        try {
+            // Wrap them into VideoDetails.
+            foreach ($files as $file) {
+                $result[] = new VideoDetails($file);
+            }
+        } catch (\Exception $e) {
+            // Cleanup when something went wrong.
+            foreach ($files as $file) {
+                @unlink($file);
+            }
+
+            throw $e;
         }
 
         return $result;

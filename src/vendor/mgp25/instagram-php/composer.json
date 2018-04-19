@@ -33,9 +33,14 @@
             "InstagramAPI\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "InstagramAPI\\Tests\\": "tests/"
+        }
+    },
     "require": {
-        "netresearch/jsonmapper": "^1.0",
         "php": ">=5.6",
+        "lazyjsonmapper/lazyjsonmapper": "^1.6.1",
         "guzzlehttp/guzzle": "^6.2",
         "ext-curl": "*",
         "ext-mbstring": "*",
@@ -49,21 +54,25 @@
         "clue/socks-react": "^0.8.2",
         "clue/http-proxy-react": "^1.1.0",
         "psr/log": "^1.0",
-        "valga/fbns-react": "^0.1.7"
+        "valga/fbns-react": "^0.1.8"
     },
     "suggest": {
         "ext-event": "Installing PHP's native Event extension enables faster Realtime class event handling."
     },
     "require-dev": {
         "react/http": "^0.7.2",
-        "friendsofphp/php-cs-fixer": "^2.6",
-        "monolog/monolog": "^1.23"
+        "friendsofphp/php-cs-fixer": "^2.8.0",
+        "monolog/monolog": "^1.23",
+        "phpunit/phpunit": "^5.7 || ^6.2"
     },
     "scripts": {
         "codestyle": [
-            "php devtools/generateAutoPropertyHandlerDocs.php",
+            "lazydoctor -c composer.json -pfo >/dev/null",
             "php-cs-fixer fix --config=.php_cs.dist --allow-risky yes",
             "php devtools/checkStyle.php x"
+        ],
+        "test": [
+            "phpunit tests"
         ]
     }
 }

@@ -1,5 +1,63 @@
 # Changelog
 
+## 0.8.10 (2018-02-28)
+
+*   Feature: Update DNS dependency to support loading system default DNS
+    nameserver config on all supported platforms
+    (`/etc/resolv.conf` on Unix/Linux/Mac/Docker/WSL and WMIC on Windows)
+    (#152 by @clue)
+
+    This means that connecting to hosts that are managed by a local DNS server,
+    such as a corporate DNS server or when using Docker containers, will now
+    work as expected across all platforms with no changes required:
+
+    ```php
+    $connector = new Connector($loop);
+    $connector->connect('intranet.example:80')->then(function ($connection) {
+        // …
+    });
+    ```
+
+## 0.8.9 (2018-01-18)
+
+*   Feature: Support explicitly choosing TLS version to negotiate with remote side
+    by respecting `crypto_method` context parameter for all classes.
+    (#149 by @clue)
+
+    By default, all connector and server classes support TLSv1.0+ and exclude
+    support for legacy SSLv2/SSLv3. As of PHP 5.6+ you can also explicitly
+    choose the TLS version you want to negotiate with the remote side:
+
+    ```php
+    // new: now supports 'crypto_method` context parameter for all classes
+    $connector = new Connector($loop, array(
+        'tls' => array(
+            'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
+        )
+    ));
+    ```
+
+*   Minor internal clean up to unify class imports
+    (#148 by @clue)
+
+## 0.8.8 (2018-01-06)
+
+*   Improve test suite by adding test group to skip integration tests relying on
+    internet connection and fix minor documentation typo.
+    (#146 by @clue and #145 by @cn007b)
+
+## 0.8.7 (2017-12-24)
+
+*   Fix: Fix closing socket resource before removing from loop
+    (#141 by @clue)
+
+    This fixes the root cause of an uncaught `Exception` that only manifested
+    itself after the recent Stream v0.7.4 component update and only if you're
+    using `ext-event` (`ExtEventLoop`).
+
+*   Improve test suite by testing against PHP 7.2
+    (#140 by @carusogabriel)
+
 ## 0.8.6 (2017-11-18)
 
 *   Feature: Add Unix domain socket (UDS) support to `Server` with `unix://` URI scheme

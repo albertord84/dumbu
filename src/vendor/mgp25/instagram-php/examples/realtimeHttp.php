@@ -128,7 +128,7 @@ class RealtimeHttpServer
     /**
      * Called when fatal error has been received from Realtime.
      *
-     * @param Exception $e
+     * @param \Exception $e
      */
     public function onRealtimeFail(
         \Exception $e)
@@ -140,14 +140,14 @@ class RealtimeHttpServer
     /**
      * Called when ACK has been received.
      *
-     * @param \InstagramAPI\Realtime\Action\Ack $ack
+     * @param \InstagramAPI\Realtime\Payload\Action\AckAction $ack
      */
     public function onClientContextAck(
-        \InstagramAPI\Realtime\Action\Ack $ack)
+        \InstagramAPI\Realtime\Payload\Action\AckAction $ack)
     {
-        $this->_logger->info(sprintf('Received ACK for %s with status %s%s', $ack->payload->client_context, $ack->status));
+        $context = $ack->getPayload()->getClientContext();
+        $this->_logger->info(sprintf('Received ACK for %s with status %s', $context, $ack->getStatus()));
         // Check if we have deferred object for this client_context.
-        $context = $ack->payload->client_context;
         if (!isset($this->_contexts[$context])) {
             return;
         }
@@ -180,11 +180,11 @@ class RealtimeHttpServer
         });
         // Set up promise.
         return $deferred->promise()
-            ->then(function (\InstagramAPI\Realtime\Action\Ack $ack) use ($timeout) {
+            ->then(function (\InstagramAPI\Realtime\Payload\Action\AckAction $ack) use ($timeout) {
                 // Cancel reject timer.
                 $timeout->cancel();
                 // Reply with info from $ack.
-                return new \React\Http\Response($ack->status_code, ['Content-Type' => 'text/json'], json_encode($ack->payload));
+                return new \React\Http\Response($ack->getStatusCode(), ['Content-Type' => 'text/json'], $ack->getPayload()->asJson());
             })
             ->otherwise(function () {
                 // Called by reject timer. Reply with 504 Gateway Time-out.
@@ -243,7 +243,7 @@ class RealtimeHttpServer
     {
         // Create server socket.
         $socket = new \React\Socket\Server(self::HOST.':'.self::PORT, $this->_loop);
-        $this->_logger->info(sprintf('Listening on http://%s%s', $socket->getAddress()));
+        $this->_logger->info(sprintf('Listening on http://%s', $socket->getAddress()));
         // Bind HTTP server on server socket.
         $this->_server = new \React\Http\Server([$this, 'onHttpRequest']);
         $this->_server->listen($socket);

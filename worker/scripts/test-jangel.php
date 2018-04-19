@@ -11,9 +11,27 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print('Hola Mundo');
-
 $Robot = new \dumbu\cls\Robot();
-$res = $Robot->checkpoint_requested('riveauxmerino','Notredame88');
+$result = new \stdClass();
+ try {
+                $result = $Robot->make_login("ky2oficial", "alejandropacho32");
+                $result->json_response = new \stdClass();
+                $result->json_response->status = 'ok';
+                $result->json_response->authenticated = TRUE;
+                //$myDB->set_client_cookies($Client->id, json_encode($result));
+                
+                var_dump($result);
+            } catch (\Exception $e) {
+                // did by Jose R (si el cliente pone mal la senha por motivo X, el login va a dar una excepcion, y no le devemos cambiar las cookies, imagina que fue uno que e copio el curl a mano)
+                //$myDB->set_cookies_to_null($Client->id);
+            }
+/*
+$Robot = new \dumbu\cls\Robot();
+//$res = $Robot->checkpoint_requested('riveauxmerino','Notredame88');
+$result = $Robot->bot_login('casazunzun', 'angelpadron1991');
+//$result = $Robot->bot_login('casazunzun', 'angelpadron1991');
+var_dump($result);
+*/
 
 /*
 $payment = new \Payment();

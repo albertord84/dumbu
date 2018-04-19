@@ -2,14 +2,19 @@
 
 namespace InstagramAPI\Response\Model;
 
-use InstagramAPI\AutoPropertyHandler;
+use InstagramAPI\AutoPropertyMapper;
 
 /**
+ * ProfilePicture.
+ *
  * @method mixed getUri()
  * @method bool isUri()
- * @method setUri(mixed $value)
+ * @method $this setUri(mixed $value)
+ * @method $this unsetUri()
  */
-class ProfilePicture extends AutoPropertyHandler
+class ProfilePicture extends AutoPropertyMapper
 {
-    public $uri;
+    const JSON_PROPERTY_MAP = [
+        'uri' => '',
+    ];
 }
