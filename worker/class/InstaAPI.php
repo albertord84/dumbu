@@ -61,8 +61,8 @@ namespace dumbu\cls {
                 
                 return $loginResponse;
             } catch (\Exception $e) {
-                echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
-                echo $e->getTraceAsString();                
+                //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
+                //echo $e->getTraceAsString();                
                 throw $e;
             }
         }
