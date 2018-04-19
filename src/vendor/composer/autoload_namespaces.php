@@ -6,7 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'org\\bovigo\\vfs' => array($vendorDir . '/mikey179/vfsStream/src/main/php'),
-    'JsonMapper' => array($vendorDir . '/netresearch/jsonmapper/src'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
 );

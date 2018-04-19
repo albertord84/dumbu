@@ -6,8 +6,10 @@ date_default_timezone_set('UTC');
 require __DIR__.'/../vendor/autoload.php';
 
 /*
- * This tool must be executed periodically. It checks all PHP files for style
- * compliance.
+ * This tool checks all PHP files for additional codestyle compliance.
+ *
+ * It is meant to be used together with PHP-CS-Fixer to look for additional
+ * problems that aren't handled by that project (yet).
  *
  * Currently it checks the following style rules:
  *
@@ -16,12 +18,6 @@ require __DIR__.'/../vendor/autoload.php';
  *
  * - Function parameter formatting. In case of incorrect style, it outputs code
  *   to show how those functions should be formatted.
- *
- * Note that there can be some false positives in Responses and Model objects,
- * because properties like "public $_messages;" is correct (that's how the field
- * is named in Instagram's server reply), but the leading underscore implies
- * that it should be private/protected. Just review those false positives
- * manually and leave them alone, since they're supposed to be like that.
  *
  * Tip: Execute this script with ANY extra argument, to hide all valid files and
  * focus only on the files with problems.
@@ -35,11 +31,12 @@ $styleChecker = new styleChecker(
         'devtools',
         'examples',
         'src',
+        'tests',
     ],
     $onlyShowInvalidFiles
 );
 $badFiles = $styleChecker->run();
-if (count($badFiles) > 0) {
+if (!empty($badFiles)) {
     // Exit with non-zero code to signal that there are problems.
     exit(1);
 }
@@ -97,9 +94,20 @@ class styleChecker
         $inputLines = @file($filePath);
         $outputLines = [];
 
+        if ($inputLines === false) {
+            // We were unable to read the input file. Ignore if broken symlink.
+            if (is_link($filePath)) {
+                return false; // File is okay, since the symlink is invalid.
+            } else {
+                echo "- {$filePath}: UNABLE TO READ FILE!".PHP_EOL;
+
+                return true; // File has problems...
+            }
+        }
+
         foreach ($inputLines as $line) {
             // Function arguments on separate lines.
-            if (preg_match('/^(.*(?:public|private|protected)(?:\s+static)?\s+function\s+.+?)\((.+)\)(.*)$/', $line, $matches)) {
+            if (preg_match('/^(.*?(?:(?:final|static)\s+)*(?:public|private|protected)(?:\s+(?:final|static))*\s+function\s+.+?)\((.+)\)(.*)$/', $line, $matches)) {
                 $hasProblems = true;
 
                 $funcstart = $matches[1];
@@ -122,24 +130,10 @@ class styleChecker
             }
 
             // Appropriate public, private and protected member prefixes.
-            if (preg_match('/^\s+(public|private|protected)(?:\s+static)?\s+(function|\$)\s*([^;\(\s]+)/', $line, $matches)) {
+            if (preg_match('/^\s*(?:(?:final|static)\s+)*(public|private|protected)(?:\s+(?:final|static))*\s+(function|\$)\s*&?([^;\(\s]+)/', $line, $matches)) {
                 $visibility = &$matches[1]; // public, private, protected
                 $type = &$matches[2]; // $, function
                 $name = &$matches[3]; // Member name
-
-                // Ignore the intentionally "public $_messages;" property in our
-                // Response trait to skip the annoying warning. We can't rename
-                // that variable since it comes from Instagram's server.
-                if ($fileName == 'ResponseTrait.php' && $visibility == 'public' && $type == '$' && $name == '_messages') {
-                    continue;
-                }
-
-                // Ignore the visibility warnings for public GraphQL properties.
-                if ($visibility == 'public' && $type == '$'
-                    && in_array($fileName, ['BusinessFeed.php', 'BusinessManager.php', 'BusinessNode.php', 'PromotionsUnit.php']
-                )) {
-                    continue;
-                }
 
                 if ($visibility == 'public') {
                     if ($name[0] == '_' && (
@@ -147,6 +141,9 @@ class styleChecker
                         && $name != '__destruct'
                         && $name != '__call'
                         && $name != '__get'
+                        && $name != '__set'
+                        && $name != '__isset'
+                        && $name != '__unset'
                         && $name != '__invoke'
                         && $name != '__toString'
                     )) {

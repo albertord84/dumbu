@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.7.7 (2018-01-19)
+
+*   Improve test suite by fixing forward compatibility with upcoming EventLoop
+    releases, avoid risky tests and add test group to skip integration tests
+    relying on internet connection and apply appropriate test timeouts.
+    (#128, #131 and #132 by @clue)
+
+## 0.7.6 (2017-12-21)
+
+*   Fix: Work around reading from unbuffered pipe stream in legacy PHP < 5.4.28 and PHP < 5.5.12
+    (#126 by @clue)
+
+*   Improve test suite by simplifying test bootstrapping logic via Composer and
+    test against PHP 7.2
+    (#127 by @clue and #124 by @carusogabriel)
+
 ## 0.7.5 (2017-11-20)
 
 *   Fix: Igore excessive `fopen()` mode flags for `WritableResourceStream`

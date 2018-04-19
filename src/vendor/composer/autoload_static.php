@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
+class ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
@@ -32,6 +32,10 @@ class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
         ),
+        'L' => 
+        array (
+            'LazyJsonMapper\\' => 15,
+        ),
         'I' => 
         array (
             'InstagramAPI\\' => 13,
@@ -41,6 +45,7 @@ class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'GetOptionKit\\' => 13,
         ),
         'F' => 
         array (
@@ -99,6 +104,10 @@ class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'LazyJsonMapper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lazyjsonmapper/lazyjsonmapper/src',
+        ),
         'InstagramAPI\\' => 
         array (
             0 => __DIR__ . '/..' . '/mgp25/instagram-php/src',
@@ -114,6 +123,10 @@ class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'GetOptionKit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/corneltek/getoptionkit/src',
         ),
         'Fbns\\Client\\' => 
         array (
@@ -138,20 +151,6 @@ class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
     );
 
     public static $prefixesPsr0 = array (
-        'o' => 
-        array (
-            'org\\bovigo\\vfs' => 
-            array (
-                0 => __DIR__ . '/..' . '/mikey179/vfsStream/src/main/php',
-            ),
-        ),
-        'J' => 
-        array (
-            'JsonMapper' => 
-            array (
-                0 => __DIR__ . '/..' . '/netresearch/jsonmapper/src',
-            ),
-        ),
         'E' => 
         array (
             'Evenement' => 
@@ -164,9 +163,9 @@ class ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3dc72851ad55077c6b78a99e9498d2be::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

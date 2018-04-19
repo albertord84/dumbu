@@ -460,6 +460,19 @@ $server = new Server('tls://127.0.0.1:8000', $loop, array(
 ));
 ```
 
+By default, this server supports TLSv1.0+ and excludes support for legacy
+SSLv2/SSLv3. As of PHP 5.6+ you can also explicitly choose the TLS version you
+want to negotiate with the remote side:
+
+```php
+$server = new Server('tls://127.0.0.1:8000', $loop, array(
+    'tls' => array(
+        'local_cert' => 'server.pem',
+        'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_SERVER
+    )
+));
+```
+
 > Note that available [TLS context options](http://php.net/manual/en/context.ssl.php),
   their defaults and effects of changing these may vary depending on your system
   and/or PHP version.
@@ -612,6 +625,18 @@ $server = new SecureServer($server, $loop, array(
 ));
 ```
 
+By default, this server supports TLSv1.0+ and excludes support for legacy
+SSLv2/SSLv3. As of PHP 5.6+ you can also explicitly choose the TLS version you
+want to negotiate with the remote side:
+
+```php
+$server = new TcpServer(8000, $loop);
+$server = new SecureServer($server, $loop, array(
+    'local_cert' => 'server.pem',
+    'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_SERVER
+));
+```
+
 > Note that available [TLS context options](http://php.net/manual/en/context.ssl.php),
 their defaults and effects of changing these may vary depending on your system
 and/or PHP version.
@@ -736,7 +761,7 @@ $server->on('connection', function (ConnectionInterface $connection) {
 You MAY pass a `null` limit in order to put no limit on the number of
 open connections and keep accepting new connection until you run out of
 operating system resources (such as open file handles). This may be
-useful it you do not want to take care of applying a limit but still want
+useful if you do not want to take care of applying a limit but still want
 to use the `getConnections()` method.
 
 You can optionally configure the server to pause accepting new
@@ -893,10 +918,12 @@ also shares all of their features and implementation details.
 If you want to typehint in your higher-level protocol implementation, you SHOULD
 use the generic [`ConnectorInterface`](#connectorinterface) instead.
 
-In particular, the `Connector` class uses Google's public DNS server `8.8.8.8`
-to resolve all public hostnames into underlying IP addresses by default.
-If you want to use a custom DNS server (such as a local DNS relay or a company
-wide DNS server), you can set up the `Connector` like this:
+The `Connector` class will try to detect your system DNS settings (and uses
+Google's public DNS server `8.8.8.8` as a fallback if unable to determine your
+system settings) to resolve all public hostnames into underlying IP addresses by
+default.
+If you explicitly want to use a custom DNS server (such as a local DNS relay or
+a company wide DNS server), you can set up the `Connector` like this:
 
 ```php
 $connector = new Connector($loop, array(
@@ -998,6 +1025,18 @@ $connector->connect('tls://localhost:443')->then(function (ConnectionInterface $
     $connection->write('...');
     $connection->end();
 });
+```
+
+By default, this connector supports TLSv1.0+ and excludes support for legacy
+SSLv2/SSLv3. As of PHP 5.6+ you can also explicitly choose the TLS version you
+want to negotiate with the remote side:
+
+```php
+$connector = new Connector($loop, array(
+    'tls' => array(
+        'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
+    )
+));
 ```
 
 > For more details about context options, please refer to the PHP documentation
@@ -1189,7 +1228,7 @@ $promise->cancel();
 ```
 
 Calling `cancel()` on a pending promise will cancel the underlying TCP/IP
-connection and/or the SSL/TLS negonation and reject the resulting promise.
+connection and/or the SSL/TLS negotiation and reject the resulting promise.
 
 You can optionally pass additional
 [SSL context options](http://php.net/manual/en/context.ssl.php)
@@ -1199,6 +1238,16 @@ to the constructor like this:
 $secureConnector = new React\Socket\SecureConnector($dnsConnector, $loop, array(
     'verify_peer' => false,
     'verify_peer_name' => false
+));
+```
+
+By default, this connector supports TLSv1.0+ and excludes support for legacy
+SSLv2/SSLv3. As of PHP 5.6+ you can also explicitly choose the TLS version you
+want to negotiate with the remote side:
+
+```php
+$secureConnector = new React\Socket\SecureConnector($dnsConnector, $loop, array(
+    'crypto_method' => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
 ));
 ```
 
@@ -1296,7 +1345,7 @@ The recommended way to install this library is [through Composer](https://getcom
 This will install the latest supported version:
 
 ```bash
-$ composer require react/socket:^0.8.6
+$ composer require react/socket:^0.8.10
 ```
 
 See also the [CHANGELOG](CHANGELOG.md) for details about version upgrades.
@@ -1345,18 +1394,24 @@ on affected versions.
 ## Tests
 
 To run the test suite, you first need to clone this repo and then install all
-dependencies [through Composer](https://getcomposer.org).
-Because the test suite contains some circular dependencies, you may have to
-manually specify the root package version like this:
+dependencies [through Composer](https://getcomposer.org):
 
 ```bash
-$ COMPOSER_ROOT_VERSION=`git describe --abbrev=0` composer install
+$ composer install
 ```
 
 To run the test suite, go to the project root and run:
 
 ```bash
 $ php vendor/bin/phpunit
+```
+
+The test suite also contains a number of functional integration tests that rely
+on a stable internet connection.
+If you do not want to run these, they can simply be skipped like this:
+
+```bash
+$ php vendor/bin/phpunit --exclude-group internet
 ```
 
 ## License
