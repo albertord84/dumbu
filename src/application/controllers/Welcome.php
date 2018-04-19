@@ -297,8 +297,9 @@ class Welcome extends CI_Controller {
 
         if($real_status==2 || $datas['force_login']=='true'){
             $result = $this->user_do_login_second_stage($datas,$GLOBALS['language']);                
-        }else{                
-            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+        }else{
+            //if($result['cause']==='curl_required')
+            //$result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
             $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
             $result['cause'] = 'force_login_required';
             $result['authenticated'] = false;
@@ -339,7 +340,7 @@ class Welcome extends CI_Controller {
             $datas = $this->input->post();
             $language=$this->input->get();
             $login_by_client=true;
-        } */      
+        } */
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         if(isset($language['language']))
@@ -505,6 +506,17 @@ class Welcome extends CI_Controller {
                         $result['authenticated'] = false;
                     }
                 } else
+                if ($data_insta['message'] == 'problem_with_your_request') {
+                    $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
+                    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+                    $this->Gmail = new \dumbu\cls\Gmail();
+                    $this->$Gmail->send_mail("josergm86@gmail.com", "ATENÇÂO",'Ativar por curl o cliente '.$datas['user_login'],'Ativar por curl o cliente '.$datas['user_login']);
+                    $this->$Gmail->send_mail("uppercut96@gmail.com", "ATENÇÂO",'Ativar por curl o cliente '.$datas['user_login'],'Ativar por curl o cliente '.$datas['user_login']);                   
+                    $result['resource'] = 'index#lnk_sign_in_now';
+                    $result['message'] = $this->T('Houve um erro inesperado. Seu problema será solucionado em breve. Tente mais tarde', array(), $GLOBALS['language']);
+                    $result['cause'] = 'curl_required';
+                    $result['authenticated'] = false;
+                }else
                 if ($data_insta['message'] == 'incorrect_password') {
                     //Is a client with oldest Instagram credentials?
                     //Buscarlo en BD por el nombre y senha

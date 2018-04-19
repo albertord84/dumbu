@@ -1698,6 +1698,8 @@ namespace dumbu\cls {
                     $result->json_response->verify_link = '/challenge/';
                 } else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
                     $result->json_response->message = 'incorrect_password';
+                else if (strpos($e->getMessage(), 'there was a problem with your request') !== FALSE)
+                    $result->json_response->message = 'problem_with_your_request';
                 else
                     $result->json_response->message = $e->getMessage();
                 return $result;
