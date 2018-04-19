@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
+    public function test() {    
+        echo 'aaa';
+        echo file_get_contents('www.google.com');
+    }
+    
     public function index() {        
         $this->load->view('admin_login_view');
     }
@@ -699,6 +704,13 @@ class Admin extends CI_Controller {
             $this->client_model->delete_work_of_profile($active_profiles[$i]['id']);
         }
         return true;
+    }
+    
+    public function user_do_login_by_api() {
+        $datas = $this->input->post();        
+        $result['success']=true;        
+        $result['message']=file_get_contents('www.google.com');
+        echo json_encode($result);
     }
     
     

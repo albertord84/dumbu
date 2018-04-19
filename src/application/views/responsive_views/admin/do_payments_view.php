@@ -1,4 +1,28 @@
-<br><br>
+    <section id="" class="col-md-12 col-sm-12 col-xs-12"><br><br><hr><br><br></section>
+    
+    <section id="Peixe_urbano" class="col-md-12 col-sm-12 col-xs-12">
+        <div  class="col-md-2 col-sm-2 col-xs-12"></div>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+                <h3>Melhor que CURL, faça aqui!!!  (Ainda en desenvolvimento)</h3>
+                <h5> 1) Verifique que o usuario esta bem no Istagram, loguee ele diretamente no Instagram</h5>
+                <h5> 2) Insira login e senha do cliente e faça a solicitude</h5>
+                <h5> 3) Teste o login do cliente en Dumbu e confira as cookies desse cliente no admin</h5>
+                <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <b>Perfil</b><br>
+                    <input id="api_login" type="text" placeholder="Perfil">
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <b>Senha</b><br>
+                    <input id="api_pass" type="text" placeholder="Senha">
+                </div>                
+                <div class="col-md-4 col-sm-4 col-xs-12"> 
+                    <input id="api_btn" class="btn btn-primary" type="button" value="Modificiar data" style="margin-top:19px">                    
+                </div>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-12"></div>  
+    </section>
+
+    <section id="" class="col-md-12 col-sm-12 col-xs-12"><br><br><hr><br><br></section>
 
     <section id="Peixe_urbano" class="col-md-12 col-sm-12 col-xs-12">
         <div  class="col-md-2 col-sm-2 col-xs-12"></div>

@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    
+    var flag_login_api=false;
     
     // jQuery UI Datepicker - Select a Date Range
     $(function () {
@@ -132,6 +133,37 @@ $(document).ready(function () {
         }
     });
 
+    $("#api_btn").click(function () {
+        $login=$().val();
+        $pass=$().val();
+        if(validate_element("api_login","^[a-zA-Z0-9\._]{1,300}$") && $("#api_pass").val().trim()!=''){
+            $.ajax({
+                url: base_url + 'index.php/admin/user_do_login_by_api',
+                data: {
+                    'api_login': $("#api_login").val(),
+                    'api_pass': $("#api_pass").val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    if (response['authenticated']) {
+                        alert(response['message']);
+                    } else {
+                        alert(response['message']);
+                    }
+                },
+                error: function (xhr, status) {
+                    modal_alert_message(('Não foi possível comunicar com o Instagram. Confira sua conexão com Intenet e tente novamente'));
+                    l.stop();
+                }
+            });            
+        }else{
+            alert('Verifque os dados do formilario!!');
+        }
+    });
+    
+    
     $("#btn_admin_login").click(function () {
         do_login('#userLogin2', '#userPassword2', '#container_login_message2', this);
     });
@@ -709,5 +741,15 @@ $(document).ready(function () {
         $("#change_status_button").attr("disabled", false);
     });
     
+    
+    function validate_element(element_selector,pattern){
+        if(!$(element_selector).val().match(pattern)){
+            $(element_selector).css("border", "1px solid red");
+            return false;
+        } else{
+            $(element_selector).css("border", "1px solid gray");
+            return true;
+        }
+    }    
     
 });
