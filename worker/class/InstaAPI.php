@@ -38,7 +38,7 @@ namespace dumbu\cls {
                 
 //                $ig->setOutputInterface("191.252.110.140");
                 
-                $ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
+//                $ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
 
                 $loginResponse = $ig->login($username, $password);
                 
