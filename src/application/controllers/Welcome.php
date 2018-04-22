@@ -366,7 +366,7 @@ class Welcome extends CI_Controller {
             } else{     */   
                 //Is an actually Instagram user?
                 
-                ($datas['force_login']=='true')? $force_login=true :$force_login=false;
+                ($datas['force_login']=='true')? $force_login=TRUE :$force_login=FALSE;
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'], $force_login);
                 if($data_insta==NULL){
                     /*$result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);

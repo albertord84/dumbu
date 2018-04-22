@@ -1311,9 +1311,10 @@ namespace dumbu\cls {
             global $cookies;
             foreach ($cookies as $index => $cookie) {
                 $pos = strpos($cookie[1], $key);
-                if ($pos !== FALSE && $pos === 0) {
+                if ($pos !== FALSE) {                    
                     $value = explode("=", $cookie[1]);
                     $value = $value[1];
+                    break;
                 }
             }
 //            array(5) (
@@ -1630,7 +1631,7 @@ namespace dumbu\cls {
             $output = array();
             $cnt = 0;            
             $Client = $myDB->get_client_data_bylogin($login);
-            if (!$forse) {
+            if ($forse === FALSE || $forse == "false") {
                 if (!$this->verify_cookies($Client)) {
                     $myDB->set_client_cookies($Client->id);
                     $Client->cookies = NULL;
@@ -2117,12 +2118,14 @@ namespace dumbu\cls {
                 
                 $login_data->csrftoken = $this->get_cookies_value("csrftoken");
                 // Get sessionid from cookies
+                
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
                 // Get ds_user_id from cookies
                 $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
+                
                 // Get mid from cookies
                 $login_data->mid = $this->get_cookies_value("mid");
-                if ($login_data->mid == NULL || $login_data->mid == '') {
+                if ($login_data->mid == NULL || $login_data->mid == "") {
                     $login_data->mid = $mid;
                 }
                 (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
