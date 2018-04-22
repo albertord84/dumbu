@@ -1954,17 +1954,17 @@ namespace dumbu\cls {
             } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 $res = $exc->getResponse();
                 //var_dump($res);
-                ini_set('xdebug.var_display_max_depth', 17);
-                ini_set('xdebug.var_display_max_children', 256);
-                ini_set('xdebug.var_display_max_data', 1024);
+                //ini_set('xdebug.var_display_max_depth', 17);
+                //ini_set('xdebug.var_display_max_children', 256);
+                //ini_set('xdebug.var_display_max_data', 1024);
                 //var_dump($res);
                 //$message = $exc->getMessage();
-                try {
+               /* try {
                     $chll = $res->getChallenge();
                     //var_dump($chll);
                     $challenge = $chll->getApiPath();
                     $response = $this->get_challenge_data($challenge, $login, $Client);
-                } catch (\Exception $e2) {
+                } catch (\Exception $e2) {*/
                     //                    $this->temporal_log($exc->getMessage());
                     //                    $this->temporal_log("\n\n\n\n\n");
                     //                    $this->temporal_log($exc->getTraceAsString());
@@ -1976,7 +1976,7 @@ namespace dumbu\cls {
                         $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
                     } else
                         throw $exc;
-                }
+               // }
                 return $response;
             }
         }
@@ -2068,9 +2068,9 @@ namespace dumbu\cls {
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
             
-            $index = rand(0, 4);
-            $cnt = 0;
-            $ip = $this->IPS["IPS"][$index];
+            //$index = rand(0, 4);
+            //$cnt = 0;
+            //$ip = $this->IPS["IPS"][$index];
             /* foreach ($this->IPS as $value) {
               $ip = $value;
               if($cnt >= $index)
@@ -2083,8 +2083,8 @@ namespace dumbu\cls {
             //    $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
             //}
             //$ip = "127.0.0.1";
-            $headers[] = "REMOTE_ADDR: $ip";
-            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            //$headers[] = "REMOTE_ADDR: $ip";
+            //$headers[] = "HTTP_X_FORWARDED_FOR: $ip";
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
