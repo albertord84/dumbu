@@ -63,6 +63,7 @@ class Welcome extends CI_Controller {
     }
 
     public function index() {
+        //die('Estamos realizando trabalhos de manuntenção no site. <br><br>A tarefa pode demorar algumas horas. Sempre estamos pensando em melhorar a sua experiência de usuário. <br><br> Qualquer dúvida pode nos contatar em atendimento@dumbu.pro .  <br><br> Obrigado!!');
         $this->is_ip_hacker();
         $language=$this->input->get();
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
@@ -314,8 +315,9 @@ class Welcome extends CI_Controller {
 
         if($real_status==2 || $datas['force_login']=='true'){
             $result = $this->user_do_login_second_stage($datas,$GLOBALS['language']);                
-        }else{                
-            $result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
+        }else{
+            //if($result['cause']==='curl_required')
+            //$result['message'] = $this->T('Credenciais erradas', array(), $GLOBALS['language']);
             $result['message_force_login'] = $this->T('Seguro que são suas credencias de IG', array(), $GLOBALS['language']);
             $result['cause'] = 'force_login_required';
             $result['authenticated'] = false;
@@ -356,7 +358,7 @@ class Welcome extends CI_Controller {
             $datas = $this->input->post();
             $language=$this->input->get();
             $login_by_client=true;
-        } */      
+        } */
         require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
         if(isset($language['language']))
@@ -382,7 +384,7 @@ class Welcome extends CI_Controller {
             } else{     */   
                 //Is an actually Instagram user?
                 
-                ($datas['force_login']=='true')? $force_login=true :$force_login=false;
+                ($datas['force_login']=='true')? $force_login=TRUE :$force_login=FALSE;
                 $data_insta = $this->is_insta_user($datas['user_login'], $datas['user_pass'], $force_login);
                 if($data_insta==NULL){
                     /*$result['message'] = $this->T('Não foi possível conferir suas credencias com o Instagram', array(), $GLOBALS['language']);
@@ -522,6 +524,17 @@ class Welcome extends CI_Controller {
                         $result['authenticated'] = false;
                     }
                 } else
+                if ($data_insta['message'] == 'problem_with_your_request') {
+                    $GLOBALS['sistem_config'] = new \dumbu\cls\system_config();
+                    require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/class/Gmail.php';
+                    $this->Gmail = new \dumbu\cls\Gmail();
+                    $this->$Gmail->send_mail("josergm86@gmail.com", "ATENÇÂO",'Ativar por curl o cliente '.$datas['user_login'],'Ativar por curl o cliente '.$datas['user_login']);
+                    $this->$Gmail->send_mail("uppercut96@gmail.com", "ATENÇÂO",'Ativar por curl o cliente '.$datas['user_login'],'Ativar por curl o cliente '.$datas['user_login']);                   
+                    $result['resource'] = 'index#lnk_sign_in_now';
+                    $result['message'] = $this->T('Houve um erro inesperado. Seu problema será solucionado em breve. Tente mais tarde', array(), $GLOBALS['language']);
+                    $result['cause'] = 'curl_required';
+                    $result['authenticated'] = false;
+                }else
                 if ($data_insta['message'] == 'incorrect_password') {
                     //Is a client with oldest Instagram credentials?
                     //Buscarlo en BD por el nombre y senha
@@ -3938,9 +3951,9 @@ class Welcome extends CI_Controller {
             }
         } else {
             $result['message'] = $this->T('O perfil não existe no nosso sistema.', array(), $GLOBALS['language']);
-        }        
+        }
         echo json_encode($result);
-    }    
+    }
     
     public function get_cep_datas(){
         $cep = $this->input->post()['cep'];

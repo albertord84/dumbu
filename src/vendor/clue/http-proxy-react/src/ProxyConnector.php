@@ -2,7 +2,6 @@
 
 namespace Clue\React\HttpProxy;
 
-use React\Socket\ConnectorInterface;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -10,6 +9,8 @@ use RingCentral\Psr7;
 use React\Promise;
 use React\Promise\Deferred;
 use React\Socket\ConnectionInterface;
+use React\Socket\ConnectorInterface;
+use React\Socket\FixedUriConnector;
 
 /**
  * A simple Connector that uses an HTTP CONNECT proxy to create plain TCP/IP connections to any destination
@@ -57,13 +58,25 @@ class ProxyConnector implements ConnectorInterface
      */
     public function __construct($proxyUrl, ConnectorInterface $connector)
     {
+        // support `http+unix://` scheme for Unix domain socket (UDS) paths
+        if (preg_match('/^http\+unix:\/\/(.*?@)?(.+?)$/', $proxyUrl, $match)) {
+            // rewrite URI to parse authentication from dummy host
+            $proxyUrl = 'http://' . $match[1] . 'localhost';
+
+            // connector uses Unix transport scheme and explicit path given
+            $connector = new FixedUriConnector(
+                'unix://' . $match[2],
+                $connector
+            );
+        }
+
         if (strpos($proxyUrl, '://') === false) {
             $proxyUrl = 'http://' . $proxyUrl;
         }
 
         $parts = parse_url($proxyUrl);
         if (!$parts || !isset($parts['scheme'], $parts['host']) || ($parts['scheme'] !== 'http' && $parts['scheme'] !== 'https')) {
-            throw new InvalidArgumentException('Invalid proxy URL');
+            throw new InvalidArgumentException('Invalid proxy URL "' . $proxyUrl . '"');
         }
 
         // apply default port and TCP/TLS transport for given scheme
@@ -134,14 +147,11 @@ class ProxyConnector implements ConnectorInterface
 
             // keep buffering data until headers are complete
             $buffer = '';
-            $fn = function ($chunk) use (&$buffer, &$fn, $deferred, $stream) {
+            $fn = function ($chunk) use (&$buffer, $deferred, $stream) {
                 $buffer .= $chunk;
 
                 $pos = strpos($buffer, "\r\n\r\n");
                 if ($pos !== false) {
-                    // end of headers received => stop buffering
-                    $stream->removeListener('data', $fn);
-
                     // try to parse headers as response message
                     try {
                         $response = Psr7\parse_response(substr($buffer, 0, $pos));
@@ -191,7 +201,11 @@ class ProxyConnector implements ConnectorInterface
 
             $stream->write("CONNECT " . $host . ":" . $port . " HTTP/1.1\r\nHost: " . $host . ":" . $port . "\r\n" . $auth . "\r\n");
 
-            return $deferred->promise();
+            return $deferred->promise()->then(function (ConnectionInterface $stream) use ($fn) {
+                // Stop buffering when connection has been established.
+                $stream->removeListener('data', $fn);
+                return new Promise\FulfilledPromise($stream);
+            });
         }, function (Exception $e) use ($proxyUri) {
             throw new RuntimeException('Unable to connect to proxy (ECONNREFUSED)', defined('SOCKET_ECONNREFUSED') ? SOCKET_ECONNREFUSED : 111, $e);
         });

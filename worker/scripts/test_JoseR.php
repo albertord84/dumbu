@@ -72,8 +72,6 @@ var_dump($resul);
 var_dump($pay_day);
 */
 ////--------------------------------------------------------------------------------
-// GMAIL
-
 
 
 //$pay_day = time();
@@ -89,9 +87,9 @@ $payment_data['amount_in_cents'] = 7990;
 $payment_data['pay_day'] = $pay_day;
 
 $resul = $Payment->create_payment($payment_data);
-////var_dump($resul);
-//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
 var_dump($resul);
+//$resul = $Payment->create_recurrency_payment($payment_data, 0, 20);
+//var_dump($resul);
 ////$resul = $Payment->create_recurrency_payment($payment_data, 0, 42);
 ////var_dump($resul);
 

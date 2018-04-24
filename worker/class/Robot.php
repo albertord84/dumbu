@@ -1311,9 +1311,10 @@ namespace dumbu\cls {
             global $cookies;
             foreach ($cookies as $index => $cookie) {
                 $pos = strpos($cookie[1], $key);
-                if ($pos !== FALSE && $pos === 0) {
+                if ($pos !== FALSE) {                    
                     $value = explode("=", $cookie[1]);
                     $value = $value[1];
+                    break;
                 }
             }
 //            array(5) (
@@ -1630,7 +1631,7 @@ namespace dumbu\cls {
             $output = array();
             $cnt = 0;            
             $Client = $myDB->get_client_data_bylogin($login);
-            if (!$forse) {
+            if ($forse === FALSE || $forse == "false") {
                 if (!$this->verify_cookies($Client)) {
                     $myDB->set_client_cookies($Client->id);
                     $Client->cookies = NULL;
@@ -1698,6 +1699,8 @@ namespace dumbu\cls {
                     $result->json_response->verify_link = '/challenge/';
                 } else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE)
                     $result->json_response->message = 'incorrect_password';
+                else if (strpos($e->getMessage(), 'there was a problem with your request') !== FALSE)
+                    $result->json_response->message = 'problem_with_your_request';
                 else
                     $result->json_response->message = $e->getMessage();
                 return $result;
@@ -1952,17 +1955,17 @@ namespace dumbu\cls {
             } catch (\InstagramAPI\Exception\ChallengeRequiredException $exc) {
                 $res = $exc->getResponse();
                 //var_dump($res);
-                ini_set('xdebug.var_display_max_depth', 17);
-                ini_set('xdebug.var_display_max_children', 256);
-                ini_set('xdebug.var_display_max_data', 1024);
+                //ini_set('xdebug.var_display_max_depth', 17);
+                //ini_set('xdebug.var_display_max_children', 256);
+                //ini_set('xdebug.var_display_max_data', 1024);
                 //var_dump($res);
                 //$message = $exc->getMessage();
-                try {
+               /* try {
                     $chll = $res->getChallenge();
                     //var_dump($chll);
                     $challenge = $chll->getApiPath();
                     $response = $this->get_challenge_data($challenge, $login, $Client);
-                } catch (\Exception $e2) {
+                } catch (\Exception $e2) {*/
                     //                    $this->temporal_log($exc->getMessage());
                     //                    $this->temporal_log("\n\n\n\n\n");
                     //                    $this->temporal_log($exc->getTraceAsString());
@@ -1974,7 +1977,7 @@ namespace dumbu\cls {
                         $response = $this->get_challenge_data($login_data->checkpoint_url, $login, $Client);
                     } else
                         throw $exc;
-                }
+               // }
                 return $response;
             }
         }
@@ -2000,24 +2003,39 @@ namespace dumbu\cls {
                     . "\"mid\":\"$mid\", \"checkpoint_url\": \"$challenge\" }";
             (new \dumbu\cls\Client())->set_client_cookies($Client->id, $cookies);
 
-            $curl_str = "curl --http2 '$url' ";
-            $curl_str .= "-H 'origin: https://www.instagram.com' ";
-            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*' ";
-            $curl_str .= "-H 'Accept-Language: en-US,en;q=0.5' ";
-            $curl_str .= "-H 'Referer: $url' ";
-            $curl_str .= "-H 'X-CSRFToken: $csrftoken' ";
-            $curl_str .= "-H 'X-Instagram-AJAX: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'X-Requested-With: XMLHttpRequest' ";
-            $curl_str .= "-H 'Cookie: csrftoken=$csrftoken; ";
-            $curl_str .= "mid=$mid; ";
-            $curl_str .= "rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or' ";
-            $curl_str .= "-H 'Connection: keep-alive' --data 'choice=1' --compressed";
-            exec($curl_str, $output, $status);
+            $headers[] = "Origin: https://www.instagram.com";
+            $headers[] = "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: */*";
+            $headers[] = "Accept-Language: en-US,en;q=0.5";
+            $headers[] = "Referer: $url";
+            $headers[] = "X-CSRFToken: $csrftoken";
+            $headers[] =  "X-Instagram-AJAX: 1";
+            $headers[] = "Content-Type: application/x-www-form-urlencoded";
+            $headers[] = "X-Requested-With: XMLHttpRequest";
+            $headers[] = "Cookie: csrftoken=$csrftoken; mid=$mid; rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or";
+            $headers[] = "Connection: keep-alive";
+            $postinfo = "choice=1";
+            
+             curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            //curl_setopt($ch, CURLOPT_POST, true);
+            //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+            //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            //curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+            
+            $html = curl_exec($ch);
+            $info = curl_getinfo($ch);
+            $start = strpos($html, "{");
+            $json_str = substr($html, $start);
+            //exec($curl_str, $output, $status);
            // var_dump($output);
-            $resposta = $output[0];
+            $resposta = json_decode($json_str);
             //var_dump($output);
             $this->temporal_log($curl_str);
             (new \dumbu\cls\DB())->InsertEventToWashdog($Client->id, $resposta);
-            return json_decode($resposta);
+            return $resposta;
         }
 
         public function make_checkpoint($login, $code) {
@@ -2050,10 +2068,10 @@ namespace dumbu\cls {
             $headers[] = "Referer: $url";
             $headers[] = "X-CSRFToken: $csrftoken";
             $headers[] = "X-Instagram-AJAX: 1";
-
-            $index = rand(0, 4);
-            $cnt = 0;
-            $ip = $this->IPS["IPS"][$index];
+            
+            //$index = rand(0, 4);
+            //$cnt = 0;
+            //$ip = $this->IPS["IPS"][$index];
             /* foreach ($this->IPS as $value) {
               $ip = $value;
               if($cnt >= $index)
@@ -2066,8 +2084,8 @@ namespace dumbu\cls {
             //    $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
             //}
             //$ip = "127.0.0.1";
-            $headers[] = "REMOTE_ADDR: $ip";
-            $headers[] = "HTTP_X_FORWARDED_FOR: $ip";
+            //$headers[] = "REMOTE_ADDR: $ip";
+            //$headers[] = "HTTP_X_FORWARDED_FOR: $ip";
             $headers[] = "Content-Type: application/x-www-form-urlencoded";
 //            $headers[] = "Content-Type: application/json";
             $headers[] = "X-Requested-With: XMLHttpRequest";
@@ -2100,12 +2118,14 @@ namespace dumbu\cls {
                 
                 $login_data->csrftoken = $this->get_cookies_value("csrftoken");
                 // Get sessionid from cookies
+                
                 $login_data->sessionid = $this->get_cookies_value("sessionid");
                 // Get ds_user_id from cookies
                 $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
+                
                 // Get mid from cookies
                 $login_data->mid = $this->get_cookies_value("mid");
-                if ($login_data->mid == NULL || $login_data->mid == '') {
+                if ($login_data->mid == NULL || $login_data->mid == "") {
                     $login_data->mid = $mid;
                 }
                 (new \dumbu\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));

@@ -22,6 +22,7 @@ namespace dumbu\cls {
     class InstaAPI {
 
         public $Cookies = null;
+        
 
         public function login($username, $password) {
             /////// CONFIG ///////
@@ -29,15 +30,17 @@ namespace dumbu\cls {
             $truncatedDebug = true;
             //////////////////////
 
+            \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+            
             try {
                 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
         
                 
 //                $ig->setOutputInterface("191.252.110.140");
                 
-                $ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
+//                $ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
 
-                $loginResponse = $ig->login($username, $password, true);
+                $loginResponse = $ig->login($username, $password);
                 
                 $ig->client->loadCookieJar();
 
@@ -50,16 +53,21 @@ namespace dumbu\cls {
                     $verificationCode = trim(fgets(STDIN));
                     $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
                 }
-                $loginResponse->Cookies = new \stdClass();
-                $loginResponse->Cookies->session_id =  $ig->client->getCookie('sessionid')->getValue();              
-                $loginResponse->Cookies->csrftoken =  $ig->client->getCookie('csrftoken')->getValue();
-                $loginResponse->Cookies->ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
-                $loginResponse->Cookies->mid =  $ig->client->getCookie('mid')->getValue();
                 
-                return $loginResponse;
+                $Cookies = array();
+                $loginResponse = array();
+//                $loginResponse->Cookies = new \stdClass();
+                $Cookies['sessionid'] =  $ig->client->getCookie('sessionid')->getValue();              
+                $Cookies['csrftoken'] =  $ig->client->getCookie('csrftoken')->getValue();
+                $Cookies['ds_user_id'] = $ig->client->getCookie('ds_user_id')->getValue();
+                $Cookies['mid'] =  $ig->client->getCookie('mid')->getValue();
+                $loginResponse['Cookies'] =(object)$Cookies;                
+                return (object)$loginResponse;
+                
             } catch (\Exception $e) {
+                //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
+                //echo $e->getTraceAsString();                
                 throw $e;
-//                echo 'Something went wrong: ' . $e->getMessage() . "\n";
             }
         }
 
