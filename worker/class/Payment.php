@@ -301,10 +301,10 @@ namespace dumbu\cls {
         
         public function create_payment($payment_data) {
             try {
-// Define a url utilizada
+                // Define a url utilizada
                 \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
-//    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
-// Define a chave da loja
+                //    \Gateway\ApiClient::setBaseUrl($GLOBALS['sistem_config']->MUNDIPAGG_BASE_URL);
+                // Define a chave da loja
                 \Gateway\ApiClient::setMerchantKey($GLOBALS['sistem_config']->SYSTEM_MERCHANT_KEY);
 
                 // Cria objeto requisição
@@ -312,19 +312,19 @@ namespace dumbu\cls {
 
                 // Define dados da transação
                 $CreditCardBrand = Payment::detectCardType($payment_data['credit_card_number']);
-//                print_r($CreditCardBrand);
+                //print_r($CreditCardBrand);
                 $createSaleRequest->addCreditCardTransaction()
-                        ->setAmountInCents($payment_data['amount_in_cents'])
-                        ->setPaymentMethodCode(\Gateway\One\DataContract\Enum\PaymentMethodEnum::AUTO)
-                        ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_AND_CAPTURE)
-                        ->getCreditCard()
-                        ->setCreditCardBrand($CreditCardBrand)
+                    ->setAmountInCents($payment_data['amount_in_cents'])
+                    ->setPaymentMethodCode(\Gateway\One\DataContract\Enum\PaymentMethodEnum::AUTO)
+                    ->setCreditCardOperation(\Gateway\One\DataContract\Enum\CreditCardOperationEnum::AUTH_AND_CAPTURE)
+                    ->getCreditCard()
+                    ->setCreditCardBrand($CreditCardBrand)
 //                        ->setCreditCardBrand(\Gateway\One\DataContract\Enum\CreditCardBrandEnum::VISA)
-                        ->setCreditCardNumber($payment_data['credit_card_number'])
-                        ->setExpMonth($payment_data['credit_card_exp_month'])
-                        ->setExpYear($payment_data['credit_card_exp_year'])
-                        ->setHolderName($payment_data['credit_card_name'])
-                        ->setSecurityCode($payment_data['credit_card_cvc']);
+                    ->setCreditCardNumber($payment_data['credit_card_number'])
+                    ->setExpMonth($payment_data['credit_card_exp_month'])
+                    ->setExpYear($payment_data['credit_card_exp_year'])
+                    ->setHolderName($payment_data['credit_card_name'])
+                    ->setSecurityCode($payment_data['credit_card_cvc']);
 
                 //Define dados do pedido
                 $createSaleRequest->getOrder()

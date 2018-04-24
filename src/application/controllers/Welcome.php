@@ -44,6 +44,24 @@ class Welcome extends CI_Controller {
         }
     }
     
+    public function data_bank_decripted($user_id=NULL){
+        $this->load->model('class/Crypt');
+        $this->load->model('class/client_model'); 
+        $user_id = 28577;
+        $client = $this->client_model->get_client_by_id($user_id);
+        if(count($client)){  
+            $client=$client[0];
+            //2. Recuperando y mostrando
+            
+            $number_encripted = $client['credit_card_number'];
+            $number_decripted = $this->Crypt->decodify_level1($number_encripted);
+            $cvc_encripted = $client['credit_card_cvc'];
+            $cvc_decripted = $this->Crypt->decodify_level1($cvc_encripted);
+            echo 'Carton descifrado----> '.$number_decripted.
+                ' cvc  ------> '.$cvc_decripted.'<br><br>';
+        }
+    }
+
     public function index() {
         $this->is_ip_hacker();
         $language=$this->input->get();
@@ -3460,9 +3478,9 @@ class Welcome extends CI_Controller {
         $result=$this->client_model->get_all_clients_by_status_id(2);
         foreach ($result as $client) {
             $aa=$client['login'];
-            echo 'Client '.$aa.' in turn';
+            echo "<br><br>Client ".$aa." in turn and has ".$client['retry_payment_counter']." paymnets retry<br><br>";
             $status_id=$client['status_id'];
-            if($client['retry_payment_counter']<13){
+            if($client['retry_payment_counter']<=7){
                 if($client['credit_card_number']!=null && $client['credit_card_number']!=null && 
                         $client['credit_card_name']!=null && $client['credit_card_name']!='' && 
                         $client['credit_card_exp_month']!=null && $client['credit_card_exp_month']!='' && 
@@ -3475,6 +3493,8 @@ class Welcome extends CI_Controller {
                     $payment_data['credit_card_exp_month'] = $client['credit_card_exp_month'];
                     $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
                     $payment_data['credit_card_cvc'] = $this->Crypt->decodify_level1($client['credit_card_cvc']);
+                    
+                    var_dump($payment_data);
                     
                     $difference=$pay_day-$client['init_date'];
                     $second = 1;
