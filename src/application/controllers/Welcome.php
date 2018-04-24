@@ -3558,7 +3558,7 @@ class Welcome extends CI_Controller {
                 }
             }
         }
-    }    
+    }
 
     public function cancel_blocked_by_payment_by_max_retry_payment(){
         $this->is_ip_hacker();
