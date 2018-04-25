@@ -795,9 +795,9 @@ namespace dumbu\cls {
         public function get_insta_geomedia($login_data, $location, $N, &$cursor = NULL) {
             try {
                 
-                $tag_query = '951c979213d7e7a1cf1d73e2f661cbd1';
+                $tag_query = 'ac38b90f0f3981c42092016a37c59bf7';
                 $variables = "{\"id\":\"$location\",\"first\":$N,\"after\":\"$cursor\"}";
-                $curl_str = $this->make_curl_followers_query($tag_query, $variables);
+                $curl_str = $this->make_curl_followers_query($tag_query, $variables, $login_data);
                 if ($curl_str === NULL)
                     return NULL;
                 exec($curl_str, $output, $status);
