@@ -10,6 +10,7 @@ class Login extends CI_Controller {
     private $contactPointUrl = 'api/v1/accounts/contact_point_prefill/';
     private $syncDeviceUrl = 'api/v1/qe/sync/';
     private $logAttributionUrl = 'api/v1/attribution/log_attribution/';
+    private $timeLineFeedUrl = 'api/v1/feed/timeline/';
     private $loginUrl = 'api/v1/accounts/login/';
 
     public function index() {
@@ -35,7 +36,7 @@ class Login extends CI_Controller {
             $cookies = $initialData['cookies'];
             $initialData = $this->syncDevice($uuid, $cookies);
             $cookiesArray = $initialData['cookies']->toArray();
-            $csrfToken = $this->csrfToken($cookiesArray);
+            $csrfToken = $this->getToken($cookiesArray);
             $initialData = $this->postLoginData($uuid, $csrfToken, $cookies);
             echo json_encode($initialData['cookies']->toArray());
         } catch (\Exception $ex) {
@@ -45,29 +46,29 @@ class Login extends CI_Controller {
 
     public function like_app() {
         try {
-            $initialData = $this->initialLoginData();
+            $retData = $this->initialLoginData();
             
-            $uuid = $initialData['uuid'];
-            $cookies = $initialData['cookies'];
-            $cookiesArray = $initialData['cookies']->toArray();
-            $csrf_token = $this->csrfToken($cookiesArray);
+            $uuid = $retData['uuid'];
+            $cookies = $retData['cookies'];
+            $cookiesArray = $retData['cookies']->toArray();
+            $csrf_token = $this->getToken($cookiesArray);
 
-            $initialData = $this->contactPointPrefill($uuid, $csrf_token,
-                $cookies);
+            $retData = $this->contactPointPrefill($uuid, $csrf_token, $cookies);
+            $retData = $this->syncDevice($uuid, $cookies);
+            $retData = $this->logAttribution($cookies);
+            $retData = $this->postLoginData($uuid, $csrf_token, $cookies);
+            $retData = $this->getTimelineFeed($uuid, $csrf_token, $uuid, $cookies);
 
-            $initialData = $this->syncDevice($uuid, $cookies);
-
-            $initialData = $this->logAttribution($cookies);
-
-            $initialData = $this->postLoginData($uuid, $csrf_token, $cookies);
-
-            echo json_encode($initialData['cookies']->toArray());
+            echo json_encode([
+                'body' => $retData['body'],
+                'cookies'=> $retData['cookies']->toArray()
+            ]);
         } catch (\Exception $ex) {
             echo $ex->getMessage();
         }
     }
 
-    private function csrfToken(array $cookies) {
+    private function getToken(array $cookies) {
         $_cookies = array_filter($cookies, function($cookie) {
             return $cookie['Name'] === 'csrftoken';
         });
@@ -292,6 +293,52 @@ class Login extends CI_Controller {
             ]
         ]);
         $body = $response->getBody();
+        return [ 'body' => $body, 'cookies' => $cookies ];
+    }
+
+    private function getTimelineFeed($uuid, $csrf_token, $phone_id, $cookies) {
+        $data = [
+            '_csrftoken' => $csrf_token,
+            '_uuid' => $uuid,
+            'is_prefetch' => '0',
+            'phone_id' => $phone_id,
+            'battery_level' => (string) (int) mt_rand(70, 100),
+            'is_charging' => '1',
+            'will_sound_on' => '1',
+            'is_on_screen' => 'true',
+            'timezone_offset' => date('Z'),
+            'is_async_ads' => '0',
+            'is_async_ads_double_request' => '0',
+            'is_async_ads_rti' => '0'
+        ];
+        $client = new \GuzzleHttp\Client([
+            'cookies' => $cookies,
+            'base_uri' => $this->baseUri
+        ]);
+        $signedData = $this->signedData($data);
+        $response = $client->post($this->timeLineFeedUrl, [
+            'debug' => $this->debugRequest,
+            'body' => $signedData,
+            'headers' => [
+                'User-Agent' => 'Instagram 27.0.0.7.97 Android (24/7.0; 640dpi; 1440x2560; HUAWEI; LON-L29; HWLON; hi3660; en_US)',
+                'Connection' => 'Keep-Alive',
+                'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+                'X-Ads-Opt-Out' => '0',
+                'X-Google-AD-ID' => '0',
+                'X-DEVICE-ID' => $uuid,
+                'X-FB-HTTP-Engine' => 'Liger',
+                'Accept-Encoding' => 'gzip,deflate',
+                'Accept-Language' => 'en-US',
+                'X-IG-App-ID' => '567067343352427',
+                'X-IG-Capabilities' => '3brTBw==',
+                'X-IG-Connection-Type' => 'WIFI',
+                'X-IG-Connection-Speed' => '2014kbps',
+                'X-IG-Bandwidth-Speed-KBPS' => '-1.000',
+                'X-IG-Bandwidth-TotalBytes-B' => '0',
+                'X-IG-Bandwidth-TotalTime-MS' => '0',
+            ]
+        ]);
+        $body = $response->getBody()->getContents();
         return [ 'body' => $body, 'cookies' => $cookies ];
     }
 
