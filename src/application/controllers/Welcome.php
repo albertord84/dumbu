@@ -3507,7 +3507,6 @@ class Welcome extends CI_Controller {
                     $payment_data['credit_card_exp_year'] = $client['credit_card_exp_year'];
                     $payment_data['credit_card_cvc'] = $this->Crypt->decodify_level1($client['credit_card_cvc']);
                     
-                    var_dump($payment_data);
                     
                     $difference=$pay_day-$client['init_date'];
                     $second = 1;
@@ -3550,6 +3549,7 @@ class Welcome extends CI_Controller {
                         $this->update_client_after_retry_payment_success($client['user_id']);
                         $this->client_model->update_client($client['user_id'], array(
                             'retry_payment_counter' => 0));
+                        echo "<br><br>Client ".$aa." retried correctly<br><br>";
                     }else{
                         $this->client_model->update_client($client['user_id'], array(
                         'retry_payment_counter' => $client['retry_payment_counter']+1));
