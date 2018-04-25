@@ -12,6 +12,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/dumbu/worker/libraries/utils.php';
 $GLOBALS['sistem_config'] = new dumbu\cls\system_config();
 //print('Hola Mundo');
 $Robot = new \dumbu\cls\Robot();
+$Client = (new \dumbu\cls\Client())->get_client(27345);
+$cursor = NULL;
+var_dump($Robot->get_insta_geomedia(json_decode($Client->cookies), '213163910', 10, $cursor));
+
+/*
 $result = new \stdClass();
  try {
                 $result = $Robot->make_login("ky2oficial", "alejandropacho32");
@@ -24,7 +29,7 @@ $result = new \stdClass();
             } catch (\Exception $e) {
                 // did by Jose R (si el cliente pone mal la senha por motivo X, el login va a dar una excepcion, y no le devemos cambiar las cookies, imagina que fue uno que e copio el curl a mano)
                 //$myDB->set_cookies_to_null($Client->id);
-            }
+            }*/
 /*
 $Robot = new \dumbu\cls\Robot();
 //$res = $Robot->checkpoint_requested('riveauxmerino','Notredame88');
